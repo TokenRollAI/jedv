@@ -60,7 +60,7 @@
       "validatedRevision": "b44ae070270e9adf1598c3046e42a58a56b11527"
     },
     "terminals/session-lifecycle.mdx": {
-      "validatedRevision": "b44ae070270e9adf1598c3046e42a58a56b11527"
+      "validatedRevision": "f9958d8b26c0bfb684cef538038c63bdbf96e86b"
     },
     "usage/local-history.mdx": {
       "validatedRevision": "b44ae070270e9adf1598c3046e42a58a56b11527"
@@ -81,13 +81,13 @@
       "validatedRevision": "b44ae070270e9adf1598c3046e42a58a56b11527"
     },
     "memory/lifecycle.mdx": {
-      "validatedRevision": "b44ae070270e9adf1598c3046e42a58a56b11527"
+      "validatedRevision": "f9958d8b26c0bfb684cef538038c63bdbf96e86b"
     },
     "butler/runtime.mdx": {
-      "validatedRevision": "b44ae070270e9adf1598c3046e42a58a56b11527"
+      "validatedRevision": "f9958d8b26c0bfb684cef538038c63bdbf96e86b"
     },
     "teamwork/integrations.mdx": {
-      "validatedRevision": "b44ae070270e9adf1598c3046e42a58a56b11527"
+      "validatedRevision": "f9958d8b26c0bfb684cef538038c63bdbf96e86b"
     }
   },
   "convergence": {
