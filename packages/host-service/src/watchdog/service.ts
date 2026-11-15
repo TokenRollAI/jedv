@@ -262,7 +262,7 @@ export class RuleWatchdog {
 						})),
 					];
 			for (const observation of observations) {
-				const prefix = observation.base + ":episode:";
+				const prefix = `${observation.base}:episode:`;
 				const previous = this.deps.db
 					.prepare(
 						"SELECT dedupe_key AS key,resolved_at AS resolvedAt FROM watchdog_alerts WHERE dedupe_key=? OR substr(dedupe_key,1,?)=? ORDER BY rowid DESC LIMIT 1",

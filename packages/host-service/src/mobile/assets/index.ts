@@ -1,17 +1,17 @@
 import { Buffer } from "node:buffer";
 import { createHash } from "node:crypto";
-import { mobileAttentionSource } from "./attention";
 import { mobileApiSource } from "./api";
+import { mobileAttentionSource } from "./attention";
 import { mobileCatalogSource } from "./catalog";
 import { mobileAppSource } from "./controller";
 import { mobileI18nSource } from "./i18n";
-import { mobileMarkdownSource } from "./markdown";
 import { mobileIcons } from "./icons";
+import { mobileMarkdownSource } from "./markdown";
 import { mobileHtml } from "./shell";
 import {
-	mobileStyles,
-	mobileConversationStyles,
 	mobileAttentionStyles,
+	mobileConversationStyles,
+	mobileStyles,
 } from "./styles";
 import { mobileUiSource } from "./ui";
 import { mobileWorkerSource } from "./worker";
@@ -87,7 +87,7 @@ asset(
 );
 for (const [name, value] of Object.entries(mobileIcons))
 	asset(
-		"/mobile/icons/" + name,
+		`/mobile/icons/${name}`,
 		"base64" in value
 			? Uint8Array.from(Buffer.from(value.base64, "base64"))
 			: value.content,

@@ -1,5 +1,6 @@
 import { expect, test } from "bun:test";
 import { networkFixture } from "./test-fixture";
+
 function barrier() {
 	let resolve!: () => void;
 	const promise = new Promise<void>((done) => {

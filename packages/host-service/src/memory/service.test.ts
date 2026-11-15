@@ -8,7 +8,7 @@ const scopes = [
 	{ scopeKind: "global" as const, scopeId: "" },
 	{ scopeKind: "project" as const, scopeId: "p1" },
 	{ scopeKind: "team" as const, scopeId: "t1" },
-];
+] as const;
 describe("Memory persisted service", () => {
 	test("isolates scope, deterministic Chinese/English FTS and injection tiers", async () => {
 		const f = memoryFixture();
@@ -33,7 +33,7 @@ describe("Memory persisted service", () => {
 				expect(f.service.list(scope)).toHaveLength(1);
 			}
 			f.service.put({
-				...scopes[1]!,
+				...scopes[1],
 				title: "archival",
 				content: "不注入此文本",
 				tier: "archival",
@@ -51,12 +51,12 @@ describe("Memory persisted service", () => {
 		const f = memoryFixture();
 		try {
 			const prior = f.service.put({
-				...scopes[1]!,
+				...scopes[1],
 				title: "Rule",
 				content: "oldword",
 			});
 			const next = f.service.put({
-				...scopes[1]!,
+				...scopes[1],
 				title: "Rule",
 				content: "newword",
 				supersedeId: prior.id,
@@ -64,12 +64,12 @@ describe("Memory persisted service", () => {
 			expect(f.service.get(prior.id).supersededById).toBe(next.id);
 			expect(f.service.search({ query: "oldword" })).toEqual([]);
 			expect(
-				f.service.put({ ...scopes[1]!, title: "duplicate", content: "newword" })
+				f.service.put({ ...scopes[1], title: "duplicate", content: "newword" })
 					.id,
 			).toBe(next.id);
 			expect(() =>
 				f.service.put({
-					...scopes[0]!,
+					...scopes[0],
 					title: "bad",
 					content: "crossscope",
 					supersedeId: next.id,
@@ -78,7 +78,7 @@ describe("Memory persisted service", () => {
 			f.service.remove(next.id);
 			expect(f.service.search({ query: "newword" })).toEqual([]);
 			expect(
-				f.service.list({ ...scopes[1]!, includeHistory: true }),
+				f.service.list({ ...scopes[1], includeHistory: true }),
 			).toHaveLength(2);
 		} finally {
 			await f.dispose();
@@ -88,13 +88,13 @@ describe("Memory persisted service", () => {
 		const f = memoryFixture();
 		try {
 			const prior = f.service.put({
-				...scopes[0]!,
+				...scopes[0],
 				title: "Rule",
 				content: "original",
 			});
 			const candidate = f.service.propose(
 				{
-					...scopes[0]!,
+					...scopes[0],
 					title: "Rule",
 					content: "updated",
 					tier: "core",
@@ -116,7 +116,7 @@ describe("Memory persisted service", () => {
 				f.service.reviewCandidate({ id: candidate.id, action: "accept" }),
 			).toThrow();
 			const reject = f.service.propose({
-				...scopes[0]!,
+				...scopes[0],
 				title: "Reject",
 				content: "discard",
 				tier: "core",
@@ -134,7 +134,7 @@ describe("Memory persisted service", () => {
 		const f = memoryFixture();
 		try {
 			const base = {
-				...scopes[1]!,
+				...scopes[1],
 				title: "Use Bun",
 				tier: "core" as const,
 				category: "convention" as const,
@@ -165,7 +165,7 @@ describe("Memory persisted service", () => {
 					f.service.put({
 						...scope,
 						title: `entry ${i}`,
-						content: `${scope.scopeKind}-${i}-` + "文".repeat(800),
+						content: `${scope.scopeKind}-${i}-${"文".repeat(800)}`,
 					});
 			const result = f.service.injection({ projectId: "p1", teamId: "t1" });
 			expect(result.text.length).toBeLessThanOrEqual(4800);
@@ -177,7 +177,7 @@ describe("Memory persisted service", () => {
 			).not.toContain("team-");
 			expect(f.service.injection({ teamId: "t2" }).text).not.toContain("team-");
 			expect(() =>
-				f.service.put({ ...scopes[2]!, title: "sealed", content: "sealed" }),
+				f.service.put({ ...scopes[2], title: "sealed", content: "sealed" }),
 			).toThrow();
 		} finally {
 			await f.dispose();
@@ -187,7 +187,7 @@ describe("Memory persisted service", () => {
 		const f = memoryFixture();
 		try {
 			f.service.put({
-				...scopes[1]!,
+				...scopes[1],
 				title: "Rule",
 				content: "幂等",
 				sourceRef: "terminal-1",
@@ -200,15 +200,15 @@ describe("Memory persisted service", () => {
 				projectId: "p1",
 				filePath: ".jedv/memory.json",
 			});
-			expect(f.service.list(scopes[1]!)).toHaveLength(1);
-			const before = f.service.list(scopes[1]!);
+			expect(f.service.list(scopes[1])).toHaveLength(1);
+			const before = f.service.list(scopes[1]);
 			expect(() =>
-				f.service.importData(scopes[1]!, {
+				f.service.importData(scopes[1], {
 					version: 1,
 					entries: [...data.entries, { content: "invalid" }],
 				}),
 			).toThrow();
-			expect(f.service.list(scopes[1]!)).toEqual(before);
+			expect(f.service.list(scopes[1])).toEqual(before);
 		} finally {
 			await f.dispose();
 		}

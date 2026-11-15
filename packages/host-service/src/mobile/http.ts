@@ -239,12 +239,10 @@ export function registerMobileHttp(
 				method === "POST"
 			)
 				result = await requireButler(ctx).resolveApproval(
-					butlerResolveSchema
-						.strict()
-						.parse({
-							...(await mutationBody()),
-							approvalId: path.split("/")[4],
-						}),
+					butlerResolveSchema.strict().parse({
+						...(await mutationBody()),
+						approvalId: path.split("/")[4],
+					}),
 				);
 			else if (path === "/mobile/api/status" && method === "GET") {
 				const runtime = await requireTeamwork(ctx);

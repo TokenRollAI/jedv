@@ -4,7 +4,6 @@ import { randomUUID } from "node:crypto";
 import {
 	mkdirSync,
 	mkdtempSync,
-	readFileSync,
 	realpathSync,
 	rmSync,
 	statSync,
@@ -47,14 +46,14 @@ test("real Host persists Memory, serves root tRPC/HTTP/OpenAPI and actual CLI, s
 	const { issueAttributionToken } = await import(
 		"../terminal-agents/attribution-token"
 	);
-	const key = "isolated-test-" + randomUUID(),
+	const key = `isolated-test-${randomUUID()}`,
 		token = randomUUID();
 	let requests = 0;
 	let tick = () => {};
 	const now = 10000000;
 	let host: CreateAppResult | undefined;
 	let http: ReturnType<typeof serve> | undefined;
-	let client: ReturnType<typeof createTRPCClient<AppRouter>>;
+	let client: ReturnType<typeof createTRPCClient<AppRouter>> | undefined;
 	let endpoint = "";
 	async function boot() {
 		host = createApp({
@@ -149,7 +148,7 @@ test("real Host persists Memory, serves root tRPC/HTTP/OpenAPI and actual CLI, s
 		client = createTRPCClient<AppRouter>({
 			links: [
 				httpBatchLink({
-					url: endpoint + "/trpc",
+					url: `${endpoint}/trpc`,
 					transformer: SuperJSON,
 					headers: { Authorization: `Bearer ${token}` },
 				}),
@@ -180,8 +179,9 @@ test("real Host persists Memory, serves root tRPC/HTTP/OpenAPI and actual CLI, s
 	}
 	try {
 		await boot();
+		assert.ok(client);
 		assert.ok(host);
-		assert.deepEqual(await client!.aiSettings.get.query(), {
+		assert.deepEqual(await client.aiSettings.get.query(), {
 			configured: false,
 			maskedHint: null,
 		});
@@ -253,17 +253,17 @@ test("real Host persists Memory, serves root tRPC/HTTP/OpenAPI and actual CLI, s
 			".jedv/memory.json",
 		]);
 		assert.equal(
-			(await client!.memory.list.query({ scopeKind: "project", scopeId: "p" }))
+			(await client.memory.list.query({ scopeKind: "project", scopeId: "p" }))
 				.length,
 			1,
 		);
 		const headers = { Authorization: `Bearer ${token}` };
 		assert.equal(
-			(await fetch(endpoint + "/api/v1/memory?scopeKind=global")).status,
+			(await fetch(`${endpoint}/api/v1/memory?scopeKind=global`)).status,
 			401,
 		);
 		const openapi = (await (
-			await fetch(endpoint + "/api/v1/openapi.json", { headers })
+			await fetch(`${endpoint}/api/v1/openapi.json`, { headers })
 		).json()) as { paths: Record<string, Record<string, unknown>> };
 		assert.ok(openapi.paths["/api/v1/memory"]?.get);
 		assert.ok(openapi.paths["/api/v1/memory"]?.post);
@@ -281,12 +281,13 @@ test("real Host persists Memory, serves root tRPC/HTTP/OpenAPI and actual CLI, s
 		);
 		await close();
 		await boot();
+		assert.ok(client);
 		assert.ok(host);
 		assert.equal(
-			(await client!.memory.search.query({ query: "幂等" })).length,
+			(await client.memory.search.query({ query: "幂等" })).length,
 			1,
 		);
-		assert.deepEqual(await client!.aiSettings.get.query(), {
+		assert.deepEqual(await client.aiSettings.get.query(), {
 			configured: false,
 			maskedHint: null,
 		});
@@ -336,9 +337,9 @@ test("real Host persists Memory, serves root tRPC/HTTP/OpenAPI and actual CLI, s
 			.run();
 		tick();
 		await host.memoryRuntime.watchdog.scan();
-		assert.equal((await client!.watchdog.listAlerts.query()).length, 1);
+		assert.equal((await client.watchdog.listAlerts.query()).length, 1);
 		await host.memoryRuntime.watchdog.scan();
-		assert.equal((await client!.watchdog.listAlerts.query()).length, 1);
+		assert.equal((await client.watchdog.listAlerts.query()).length, 1);
 		// Authenticated source Hook is exercised after the two coordinated source changes land.
 		const transcript = join(user, "session.jsonl");
 		writeFileSync(
@@ -367,10 +368,10 @@ test("real Host persists Memory, serves root tRPC/HTTP/OpenAPI and actual CLI, s
 			transcriptPath: transcript,
 			attributionToken: issueAttributionToken("terminal"),
 		};
-		await client!.notifications.hook.mutate(hook);
+		await client.notifications.hook.mutate(hook);
 		await host.memoryRuntime.flushExtractions();
 		assert.equal(requests, 0);
-		const setting = await client!.aiSettings.setDeepseekKey.mutate({
+		const setting = await client.aiSettings.setDeepseekKey.mutate({
 			apiKey: key,
 		});
 		assert.equal(setting.configured, true);
@@ -379,10 +380,10 @@ test("real Host persists Memory, serves root tRPC/HTTP/OpenAPI and actual CLI, s
 			statSync(join(home, "secrets/deepseek.key")).mode & 0o777,
 			0o600,
 		);
-		await client!.notifications.hook.mutate({ ...hook, deliverySequence: 2 });
+		await client.notifications.hook.mutate({ ...hook, deliverySequence: 2 });
 		await host.memoryRuntime.flushExtractions();
 		assert.equal(requests, 1);
-		const memories = await client!.memory.list.query({
+		const memories = await client.memory.list.query({
 			scopeKind: "project",
 			scopeId: "p",
 		});
@@ -392,43 +393,43 @@ test("real Host persists Memory, serves root tRPC/HTTP/OpenAPI and actual CLI, s
 			),
 		);
 		assert.equal(
-			(await client!.memory.list.query({ scopeKind: "global" })).length,
+			(await client.memory.list.query({ scopeKind: "global" })).length,
 			0,
 		);
 		assert.equal(
 			(
-				await client!.memory.list.query({
+				await client.memory.list.query({
 					scopeKind: "global",
 					includeCandidates: true,
 				})
 			)[0]?.status,
 			"candidate",
 		);
-		await client!.notifications.hook.mutate({ ...hook, deliverySequence: 2 });
+		await client.notifications.hook.mutate({ ...hook, deliverySequence: 2 });
 		await host.memoryRuntime.flushExtractions();
 		assert.equal(requests, 1);
-		await client!.notifications.hook.mutate({
+		await client.notifications.hook.mutate({
 			...hook,
 			deliverySequence: 3,
 			attributionToken: "untrusted",
 		});
 		await host.memoryRuntime.flushExtractions();
 		assert.equal(requests, 1);
-		await client!.notifications.hook.mutate({
+		await client.notifications.hook.mutate({
 			...hook,
 			deliverySequence: 3,
 			eventType: "SessionEnd",
 		});
 		await host.memoryRuntime.flushExtractions();
 		assert.equal(requests, 2);
-		await client!.notifications.hook.mutate({
+		await client.notifications.hook.mutate({
 			...hook,
 			deliverySequence: 3,
 			eventType: "SessionEnd",
 		});
 		await host.memoryRuntime.flushExtractions();
 		assert.equal(requests, 2);
-		await client!.aiSettings.setDeepseekKey.mutate({ apiKey: null });
+		await client.aiSettings.setDeepseekKey.mutate({ apiKey: null });
 		assert.equal(
 			host.memoryRuntime.memory
 				.injection({ projectId: "p", teamId: "team" })

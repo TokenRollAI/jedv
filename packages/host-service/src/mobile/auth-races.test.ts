@@ -3,6 +3,7 @@ import { Hono } from "hono";
 import { butlerFixture } from "../butler/test-fixture";
 import { registerMobileHttp } from "./http";
 import { MOBILE_SESSION_TTL, MobileAuthService } from "./service";
+
 function barrier() {
 	let resolve!: () => void;
 	const promise = new Promise<void>((done) => {
@@ -67,7 +68,7 @@ for (const invalidation of ["revoke", "expire", "origin"] as const)
 								}
 							: { groupKey: "automation_failed:fixture" },
 				);
-				const request = new Request("http://127.0.0.1:4811/mobile/api" + path, {
+				const request = new Request(`http://127.0.0.1:4811/mobile/api${path}`, {
 					method: "POST",
 					headers: {
 						Origin: "http://127.0.0.1:4811",

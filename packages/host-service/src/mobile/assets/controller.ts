@@ -1,4 +1,4 @@
-export const mobileAppSource = String.raw`
+export const mobileAppSource = `
 import {createMobileApi} from './client.js';
 import {createTranslator} from './i18n.js';
 import {renderMobile} from './ui.js';

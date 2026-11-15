@@ -1,8 +1,8 @@
 import { expect, test } from "bun:test";
 import {
 	mkdtemp,
-	readFile,
 	readdir,
+	readFile,
 	rm,
 	stat,
 	symlink,
@@ -36,8 +36,8 @@ test("private writes complete with restrictive permissions, preserve existing ev
 test("serialized secret writes preserve concurrent entries and report rejected configuration without stranding later work", async () => {
 	const root = await mkdtemp(join(tmpdir(), "jedv-secret-queue-"));
 	const store = new PeerSecretStore(root),
-		a = "fixture-a-" + "a".repeat(32),
-		b = "fixture-b-" + "b".repeat(32);
+		a = `fixture-a-${"a".repeat(32)}`,
+		b = `fixture-b-${"b".repeat(32)}`;
 	try {
 		await Promise.all([store.set("a", a), store.set("b", b)]);
 		expect(store.get("a")).toBe(a);

@@ -1,4 +1,5 @@
 import { expect, test } from "bun:test";
+import assert from "node:assert/strict";
 import { symlinkSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { DeepseekClient } from "../ai/deepseek";
@@ -29,10 +30,10 @@ test("trusted transcript produces sourced project active and global candidate; p
 		const file = join(f.root, "session.jsonl");
 		writeFileSync(
 			file,
-			JSON.stringify({
+			`${JSON.stringify({
 				role: "user",
 				content: "Please use Bun for all package scripts",
-			}) + "\n",
+			})}\n`,
 		);
 		const counter = { calls: 0 };
 		const base = {
@@ -82,7 +83,11 @@ test("trusted transcript produces sourced project active and global candidate; p
 			projectId: "p1",
 			trigger: "session_end",
 		});
-		expect(f.service.get(entries[0]!.id).supersededById).toBe(result[0]!.id);
+		const entry = entries[0],
+			replacement = result[0];
+		assert.ok(entry);
+		assert.ok(replacement);
+		expect(f.service.get(entry.id).supersededById).toBe(replacement.id);
 	} finally {
 		await f.dispose();
 	}
@@ -255,10 +260,12 @@ for (const alreadyActive of [false, true]) {
 			oldResponse.resolve(response(older));
 			const stale = await oldJob;
 			expect(stale[0]?.status).toBe("candidate");
-			expect(f.service.get(fresh[0]!.id).supersededById).toBeNull();
+			const freshEntry = fresh[0];
+			assert.ok(freshEntry);
+			expect(f.service.get(freshEntry.id).supersededById).toBeNull();
 			expect(
 				f.service.list({ scopeKind: "project", scopeId: "p1" }),
-			).toMatchObject([{ id: fresh[0]!.id, content: newer }]);
+			).toMatchObject([{ id: freshEntry.id, content: newer }]);
 			expect(f.service.injection({ projectId: "p1" }).text).toContain(newer);
 			expect(f.service.injection({ projectId: "p1" }).text).not.toContain(
 				older,

@@ -11,7 +11,7 @@ import { join } from "node:path";
 import { DEEPSEEK_ENDPOINT, DEEPSEEK_MODEL, DeepseekClient } from "./deepseek";
 import { DeepseekSecretStore } from "./secrets";
 
-const fakeKey = () => "test-only-" + crypto.randomUUID();
+const fakeKey = () => `test-only-${crypto.randomUUID()}`;
 const reply = (content: string) =>
 	new Response(
 		JSON.stringify({

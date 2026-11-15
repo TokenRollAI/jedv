@@ -50,8 +50,8 @@ test("Team spawn injects bounded core memory for the actual target project and T
 		for (const id of ["1", "2"])
 			db.insert(schema.workspaces)
 				.values({
-					id: "w" + id,
-					projectId: "p" + id,
+					id: `w${id}`,
+					projectId: `p${id}`,
 					worktreePath: root,
 					type: "local",
 					branch: "main",

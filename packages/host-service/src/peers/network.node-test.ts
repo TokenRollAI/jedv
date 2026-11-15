@@ -21,6 +21,12 @@ import { teamMembers, teams } from "../db/schema";
 import type { AppRouter } from "../trpc/router";
 import type { PeerClock, PeerTransportInput } from "./outbox-forwarder";
 
+function required<T>(value: T | null | undefined): T {
+	if (value === undefined || value === null)
+		throw new Error("Required test fixture value is missing");
+	return value;
+}
+
 const run = promisify(execFile),
 	root = mkdtempSync(join(tmpdir(), "jedv-network-hosts-"));
 const cliBin = resolve(import.meta.dirname, "../../../cli/dist/jedv");
@@ -903,13 +909,13 @@ test(
 			"--human",
 		]);
 		await a.app.teamworkRuntime.outbox.kick();
-		let row = (await a.client.peers.outbox.query({}))[0]!;
+		let row = required((await a.client.peers.outbox.query({}))[0]);
 		assert.equal(row.status, "pending");
 		assert.equal(row.attemptCount, 1);
 		assert.equal(countEmails(b), 1);
 		a.clock.advance(row.nextAttemptAt - a.clock.clock.now());
 		await a.app.teamworkRuntime.outbox.kick();
-		row = (await a.client.peers.outbox.query({}))[0]!;
+		row = required((await a.client.peers.outbox.query({}))[0]);
 		assert.equal(row.status, "acked");
 		assert.ok(row.remoteEventId);
 		assert.equal(countEmails(b), 1);
@@ -953,9 +959,11 @@ test(
 		});
 		for (let n = 1; n <= 8; n++) {
 			await a.app.teamworkRuntime.outbox.kick();
-			const pending = (await a.client.peers.outbox.query({})).find(
-				(x) => x.id === offline.outbox?.id,
-			)!;
+			const pending = required(
+				(await a.client.peers.outbox.query({})).find(
+					(x) => x.id === required(offline.outbox).id,
+				),
+			);
 			assert.equal(pending.attemptCount, n);
 			if (n < 8) a.clock.advance(pending.nextAttemptAt - a.clock.clock.now());
 		}
@@ -965,7 +973,7 @@ test(
 		);
 		await listen(b);
 		await a.client.peers.retryDeadOutbox.mutate({
-			outboxId: offline.outbox!.id,
+			outboxId: required(offline.outbox).id,
 		});
 		await a.app.teamworkRuntime.outbox.kick();
 		assert.equal(
@@ -1066,7 +1074,7 @@ test(
 			origin,
 		});
 		assert.equal(paired.status, 200);
-		const cookieHeader = paired.headers.get("set-cookie")!;
+		const cookieHeader = required(paired.headers.get("set-cookie"));
 		for (const part of [
 			"Secure",
 			"HttpOnly",
@@ -1074,7 +1082,7 @@ test(
 			"SameSite=Strict",
 		])
 			assert.ok(cookieHeader.includes(part));
-		const cookie = cookieHeader.split(";")[0]!,
+		const cookie = required(cookieHeader.split(";")[0]),
 			session = (await paired.json()) as MobileSessionShape;
 		assert.equal(
 			(
@@ -1137,7 +1145,7 @@ test(
 		const turn = (await result.json()) as ButlerSendResult;
 		assert.equal(turn.approvals.length, 1);
 		assert.equal(turn.approvals[0]?.status, "pending");
-		const card = turn.approvals[0]!,
+		const card = required(turn.approvals[0]),
 			resolution = {
 				approvalId: card.id,
 				payloadHash: card.payloadHash,

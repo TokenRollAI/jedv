@@ -1,4 +1,5 @@
 import { expect, test } from "bun:test";
+import assert from "node:assert/strict";
 import { eq } from "drizzle-orm";
 import {
 	mailDeliveries,
@@ -46,7 +47,8 @@ test("real Mail ACK alone resolves grouped alerts; read/ignore leave underlying 
 			});
 		f.advance(6 * 60_000);
 		await adapter.runtime.watchdog.scan();
-		let group = (await adapter.runtime.watchdog.attention())[0]!;
+		let group = (await adapter.runtime.watchdog.attention())[0];
+		assert.ok(group);
 		expect(group.activeCount).toBe(3);
 		expect(group.source.memberId).toBe(f.memberId);
 		adapter.runtime.watchdog.markAttentionRead({ groupKey: group.groupKey });
@@ -75,7 +77,8 @@ test("real Mail ACK alone resolves grouped alerts; read/ignore leave underlying 
 		});
 		f.advance(6 * 60_000);
 		await adapter.runtime.watchdog.scan();
-		group = (await adapter.runtime.watchdog.attention())[0]!;
+		group = (await adapter.runtime.watchdog.attention())[0];
+		assert.ok(group);
 		expect(group.activeCount).toBe(4);
 		for (const row of f.db.select().from(mailDeliveries).all())
 			f.mail.consume(
@@ -112,7 +115,8 @@ test("host snapshot includes explicit stopped/fault states and uncertain staging
 			body: "Uncertain",
 			dedupeKey: "uncertain",
 		});
-		const delivery = sent.deliveries[0]!;
+		const delivery = sent.deliveries[0];
+		assert.ok(delivery);
 		f.db
 			.update(mailDeliveries)
 			.set({ nudgeState: "uncertain_staged" })

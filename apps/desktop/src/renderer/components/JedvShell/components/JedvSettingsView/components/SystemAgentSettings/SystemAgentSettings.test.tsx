@@ -37,7 +37,9 @@ test("settings never refill a stored key; saving stores only the masked status i
 	expect(input.value).toBe("");
 	const secret = "test-secret-key-1234";
 	fireEvent.change(input, { target: { value: secret } });
-	fireEvent.submit(input.closest("form")!);
+	const form = input.closest("form");
+	if (!form) throw new Error("DeepSeek key input has no settings form");
+	fireEvent.submit(form);
 	await waitFor(() => expect(save).toHaveBeenCalledWith({ apiKey: secret }));
 	await screen.findByText("Configured · ••••1234");
 	expect(input.value).toBe("");

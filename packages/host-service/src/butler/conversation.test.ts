@@ -297,7 +297,7 @@ test("model receives complete current human, bounded prior context, and freshly 
 			payloadHash: card.payloadHash,
 			decision: "reject",
 		});
-		const current = "  leading\n" + "原文".repeat(5900) + "\n    tail ";
+		const current = `  leading\n${"原文".repeat(5900)}\n    tail `;
 		await f.service.sendMessage({
 			humanText: current,
 			requestId: "full",

@@ -17,6 +17,11 @@ import { atomic, type MemorySqlite } from "../memory/sqlite";
 import { PeerSecretStore } from "./secret-store";
 import { hashToken, payloadHash, problem, sameSecret, token } from "./security";
 
+function requiredRecord<T>(value: T | null | undefined, message: string): T {
+	if (value === undefined || value === null) throw new Error(message);
+	return value;
+}
+
 const peerColumns =
 	"id,name,origin,enabled,outbound_token_hint AS outboundTokenHint,created_at AS createdAt,updated_at AS updatedAt";
 export const outboxColumns =
@@ -105,7 +110,10 @@ export class PeerService extends EventEmitter {
 					x.id,
 					x.name,
 					x.origin,
-					inboundToken ? hashToken(inboundToken) : previous!.inbound_token_hash,
+					inboundToken
+						? hashToken(inboundToken)
+						: requiredRecord(previous, "Peer inbound credential is missing")
+								.inbound_token_hash,
 					secret ? `••••${secret.slice(-4)}` : null,
 					Number(x.enabled),
 					now,
@@ -217,7 +225,10 @@ export class PeerService extends EventEmitter {
 				now,
 				now,
 			);
-		return this.getForEvent(event.id)!;
+		return requiredRecord(
+			this.getForEvent(event.id),
+			"Created outbox item is missing",
+		);
 	}
 	retryDeadOutbox(id: string) {
 		const row = this.db
@@ -232,7 +243,10 @@ export class PeerService extends EventEmitter {
 			)
 			.run(this.now(), id);
 		this.signal();
-		return this.getForEvent(row.eventId)!;
+		return requiredRecord(
+			this.getForEvent(row.eventId),
+			"Retried outbox item is missing",
+		);
 	}
 	signal() {
 		this.emit("outbox");
@@ -390,7 +404,10 @@ export class PeerService extends EventEmitter {
 			);
 		return {
 			token: rawToken,
-			provider: this.listProviderTokens().find((p) => p.id === id)!,
+			provider: requiredRecord(
+				this.listProviderTokens().find((p) => p.id === id),
+				"Created provider token is missing",
+			),
 		};
 	}
 	revokeProviderToken(id: string) {

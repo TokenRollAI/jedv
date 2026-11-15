@@ -40,7 +40,7 @@ test("HTTP authentication, put/list/search/export share the persisted service", 
 		});
 		expect(await list.json()).toHaveLength(1);
 		const search = await app.request(
-			"/api/v1/memory/search?query=" + encodeURIComponent("幂等"),
+			`/api/v1/memory/search?query=${encodeURIComponent("幂等")}`,
 			{ headers },
 		);
 		expect(await search.json()).toHaveLength(1);
@@ -93,7 +93,7 @@ test("typed tRPC exports work with registered runtime and never return raw key",
 			configured: false,
 			maskedHint: null,
 		});
-		const key = "isolated-" + crypto.randomUUID();
+		const key = `isolated-${crypto.randomUUID()}`;
 		const result = await caller.aiSettings.setDeepseekKey({ apiKey: key });
 		expect(result.configured).toBe(true);
 		expect(JSON.stringify(result)).not.toContain(key);

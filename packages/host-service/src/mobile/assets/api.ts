@@ -1,4 +1,4 @@
-export const mobileApiSource = String.raw`
+export const mobileApiSource = `
 export class MobileApiError extends Error {
  constructor(status, message) { super(message); this.status = status; }
 }

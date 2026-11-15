@@ -33,8 +33,8 @@ test("0043 upgrades an existing 0042 database without changing prior rows; FTS t
 		);
 		for (const entry of entries)
 			copyFileSync(
-				join(source, entry.tag + ".sql"),
-				join(prior, entry.tag + ".sql"),
+				join(source, `${entry.tag}.sql`),
+				join(prior, `${entry.tag}.sql`),
 			);
 		runMigrations(drizzle(db), prior);
 		db.prepare(

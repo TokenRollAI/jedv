@@ -1,4 +1,4 @@
-export const mobileAttentionSource = String.raw`
+export const mobileAttentionSource = `
 export function attentionTitle(group,t){return t(({suspected_stalled:'suspectedStalled',mail_unacked:'mailUnacked',automation_failed:'automationFailed',team_attention:'teamAttention'})[group.kind]||'alerts');}
 export function renderAttentionGroups({document,state,t,time,actions,hasApprovals=false}) {
  const root=document.createElement('section');root.className='attention-groups';root.setAttribute('aria-label',t('alerts'));

@@ -1,4 +1,4 @@
-export const mobileUiSource = String.raw`
+export const mobileUiSource = `
 import {renderMarkdown} from './markdown.js';
 import {renderAttentionGroups,attentionTitle} from './attention.js';
 export function renderMobile(document, root, state, i18n, actions) {

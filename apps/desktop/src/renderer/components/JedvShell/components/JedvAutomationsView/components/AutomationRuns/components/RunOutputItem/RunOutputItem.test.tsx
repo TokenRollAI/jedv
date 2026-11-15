@@ -51,17 +51,19 @@ test("the themed approval pickers preserve false, nullable and multi-choice valu
 	);
 	const submit = screen.getByRole("button", { name: "Submit response" });
 	expect((submit as HTMLButtonElement).disabled).toBe(true);
- fireEvent.click(screen.getByRole("combobox", { name: "Files" }));
- fireEvent.click(await screen.findByRole("option", { name: "A" }));
- fireEvent.click(screen.getByRole("option", { name: "B" }));
- fireEvent.click(screen.getByRole("option", { name: "A" }));
- fireEvent.keyDown(screen.getByRole("listbox"), { key: "Escape" });
- fireEvent.click(screen.getByRole("combobox", { name: "Permission" }));
- fireEvent.click(await screen.findByRole("option", { name: "No" }));
- fireEvent.click(screen.getByRole("combobox", { name: "Target" }));
- fireEvent.click(await screen.findByRole("option", { name: "One" }));
- fireEvent.click(screen.getByRole("combobox", { name: "Target" }));
- fireEvent.click(await screen.findByRole("option", { name: "Select an option" }));
+	fireEvent.click(screen.getByRole("combobox", { name: "Files" }));
+	fireEvent.click(await screen.findByRole("option", { name: "A" }));
+	fireEvent.click(screen.getByRole("option", { name: "B" }));
+	fireEvent.click(screen.getByRole("option", { name: "A" }));
+	fireEvent.keyDown(screen.getByRole("listbox"), { key: "Escape" });
+	fireEvent.click(screen.getByRole("combobox", { name: "Permission" }));
+	fireEvent.click(await screen.findByRole("option", { name: "No" }));
+	fireEvent.click(screen.getByRole("combobox", { name: "Target" }));
+	fireEvent.click(await screen.findByRole("option", { name: "One" }));
+	fireEvent.click(screen.getByRole("combobox", { name: "Target" }));
+	fireEvent.click(
+		await screen.findByRole("option", { name: "Select an option" }),
+	);
 	await waitFor(() =>
 		expect((submit as HTMLButtonElement).disabled).toBe(false),
 	);

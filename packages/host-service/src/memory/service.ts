@@ -346,7 +346,7 @@ export class MemoryService {
 				);
 				if (text.length > available) {
 					if (available > 0)
-						section += text.slice(0, Math.max(0, available - 1)) + "…";
+						section += `${text.slice(0, Math.max(0, available - 1))}…`;
 					truncated = true;
 					break;
 				}

@@ -14,9 +14,29 @@ const { Window } = createRequire(
 )("happy-dom");
 
 import { resolveLocale, SUPPORTED_LOCALES } from "@jedv/i18n/locales";
+import type { AttentionGroupShape } from "@jedv/shared/butler-attention";
 import { mobileCatalogs } from "./catalog";
 import { mobilePublicAssets } from "./index";
 import { mobileMessages } from "./messages";
+
+function required<T>(value: T | null | undefined): T {
+	if (value === undefined || value === null)
+		throw new Error("Required test fixture value is missing");
+	return value;
+}
+interface TestElement {
+	textContent: string | null;
+	getAttribute(name: string): string | null;
+	querySelector(selector: string): TestElement | null;
+}
+
+type SendRequest = {
+	threadId?: string;
+	requestId?: string;
+	humanText: string;
+	newTopic?: boolean;
+	context?: unknown;
+};
 
 const rootPath = "/mobile/";
 const session = {
@@ -113,7 +133,7 @@ async function fixture(
 				automations: [],
 			});
 		if (path.endsWith("/logout")) return json({ loggedOut: true });
-		throw new Error("Unexpected path: " + path);
+		throw new Error(`Unexpected path: ${path}`);
 	};
 	const app = mountMobile({
 		window,
@@ -485,29 +505,35 @@ test("Status keeps Leader first, preserves worker order, and distinguishes neutr
 	try {
 		f.app.actions.screen("status");
 		const rows = () =>
-			Array.from(f.window.document.querySelectorAll(".member")) as any[];
+			Array.from(
+				f.window.document.querySelectorAll(".member"),
+			) as TestElement[];
+		const rowElement = (index: number, selector: string) =>
+			required(required(rows()[index]).querySelector(selector));
 		expect(
-			rows().map((row) => row.querySelector(".member-name").textContent),
+			rows().map(
+				(row) => required(row.querySelector(".member-name")).textContent,
+			),
 		).toEqual(["Leader", "Worker B", "Worker A", "New state"]);
 		expect(
 			f.app.state.status.teams[0].members.map(
 				(member: { id: string }) => member.id,
 			),
 		).toEqual(["b", "leader", "a", "fallback"]);
-		expect(rows()[0].querySelector("img.crown")).not.toBeNull();
-		expect(rows()[1].querySelector(".status img").getAttribute("src")).toBe(
+		expect(rowElement(0, "img.crown")).not.toBeNull();
+		expect(rowElement(1, ".status img").getAttribute("src")).toBe(
 			"/mobile/icons/help.svg",
 		);
-		expect(rows()[1].querySelector(".status").textContent).toBe(
-			mobileCatalogs().en?.unknown,
+		expect(rowElement(1, ".status").textContent).toBe(
+			required(required(mobileCatalogs().en).unknown),
 		);
-		expect(rows()[2].querySelector(".status img").getAttribute("src")).toBe(
+		expect(rowElement(2, ".status img").getAttribute("src")).toBe(
 			"/mobile/icons/circle.svg",
 		);
-		expect(rows()[2].querySelector(".status").textContent).toBe(
-			mobileCatalogs().en?.idle,
+		expect(rowElement(2, ".status").textContent).toBe(
+			required(required(mobileCatalogs().en).idle),
 		);
-		expect(rows()[3].querySelector(".status img").getAttribute("src")).toBe(
+		expect(rowElement(3, ".status img").getAttribute("src")).toBe(
 			"/mobile/icons/help.svg",
 		);
 		for (const name of ["help", "circle"]) {
@@ -522,7 +548,9 @@ test("Status keeps Leader first, preserves worker order, and distinguishes neutr
 		}
 		await f.app.actions.refresh(true);
 		expect(
-			rows().map((row) => row.querySelector(".member-name").textContent),
+			rows().map(
+				(row) => required(row.querySelector(".member-name")).textContent,
+			),
 		).toEqual(["Leader", "Worker B", "Worker A", "New state"]);
 	} finally {
 		f.dispose();
@@ -569,12 +597,12 @@ test("static controller pairs, sends, resolves and signs out through real M5 whi
 		port: 0,
 		fetch: surface.fetch,
 	});
-	const endpoint = "http://127.0.0.1:" + server.port;
+	const endpoint = `http://127.0.0.1:${server.port}`;
 	const dir = mkdtempSync(join(tmpdir(), "jedv-mobile-live-"));
 	let cookie = "";
-	let controller: any,
-		window: any,
-		requestCounter = 0;
+	const window = new Window({ url: `${endpoint}/mobile/` });
+	let disposeController = () => {};
+	let requestCounter = 0;
 	try {
 		for (const asset of mobilePublicAssets.filter((a) =>
 			a.path.endsWith(".js"),
@@ -585,7 +613,6 @@ test("static controller pairs, sends, resolves and signs out through real M5 whi
 			);
 		writeFileSync(join(dir, "package.json"), '{"type":"module"}');
 		const { mountMobile } = await import(join(dir, "app.js"));
-		window = new Window({ url: endpoint + "/mobile/" });
 		window.document.body.innerHTML = '<div id="app" class="app"></div>';
 		const fetcher = async (path: string, init: RequestInit) => {
 			const headers = new Headers(init.headers);
@@ -597,7 +624,7 @@ test("static controller pairs, sends, resolves and signs out through real M5 whi
 			if (set) cookie = set.split(";")[0] ?? "";
 			return response;
 		};
-		controller = mountMobile({
+		const controller = mountMobile({
 			window,
 			document: window.document,
 			fetcher,
@@ -607,6 +634,7 @@ test("static controller pairs, sends, resolves and signs out through real M5 whi
 					? "real-mobile-request"
 					: `real-mobile-request-${requestCounter}`,
 		});
+		disposeController = () => controller.dispose();
 		await controller.ready;
 		expect(controller.state.phase).toBe("pair");
 		controller.actions.pairCode(backend.mobile.createPairingCode().code);
@@ -615,13 +643,13 @@ test("static controller pairs, sends, resolves and signs out through real M5 whi
 		expect(controller.state.phase).toBe("authenticated");
 		expect(controller.state.session.label).toBe("Temporary Phone");
 		expect(window.document.cookie).not.toContain("jedv_mobile");
-		const shell = await fetch(endpoint + "/mobile");
+		const shell = await fetch(`${endpoint}/mobile`);
 		expect(shell.status).toBe(200);
 		expect(shell.headers.get("content-security-policy")).toContain(
 			"script-src 'self'",
 		);
 		controller.actions.screen("butler");
-		const icon = await fetch(endpoint + "/mobile/icons/icon-192.png");
+		const icon = await fetch(`${endpoint}/mobile/icons/icon-192.png`);
 		expect(icon.status).toBe(200);
 		expect(new Uint8Array(await icon.arrayBuffer()).slice(0, 4)).toEqual(
 			new Uint8Array([137, 80, 78, 71]),
@@ -656,7 +684,7 @@ test("static controller pairs, sends, resolves and signs out through real M5 whi
 		await controller.actions.refresh(true);
 		controller.actions.screen("inbox");
 		let group = controller.state.groups.find(
-			(item: any) => item.kind === "mail_unacked",
+			(item: { kind: string }) => item.kind === "mail_unacked",
 		);
 		expect(group.activeCount).toBe(3);
 		expect(
@@ -751,14 +779,14 @@ test("static controller pairs, sends, resolves and signs out through real M5 whi
 		expect(backend.mobile.listSessions()[0]?.revokedAt).not.toBeNull();
 		expect(
 			(
-				await fetch(endpoint + "/mobile/api/session", {
+				await fetch(`${endpoint}/mobile/api/session`, {
 					headers: { Cookie: cookie },
 				})
 			).status,
 		).toBe(401);
 	} finally {
-		controller?.dispose();
-		if (window) await window.happyDOM.close();
+		disposeController();
+		await window.happyDOM.close();
 		server.stop(true);
 		await butler.dispose();
 		await memory.dispose();
@@ -816,7 +844,7 @@ test("themed language and conversation pickers use accessible listboxes with key
 
 test("stable default ignores recent ordering, follows only idle default and locks drafts/retries/history", async () => {
 	let current = "t1";
-	const sent: any[] = [];
+	const sent: SendRequest[] = [];
 	const f = await fixture((path, init) => {
 		if (path.endsWith("/butler/state"))
 			return json({
@@ -853,7 +881,7 @@ test("stable default ignores recent ordering, follows only idle default and lock
 		await f.app.actions.send();
 		expect(sent).toHaveLength(2);
 		expect(sent[0]).toEqual(sent[1]);
-		expect(sent[0].threadId).toBe("t2");
+		expect(required(sent[0]).threadId).toBe("t2");
 		await f.app.actions.thread("t1");
 		await f.app.actions.refresh(true);
 		expect(f.app.state.threadId).toBe("t1");
@@ -862,7 +890,7 @@ test("stable default ignores recent ordering, follows only idle default and lock
 		expect(f.app.state.threadId).toBe("t4");
 		expect(
 			f.app.state.savedViews.some(
-				(view: any) => view.label === "原话\nKeep exactly",
+				(view: { label: string }) => view.label === "原话\nKeep exactly",
 			),
 		).toBe(true);
 		expect(f.window.document.querySelector("#thread-select")).toBeNull();
@@ -879,13 +907,13 @@ test("new topic can leave an old busy turn; late reply stays bound and uncertain
 		id = 0,
 		releaseOld: (response: Response) => void = () => {},
 		firstNew = true;
-	const bodies: any[] = [];
+	const bodies: SendRequest[] = [];
 	const f = await fixture(
 		(path, init) => {
 			if (path.endsWith("/butler/state"))
 				return json({ currentThreadId: current, thread: null });
 			if (path.includes("/history?")) {
-				const thread = new URL("http://fixture" + path).searchParams.get(
+				const thread = new URL(`http://fixture${path}`).searchParams.get(
 					"threadId",
 				);
 				return json([
@@ -894,7 +922,7 @@ test("new topic can leave an old busy turn; late reply stays bound and uncertain
 						threadId: thread,
 						requestId: "request",
 						role: "assistant",
-						content: "Reply " + thread,
+						content: `Reply ${thread}`,
 						createdAt: 1,
 					},
 				]);
@@ -932,8 +960,8 @@ test("new topic can leave an old busy turn; late reply stays bound and uncertain
 		expect(f.app.state.sending).toBe(false);
 		f.app.actions.draft("新话题原文");
 		await f.app.actions.send();
-		expect(bodies[1].newTopic).toBe(true);
-		expect(bodies[1].threadId).toBeUndefined();
+		expect(required(bodies[1]).newTopic).toBe(true);
+		expect(required(bodies[1]).threadId).toBeUndefined();
 		current = "other-device";
 		await f.app.actions.refresh(true);
 		expect(f.app.state.draft).toBe("新话题原文");
@@ -947,7 +975,7 @@ test("new topic can leave an old busy turn; late reply stays bound and uncertain
 			json({
 				threadId: "old",
 				currentThreadId: "old",
-				requestId: bodies[0].requestId,
+				requestId: required(bodies[0]).requestId,
 				reply: "Old done",
 				approvals: [],
 				reason: null,
@@ -965,7 +993,7 @@ test("new topic can leave an old busy turn; late reply stays bound and uncertain
 });
 test("state404 does not guess a recent thread or submit, and follow-up context is structured without an automatic send", async () => {
 	let supported = false;
-	const bodies: any[] = [];
+	const bodies: SendRequest[] = [];
 	const f = await fixture((path, init) => {
 		if (path.endsWith("/butler/state"))
 			return supported
@@ -1000,12 +1028,12 @@ test("state404 does not guess a recent thread or submit, and follow-up context i
 		expect(bodies).toHaveLength(0);
 		f.app.actions.draft("追问原话");
 		await f.app.actions.send();
-		expect(bodies[0].context).toEqual({
+		expect(required(bodies[0]).context).toEqual({
 			approvalId: "approval",
 			teamId: "team",
 		});
-		expect(bodies[0].humanText).toBe("追问原话");
-		expect(bodies[0].threadId).toBe("stable");
+		expect(required(bodies[0]).humanText).toBe("追问原话");
+		expect(required(bodies[0]).threadId).toBe("stable");
 	} finally {
 		f.dispose();
 	}
@@ -1082,7 +1110,20 @@ test("message roles render safe Markdown, preserve tool disclosure and show actu
 	}
 });
 
-const attentionGroup = {
+const attentionSource = {
+	kind: "team_member",
+	teamId: "private-team-uuid",
+	memberId: "private-member-uuid",
+	workspaceId: null,
+	projectId: null,
+	terminalId: null,
+	terminalLive: false,
+	fallback: "team",
+	mailDeliveryId: null,
+	automationId: null,
+	automationRunId: null,
+} as const;
+const attentionGroup: AttentionGroupShape = {
 	groupKey: "team_attention:private-team-uuid:private-member-uuid",
 	kind: "team_attention",
 	severity: "high",
@@ -1094,22 +1135,23 @@ const attentionGroup = {
 	totalCount: 3,
 	firstCreatedAt: 1,
 	latestCreatedAt: 2,
-	source: {
-		kind: "team_member",
-		teamId: "private-team-uuid",
-		memberId: "private-member-uuid",
-		workspaceId: null,
-		projectId: null,
-		terminalId: null,
-		terminalLive: false,
-		fallback: "team",
-		mailDeliveryId: null,
-		automationId: null,
-		automationRunId: null,
-	},
+	source: attentionSource,
 	items: [
 		{
 			id: "private-alert-uuid",
+			groupKey: "team_attention:private-team-uuid:private-member-uuid",
+			kind: "team_attention",
+			severity: "high",
+			subject: "Raw subject private-member-uuid",
+			teamId: "private-team-uuid",
+			projectId: null,
+			workspaceId: null,
+			terminalId: null,
+			memberId: "private-member-uuid",
+			mailDeliveryId: null,
+			automationId: null,
+			automationRunId: null,
+			source: attentionSource,
 			dedupeKey: "private-protocol",
 			body: "Details",
 			createdAt: 1,
@@ -1121,12 +1163,12 @@ const attentionGroup = {
 	],
 };
 test("Attention renders only real groups and full badge, submits one CSRF read/ignore and keeps explicit refresh on uncertainty", async () => {
-	let group: any = { ...attentionGroup },
+	let group: AttentionGroupShape = { ...attentionGroup },
 		ignored = false;
 	let posts = 0;
-	const f = await fixture((path, init) => {
+	const f = await fixture((path) => {
 		if (path.startsWith("/mobile/api/inbox?")) {
-			const view = new URL("http://fixture" + path).searchParams.get("view");
+			const view = new URL(`http://fixture${path}`).searchParams.get("view");
 			return json({
 				alerts: [{ id: "legacy", subject: "MUST NOT RENDER" }],
 				groups:
@@ -1371,7 +1413,7 @@ test("approval target uses payload Team identity and cached real status shape, w
 			...card,
 			targetId: teamId,
 			payload: { actionType: "stopTeam", teamId },
-			summary: "Stop Team " + teamId,
+			summary: `Stop Team ${teamId}`,
 			status: "executed",
 			expiresAt: 1,
 		};

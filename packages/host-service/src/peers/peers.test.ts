@@ -8,6 +8,12 @@ import { MAX_OUTBOX_ATTEMPTS, OutboxForwarder } from "./outbox-forwarder";
 import { token } from "./security";
 import { networkFixture } from "./test-fixture";
 
+function required<T>(value: T | null | undefined): T {
+	if (value === undefined || value === null)
+		throw new Error("Required test fixture value is missing");
+	return value;
+}
+
 const fixtures: ReturnType<typeof networkFixture>[] = [];
 afterEach(async () => {
 	for (const f of fixtures.splice(0)) await f.dispose();
@@ -114,7 +120,7 @@ test("outgoing mail and outbox share one transaction, retry keys are immutable, 
 		f.mail.send({
 			...input,
 			dedupeKey: "bad",
-			targetPeer: { ...input.targetPeer!, peerId: "missing" },
+			targetPeer: { ...required(input.targetPeer), peerId: "missing" },
 		}),
 	).toThrow();
 	expect(
@@ -187,7 +193,7 @@ test("Outbox claims once, retries with exact envelope/backoff, caps at dead and 
 		);
 		for (let n = 1; n <= MAX_OUTBOX_ATTEMPTS; n++) {
 			await Promise.all([forwarder.kick(), forwarder.kick()]);
-			const row = f.peers.outbox()[0]!;
+			const row = required(f.peers.outbox()[0]);
 			expect(row.attemptCount).toBe(n);
 			if (n < MAX_OUTBOX_ATTEMPTS) {
 				expect(row.nextAttemptAt - f.clock.now()).toBe(

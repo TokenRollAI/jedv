@@ -28,18 +28,19 @@ export function registerPeerIngest(app: Hono, service: PeerService) {
 				const match = c.req
 					.header("Authorization")
 					?.match(/^Bearer ([A-Za-z0-9_-]{32,256})$/);
-				if (!match) problem("UNAUTHORIZED", "Invalid ingest credential");
+				const credential = match?.[1];
+				if (!credential) problem("UNAUTHORIZED", "Invalid ingest credential");
 				// Authenticate before parsing untrusted JSON. These credentials never reach HostAuth.
 				const identity = path.endsWith("peer-ingest")
 					? service.authenticatePeer(
 							c.req.header("X-Jedv-Peer-Id") ?? "",
-							match[1]!,
+							credential,
 						)
-					: service.authenticateProvider(match[1]!);
+					: service.authenticateProvider(credential);
 				const body: unknown = await c.req.json();
 				if (typeof identity === "string")
-					service.authenticatePeer(identity, match[1] ?? "");
-				else service.authenticateProvider(match[1] ?? "");
+					service.authenticatePeer(identity, credential);
+				else service.authenticateProvider(credential);
 				const result =
 					typeof identity === "string"
 						? service.ingestPeer(identity, body)

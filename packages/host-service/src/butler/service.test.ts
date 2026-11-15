@@ -1,4 +1,5 @@
 import { expect, test } from "bun:test";
+import assert from "node:assert/strict";
 import { TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
 import { butlerApprovals, projects, workspaces } from "../db/schema";
@@ -106,7 +107,8 @@ test("model can propose guarded intent but cannot delete until hash-bound approv
 		const response = await f.service.sendMessage({
 			humanText: "Delete the selected memory",
 		});
-		const card = response.approvals[0]!;
+		const card = response.approvals[0];
+		assert.ok(card);
 		expect(card.status).toBe("pending");
 		expect(f.memory.runtime.memory.get(memoryId).status).toBe("active");
 		await expect(

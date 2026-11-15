@@ -1,4 +1,5 @@
 import { expect, test } from "bun:test";
+import assert from "node:assert/strict";
 import { memoryFixture } from "../memory/test-fixture";
 import { RuleWatchdog, type WatchdogSnapshot } from "./service";
 
@@ -42,7 +43,8 @@ test("read, ignore, genuine ACK and a new same-source instance remain separate",
 				terminalId: "terminal",
 			});
 		await f.dog.scan();
-		let group = (await f.dog.attention())[0]!;
+		let group = (await f.dog.attention())[0];
+		assert.ok(group);
 		expect(group.groupKey).toBe("mail_unacked:team:member");
 		expect(group.activeCount).toBe(3);
 		expect(group.totalCount).toBe(3);
@@ -52,7 +54,8 @@ test("read, ignore, genuine ACK and a new same-source instance remain separate",
 		expect(
 			f.dog.markAttentionRead({ groupKey: group.groupKey }).updatedCount,
 		).toBe(3);
-		group = (await f.dog.attention())[0]!;
+		group = (await f.dog.attention())[0];
+		assert.ok(group);
 		expect(group.disposition).toBe("open");
 		expect(group.unread).toBe(false);
 		expect(
@@ -62,7 +65,8 @@ test("read, ignore, genuine ACK and a new same-source instance remain separate",
 			}).updatedCount,
 		).toBe(3);
 		expect(await f.dog.attention()).toHaveLength(0);
-		group = (await f.dog.attention({ view: "handled" }))[0]!;
+		group = (await f.dog.attention({ view: "handled" }))[0];
+		assert.ok(group);
 		expect(group.disposition).toBe("ignored");
 		expect(
 			group.items.every(
@@ -80,7 +84,8 @@ test("read, ignore, genuine ACK and a new same-source instance remain separate",
 			ackedAt: null,
 		});
 		await f.dog.scan();
-		group = (await f.dog.attention())[0]!;
+		group = (await f.dog.attention())[0];
+		assert.ok(group);
 		expect(group.activeCount).toBe(4);
 		expect(group.unread).toBe(true);
 		expect(group.items.filter((item) => item.ignoredAt === null)).toHaveLength(
@@ -93,7 +98,8 @@ test("read, ignore, genuine ACK and a new same-source instance remain separate",
 		expect((await f.dog.attention())[0]?.activeCount).toBe(4);
 		f.snapshot.mail = mails.map((mail) => ({ ...mail, ackedAt: 2_000_000 }));
 		await f.dog.scan();
-		group = (await f.dog.attention({ view: "handled" }))[0]!;
+		group = (await f.dog.attention({ view: "handled" }))[0];
+		assert.ok(group);
 		expect(group.disposition).toBe("resolved");
 		expect(group.activeCount).toBe(0);
 		expect(group.totalCount).toBe(4);
@@ -140,7 +146,8 @@ test("full badge counts unique unread high groups independently of page and item
 		});
 		const group = (await f.dog.attention({ limit: 500 })).find(
 			(item) => item.groupKey === "automation_failed:cron-0",
-		)!;
+		);
+		assert.ok(group);
 		expect(group.totalCount).toBe(26);
 		expect(group.activeCount).toBe(26);
 		expect(group.items).toHaveLength(20);
@@ -228,10 +235,13 @@ test("stalled and team faults recover only with explicit facts; repeated episode
 		};
 		f.snapshot.members = [member];
 		await f.dog.scan();
-		let group = (await f.dog.attention())[0]!;
+		let group = (await f.dog.attention())[0];
+		assert.ok(group);
 		expect(group.kind).toBe("team_attention");
 		expect(group.severity).toBe("high");
-		const original = group.items[0]!.dedupeKey;
+		const firstItem = group.items[0];
+		assert.ok(firstItem);
+		const original = firstItem.dedupeKey;
 		f.dog.ignoreAttention({ groupKey: group.groupKey });
 		f.snapshot.members = [];
 		await f.dog.scan();
@@ -246,7 +256,8 @@ test("stalled and team faults recover only with explicit facts; repeated episode
 		);
 		member.status = "failed";
 		await f.dog.scan();
-		group = (await f.dog.attention())[0]!;
+		group = (await f.dog.attention())[0];
+		assert.ok(group);
 		expect(group.activeCount).toBe(1);
 		expect(group.items[0]?.dedupeKey).not.toBe(original);
 		expect(f.dog.badgeSummary().count).toBe(1);
@@ -254,7 +265,8 @@ test("stalled and team faults recover only with explicit facts; repeated episode
 		member.working = true;
 		member.activityKnown = true;
 		await f.dog.scan();
-		group = (await f.dog.attention())[0]!;
+		group = (await f.dog.attention())[0];
+		assert.ok(group);
 		expect(group.kind).toBe("suspected_stalled");
 		member.activityKnown = false;
 		member.working = false;
@@ -321,11 +333,13 @@ test("legacy rows get metadata only from exact structured dedupe matches, never 
 		const groups = await f.dog.attention();
 		const old = groups.find(
 			(group) => group.groupKey === "automation_failed:real-cron",
-		)!;
+		);
+		assert.ok(old);
 		expect(old.items[0]?.automationRunId).toBe("real-run");
 		expect(old.items[0]?.automationId).toBe("real-cron");
 		expect(old.severity).toBe("high");
-		const unknown = groups.find((group) => group.groupKey === "opaque")!;
+		const unknown = groups.find((group) => group.groupKey === "opaque");
+		assert.ok(unknown);
 		expect(unknown.source.mailDeliveryId).toBeNull();
 		expect(unknown.source.terminalLive).toBe(false);
 		expect(f.dog.badgeSummary().unreadHighFaultGroups).toBe(2);

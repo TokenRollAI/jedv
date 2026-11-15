@@ -11,10 +11,10 @@ import type { GitWatcher } from "./git-watcher.ts";
 import type {
 	ClientMessage,
 	DistributiveOmit,
-	ServerMessage,
-	TerminalLifecycleMessage,
-	TeamChangedMessage,
 	MailChangedMessage,
+	ServerMessage,
+	TeamChangedMessage,
+	TerminalLifecycleMessage,
 } from "./types.ts";
 
 type WsSocket = {
@@ -224,8 +224,12 @@ export class EventBus {
 		}
 	}
 
-	broadcastTeamChanged(message: Omit<TeamChangedMessage, "type">): void { this.broadcast({ type: "team:changed", ...message }); }
-	broadcastMailChanged(message: Omit<MailChangedMessage, "type">): void { this.broadcast({ type: "mail:changed", ...message }); }
+	broadcastTeamChanged(message: Omit<TeamChangedMessage, "type">): void {
+		this.broadcast({ type: "team:changed", ...message });
+	}
+	broadcastMailChanged(message: Omit<MailChangedMessage, "type">): void {
+		this.broadcast({ type: "mail:changed", ...message });
+	}
 
 	/** For git state changes GitWatcher cannot see, such as a ref fetched into the common dir. */
 	broadcastGitChanged(workspaceId: string): void {

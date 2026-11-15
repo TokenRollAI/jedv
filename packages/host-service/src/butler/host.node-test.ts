@@ -15,9 +15,11 @@ import { join, resolve } from "node:path";
 import { test } from "node:test";
 import { promisify } from "node:util";
 import { serve } from "@hono/node-server";
+import type { ButlerMessageShape } from "@jedv/shared/butler";
 import { createTRPCClient, httpBatchLink } from "@trpc/client";
 import { eq } from "drizzle-orm";
 import SuperJSON from "superjson";
+import type { DeepseekChatMessage, DeepseekTool } from "../ai/deepseek";
 import type { CreateAppResult } from "../app";
 import {
 	mailEvents,
@@ -27,6 +29,7 @@ import {
 	terminalSessions,
 	workspaces,
 } from "../db/schema";
+import type { OpenApiPaths } from "../http/openapi";
 import type { AppRouter } from "../trpc/router";
 
 const run = promisify(execFile),
@@ -72,11 +75,19 @@ test("real Butler Host/CLI: persistent conversation, native tools, verbatim Lead
 	let host: CreateAppResult | undefined,
 		http: ReturnType<typeof serve> | undefined,
 		endpoint = "";
-	let client: ReturnType<typeof createTRPCClient<AppRouter>>;
-	const key = "isolated-butler-" + randomUUID(),
+	let client: ReturnType<typeof createTRPCClient<AppRouter>> | undefined;
+	const key = `isolated-butler-${randomUUID()}`,
 		token = randomUUID();
 	let requests = 0;
-	const responses: Array<(body: any) => Response | Promise<Response>> = [];
+	type ModelRequest = {
+		messages: DeepseekChatMessage[];
+		model: string;
+		thinking: { type: string };
+		max_tokens: number;
+		tools: DeepseekTool[];
+	};
+	const responses: Array<(body: ModelRequest) => Response | Promise<Response>> =
+		[];
 	async function boot() {
 		host = createApp({
 			config: {
@@ -105,7 +116,7 @@ test("real Butler Host/CLI: persistent conversation, native tools, verbatim Lead
 							String(url),
 							"https://api.deepseek.com/chat/completions",
 						);
-						const body = JSON.parse(String(init?.body));
+						const body = JSON.parse(String(init?.body)) as ModelRequest;
 						assert.equal(body.model, "deepseek-flash");
 						assert.deepEqual(body.thinking, { type: "disabled" });
 						assert.equal(body.max_tokens, 1500);
@@ -139,7 +150,7 @@ test("real Butler Host/CLI: persistent conversation, native tools, verbatim Lead
 		client = createTRPCClient<AppRouter>({
 			links: [
 				httpBatchLink({
-					url: endpoint + "/trpc",
+					url: `${endpoint}/trpc`,
 					transformer: SuperJSON,
 					headers: { Authorization: `Bearer ${token}` },
 				}),
@@ -181,6 +192,7 @@ test("real Butler Host/CLI: persistent conversation, native tools, verbatim Lead
 			"fixture",
 		]);
 		await boot();
+		assert.ok(client);
 		assert.ok(host);
 		const noKey = await cli([
 			"ask",
@@ -260,7 +272,7 @@ test("real Butler Host/CLI: persistent conversation, native tools, verbatim Lead
 				joinedAt: 1,
 			})
 			.run();
-		await client!.aiSettings.setDeepseekKey.mutate({ apiKey: key });
+		await client.aiSettings.setDeepseekKey.mutate({ apiKey: key });
 		assert.equal(
 			statSync(join(home, "secrets/deepseek.key")).mode & 0o777,
 			0o600,
@@ -284,7 +296,8 @@ test("real Butler Host/CLI: persistent conversation, native tools, verbatim Lead
 					"mail-call",
 				),
 			async (body) => {
-				const row = host!.db
+				assert.ok(host);
+				const row = host.db
 					.select()
 					.from(mailEvents)
 					.all()
@@ -293,10 +306,11 @@ test("real Butler Host/CLI: persistent conversation, native tools, verbatim Lead
 				assert.equal(JSON.parse(row.payloadJson ?? "{}").humanVerbatim, human);
 				assert.ok(
 					body.messages.some(
-						(m: any) => m.role === "tool" && m.tool_call_id === "mail-call",
+						(m) => m.role === "tool" && m.tool_call_id === "mail-call",
 					),
 				);
-				await client!.mail.send.mutate({
+				assert.ok(client);
+				await client.mail.send.mutate({
 					teamId: team,
 					to: "leader",
 					actor: { workspaceId: w, terminalId: terminal },
@@ -311,8 +325,9 @@ test("real Butler Host/CLI: persistent conversation, native tools, verbatim Lead
 			(body) => {
 				assert.ok(
 					body.messages.some(
-						(m: any) =>
+						(m) =>
 							m.role === "tool" &&
+							typeof m.content === "string" &&
 							m.content.includes("Leader confirms the backend is ready"),
 					),
 				);
@@ -355,12 +370,13 @@ test("real Butler Host/CLI: persistent conversation, native tools, verbatim Lead
 				}),
 			() => finalResponse("Archive requires your approval."),
 		);
-		const proposed = await client!.butler.sendMessage.mutate({
+		const proposed = await client.butler.sendMessage.mutate({
 			threadId: result.threadId,
 			humanText: "Archive the selected Workspace",
 			requestId: "archive-turn",
 		});
-		const card = proposed.approvals[0]!;
+		const card = proposed.approvals[0];
+		assert.ok(card, "Archive approval is required");
 		assert.equal(
 			host.db.select().from(workspaces).where(eq(workspaces.id, archive)).get()
 				?.archivedAt,
@@ -383,7 +399,7 @@ test("real Butler Host/CLI: persistent conversation, native tools, verbatim Lead
 		);
 		assert.ok(existsSync(join(project, "README.md")));
 		await assert.rejects(
-			client!.butler.resolveApproval.mutate({
+			client.butler.resolveApproval.mutate({
 				approvalId: card.id,
 				payloadHash: card.payloadHash,
 				decision: "approve",
@@ -397,17 +413,18 @@ test("real Butler Host/CLI: persistent conversation, native tools, verbatim Lead
 				}),
 			() => finalResponse("Stop Team requires approval."),
 		);
-		const stop = await client!.butler.sendMessage.mutate({
+		const stop = await client.butler.sendMessage.mutate({
 			threadId: result.threadId,
 			humanText: "Stop the Team",
 			requestId: "stop-turn",
 		});
-		const stopCard = stop.approvals[0]!;
+		const stopCard = stop.approvals[0];
+		assert.ok(stopCard, "Stop approval is required");
 		assert.equal(
 			host.db.select().from(teams).where(eq(teams.id, team)).get()?.status,
 			"paused",
 		);
-		const stopResult = await client!.butler.resolveApproval.mutate({
+		const stopResult = await client.butler.resolveApproval.mutate({
 			approvalId: stopCard.id,
 			payloadHash: stopCard.payloadHash,
 			decision: "approve",
@@ -419,19 +436,23 @@ test("real Butler Host/CLI: persistent conversation, native tools, verbatim Lead
 		);
 		const headers = { Authorization: `Bearer ${token}` };
 		assert.equal(
-			(await fetch(endpoint + "/api/v1/butler/threads")).status,
+			(await fetch(`${endpoint}/api/v1/butler/threads`)).status,
 			401,
 		);
 		const openapi = (await (
-			await fetch(endpoint + "/api/v1/openapi.json", { headers })
-		).json()) as any;
-		assert.ok(openapi.paths["/api/v1/butler/messages"].post);
-		assert.ok(openapi.paths["/api/v1/memory"].get);
+			await fetch(`${endpoint}/api/v1/openapi.json`, { headers })
+		).json()) as { paths: OpenApiPaths };
+		const messagesPath = openapi.paths["/api/v1/butler/messages"],
+			memoryPath = openapi.paths["/api/v1/memory"];
+		assert.ok(messagesPath);
+		assert.ok(memoryPath);
+		assert.ok(messagesPath.post);
+		assert.ok(memoryPath.get);
 		assert.ok(openapi.paths["/api/v1/mail"]);
 		assert.equal(
 			(
 				await fetch(
-					endpoint + "/api/v1/butler/history?threadId=" + result.threadId,
+					`${endpoint}/api/v1/butler/history?threadId=${result.threadId}`,
 					{ headers },
 				)
 			).status,
@@ -439,9 +460,16 @@ test("real Butler Host/CLI: persistent conversation, native tools, verbatim Lead
 		);
 		await close();
 		await boot();
-		const saved = await cli(["history", "--thread", result.threadId]);
-		assert.equal(saved[0].requestId, noKey.requestId);
-		assert.equal(saved[0].content, "No key check");
+		assert.ok(client);
+		const saved: ButlerMessageShape[] = await cli([
+			"history",
+			"--thread",
+			result.threadId,
+		]);
+		const first = saved[0];
+		assert.ok(first);
+		assert.equal(first.requestId, noKey.requestId);
+		assert.equal(first.content, "No key check");
 		assert.equal(
 			saved.find(
 				(message: { requestId: string; role: string }) =>
@@ -449,14 +477,14 @@ test("real Butler Host/CLI: persistent conversation, native tools, verbatim Lead
 			)?.content,
 			human,
 		);
-		assert.ok(saved.some((m: any) => m.content.includes("backend is ready")));
+		assert.ok(saved.some((m) => m.content.includes("backend is ready")));
 		assert.ok(
-			(await client!.butler.listApprovals.query({ status: "history" })).some(
+			(await client.butler.listApprovals.query({ status: "history" })).some(
 				(card) => card.status === "executed",
 			),
 		);
-		await client!.aiSettings.setDeepseekKey.mutate({ apiKey: null });
-		const fallback = await client!.butler.sendMessage.mutate({
+		await client.aiSettings.setDeepseekKey.mutate({ apiKey: null });
+		const fallback = await client.butler.sendMessage.mutate({
 			threadId: result.threadId,
 			humanText: "No key again",
 		});

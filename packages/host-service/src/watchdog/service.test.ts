@@ -1,4 +1,5 @@
 import { expect, test } from "bun:test";
+import assert from "node:assert/strict";
 import { memoryFixture } from "../memory/test-fixture";
 import { RuleWatchdog, type WatchdogSnapshot } from "./service";
 
@@ -70,11 +71,14 @@ test("30s rules with manual Clock dedupe mail and failure, read remains unacked"
 		await dog.scan();
 		expect(dog.listAlerts()).toHaveLength(2);
 		expect(sent).toHaveLength(2);
-		const alert = dog.listAlerts()[0]!;
+		const alert = dog.listAlerts()[0];
+		assert.ok(alert);
 		dog.markRead(alert.id);
 		expect(dog.listAlerts()).toHaveLength(1);
 		expect(dog.listAlerts({ status: "all" })).toHaveLength(2);
-		f.snapshot.mail[0]!.ackedAt = f.clock.now();
+		const mail = f.snapshot.mail[0];
+		assert.ok(mail);
+		mail.ackedAt = f.clock.now();
 		await dog.scan();
 		expect(sent).toHaveLength(2);
 		await dog.dispose();

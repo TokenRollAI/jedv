@@ -51,7 +51,9 @@ export function useWorkspaceActivity(
 		const bus = getEventBus(hostUrl, getWsToken),
 			release = bus.retain();
 		if (gitEnabled) bus.watchGit(workspaceId);
-		const offGit = gitEnabled ? bus.on("git:changed", workspaceId, () => void git.refetch()) : () => {};
+		const offGit = gitEnabled
+			? bus.on("git:changed", workspaceId, () => void git.refetch())
+			: () => {};
 		const offTerm = bus.on(
 			"terminal:lifecycle",
 			workspaceId,

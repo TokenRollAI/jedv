@@ -3,7 +3,10 @@ import { runInNewContext } from "node:vm";
 import { mobilePublicAssets } from "./index";
 
 test("Service Worker only intercepts exact public GETs and never API/session/chat/approval data", async () => {
-	const handlers = new Map<string, (event: any) => void>(),
+	type WorkerEvent =
+		| { waitUntil: (value: Promise<void>) => void }
+		| { request: Request; respondWith: (value: Promise<Response>) => void };
+	const handlers = new Map<string, (event: WorkerEvent) => void>(),
 		stored = new Map<string, Response>(),
 		fetches: Array<{ input: unknown; init?: RequestInit }> = [],
 		deleted: string[] = [];
@@ -15,7 +18,7 @@ test("Service Worker only intercepts exact public GETs and never API/session/cha
 	};
 	const self = {
 		location: { origin: "https://phone.tail.ts.net" },
-		addEventListener: (type: string, fn: (event: any) => void) =>
+		addEventListener: (type: string, fn: (event: WorkerEvent) => void) =>
 			handlers.set(type, fn),
 		skipWaiting: async () => {},
 		clients: { claim: async () => {} },
@@ -77,7 +80,7 @@ test("Service Worker only intercepts exact public GETs and never API/session/cha
 	]) {
 		let intercepted = false;
 		handlers.get("fetch")?.({
-			request: new Request("https://phone.tail.ts.net" + path),
+			request: new Request(`https://phone.tail.ts.net${path}`),
 			respondWith: () => {
 				intercepted = true;
 			},

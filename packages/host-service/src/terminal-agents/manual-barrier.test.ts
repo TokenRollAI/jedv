@@ -1,9 +1,10 @@
 import { expect, test } from "bun:test";
+import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import {
 	mkdirSync,
-	rmSync,
 	rmdirSync,
+	rmSync,
 	symlinkSync,
 	writeFileSync,
 } from "node:fs";
@@ -49,7 +50,8 @@ function fixture() {
 		});
 	hook("Start", 1);
 	hook("Stop", 2);
-	const binding = store.get(terminalId)!;
+	const binding = store.get(terminalId);
+	assert.ok(binding);
 	return {
 		store,
 		binding,
@@ -57,8 +59,8 @@ function fixture() {
 		path,
 		cleanup() {
 			rmSync(path, { force: true });
-			rmSync(path + ".target", { force: true });
-			rmSync(path + ".lock", { recursive: true, force: true });
+			rmSync(`${path}.target`, { force: true });
+			rmSync(`${path}.lock`, { recursive: true, force: true });
 		},
 	};
 }
@@ -103,15 +105,15 @@ for (const failure of [
 			else if (failure === "oversized") writeFileSync(f.path, "9".repeat(100));
 			else if (failure === "symlink") {
 				rmSync(f.path);
-				writeFileSync(f.path + ".target", "4\n");
-				symlinkSync(f.path + ".target", f.path);
-			} else mkdirSync(f.path + ".lock");
+				writeFileSync(`${f.path}.target`, "4\n");
+				symlinkSync(`${f.path}.target`, f.path);
+			} else mkdirSync(`${f.path}.lock`);
 			f.store.invalidateAutomaticDelivery(f.binding);
 			expect(oldPermit?.isValid()).toBe(false);
 			f.hook("Start", 3);
 			f.hook("Stop", 4);
 			expect(f.store.acquireAutomaticDelivery(f.binding)).toBeNull();
-			if (failure === "locked") rmdirSync(f.path + ".lock");
+			if (failure === "locked") rmdirSync(`${f.path}.lock`);
 			if (failure === "symlink") rmSync(f.path);
 			writeFileSync(f.path, "6\n");
 			f.hook("Start", 5);
@@ -151,7 +153,9 @@ test("manual barrier persists its watermark, restart restores no permission and 
 				hook: { eventType, sequence, trusted: true },
 			});
 		writeFileSync(f.path, "4\n");
-		store.invalidateAutomaticDelivery(store.get(f.binding.terminalId)!);
+		const current = store.get(f.binding.terminalId);
+		assert.ok(current);
+		store.invalidateAutomaticDelivery(current);
 		expect(row?.deliverySequence).toBe(4);
 		const restored = new TerminalAgentStore(persistence, {
 			readSourceSequence: () => null,
@@ -196,11 +200,11 @@ test("source reader is same-launch, bounded and never waits on another allocator
 			readSourceSequenceWatermark("../escape", f.binding.launchId),
 		).toBeNull();
 		expect(readSourceSequenceWatermark(f.binding.terminalId, "")).toBeNull();
-		mkdirSync(f.path + ".lock");
+		mkdirSync(`${f.path}.lock`);
 		expect(
 			readSourceSequenceWatermark(f.binding.terminalId, f.binding.launchId),
 		).toBeNull();
-		rmdirSync(f.path + ".lock");
+		rmdirSync(`${f.path}.lock`);
 		expect(
 			readSourceSequenceWatermark(f.binding.terminalId, f.binding.launchId),
 		).toBe(4);
@@ -245,7 +249,8 @@ test("pending Mail never writes after human draft and late pre-draft hooks; a ge
 		})
 		.run();
 	store.recordEvent({ ...identity, eventType: "Attached", occurredAt: 1 });
-	const expected = store.get(identity.terminalId)!;
+	const expected = store.get(identity.terminalId);
+	assert.ok(expected);
 	f.db
 		.update(teams)
 		.set({ status: "active" })
@@ -335,7 +340,8 @@ test("a local cutoff belongs only to its launch and is not inherited by a replac
 				occurredAt: 200 + sequence,
 				hook: { eventType, sequence, trusted: true },
 			});
-		const current = f.store.get(f.binding.terminalId)!;
+		const current = f.store.get(f.binding.terminalId);
+		assert.ok(current);
 		expect(current.deliverySequence).toBe(2);
 		expect(f.store.acquireAutomaticDelivery(current)?.isValid()).toBe(true);
 		expect(f.store.acquireAutomaticDelivery(f.binding)).toBeNull();
