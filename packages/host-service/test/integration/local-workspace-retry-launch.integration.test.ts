@@ -147,6 +147,9 @@ function createFakePty(pid: number, writes: string[], meta: SessionMeta) {
 		},
 		onData(callback: (data: Buffer) => void) {
 			dataCallbacks.push(callback);
+			// An interactive shell prints a prompt before accepting input. The
+			// ungated launch only starts its quiet period after observing output.
+			queueMicrotask(() => callback(Buffer.from("$ ", "utf-8")));
 		},
 		onExit(
 			callback: (info: { code: number | null; signal: number | null }) => void,
