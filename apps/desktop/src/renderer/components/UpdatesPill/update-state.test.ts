@@ -26,7 +26,6 @@ test("only a supported successful check reports the installed version as current
 	for (const availability of [
 		"development",
 		"unpackaged",
-		"unsigned",
 		"missing-metadata",
 	] as const) {
 		expect(
@@ -37,6 +36,28 @@ test("only a supported successful check reports the installed version as current
 			}),
 		).toBe("unavailable");
 	}
+	expect(
+		updateDisplayState({
+			...event,
+			availability: "unsigned",
+			checkOutcome: "up-to-date",
+		}),
+	).toBe("up-to-date");
+	expect(
+		updateDisplayState({
+			...event,
+			availability: "unsigned",
+			checkOutcome: "update-available",
+		}),
+	).toBe("manual-update");
+	expect(
+		updateDisplayState({
+			...event,
+			availability: "unsigned",
+			status: "error",
+			checkOutcome: "failed",
+		}),
+	).toBe("error");
 	expect(
 		updateDisplayState({
 			...event,

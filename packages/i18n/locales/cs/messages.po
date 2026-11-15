@@ -1641,6 +1641,9 @@ msgstr "Hotovo"
 msgid "Download starter"
 msgstr "Stáhnout základ"
 
+msgid "Download update"
+msgstr "Stáhnout aktualizaci"
+
 msgid "Downloading {version} · {percent}%"
 msgstr "Stahování {version} · {percent} %"
 
@@ -5427,6 +5430,9 @@ msgstr "Aktualizováno na v{0}"
 
 msgid "Updates"
 msgstr "Aktualizace"
+
+msgid "Updates require manual installation for this build."
+msgstr "Aktualizace tohoto sestavení je nutné instalovat ručně."
 
 msgid "Updating…"
 msgstr "Aktualizuji…"

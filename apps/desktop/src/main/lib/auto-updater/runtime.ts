@@ -145,7 +145,7 @@ export class AutoUpdaterRuntime extends EventEmitter {
 		if (this.started || this.disposed) return;
 		this.started = true;
 		const updater = this.options.updater;
-		updater.autoDownload = true;
+		updater.autoDownload = false;
 		updater.autoInstallOnAppQuit = false;
 		updater.disableDifferentialDownload = true;
 		updater.allowDowngrade = false;
@@ -179,7 +179,10 @@ export class AutoUpdaterRuntime extends EventEmitter {
 			}
 			this.dismissed = false;
 			this.emitState({
-				status: AUTO_UPDATE_STATUS.DOWNLOADING,
+				status:
+					this.state.availability === "unsigned"
+						? AUTO_UPDATE_STATUS.IDLE
+						: AUTO_UPDATE_STATUS.DOWNLOADING,
 				version: info.version,
 				error: undefined,
 				errorKind: undefined,
@@ -205,6 +208,7 @@ export class AutoUpdaterRuntime extends EventEmitter {
 		this.listen(
 			"download-progress",
 			(progress: { percent: number; transferred: number; total: number }) => {
+				if (this.state.availability !== "supported") return;
 				const now = Date.now();
 				if (now - this.lastProgressAt < 500 && progress.percent < 100) return;
 				this.lastProgressAt = now;
@@ -225,6 +229,7 @@ export class AutoUpdaterRuntime extends EventEmitter {
 			},
 		);
 		this.listen("update-downloaded", (info: { version: string }) => {
+			if (this.state.availability !== "supported") return;
 			this.dismissed = false;
 			this.emitState({
 				status: AUTO_UPDATE_STATUS.READY,
@@ -310,20 +315,17 @@ export class AutoUpdaterRuntime extends EventEmitter {
 			checkOutcome: "not-checked",
 		});
 		try {
-			if (!(await this.options.verifySignature())) {
-				this.emitState({
-					status: AUTO_UPDATE_STATUS.ERROR,
-					availability: "unsigned",
-					reason:
-						"This macOS build has no verified signing identity. Install a signed Jedv release.",
-					errorKind: "signature",
-					checkOutcome: "failed",
-				});
-				return this.getStatus();
-			}
+			const signed = await this.options.verifySignature();
 			if (this.disposed) return this.getStatus();
+			this.options.updater.autoDownload = signed;
+			if (!signed) {
+				this.emitState({
+					availability: "unsigned",
+					reason: "Updates require manual installation for this build.",
+				});
+			}
 			const free = this.options.freeBytes();
-			if (free !== null && free < UPDATE_STAGING_MIN_FREE_BYTES)
+			if (signed && free !== null && free < UPDATE_STAGING_MIN_FREE_BYTES)
 				throw new Error(
 					"ENOSPC: insufficient free space for the Jedv updater cache",
 				);

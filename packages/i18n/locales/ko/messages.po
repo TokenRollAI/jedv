@@ -1641,6 +1641,9 @@ msgstr "완료"
 msgid "Download starter"
 msgstr "스타터 다운로드"
 
+msgid "Download update"
+msgstr "업데이트 다운로드"
+
 msgid "Downloading {version} · {percent}%"
 msgstr "{version} 다운로드 중 · {percent}%"
 
@@ -5427,6 +5430,9 @@ msgstr "v{0}(으)로 업데이트됨"
 
 msgid "Updates"
 msgstr "업데이트"
+
+msgid "Updates require manual installation for this build."
+msgstr "이 빌드는 업데이트를 수동으로 설치해야 합니다."
 
 msgid "Updating…"
 msgstr "업데이트하는 중…"

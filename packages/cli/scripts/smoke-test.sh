@@ -45,6 +45,8 @@ await_stopped() {
 		if ! kill -0 "$pid" 2>/dev/null; then return 0; fi
 		sleep 0.1
 	done
+	echo "[smoke] FAIL — process $pid did not stop within 5 seconds" >&2
+	ps -p "$pid" -o pid=,ppid=,stat=,comm= >&2 || true
 	return 1
 }
 

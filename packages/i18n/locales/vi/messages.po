@@ -1641,6 +1641,9 @@ msgstr "Xong"
 msgid "Download starter"
 msgstr "Tải bản mẫu"
 
+msgid "Download update"
+msgstr "Tải bản cập nhật"
+
 msgid "Downloading {version} · {percent}%"
 msgstr "Đang tải xuống {version} · {percent}%"
 
@@ -5427,6 +5430,9 @@ msgstr "Đã cập nhật lên v{0}"
 
 msgid "Updates"
 msgstr "Cập nhật"
+
+msgid "Updates require manual installation for this build."
+msgstr "Các bản cập nhật cho phiên bản này cần được cài đặt thủ công."
 
 msgid "Updating…"
 msgstr "Đang cập nhật…"

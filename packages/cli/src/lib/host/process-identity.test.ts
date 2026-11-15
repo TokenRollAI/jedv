@@ -25,6 +25,40 @@ describe("looksLikeHostProcess", () => {
 		expect(looksLikeHostProcess("/opt/jedv/bin/jedv-host")).toBe(true);
 	});
 
+	test.each([
+		"/opt/jedv/lib/node /opt/jedv/lib/host-service.js",
+		"/opt/jedv/bin/../lib/node /opt/jedv/bin/../lib/host-service.js",
+	])("matches the standalone wrapper after exec: %s", (command) => {
+		expect(looksLikeHostProcess(command, "/opt/jedv/bin/jedv-host")).toBe(true);
+	});
+
+	test("matches a standalone installation path containing spaces", () => {
+		expect(
+			looksLikeHostProcess(
+				"/opt/Jedv App/lib/node /opt/Jedv App/lib/host-service.js",
+				"/opt/Jedv App/bin/jedv-host",
+			),
+		).toBe(true);
+	});
+
+	test.each([
+		"/usr/bin/node /tmp/server.js",
+		"/usr/bin/node /tmp/host-service.js",
+		"/opt/jedv/lib/node /tmp/host-service.js",
+		"/opt/jedv/lib/node /opt/jedv/lib/host-service.js.backup",
+		"/opt/jedv/lib/node --eval 'console.log(\"host-service.js\")'",
+		"/usr/bin/node /tmp/jedv-host/server.js",
+		"/usr/bin/node /tmp/server.js --name jedv-host",
+		"/usr/bin/node /tmp/server.js /opt/jedv/lib/node /opt/jedv/lib/host-service.js",
+		"/opt/jedv/bin/jedv-host-unrelated",
+		"/opt/other/lib/node /opt/other/lib/host-service.js",
+		"/usr/bin/node -e setInterval(()=>{},1000) /lib/node /usr/bin/node -e setInterval(()=>{},1000) /lib/host-service.js",
+	])("rejects unrelated commands mentioning host names: %s", (command) => {
+		expect(looksLikeHostProcess(command, "/opt/jedv/bin/jedv-host")).toBe(
+			false,
+		);
+	});
+
 	test("does not match an unrelated command", () => {
 		expect(looksLikeHostProcess("/usr/sbin/some-other-daemon")).toBe(false);
 	});

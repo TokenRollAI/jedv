@@ -1641,6 +1641,9 @@ msgstr "Gotowe"
 msgid "Download starter"
 msgstr "Pobierz szablon startowy"
 
+msgid "Download update"
+msgstr "Pobierz aktualizację"
+
 msgid "Downloading {version} · {percent}%"
 msgstr "Pobieranie {version} · {percent}%"
 
@@ -5427,6 +5430,9 @@ msgstr "Zaktualizowano do v{0}"
 
 msgid "Updates"
 msgstr "Aktualizacje"
+
+msgid "Updates require manual installation for this build."
+msgstr "Aktualizacje tej wersji wymagają ręcznej instalacji."
 
 msgid "Updating…"
 msgstr "Aktualizowanie…"

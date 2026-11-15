@@ -1641,6 +1641,9 @@ msgstr "Готово"
 msgid "Download starter"
 msgstr "Скачать заготовку"
 
+msgid "Download update"
+msgstr "Скачать обновление"
+
 msgid "Downloading {version} · {percent}%"
 msgstr "Загрузка {version} · {percent}%"
 
@@ -5427,6 +5430,9 @@ msgstr "Обновлено до v{0}"
 
 msgid "Updates"
 msgstr "Обновления"
+
+msgid "Updates require manual installation for this build."
+msgstr "Обновления для этой сборки необходимо устанавливать вручную."
 
 msgid "Updating…"
 msgstr "Обновление…"

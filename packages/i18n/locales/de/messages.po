@@ -1641,6 +1641,9 @@ msgstr "Erledigt"
 msgid "Download starter"
 msgstr "Startvorlage herunterladen"
 
+msgid "Download update"
+msgstr "Update herunterladen"
+
 msgid "Downloading {version} · {percent}%"
 msgstr "{version} wird heruntergeladen · {percent} %"
 
@@ -5427,6 +5430,9 @@ msgstr "Auf v{0} aktualisiert"
 
 msgid "Updates"
 msgstr "Updates"
+
+msgid "Updates require manual installation for this build."
+msgstr "Updates für diese Version müssen manuell installiert werden."
 
 msgid "Updating…"
 msgstr "Wird aktualisiert…"

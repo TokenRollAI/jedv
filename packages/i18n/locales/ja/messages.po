@@ -1641,6 +1641,9 @@ msgstr "完了"
 msgid "Download starter"
 msgstr "スターターをダウンロード"
 
+msgid "Download update"
+msgstr "アップデートをダウンロード"
+
 msgid "Downloading {version} · {percent}%"
 msgstr "{version} をダウンロードしています · {percent}%"
 
@@ -5427,6 +5430,9 @@ msgstr "v{0} に更新しました"
 
 msgid "Updates"
 msgstr "アップデート"
+
+msgid "Updates require manual installation for this build."
+msgstr "このビルドでは、アップデートを手動でインストールする必要があります。"
 
 msgid "Updating…"
 msgstr "更新中…"

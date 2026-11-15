@@ -1641,6 +1641,9 @@ msgstr "Terminé"
 msgid "Download starter"
 msgstr "Télécharger un modèle de départ"
 
+msgid "Download update"
+msgstr "Télécharger la mise à jour"
+
 msgid "Downloading {version} · {percent}%"
 msgstr "Téléchargement de {version} · {percent} %"
 
@@ -5427,6 +5430,9 @@ msgstr "Mis à jour vers v{0}"
 
 msgid "Updates"
 msgstr "Mises à jour"
+
+msgid "Updates require manual installation for this build."
+msgstr "Les mises à jour de cette version doivent être installées manuellement."
 
 msgid "Updating…"
 msgstr "Mise à jour…"

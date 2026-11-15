@@ -1641,6 +1641,9 @@ msgstr "Klaar"
 msgid "Download starter"
 msgstr "Startbestand downloaden"
 
+msgid "Download update"
+msgstr "Update downloaden"
+
 msgid "Downloading {version} · {percent}%"
 msgstr "{version} downloaden · {percent}%"
 
@@ -5427,6 +5430,9 @@ msgstr "Bijgewerkt naar v{0}"
 
 msgid "Updates"
 msgstr "Updates"
+
+msgid "Updates require manual installation for this build."
+msgstr "Updates voor deze versie moeten handmatig worden geïnstalleerd."
 
 msgid "Updating…"
 msgstr "Bijwerken…"
