@@ -1,6 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
 import { workspaces } from "../../../../db/schema";
+import { requireGitCapability } from "../../../../projects/vcs-capabilities";
 import {
 	getPathState,
 	inaccessiblePathMessage,
@@ -10,6 +11,7 @@ import type { protectedProcedure } from "../../../index";
 export function resolveWorktreePath(
 	ctx: Parameters<Parameters<typeof protectedProcedure.query>[0]>[0]["ctx"],
 	workspaceId: string,
+	options: { requireGit?: boolean } = {},
 ): string {
 	const workspace = ctx.db.query.workspaces
 		.findFirst({ where: eq(workspaces.id, workspaceId) })
@@ -37,5 +39,7 @@ export function resolveWorktreePath(
 			cause: { kind: "WORKTREE_MISSING", worktreePath: workspace.worktreePath },
 		});
 	}
+	if (options.requireGit !== false)
+		requireGitCapability(workspace.worktreePath);
 	return workspace.worktreePath;
 }

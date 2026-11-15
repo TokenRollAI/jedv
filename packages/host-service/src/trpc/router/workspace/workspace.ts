@@ -5,6 +5,7 @@ import { eq, isNotNull, isNull } from "drizzle-orm";
 import { z } from "zod";
 import { projects, workspaces } from "../../../db/schema";
 import { getProjectIncludingDeleted } from "../../../projects/local-project-store";
+import { getVcsCapabilities } from "../../../projects/vcs-capabilities";
 import { isMissingPath } from "../../../runtime/path-state";
 import {
 	getWorkspaceTags,
@@ -34,6 +35,7 @@ export const workspaceRouter = router({
 
 			return {
 				...localWorkspace,
+				...getVcsCapabilities(localWorkspace.worktreePath),
 				worktreeExists: !isMissingPath(localWorkspace.worktreePath),
 			};
 		}),

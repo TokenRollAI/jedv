@@ -22,6 +22,7 @@ import { Trans, useLingui } from "@lingui/react/macro";
 import { skipToken, useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import type { JedvParityViewContext } from "../../../../parity-types";
+import { supportsPullRequests } from "../../../../vcs-capabilities";
 import {
 	type Confirmation,
 	JedvConfirmDialog,
@@ -45,10 +46,15 @@ export function CreatePullRequestDialog({
 	const remoteWrite = useRemoteWrite();
 	const candidates = context.workspaces.filter(
 		(w) =>
+			supportsPullRequests(w) &&
 			w.archivedAt == null &&
 			w.worktreeExists &&
 			context.projects.some(
-				(p) => p.id === w.projectId && p.repoOwner && p.repoName,
+				(p) =>
+					supportsPullRequests(p) &&
+					p.id === w.projectId &&
+					p.repoOwner &&
+					p.repoName,
 			),
 	);
 	const [workspaceId, setWorkspaceId] = useState(

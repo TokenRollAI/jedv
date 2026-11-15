@@ -14,10 +14,14 @@ relations:
   related:
     - workspaces/lifecycle.mdx
     - pull-requests/review-contract.mdx
+    - teamwork/execution.mdx
+    - runtime/attachments.mdx
 ---
 # Git 执行与 reviewed push
 
-host 从工作区持久身份解析 worktree，并通过 credentials provider 构建 Git 环境。renderer 发起意图，不能自己猜 cwd 或将凭证环境写入日志。阻塞的 status/diff/commit/push 在 worker 执行；数据库查询、事件和 cache invalidation 留在 host 协调层。
+host 从工作区持久身份解析 worktree，并通过 credentials provider 构建 Git 环境。renderer 发起意图，不能自己猜 cwd 或将凭证环境写入日志。阻塞的 status/diff/commit/push 在 worker 执行；数据库查询、事件和 cache invalidation 留在 host 协调层。Team 恢复所需的 worktree 注册读取也走 worker task，不在恢复循环内同步执行 Git。
+
+`resolveWorktreePath` 默认要求 Git capability，只有明确非 Git 业务（如附件 materialize）才能传 `requireGit:false`；该选项不绕过持久 workspace 身份和 missing/inaccessible 分类，具体普通目录边界由 workspaces/lifecycle 与 attachments owner 共同约束。
 
 ## 调度与观察
 

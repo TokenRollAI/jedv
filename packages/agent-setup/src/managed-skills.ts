@@ -1,12 +1,40 @@
 import fs from "node:fs";
 import { copyFile, mkdir, rm } from "node:fs/promises";
-import os from "node:os";
 import path from "node:path";
 import { writeFileIfChanged } from "./agent-wrappers-common";
-import { getBundledPluginDir } from "./config";
+import { getBundledPluginDir, getTemplatePath } from "./config";
 import { readInstalledPluginSources } from "./installed-plugins";
+import { resolveUserHomeDir } from "./paths";
 
 export const MANAGED_SKILL_MARKER = "<!-- jedv-managed-skill v1 -->";
+
+/** One first-party skill; independent of plugins and marketplace provisioning. */
+export function provisionBuiltinTeamSkill(
+	options: { homeDir?: string; disabled?: boolean } = {},
+): void {
+	const home = options.homeDir ?? resolveUserHomeDir();
+	const content = options.disabled
+		? ""
+		: withManagedMarker(
+				fs.readFileSync(getTemplatePath("skills/jedv-team/SKILL.md"), "utf8"),
+			);
+	for (const directory of [".agents", ".claude", ".gemini", ".kimi"]) {
+		const target = path.join(
+			home,
+			directory,
+			"skills",
+			"jedv-team",
+			"SKILL.md",
+		);
+		if (isUserOwnedFile(target)) continue;
+		if (options.disabled) {
+			if (fs.existsSync(target)) fs.unlinkSync(target);
+			continue;
+		}
+		fs.mkdirSync(path.dirname(target), { recursive: true });
+		writeFileIfChanged(target, content, 0o644);
+	}
+}
 
 /**
  * Sentinel file marking a directory as Jedv-managed (used for the Claude
@@ -400,7 +428,7 @@ export function createManagedSkills(
 async function provisionManagedSkills(
 	options: ManagedSkillsOptions,
 ): Promise<void> {
-	const homeDir = options.homeDir ?? os.homedir();
+	const homeDir = options.homeDir ?? resolveUserHomeDir();
 	const bundledPluginDir = options.templatesDir
 		? path.join(options.templatesDir, "plugin")
 		: getBundledPluginDir();

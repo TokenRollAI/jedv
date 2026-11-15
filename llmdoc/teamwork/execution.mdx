@@ -1,0 +1,71 @@
+---
+description: "Team start/init/spawn 与 Mail 的本地 Host 契约：终端身份、operationId/dedupe、recover CAS、read/ACK、logicalHostId 断线草稿和自动投递许可。"
+kind: architecture
+code:
+  paths:
+    - packages/shared/src/teamwork.ts
+    - packages/host-service/src/teams/service.ts
+    - packages/host-service/src/teams/recovery-git.test.ts
+    - packages/host-service/src/teams/stop-recovery.test.ts
+    - packages/host-service/src/trpc/router/workspace-creation/shared/seed-agent-trust.ts
+    - packages/host-service/src/workers/tasks/git.ts
+    - packages/host-service/src/teams/runtime.ts
+    - packages/host-service/src/trpc/router/team/index.ts
+    - packages/host-service/src/mail/service.ts
+    - packages/host-service/src/http/errors.ts
+    - packages/host-service/src/http/openapi.ts
+    - packages/host-service/src/http/contracts.test.ts
+    - packages/cli/src/lib/teamwork.ts
+    - "packages/cli/src/commands/team/**/command.ts"
+    - "packages/cli/src/commands/mail/**/command.ts"
+    - apps/desktop/src/renderer/components/JedvShell/hooks/useTeamwork/useTeamwork.ts
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvTeamworkView/JedvTeamworkView.tsx
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvTeamworkView/JedvTeamworkView.test.tsx
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvTeamworkView/team-mail-drafts.ts
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvTeamworkView/team-mail-drafts.test.ts
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvTeamworkView/components/TeamMailComposer/TeamMailComposer.tsx
+    - packages/host-service/src/terminal/terminal.ts
+    - packages/host-service/src/teams/teamwork.node-test.ts
+    - apps/desktop/src/renderer/components/JedvShell/components/CreateTeamView/components/TeamTaskComposer/TeamTaskComposer.tsx
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvTeamworkView/components/TeamDetail/TeamDetail.tsx
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvTeamworkView/components/TeamMailTimeline/TeamMailTimeline.tsx
+relations:
+  requires:
+    - terminals/session-lifecycle.mdx
+    - workspaces/lifecycle.mdx
+  related:
+    - teamwork/integrations.mdx
+    - memory/lifecycle.mdx
+    - distribution/cli-contract.mdx
+---
+# Team 与 Mail 的本地执行契约
+
+Host 拥有 Team、member、workspace/terminal 绑定和 Mail 持久记录；桌面与 CLI 是同一业务服务的入口。普通 Team 生命周期只针对本地 Host，共享 tRPC 类型不授权远程 Team 控制；跨 Host Mail 的窄边界由 integrations owner 解释。
+
+## 新 Task 与现有会话提升是不同入口
+
+显式新 Task 使用 `team.start`：调用方先确认 Host `features.start`，Host 校验可用 workspace 和 Agent launch 配置后，先持久化 Team/Leader 及 planned terminal/launch 身份，再创建原生终端。它不要求 Git 元数据，普通 folder workspace 也可运行；只有新建 worktree 才进入 Git capability 与项目分支流程。不要用 `agents create` 串接 `team.init`，或让裸 Agent 自行 init 来冒充这一原子边界。
+
+`team.init` 只提升仍有真实 launch/agent session 证据的当前 native terminal，不替换或重启 Leader。start/spawn 等待真实 setup 与终端创建证据，不等于任务语义完成；成员身份漂移或 session 被替换进入 `reconcile_required`，不能另开资源掩盖。
+
+只有 `targetWorkspace.projectId === null` 的 Host session workspace 才会在 Leader/Worker 启动时预置 Agent folder trust；导入的已有 folder Project 即使没有 `.git` 也不自动获得信任写入。
+
+## operationId 绑定请求，不绑定新尝试
+
+start/spawn 都保存 operationId、规范化请求指纹和 planned 资源。同标识同参数重入返回同一进行中操作或既有状态；同标识不同参数是 CONFLICT。workspace setup 未完成会拒绝 launch，避免在资源尚未就绪时留下不可解释的成员。
+
+Host 恢复只重新附着 workspace、planned terminal 和实际 Agent 存活均匹配的既有资源；证据不足保留 `reconcile_required`，不重放终端或 worktree 创建。Git worktree 注册证据通过有界 worker task 在 Host 主事件循环外读取，超时或不可用只降级为注册证据不足，不能阻塞恢复循环或据此创建资源。liveness 与 Git 两条分支都在事务内重新比较 Team/member、完整 workspace/terminal rows 和 binding 身份，并以原 status/endedAt CAS 提交；stop/archive、正在 stop、session 替换或资源行变化都会使过期探测失效。adoption 保留既有 terminal createdAt；CAS 比较 id/originWorkspaceId/createdAt/status/endedAt/disposeRequestedAt，但不把 attach/rename 的 customTitle、lastAttachedAt 展示变化误判为终端替换。只有确定失败并明确开始新 attempt 才更换 operationId。
+
+## Mail 持久化与终端注入分离
+
+Mail event 与每个 recipient 的 delivery 分开持久化。dedupe key 与来源及请求指纹共同防止重复事件，同 key 不同内容必须冲突。`read` 只写 readAt，`ack` 是处理后的独立确认；两者都不证明对应任务已经验收。成员状态中的未 ACK 计数来自 Host delivery 记录，不应由桌面最近一页 timeline 估算。
+
+自动 nudge 还要求 Team/member active、当前绑定可信以及 Host 内存中的 automatic-delivery idle permit。终端展示 Stop、Mail pending 或历史 idle 文本都不构成许可；permit 的 Start/Stop 区间、人工输入撤销和写入前复核由 `terminals/session-lifecycle` 强制。
+
+delivery 以 inflight token 和 wake batch 串行认领，自动投递受 hop/rate budget 限制。写入结果若为 `inputStaged`，或 Host 重启时仍有 inflight，状态是 `uncertain_staged`：文本可能已部分进入 PTY，必须检查终端并对账，不能自动重投。暂停只停自动 nudge，保留终端和手动 Mail；停止、归档又是不同生命周期操作。
+
+整队 stop 先 pause 并 fence 自动投递与 recover，再逐个确认 daemon close。false/throw 保留失败 Worker 的 binding、failed 证据和 endedAt=null，其余 Worker 继续停止，但整队保持 paused/stoppedAt=null 且拒绝 archive；只有全部确认成功才进入 stopped。失败向调用方传播，因此 Butler 审批记 failed 而不重放，显式 stop 重试可完成；Leader PTY 始终保留。
+
+桌面以 logicalHostId 区分本地 Host 与不同私网 origin，endpoint/client/provider 重挂不另造 Host 身份。Team Mail 使用 renderer 内存 store 按 `[logicalHostId, teamId]` 保存原文、收件人、dedupe/request 和 pending：最多 32 个 scope，非 pending 闲置 24 小时清理，pending 不因 TTL 失去请求身份；成功或手清回收空项，权威在线 all-Team 列表中的删除/归档立即清理，初始加载/失败不当作删除证据。旧回调不复活已清理条目，重连只恢复原文与 Send，不自动重放；未发送正文不写 localStorage/SQLite。已打开确认框也必须在 mutation 入口重新检查可用性。
+
+源码锚点：`teams/service.ts`（身份、启动与恢复）、`mail/service.ts`（持久事件与自动投递）、`shared/teamwork.ts`（跨 CLI/Host 的输入与 capability 契约）、`http/openapi.ts`（GET schema 与 method 合并）。

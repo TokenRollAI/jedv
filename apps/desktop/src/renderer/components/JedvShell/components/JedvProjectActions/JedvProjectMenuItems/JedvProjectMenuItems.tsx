@@ -28,6 +28,10 @@ export function JedvProjectMenuItems({
 					<DropdownMenuShortcut>{openShortcut}</DropdownMenuShortcut>
 				)}
 			</DropdownMenuItem>
+			<DropdownMenuItem disabled={disabled} onSelect={() => onAction("folder")}>
+				<VscFolderOpened className="size-4 shrink-0" />
+				<Trans>Import plain folder</Trans>
+			</DropdownMenuItem>
 			<DropdownMenuItem disabled={disabled} onSelect={() => onAction("clone")}>
 				<VscGithubAlt className="size-4 shrink-0" />
 				<Trans>Clone from URL</Trans>

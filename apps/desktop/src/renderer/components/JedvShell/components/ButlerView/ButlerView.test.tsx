@@ -1,0 +1,322 @@
+import { afterEach, expect, mock, test } from "bun:test";
+import type {
+	AttentionGroupShape,
+	AttentionSourceTarget,
+} from "@jedv/shared/butler-attention";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+	act,
+	cleanup,
+	fireEvent,
+	render,
+	waitFor,
+	within,
+} from "@testing-library/react";
+import { observable } from "@trpc/server/observable";
+import { electronTrpc } from "renderer/lib/electron-trpc";
+import { useButlerInbox } from "../../hooks/useButlerInbox";
+import type { JedvParityViewContext } from "../../parity-types";
+import { ButlerView } from "./ButlerView";
+
+const caches: QueryClient[] = [];
+afterEach(() => {
+	cleanup();
+	for (const cache of caches.splice(0)) cache.clear();
+});
+test("attention uses authoritative counts and real read/ignore semantics without reading Key or ACKing mail", async () => {
+	let readAt: number | null = null,
+		ignoredAt: number | null = null;
+	let ignoreReason: string | null = null;
+	let reopened = false;
+	const source: AttentionSourceTarget = {
+		kind: "mail_delivery",
+		teamId: "team",
+		memberId: "member",
+		projectId: null,
+		workspaceId: null,
+		terminalId: null,
+		terminalLive: false,
+		fallback: "team",
+		mailDeliveryId: "delivery",
+		automationId: null,
+		automationRunId: null,
+	};
+	const group = (): AttentionGroupShape => ({
+		groupKey: "mail:team:member",
+		kind: "mail_unacked",
+		severity: "normal",
+		subject: "Mail needs attention",
+		body: "Evidence",
+		disposition: ignoredAt ? "ignored" : "open",
+		unread: readAt == null,
+		activeCount: 3,
+		totalCount: 3,
+		firstCreatedAt: 1,
+		latestCreatedAt: 2,
+		source,
+		items: [
+			{
+				id: "alert",
+				groupKey: "mail:team:member",
+				dedupeKey: "mail",
+				kind: "mail_unacked",
+				severity: "normal",
+				subject: "Mail needs attention",
+				body: "Evidence",
+				teamId: "team",
+				projectId: null,
+				workspaceId: null,
+				terminalId: null,
+				memberId: "member",
+				mailDeliveryId: "delivery",
+				automationId: null,
+				automationRunId: null,
+				createdAt: 1,
+				readAt,
+				ignoredAt,
+				ignoreReason,
+				resolvedAt: null,
+				source,
+			},
+		],
+	});
+	const approval = {
+		id: "approval",
+		threadId: "thread",
+		actionType: "stopTeam",
+		targetId: "team",
+		summary: "Stop workers",
+		payload: { actionType: "stopTeam", teamId: "team" },
+		payloadHash: "a".repeat(64),
+		status: "pending",
+		createdAt: 2,
+		expiresAt: Date.now() + 600_000,
+		resolvedAt: null,
+		error: null,
+	};
+	const attention = mock(async (input: { view: string }) => {
+		const current = group();
+		if (reopened) {
+			current.disposition = "open";
+			current.unread = true;
+			current.activeCount = 4;
+			current.totalCount = 4;
+			const first = current.items[0];
+			if (first)
+				current.items.unshift({
+					...first,
+					id: "new-alert",
+					dedupeKey: "new-mail",
+					readAt: null,
+					ignoredAt: null,
+					ignoreReason: null,
+				});
+		}
+		const open = !ignoredAt || reopened;
+		return {
+			badge: { pendingApprovals: 37, unreadHighFaultGroups: 0, count: 37 },
+			groups:
+				input.view === "handled"
+					? open
+						? []
+						: [current]
+					: open
+						? [current]
+						: [],
+			approvals: input.view === "open" ? [approval] : [],
+		};
+	});
+
+	const read = mock(async (_input: unknown) => {
+		readAt = 3;
+		return {
+			updatedCount: 3,
+			badge: { pendingApprovals: 37, unreadHighFaultGroups: 0, count: 37 },
+		};
+	});
+	const ignore = mock(async (input: { groupKey: string; reason?: string }) => {
+		ignoredAt = 4;
+		ignoreReason = input.reason ?? null;
+		return {
+			updatedCount: 3,
+			disposition: "ignored",
+			badge: { pendingApprovals: 37, unreadHighFaultGroups: 0, count: 37 },
+		};
+	});
+	const resolve = mock(async (_input: unknown) => {
+		throw new Error("unknown");
+	});
+	const ai = mock(async () => ({ configured: false, maskedHint: null })),
+		send = mock(async () => ({})),
+		legacy = mock(async () => ({})),
+		ack = mock(async () => ({}));
+	const context = {
+		hostUrl: "http://butler-space.fixture",
+		projects: [],
+		workspaces: [],
+		client: {
+			butler: {
+				capabilities: {
+					query: async () => ({
+						protocolVersion: 1,
+						features: { attention: true, conversationState: true },
+					}),
+				},
+				attention: { query: attention },
+				state: { query: async () => ({ currentThreadId: null, thread: null }) },
+				markAttentionRead: { mutate: read },
+				ignoreAttention: { mutate: ignore },
+				inbox: { query: legacy },
+				resolveApproval: { mutate: resolve },
+				listThreads: { query: async () => [] },
+				history: { query: async () => [] },
+				sendMessage: { mutate: send },
+			},
+			watchdog: { markRead: { mutate: legacy } },
+			mail: { ack: { mutate: ack } },
+			aiSettings: { get: { query: ai } },
+		},
+	} as unknown as JedvParityViewContext;
+	const cache = new QueryClient({
+		defaultOptions: { queries: { retry: false } },
+	});
+	caches.push(cache);
+	const ipc = electronTrpc.createClient({
+		links: [
+			() => () =>
+				observable((emit) => {
+					emit.next({ result: { data: 1 } });
+					emit.complete();
+				}),
+		],
+	});
+	function Harness() {
+		const index = useButlerInbox(context.client, context.hostUrl, true);
+		return (
+			<ButlerView
+				context={context}
+				index={index}
+				teams={[]}
+				connected
+				onSettings={() => {}}
+				onOpenTeam={() => {}}
+				onOpenAutomations={() => {}}
+			/>
+		);
+	}
+	const screen = render(
+		<QueryClientProvider client={cache}>
+			<electronTrpc.Provider client={ipc} queryClient={cache}>
+				<Harness />
+			</electronTrpc.Provider>
+		</QueryClientProvider>,
+	);
+	await screen.findByRole("heading", {
+		name: "Mail awaiting acknowledgement: 3",
+	});
+	expect(ai).not.toHaveBeenCalled();
+	expect(send).not.toHaveBeenCalled();
+	expect(read).not.toHaveBeenCalled();
+	expect(ignore).not.toHaveBeenCalled();
+	expect(resolve).not.toHaveBeenCalled();
+	expect(legacy).not.toHaveBeenCalled();
+	expect(screen.getByRole("tab", { name: /Pending/ }).textContent).toContain(
+		"37",
+	);
+	fireEvent.click(screen.getByRole("button", { name: "Mark as read" }));
+	await waitFor(() =>
+		expect(read).toHaveBeenCalledWith({ groupKey: "mail:team:member" }),
+	);
+	await waitFor(() =>
+		expect(screen.queryByRole("button", { name: "Mark as read" })).toBeNull(),
+	);
+	expect(
+		screen.getByRole("heading", { name: "Mail awaiting acknowledgement: 3" }),
+	).toBeTruthy();
+	expect(ack).not.toHaveBeenCalled();
+	fireEvent.mouseDown(screen.getByRole("tab", { name: "Processed" }), {
+		button: 0,
+		ctrlKey: false,
+	});
+	await waitFor(() =>
+		expect(
+			screen.queryByRole("heading", {
+				name: "Mail awaiting acknowledgement: 3",
+			}),
+		).toBeNull(),
+	);
+	fireEvent.mouseDown(screen.getByRole("tab", { name: /Pending/ }), {
+		button: 0,
+		ctrlKey: false,
+	});
+	fireEvent.click(await screen.findByRole("button", { name: "Ignore" }));
+	const dialog = screen.getByRole("dialog");
+	expect(ignore).not.toHaveBeenCalled();
+	fireEvent.change(
+		within(dialog).getByRole("textbox", { name: "Reason (optional)" }),
+		{ target: { value: "Known failure" } },
+	);
+	fireEvent.click(within(dialog).getByRole("button", { name: "Ignore" }));
+	await waitFor(() =>
+		expect(ignore).toHaveBeenCalledWith({
+			groupKey: "mail:team:member",
+			reason: "Known failure",
+		}),
+	);
+	await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
+	await waitFor(() =>
+		expect(
+			screen.queryByRole("heading", {
+				name: "Mail awaiting acknowledgement: 3",
+			}),
+		).toBeNull(),
+	);
+	expect(ack).not.toHaveBeenCalled();
+	fireEvent.mouseDown(screen.getByRole("tab", { name: "Processed" }), {
+		button: 0,
+		ctrlKey: false,
+	});
+	await screen.findByText("Ignored");
+	expect(screen.queryByText("Resolved")).toBeNull();
+	expect(
+		screen.getByRole("heading", { name: "Mail awaiting acknowledgement: 3" }),
+	).toBeTruthy();
+	reopened = true;
+	await act(async () => {
+		await cache.invalidateQueries({
+			queryKey: ["jedv", context.hostUrl, "butler", "attention"],
+		});
+	});
+
+	fireEvent.mouseDown(screen.getByRole("tab", { name: /Pending/ }), {
+		button: 0,
+		ctrlKey: false,
+	});
+	await screen.findByRole("heading", {
+		name: "Mail awaiting acknowledgement: 4",
+	});
+	expect(screen.getByRole("button", { name: "Mark as read" })).toBeTruthy();
+	expect(ack).not.toHaveBeenCalled();
+	const confirm = await screen.findByRole("button", { name: "Confirm stop" });
+	fireEvent.click(confirm);
+	await waitFor(() =>
+		expect(resolve).toHaveBeenCalledWith({
+			approvalId: "approval",
+			payloadHash: "a".repeat(64),
+			decision: "approve",
+		}),
+	);
+	await waitFor(() =>
+		expect((confirm as HTMLButtonElement).disabled).toBe(true),
+	);
+	fireEvent.click(confirm);
+	expect(resolve).toHaveBeenCalledTimes(1);
+	expect(ai).not.toHaveBeenCalled();
+	const [ask] = screen.getAllByRole("button", { name: "Ask Butler" });
+	if (!ask) throw new Error("Missing Butler action");
+	fireEvent.click(ask);
+	await screen.findByText(
+		"DeepSeek is not configured. Status and Inbox still work.",
+	);
+	expect(send).not.toHaveBeenCalled();
+});

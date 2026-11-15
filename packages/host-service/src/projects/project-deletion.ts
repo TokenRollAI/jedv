@@ -23,6 +23,7 @@ import {
 	getLiveProjectAtPath,
 	getProjectIncludingDeleted,
 } from "./local-project-store";
+import { hasGitMetadata } from "./vcs-capabilities";
 
 export const PROJECT_RESTORE_WINDOW_MS = 30 * 24 * 60 * 60 * 1000;
 export const PROJECT_PURGE_INTERVAL_MS = 6 * 60 * 60 * 1000;
@@ -235,6 +236,7 @@ async function purgeProject(
 		.all();
 	const worktrees = rows.filter(
 		(row) =>
+			hasGitMetadata(project.repoPath) &&
 			row.type !== "local" &&
 			row.worktreePath !== project.repoPath &&
 			existsSync(row.worktreePath),

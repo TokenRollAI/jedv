@@ -64,6 +64,9 @@ msgstr "{0}：{1} 个运行中的终端，{2} 个运行中的智能体"
 msgid "{approvals} approvals"
 msgstr "{approvals} 项批准"
 
+msgid "{attention} need attention"
+msgstr "{attention} 位需关注"
+
 msgid "{completed} finished"
 msgstr "{completed} 已完成"
 
@@ -90,6 +93,9 @@ msgstr "{count, plural, one {每#周的{day}} other {每#周的{day}}}"
 
 msgid "{count} files are over {limit} and were not added"
 msgstr "{count} 个文件超过 {limit}，未添加"
+
+msgid "{count} important items"
+msgstr "{count} 项重要事项"
 
 msgid "{currentPage} of {totalBranches}"
 msgstr "{currentPage}/{totalBranches}"
@@ -204,8 +210,21 @@ msgstr "关于 {displayName}"
 msgid "Accept"
 msgstr "接受"
 
+msgid "Accept candidate"
+msgstr "采纳候选"
+
+msgid "Accept global memory"
+msgstr "采纳全局记忆"
+
 msgid "Accessibility"
 msgstr "辅助功能"
+
+#. placeholder {0}: name(delivery.recipientMemberId)
+msgid "Acknowledge mail to {0}"
+msgstr "确认发给 {0} 的邮件"
+
+msgid "Acknowledged"
+msgstr "已确认"
 
 msgid "Actions"
 msgstr "操作"
@@ -215,6 +234,9 @@ msgstr "启用中"
 
 msgid "Active CLI sessions"
 msgstr "活跃的 CLI 会话"
+
+msgid "Active items: {count}"
+msgstr "待处理：{count}"
 
 msgid "Active workspaces"
 msgstr "活跃工作区"
@@ -245,6 +267,12 @@ msgstr "添加文件、应用等"
 
 msgid "Add files, apps, and more (@)"
 msgstr "添加文件、应用等（@）"
+
+msgid "Add memory"
+msgstr "添加记忆"
+
+msgid "Add peer"
+msgstr "添加对端"
 
 msgid "Add photos or files"
 msgstr "添加照片或文件"
@@ -327,6 +355,9 @@ msgstr "智能体岛"
 msgid "Agent launch is waiting for setup"
 msgstr "智能体正在等待初始化完成后启动"
 
+msgid "Agent may be stalled"
+msgstr "Agent 可能停滞"
+
 msgid "Agent saved, but linked presets could not be updated."
 msgstr "智能体已保存，但无法更新关联的预设。"
 
@@ -347,6 +378,9 @@ msgstr "智能体"
 
 msgid "AI chatbot built with Next.js and the AI SDK"
 msgstr "使用 Next.js 和 AI SDK 构建的 AI 聊天机器人"
+
+msgid "Alerts"
+msgstr "告警"
 
 #. placeholder {0}: cmd.aliases.map((alias) => `/${alias}`).join(", ")
 msgid "aliases: {0}"
@@ -390,6 +424,9 @@ msgstr "已打开"
 
 msgid "Also delete local branch"
 msgstr "同时删除本地分支"
+
+msgid "An automation did not complete. Inspect its run on your computer."
+msgstr "自动化未完成，请在电脑上检查运行记录。"
 
 msgid "An update is ready to install."
 msgstr "更新已准备好安装。"
@@ -449,6 +486,9 @@ msgstr "适用于 Markdown 预览和终端输出中的 URL。"
 msgid "Apply"
 msgstr "应用"
 
+msgid "Approval execution failed. Check the target before trying again."
+msgstr "审批执行失败，请检查目标后再重试。"
+
 msgid "Approval expired"
 msgstr "批准已过期"
 
@@ -467,8 +507,32 @@ msgstr "需要批准"
 msgid "Approval response sent"
 msgstr "批准响应已发送"
 
+msgid "Approvals"
+msgstr "审批"
+
+msgid "Approve"
+msgstr "批准"
+
 msgid "Approved"
 msgstr "已批准"
+
+msgid "Archival"
+msgstr "档案"
+
+msgid "Archive team"
+msgstr "归档团队"
+
+msgid "Archive this team?"
+msgstr "归档此团队？"
+
+msgid "Archive Workspace"
+msgstr "归档工作区"
+
+msgid "Archived"
+msgstr "已归档"
+
+msgid "Archived team · read-only"
+msgstr "已归档团队 · 只读"
 
 msgid "Are you sure you want to quit?"
 msgstr "确定要退出吗？"
@@ -479,11 +543,23 @@ msgstr "退出应用前询问。"
 msgid "Ask before terminating a terminal with a running process. Closing a view keeps its session running."
 msgstr "终止含有运行中进程的终端前询问。关闭视图会保持其会话运行。"
 
+msgid "Ask Butler"
+msgstr "问 Butler"
+
+msgid "Ask Butler about your teams, alerts or automations."
+msgstr "向 Butler 询问团队、告警或自动化情况。"
+
+msgid "Ask Butler…"
+msgstr "询问 Butler…"
+
 msgid "Ask to make changes, @mention files"
 msgstr "要求做出更改，@提及文件"
 
 msgid "Ask to make changes, @mention files, run /commands"
 msgstr "说明要做的修改，用@提及文件，用/运行命令"
+
+msgid "Associated provider tokens will be revoked."
+msgstr "关联的接入方令牌将被撤销。"
 
 msgid "Attach"
 msgstr "附着"
@@ -513,6 +589,9 @@ msgstr "附件预览"
 
 msgid "Attachments are available for local workspaces only."
 msgstr "附件仅可用于本地工作区。"
+
+msgid "Attention is unavailable. Refresh or update the host."
+msgstr "无法获取待处理事项，请刷新或更新主机。"
 
 msgid "Audio"
 msgstr "音频"
@@ -550,6 +629,9 @@ msgstr "自动化操作"
 msgid "Automation deleted"
 msgstr "自动化已删除"
 
+msgid "Automation did not finish"
+msgstr "自动化未完成"
+
 msgid "Automation enabled"
 msgstr "自动化已启用"
 
@@ -577,11 +659,17 @@ msgstr "等待响应"
 msgid "Awaiting Response · {workspaceName}"
 msgstr "等待回复 · {workspaceName}"
 
+msgid "Awaiting review"
+msgstr "待审核"
+
 msgid "Back"
 msgstr "返回"
 
 msgid "Back to automations"
 msgstr "返回自动化"
+
+msgid "Back to current conversation"
+msgstr "返回当前对话"
 
 msgid "Background processes"
 msgstr "后台进程"
@@ -651,6 +739,12 @@ msgstr "项目符号列表"
 msgid "Bulleted list"
 msgstr "项目符号列表"
 
+msgid "Butler"
+msgstr "Butler"
+
+msgid "Butler is unavailable. Status and Inbox still work."
+msgstr "Butler 暂不可用，状态和收件箱仍可使用。"
+
 msgid "Cached input"
 msgstr "缓存输入"
 
@@ -669,14 +763,23 @@ msgstr "取消操作会请求目标主机停止。请检查操作结果，再在
 msgid "Cancelled"
 msgstr "已取消"
 
+msgid "Candidate"
+msgstr "候选"
+
 msgid "Cannot {action}: no active organization is selected. Select an organization or sign in again."
 msgstr "无法{action}：未选择活动组织。请选择一个组织或重新登录。"
 
 msgid "Cannot {action}: the local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
 msgstr "无法{action}：{device}上{organization}的本地主机服务不可用。状态：{status}。{recovery}"
 
+msgid "Category"
+msgstr "分类"
+
 msgid "Change location…"
 msgstr "更改位置…"
+
+msgid "Change mobile address?"
+msgstr "更改手机访问地址？"
 
 msgid "Change project icon and color"
 msgstr "更改项目图标和颜色"
@@ -695,6 +798,9 @@ msgstr "已放弃更改"
 
 msgid "Changes requested"
 msgstr "要求修改"
+
+msgid "Changing or clearing this address signs out all paired devices."
+msgstr "更改或清除此地址会使所有已配对设备退出登录。"
 
 msgid "Changing this location affects new worktrees. Existing folders are not moved."
 msgstr "更改此位置会影响新工作树。现有文件夹不会被移动。"
@@ -777,6 +883,9 @@ msgstr "选择项目或工作区"
 msgid "Choose a project to start working."
 msgstr "选择项目以开始工作。"
 
+msgid "Choose a running agent as leader to start collaborating."
+msgstr "选择一个运行中的 Agent 作为 Leader，开始协作。"
+
 msgid "Choose a saved screenshot to attach. Files are copied only when you submit the prompt."
 msgstr "选择要附加的已保存截图。只有提交提示时才会复制文件。"
 
@@ -800,6 +909,12 @@ msgstr "选择通知声音和音量。"
 
 msgid "Clear"
 msgstr "透明"
+
+msgid "Clear API key"
+msgstr "清除 API Key"
+
+msgid "Clear API key?"
+msgstr "清除 API Key？"
 
 msgid "Clear saved screenshots?"
 msgstr "清除已保存的截图？"
@@ -955,6 +1070,9 @@ msgstr "全部折叠"
 msgid "Collapse All"
 msgstr "全部折叠"
 
+msgid "Collapse message"
+msgstr "收起邮件"
+
 msgid "Color"
 msgstr "颜色"
 
@@ -1031,14 +1149,32 @@ msgstr "配置"
 msgid "Configure agent commands for the connected host."
 msgstr "配置连接主机上智能体的命令。"
 
+msgid "Configured"
+msgstr "已配置"
+
 msgid "Confirm"
 msgstr "确认"
+
+msgid "Confirm archive"
+msgstr "确认归档"
 
 msgid "Confirm before closing a running terminal"
 msgstr "关闭正在运行的终端前确认"
 
 msgid "Confirm before quitting"
 msgstr "退出前确认"
+
+msgid "Confirm global memory adoption"
+msgstr "确认采纳全局记忆"
+
+msgid "Confirm memory removal"
+msgstr "确认移除记忆"
+
+msgid "Confirm receipt"
+msgstr "确认收到"
+
+msgid "Confirm stop"
+msgstr "确认停止"
 
 msgid "Connect"
 msgstr "连接"
@@ -1063,6 +1199,12 @@ msgstr "已连接的主机"
 
 msgid "Connecting…"
 msgstr "正在连接…"
+
+msgid "Content"
+msgstr "内容"
+
+msgid "Context"
+msgstr "上下文"
 
 msgid "Continue"
 msgstr "继续"
@@ -1102,6 +1244,15 @@ msgstr "此会话由控制端拥有"
 
 msgid "Control shortcuts on macOS are reserved for terminal programs."
 msgstr "macOS 上的 Control 快捷键已为终端程序保留。"
+
+msgid "Convention"
+msgstr "约定"
+
+msgid "Conversation state is unavailable. Refresh or update the host."
+msgstr "无法获取对话状态，请刷新或更新主机。"
+
+msgid "Conversations"
+msgstr "会话"
 
 msgid "Convert to config.toml"
 msgstr "转换为 config.toml"
@@ -1179,6 +1330,15 @@ msgstr "复制工作区ID"
 msgid "Copy..."
 msgstr "复制…"
 
+msgid "Core"
+msgstr "核心"
+
+msgid "Core injection: {budget} characters in this scope, 4800 total. Candidates are excluded."
+msgstr "核心注入：当前范围最多 {budget} 字符，总计 4800 字符，不包含候选。"
+
+msgid "Correction"
+msgstr "纠偏"
+
 msgid "Costs are estimates based on API list rates, not a bill or actual subscription spending. Unknown models use approximate rates."
 msgstr "费用是根据 API 标价估算的，不是账单或实际订阅支出。未知模型使用近似费率。"
 
@@ -1199,6 +1359,9 @@ msgstr "无法确认目标主机上的结果。请检查连接和权限，然后
 
 msgid "Could not confirm this session. Refresh before retrying."
 msgstr "无法确认此会话。重试前请刷新。"
+
+msgid "Could not create team. Refresh the agents and retry."
+msgstr "无法创建团队，请刷新 Agent 后重试。"
 
 msgid "Could not create workspace. Check the target host and retry."
 msgstr "无法创建工作区。请检查目标主机并重试。"
@@ -1227,6 +1390,9 @@ msgstr "无法检查此工作区。请重试检查后再删除。"
 msgid "Could not list repositories. Check gh authentication on the target host, or enter a URL below."
 msgstr "无法列出仓库。请检查目标主机上的 gh 认证，或在下方输入 URL。"
 
+msgid "Could not load agents"
+msgstr "无法加载智能体"
+
 msgid "Could not load branches from the target host."
 msgstr "无法从目标主机加载分支。"
 
@@ -1242,8 +1408,14 @@ msgstr "无法从目标主机加载项目设置。"
 msgid "Could not load pull requests. Check gh access on the target host."
 msgstr "无法加载 PR。请检查目标主机上的 gh 访问权限。"
 
+msgid "Could not load Teamwork. Check the host connection and retry."
+msgstr "无法加载 Teamwork，请检查主机连接后重试。"
+
 msgid "Could not load workspace status. Check the target host and try again."
 msgstr "无法加载工作区状态。请检查目标主机并重试。"
+
+msgid "Could not open terminal"
+msgstr "无法打开终端"
 
 msgid "Could not open this workspace. Check the target host and try again."
 msgstr "无法打开此工作区。请检查目标主机并重试。"
@@ -1272,6 +1444,9 @@ msgstr "无法读取此目录。请检查目标主机上的路径和权限。"
 msgid "Could not read worktrees from the target host."
 msgstr "无法从目标主机读取工作树。"
 
+msgid "Could not refresh. Showing the last loaded information."
+msgstr "无法刷新，正在显示上次加载的信息。"
+
 msgid "Could not rename project. Try again."
 msgstr "无法重命名项目。请重试。"
 
@@ -1286,6 +1461,9 @@ msgstr "无法渲染图标"
 
 msgid "Could not render image"
 msgstr "无法渲染图片"
+
+msgid "Could not save memory. Your draft is kept."
+msgstr "无法保存记忆，草稿已保留。"
 
 msgid "Could not save the group. Your draft is kept."
 msgstr "无法保存分组。你的草稿已保留。"
@@ -1311,8 +1489,14 @@ msgstr "无法保存你的进度。请重试。"
 msgid "Could not select a project directory."
 msgstr "无法选择项目目录。"
 
+msgid "Could not send mail. Your draft is kept for retry."
+msgstr "无法发送邮件，草稿已保留，可重试。"
+
 msgid "Could not set icon"
 msgstr "无法设置图标"
+
+msgid "Could not sign out. Reconnect and try again."
+msgstr "无法退出登录，请恢复连接后重试。"
 
 msgid "Could not stop a listening process. Earlier successful stops are kept."
 msgstr "无法停止某个监听进程。此前已成功停止的进程不会重新启动。"
@@ -1320,11 +1504,20 @@ msgstr "无法停止某个监听进程。此前已成功停止的进程不会重
 msgid "Could not stop it"
 msgstr "无法停止"
 
+msgid "Could not update DeepSeek settings. Check the host and retry."
+msgstr "无法更新 DeepSeek 设置，请检查主机后重试。"
+
+msgid "Could not update mail"
+msgstr "无法更新邮件"
+
 msgid "Could not update the project tree. Try again."
 msgstr "无法更新项目树。请重试。"
 
 msgid "Could not update the removed project. Check its status before retrying."
 msgstr "无法更新已移除的项目。请检查其状态后重试。"
+
+msgid "Could not update this item. Refresh to check its status."
+msgstr "无法更新此事项，请刷新核对其状态。"
 
 msgid "Could not update workspace. Try again."
 msgstr "无法更新工作区。请重试。"
@@ -1337,6 +1530,9 @@ msgstr "保存失败。编辑或点击别处以重试"
 
 msgid "Couldn't save. Retrying…"
 msgstr "保存失败。正在重试…"
+
+msgid "Create"
+msgstr "创建"
 
 msgid "Create a blank folder and initialize it as a Git repository."
 msgstr "创建空文件夹并将其初始化为 Git 仓库。"
@@ -1362,11 +1558,17 @@ msgstr "创建 PR"
 msgid "Create project"
 msgstr "创建项目"
 
+msgid "Create provider token"
+msgstr "创建接入方令牌"
+
 msgid "Create pull request"
 msgstr "创建拉取请求"
 
 msgid "Create pull request on GitHub?"
 msgstr "在 GitHub 上创建拉取请求？"
+
+msgid "Create team"
+msgstr "创建团队"
 
 msgid "create the project"
 msgstr "创建项目"
@@ -1471,8 +1673,20 @@ msgstr "深色"
 msgid "Dark theme"
 msgstr "深色主题"
 
+msgid "Declarative extensions"
+msgstr "声明式扩展"
+
 msgid "Decline"
 msgstr "拒绝"
+
+msgid "DeepSeek API Key"
+msgstr "DeepSeek API Key"
+
+msgid "DeepSeek for Butler and memory extraction."
+msgstr "为 Butler 和记忆提炼配置 DeepSeek。"
+
+msgid "DeepSeek is not configured. Status and Inbox still work."
+msgstr "尚未配置 DeepSeek，状态和收件箱仍可使用。"
 
 msgid "default"
 msgstr "默认"
@@ -1537,6 +1751,18 @@ msgstr "已删除的会话无法恢复。"
 msgid "Deleting…"
 msgstr "正在删除…"
 
+msgid "Delivered"
+msgstr "已送达"
+
+msgid "Delivered means the remote host stored the mail, not that a recipient read or acknowledged it."
+msgstr "已送达表示远端主机已存储邮件，不代表收件人已读或确认处理。"
+
+msgid "Describe a goal to start a new task."
+msgstr "描述目标，开始一个新任务。"
+
+msgid "Describe the task…"
+msgstr "描述任务…"
+
 msgid "Describe what the agent should do…"
 msgstr "描述智能体应执行的任务…"
 
@@ -1561,6 +1787,12 @@ msgstr "详情"
 msgid "Detect workspaces from other tools"
 msgstr "检测其他工具中的工作区"
 
+msgid "Device"
+msgstr "设备"
+
+msgid "Device name"
+msgstr "设备名称"
+
 msgid "Diagnostics"
 msgstr "诊断"
 
@@ -1578,6 +1810,9 @@ msgstr "在新标签页看差异"
 
 msgid "Directory path"
 msgstr "目录路径"
+
+msgid "Disabled"
+msgstr "已禁用"
 
 msgid "Discard"
 msgstr "放弃"
@@ -1638,6 +1873,9 @@ msgstr "文档"
 msgid "Done"
 msgstr "完成"
 
+msgid "Download JSON"
+msgstr "下载 JSON"
+
 msgid "Download starter"
 msgstr "下载模板"
 
@@ -1680,6 +1918,12 @@ msgstr "编辑"
 msgid "Edit group"
 msgstr "编辑分组"
 
+msgid "Edit memory"
+msgstr "编辑记忆"
+
+msgid "Edit peer"
+msgstr "编辑对端"
+
 msgid "Edit shared setup, run and teardown commands, or personal overrides. Saving does not execute commands."
 msgstr "编辑共享的初始化、运行和清理命令或个人覆盖配置。保存不会执行命令。"
 
@@ -1695,8 +1939,14 @@ msgstr "编辑器和工作流"
 msgid "Editor typography"
 msgstr "编辑器排版"
 
+msgid "Effort"
+msgstr "思考强度"
+
 msgid "Enable"
 msgstr "启用"
+
+msgid "Enabled"
+msgstr "已启用"
 
 msgid "Endpoint"
 msgstr "端点"
@@ -1706,6 +1956,9 @@ msgstr "输入命令。"
 
 msgid "Enter a group name of 1 to 64 characters."
 msgstr "输入 1 到 64 个字符的分组名称。"
+
+msgid "Enter a new API key to replace it"
+msgstr "输入新的 API Key 以替换"
 
 msgid "Enter a project name and location."
 msgstr "输入项目名称和位置。"
@@ -1728,6 +1981,9 @@ msgstr "输入目标主机上的绝对目录路径。"
 msgid "Enter an agent name."
 msgstr "输入智能体名称。"
 
+msgid "Enter the pairing code shown in Jedv on your computer."
+msgstr "输入电脑上的 Jedv 显示的配对码。"
+
 msgid "Enter URL..."
 msgstr "输入URL..."
 
@@ -1743,6 +1999,9 @@ msgstr "均分窗格"
 msgid "Estimated cost"
 msgstr "估计费用"
 
+msgid "Event type prefix"
+msgstr "事件类型前缀"
+
 msgid "Every {day}"
 msgstr "每{day}"
 
@@ -1751,6 +2010,9 @@ msgstr "每{day} {time}"
 
 msgid "Every minute"
 msgstr "每分钟"
+
+msgid "Executed"
+msgstr "已执行"
 
 msgid "Execution mode"
 msgstr "执行模式"
@@ -1785,14 +2047,38 @@ msgstr "展开"
 msgid "Expand all"
 msgstr "全部展开"
 
+msgid "Expand message"
+msgstr "展开邮件"
+
 msgid "Expand pane area"
 msgstr "展开窗格区域"
 
 msgid "Expand the right pane to fill the window, or restore it"
 msgstr "将右侧面板扩展至整个窗口，或恢复原状"
 
+msgid "Expired"
+msgstr "已过期"
+
+msgid "Expired {time}"
+msgstr "已于 {time} 过期"
+
+msgid "Expires {time}"
+msgstr "将于 {time} 过期"
+
+msgid "Export memory"
+msgstr "导出记忆"
+
+msgid "Export project memory?"
+msgstr "导出项目记忆？"
+
 msgid "Export theme"
 msgstr "导出主题"
+
+msgid "Export to .jedv/memory.json"
+msgstr "导出到 .jedv/memory.json"
+
+msgid "Extensions display data and can receive narrowly scoped mail."
+msgstr "扩展展示数据，并可接收权限受限的邮件。"
 
 msgid "external browser"
 msgstr "外部浏览器"
@@ -1805,6 +2091,9 @@ msgstr "外部编辑器仅打开此机器上的文件"
 
 msgid "Failed"
 msgstr "失败"
+
+msgid "Failed runs: {activeCount}"
+msgstr "失败的运行：{activeCount}"
 
 msgid "Failed to add {failed} files"
 msgstr "添加{failed}个文件失败"
@@ -1934,6 +2223,9 @@ msgstr "文件链接"
 
 msgid "File not found"
 msgstr "未找到文件"
+
+msgid "File path on target host"
+msgstr "目标主机上的文件路径"
 
 msgid "File tree limit reached. Search files to open an unloaded path."
 msgstr "已达到文件树上限。请搜索文件以打开未加载的路径。"
@@ -2094,6 +2386,9 @@ msgstr "星期五"
 msgid "From"
 msgstr "从"
 
+msgid "From the task’s first sentence"
+msgstr "根据任务首句生成"
+
 msgid "Front matter hidden. Switch to the Markdown view to edit it"
 msgstr "已隐藏front matter。切换到Markdown视图进行编辑"
 
@@ -2124,6 +2419,9 @@ msgstr "Git 作者"
 msgid "Git author name"
 msgstr "Git作者名"
 
+msgid "Git features are unavailable here. Terminals and files remain available."
+msgstr "此处不支持 Git 功能，终端和文件仍可使用。"
+
 msgid "GitHub authentication failed. Sign in with gh on this host, then refresh."
 msgstr "GitHub 身份验证失败。在此主机上使用 gh 登录，然后刷新。"
 
@@ -2138,6 +2436,9 @@ msgstr "已达到 GitHub 速率限制。PR 链接可能已过期。"
 
 msgid "GitHub username"
 msgstr "GitHub用户名"
+
+msgid "Global"
+msgstr "全局"
 
 msgid "Globe"
 msgstr "地球"
@@ -2184,6 +2485,9 @@ msgstr "指导此项目中AI生成的工作区和分支名称。留空则使用�
 msgid "Handle in terminal"
 msgstr "在终端中处理"
 
+msgid "Handled"
+msgstr "已处理"
+
 msgid "Has uncommitted changes"
 msgstr "有未提交的改动"
 
@@ -2208,11 +2512,17 @@ msgstr "心形"
 msgid "Help"
 msgstr "帮助"
 
+msgid "Hide"
+msgstr "隐藏"
+
 msgid "Hide {displayName}"
 msgstr "隐藏 {displayName}"
 
 msgid "Hide details"
 msgstr "隐藏详情"
+
+msgid "Hide history"
+msgstr "隐藏历史"
 
 msgid "Hide workspace activity"
 msgstr "隐藏工作区活动"
@@ -2232,6 +2542,9 @@ msgstr "主机连接不可用"
 msgid "Host is offline"
 msgstr "主机已离线"
 
+msgid "Host offline. Team actions are unavailable until the connection is restored."
+msgstr "主机离线，连接恢复前无法执行团队操作。"
+
 msgid "Host Service"
 msgstr "主机服务"
 
@@ -2247,8 +2560,14 @@ msgstr "主机服务不可用"
 msgid "Hourly"
 msgstr "每小时"
 
+msgid "HTTPS address"
+msgstr "HTTPS 地址"
+
 msgid "https://github.com/owner/repo.git or /path/to/repo"
 msgstr "https://github.com/owner/repo.git 或 /path/to/repo"
+
+msgid "Human"
+msgstr "人类"
 
 msgid "I checked the attachments"
 msgstr "我已检查附件"
@@ -2267,6 +2586,18 @@ msgstr "IDE"
 
 msgid "Idle"
 msgstr "空闲"
+
+msgid "Ignore"
+msgstr "忽略"
+
+msgid "Ignore suggestion"
+msgstr "忽略建议"
+
+msgid "Ignored"
+msgstr "已忽略"
+
+msgid "Ignoring this suggestion does not acknowledge mail or resolve its cause."
+msgstr "忽略此建议不会确认处理邮件，也不会解决其根因。"
 
 msgid "Image"
 msgstr "图片"
@@ -2299,8 +2630,23 @@ msgstr "导入主题文件，或获取一个模板来编辑。"
 msgid "Import an audio file or preview the selected sound."
 msgstr "导入音频文件或预览所选声音。"
 
+msgid "Import from host file"
+msgstr "从主机文件导入"
+
 msgid "Import from other tools"
 msgstr "从其他工具导入"
+
+msgid "Import JSON file"
+msgstr "导入 JSON 文件"
+
+msgid "Import memory"
+msgstr "导入记忆"
+
+msgid "Import memory?"
+msgstr "导入记忆？"
+
+msgid "Import plain folder"
+msgstr "导入普通目录"
 
 msgid "Import results"
 msgstr "导入结果"
@@ -2320,6 +2666,9 @@ msgstr "导入未跟踪的worktree"
 msgid "Import worktree"
 msgstr "导入工作树"
 
+msgid "Imported entries stay in the selected scope. Existing content is deduplicated."
+msgstr "导入条目仅保存在所选范围，已有内容会去重。"
+
 msgid "Importing project…"
 msgstr "正在导入项目…"
 
@@ -2337,6 +2686,15 @@ msgstr "在 Apple 的窗口中点按“安装”。需要几分钟，完成后�
 
 msgid "In review"
 msgstr "审查中"
+
+msgid "Inbound mail token"
+msgstr "入站邮件令牌"
+
+msgid "Inbox"
+msgstr "收件箱"
+
+msgid "Include archived teams"
+msgstr "包含已归档团队"
 
 msgid "Include the Linear ticket id from the prompt in the branch name (e.g. bin-344-fix-login). Prefix branches with fix/ or feat/ based on the task."
 msgstr "在分支名中包含提示词里的Linear工单ID（例如bin-344-fix-login）。根据任务为分支加上fix/或feat/前缀。"
@@ -2365,8 +2723,14 @@ msgstr "插入到 CLI"
 msgid "Insert into the existing CLI, then submit in the terminal."
 msgstr "插入现有 CLI，然后在终端中提交。"
 
+msgid "Install"
+msgstr "安装"
+
 msgid "Install Command Line Tools"
 msgstr "安装 Command Line Tools"
+
+msgid "Install extension"
+msgstr "安装扩展"
 
 msgid "Install Git, then come back."
 msgstr "请先安装 Git，然后回到这里。"
@@ -2388,6 +2752,9 @@ msgstr "已请求中断"
 
 msgid "Interrupted"
 msgstr "已中断"
+
+msgid "Invalid memory JSON"
+msgstr "记忆 JSON 格式无效"
 
 msgid "Italic"
 msgstr "斜体"
@@ -2412,6 +2779,9 @@ msgstr "跳转到需要关注或正在运行的工作区。"
 
 msgid "Keep editing"
 msgstr "继续编辑"
+
+msgid "Keep existing entries"
+msgstr "保留现有条目"
 
 msgid "Keep notifications silent on this device."
 msgstr "在此设备上保持通知静音。"
@@ -2452,6 +2822,9 @@ msgstr "每月最后一天"
 msgid "Last day of each month at {time}"
 msgstr "每月最后一天{time}"
 
+msgid "Last run {time}"
+msgstr "上次运行 {time}"
+
 msgid "Later"
 msgstr "稍后"
 
@@ -2466,6 +2839,9 @@ msgstr "启动结果未知。请刷新并检查终端后再重新启动。"
 
 msgid "Layout"
 msgstr "布局"
+
+msgid "Leader"
+msgstr "Leader"
 
 msgid "Leaf"
 msgstr "叶子"
@@ -2565,6 +2941,12 @@ msgstr "正在加载字体..."
 msgid "Loading identity…"
 msgstr "正在加载身份信息…"
 
+msgid "Loading mail…"
+msgstr "正在加载邮件…"
+
+msgid "Loading memory…"
+msgstr "正在加载记忆…"
+
 msgid "Loading more..."
 msgstr "正在加载更多..."
 
@@ -2594,6 +2976,12 @@ msgstr "正在加载运行记录…"
 
 msgid "Loading sessions…"
 msgstr "正在加载会话…"
+
+msgid "Loading team…"
+msgstr "正在加载团队…"
+
+msgid "Loading teams…"
+msgstr "正在加载团队列表…"
 
 msgid "Loading workspace status…"
 msgstr "正在加载工作区状态…"
@@ -2634,6 +3022,24 @@ msgstr "位置"
 msgid "Location & checkout"
 msgstr "位置与检出"
 
+msgid "Mail awaiting acknowledgement: {activeCount}"
+msgstr "{activeCount} 封邮件待确认"
+
+msgid "Mail awaits acknowledgement"
+msgstr "邮件待确认"
+
+msgid "Mail has not been acknowledged. Reading it does not acknowledge it."
+msgstr "邮件尚未确认，阅读邮件不等于确认处理。"
+
+msgid "Mail outbox"
+msgstr "邮件发件箱"
+
+msgid "Mail recipient"
+msgstr "邮件收件人"
+
+msgid "Mail-only access. The host administration key is never shared."
+msgstr "仅授予邮件权限，绝不共享主机管理密钥。"
+
 msgid "Make all panes equal size"
 msgstr "使所有窗格大小相同"
 
@@ -2645,6 +3051,9 @@ msgstr "管理终端脚本"
 
 msgid "Manage the host used by your workspaces."
 msgstr "管理工作区使用的主机。"
+
+msgid "Manifest path on host"
+msgstr "主机上的清单路径"
 
 msgid "Manual"
 msgstr "手动"
@@ -2660,6 +3069,10 @@ msgstr "标记为已读"
 
 msgid "Mark as unread"
 msgstr "标为未读"
+
+#. placeholder {0}: name(delivery.recipientMemberId)
+msgid "Mark mail to {0} as read"
+msgstr "将发给 {0} 的邮件标记为已读"
 
 msgid "Mark ready for review?"
 msgstr "标记为可审查？"
@@ -2682,6 +3095,39 @@ msgstr "最大为256 KB。"
 msgid "Member"
 msgstr "成员"
 
+msgid "Member activity"
+msgstr "成员活动"
+
+msgid "Member activity needs checking"
+msgstr "成员活动需检查"
+
+msgid "Member status"
+msgstr "成员状态"
+
+msgid "Member status needs checking"
+msgstr "成员状态需检查"
+
+msgid "Memory"
+msgstr "记忆"
+
+msgid "Memory action failed"
+msgstr "记忆操作失败"
+
+msgid "Memory entries: {count}"
+msgstr "记忆条目：{count}"
+
+msgid "Memory imported"
+msgstr "记忆已导入"
+
+msgid "Memory is unavailable on this host."
+msgstr "此主机的记忆功能不可用。"
+
+msgid "Memory JSON must be at most 4 MB."
+msgstr "记忆 JSON 文件不能超过 4 MB。"
+
+msgid "Memory scope"
+msgstr "记忆范围"
+
 msgid "Menu bar activity"
 msgstr "菜单栏活动"
 
@@ -2703,8 +3149,17 @@ msgstr "正在检查可合并性"
 msgid "Merged"
 msgstr "已合并"
 
+msgid "Message to team"
+msgstr "发送给团队的消息"
+
 msgid "Minimum contrast"
 msgstr "最小对比度"
+
+msgid "Mobile"
+msgstr "移动端"
+
+msgid "Mobile access address"
+msgstr "手机访问地址"
 
 msgid "Model"
 msgstr "模型"
@@ -2818,10 +3273,16 @@ msgid "Navigation"
 msgstr "导航"
 
 msgid "Needs attention"
-msgstr "需要处理"
+msgstr "待处理"
 
 msgid "Needs me"
 msgstr "需要我处理"
+
+msgid "Needs reconciliation"
+msgstr "需要对账"
+
+msgid "Needs retry"
+msgstr "需要重试"
 
 msgid "Nerd Fonts"
 msgstr "Nerd Fonts"
@@ -2834,6 +3295,9 @@ msgstr "新分支"
 
 msgid "New Chat"
 msgstr "新建聊天"
+
+msgid "New conversation"
+msgstr "新会话"
 
 msgid "New File"
 msgstr "新建文件"
@@ -2871,6 +3335,9 @@ msgstr "新标签页"
 msgid "New Terminal"
 msgstr "新建终端"
 
+msgid "New topic"
+msgstr "新话题"
+
 msgid "New Window"
 msgstr "新建窗口"
 
@@ -2895,6 +3362,9 @@ msgstr "下一个分支"
 
 msgid "Next Right Sidebar Tab"
 msgstr "右侧边栏下一个标签页"
+
+msgid "Next run {time}"
+msgstr "下次运行 {time}"
 
 #. placeholder {0}: formatDateTime(next, { dateStyle: "medium", timeStyle: "short", timeZone: timezone, })
 msgid "Next scheduled time: {0}"
@@ -2921,6 +3391,9 @@ msgstr "未选择活动组织。请选择一个组织或重新登录。"
 msgid "No active services"
 msgstr "没有活动的服务"
 
+msgid "No active teams."
+msgstr "暂无活跃团队。"
+
 msgid "No active workspaces"
 msgstr "没有活动的工作区"
 
@@ -2933,11 +3406,20 @@ msgstr "暂无活动"
 msgid "No agent was started. After setup completes, start the agent again."
 msgstr "未启动智能体。初始化完成后，请再次启动智能体。"
 
+msgid "No agents configured"
+msgstr "尚未配置智能体"
+
+msgid "No alerts."
+msgstr "暂无告警。"
+
 msgid "No automations match your filters"
 msgstr "没有符合筛选条件的自动化"
 
 msgid "No automations yet"
 msgstr "暂无自动化"
+
+msgid "No automations."
+msgstr "暂无自动化。"
 
 msgid "No available workspace with a GitHub remote"
 msgstr "没有带 GitHub 远程仓库的可用工作区"
@@ -2987,6 +3469,12 @@ msgstr "没有可用的 GitHub 仓库"
 msgid "No importable worktrees found on this host. You can open a project and import its worktrees instead."
 msgstr "此主机上没有可导入的工作树。你可以改为打开项目并导入其工作树。"
 
+msgid "No items"
+msgstr "暂无事项"
+
+msgid "No items."
+msgstr "暂无事项。"
+
 msgid "No linked pull requests"
 msgstr "没有关联的 PR"
 
@@ -2995,6 +3483,9 @@ msgstr "没有可用的本地终端进程指标。"
 
 msgid "No local usage or quota data is available."
 msgstr "没有可用的本地用量或配额数据。"
+
+msgid "No mail"
+msgstr "暂无邮件"
 
 msgid "No match"
 msgstr "无匹配项"
@@ -3008,11 +3499,17 @@ msgstr "没有匹配的设置。"
 msgid "No matching shortcuts."
 msgstr "没有匹配的快捷键。"
 
+msgid "No memory found"
+msgstr "未找到记忆"
+
 msgid "No messages in this page"
 msgstr "此页面没有消息"
 
 msgid "No output yet"
 msgstr "暂无输出"
+
+msgid "No pending approvals."
+msgstr "暂无待处理审批。"
 
 msgid "No pending responses or unread completions"
 msgstr "没有待处理的响应或未读的完成通知"
@@ -3044,6 +3541,9 @@ msgstr "未找到 PR"
 msgid "No pull requests match your filters"
 msgstr "没有符合筛选条件的拉取请求"
 
+msgid "No recent Agent or Git activity was observed. Inspect the terminal before acting."
+msgstr "近期未检测到 Agent 或 Git 活动，请先检查终端再操作。"
+
 msgid "No removed projects"
 msgstr "没有已移除的项目"
 
@@ -3061,6 +3561,18 @@ msgstr "暂无截图"
 
 msgid "No subdirectories"
 msgstr "没有子目录"
+
+msgid "No task assigned"
+msgstr "尚未分配任务"
+
+msgid "No team"
+msgstr "无团队"
+
+msgid "No team mail yet"
+msgstr "暂无团队邮件"
+
+msgid "No teams yet"
+msgstr "暂无团队"
 
 msgid "No terminal presets yet."
 msgstr "还没有终端预设。"
@@ -3095,6 +3607,9 @@ msgstr "未绑定 · 在设置→链接中配置"
 msgid "Not checked yet"
 msgstr "尚未检查"
 
+msgid "Not configured"
+msgstr "未配置"
+
 msgid "Not detected in the workspace right now"
 msgstr "目前未在工作区中检测到"
 
@@ -3121,6 +3636,12 @@ msgstr "编号列表"
 
 msgid "Off"
 msgstr "关闭"
+
+msgid "Offline"
+msgstr "离线"
+
+msgid "Offline. Actions are disabled until you reconnect."
+msgstr "当前离线，恢复连接前无法执行操作。"
 
 msgid "On a Mac, Git comes with Apple's Command Line Tools."
 msgstr "在 Mac 上，Git 随 Apple 的 Command Line Tools 一起提供。"
@@ -3155,6 +3676,10 @@ msgstr "打开"
 #. placeholder {0}: binding.agentId
 msgid "Open {0} session"
 msgstr "打开 {0} 会话"
+
+#. placeholder {0}: member.name
+msgid "Open {0} terminal"
+msgstr "打开 {0} 的终端"
 
 msgid "Open {displayName}"
 msgstr "打开{displayName}"
@@ -3256,6 +3781,9 @@ msgstr "在标签页中打开"
 msgid "Open large file"
 msgstr "打开大文件"
 
+msgid "Open link"
+msgstr "打开链接"
+
 msgid "Open local checkout"
 msgstr "打开本地检出"
 
@@ -3293,6 +3821,9 @@ msgstr "开源致谢"
 
 msgid "Open System Settings"
 msgstr "打开系统设置"
+
+msgid "Open Teamwork"
+msgstr "打开 Teamwork"
 
 msgid "Open terminal"
 msgstr "打开终端"
@@ -3360,6 +3891,9 @@ msgstr "正在打开工作区…"
 msgid "Opening…"
 msgstr "正在打开…"
 
+msgid "Operation failed"
+msgstr "操作失败"
+
 msgid "Option shortcuts may prevent typing special characters"
 msgstr "Option快捷键可能会影响特殊字符的输入"
 
@@ -3377,6 +3911,12 @@ msgstr "其他"
 
 msgid "Other ways to get Git"
 msgstr "获取 Git 的其他方式"
+
+msgid "Outbound mail token"
+msgstr "出站邮件令牌"
+
+msgid "Outcome uncertain. Retry with the same task settings."
+msgstr "结果尚不确定。请使用相同的任务设置重试。"
 
 msgid "Outdated"
 msgstr "已过时"
@@ -3398,6 +3938,21 @@ msgstr "包裹"
 
 msgid "Page Not Found"
 msgstr "页面未找到"
+
+msgid "Pair device"
+msgstr "配对设备"
+
+msgid "Pair this device"
+msgstr "配对此设备"
+
+msgid "Pairing code"
+msgstr "配对码"
+
+msgid "Pairing failed. Check the code and try again."
+msgstr "配对失败，请检查配对码后重试。"
+
+msgid "Pairing…"
+msgstr "正在配对…"
 
 msgid "Pane areas must belong to the same active workspace"
 msgstr "窗格区域必须属于同一个活动工作区"
@@ -3429,11 +3984,20 @@ msgstr "已复制路径"
 msgid "Pause"
 msgstr "暂停"
 
+msgid "Pause automatic wake-ups"
+msgstr "暂停自动唤醒"
+
 msgid "Paused"
 msgstr "已暂停"
 
+msgid "Peer host ID"
+msgstr "对端主机 ID"
+
 msgid "Pending"
 msgstr "待处理"
+
+msgid "Pending approvals and unread important faults"
+msgstr "待审批与未读重要故障"
 
 msgid "Permissions"
 msgstr "权限"
@@ -3462,6 +4026,12 @@ msgstr "粉色"
 msgid "Pinned"
 msgstr "已置顶"
 
+msgid "Pitfall"
+msgstr "陷阱"
+
+msgid "Plain folder"
+msgstr "普通目录"
+
 msgid "Please select a project directory."
 msgstr "请选择项目目录。"
 
@@ -3476,6 +4046,9 @@ msgstr "在 GitHub 上发布评论？"
 
 msgid "Post reply to GitHub?"
 msgstr "在 GitHub 上发布回复？"
+
+msgid "Preferences"
+msgstr "偏好设置"
 
 msgid "Prefix"
 msgstr "前缀"
@@ -3525,8 +4098,14 @@ msgstr "私有主机"
 msgid "Private host connections and application settings without a Jedv account."
 msgstr "无需 Jedv 账号即可使用私有主机连接和应用设置。"
 
+msgid "Processed"
+msgstr "已处理"
+
 msgid "Processed tokens"
 msgstr "已处理token"
+
+msgid "Processing"
+msgstr "处理中"
 
 msgid "Project"
 msgstr "项目"
@@ -3536,6 +4115,9 @@ msgstr "项目目录"
 
 msgid "Project icon and color"
 msgstr "项目图标和颜色"
+
+msgid "Project memory"
+msgstr "项目记忆"
 
 msgid "Project name"
 msgstr "项目名称"
@@ -3572,6 +4154,12 @@ msgstr "提示词传递方式"
 
 msgid "Provider quota"
 msgstr "提供商配额"
+
+msgid "Provider token"
+msgstr "接入方令牌"
+
+msgid "Provider tokens"
+msgstr "接入方令牌"
 
 msgid "Pull request"
 msgstr "拉取请求"
@@ -3655,14 +4243,26 @@ msgstr "引用"
 msgid "Reachable"
 msgstr "可连接"
 
+msgid "Read"
+msgstr "已读"
+
 msgid "Read only"
 msgstr "只读"
+
+msgid "Read-only alert"
+msgstr "只读告警"
+
+msgid "Read, awaiting acknowledgement"
+msgstr "已读，待确认"
 
 msgid "Reading local CLI logs…"
 msgstr "正在读取本地 CLI 日志…"
 
 msgid "Ready for review"
 msgstr "待审查"
+
+msgid "Reason (optional)"
+msgstr "原因（可选）"
 
 msgid "Reasoning"
 msgstr "推理"
@@ -3703,6 +4303,9 @@ msgstr "红色"
 msgid "Refresh"
 msgstr "刷新"
 
+msgid "Refresh agents"
+msgstr "刷新 Agent"
+
 msgid "Refresh capabilities"
 msgstr "刷新能力"
 
@@ -3724,8 +4327,17 @@ msgstr "刷新会话"
 msgid "Refresh status"
 msgstr "刷新状态"
 
+msgid "Refresh teams"
+msgstr "刷新团队"
+
 msgid "Reject"
 msgstr "拒绝"
+
+msgid "Reject candidate"
+msgstr "拒绝候选"
+
+msgid "Reject candidate?"
+msgstr "拒绝此候选？"
 
 msgid "Rejected"
 msgstr "已拒绝"
@@ -3787,8 +4399,20 @@ msgstr "移除图标"
 msgid "Remove link"
 msgstr "移除链接"
 
+msgid "Remove memories"
+msgstr "移除记忆"
+
+msgid "Remove memory"
+msgstr "移除记忆"
+
+msgid "Remove memory?"
+msgstr "移除此记忆？"
+
 msgid "Remove pasted text"
 msgstr "移除粘贴的文本"
+
+msgid "Remove peer"
+msgstr "移除对端"
 
 msgid "Remove project"
 msgstr "移除项目"
@@ -3820,6 +4444,9 @@ msgstr "重命名分支"
 msgid "Rename session"
 msgstr "重命名会话"
 
+msgid "Rename team"
+msgstr "重命名团队"
+
 msgid "rename the branch"
 msgstr "重命名分支"
 
@@ -3847,11 +4474,17 @@ msgstr "替换"
 msgid "Replace All"
 msgstr "全部替换"
 
+msgid "Replace an existing memory"
+msgstr "替代现有记忆"
+
 msgid "Replaced {replaced} files in {where}"
 msgstr "已替换{where}中的{replaced}个文件"
 
 msgid "Replaced 1 file in {where}"
 msgstr "已替换{where}中的1个文件"
+
+msgid "Replaces memory"
+msgstr "替代的记忆"
 
 msgid "Reply"
 msgstr "回复"
@@ -3870,6 +4503,9 @@ msgstr "仓库URL或路径"
 
 msgid "Request cancellation"
 msgstr "请求取消"
+
+msgid "Request failed. Your draft has been kept."
+msgstr "请求失败，草稿已保留。"
 
 msgid "Requested permissions"
 msgstr "请求的权限"
@@ -4004,6 +4640,9 @@ msgstr "恢复原生会话。会话 ID 会追加到这些参数之后。"
 msgid "Resume arguments"
 msgstr "恢复参数"
 
+msgid "Resume automatic wake-ups"
+msgstr "恢复自动唤醒"
+
 msgid "Resume same CLI session"
 msgstr "恢复同一 CLI 会话"
 
@@ -4034,6 +4673,9 @@ msgstr "请在几秒后重试；若问题持续，请重启Jedv。"
 msgid "Retry in a few seconds."
 msgstr "请在几秒后重试。"
 
+msgid "Retry mail delivery?"
+msgstr "重试邮件投递？"
+
 msgid "Return to Save"
 msgstr "返回保存"
 
@@ -4061,11 +4703,23 @@ msgstr "审查线程已更新"
 msgid "Review threads could not be loaded"
 msgstr "无法加载审查线程"
 
+msgid "Revoke all sessions"
+msgstr "撤销所有会话"
+
+msgid "Revoke session"
+msgstr "撤销会话"
+
+msgid "Revoke token"
+msgstr "撤销令牌"
+
 msgid "right pane"
 msgstr "右侧面板"
 
 msgid "Rocket"
 msgstr "火箭"
+
+msgid "Rotate inbound token"
+msgstr "轮换入站令牌"
 
 msgid "Run"
 msgstr "运行"
@@ -4139,6 +4793,9 @@ msgstr "保存"
 msgid "Save All"
 msgstr "全部保存"
 
+msgid "Save API key"
+msgstr "保存 API Key"
+
 msgid "Save changes"
 msgstr "保存更改"
 
@@ -4175,6 +4832,9 @@ msgstr "切换分支前，请保存或关闭未保存的文件，并提交或放
 msgid "Save preset"
 msgstr "保存预设"
 
+msgid "Save team name"
+msgstr "保存团队名称"
+
 msgid "save the agent"
 msgstr "保存智能体"
 
@@ -4195,6 +4855,9 @@ msgstr "已保存"
 
 msgid "Saving a preset does not run its commands."
 msgstr "保存预设不会运行其命令。"
+
+msgid "Saving replaces the current entry and keeps its history."
+msgstr "保存会替代当前条目并保留历史。"
 
 msgid "Saving…"
 msgstr "正在保存…"
@@ -4228,8 +4891,14 @@ msgstr "滚动到底部"
 msgid "Search"
 msgstr "搜索"
 
+msgid "Search active memory…"
+msgstr "搜索有效记忆…"
+
 msgid "Search active workspaces…"
 msgstr "搜索活跃工作区…"
+
+msgid "Search agents…"
+msgstr "搜索智能体…"
 
 msgid "Search and open files in the current workspace"
 msgstr "在当前工作区中搜索并打开文件"
@@ -4257,6 +4926,9 @@ msgstr "搜索文件..."
 
 msgid "Search fonts..."
 msgstr "搜索字体..."
+
+msgid "Search memory"
+msgstr "搜索记忆"
 
 msgid "Search projects"
 msgstr "搜索项目"
@@ -4366,6 +5038,9 @@ msgstr "选择范围..."
 msgid "Select repositories"
 msgstr "选择仓库"
 
+msgid "Select workspace"
+msgstr "选择工作区"
+
 msgid "Select worktree…"
 msgstr "选择工作树…"
 
@@ -4375,8 +5050,17 @@ msgstr "已选择"
 msgid "Send"
 msgstr "发送"
 
+msgid "Send instructions or ask the team…"
+msgstr "发送指令或向团队提问…"
+
+msgid "Send mail"
+msgstr "发送邮件"
+
 msgid "Send message"
 msgstr "发送消息"
+
+msgid "Sending…"
+msgstr "正在发送…"
 
 msgid "Sensitive values are hidden. This preview is incomplete."
 msgstr "敏感值已隐藏。此预览不完整。"
@@ -4389,6 +5073,9 @@ msgstr "会话"
 
 msgid "Session ended"
 msgstr "会话已结束"
+
+msgid "Session expires {time}"
+msgstr "会话将于 {time} 过期"
 
 msgid "Session ID"
 msgstr "会话 ID"
@@ -4437,8 +5124,17 @@ msgstr "无法获取此工作区的初始化完成状态。请检查初始化过
 msgid "Shared"
 msgstr "共享"
 
+msgid "Shared memory"
+msgstr "共享记忆"
+
 msgid "Shift+click"
 msgstr "Shift+点击"
+
+msgid "Show"
+msgstr "显示"
+
+msgid "Show {hiddenCount} more"
+msgstr "展开其余 {hiddenCount} 位"
 
 msgid "Show agent commands and pinned terminal presets above the workspace."
 msgstr "在工作区上方显示智能体命令和固定的终端预设。"
@@ -4457,6 +5153,9 @@ msgstr "显示隐藏目录"
 
 msgid "Show hidden files"
 msgstr "显示隐藏文件"
+
+msgid "Show history"
+msgstr "显示历史"
 
 msgid "Show in folder"
 msgstr "在文件夹中显示"
@@ -4497,14 +5196,26 @@ msgstr "显示工作区活动"
 msgid "Showing the first 100 results. Refine your search."
 msgstr "显示前 100 条结果。请缩小搜索范围。"
 
+msgid "Shown once. Copy before closing."
+msgstr "仅显示一次，请在关闭前复制。"
+
 msgid "Side by side"
 msgstr "并排对比"
+
+msgid "Sidebar extensions"
+msgstr "侧栏扩展"
 
 msgid "Sidebar file rows"
 msgstr "侧边栏文件行"
 
 msgid "Sign in to GitHub on this host to reply"
 msgstr "在此主机上登录 GitHub 以回复"
+
+msgid "Sign out"
+msgstr "退出登录"
+
+msgid "Signing out…"
+msgstr "正在退出登录…"
 
 msgid "Size"
 msgstr "大小"
@@ -4532,6 +5243,9 @@ msgstr "部分项目树操作无法加载。其他操作仍可使用。"
 
 msgid "Some session details could not be loaded. Refresh to check the current host state."
 msgstr "部分会话详情无法加载。请刷新以检查当前主机状态。"
+
+msgid "Some team data could not be loaded. Check the host connection and retry."
+msgstr "部分团队数据加载失败，请检查主机连接后重试。"
 
 msgid "Some themes were skipped"
 msgstr "部分主题已被跳过"
@@ -4617,6 +5331,9 @@ msgstr "加星"
 msgid "Start a new agent, or choose an existing session from Sessions."
 msgstr "启动新智能体，或从“会话”中选择现有会话。"
 
+msgid "Start an agent in a workspace, then create a team."
+msgstr "先在工作区中启动 Agent，再创建团队。"
+
 msgid "Start from a template"
 msgstr "从模板开始"
 
@@ -4625,6 +5342,9 @@ msgstr "开始新会话"
 
 msgid "Start or stop the workspace run command"
 msgstr "启动或停止工作区运行命令"
+
+msgid "Start task"
+msgstr "开始任务"
 
 msgid "starting"
 msgstr "启动中"
@@ -4646,6 +5366,14 @@ msgstr "状态不可用。请在系统设置中检查此权限。"
 
 msgid "Stop"
 msgstr "停止"
+
+#. placeholder {0}: member.name
+msgid "Stop {0}"
+msgstr "停止 {0}"
+
+#. placeholder {0}: member.name
+msgid "Stop {0}?"
+msgstr "停止 {0}？"
 
 msgid "Stop {label}"
 msgstr "停止 {label}"
@@ -4674,7 +5402,19 @@ msgstr "停止本地进程？"
 msgid "Stop response"
 msgstr "停止回复"
 
+msgid "Stop team"
+msgstr "停止团队"
+
+msgid "Stop Team"
+msgstr "停止团队"
+
+msgid "Stop this team?"
+msgstr "停止此团队？"
+
 msgid "stopped"
+msgstr "已停止"
+
+msgid "Stopped"
 msgstr "已停止"
 
 msgid "Strict CLI resume is unavailable on this host. Active CLI and chat sessions remain selectable."
@@ -4688,6 +5428,9 @@ msgstr "提交"
 
 msgid "Submit response"
 msgstr "提交响应"
+
+msgid "Succeeded"
+msgstr "已成功"
 
 msgid "Summary"
 msgstr "摘要"
@@ -4767,19 +5510,58 @@ msgstr "切换到工作区9"
 msgid "System"
 msgstr "跟随系统"
 
+msgid "System agents"
+msgstr "系统智能体"
+
 msgid "System permissions"
 msgstr "系统权限"
 
 msgid "Take control"
 msgstr "接管控制"
 
+msgid "Target"
+msgstr "目标"
+
 #. placeholder {0}: context.hostLabel
 #. placeholder {0}: session.context.hostLabel
 msgid "Target host: {0}"
 msgstr "目标主机：{0}"
 
+msgid "Task"
+msgstr "任务"
+
 msgid "Teal"
 msgstr "蓝绿色"
+
+msgid "Team"
+msgstr "团队"
+
+msgid "Team action failed"
+msgstr "团队操作失败"
+
+msgid "Team leader"
+msgstr "团队 Leader"
+
+msgid "Team mail"
+msgstr "团队邮件"
+
+msgid "Team member needs attention"
+msgstr "团队成员需处理"
+
+msgid "Team name"
+msgstr "团队名称"
+
+msgid "Team peers"
+msgstr "团队对端"
+
+msgid "Team stopped"
+msgstr "团队已停止"
+
+msgid "Teams"
+msgstr "团队"
+
+msgid "Teamwork"
+msgstr "Teamwork"
 
 msgid "Teardown exited with code {exitCode}"
 msgstr "清理脚本退出，代码为{exitCode}"
@@ -4817,6 +5599,9 @@ msgstr "终端会话"
 msgid "Terminal typography"
 msgstr "终端排版"
 
+msgid "Terminal unavailable"
+msgstr "终端不可用"
+
 msgid "Terminate"
 msgstr "终止"
 
@@ -4843,6 +5628,9 @@ msgstr "活动会话已变化。提示未发送。"
 
 msgid "The agent reports it is working."
 msgstr "智能体报告其正在工作。"
+
+msgid "The approval status or target has changed. Refresh to verify, and request a new approval if needed."
+msgstr "审批状态或目标已变化，请刷新核对，必要时重新申请。"
 
 msgid "The attachment copy result is incomplete. Check the workspace before retrying."
 msgstr "附件复制结果不完整。重试前请检查工作区。"
@@ -4886,6 +5674,12 @@ msgstr "{organization}的Jedv主机服务意外停止（{cause}），且无法�
 msgid "The Jedv host service stopped unexpectedly ({cause}) and could not be restarted automatically."
 msgstr "Jedv主机服务意外停止（{cause}），且无法自动重启。"
 
+msgid "The key stays on this host. It is never injected into terminals or returned to this screen."
+msgstr "密钥仅保存在当前主机，不会注入终端或返回此界面。"
+
+msgid "The Leader terminal continues running."
+msgstr "Leader 终端将继续运行。"
+
 msgid "The linked local agent is unavailable on this host. Edit the preset or remove its agent link."
 msgstr "关联的本地智能体在此主机上不可用。请编辑预设或移除其智能体关联。"
 
@@ -4895,8 +5689,17 @@ msgstr "{device}上{organization}的本地主机服务不可用。状态：{stat
 msgid "The operation result is unknown. Check the branch history and remote before retrying."
 msgstr "操作结果未知。重试前请检查分支历史和远程仓库。"
 
+msgid "The original terminal has ended. Its source is shown instead."
+msgstr "原终端已结束，已显示其来源。"
+
 msgid "The page you're looking for doesn't exist."
 msgstr "你要找的页面不存在。"
+
+msgid "The pairing code expired or was already used. Request a new code on your computer."
+msgstr "配对码已过期或已使用，请在电脑上生成新的配对码。"
+
+msgid "The previous token will stop working. Update the remote peer with the new token."
+msgstr "旧令牌将失效。请使用新令牌更新远端对端配置。"
 
 msgid "The project is saved, but its workspace could not be opened. Continue opening to retry without creating another project."
 msgstr "项目已保存，但无法打开其工作区。请继续打开以重试，不会创建另一个项目。"
@@ -4909,6 +5712,15 @@ msgstr "此主机上缺少仓库目录。请在其当前路径打开仓库以重
 
 msgid "The request ended before its result was confirmed. Check the target host for a completed project or partial directory before trying again."
 msgstr "请求在确认结果前已结束。重试前请检查目标主机上是否有已完成的项目或部分目录。"
+
+msgid "The requested run is not in the loaded history."
+msgstr "当前加载的历史中没有此运行记录。"
+
+msgid "The result is uncertain. Refresh before deciding again."
+msgstr "操作结果不确定，请刷新后再决定。"
+
+msgid "The result is uncertain. Retry this message with the same request ID."
+msgstr "结果不确定，请使用相同请求 ID 重试此消息。"
 
 msgid "The resumed session identity could not be verified. Refresh before retrying."
 msgstr "无法验证恢复会话的身份。请刷新后重试。"
@@ -4958,6 +5770,9 @@ msgstr "目标工作区已更改。继续前请返回原工作区。"
 msgid "The target workspace changed. The result belongs to the original workspace."
 msgstr "目标工作区已更改，结果属于原工作区。"
 
+msgid "The team becomes read-only. Its workspaces, files and terminals are kept."
+msgstr "团队将变为只读，其工作区、文件和终端会保留。"
+
 msgid "The terminal session changed. Refresh before inserting the prompt."
 msgstr "终端会话已变化。插入提示前请刷新。"
 
@@ -4996,6 +5811,9 @@ msgstr "这些说明随应用提供。已发布的版本详情可在 Jedv 仓库
 
 msgid "This action is irreversible."
 msgstr "此操作不可逆。"
+
+msgid "This agent is no longer available. Choose another leader."
+msgstr "此 Agent 已不可用，请选择其他 Leader。"
 
 msgid "This API login does not expose subscription quota."
 msgstr "此 API 登录不提供订阅配额。"
@@ -5048,8 +5866,14 @@ msgstr "本设备"
 msgid "this device ({id})"
 msgstr "此设备（{id}）"
 
+msgid "This device will need to pair again."
+msgstr "此设备需要重新配对。"
+
 msgid "This draft belongs to another session. Return to it or discard the draft before composing here."
 msgstr "此草稿属于另一个会话。请返回该会话或放弃草稿，然后再在此处编写。"
+
+msgid "This entry will no longer be searched or injected."
+msgstr "此条目将不再参与搜索或注入。"
 
 msgid "This file cannot be edited as text."
 msgstr "此文件无法作为文本编辑。"
@@ -5063,8 +5887,20 @@ msgstr "此文件位于工作区之外，或无法安全解析其符号链接"
 msgid "This folder is not a Git repository. Initialize Git here and import it as a project? Existing files will be kept."
 msgstr "此文件夹不是 Git 仓库。要在此处初始化 Git 并导入为项目吗？现有文件将保留。"
 
+msgid "This host"
+msgstr "本机"
+
+msgid "This host cannot start team tasks. Update the host or use an existing session."
+msgstr "此主机不支持启动团队任务。请更新主机或使用已有会话。"
+
 msgid "This host did not provide a readable preview. Review the request in the agent CLI before approving."
 msgstr "此主机未提供可读的预览。批准前请在智能体 CLI 中检查请求。"
+
+msgid "This host does not support plain folders. Update the host and retry."
+msgstr "此主机不支持普通目录，请更新主机后重试。"
+
+msgid "This host does not support Teamwork. Update the host to use teams and mail."
+msgstr "此主机不支持 Teamwork，请更新主机以使用团队和邮件功能。"
 
 msgid "This is a large file. Opening it may slow down the editor."
 msgstr "这是大文件。打开它可能会降低编辑器速度。"
@@ -5141,6 +5977,9 @@ msgstr "此快捷键将分配给 {0}。以下操作将失去快捷键绑定：{1
 msgid "This stops {0} and its child processes. Unsaved work in the terminal can be lost."
 msgstr "这将停止 {0} 及其子进程。终端中未保存的工作可能丢失。"
 
+msgid "This stops all worker terminals and automatic wake-ups. The leader terminal remains open."
+msgstr "此操作会停止所有 Worker 终端及自动唤醒，Leader 终端将保持打开。"
+
 msgid "This stops only the listed forwarding tunnels. Processes on the target host keep running."
 msgstr "这只会停止列出的转发隧道。目标主机上的进程继续运行。"
 
@@ -5158,6 +5997,12 @@ msgstr "这将停止监听所列工作区端口的进程。"
 
 msgid "This stops the shell and all processes running in this terminal. Workspace files are kept. Unsaved process state may be lost."
 msgstr "这会停止 shell 以及此终端中运行的所有进程。工作区文件保留。未保存的进程状态可能丢失。"
+
+msgid "This stops the worker terminal and may interrupt its work."
+msgstr "此操作会停止 Worker 终端，可能中断其工作。"
+
+msgid "This terminal has exited. Refresh the team to see its current status."
+msgstr "此终端已退出，请刷新团队查看当前状态。"
 
 msgid "This terminal is also open on a smaller screen, so it's sized to fit"
 msgstr "此终端也在较小的屏幕上打开，因此已调整为适配该屏幕的大小"
@@ -5186,14 +6031,23 @@ msgstr "此工作区在当前状态下无法删除。"
 msgid "This workspace shares the project's files, index, and current branch. It does not switch branches or run setup."
 msgstr "此工作区共享项目的文件、索引和当前分支，不会切换分支或运行初始化。"
 
+msgid "This writes .jedv/memory.json on the target host and replaces the existing file."
+msgstr "此操作会写入目标主机的 .jedv/memory.json，并覆盖已有文件。"
+
 msgid "Thursday"
 msgstr "星期四"
+
+msgid "Tier"
+msgstr "层级"
 
 msgid "Time unavailable"
 msgstr "时间不可用"
 
 msgid "Time zone"
 msgstr "时区"
+
+msgid "Title"
+msgstr "标题"
 
 msgid "To"
 msgstr "到"
@@ -5237,11 +6091,20 @@ msgstr "拖入的项目过多。每次最多添加 5000 个文件和文件夹。
 msgid "Too many files. Some were not added."
 msgstr "文件过多。部分文件未添加。"
 
+msgid "Too many requests. Wait a moment and try again."
+msgstr "请求过于频繁，请稍后重试。"
+
 msgid "Too many untitled items here already."
 msgstr "这里未命名的项已经太多了。"
 
 msgid "Tool output"
 msgstr "工具输出"
+
+msgid "Tool records"
+msgstr "工具记录"
+
+msgid "Total items: {count}"
+msgstr "总计：{count}"
 
 msgid "Transcribing"
 msgstr "正在转写"
@@ -5303,11 +6166,17 @@ msgstr "无法开始语音输入"
 msgid "Unable to transcribe audio"
 msgstr "无法转写音频"
 
+msgid "Unacknowledged mail: {count}"
+msgstr "未确认邮件：{count}"
+
 msgid "Unassigned"
 msgstr "未分配"
 
 msgid "Unavailable"
 msgstr "不可用"
+
+msgid "Unavailable on this host"
+msgstr "此主机暂不可用"
 
 msgid "Uncommitted"
 msgstr "未提交"
@@ -5339,6 +6208,9 @@ msgstr "未分组"
 msgid "Unified diff"
 msgstr "统一差异"
 
+msgid "Uninstall extension"
+msgstr "卸载扩展"
+
 msgid "unknown"
 msgstr "未知"
 
@@ -5362,6 +6234,9 @@ msgstr "未推送的提交"
 
 msgid "Unreachable"
 msgstr "无法连接"
+
+msgid "Unread"
+msgstr "未读"
 
 msgid "Unread activity"
 msgstr "未读活动"
@@ -5462,6 +6337,9 @@ msgstr "使用“{0}”"
 msgid "Use an existing repository at this location. Jedv changes the registered path and local checkout workspaces; it does not move files. Existing worktrees under the old repository may need to be imported again."
 msgstr "使用此位置的现有仓库。Jedv 会更改注册路径和本地检出工作区，不会移动文件。旧仓库下的现有工作树可能需要重新导入。"
 
+msgid "Use an existing session"
+msgstr "使用已有会话"
+
 msgid "Use another local port"
 msgstr "使用另一个本地端口"
 
@@ -5477,11 +6355,17 @@ msgstr "使用主机默认值"
 msgid "Use Move to group to move workspaces between groups."
 msgstr "使用“移动到分组”在分组之间移动工作区。"
 
+msgid "Use provider.<id>. as the event type prefix."
+msgstr "请使用 provider.<id>. 作为事件类型前缀。"
+
 msgid "Use the Jedv tray menu > Host Service > Restart, then retry."
 msgstr "请使用Jedv托盘菜单 > 主机服务 > 重启，然后重试。"
 
 msgid "Use this device"
 msgstr "使用此设备"
+
+msgid "Use this directory for terminals and files without initializing Git."
+msgstr "直接使用此目录运行终端和管理文件，无需初始化 Git。"
 
 msgid "Use this folder"
 msgstr "使用此文件夹"
@@ -5511,8 +6395,14 @@ msgstr "视图"
 msgid "View license"
 msgstr "查看许可证"
 
+msgid "View run"
+msgstr "查看运行"
+
 msgid "View source"
 msgstr "查看来源"
+
+msgid "View team"
+msgstr "查看团队"
 
 msgid "Volume"
 msgstr "音量"
@@ -5522,6 +6412,9 @@ msgstr "VS Code"
 
 msgid "Wait for workspace setup before starting an agent"
 msgstr "启动智能体前等待工作区初始化完成"
+
+msgid "Waiting for agent status"
+msgstr "等待 Agent 状态"
 
 msgid "Waiting for approval"
 msgstr "等待审批"
@@ -5553,11 +6446,23 @@ msgstr "每周{time}"
 msgid "Welcome to Jedv"
 msgstr "欢迎使用 Jedv"
 
+msgid "What should the team accomplish?"
+msgstr "想让团队完成什么？"
+
 msgid "What would you like to know?"
 msgstr "你想了解什么？"
 
+msgid "Whole team"
+msgstr "整个团队"
+
 msgid "Window"
 msgstr "窗口"
+
+msgid "Without a key, teams, mail, active memory and rule alerts remain available."
+msgstr "未配置密钥时，团队、邮件、主动记忆和规则告警仍可使用。"
+
+msgid "Worker"
+msgstr "Worker"
 
 msgid "Working"
 msgstr "工作中"
@@ -5619,6 +6524,9 @@ msgstr "工作区初始化仍在运行。"
 msgid "Workspace state changed. Review the updated checks and confirm again."
 msgstr "工作区状态已变化。请查看更新后的检查结果并再次确认。"
 
+msgid "Workspace unavailable"
+msgstr "工作区不可用"
+
 msgid "Workspaces"
 msgstr "工作区"
 
@@ -5666,6 +6574,12 @@ msgstr "你的更改"
 
 msgid "Your imports are saved. Could not refresh or open them. Try continuing again."
 msgstr "你的导入内容已保存。无法刷新或打开它们。请再次尝试继续。"
+
+msgid "Your request was refused. Refresh your session and try again."
+msgstr "请求被拒绝，请刷新会话后重试。"
+
+msgid "Your session expired. Pair this device again."
+msgstr "会话已过期，请重新配对此设备。"
 
 msgid "Zap"
 msgstr "闪电"

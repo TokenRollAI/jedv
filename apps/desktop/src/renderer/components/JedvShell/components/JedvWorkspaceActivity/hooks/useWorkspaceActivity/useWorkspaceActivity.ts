@@ -3,14 +3,22 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import type { JedvWorkspaceActivityProps } from "../../types";
 export function useWorkspaceActivity(
-	{ client, hostUrl, workspaceId, getWsToken }: JedvWorkspaceActivityProps,
+	{
+		client,
+		hostUrl,
+		workspaceId,
+		getWsToken,
+		gitEnabled = true,
+		pullRequestsEnabled = true,
+	}: JedvWorkspaceActivityProps,
 	_open: boolean,
 ) {
 	const git = useQuery({
 		queryKey: ["jedv", hostUrl, workspaceId, "git-status"],
 		queryFn: () => client.git.getStatus.query({ workspaceId }),
 		retry: false,
-		refetchInterval: 10000,
+		enabled: gitEnabled,
+		refetchInterval: gitEnabled ? 10000 : false,
 	});
 	const currentPr = useQuery({
 		queryKey: ["jedv", hostUrl, workspaceId, "activity-current-pr"],
@@ -19,7 +27,8 @@ export function useWorkspaceActivity(
 				workspaceIds: [workspaceId],
 			}),
 		retry: false,
-		refetchInterval: 30000,
+		enabled: pullRequestsEnabled,
+		refetchInterval: pullRequestsEnabled ? 30000 : false,
 	});
 	const prs = useQuery({
 		queryKey: ["jedv", hostUrl, workspaceId, "activity-prs"],
@@ -28,7 +37,8 @@ export function useWorkspaceActivity(
 				workspaceIds: [workspaceId],
 			}),
 		retry: false,
-		refetchInterval: 30000,
+		enabled: pullRequestsEnabled,
+		refetchInterval: pullRequestsEnabled ? 30000 : false,
 	});
 	const terminals = useQuery({
 		queryKey: ["jedv", hostUrl, "terminals", workspaceId],
@@ -40,8 +50,8 @@ export function useWorkspaceActivity(
 		if (!getWsToken) return;
 		const bus = getEventBus(hostUrl, getWsToken),
 			release = bus.retain();
-		bus.watchGit(workspaceId);
-		const offGit = bus.on("git:changed", workspaceId, () => void git.refetch());
+		if (gitEnabled) bus.watchGit(workspaceId);
+		const offGit = gitEnabled ? bus.on("git:changed", workspaceId, () => void git.refetch()) : () => {};
 		const offTerm = bus.on(
 			"terminal:lifecycle",
 			workspaceId,
@@ -50,9 +60,16 @@ export function useWorkspaceActivity(
 		return () => {
 			offGit();
 			offTerm();
-			bus.unwatchGit(workspaceId);
+			if (gitEnabled) bus.unwatchGit(workspaceId);
 			release();
 		};
-	}, [hostUrl, workspaceId, getWsToken, git.refetch, terminals.refetch]);
+	}, [
+		hostUrl,
+		workspaceId,
+		getWsToken,
+		gitEnabled,
+		git.refetch,
+		terminals.refetch,
+	]);
 	return { git, prs, currentPr, terminals };
 }

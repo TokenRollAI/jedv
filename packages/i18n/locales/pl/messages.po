@@ -64,6 +64,9 @@ msgstr "{0}: uruchomione terminale: {1}, uruchomieni agenci: {2}"
 msgid "{approvals} approvals"
 msgstr "Zatwierdzenia: {approvals}"
 
+msgid "{attention} need attention"
+msgstr "Wymagają uwagi: {attention}"
+
 msgid "{completed} finished"
 msgstr "Ukończone: {completed}"
 
@@ -90,6 +93,9 @@ msgstr "{count, plural, one {Co # tydzień w {day}} few {Co # tygodnie w {day}} 
 
 msgid "{count} files are over {limit} and were not added"
 msgstr "Pliki większe niż {limit} nie zostały dodane: {count}"
+
+msgid "{count} important items"
+msgstr "Ważne elementy: {count}"
 
 msgid "{currentPage} of {totalBranches}"
 msgstr "{currentPage} z {totalBranches}"
@@ -204,8 +210,21 @@ msgstr "{displayName} – informacje"
 msgid "Accept"
 msgstr "Akceptuj"
 
+msgid "Accept candidate"
+msgstr "Przyjmij propozycję"
+
+msgid "Accept global memory"
+msgstr "Przyjmij pamięć globalną"
+
 msgid "Accessibility"
 msgstr "Dostępność"
+
+#. placeholder {0}: name(delivery.recipientMemberId)
+msgid "Acknowledge mail to {0}"
+msgstr "Potwierdź wiadomość do {0}"
+
+msgid "Acknowledged"
+msgstr "Potwierdzono"
 
 msgid "Actions"
 msgstr "Akcje"
@@ -215,6 +234,9 @@ msgstr "Aktywna"
 
 msgid "Active CLI sessions"
 msgstr "Aktywne sesje CLI"
+
+msgid "Active items: {count}"
+msgstr "Aktywne elementy: {count}"
 
 msgid "Active workspaces"
 msgstr "Aktywne obszary robocze"
@@ -245,6 +267,12 @@ msgstr "Dodaj pliki, aplikacje i inne"
 
 msgid "Add files, apps, and more (@)"
 msgstr "Dodaj pliki, aplikacje i inne (@)"
+
+msgid "Add memory"
+msgstr "Dodaj pamięć"
+
+msgid "Add peer"
+msgstr "Dodaj węzeł"
 
 msgid "Add photos or files"
 msgstr "Dodaj zdjęcia lub pliki"
@@ -327,6 +355,9 @@ msgstr "Wyspa agentów"
 msgid "Agent launch is waiting for setup"
 msgstr "Uruchomienie agenta oczekuje na zakończenie konfiguracji"
 
+msgid "Agent may be stalled"
+msgstr "Agent mógł się zablokować"
+
 msgid "Agent saved, but linked presets could not be updated."
 msgstr "Agent zapisany, ale nie udało się zaktualizować powiązanych ustawień wstępnych."
 
@@ -347,6 +378,9 @@ msgstr "Agenci"
 
 msgid "AI chatbot built with Next.js and the AI SDK"
 msgstr "Chatbot AI zbudowany przy użyciu Next.js i AI SDK"
+
+msgid "Alerts"
+msgstr "Alerty"
 
 #. placeholder {0}: cmd.aliases.map((alias) => `/${alias}`).join(", ")
 msgid "aliases: {0}"
@@ -390,6 +424,9 @@ msgstr "Już otwarte"
 
 msgid "Also delete local branch"
 msgstr "Usuń też lokalną gałąź"
+
+msgid "An automation did not complete. Inspect its run on your computer."
+msgstr "Automatyzacja nie została ukończona. Sprawdź jej uruchomienie na komputerze."
 
 msgid "An update is ready to install."
 msgstr "Aktualizacja jest gotowa do zainstalowania."
@@ -449,6 +486,9 @@ msgstr "Dotyczy adresów URL w podglądach Markdown i danych wyjściowych termin
 msgid "Apply"
 msgstr "Zastosuj"
 
+msgid "Approval execution failed. Check the target before trying again."
+msgstr "Wykonanie zatwierdzenia nie powiodło się. Sprawdź cel przed ponowną próbą."
+
 msgid "Approval expired"
 msgstr "Zatwierdzenie wygasło"
 
@@ -467,8 +507,32 @@ msgstr "Wymagane zatwierdzenie"
 msgid "Approval response sent"
 msgstr "Odpowiedź na zatwierdzenie wysłana"
 
+msgid "Approvals"
+msgstr "Zatwierdzenia"
+
+msgid "Approve"
+msgstr "Zatwierdź"
+
 msgid "Approved"
 msgstr "Zatwierdzony"
+
+msgid "Archival"
+msgstr "Archiwum"
+
+msgid "Archive team"
+msgstr "Archiwizuj zespół"
+
+msgid "Archive this team?"
+msgstr "Zarchiwizować ten zespół?"
+
+msgid "Archive Workspace"
+msgstr "Archiwizuj obszar roboczy"
+
+msgid "Archived"
+msgstr "Zarchiwizowany"
+
+msgid "Archived team · read-only"
+msgstr "Zarchiwizowany zespół · tylko odczyt"
 
 msgid "Are you sure you want to quit?"
 msgstr "Na pewno zakończyć?"
@@ -479,11 +543,23 @@ msgstr "Pytaj przed zamknięciem aplikacji."
 msgid "Ask before terminating a terminal with a running process. Closing a view keeps its session running."
 msgstr "Pytaj przed zakończeniem terminala z uruchomionym procesem. Zamknięcie widoku nie kończy jego sesji."
 
+msgid "Ask Butler"
+msgstr "Zapytaj Butlera"
+
+msgid "Ask Butler about your teams, alerts or automations."
+msgstr "Zapytaj Butlera o zespoły, alerty lub automatyzacje."
+
+msgid "Ask Butler…"
+msgstr "Zapytaj Butlera…"
+
 msgid "Ask to make changes, @mention files"
 msgstr "Poproś o zmiany, @wspomnij pliki"
 
 msgid "Ask to make changes, @mention files, run /commands"
 msgstr "Poproś o zmiany, wskaż pliki przez @, uruchom /polecenia"
+
+msgid "Associated provider tokens will be revoked."
+msgstr "Powiązane tokeny dostawców zostaną unieważnione."
 
 msgid "Attach"
 msgstr "Dołącz"
@@ -513,6 +589,9 @@ msgstr "podgląd załącznika"
 
 msgid "Attachments are available for local workspaces only."
 msgstr "Załączniki są dostępne tylko dla lokalnych obszarów roboczych."
+
+msgid "Attention is unavailable. Refresh or update the host."
+msgstr "Elementy wymagające uwagi są niedostępne. Odśwież widok lub zaktualizuj hosta."
 
 msgid "Audio"
 msgstr "Audio"
@@ -550,6 +629,9 @@ msgstr "Akcje automatyzacji"
 msgid "Automation deleted"
 msgstr "Automatyzacja usunięta"
 
+msgid "Automation did not finish"
+msgstr "Automatyzacja nie zakończyła się"
+
 msgid "Automation enabled"
 msgstr "Automatyzacja włączona"
 
@@ -577,11 +659,17 @@ msgstr "Oczekiwanie na odpowiedź"
 msgid "Awaiting Response · {workspaceName}"
 msgstr "Oczekiwanie na odpowiedź · {workspaceName}"
 
+msgid "Awaiting review"
+msgstr "Oczekuje na sprawdzenie"
+
 msgid "Back"
 msgstr "Wstecz"
 
 msgid "Back to automations"
 msgstr "Powrót do automatyzacji"
+
+msgid "Back to current conversation"
+msgstr "Wróć do bieżącej rozmowy"
 
 msgid "Background processes"
 msgstr "Procesy w tle"
@@ -651,6 +739,12 @@ msgstr "Lista punktowana"
 msgid "Bulleted list"
 msgstr "Lista punktowana"
 
+msgid "Butler"
+msgstr "Butler"
+
+msgid "Butler is unavailable. Status and Inbox still work."
+msgstr "Butler jest niedostępny. Status i skrzynka odbiorcza nadal działają."
+
 msgid "Cached input"
 msgstr "Wejście z cache"
 
@@ -669,14 +763,23 @@ msgstr "Anulowanie żąda zatrzymania docelowego hosta. Sprawdź wynik operacji 
 msgid "Cancelled"
 msgstr "Anulowany"
 
+msgid "Candidate"
+msgstr "Propozycja"
+
 msgid "Cannot {action}: no active organization is selected. Select an organization or sign in again."
 msgstr "Nie można {action}: nie wybrano aktywnej organizacji. Wybierz organizację lub zaloguj się ponownie."
 
 msgid "Cannot {action}: the local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
 msgstr "Nie można {action}: lokalna usługa hosta jest niedostępna dla {organization} na {device}. Status: {status}. {recovery}"
 
+msgid "Category"
+msgstr "Kategoria"
+
 msgid "Change location…"
 msgstr "Zmień lokalizację…"
+
+msgid "Change mobile address?"
+msgstr "Zmienić adres mobilny?"
 
 msgid "Change project icon and color"
 msgstr "Zmień ikonę i kolor projektu"
@@ -695,6 +798,9 @@ msgstr "Zmiany odrzucone"
 
 msgid "Changes requested"
 msgstr "Zażądano zmian"
+
+msgid "Changing or clearing this address signs out all paired devices."
+msgstr "Zmiana lub wyczyszczenie tego adresu wyloguje wszystkie sparowane urządzenia."
 
 msgid "Changing this location affects new worktrees. Existing folders are not moved."
 msgstr "Zmiana tej lokalizacji wpływa na nowe drzewa robocze. Istniejące foldery nie są przenoszone."
@@ -777,6 +883,9 @@ msgstr "Wybierz projekt lub obszar roboczy"
 msgid "Choose a project to start working."
 msgstr "Wybierz projekt, aby rozpocząć pracę."
 
+msgid "Choose a running agent as leader to start collaborating."
+msgstr "Wybierz uruchomionego agenta jako lidera, aby rozpocząć współpracę."
+
 msgid "Choose a saved screenshot to attach. Files are copied only when you submit the prompt."
 msgstr "Wybierz zapisany zrzut ekranu do dołączenia. Pliki są kopiowane dopiero po wysłaniu monitu."
 
@@ -800,6 +909,12 @@ msgstr "Wybierz dźwięki i głośność powiadomień."
 
 msgid "Clear"
 msgstr "Przezroczysty"
+
+msgid "Clear API key"
+msgstr "Usuń klucz API"
+
+msgid "Clear API key?"
+msgstr "Usunąć klucz API?"
 
 msgid "Clear saved screenshots?"
 msgstr "Usunąć zapisane zrzuty ekranu?"
@@ -955,6 +1070,9 @@ msgstr "Zwiń wszystko"
 msgid "Collapse All"
 msgstr "Zwiń wszystko"
 
+msgid "Collapse message"
+msgstr "Zwiń wiadomość"
+
 msgid "Color"
 msgstr "Kolor"
 
@@ -1031,14 +1149,32 @@ msgstr "Skonfiguruj"
 msgid "Configure agent commands for the connected host."
 msgstr "Skonfiguruj polecenia agenta dla połączonego hosta."
 
+msgid "Configured"
+msgstr "Skonfigurowano"
+
 msgid "Confirm"
 msgstr "Potwierdź"
+
+msgid "Confirm archive"
+msgstr "Potwierdź archiwizację"
 
 msgid "Confirm before closing a running terminal"
 msgstr "Potwierdź przed zamknięciem aktywnego terminala"
 
 msgid "Confirm before quitting"
 msgstr "Potwierdzaj przed zamknięciem"
+
+msgid "Confirm global memory adoption"
+msgstr "Potwierdź przyjęcie pamięci globalnej"
+
+msgid "Confirm memory removal"
+msgstr "Potwierdź usunięcie pamięci"
+
+msgid "Confirm receipt"
+msgstr "Potwierdź odbiór"
+
+msgid "Confirm stop"
+msgstr "Potwierdź zatrzymanie"
 
 msgid "Connect"
 msgstr "Połącz"
@@ -1063,6 +1199,12 @@ msgstr "Połączony host"
 
 msgid "Connecting…"
 msgstr "Łączenie…"
+
+msgid "Content"
+msgstr "Treść"
+
+msgid "Context"
+msgstr "Kontekst"
 
 msgid "Continue"
 msgstr "Kontynuuj"
@@ -1102,6 +1244,15 @@ msgstr "Kontrola jest właścicielem tej sesji"
 
 msgid "Control shortcuts on macOS are reserved for terminal programs."
 msgstr "Skróty Control są w macOS zarezerwowane dla programów terminalowych."
+
+msgid "Convention"
+msgstr "Konwencja"
+
+msgid "Conversation state is unavailable. Refresh or update the host."
+msgstr "Stan rozmowy jest niedostępny. Odśwież widok lub zaktualizuj hosta."
+
+msgid "Conversations"
+msgstr "Rozmowy"
 
 msgid "Convert to config.toml"
 msgstr "Przekonwertuj na config.toml"
@@ -1179,6 +1330,15 @@ msgstr "Kopiuj ID obszaru roboczego"
 msgid "Copy..."
 msgstr "Kopiuj…"
 
+msgid "Core"
+msgstr "Podstawowa"
+
+msgid "Core injection: {budget} characters in this scope, 4800 total. Candidates are excluded."
+msgstr "Wstrzykiwanie pamięci podstawowej: {budget} znaków w tym zakresie, 4800 łącznie. Propozycje są wykluczone."
+
+msgid "Correction"
+msgstr "Korekta"
+
 msgid "Costs are estimates based on API list rates, not a bill or actual subscription spending. Unknown models use approximate rates."
 msgstr "Koszty są szacowane na podstawie cennika API, a nie rachunku ani rzeczywistych wydatków na subskrypcję. W przypadku nieznanych modeli stosowane są przybliżone stawki."
 
@@ -1199,6 +1359,9 @@ msgstr "Nie udało się potwierdzić wyniku na docelowym hoście. Sprawdź poł�
 
 msgid "Could not confirm this session. Refresh before retrying."
 msgstr "Nie można potwierdzić tej sesji. Odśwież przed ponowną próbą."
+
+msgid "Could not create team. Refresh the agents and retry."
+msgstr "Nie udało się utworzyć zespołu. Odśwież agentów i spróbuj ponownie."
 
 msgid "Could not create workspace. Check the target host and retry."
 msgstr "Nie udało się utworzyć obszaru roboczego. Sprawdź docelowy host i spróbuj ponownie."
@@ -1227,6 +1390,9 @@ msgstr "Nie udało się sprawdzić tego obszaru roboczego. Spróbuj ponownie prz
 msgid "Could not list repositories. Check gh authentication on the target host, or enter a URL below."
 msgstr "Nie udało się wyświetlić listy repozytoriów. Sprawdź uwierzytelnianie gh na docelowym hoście lub wprowadź adres URL poniżej."
 
+msgid "Could not load agents"
+msgstr "Nie udało się wczytać agentów"
+
 msgid "Could not load branches from the target host."
 msgstr "Nie udało się załadować gałęzi z docelowego hosta."
 
@@ -1242,8 +1408,14 @@ msgstr "Nie udało się załadować ustawień projektu z docelowego hosta."
 msgid "Could not load pull requests. Check gh access on the target host."
 msgstr "Nie udało się załadować PR. Sprawdź dostęp gh na docelowym hoście."
 
+msgid "Could not load Teamwork. Check the host connection and retry."
+msgstr "Nie udało się wczytać Teamwork. Sprawdź połączenie z hostem i spróbuj ponownie."
+
 msgid "Could not load workspace status. Check the target host and try again."
 msgstr "Nie udało się załadować stanu obszaru roboczego. Sprawdź docelowy host i spróbuj ponownie."
+
+msgid "Could not open terminal"
+msgstr "Nie udało się otworzyć terminala"
 
 msgid "Could not open this workspace. Check the target host and try again."
 msgstr "Nie udało się otworzyć tego obszaru roboczego. Sprawdź docelowy host i spróbuj ponownie."
@@ -1272,6 +1444,9 @@ msgstr "Nie udało się odczytać tego katalogu. Sprawdź ścieżkę i uprawnien
 msgid "Could not read worktrees from the target host."
 msgstr "Nie udało się odczytać drzew roboczych z docelowego hosta."
 
+msgid "Could not refresh. Showing the last loaded information."
+msgstr "Nie udało się odświeżyć. Wyświetlane są ostatnio wczytane informacje."
+
 msgid "Could not rename project. Try again."
 msgstr "Nie udało się zmienić nazwy projektu. Spróbuj ponownie."
 
@@ -1286,6 +1461,9 @@ msgstr "Nie udało się wyświetlić ikony"
 
 msgid "Could not render image"
 msgstr "Nie udało się wyświetlić obrazu"
+
+msgid "Could not save memory. Your draft is kept."
+msgstr "Nie udało się zapisać pamięci. Szkic został zachowany."
 
 msgid "Could not save the group. Your draft is kept."
 msgstr "Nie udało się zapisać grupy. Szkic jest zachowany."
@@ -1311,8 +1489,14 @@ msgstr "Nie udało się zapisać postępu. Spróbuj ponownie."
 msgid "Could not select a project directory."
 msgstr "Nie udało się wybrać katalogu projektu."
 
+msgid "Could not send mail. Your draft is kept for retry."
+msgstr "Nie udało się wysłać wiadomości. Szkic zachowano do ponownej próby."
+
 msgid "Could not set icon"
 msgstr "Nie udało się ustawić ikony"
+
+msgid "Could not sign out. Reconnect and try again."
+msgstr "Nie udało się wylogować. Połącz ponownie i spróbuj jeszcze raz."
 
 msgid "Could not stop a listening process. Earlier successful stops are kept."
 msgstr "Nie udało się zatrzymać procesu nasłuchującego. Wcześniej pomyślnie zatrzymane procesy pozostają zatrzymane."
@@ -1320,11 +1504,20 @@ msgstr "Nie udało się zatrzymać procesu nasłuchującego. Wcześniej pomyśln
 msgid "Could not stop it"
 msgstr "Nie udało się zatrzymać"
 
+msgid "Could not update DeepSeek settings. Check the host and retry."
+msgstr "Nie udało się zaktualizować ustawień DeepSeek. Sprawdź host i spróbuj ponownie."
+
+msgid "Could not update mail"
+msgstr "Nie udało się zaktualizować wiadomości"
+
 msgid "Could not update the project tree. Try again."
 msgstr "Nie udało się zaktualizować drzewa projektu. Spróbuj ponownie."
 
 msgid "Could not update the removed project. Check its status before retrying."
 msgstr "Nie udało się zaktualizować usuniętego projektu. Sprawdź jego stan przed ponowną próbą."
+
+msgid "Could not update this item. Refresh to check its status."
+msgstr "Nie udało się zaktualizować elementu. Odśwież widok, aby sprawdzić jego stan."
 
 msgid "Could not update workspace. Try again."
 msgstr "Nie udało się zaktualizować obszaru roboczego. Spróbuj ponownie."
@@ -1337,6 +1530,9 @@ msgstr "Nie udało się zapisać. Edytuj lub kliknij poza polem, aby ponowić"
 
 msgid "Couldn't save. Retrying…"
 msgstr "Nie udało się zapisać. Ponawianie…"
+
+msgid "Create"
+msgstr "Utwórz"
 
 msgid "Create a blank folder and initialize it as a Git repository."
 msgstr "Utwórz pusty folder i zainicjuj go jako repozytorium Git."
@@ -1362,11 +1558,17 @@ msgstr "Utwórz PR"
 msgid "Create project"
 msgstr "Utwórz projekt"
 
+msgid "Create provider token"
+msgstr "Utwórz token dostawcy"
+
 msgid "Create pull request"
 msgstr "Utwórz pull request"
 
 msgid "Create pull request on GitHub?"
 msgstr "Utworzyć pull request na GitHub?"
+
+msgid "Create team"
+msgstr "Utwórz zespół"
 
 msgid "create the project"
 msgstr "utworzyć projektu"
@@ -1471,8 +1673,20 @@ msgstr "Ciemny"
 msgid "Dark theme"
 msgstr "Motyw ciemny"
 
+msgid "Declarative extensions"
+msgstr "Rozszerzenia deklaratywne"
+
 msgid "Decline"
 msgstr "Odrzuć"
+
+msgid "DeepSeek API Key"
+msgstr "Klucz API DeepSeek"
+
+msgid "DeepSeek for Butler and memory extraction."
+msgstr "DeepSeek dla Butlera i wyodrębniania pamięci."
+
+msgid "DeepSeek is not configured. Status and Inbox still work."
+msgstr "DeepSeek nie jest skonfigurowany. Status i skrzynka odbiorcza nadal działają."
 
 msgid "default"
 msgstr "domyślna"
@@ -1537,6 +1751,18 @@ msgstr "Usuniętych sesji nie można przywrócić."
 msgid "Deleting…"
 msgstr "Usuwanie…"
 
+msgid "Delivered"
+msgstr "Dostarczono"
+
+msgid "Delivered means the remote host stored the mail, not that a recipient read or acknowledged it."
+msgstr "Dostarczono oznacza, że zdalny host zapisał wiadomość, a nie że odbiorca ją przeczytał lub potwierdził obsługę."
+
+msgid "Describe a goal to start a new task."
+msgstr "Opisz cel, aby rozpocząć nowe zadanie."
+
+msgid "Describe the task…"
+msgstr "Opisz zadanie…"
+
 msgid "Describe what the agent should do…"
 msgstr "Opisz, co agent ma zrobić…"
 
@@ -1561,6 +1787,12 @@ msgstr "Szczegóły"
 msgid "Detect workspaces from other tools"
 msgstr "Wykryj obszary robocze z innych narzędzi"
 
+msgid "Device"
+msgstr "Urządzenie"
+
+msgid "Device name"
+msgstr "Nazwa urządzenia"
+
 msgid "Diagnostics"
 msgstr "Diagnostyka"
 
@@ -1578,6 +1810,9 @@ msgstr "różnice w nowej karcie"
 
 msgid "Directory path"
 msgstr "Ścieżka katalogu"
+
+msgid "Disabled"
+msgstr "Wyłączone"
 
 msgid "Discard"
 msgstr "Odrzuć"
@@ -1638,6 +1873,9 @@ msgstr "Dokumentacja"
 msgid "Done"
 msgstr "Gotowe"
 
+msgid "Download JSON"
+msgstr "Pobierz JSON"
+
 msgid "Download starter"
 msgstr "Pobierz szablon startowy"
 
@@ -1680,6 +1918,12 @@ msgstr "Edytuj"
 msgid "Edit group"
 msgstr "Edytuj grupę"
 
+msgid "Edit memory"
+msgstr "Edytuj pamięć"
+
+msgid "Edit peer"
+msgstr "Edytuj węzeł"
+
 msgid "Edit shared setup, run and teardown commands, or personal overrides. Saving does not execute commands."
 msgstr "Edytuj współdzielone polecenia konfiguracji, uruchamiania i czyszczenia lub osobiste zastąpienia. Zapisanie nie uruchamia poleceń."
 
@@ -1695,8 +1939,14 @@ msgstr "Edytor i sposób pracy"
 msgid "Editor typography"
 msgstr "Typografia edytora"
 
+msgid "Effort"
+msgstr "Poziom rozumowania"
+
 msgid "Enable"
 msgstr "Włącz"
+
+msgid "Enabled"
+msgstr "Włączone"
 
 msgid "Endpoint"
 msgstr "Punkt końcowy"
@@ -1706,6 +1956,9 @@ msgstr "Wpisz polecenie."
 
 msgid "Enter a group name of 1 to 64 characters."
 msgstr "Wprowadź nazwę grupy o długości od 1 do 64 znaków."
+
+msgid "Enter a new API key to replace it"
+msgstr "Wprowadź nowy klucz API, aby go zastąpić"
 
 msgid "Enter a project name and location."
 msgstr "Wprowadź nazwę i lokalizację projektu."
@@ -1728,6 +1981,9 @@ msgstr "Wprowadź bezwzględną ścieżkę katalogu na docelowym hoście."
 msgid "Enter an agent name."
 msgstr "Podaj nazwę agenta."
 
+msgid "Enter the pairing code shown in Jedv on your computer."
+msgstr "Wprowadź kod parowania wyświetlany w Jedv na komputerze."
+
 msgid "Enter URL..."
 msgstr "Wpisz URL..."
 
@@ -1743,6 +1999,9 @@ msgstr "Wyrównaj podziały paneli"
 msgid "Estimated cost"
 msgstr "Szacowany koszt"
 
+msgid "Event type prefix"
+msgstr "Prefiks typu zdarzenia"
+
 msgid "Every {day}"
 msgstr "W każdy {day}"
 
@@ -1751,6 +2010,9 @@ msgstr "W każdy {day} o {time}"
 
 msgid "Every minute"
 msgstr "Co minutę"
+
+msgid "Executed"
+msgstr "Wykonano"
 
 msgid "Execution mode"
 msgstr "Tryb wykonania"
@@ -1785,14 +2047,38 @@ msgstr "Rozwiń"
 msgid "Expand all"
 msgstr "Rozwiń wszystko"
 
+msgid "Expand message"
+msgstr "Rozwiń wiadomość"
+
 msgid "Expand pane area"
 msgstr "Rozszerz obszar panelu"
 
 msgid "Expand the right pane to fill the window, or restore it"
 msgstr "Rozwiń prawy panel na całe okno lub przywróć go"
 
+msgid "Expired"
+msgstr "Wygasło"
+
+msgid "Expired {time}"
+msgstr "Wygasło {time}"
+
+msgid "Expires {time}"
+msgstr "Wygasa {time}"
+
+msgid "Export memory"
+msgstr "Eksportuj pamięć"
+
+msgid "Export project memory?"
+msgstr "Eksportować pamięć projektu?"
+
 msgid "Export theme"
 msgstr "Eksportuj motyw"
+
+msgid "Export to .jedv/memory.json"
+msgstr "Eksportuj do .jedv/memory.json"
+
+msgid "Extensions display data and can receive narrowly scoped mail."
+msgstr "Rozszerzenia wyświetlają dane i mogą odbierać pocztę z ograniczonymi uprawnieniami."
 
 msgid "external browser"
 msgstr "zewnętrzna przeglądarka"
@@ -1805,6 +2091,9 @@ msgstr "Edytory zewnętrzne otwierają pliki tylko na tej maszynie"
 
 msgid "Failed"
 msgstr "Nieudane"
+
+msgid "Failed runs: {activeCount}"
+msgstr "Nieudane uruchomienia: {activeCount}"
 
 msgid "Failed to add {failed} files"
 msgstr "Nie udało się dodać {failed} plików"
@@ -1934,6 +2223,9 @@ msgstr "Linki do plików"
 
 msgid "File not found"
 msgstr "Nie znaleziono pliku"
+
+msgid "File path on target host"
+msgstr "Ścieżka pliku na docelowym hoście"
 
 msgid "File tree limit reached. Search files to open an unloaded path."
 msgstr "Osiągnięto limit drzewa plików. Wyszukaj pliki, aby otworzyć niezaładowaną ścieżkę."
@@ -2094,6 +2386,9 @@ msgstr "Piątek"
 msgid "From"
 msgstr "Z"
 
+msgid "From the task’s first sentence"
+msgstr "Z pierwszego zdania zadania"
+
 msgid "Front matter hidden. Switch to the Markdown view to edit it"
 msgstr "Front matter ukryty. Przełącz na widok Markdown, aby go edytować"
 
@@ -2124,6 +2419,9 @@ msgstr "Autor Git"
 msgid "Git author name"
 msgstr "Nazwa autora w Git"
 
+msgid "Git features are unavailable here. Terminals and files remain available."
+msgstr "Funkcje Git są tutaj niedostępne. Terminale i pliki pozostają dostępne."
+
 msgid "GitHub authentication failed. Sign in with gh on this host, then refresh."
 msgstr "Uwierzytelnianie GitHub nie powiodło się. Zaloguj się przez gh na tym hoście, a następnie odśwież."
 
@@ -2138,6 +2436,9 @@ msgstr "Osiągnięto limit żądań GitHub. Linki do PR mogą być nieaktualne."
 
 msgid "GitHub username"
 msgstr "Nazwa użytkownika GitHub"
+
+msgid "Global"
+msgstr "Globalna"
 
 msgid "Globe"
 msgstr "Kula ziemska"
@@ -2184,6 +2485,9 @@ msgstr "Kieruje generowanymi przez AI nazwami obszarów roboczych i gałęzi w t
 msgid "Handle in terminal"
 msgstr "Obsłuż w terminalu"
 
+msgid "Handled"
+msgstr "Obsłużone"
+
 msgid "Has uncommitted changes"
 msgstr "Ma niezacommitowane zmiany"
 
@@ -2208,11 +2512,17 @@ msgstr "Serce"
 msgid "Help"
 msgstr "Pomoc"
 
+msgid "Hide"
+msgstr "Ukryj"
+
 msgid "Hide {displayName}"
 msgstr "Ukryj {displayName}"
 
 msgid "Hide details"
 msgstr "Ukryj szczegóły"
+
+msgid "Hide history"
+msgstr "Ukryj historię"
 
 msgid "Hide workspace activity"
 msgstr "Ukryj aktywność obszaru roboczego"
@@ -2232,6 +2542,9 @@ msgstr "Połączenie z hostem niedostępne"
 msgid "Host is offline"
 msgstr "Host jest offline"
 
+msgid "Host offline. Team actions are unavailable until the connection is restored."
+msgstr "Host jest offline. Działania zespołu są niedostępne do czasu przywrócenia połączenia."
+
 msgid "Host Service"
 msgstr "Usługa hosta"
 
@@ -2247,8 +2560,14 @@ msgstr "Usługa hosta niedostępna"
 msgid "Hourly"
 msgstr "Co godzinę"
 
+msgid "HTTPS address"
+msgstr "Adres HTTPS"
+
 msgid "https://github.com/owner/repo.git or /path/to/repo"
 msgstr "https://github.com/owner/repo.git lub /sciezka/do/repo"
+
+msgid "Human"
+msgstr "Człowiek"
 
 msgid "I checked the attachments"
 msgstr "Sprawdziłem załączniki"
@@ -2267,6 +2586,18 @@ msgstr "IDE"
 
 msgid "Idle"
 msgstr "Bezczynny"
+
+msgid "Ignore"
+msgstr "Ignoruj"
+
+msgid "Ignore suggestion"
+msgstr "Ignoruj sugestię"
+
+msgid "Ignored"
+msgstr "Zignorowano"
+
+msgid "Ignoring this suggestion does not acknowledge mail or resolve its cause."
+msgstr "Zignorowanie sugestii nie potwierdza obsługi poczty ani nie usuwa przyczyny."
 
 msgid "Image"
 msgstr "Obraz"
@@ -2299,8 +2630,23 @@ msgstr "Zaimportuj plik motywu albo pobierz szablon startowy do edycji."
 msgid "Import an audio file or preview the selected sound."
 msgstr "Zaimportuj plik audio lub odsłuchaj wybrany dźwięk."
 
+msgid "Import from host file"
+msgstr "Importuj z pliku na hoście"
+
 msgid "Import from other tools"
 msgstr "Importuj z innych narzędzi"
+
+msgid "Import JSON file"
+msgstr "Importuj plik JSON"
+
+msgid "Import memory"
+msgstr "Importuj pamięć"
+
+msgid "Import memory?"
+msgstr "Importować pamięć?"
+
+msgid "Import plain folder"
+msgstr "Importuj zwykły folder"
 
 msgid "Import results"
 msgstr "Wyniki importowania"
@@ -2320,6 +2666,9 @@ msgstr "Importuj nieśledzone worktree"
 msgid "Import worktree"
 msgstr "Importuj drzewo robocze"
 
+msgid "Imported entries stay in the selected scope. Existing content is deduplicated."
+msgstr "Importowane wpisy pozostają w wybranym zakresie. Istniejąca treść jest deduplikowana."
+
 msgid "Importing project…"
 msgstr "Importowanie projektu…"
 
@@ -2337,6 +2686,15 @@ msgstr "W oknie Apple kliknij Instaluj. To potrwa kilka minut, a ta strona odśw
 
 msgid "In review"
 msgstr "W recenzji"
+
+msgid "Inbound mail token"
+msgstr "Token poczty przychodzącej"
+
+msgid "Inbox"
+msgstr "Skrzynka odbiorcza"
+
+msgid "Include archived teams"
+msgstr "Uwzględnij zarchiwizowane zespoły"
 
 msgid "Include the Linear ticket id from the prompt in the branch name (e.g. bin-344-fix-login). Prefix branches with fix/ or feat/ based on the task."
 msgstr "Umieść id ticketu Linear z promptu w nazwie gałęzi (np. bin-344-fix-login). Dodawaj do gałęzi prefiks fix/ lub feat/ zależnie od zadania."
@@ -2365,8 +2723,14 @@ msgstr "Wstaw do CLI"
 msgid "Insert into the existing CLI, then submit in the terminal."
 msgstr "Wstaw do istniejącego CLI, a następnie wyślij w terminalu."
 
+msgid "Install"
+msgstr "Zainstaluj"
+
 msgid "Install Command Line Tools"
 msgstr "Zainstaluj Command Line Tools"
+
+msgid "Install extension"
+msgstr "Zainstaluj rozszerzenie"
 
 msgid "Install Git, then come back."
 msgstr "Zainstaluj Git, a potem wróć tutaj."
@@ -2388,6 +2752,9 @@ msgstr "Wysłano żądanie przerwania"
 
 msgid "Interrupted"
 msgstr "Przerwano"
+
+msgid "Invalid memory JSON"
+msgstr "Nieprawidłowy JSON pamięci"
 
 msgid "Italic"
 msgstr "Kursywa"
@@ -2412,6 +2779,9 @@ msgstr "Przejdź do obszaru roboczego wymagającego uwagi lub aktywnego."
 
 msgid "Keep editing"
 msgstr "Kontynuuj edycję"
+
+msgid "Keep existing entries"
+msgstr "Zachowaj istniejące wpisy"
 
 msgid "Keep notifications silent on this device."
 msgstr "Wycisz powiadomienia na tym urządzeniu."
@@ -2452,6 +2822,9 @@ msgstr "Ostatni dzień każdego miesiąca"
 msgid "Last day of each month at {time}"
 msgstr "Ostatni dzień każdego miesiąca o {time}"
 
+msgid "Last run {time}"
+msgstr "Ostatnie uruchomienie {time}"
+
 msgid "Later"
 msgstr "Później"
 
@@ -2466,6 +2839,9 @@ msgstr "Wynik uruchomienia nieznany. Odśwież i sprawdź terminal przed ponowny
 
 msgid "Layout"
 msgstr "Układ"
+
+msgid "Leader"
+msgstr "Lider"
 
 msgid "Leaf"
 msgstr "Liść"
@@ -2565,6 +2941,12 @@ msgstr "Wczytywanie czcionek..."
 msgid "Loading identity…"
 msgstr "Ładowanie tożsamości…"
 
+msgid "Loading mail…"
+msgstr "Wczytywanie poczty…"
+
+msgid "Loading memory…"
+msgstr "Wczytywanie pamięci…"
+
 msgid "Loading more..."
 msgstr "Wczytywanie kolejnych..."
 
@@ -2594,6 +2976,12 @@ msgstr "Wczytywanie uruchomień…"
 
 msgid "Loading sessions…"
 msgstr "Ładowanie sesji…"
+
+msgid "Loading team…"
+msgstr "Wczytywanie zespołu…"
+
+msgid "Loading teams…"
+msgstr "Wczytywanie zespołów…"
 
 msgid "Loading workspace status…"
 msgstr "Wczytywanie stanu obszaru roboczego…"
@@ -2634,6 +3022,24 @@ msgstr "Lokalizacja"
 msgid "Location & checkout"
 msgstr "Lokalizacja i checkout"
 
+msgid "Mail awaiting acknowledgement: {activeCount}"
+msgstr "Wiadomości bez potwierdzenia odbioru: {activeCount}"
+
+msgid "Mail awaits acknowledgement"
+msgstr "Wiadomość oczekuje potwierdzenia"
+
+msgid "Mail has not been acknowledged. Reading it does not acknowledge it."
+msgstr "Wiadomość nie została potwierdzona. Przeczytanie nie potwierdza jej obsługi."
+
+msgid "Mail outbox"
+msgstr "Skrzynka nadawcza"
+
+msgid "Mail recipient"
+msgstr "Odbiorca wiadomości"
+
+msgid "Mail-only access. The host administration key is never shared."
+msgstr "Dostęp tylko do poczty. Klucz administracyjny hosta nigdy nie jest udostępniany."
+
 msgid "Make all panes equal size"
 msgstr "Wyrównaj rozmiary wszystkich paneli"
 
@@ -2645,6 +3051,9 @@ msgstr "Zarządzaj skryptami terminala"
 
 msgid "Manage the host used by your workspaces."
 msgstr "Zarządzaj hostem używanym przez Twoje obszary robocze."
+
+msgid "Manifest path on host"
+msgstr "Ścieżka manifestu na hoście"
 
 msgid "Manual"
 msgstr "Ręczny"
@@ -2660,6 +3069,10 @@ msgstr "Oznacz jako przeczytane"
 
 msgid "Mark as unread"
 msgstr "Oznacz jako nieprzeczytane"
+
+#. placeholder {0}: name(delivery.recipientMemberId)
+msgid "Mark mail to {0} as read"
+msgstr "Oznacz wiadomość do {0} jako przeczytaną"
 
 msgid "Mark ready for review?"
 msgstr "Oznaczyć jako gotowe do recenzji?"
@@ -2682,6 +3095,39 @@ msgstr "Maksymalny rozmiar to 256 KB."
 msgid "Member"
 msgstr "Członek"
 
+msgid "Member activity"
+msgstr "Aktywność członka"
+
+msgid "Member activity needs checking"
+msgstr "Sprawdź aktywność członka"
+
+msgid "Member status"
+msgstr "Stan członka"
+
+msgid "Member status needs checking"
+msgstr "Sprawdź stan członka"
+
+msgid "Memory"
+msgstr "Pamięć"
+
+msgid "Memory action failed"
+msgstr "Operacja pamięci nie powiodła się"
+
+msgid "Memory entries: {count}"
+msgstr "Wpisy pamięci: {count}"
+
+msgid "Memory imported"
+msgstr "Pamięć zaimportowana"
+
+msgid "Memory is unavailable on this host."
+msgstr "Pamięć jest niedostępna na tym hoście."
+
+msgid "Memory JSON must be at most 4 MB."
+msgstr "JSON pamięci może mieć maksymalnie 4 MB."
+
+msgid "Memory scope"
+msgstr "Zakres pamięci"
+
 msgid "Menu bar activity"
 msgstr "Aktywność paska menu"
 
@@ -2703,8 +3149,17 @@ msgstr "Sprawdzanie możliwości scalenia"
 msgid "Merged"
 msgstr "Scalony"
 
+msgid "Message to team"
+msgstr "Wiadomość do zespołu"
+
 msgid "Minimum contrast"
 msgstr "Minimalny kontrast"
+
+msgid "Mobile"
+msgstr "Dostęp mobilny"
+
+msgid "Mobile access address"
+msgstr "Adres dostępu mobilnego"
 
 msgid "Model"
 msgstr "Model"
@@ -2823,6 +3278,12 @@ msgstr "Wymaga uwagi"
 msgid "Needs me"
 msgstr "Czeka na mnie"
 
+msgid "Needs reconciliation"
+msgstr "Wymaga uzgodnienia"
+
+msgid "Needs retry"
+msgstr "Wymaga ponowienia"
+
 msgid "Nerd Fonts"
 msgstr "Nerd Fonts"
 
@@ -2834,6 +3295,9 @@ msgstr "Nowa gałąź"
 
 msgid "New Chat"
 msgstr "Nowy czat"
+
+msgid "New conversation"
+msgstr "Nowa rozmowa"
 
 msgid "New File"
 msgstr "Nowy plik"
@@ -2871,6 +3335,9 @@ msgstr "Nowe karty"
 msgid "New Terminal"
 msgstr "Nowy terminal"
 
+msgid "New topic"
+msgstr "Nowy temat"
+
 msgid "New Window"
 msgstr "Nowe okno"
 
@@ -2895,6 +3362,9 @@ msgstr "Następna gałąź"
 
 msgid "Next Right Sidebar Tab"
 msgstr "Następna karta prawego paska bocznego"
+
+msgid "Next run {time}"
+msgstr "Następne uruchomienie {time}"
 
 #. placeholder {0}: formatDateTime(next, { dateStyle: "medium", timeStyle: "short", timeZone: timezone, })
 msgid "Next scheduled time: {0}"
@@ -2921,6 +3391,9 @@ msgstr "Nie wybrano aktywnej organizacji. Wybierz organizację lub zaloguj się 
 msgid "No active services"
 msgstr "Brak aktywnych usług"
 
+msgid "No active teams."
+msgstr "Brak aktywnych zespołów."
+
 msgid "No active workspaces"
 msgstr "Brak aktywnych obszarów roboczych"
 
@@ -2933,11 +3406,20 @@ msgstr "Brak aktywności"
 msgid "No agent was started. After setup completes, start the agent again."
 msgstr "Nie uruchomiono agenta. Po zakończeniu konfiguracji uruchom agenta ponownie."
 
+msgid "No agents configured"
+msgstr "Brak skonfigurowanych agentów"
+
+msgid "No alerts."
+msgstr "Brak alertów."
+
 msgid "No automations match your filters"
 msgstr "Żadne automatyzacje nie pasują do filtrów"
 
 msgid "No automations yet"
 msgstr "Brak automatyzacji"
+
+msgid "No automations."
+msgstr "Brak automatyzacji."
 
 msgid "No available workspace with a GitHub remote"
 msgstr "Brak dostępnego obszaru roboczego ze zdalnym repozytorium GitHub"
@@ -2987,6 +3469,12 @@ msgstr "Brak dostępnych repozytoriów GitHub"
 msgid "No importable worktrees found on this host. You can open a project and import its worktrees instead."
 msgstr "Nie znaleziono drzew roboczych do zaimportowania na tym hoście. Zamiast tego możesz otworzyć projekt i zaimportować jego drzewa robocze."
 
+msgid "No items"
+msgstr "Brak elementów"
+
+msgid "No items."
+msgstr "Brak elementów."
+
 msgid "No linked pull requests"
 msgstr "Brak powiązanych PR"
 
@@ -2995,6 +3483,9 @@ msgstr "Brak dostępnych metryk procesów lokalnego terminala."
 
 msgid "No local usage or quota data is available."
 msgstr "Brak lokalnych danych o użyciu i limitach."
+
+msgid "No mail"
+msgstr "Brak wiadomości"
 
 msgid "No match"
 msgstr "Brak dopasowania"
@@ -3008,11 +3499,17 @@ msgstr "Brak pasujących ustawień."
 msgid "No matching shortcuts."
 msgstr "Brak pasujących skrótów."
 
+msgid "No memory found"
+msgstr "Nie znaleziono pamięci"
+
 msgid "No messages in this page"
 msgstr "Brak wiadomości na tej stronie"
 
 msgid "No output yet"
 msgstr "Brak wyjścia"
+
+msgid "No pending approvals."
+msgstr "Brak oczekujących zatwierdzeń."
 
 msgid "No pending responses or unread completions"
 msgstr "Brak oczekujących odpowiedzi lub nieprzeczytanych zakończeń"
@@ -3044,6 +3541,9 @@ msgstr "Nie znaleziono PR"
 msgid "No pull requests match your filters"
 msgstr "Żadne pull requesty nie pasują do filtrów"
 
+msgid "No recent Agent or Git activity was observed. Inspect the terminal before acting."
+msgstr "Nie zaobserwowano ostatniej aktywności agenta ani Git. Sprawdź terminal przed działaniem."
+
 msgid "No removed projects"
 msgstr "Brak usuniętych projektów"
 
@@ -3061,6 +3561,18 @@ msgstr "Brak zrzutów ekranu"
 
 msgid "No subdirectories"
 msgstr "Brak podkatalogów"
+
+msgid "No task assigned"
+msgstr "Nie przydzielono zadania"
+
+msgid "No team"
+msgstr "Bez zespołu"
+
+msgid "No team mail yet"
+msgstr "Brak wiadomości zespołu"
+
+msgid "No teams yet"
+msgstr "Brak zespołów"
 
 msgid "No terminal presets yet."
 msgstr "Jeszcze brak ustawień wstępnych terminala."
@@ -3095,6 +3607,9 @@ msgstr "Nieprzypisane · skonfiguruj w Ustawienia → Linki"
 msgid "Not checked yet"
 msgstr "Jeszcze nie sprawdzono"
 
+msgid "Not configured"
+msgstr "Nie skonfigurowano"
+
 msgid "Not detected in the workspace right now"
 msgstr "Obecnie niewykryty w obszarze roboczym"
 
@@ -3121,6 +3636,12 @@ msgstr "Lista numerowana"
 
 msgid "Off"
 msgstr "Wył."
+
+msgid "Offline"
+msgstr "Offline"
+
+msgid "Offline. Actions are disabled until you reconnect."
+msgstr "Offline. Działania są wyłączone do czasu ponownego połączenia."
 
 msgid "On a Mac, Git comes with Apple's Command Line Tools."
 msgstr "Na Macu Git jest dostarczany z Command Line Tools firmy Apple."
@@ -3155,6 +3676,10 @@ msgstr "Otwórz"
 #. placeholder {0}: binding.agentId
 msgid "Open {0} session"
 msgstr "Otwórz sesję {0}"
+
+#. placeholder {0}: member.name
+msgid "Open {0} terminal"
+msgstr "Otwórz terminal {0}"
 
 msgid "Open {displayName}"
 msgstr "Otwórz {displayName}"
@@ -3256,6 +3781,9 @@ msgstr "Otwórz w karcie"
 msgid "Open large file"
 msgstr "Otwórz duży plik"
 
+msgid "Open link"
+msgstr "Otwórz link"
+
 msgid "Open local checkout"
 msgstr "Otwórz lokalny checkout"
 
@@ -3293,6 +3821,9 @@ msgstr "Podziękowania open source"
 
 msgid "Open System Settings"
 msgstr "Otwórz Ustawienia systemowe"
+
+msgid "Open Teamwork"
+msgstr "Otwórz Teamwork"
 
 msgid "Open terminal"
 msgstr "Otwórz terminal"
@@ -3360,6 +3891,9 @@ msgstr "Otwieranie obszaru roboczego…"
 msgid "Opening…"
 msgstr "Otwieranie…"
 
+msgid "Operation failed"
+msgstr "Operacja nie powiodła się"
+
 msgid "Option shortcuts may prevent typing special characters"
 msgstr "Skróty z Option mogą uniemożliwić wpisywanie znaków specjalnych"
 
@@ -3377,6 +3911,12 @@ msgstr "Inne"
 
 msgid "Other ways to get Git"
 msgstr "Inne sposoby na zdobycie Git"
+
+msgid "Outbound mail token"
+msgstr "Token poczty wychodzącej"
+
+msgid "Outcome uncertain. Retry with the same task settings."
+msgstr "Wynik jest niepewny. Ponów z tymi samymi ustawieniami zadania."
 
 msgid "Outdated"
 msgstr "Nieaktualny"
@@ -3398,6 +3938,21 @@ msgstr "Paczka"
 
 msgid "Page Not Found"
 msgstr "Nie znaleziono strony"
+
+msgid "Pair device"
+msgstr "Sparuj urządzenie"
+
+msgid "Pair this device"
+msgstr "Sparuj to urządzenie"
+
+msgid "Pairing code"
+msgstr "Kod parowania"
+
+msgid "Pairing failed. Check the code and try again."
+msgstr "Parowanie nie powiodło się. Sprawdź kod i spróbuj ponownie."
+
+msgid "Pairing…"
+msgstr "Parowanie…"
 
 msgid "Pane areas must belong to the same active workspace"
 msgstr "Obszary paneli muszą należeć do tego samego aktywnego obszaru roboczego"
@@ -3429,11 +3984,20 @@ msgstr "Skopiowano ścieżkę"
 msgid "Pause"
 msgstr "Wstrzymaj"
 
+msgid "Pause automatic wake-ups"
+msgstr "Wstrzymaj automatyczne wywołania"
+
 msgid "Paused"
 msgstr "Wstrzymana"
 
+msgid "Peer host ID"
+msgstr "ID hosta węzła"
+
 msgid "Pending"
 msgstr "Oczekujące"
+
+msgid "Pending approvals and unread important faults"
+msgstr "Oczekujące zatwierdzenia i nieprzeczytane ważne awarie"
 
 msgid "Permissions"
 msgstr "Uprawnienia"
@@ -3462,6 +4026,12 @@ msgstr "Różowy"
 msgid "Pinned"
 msgstr "Przypięte"
 
+msgid "Pitfall"
+msgstr "Pułapka"
+
+msgid "Plain folder"
+msgstr "Zwykły folder"
+
 msgid "Please select a project directory."
 msgstr "Wybierz katalog projektu."
 
@@ -3476,6 +4046,9 @@ msgstr "Opublikować komentarz na GitHub?"
 
 msgid "Post reply to GitHub?"
 msgstr "Opublikować odpowiedź na GitHub?"
+
+msgid "Preferences"
+msgstr "Preferencje"
 
 msgid "Prefix"
 msgstr "Prefiks"
@@ -3525,8 +4098,14 @@ msgstr "Host prywatny"
 msgid "Private host connections and application settings without a Jedv account."
 msgstr "Połączenia z prywatnymi hostami i ustawienia aplikacji bez konta Jedv."
 
+msgid "Processed"
+msgstr "Przetworzone"
+
 msgid "Processed tokens"
 msgstr "Przetworzone tokeny"
+
+msgid "Processing"
+msgstr "Przetwarzanie"
 
 msgid "Project"
 msgstr "Projekt"
@@ -3536,6 +4115,9 @@ msgstr "Katalog projektu"
 
 msgid "Project icon and color"
 msgstr "Ikona i kolor projektu"
+
+msgid "Project memory"
+msgstr "Pamięć projektu"
 
 msgid "Project name"
 msgstr "Nazwa projektu"
@@ -3572,6 +4154,12 @@ msgstr "Sposób przekazania promptu"
 
 msgid "Provider quota"
 msgstr "Limit dostawcy"
+
+msgid "Provider token"
+msgstr "Token dostawcy"
+
+msgid "Provider tokens"
+msgstr "Tokeny dostawców"
 
 msgid "Pull request"
 msgstr "Pull request"
@@ -3655,14 +4243,26 @@ msgstr "Cytat"
 msgid "Reachable"
 msgstr "Osiągalny"
 
+msgid "Read"
+msgstr "Przeczytano"
+
 msgid "Read only"
 msgstr "Tylko do odczytu"
+
+msgid "Read-only alert"
+msgstr "Alert tylko do odczytu"
+
+msgid "Read, awaiting acknowledgement"
+msgstr "Przeczytano, oczekuje potwierdzenia"
 
 msgid "Reading local CLI logs…"
 msgstr "Odczytywanie lokalnych dzienników CLI…"
 
 msgid "Ready for review"
 msgstr "Gotowe do przeglądu"
+
+msgid "Reason (optional)"
+msgstr "Powód (opcjonalnie)"
 
 msgid "Reasoning"
 msgstr "Rozumowanie"
@@ -3703,6 +4303,9 @@ msgstr "Czerwony"
 msgid "Refresh"
 msgstr "Odśwież"
 
+msgid "Refresh agents"
+msgstr "Odśwież agentów"
+
 msgid "Refresh capabilities"
 msgstr "Odśwież możliwości"
 
@@ -3724,8 +4327,17 @@ msgstr "Odśwież sesje"
 msgid "Refresh status"
 msgstr "Odśwież stan"
 
+msgid "Refresh teams"
+msgstr "Odśwież zespoły"
+
 msgid "Reject"
 msgstr "Odrzuć"
+
+msgid "Reject candidate"
+msgstr "Odrzuć propozycję"
+
+msgid "Reject candidate?"
+msgstr "Odrzucić tę propozycję?"
 
 msgid "Rejected"
 msgstr "Odrzucono"
@@ -3787,8 +4399,20 @@ msgstr "Usuń ikonę"
 msgid "Remove link"
 msgstr "Usuń link"
 
+msgid "Remove memories"
+msgstr "Usuń wspomnienia"
+
+msgid "Remove memory"
+msgstr "Usuń pamięć"
+
+msgid "Remove memory?"
+msgstr "Usunąć tę pamięć?"
+
 msgid "Remove pasted text"
 msgstr "Usuń wklejony tekst"
+
+msgid "Remove peer"
+msgstr "Usuń węzeł"
 
 msgid "Remove project"
 msgstr "Usuń projekt"
@@ -3820,6 +4444,9 @@ msgstr "Zmień nazwę gałęzi"
 msgid "Rename session"
 msgstr "Zmień nazwę sesji"
 
+msgid "Rename team"
+msgstr "Zmień nazwę zespołu"
+
 msgid "rename the branch"
 msgstr "zmienić nazwy gałęzi"
 
@@ -3847,11 +4474,17 @@ msgstr "Zastąp"
 msgid "Replace All"
 msgstr "Zastąp wszystkie"
 
+msgid "Replace an existing memory"
+msgstr "Zastąp istniejącą pamięć"
+
 msgid "Replaced {replaced} files in {where}"
 msgstr "Zastąpiono {replaced} plików w {where}"
 
 msgid "Replaced 1 file in {where}"
 msgstr "Zastąpiono 1 plik w {where}"
+
+msgid "Replaces memory"
+msgstr "Zastępuje pamięć"
 
 msgid "Reply"
 msgstr "Odpowiedz"
@@ -3870,6 +4503,9 @@ msgstr "URL repozytorium lub ścieżka"
 
 msgid "Request cancellation"
 msgstr "Żądaj anulowania"
+
+msgid "Request failed. Your draft has been kept."
+msgstr "Żądanie nie powiodło się. Szkic został zachowany."
 
 msgid "Requested permissions"
 msgstr "Żądane uprawnienia"
@@ -4004,6 +4640,9 @@ msgstr "Wznów sesję natywną. ID sesji jest dodawane po tych argumentach."
 msgid "Resume arguments"
 msgstr "Argumenty wznawiania"
 
+msgid "Resume automatic wake-ups"
+msgstr "Wznów automatyczne wywołania"
+
 msgid "Resume same CLI session"
 msgstr "Wznów tę samą sesję CLI"
 
@@ -4034,6 +4673,9 @@ msgstr "Ponów za kilka sekund; jeśli problem nie ustąpi, uruchom ponownie Jed
 msgid "Retry in a few seconds."
 msgstr "Ponów za kilka sekund."
 
+msgid "Retry mail delivery?"
+msgstr "Ponowić dostarczanie wiadomości?"
+
 msgid "Return to Save"
 msgstr "Wróć do zapisu"
 
@@ -4061,11 +4703,23 @@ msgstr "Zaktualizowano wątek recenzji"
 msgid "Review threads could not be loaded"
 msgstr "Nie udało się wczytać wątków recenzji"
 
+msgid "Revoke all sessions"
+msgstr "Unieważnij wszystkie sesje"
+
+msgid "Revoke session"
+msgstr "Unieważnij sesję"
+
+msgid "Revoke token"
+msgstr "Unieważnij token"
+
 msgid "right pane"
 msgstr "prawy panel"
 
 msgid "Rocket"
 msgstr "Rakieta"
+
+msgid "Rotate inbound token"
+msgstr "Odnów token przychodzący"
 
 msgid "Run"
 msgstr "Uruchom"
@@ -4139,6 +4793,9 @@ msgstr "Zapisz"
 msgid "Save All"
 msgstr "Zapisz wszystko"
 
+msgid "Save API key"
+msgstr "Zapisz klucz API"
+
 msgid "Save changes"
 msgstr "Zapisz zmiany"
 
@@ -4175,6 +4832,9 @@ msgstr "Zapisz lub zamknij niezapisane pliki oraz zatwierdź lub odrzuć zmiany 
 msgid "Save preset"
 msgstr "Zapisz ustawienie wstępne"
 
+msgid "Save team name"
+msgstr "Zapisz nazwę zespołu"
+
 msgid "save the agent"
 msgstr "zapisać agenta"
 
@@ -4195,6 +4855,9 @@ msgstr "Zapisano"
 
 msgid "Saving a preset does not run its commands."
 msgstr "Zapisanie ustawienia wstępnego nie uruchamia jego poleceń."
+
+msgid "Saving replaces the current entry and keeps its history."
+msgstr "Zapis zastępuje bieżący wpis i zachowuje jego historię."
 
 msgid "Saving…"
 msgstr "Zapisywanie…"
@@ -4228,8 +4891,14 @@ msgstr "Przewiń na dół"
 msgid "Search"
 msgstr "Szukaj"
 
+msgid "Search active memory…"
+msgstr "Szukaj aktywnej pamięci…"
+
 msgid "Search active workspaces…"
 msgstr "Szukaj aktywnych obszarów roboczych…"
+
+msgid "Search agents…"
+msgstr "Szukaj agentów…"
 
 msgid "Search and open files in the current workspace"
 msgstr "Szukaj i otwieraj pliki w bieżącym obszarze roboczym"
@@ -4257,6 +4926,9 @@ msgstr "Szukaj plików..."
 
 msgid "Search fonts..."
 msgstr "Szukaj czcionek..."
+
+msgid "Search memory"
+msgstr "Szukaj w pamięci"
 
 msgid "Search projects"
 msgstr "Szukaj projektów"
@@ -4366,6 +5038,9 @@ msgstr "Wybierz zakres..."
 msgid "Select repositories"
 msgstr "Wybierz repozytoria"
 
+msgid "Select workspace"
+msgstr "Wybierz obszar roboczy"
+
 msgid "Select worktree…"
 msgstr "Wybierz drzewo robocze…"
 
@@ -4375,8 +5050,17 @@ msgstr "Wybrano"
 msgid "Send"
 msgstr "Wyślij"
 
+msgid "Send instructions or ask the team…"
+msgstr "Wyślij instrukcje lub zapytaj zespół…"
+
+msgid "Send mail"
+msgstr "Wyślij wiadomość"
+
 msgid "Send message"
 msgstr "Wyślij wiadomość"
+
+msgid "Sending…"
+msgstr "Wysyłanie…"
 
 msgid "Sensitive values are hidden. This preview is incomplete."
 msgstr "Wartości wrażliwe są ukryte. Ten podgląd jest niepełny."
@@ -4389,6 +5073,9 @@ msgstr "Sesja"
 
 msgid "Session ended"
 msgstr "Sesja zakończona"
+
+msgid "Session expires {time}"
+msgstr "Sesja wygasa {time}"
 
 msgid "Session ID"
 msgstr "ID sesji"
@@ -4437,8 +5124,17 @@ msgstr "Stan zakończenia konfiguracji tego obszaru roboczego jest niedostępny.
 msgid "Shared"
 msgstr "Wspólny"
 
+msgid "Shared memory"
+msgstr "Wspólna pamięć"
+
 msgid "Shift+click"
 msgstr "Shift+klik"
+
+msgid "Show"
+msgstr "Pokaż"
+
+msgid "Show {hiddenCount} more"
+msgstr "Pokaż jeszcze {hiddenCount}"
 
 msgid "Show agent commands and pinned terminal presets above the workspace."
 msgstr "Pokaż polecenia agenta i przypięte ustawienia wstępne terminala nad obszarem roboczym."
@@ -4457,6 +5153,9 @@ msgstr "Pokaż ukryte katalogi"
 
 msgid "Show hidden files"
 msgstr "Pokaż ukryte pliki"
+
+msgid "Show history"
+msgstr "Pokaż historię"
 
 msgid "Show in folder"
 msgstr "Pokaż w folderze"
@@ -4497,14 +5196,26 @@ msgstr "Pokaż aktywność obszaru roboczego"
 msgid "Showing the first 100 results. Refine your search."
 msgstr "Wyświetlanie pierwszych 100 wyników. Zawęź wyszukiwanie."
 
+msgid "Shown once. Copy before closing."
+msgstr "Wyświetlany tylko raz. Skopiuj przed zamknięciem."
+
 msgid "Side by side"
 msgstr "Porównanie"
+
+msgid "Sidebar extensions"
+msgstr "Rozszerzenia paska bocznego"
 
 msgid "Sidebar file rows"
 msgstr "Wiersze plików na pasku bocznym"
 
 msgid "Sign in to GitHub on this host to reply"
 msgstr "Zaloguj się do GitHub na tym hoście, aby odpowiedzieć"
+
+msgid "Sign out"
+msgstr "Wyloguj się"
+
+msgid "Signing out…"
+msgstr "Wylogowywanie…"
 
 msgid "Size"
 msgstr "Rozmiar"
@@ -4532,6 +5243,9 @@ msgstr "Niektóre działania drzewa projektu nie mogły zostać załadowane. Poz
 
 msgid "Some session details could not be loaded. Refresh to check the current host state."
 msgstr "Nie można załadować niektórych szczegółów sesji. Odśwież, aby sprawdzić bieżący stan hosta."
+
+msgid "Some team data could not be loaded. Check the host connection and retry."
+msgstr "Nie udało się wczytać części danych zespołu. Sprawdź połączenie z hostem i spróbuj ponownie."
 
 msgid "Some themes were skipped"
 msgstr "Część motywów pominięto"
@@ -4617,6 +5331,9 @@ msgstr "Gwiazdka"
 msgid "Start a new agent, or choose an existing session from Sessions."
 msgstr "Uruchom nowego agenta lub wybierz istniejącą sesję w sekcji Sesje."
 
+msgid "Start an agent in a workspace, then create a team."
+msgstr "Uruchom agenta w obszarze roboczym, a następnie utwórz zespół."
+
 msgid "Start from a template"
 msgstr "Zacznij od szablonu"
 
@@ -4625,6 +5342,9 @@ msgstr "Uruchom nową sesję"
 
 msgid "Start or stop the workspace run command"
 msgstr "Uruchom lub zatrzymaj polecenie obszaru roboczego"
+
+msgid "Start task"
+msgstr "Rozpocznij zadanie"
 
 msgid "starting"
 msgstr "uruchamia się"
@@ -4646,6 +5366,14 @@ msgstr "Stan niedostępny. Przejrzyj to uprawnienie w Ustawieniach systemowych."
 
 msgid "Stop"
 msgstr "Zatrzymaj"
+
+#. placeholder {0}: member.name
+msgid "Stop {0}"
+msgstr "Zatrzymaj {0}"
+
+#. placeholder {0}: member.name
+msgid "Stop {0}?"
+msgstr "Zatrzymać {0}?"
 
 msgid "Stop {label}"
 msgstr "Zatrzymaj {label}"
@@ -4674,8 +5402,20 @@ msgstr "Zatrzymać proces lokalny?"
 msgid "Stop response"
 msgstr "Zatrzymaj odpowiedź"
 
+msgid "Stop team"
+msgstr "Zatrzymaj zespół"
+
+msgid "Stop Team"
+msgstr "Zatrzymaj zespół"
+
+msgid "Stop this team?"
+msgstr "Zatrzymać ten zespół?"
+
 msgid "stopped"
 msgstr "zatrzymana"
+
+msgid "Stopped"
+msgstr "Zatrzymano"
 
 msgid "Strict CLI resume is unavailable on this host. Active CLI and chat sessions remain selectable."
 msgstr "Ścisłe wznowienie CLI nie jest dostępne na tym hoście. Aktywne sesje CLI i czatu nadal można wybrać."
@@ -4688,6 +5428,9 @@ msgstr "Wyślij"
 
 msgid "Submit response"
 msgstr "Wyślij odpowiedź"
+
+msgid "Succeeded"
+msgstr "Powodzenie"
 
 msgid "Summary"
 msgstr "Podsumowanie"
@@ -4767,19 +5510,58 @@ msgstr "Przełącz na obszar roboczy 9"
 msgid "System"
 msgstr "Systemowy"
 
+msgid "System agents"
+msgstr "Agenci systemowi"
+
 msgid "System permissions"
 msgstr "Uprawnienia systemowe"
 
 msgid "Take control"
 msgstr "Przejmij kontrolę"
 
+msgid "Target"
+msgstr "Cel"
+
 #. placeholder {0}: context.hostLabel
 #. placeholder {0}: session.context.hostLabel
 msgid "Target host: {0}"
 msgstr "Docelowy host: {0}"
 
+msgid "Task"
+msgstr "Zadanie"
+
 msgid "Teal"
 msgstr "Morski"
+
+msgid "Team"
+msgstr "Zespół"
+
+msgid "Team action failed"
+msgstr "Działanie zespołu nie powiodło się"
+
+msgid "Team leader"
+msgstr "Lider zespołu"
+
+msgid "Team mail"
+msgstr "Poczta zespołu"
+
+msgid "Team member needs attention"
+msgstr "Członek zespołu wymaga uwagi"
+
+msgid "Team name"
+msgstr "Nazwa zespołu"
+
+msgid "Team peers"
+msgstr "Węzły zespołu"
+
+msgid "Team stopped"
+msgstr "Zespół zatrzymany"
+
+msgid "Teams"
+msgstr "Zespoły"
+
+msgid "Teamwork"
+msgstr "Teamwork"
 
 msgid "Teardown exited with code {exitCode}"
 msgstr "Sprzątanie zakończone kodem {exitCode}"
@@ -4817,6 +5599,9 @@ msgstr "Sesje terminala"
 msgid "Terminal typography"
 msgstr "Typografia terminala"
 
+msgid "Terminal unavailable"
+msgstr "Terminal niedostępny"
+
 msgid "Terminate"
 msgstr "Zakończ"
 
@@ -4843,6 +5628,9 @@ msgstr "Aktywna sesja uległa zmianie. Monit nie został wysłany."
 
 msgid "The agent reports it is working."
 msgstr "Agent zgłasza, że pracuje."
+
+msgid "The approval status or target has changed. Refresh to verify, and request a new approval if needed."
+msgstr "Stan lub cel zatwierdzenia uległ zmianie. Odśwież, aby sprawdzić, i w razie potrzeby poproś o nowe zatwierdzenie."
 
 msgid "The attachment copy result is incomplete. Check the workspace before retrying."
 msgstr "Wynik kopiowania załącznika jest niekompletny. Sprawdź obszar roboczy przed ponowną próbą."
@@ -4886,6 +5674,12 @@ msgstr "Usługa hosta Jedv dla {organization} zatrzymała się nieoczekiwanie ({
 msgid "The Jedv host service stopped unexpectedly ({cause}) and could not be restarted automatically."
 msgstr "Usługa hosta Jedv zatrzymała się nieoczekiwanie ({cause}) i nie udało się jej automatycznie uruchomić ponownie."
 
+msgid "The key stays on this host. It is never injected into terminals or returned to this screen."
+msgstr "Klucz pozostaje na tym hoście. Nigdy nie jest wstrzykiwany do terminali ani zwracany na ten ekran."
+
+msgid "The Leader terminal continues running."
+msgstr "Terminal lidera nadal działa."
+
 msgid "The linked local agent is unavailable on this host. Edit the preset or remove its agent link."
 msgstr "Powiązany lokalny agent jest niedostępny na tym hoście. Edytuj ustawienie wstępne lub usuń powiązanie agenta."
 
@@ -4895,8 +5689,17 @@ msgstr "Lokalna usługa hosta jest niedostępna dla {organization} na {device}. 
 msgid "The operation result is unknown. Check the branch history and remote before retrying."
 msgstr "Wynik operacji jest nieznany. Sprawdź historię gałęzi i zdalne repozytorium przed ponowną próbą."
 
+msgid "The original terminal has ended. Its source is shown instead."
+msgstr "Pierwotny terminal zakończył działanie. Zamiast niego pokazano źródło."
+
 msgid "The page you're looking for doesn't exist."
 msgstr "Szukana strona nie istnieje."
+
+msgid "The pairing code expired or was already used. Request a new code on your computer."
+msgstr "Kod parowania wygasł lub został już użyty. Poproś o nowy kod na komputerze."
+
+msgid "The previous token will stop working. Update the remote peer with the new token."
+msgstr "Poprzedni token przestanie działać. Zaktualizuj zdalny węzeł nowym tokenem."
 
 msgid "The project is saved, but its workspace could not be opened. Continue opening to retry without creating another project."
 msgstr "Projekt jest zapisany, ale nie udało się otworzyć jego obszaru roboczego. Kontynuuj otwieranie, aby spróbować ponownie bez tworzenia kolejnego projektu."
@@ -4909,6 +5712,15 @@ msgstr "Katalog repozytorium nie istnieje na tym hoście. Otwórz repozytorium w
 
 msgid "The request ended before its result was confirmed. Check the target host for a completed project or partial directory before trying again."
 msgstr "Żądanie zakończyło się przed potwierdzeniem wyniku. Sprawdź na docelowym hoście obecność ukończonego projektu lub częściowego katalogu przed ponowną próbą."
+
+msgid "The requested run is not in the loaded history."
+msgstr "Tego uruchomienia nie ma we wczytanej historii."
+
+msgid "The result is uncertain. Refresh before deciding again."
+msgstr "Wynik jest niepewny. Odśwież przed ponowną decyzją."
+
+msgid "The result is uncertain. Retry this message with the same request ID."
+msgstr "Wynik jest niepewny. Ponów wiadomość z tym samym ID żądania."
 
 msgid "The resumed session identity could not be verified. Refresh before retrying."
 msgstr "Nie udało się zweryfikować tożsamości wznowionej sesji. Odśwież przed ponowną próbą."
@@ -4958,6 +5770,9 @@ msgstr "Docelowy obszar roboczy uległ zmianie. Przed kontynuowaniem wróć do p
 msgid "The target workspace changed. The result belongs to the original workspace."
 msgstr "Docelowy obszar roboczy uległ zmianie. Wynik należy do pierwotnego obszaru roboczego."
 
+msgid "The team becomes read-only. Its workspaces, files and terminals are kept."
+msgstr "Zespół przejdzie w tryb tylko do odczytu. Jego obszary robocze, pliki i terminale zostaną zachowane."
+
 msgid "The terminal session changed. Refresh before inserting the prompt."
 msgstr "Sesja terminala uległa zmianie. Odśwież przed wstawieniem monitu."
 
@@ -4996,6 +5811,9 @@ msgstr "Te uwagi są dostarczane z aplikacją. Opublikowane szczegóły wydań s
 
 msgid "This action is irreversible."
 msgstr "Tej operacji nie można cofnąć."
+
+msgid "This agent is no longer available. Choose another leader."
+msgstr "Ten agent nie jest już dostępny. Wybierz innego lidera."
 
 msgid "This API login does not expose subscription quota."
 msgstr "To logowanie API nie udostępnia limitu subskrypcji."
@@ -5048,8 +5866,14 @@ msgstr "To urządzenie"
 msgid "this device ({id})"
 msgstr "tym urządzeniu ({id})"
 
+msgid "This device will need to pair again."
+msgstr "To urządzenie trzeba będzie sparować ponownie."
+
 msgid "This draft belongs to another session. Return to it or discard the draft before composing here."
 msgstr "Ten szkic należy do innej sesji. Wróć do niej lub odrzuć szkic przed rozpoczęciem pisania tutaj."
+
+msgid "This entry will no longer be searched or injected."
+msgstr "Ten wpis nie będzie już wyszukiwany ani wstrzykiwany."
 
 msgid "This file cannot be edited as text."
 msgstr "Tego pliku nie można edytować jako tekstu."
@@ -5063,8 +5887,20 @@ msgstr "Ten plik znajduje się poza obszarem roboczym lub jego dowiązania symbo
 msgid "This folder is not a Git repository. Initialize Git here and import it as a project? Existing files will be kept."
 msgstr "Ten folder nie jest repozytorium Git. Zainicjować Git tutaj i zaimportować go jako projekt? Istniejące pliki zostaną zachowane."
 
+msgid "This host"
+msgstr "Ten host"
+
+msgid "This host cannot start team tasks. Update the host or use an existing session."
+msgstr "Ten host nie może rozpoczynać zadań zespołu. Zaktualizuj go lub użyj istniejącej sesji."
+
 msgid "This host did not provide a readable preview. Review the request in the agent CLI before approving."
 msgstr "Ten host nie dostarczył czytelnego podglądu. Przejrzyj żądanie w CLI agenta przed zatwierdzeniem."
+
+msgid "This host does not support plain folders. Update the host and retry."
+msgstr "Ten host nie obsługuje zwykłych folderów. Zaktualizuj go i spróbuj ponownie."
+
+msgid "This host does not support Teamwork. Update the host to use teams and mail."
+msgstr "Ten host nie obsługuje Teamwork. Zaktualizuj go, aby korzystać z zespołów i poczty."
 
 msgid "This is a large file. Opening it may slow down the editor."
 msgstr "To jest duży plik. Jego otwarcie może spowolnić edytor."
@@ -5141,6 +5977,9 @@ msgstr "Ten skrót zostanie przypisany do {0}. Następujące działania stracą 
 msgid "This stops {0} and its child processes. Unsaved work in the terminal can be lost."
 msgstr "To zatrzymuje {0} i jego procesy podrzędne. Niezapisana praca w terminalu może zostać utracona."
 
+msgid "This stops all worker terminals and automatic wake-ups. The leader terminal remains open."
+msgstr "To zatrzyma wszystkie terminale workerów i automatyczne wywołania. Terminal lidera pozostanie otwarty."
+
 msgid "This stops only the listed forwarding tunnels. Processes on the target host keep running."
 msgstr "To zatrzymuje tylko wymienione tunele przekierowania. Procesy na docelowym hoście nadal działają."
 
@@ -5158,6 +5997,12 @@ msgstr "To zatrzymuje procesy nasłuchujące na wymienionych portach obszaru rob
 
 msgid "This stops the shell and all processes running in this terminal. Workspace files are kept. Unsaved process state may be lost."
 msgstr "To zatrzyma powłokę i wszystkie procesy w tym terminalu. Pliki obszaru roboczego zostaną zachowane. Niezapisany stan procesów może zostać utracony."
+
+msgid "This stops the worker terminal and may interrupt its work."
+msgstr "To zatrzyma terminal workera i może przerwać jego pracę."
+
+msgid "This terminal has exited. Refresh the team to see its current status."
+msgstr "Ten terminal zakończył pracę. Odśwież zespół, aby zobaczyć aktualny stan."
 
 msgid "This terminal is also open on a smaller screen, so it's sized to fit"
 msgstr "Ten terminal jest otwarty również na mniejszym ekranie, więc dopasowano go do jego rozmiaru"
@@ -5186,14 +6031,23 @@ msgstr "Tego obszaru roboczego nie można usunąć w jego obecnym stanie."
 msgid "This workspace shares the project's files, index, and current branch. It does not switch branches or run setup."
 msgstr "Ten obszar roboczy współdzieli pliki, indeks i bieżącą gałąź projektu. Nie przełącza gałęzi ani nie uruchamia konfiguracji."
 
+msgid "This writes .jedv/memory.json on the target host and replaces the existing file."
+msgstr "To zapisze .jedv/memory.json na docelowym hoście i zastąpi istniejący plik."
+
 msgid "Thursday"
 msgstr "Czwartek"
+
+msgid "Tier"
+msgstr "Poziom"
 
 msgid "Time unavailable"
 msgstr "Godzina niedostępna"
 
 msgid "Time zone"
 msgstr "Strefa czasowa"
+
+msgid "Title"
+msgstr "Tytuł"
 
 msgid "To"
 msgstr "Do"
@@ -5237,11 +6091,20 @@ msgstr "Za dużo upuszczonych elementów. Dodaj maksymalnie 5000 plików i folde
 msgid "Too many files. Some were not added."
 msgstr "Za dużo plików. Część nie została dodana."
 
+msgid "Too many requests. Wait a moment and try again."
+msgstr "Zbyt wiele żądań. Poczekaj chwilę i spróbuj ponownie."
+
 msgid "Too many untitled items here already."
 msgstr "Jest tu już za dużo elementów bez nazwy."
 
 msgid "Tool output"
 msgstr "Wyjście narzędzia"
+
+msgid "Tool records"
+msgstr "Zapisy narzędzi"
+
+msgid "Total items: {count}"
+msgstr "Wszystkie elementy: {count}"
 
 msgid "Transcribing"
 msgstr "Transkrypcja"
@@ -5303,11 +6166,17 @@ msgstr "Nie można rozpocząć dyktowania"
 msgid "Unable to transcribe audio"
 msgstr "Nie można przetranskrybować dźwięku"
 
+msgid "Unacknowledged mail: {count}"
+msgstr "Niepotwierdzone wiadomości: {count}"
+
 msgid "Unassigned"
 msgstr "Nieprzypisane"
 
 msgid "Unavailable"
 msgstr "Niedostępne"
+
+msgid "Unavailable on this host"
+msgstr "Niedostępne na tym hoście"
 
 msgid "Uncommitted"
 msgstr "Niezacommitowane"
@@ -5339,6 +6208,9 @@ msgstr "Niezgrupowane"
 msgid "Unified diff"
 msgstr "Jednolity widok różnic"
 
+msgid "Uninstall extension"
+msgstr "Odinstaluj rozszerzenie"
+
 msgid "unknown"
 msgstr "nieznana"
 
@@ -5362,6 +6234,9 @@ msgstr "Niewypchnięte commity"
 
 msgid "Unreachable"
 msgstr "Nieosiągalny"
+
+msgid "Unread"
+msgstr "Nieprzeczytane"
 
 msgid "Unread activity"
 msgstr "Nieprzeczytana aktywność"
@@ -5462,6 +6337,9 @@ msgstr "Użyj „{0}”"
 msgid "Use an existing repository at this location. Jedv changes the registered path and local checkout workspaces; it does not move files. Existing worktrees under the old repository may need to be imported again."
 msgstr "Użyj istniejącego repozytorium w tej lokalizacji. Jedv zmienia zarejestrowaną ścieżkę i lokalne obszary robocze checkout; nie przenosi plików. Istniejące drzewa robocze w starym repozytorium mogą wymagać ponownego zaimportowania."
 
+msgid "Use an existing session"
+msgstr "Użyj istniejącej sesji"
+
 msgid "Use another local port"
 msgstr "Użyj innego lokalnego portu"
 
@@ -5477,11 +6355,17 @@ msgstr "Użyj domyślnego ustawienia hosta"
 msgid "Use Move to group to move workspaces between groups."
 msgstr "Użyj Przenieś do grupy, aby przenosić obszary robocze między grupami."
 
+msgid "Use provider.<id>. as the event type prefix."
+msgstr "Użyj provider.<id>. jako prefiksu typu zdarzenia."
+
 msgid "Use the Jedv tray menu > Host Service > Restart, then retry."
 msgstr "Użyj menu zasobnika Jedv > Usługa hosta > Uruchom ponownie, a następnie ponów."
 
 msgid "Use this device"
 msgstr "Użyj tego urządzenia"
+
+msgid "Use this directory for terminals and files without initializing Git."
+msgstr "Używaj tego katalogu dla terminali i plików bez inicjowania Git."
 
 msgid "Use this folder"
 msgstr "Użyj tego folderu"
@@ -5511,8 +6395,14 @@ msgstr "Widok"
 msgid "View license"
 msgstr "Wyświetl licencję"
 
+msgid "View run"
+msgstr "Pokaż uruchomienie"
+
 msgid "View source"
 msgstr "Wyświetl źródło"
+
+msgid "View team"
+msgstr "Pokaż zespół"
 
 msgid "Volume"
 msgstr "Głośność"
@@ -5522,6 +6412,9 @@ msgstr "VS Code"
 
 msgid "Wait for workspace setup before starting an agent"
 msgstr "Poczekaj na zakończenie konfiguracji obszaru roboczego przed uruchomieniem agenta"
+
+msgid "Waiting for agent status"
+msgstr "Oczekiwanie na stan agenta"
 
 msgid "Waiting for approval"
 msgstr "Oczekiwanie na zatwierdzenie"
@@ -5553,11 +6446,23 @@ msgstr "Co tydzień o {time}"
 msgid "Welcome to Jedv"
 msgstr "Witaj w Jedv"
 
+msgid "What should the team accomplish?"
+msgstr "Co zespół ma osiągnąć?"
+
 msgid "What would you like to know?"
 msgstr "Czego chcesz się dowiedzieć?"
 
+msgid "Whole team"
+msgstr "Cały zespół"
+
 msgid "Window"
 msgstr "Okno"
+
+msgid "Without a key, teams, mail, active memory and rule alerts remain available."
+msgstr "Bez klucza zespoły, poczta, aktywna pamięć i alerty reguł pozostają dostępne."
+
+msgid "Worker"
+msgstr "Worker"
 
 msgid "Working"
 msgstr "Pracuje"
@@ -5619,6 +6524,9 @@ msgstr "Konfiguracja obszaru roboczego nadal trwa."
 msgid "Workspace state changed. Review the updated checks and confirm again."
 msgstr "Stan obszaru roboczego uległ zmianie. Przejrzyj zaktualizowane kontrole i potwierdź ponownie."
 
+msgid "Workspace unavailable"
+msgstr "Obszar roboczy niedostępny"
+
 msgid "Workspaces"
 msgstr "Obszary robocze"
 
@@ -5666,6 +6574,12 @@ msgstr "Twoje zmiany"
 
 msgid "Your imports are saved. Could not refresh or open them. Try continuing again."
 msgstr "Twoje importy zostały zapisane. Nie udało się ich odświeżyć ani otworzyć. Spróbuj kontynuować ponownie."
+
+msgid "Your request was refused. Refresh your session and try again."
+msgstr "Żądanie zostało odrzucone. Odśwież sesję i spróbuj ponownie."
+
+msgid "Your session expired. Pair this device again."
+msgstr "Sesja wygasła. Sparuj to urządzenie ponownie."
 
 msgid "Zap"
 msgstr "Błyskawica"

@@ -20,6 +20,7 @@ import {
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
+import { getNotifyScriptContent } from "./notify-hook";
 
 const TEST_ROOT = path.join(
 	tmpdir(),
@@ -323,7 +324,7 @@ describe("agent-wrappers opencode", () => {
 		).toBe(true);
 	});
 
-	it("orders root replacement and legacy permissions behind an in-flight deletion", async () => {
+	it("orders root replacement and legacy permissions without waiting for the deletion notification", async () => {
 		process.env.JEDV_TERMINAL_ID = "terminal-1";
 		const { JedvNotifyPlugin } = await loadOpenCodePlugin();
 		const notifications: unknown[] = [];
@@ -336,11 +337,11 @@ describe("agent-wrappers opencode", () => {
 				payload: string,
 			) => {
 				const notification = JSON.parse(payload);
+				notifications.push(notification);
 				if (notification.hook_event_name === "SessionEnd") {
 					deleting.resolve();
 					await release.promise;
 				}
-				notifications.push(notification);
 			},
 		});
 		const event = (type: string, id: string) =>
@@ -349,6 +350,7 @@ describe("agent-wrappers opencode", () => {
 		notifications.length = 0;
 		const deletion = event("session.deleted", "old");
 		await deleting.promise;
+		await deletion; // The hook callback must finish while HTTP is still blocked.
 		const creation = event("session.created", "new");
 		const permission = hooks["permission.ask"]({}, { status: "ask" });
 		release.resolve();
@@ -429,6 +431,7 @@ describe("agent-wrappers opencode", () => {
 
 describe("agent-wrappers opencode tui plugin", () => {
 	const originalTerminalId = process.env.JEDV_TERMINAL_ID;
+	const originalLaunchId = process.env.JEDV_AGENT_LAUNCH_ID;
 	const tuiRoot = path.join(TEST_ROOT, "opencode-tui");
 	type Handler = (event: { data: Record<string, unknown> }) => void;
 	type Notification = {
@@ -444,8 +447,12 @@ describe("agent-wrappers opencode tui plugin", () => {
 		const notifyPath = path.join(notifyDir, "notify.sh");
 		const log = path.join(notifyDir, "notify.log");
 		writeFileSync(
+			path.join(notifyDir, "allocate.sh"),
+			getNotifyScriptContent(),
+		);
+		writeFileSync(
 			notifyPath,
-			`#!/bin/bash\nsleep ${delaySeconds}\necho "$JEDV_HOOK_HARNESS $1" >> "$(dirname "$0")/notify.log"\n`,
+			`#!/bin/bash\nif [ "$1" = "--allocate-delivery-sequence" ]; then exec bash "$(dirname "$0")/allocate.sh" "$1"; fi\nsleep ${delaySeconds}\nprintf '%s %s %s\\n' "$JEDV_HOOK_HARNESS" "$JEDV_HOOK_DELIVERY_SEQUENCE" "$1" >> "$(dirname "$0")/notify.log"\n`,
 		);
 		chmodSync(notifyPath, 0o755);
 		const pluginPath = path.join(tuiRoot, `tui-${++renders}.mjs`);
@@ -508,11 +515,14 @@ describe("agent-wrappers opencode tui plugin", () => {
 						.split("\n")
 						.map((line) => {
 							const separator = line.indexOf(" ");
+							const payloadStart = line.indexOf(" ", separator + 1);
 							return {
 								harness: line.slice(0, separator),
-								...JSON.parse(line.slice(separator + 1)),
+								sequence: Number(line.slice(separator + 1, payloadStart)),
+								...JSON.parse(line.slice(payloadStart + 1)),
 							};
 						})
+						.sort((a, b) => a.sequence - b.sequence)
 				: [];
 		const waitFor = async (count: number) => {
 			for (let attempt = 0; attempt < 200 && read().length < count; attempt++) {
@@ -531,9 +541,12 @@ describe("agent-wrappers opencode tui plugin", () => {
 
 	beforeEach(() => {
 		process.env.JEDV_TERMINAL_ID = "terminal-1";
+		process.env.JEDV_AGENT_LAUNCH_ID = "tui-test-launch";
 	});
 
 	afterEach(() => {
+		if (originalLaunchId === undefined) delete process.env.JEDV_AGENT_LAUNCH_ID;
+		else process.env.JEDV_AGENT_LAUNCH_ID = originalLaunchId;
 		if (originalTerminalId === undefined) {
 			delete process.env.JEDV_TERMINAL_ID;
 		} else {
@@ -655,13 +668,13 @@ describe("agent-wrappers opencode tui plugin", () => {
 		await t.cleanup?.();
 	});
 
-	it("delivers queued notifications before cleanup resolves", async () => {
+	it("detached notifications survive cleanup without blocking it", async () => {
 		const t = await startPlugin({ delaySeconds: 0.05 });
 		t.emit("session.execution.started", { sessionID: "shown" });
 		t.emit("session.execution.succeeded", { sessionID: "shown" });
 		await t.cleanup?.();
 
-		expect(t.read().map((n) => n.hook_event_name)).toEqual(["Start", "Stop"]);
+		expect(await t.waitFor(2)).toEqual(["Start:shown", "Stop:shown"]);
 	});
 
 	it("runs a notify script whose path needs escaping", async () => {
@@ -1270,7 +1283,9 @@ exit 0
 		expect(plugin).toContain('notify("Start", event)');
 		expect(plugin).toContain('amp.on("agent.end"');
 		expect(plugin).toContain('notify("Stop", event)');
-		expect(plugin).toContain('import { spawn } from "node:child_process"');
+		expect(plugin).toContain(
+			'import { spawn, spawnSync } from "node:child_process"',
+		);
 		expect(plugin).toContain('JEDV_HOOK_HARNESS: "amp"');
 		expect(plugin).toContain("[jedv-amp-plugin]");
 		expect(plugin).toContain("JEDV_HOME_DIR");

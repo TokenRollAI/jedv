@@ -2,7 +2,13 @@ import type {
 	AgentDefinitionId,
 	AgentIdentityId,
 } from "@jedv/shared/agent-catalog";
+import type {
+	MailNudgeState,
+	TeamMemberStatus,
+	TeamStatus,
+} from "@jedv/shared/teamwork";
 import type { BranchPrefixMode } from "@jedv/shared/workspace-launch";
+import { sql } from "drizzle-orm";
 import {
 	index,
 	integer,
@@ -60,6 +66,8 @@ export const terminalAgentBindings = sqliteTable(
 		agentId: text("agent_id").notNull().$type<AgentIdentityId>(),
 		agentSessionId: text("agent_session_id"),
 		definitionId: text("definition_id").$type<AgentDefinitionId>(),
+		launchId: text("launch_id"),
+		deliverySequence: integer("delivery_sequence"),
 		startedAt: integer("started_at").notNull(),
 		lastEventAt: integer("last_event_at").notNull(),
 		lastEventType: text("last_event_type").notNull(),
@@ -448,3 +456,137 @@ export const mobileLastDevices = sqliteTable("mobile_last_devices", {
 	deviceKey: text("device_key").notNull(),
 	pickedAt: integer("picked_at").notNull(),
 });
+
+export const teams = sqliteTable("teams", {
+	id: text().primaryKey(),
+	name: text().notNull(),
+	goal: text().notNull(),
+	status: text().$type<TeamStatus>().notNull().default("active"),
+	originWorkspaceId: text("origin_workspace_id").references(
+		() => workspaces.id,
+		{ onDelete: "set null" },
+	),
+	createdAt: integer("created_at").notNull(),
+	updatedAt: integer("updated_at").notNull(),
+	stoppedAt: integer("stopped_at"),
+	archivedAt: integer("archived_at"),
+});
+
+export const teamMembers = sqliteTable(
+	"team_members",
+	{
+		id: text().primaryKey(),
+		teamId: text("team_id")
+			.notNull()
+			.references(() => teams.id, { onDelete: "cascade" }),
+		name: text().notNull(),
+		role: text().$type<"leader" | "worker">().notNull(),
+		status: text().$type<TeamMemberStatus>().notNull(),
+		operationId: text("operation_id").notNull(),
+		requestFingerprint: text("request_fingerprint").notNull(),
+		requestJson: text("request_json").notNull(),
+		plannedWorkspaceId: text("planned_workspace_id"),
+		workspaceId: text("workspace_id").references(() => workspaces.id, {
+			onDelete: "set null",
+		}),
+		plannedTerminalId: text("planned_terminal_id"),
+		terminalId: text("terminal_id").references(() => terminalSessions.id, {
+			onDelete: "set null",
+		}),
+		agentId: text("agent_id").notNull(),
+		definitionId: text("definition_id"),
+		expectedLaunchId: text("expected_launch_id"),
+		boundStartedAt: integer("bound_started_at"),
+		boundAgentSessionId: text("bound_agent_session_id"),
+		taskSummary: text("task_summary").notNull(),
+		joinedAt: integer("joined_at").notNull(),
+		endedAt: integer("ended_at"),
+		lastError: text("last_error"),
+	},
+	(t) => [
+		uniqueIndex("team_members_name_unique").on(t.teamId, t.name),
+		uniqueIndex("team_members_operation_unique").on(t.teamId, t.operationId),
+		index("team_members_terminal_idx").on(t.terminalId),
+		uniqueIndex("team_leader_start_op_unique")
+			.on(t.operationId)
+			.where(sql`${t.role}='leader' AND ${t.operationId}!='init'`),
+	],
+);
+
+export const mailEvents = sqliteTable(
+	"mail_events",
+	{
+		id: text().primaryKey(),
+		teamId: text("team_id")
+			.notNull()
+			.references(() => teams.id, { onDelete: "cascade" }),
+		threadId: text("thread_id").notNull(),
+		replyToEventId: text("reply_to_event_id"),
+		wakeBatchId: text("wake_batch_id"),
+		type: text().notNull(),
+		sourceKind: text("source_kind")
+			.$type<"member" | "human" | "peer" | "provider">()
+			.notNull(),
+		sourceId: text("source_id").notNull(),
+		dedupeKey: text("dedupe_key").notNull(),
+		requestFingerprint: text("request_fingerprint").notNull(),
+		hopCount: integer("hop_count").notNull().default(0),
+		subject: text().notNull(),
+		body: text().notNull(),
+		payloadJson: text("payload_json"),
+		createdAt: integer("created_at").notNull(),
+	},
+	(t) => [
+		uniqueIndex("mail_events_dedupe_unique").on(
+			t.teamId,
+			t.sourceKind,
+			t.sourceId,
+			t.dedupeKey,
+		),
+		index("mail_events_thread_idx").on(t.threadId),
+	],
+);
+
+export const mailDeliveries = sqliteTable(
+	"mail_deliveries",
+	{
+		id: text().primaryKey(),
+		eventId: text("event_id")
+			.notNull()
+			.references(() => mailEvents.id, { onDelete: "cascade" }),
+		recipientMemberId: text("recipient_member_id")
+			.notNull()
+			.references(() => teamMembers.id, { onDelete: "cascade" }),
+		readAt: integer("read_at"),
+		ackedAt: integer("acked_at"),
+		nudgeState: text("nudge_state").$type<MailNudgeState>().notNull(),
+		inflightToken: text("inflight_token"),
+		wakeBatchId: text("wake_batch_id"),
+		attemptCount: integer("attempt_count").notNull().default(0),
+		nudgedAt: integer("nudged_at"),
+		lastError: text("last_error"),
+		createdAt: integer("created_at").notNull(),
+	},
+	(t) => [
+		uniqueIndex("mail_deliveries_recipient_unique").on(
+			t.eventId,
+			t.recipientMemberId,
+		),
+		index("mail_deliveries_inbox_idx").on(
+			t.recipientMemberId,
+			t.nudgeState,
+			t.createdAt,
+		),
+	],
+);
+
+export {
+	butlerApprovals,
+	butlerMessages,
+	butlerState,
+	butlerThreads,
+	butlerTurns,
+} from "../butler/schema";
+export { memories, watchdogAlerts } from "./memory-schema";
+
+export * from "./teamwork-network-schema";

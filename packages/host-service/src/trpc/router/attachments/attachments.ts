@@ -158,7 +158,9 @@ export const attachmentsRouter = router({
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
-			const worktreePath = resolveWorktreePath(ctx, input.workspaceId);
+			const worktreePath = resolveWorktreePath(ctx, input.workspaceId, {
+				requireGit: false,
+			});
 			const directory = ensureWorkspaceAttachmentsDir(worktreePath);
 
 			const used = new Set<string>();

@@ -64,6 +64,9 @@ msgstr "{0}: 실행 중인 터미널 {1}개, 실행 중인 에이전트 {2}개"
 msgid "{approvals} approvals"
 msgstr "{approvals}건의 승인"
 
+msgid "{attention} need attention"
+msgstr "{attention}명 주의 필요"
+
 msgid "{completed} finished"
 msgstr "{completed} 완료"
 
@@ -90,6 +93,9 @@ msgstr "{count, plural, one {#주마다 {day}} other {#주마다 {day}}}"
 
 msgid "{count} files are over {limit} and were not added"
 msgstr "파일 {count}개가 {limit}를 넘어 추가되지 않았습니다"
+
+msgid "{count} important items"
+msgstr "중요 항목 {count}개"
 
 msgid "{currentPage} of {totalBranches}"
 msgstr "{totalBranches} 중 {currentPage}"
@@ -204,8 +210,21 @@ msgstr "{displayName}에 관하여"
 msgid "Accept"
 msgstr "수락"
 
+msgid "Accept candidate"
+msgstr "후보 채택"
+
+msgid "Accept global memory"
+msgstr "전역 메모리 채택"
+
 msgid "Accessibility"
 msgstr "손쉬운 사용"
+
+#. placeholder {0}: name(delivery.recipientMemberId)
+msgid "Acknowledge mail to {0}"
+msgstr "{0}에게 보낸 메일 처리 확인"
+
+msgid "Acknowledged"
+msgstr "처리 확인됨"
 
 msgid "Actions"
 msgstr "동작"
@@ -215,6 +234,9 @@ msgstr "활성"
 
 msgid "Active CLI sessions"
 msgstr "활성 CLI 세션"
+
+msgid "Active items: {count}"
+msgstr "처리할 항목: {count}"
 
 msgid "Active workspaces"
 msgstr "활성 워크스페이스"
@@ -245,6 +267,12 @@ msgstr "파일, 앱 등 추가"
 
 msgid "Add files, apps, and more (@)"
 msgstr "파일, 앱 등 추가 (@)"
+
+msgid "Add memory"
+msgstr "메모리 추가"
+
+msgid "Add peer"
+msgstr "피어 추가"
 
 msgid "Add photos or files"
 msgstr "사진 또는 파일 추가"
@@ -327,6 +355,9 @@ msgstr "에이전트 아일랜드"
 msgid "Agent launch is waiting for setup"
 msgstr "에이전트 시작이 설정 완료를 기다리는 중입니다"
 
+msgid "Agent may be stalled"
+msgstr "에이전트가 멈췄을 수 있습니다"
+
 msgid "Agent saved, but linked presets could not be updated."
 msgstr "에이전트를 저장했지만 연결된 프리셋을 업데이트하지 못했습니다."
 
@@ -347,6 +378,9 @@ msgstr "에이전트"
 
 msgid "AI chatbot built with Next.js and the AI SDK"
 msgstr "Next.js와 AI SDK로 구축된 AI 챗봇"
+
+msgid "Alerts"
+msgstr "알림"
 
 #. placeholder {0}: cmd.aliases.map((alias) => `/${alias}`).join(", ")
 msgid "aliases: {0}"
@@ -390,6 +424,9 @@ msgstr "이미 열려 있음"
 
 msgid "Also delete local branch"
 msgstr "로컬 브랜치도 삭제"
+
+msgid "An automation did not complete. Inspect its run on your computer."
+msgstr "자동화가 완료되지 않았습니다. 컴퓨터에서 실행 기록을 확인하세요."
 
 msgid "An update is ready to install."
 msgstr "설치할 업데이트가 준비되었습니다."
@@ -449,6 +486,9 @@ msgstr "Markdown 미리 보기와 터미널 출력의 URL에 적용됩니다."
 msgid "Apply"
 msgstr "적용"
 
+msgid "Approval execution failed. Check the target before trying again."
+msgstr "승인 실행에 실패했습니다. 다시 시도하기 전에 대상을 확인하세요."
+
 msgid "Approval expired"
 msgstr "승인이 만료되었습니다"
 
@@ -467,8 +507,32 @@ msgstr "승인 필요"
 msgid "Approval response sent"
 msgstr "승인 응답이 전송되었습니다"
 
+msgid "Approvals"
+msgstr "승인"
+
+msgid "Approve"
+msgstr "승인하기"
+
 msgid "Approved"
 msgstr "승인됨"
+
+msgid "Archival"
+msgstr "보관"
+
+msgid "Archive team"
+msgstr "팀 보관"
+
+msgid "Archive this team?"
+msgstr "이 팀을 보관할까요?"
+
+msgid "Archive Workspace"
+msgstr "워크스페이스 보관"
+
+msgid "Archived"
+msgstr "보관됨"
+
+msgid "Archived team · read-only"
+msgstr "보관된 팀 · 읽기 전용"
 
 msgid "Are you sure you want to quit?"
 msgstr "종료하시겠습니까?"
@@ -479,11 +543,23 @@ msgstr "앱을 종료하기 전에 확인합니다."
 msgid "Ask before terminating a terminal with a running process. Closing a view keeps its session running."
 msgstr "실행 중인 프로세스가 있는 터미널을 종료하기 전에 확인합니다. 보기를 닫아도 세션은 계속 실행됩니다."
 
+msgid "Ask Butler"
+msgstr "Butler에게 질문"
+
+msgid "Ask Butler about your teams, alerts or automations."
+msgstr "Butler에게 팀, 알림 또는 자동화에 대해 질문하세요."
+
+msgid "Ask Butler…"
+msgstr "Butler에게 질문…"
+
 msgid "Ask to make changes, @mention files"
 msgstr "변경을 요청하고 @로 파일 멘션"
 
 msgid "Ask to make changes, @mention files, run /commands"
 msgstr "변경을 요청하고, @로 파일을 멘션하고, /명령을 실행하세요"
+
+msgid "Associated provider tokens will be revoked."
+msgstr "연결된 공급자 토큰이 해지됩니다."
 
 msgid "Attach"
 msgstr "연결"
@@ -513,6 +589,9 @@ msgstr "첨부 파일 미리보기"
 
 msgid "Attachments are available for local workspaces only."
 msgstr "첨부 파일은 로컬 워크스페이스에서만 사용할 수 있습니다."
+
+msgid "Attention is unavailable. Refresh or update the host."
+msgstr "처리할 항목을 가져올 수 없습니다. 새로고침하거나 호스트를 업데이트하세요."
 
 msgid "Audio"
 msgstr "오디오"
@@ -550,6 +629,9 @@ msgstr "자동화 작업"
 msgid "Automation deleted"
 msgstr "자동화가 삭제되었습니다"
 
+msgid "Automation did not finish"
+msgstr "자동화가 완료되지 않음"
+
 msgid "Automation enabled"
 msgstr "자동화가 활성화되었습니다"
 
@@ -577,11 +659,17 @@ msgstr "응답 대기 중"
 msgid "Awaiting Response · {workspaceName}"
 msgstr "응답 대기 중 · {workspaceName}"
 
+msgid "Awaiting review"
+msgstr "검토 대기 중"
+
 msgid "Back"
 msgstr "뒤로"
 
 msgid "Back to automations"
 msgstr "자동화로 돌아가기"
+
+msgid "Back to current conversation"
+msgstr "현재 대화로 돌아가기"
 
 msgid "Background processes"
 msgstr "백그라운드 프로세스"
@@ -651,6 +739,12 @@ msgstr "글머리 기호 목록"
 msgid "Bulleted list"
 msgstr "글머리 기호 목록"
 
+msgid "Butler"
+msgstr "Butler"
+
+msgid "Butler is unavailable. Status and Inbox still work."
+msgstr "Butler를 사용할 수 없습니다. 상태와 받은편지함은 계속 사용할 수 있습니다."
+
 msgid "Cached input"
 msgstr "캐시된 입력"
 
@@ -669,14 +763,23 @@ msgstr "취소하면 대상 호스트에 중지를 요청합니다. 이 위치�
 msgid "Cancelled"
 msgstr "취소됨"
 
+msgid "Candidate"
+msgstr "후보"
+
 msgid "Cannot {action}: no active organization is selected. Select an organization or sign in again."
 msgstr "{action} 수 없습니다: 선택된 활성 조직이 없습니다. 조직을 선택하거나 다시 로그인하세요."
 
 msgid "Cannot {action}: the local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
 msgstr "{action} 수 없습니다: {device}의 {organization}에 대해 로컬 호스트 서비스를 사용할 수 없습니다. 상태: {status}. {recovery}"
 
+msgid "Category"
+msgstr "분류"
+
 msgid "Change location…"
 msgstr "위치 변경…"
+
+msgid "Change mobile address?"
+msgstr "모바일 주소를 변경할까요?"
 
 msgid "Change project icon and color"
 msgstr "프로젝트 아이콘 및 색상 변경"
@@ -695,6 +798,9 @@ msgstr "변경 사항 폐기됨"
 
 msgid "Changes requested"
 msgstr "변경 요청됨"
+
+msgid "Changing or clearing this address signs out all paired devices."
+msgstr "이 주소를 변경하거나 지우면 페어링된 모든 기기가 로그아웃됩니다."
 
 msgid "Changing this location affects new worktrees. Existing folders are not moved."
 msgstr "이 위치를 변경하면 새 워크트리에 영향을 줍니다. 기존 폴더는 이동되지 않습니다."
@@ -777,6 +883,9 @@ msgstr "프로젝트 또는 워크스페이스 선택"
 msgid "Choose a project to start working."
 msgstr "작업을 시작할 프로젝트를 선택하세요."
 
+msgid "Choose a running agent as leader to start collaborating."
+msgstr "실행 중인 에이전트를 리더로 선택해 협업을 시작하세요."
+
 msgid "Choose a saved screenshot to attach. Files are copied only when you submit the prompt."
 msgstr "첨부할 저장된 스크린샷을 선택하세요. 파일은 프롬프트를 제출할 때만 복사됩니다."
 
@@ -800,6 +909,12 @@ msgstr "알림 소리와 음량을 선택하세요."
 
 msgid "Clear"
 msgstr "투명"
+
+msgid "Clear API key"
+msgstr "API 키 지우기"
+
+msgid "Clear API key?"
+msgstr "API 키를 지울까요?"
 
 msgid "Clear saved screenshots?"
 msgstr "저장된 스크린샷을 지우시겠습니까?"
@@ -955,6 +1070,9 @@ msgstr "모두 접기"
 msgid "Collapse All"
 msgstr "모두 접기"
 
+msgid "Collapse message"
+msgstr "메시지 접기"
+
 msgid "Color"
 msgstr "색상"
 
@@ -1031,14 +1149,32 @@ msgstr "구성"
 msgid "Configure agent commands for the connected host."
 msgstr "연결된 호스트의 에이전트 명령을 구성하세요."
 
+msgid "Configured"
+msgstr "설정됨"
+
 msgid "Confirm"
 msgstr "확인"
+
+msgid "Confirm archive"
+msgstr "보관 확인"
 
 msgid "Confirm before closing a running terminal"
 msgstr "실행 중인 터미널을 닫기 전에 확인"
 
 msgid "Confirm before quitting"
 msgstr "종료 전 확인"
+
+msgid "Confirm global memory adoption"
+msgstr "전역 메모리 채택 확인"
+
+msgid "Confirm memory removal"
+msgstr "메모리 제거 확인"
+
+msgid "Confirm receipt"
+msgstr "수신 확인"
+
+msgid "Confirm stop"
+msgstr "중지 확인"
 
 msgid "Connect"
 msgstr "연결"
@@ -1063,6 +1199,12 @@ msgstr "연결된 호스트"
 
 msgid "Connecting…"
 msgstr "연결 중…"
+
+msgid "Content"
+msgstr "내용"
+
+msgid "Context"
+msgstr "맥락"
 
 msgid "Continue"
 msgstr "계속"
@@ -1102,6 +1244,15 @@ msgstr "이 세션은 제어가 소유합니다"
 
 msgid "Control shortcuts on macOS are reserved for terminal programs."
 msgstr "macOS에서는 Control 단축키가 터미널 프로그램용으로 예약되어 있습니다."
+
+msgid "Convention"
+msgstr "규칙"
+
+msgid "Conversation state is unavailable. Refresh or update the host."
+msgstr "대화 상태를 가져올 수 없습니다. 새로고침하거나 호스트를 업데이트하세요."
+
+msgid "Conversations"
+msgstr "대화"
 
 msgid "Convert to config.toml"
 msgstr "config.toml로 변환"
@@ -1179,6 +1330,15 @@ msgstr "워크스페이스 ID 복사"
 msgid "Copy..."
 msgstr "복사…"
 
+msgid "Core"
+msgstr "코어"
+
+msgid "Core injection: {budget} characters in this scope, 4800 total. Candidates are excluded."
+msgstr "코어 주입: 이 범위 {budget}자, 총 4800자까지. 후보는 제외됩니다."
+
+msgid "Correction"
+msgstr "교정"
+
 msgid "Costs are estimates based on API list rates, not a bill or actual subscription spending. Unknown models use approximate rates."
 msgstr "비용은 API 정가를 기준으로 한 추정치이며, 청구서나 실제 구독 지출이 아닙니다. 알 수 없는 모델에는 대략적인 요금이 적용됩니다."
 
@@ -1199,6 +1359,9 @@ msgstr "대상 호스트에서 결과를 확인하지 못했습니다. 연결과
 
 msgid "Could not confirm this session. Refresh before retrying."
 msgstr "이 세션을 확인할 수 없습니다. 다시 시도하기 전에 새로고침하세요."
+
+msgid "Could not create team. Refresh the agents and retry."
+msgstr "팀을 만들지 못했습니다. 에이전트를 새로 고치고 다시 시도하세요."
 
 msgid "Could not create workspace. Check the target host and retry."
 msgstr "워크스페이스를 만들지 못했습니다. 대상 호스트를 확인하고 다시 시도하세요."
@@ -1227,6 +1390,9 @@ msgstr "이 워크스페이스를 검사하지 못했습니다. 삭제하기 전
 msgid "Could not list repositories. Check gh authentication on the target host, or enter a URL below."
 msgstr "리포지토리를 나열하지 못했습니다. 대상 호스트의 gh 인증을 확인하거나 아래에 URL을 입력하세요."
 
+msgid "Could not load agents"
+msgstr "에이전트를 불러올 수 없습니다"
+
 msgid "Could not load branches from the target host."
 msgstr "대상 호스트에서 브랜치를 불러오지 못했습니다."
 
@@ -1242,8 +1408,14 @@ msgstr "대상 호스트에서 프로젝트 설정을 불러오지 못했습니�
 msgid "Could not load pull requests. Check gh access on the target host."
 msgstr "PR을 불러오지 못했습니다. 대상 호스트의 gh 접근 권한을 확인하세요."
 
+msgid "Could not load Teamwork. Check the host connection and retry."
+msgstr "Teamwork를 불러오지 못했습니다. 호스트 연결을 확인하고 다시 시도하세요."
+
 msgid "Could not load workspace status. Check the target host and try again."
 msgstr "워크스페이스 상태를 불러오지 못했습니다. 대상 호스트를 확인하고 다시 시도하세요."
+
+msgid "Could not open terminal"
+msgstr "터미널을 열지 못했습니다"
 
 msgid "Could not open this workspace. Check the target host and try again."
 msgstr "이 워크스페이스를 열지 못했습니다. 대상 호스트를 확인하고 다시 시도하세요."
@@ -1272,6 +1444,9 @@ msgstr "이 디렉터리를 읽지 못했습니다. 대상 호스트의 경로�
 msgid "Could not read worktrees from the target host."
 msgstr "대상 호스트에서 워크트리를 읽지 못했습니다."
 
+msgid "Could not refresh. Showing the last loaded information."
+msgstr "새로 고치지 못했습니다. 마지막으로 불러온 정보를 표시합니다."
+
 msgid "Could not rename project. Try again."
 msgstr "프로젝트 이름을 바꾸지 못했습니다. 다시 시도하세요."
 
@@ -1286,6 +1461,9 @@ msgstr "아이콘을 렌더링하지 못했습니다"
 
 msgid "Could not render image"
 msgstr "이미지를 렌더링하지 못했습니다"
+
+msgid "Could not save memory. Your draft is kept."
+msgstr "메모리를 저장하지 못했습니다. 초안을 보관합니다."
 
 msgid "Could not save the group. Your draft is kept."
 msgstr "그룹을 저장하지 못했습니다. 초안은 유지됩니다."
@@ -1311,8 +1489,14 @@ msgstr "진행 상황을 저장하지 못했습니다. 다시 시도하세요."
 msgid "Could not select a project directory."
 msgstr "프로젝트 디렉터리를 선택하지 못했습니다."
 
+msgid "Could not send mail. Your draft is kept for retry."
+msgstr "메일을 보내지 못했습니다. 다시 시도할 수 있도록 초안을 보관합니다."
+
 msgid "Could not set icon"
 msgstr "아이콘을 설정할 수 없습니다"
+
+msgid "Could not sign out. Reconnect and try again."
+msgstr "로그아웃하지 못했습니다. 다시 연결하고 시도하세요."
 
 msgid "Could not stop a listening process. Earlier successful stops are kept."
 msgstr "수신 대기 프로세스를 중지하지 못했습니다. 이전에 성공적으로 중지된 프로세스는 중지된 상태로 유지됩니다."
@@ -1320,11 +1504,20 @@ msgstr "수신 대기 프로세스를 중지하지 못했습니다. 이전에 �
 msgid "Could not stop it"
 msgstr "중지할 수 없습니다"
 
+msgid "Could not update DeepSeek settings. Check the host and retry."
+msgstr "DeepSeek 설정을 업데이트하지 못했습니다. 호스트를 확인하고 다시 시도하세요."
+
+msgid "Could not update mail"
+msgstr "메일을 업데이트하지 못했습니다"
+
 msgid "Could not update the project tree. Try again."
 msgstr "프로젝트 트리를 업데이트하지 못했습니다. 다시 시도하세요."
 
 msgid "Could not update the removed project. Check its status before retrying."
 msgstr "제거된 프로젝트를 업데이트하지 못했습니다. 상태를 확인한 후 다시 시도하세요."
+
+msgid "Could not update this item. Refresh to check its status."
+msgstr "이 항목을 업데이트할 수 없습니다. 새로고침하여 상태를 확인하세요."
 
 msgid "Could not update workspace. Try again."
 msgstr "워크스페이스를 업데이트하지 못했습니다. 다시 시도하세요."
@@ -1337,6 +1530,9 @@ msgstr "저장하지 못했습니다. 수정하거나 다른 곳을 클릭하면
 
 msgid "Couldn't save. Retrying…"
 msgstr "저장하지 못했습니다. 다시 시도하는 중…"
+
+msgid "Create"
+msgstr "만들기"
 
 msgid "Create a blank folder and initialize it as a Git repository."
 msgstr "빈 폴더를 만들고 Git 리포지토리로 초기화합니다."
@@ -1362,11 +1558,17 @@ msgstr "PR 만들기"
 msgid "Create project"
 msgstr "프로젝트 만들기"
 
+msgid "Create provider token"
+msgstr "공급자 토큰 만들기"
+
 msgid "Create pull request"
 msgstr "풀 리퀘스트 만들기"
 
 msgid "Create pull request on GitHub?"
 msgstr "GitHub에서 풀 리퀘스트를 만드시겠습니까?"
+
+msgid "Create team"
+msgstr "팀 만들기"
 
 msgid "create the project"
 msgstr "프로젝트를 만들"
@@ -1471,8 +1673,20 @@ msgstr "다크"
 msgid "Dark theme"
 msgstr "다크 테마"
 
+msgid "Declarative extensions"
+msgstr "선언형 확장 기능"
+
 msgid "Decline"
 msgstr "거절"
+
+msgid "DeepSeek API Key"
+msgstr "DeepSeek API 키"
+
+msgid "DeepSeek for Butler and memory extraction."
+msgstr "Butler와 메모리 추출을 위한 DeepSeek."
+
+msgid "DeepSeek is not configured. Status and Inbox still work."
+msgstr "DeepSeek가 설정되지 않았습니다. 상태와 받은편지함은 계속 사용할 수 있습니다."
 
 msgid "default"
 msgstr "기본"
@@ -1537,6 +1751,18 @@ msgstr "삭제된 세션은 복원할 수 없습니다."
 msgid "Deleting…"
 msgstr "삭제하는 중…"
 
+msgid "Delivered"
+msgstr "전달됨"
+
+msgid "Delivered means the remote host stored the mail, not that a recipient read or acknowledged it."
+msgstr "전달됨은 원격 호스트가 메일을 저장했음을 뜻하며, 수신자의 읽음이나 처리 확인을 뜻하지 않습니다."
+
+msgid "Describe a goal to start a new task."
+msgstr "목표를 설명하고 새 작업을 시작하세요."
+
+msgid "Describe the task…"
+msgstr "작업 설명…"
+
 msgid "Describe what the agent should do…"
 msgstr "에이전트가 수행해야 할 작업을 설명하세요…"
 
@@ -1561,6 +1787,12 @@ msgstr "세부 정보"
 msgid "Detect workspaces from other tools"
 msgstr "다른 도구에서 워크스페이스 감지"
 
+msgid "Device"
+msgstr "기기"
+
+msgid "Device name"
+msgstr "기기 이름"
+
 msgid "Diagnostics"
 msgstr "진단"
 
@@ -1578,6 +1810,9 @@ msgstr "새 탭에서 차이"
 
 msgid "Directory path"
 msgstr "디렉터리 경로"
+
+msgid "Disabled"
+msgstr "비활성화됨"
 
 msgid "Discard"
 msgstr "버리기"
@@ -1638,6 +1873,9 @@ msgstr "문서"
 msgid "Done"
 msgstr "완료"
 
+msgid "Download JSON"
+msgstr "JSON 다운로드"
+
 msgid "Download starter"
 msgstr "스타터 다운로드"
 
@@ -1680,6 +1918,12 @@ msgstr "편집"
 msgid "Edit group"
 msgstr "그룹 편집"
 
+msgid "Edit memory"
+msgstr "메모리 편집"
+
+msgid "Edit peer"
+msgstr "피어 편집"
+
 msgid "Edit shared setup, run and teardown commands, or personal overrides. Saving does not execute commands."
 msgstr "공유 설정, 실행 및 정리 명령 또는 개인 재정의를 편집합니다. 저장해도 명령은 실행되지 않습니다."
 
@@ -1695,8 +1939,14 @@ msgstr "편집기 및 워크플로"
 msgid "Editor typography"
 msgstr "편집기 타이포그래피"
 
+msgid "Effort"
+msgstr "추론 강도"
+
 msgid "Enable"
 msgstr "활성화"
+
+msgid "Enabled"
+msgstr "활성화됨"
 
 msgid "Endpoint"
 msgstr "엔드포인트"
@@ -1706,6 +1956,9 @@ msgstr "명령을 입력하세요."
 
 msgid "Enter a group name of 1 to 64 characters."
 msgstr "1~64자의 그룹 이름을 입력하세요."
+
+msgid "Enter a new API key to replace it"
+msgstr "교체할 새 API 키 입력"
 
 msgid "Enter a project name and location."
 msgstr "프로젝트 이름과 위치를 입력하세요."
@@ -1728,6 +1981,9 @@ msgstr "대상 호스트의 절대 디렉터리 경로를 입력하세요."
 msgid "Enter an agent name."
 msgstr "에이전트 이름을 입력하세요."
 
+msgid "Enter the pairing code shown in Jedv on your computer."
+msgstr "컴퓨터의 Jedv에 표시된 연결 코드를 입력하세요."
+
 msgid "Enter URL..."
 msgstr "URL 입력..."
 
@@ -1743,6 +1999,9 @@ msgstr "패널 크기 균등화"
 msgid "Estimated cost"
 msgstr "예상 비용"
 
+msgid "Event type prefix"
+msgstr "이벤트 유형 접두사"
+
 msgid "Every {day}"
 msgstr "매주 {day}"
 
@@ -1751,6 +2010,9 @@ msgstr "매주 {day} {time}"
 
 msgid "Every minute"
 msgstr "1분마다"
+
+msgid "Executed"
+msgstr "실행됨"
 
 msgid "Execution mode"
 msgstr "실행 모드"
@@ -1785,14 +2047,38 @@ msgstr "펼치기"
 msgid "Expand all"
 msgstr "모두 펼치기"
 
+msgid "Expand message"
+msgstr "메시지 펼치기"
+
 msgid "Expand pane area"
 msgstr "패널 영역 확장"
 
 msgid "Expand the right pane to fill the window, or restore it"
 msgstr "오른쪽 패널을 창 전체로 확장하거나 원래대로 복원"
 
+msgid "Expired"
+msgstr "만료됨"
+
+msgid "Expired {time}"
+msgstr "{time}에 만료됨"
+
+msgid "Expires {time}"
+msgstr "{time}에 만료"
+
+msgid "Export memory"
+msgstr "메모리 내보내기"
+
+msgid "Export project memory?"
+msgstr "프로젝트 메모리를 내보낼까요?"
+
 msgid "Export theme"
 msgstr "테마 내보내기"
+
+msgid "Export to .jedv/memory.json"
+msgstr ".jedv/memory.json으로 내보내기"
+
+msgid "Extensions display data and can receive narrowly scoped mail."
+msgstr "확장 기능은 데이터를 표시하며 제한된 권한으로 메일을 받을 수 있습니다."
 
 msgid "external browser"
 msgstr "외부 브라우저"
@@ -1805,6 +2091,9 @@ msgstr "외부 편집기는 이 컴퓨터의 파일만 엽니다"
 
 msgid "Failed"
 msgstr "실패"
+
+msgid "Failed runs: {activeCount}"
+msgstr "실패한 실행: {activeCount}"
 
 msgid "Failed to add {failed} files"
 msgstr "파일 {failed}개를 추가하지 못했습니다"
@@ -1934,6 +2223,9 @@ msgstr "파일 링크"
 
 msgid "File not found"
 msgstr "파일을 찾을 수 없습니다"
+
+msgid "File path on target host"
+msgstr "대상 호스트의 파일 경로"
 
 msgid "File tree limit reached. Search files to open an unloaded path."
 msgstr "파일 트리 제한에 도달했습니다. 파일을 검색하여 로드되지 않은 경로를 여세요."
@@ -2094,6 +2386,9 @@ msgstr "금요일"
 msgid "From"
 msgstr "기존 위치"
 
+msgid "From the task’s first sentence"
+msgstr "작업의 첫 문장에서 생성"
+
 msgid "Front matter hidden. Switch to the Markdown view to edit it"
 msgstr "front matter 숨김. 편집하려면 Markdown 보기로 전환하세요"
 
@@ -2124,6 +2419,9 @@ msgstr "Git 작성자"
 msgid "Git author name"
 msgstr "Git 작성자 이름"
 
+msgid "Git features are unavailable here. Terminals and files remain available."
+msgstr "여기서는 Git 기능을 사용할 수 없습니다. 터미널과 파일은 계속 사용할 수 있습니다."
+
 msgid "GitHub authentication failed. Sign in with gh on this host, then refresh."
 msgstr "GitHub 인증에 실패했습니다. 이 호스트에서 gh에 로그인한 다음 새로 고치세요."
 
@@ -2138,6 +2436,9 @@ msgstr "GitHub 속도 제한에 도달했습니다. PR 링크가 오래되었을
 
 msgid "GitHub username"
 msgstr "GitHub 사용자 이름"
+
+msgid "Global"
+msgstr "전역"
 
 msgid "Globe"
 msgstr "지구본"
@@ -2184,6 +2485,9 @@ msgstr "이 프로젝트에서 AI가 생성하는 워크스페이스와 브랜�
 msgid "Handle in terminal"
 msgstr "터미널에서 처리"
 
+msgid "Handled"
+msgstr "처리됨"
+
 msgid "Has uncommitted changes"
 msgstr "커밋되지 않은 변경 사항 있음"
 
@@ -2208,11 +2512,17 @@ msgstr "하트"
 msgid "Help"
 msgstr "도움말"
 
+msgid "Hide"
+msgstr "숨기기"
+
 msgid "Hide {displayName}"
 msgstr "{displayName} 가리기"
 
 msgid "Hide details"
 msgstr "상세 정보 숨기기"
+
+msgid "Hide history"
+msgstr "기록 숨기기"
 
 msgid "Hide workspace activity"
 msgstr "작업 공간 활동 숨기기"
@@ -2232,6 +2542,9 @@ msgstr "호스트에 연결할 수 없음"
 msgid "Host is offline"
 msgstr "호스트가 오프라인입니다"
 
+msgid "Host offline. Team actions are unavailable until the connection is restored."
+msgstr "호스트가 오프라인입니다. 연결이 복구될 때까지 팀 작업을 사용할 수 없습니다."
+
 msgid "Host Service"
 msgstr "호스트 서비스"
 
@@ -2247,8 +2560,14 @@ msgstr "호스트 서비스를 사용할 수 없음"
 msgid "Hourly"
 msgstr "매시간"
 
+msgid "HTTPS address"
+msgstr "HTTPS 주소"
+
 msgid "https://github.com/owner/repo.git or /path/to/repo"
 msgstr "https://github.com/owner/repo.git 또는 /path/to/repo"
+
+msgid "Human"
+msgstr "사람"
 
 msgid "I checked the attachments"
 msgstr "첨부 파일을 확인했습니다"
@@ -2267,6 +2586,18 @@ msgstr "IDE"
 
 msgid "Idle"
 msgstr "대기 중"
+
+msgid "Ignore"
+msgstr "무시"
+
+msgid "Ignore suggestion"
+msgstr "제안 무시"
+
+msgid "Ignored"
+msgstr "무시됨"
+
+msgid "Ignoring this suggestion does not acknowledge mail or resolve its cause."
+msgstr "이 제안을 무시해도 메일 처리가 확인되거나 원인이 해결되지 않습니다."
 
 msgid "Image"
 msgstr "이미지"
@@ -2299,8 +2630,23 @@ msgstr "테마 파일을 가져오거나 편집할 스타터를 받으세요."
 msgid "Import an audio file or preview the selected sound."
 msgstr "오디오 파일을 가져오거나 선택한 사운드를 미리 봅니다."
 
+msgid "Import from host file"
+msgstr "호스트 파일에서 가져오기"
+
 msgid "Import from other tools"
 msgstr "다른 도구에서 가져오기"
+
+msgid "Import JSON file"
+msgstr "JSON 파일 가져오기"
+
+msgid "Import memory"
+msgstr "메모리 가져오기"
+
+msgid "Import memory?"
+msgstr "메모리를 가져올까요?"
+
+msgid "Import plain folder"
+msgstr "일반 폴더 가져오기"
 
 msgid "Import results"
 msgstr "가져오기 결과"
@@ -2320,6 +2666,9 @@ msgstr "추적되지 않은 worktree 가져오기"
 msgid "Import worktree"
 msgstr "워크트리 가져오기"
 
+msgid "Imported entries stay in the selected scope. Existing content is deduplicated."
+msgstr "가져온 항목은 선택한 범위에만 저장됩니다. 기존 내용은 중복 제거됩니다."
+
 msgid "Importing project…"
 msgstr "프로젝트 가져오는 중…"
 
@@ -2337,6 +2686,15 @@ msgstr "Apple 창에서 설치를 클릭하세요. 몇 분 정도 걸리며, 완
 
 msgid "In review"
 msgstr "리뷰 중"
+
+msgid "Inbound mail token"
+msgstr "수신 메일 토큰"
+
+msgid "Inbox"
+msgstr "받은편지함"
+
+msgid "Include archived teams"
+msgstr "보관된 팀 포함"
 
 msgid "Include the Linear ticket id from the prompt in the branch name (e.g. bin-344-fix-login). Prefix branches with fix/ or feat/ based on the task."
 msgstr "프롬프트에 있는 Linear 티켓 id를 브랜치 이름에 포함하세요 (예: bin-344-fix-login). 작업에 따라 브랜치 이름 앞에 fix/ 또는 feat/를 붙이세요."
@@ -2365,8 +2723,14 @@ msgstr "CLI에 삽입"
 msgid "Insert into the existing CLI, then submit in the terminal."
 msgstr "기존 CLI에 삽입한 후 터미널에서 제출합니다."
 
+msgid "Install"
+msgstr "설치"
+
 msgid "Install Command Line Tools"
 msgstr "Command Line Tools 설치"
+
+msgid "Install extension"
+msgstr "확장 기능 설치"
 
 msgid "Install Git, then come back."
 msgstr "Git을 설치한 후 이곳으로 돌아오세요."
@@ -2388,6 +2752,9 @@ msgstr "중단이 요청되었습니다"
 
 msgid "Interrupted"
 msgstr "중단되었습니다"
+
+msgid "Invalid memory JSON"
+msgstr "잘못된 메모리 JSON"
 
 msgid "Italic"
 msgstr "기울임꼴"
@@ -2412,6 +2779,9 @@ msgstr "주의가 필요하거나 실행 중인 워크스페이스로 이동합�
 
 msgid "Keep editing"
 msgstr "계속 편집"
+
+msgid "Keep existing entries"
+msgstr "기존 항목 유지"
 
 msgid "Keep notifications silent on this device."
 msgstr "이 기기에서 알림을 무음으로 유지합니다."
@@ -2452,6 +2822,9 @@ msgstr "매월 마지막 날"
 msgid "Last day of each month at {time}"
 msgstr "매월 마지막 날 {time}"
 
+msgid "Last run {time}"
+msgstr "마지막 실행 {time}"
+
 msgid "Later"
 msgstr "나중에"
 
@@ -2466,6 +2839,9 @@ msgstr "시작 결과를 알 수 없습니다. 다시 시작하기 전에 새로
 
 msgid "Layout"
 msgstr "레이아웃"
+
+msgid "Leader"
+msgstr "리더"
 
 msgid "Leaf"
 msgstr "잎"
@@ -2565,6 +2941,12 @@ msgstr "글꼴 불러오는 중..."
 msgid "Loading identity…"
 msgstr "ID 정보 로드 중…"
 
+msgid "Loading mail…"
+msgstr "메일 불러오는 중…"
+
+msgid "Loading memory…"
+msgstr "메모리 불러오는 중…"
+
 msgid "Loading more..."
 msgstr "더 불러오는 중..."
 
@@ -2594,6 +2976,12 @@ msgstr "실행 기록 로드 중…"
 
 msgid "Loading sessions…"
 msgstr "세션 로드 중…"
+
+msgid "Loading team…"
+msgstr "팀 불러오는 중…"
+
+msgid "Loading teams…"
+msgstr "팀 목록 불러오는 중…"
 
 msgid "Loading workspace status…"
 msgstr "워크스페이스 상태 로드 중…"
@@ -2634,6 +3022,24 @@ msgstr "위치"
 msgid "Location & checkout"
 msgstr "위치 및 체크아웃"
 
+msgid "Mail awaiting acknowledgement: {activeCount}"
+msgstr "수신 확인 대기 메일: {activeCount}"
+
+msgid "Mail awaits acknowledgement"
+msgstr "메일 처리 확인 대기 중"
+
+msgid "Mail has not been acknowledged. Reading it does not acknowledge it."
+msgstr "메일이 아직 처리 확인되지 않았습니다. 읽기만 해서는 처리 확인되지 않습니다."
+
+msgid "Mail outbox"
+msgstr "메일 보낼 편지함"
+
+msgid "Mail recipient"
+msgstr "메일 수신자"
+
+msgid "Mail-only access. The host administration key is never shared."
+msgstr "메일 권한만 부여하며 호스트 관리 키는 공유하지 않습니다."
+
 msgid "Make all panes equal size"
 msgstr "모든 패널을 같은 크기로 맞춥니다"
 
@@ -2645,6 +3051,9 @@ msgstr "터미널 스크립트 관리"
 
 msgid "Manage the host used by your workspaces."
 msgstr "워크스페이스에서 사용하는 호스트를 관리합니다."
+
+msgid "Manifest path on host"
+msgstr "호스트의 매니페스트 경로"
 
 msgid "Manual"
 msgstr "수동"
@@ -2660,6 +3069,10 @@ msgstr "읽음으로 표시"
 
 msgid "Mark as unread"
 msgstr "읽지 않음으로 표시"
+
+#. placeholder {0}: name(delivery.recipientMemberId)
+msgid "Mark mail to {0} as read"
+msgstr "{0}에게 보낸 메일을 읽음으로 표시"
 
 msgid "Mark ready for review?"
 msgstr "검토 준비 완료로 표시하시겠습니까?"
@@ -2682,6 +3095,39 @@ msgstr "최대 크기는 256 KB입니다."
 msgid "Member"
 msgstr "멤버"
 
+msgid "Member activity"
+msgstr "멤버 활동"
+
+msgid "Member activity needs checking"
+msgstr "멤버 활동 확인 필요"
+
+msgid "Member status"
+msgstr "멤버 상태"
+
+msgid "Member status needs checking"
+msgstr "멤버 상태 확인 필요"
+
+msgid "Memory"
+msgstr "메모리"
+
+msgid "Memory action failed"
+msgstr "메모리 작업 실패"
+
+msgid "Memory entries: {count}"
+msgstr "메모리 항목: {count}"
+
+msgid "Memory imported"
+msgstr "메모리를 가져왔습니다"
+
+msgid "Memory is unavailable on this host."
+msgstr "이 호스트에서 메모리를 사용할 수 없습니다."
+
+msgid "Memory JSON must be at most 4 MB."
+msgstr "메모리 JSON은 4 MB 이하여야 합니다."
+
+msgid "Memory scope"
+msgstr "메모리 범위"
+
 msgid "Menu bar activity"
 msgstr "메뉴 막대 활동"
 
@@ -2703,8 +3149,17 @@ msgstr "병합 가능 여부 확인 중"
 msgid "Merged"
 msgstr "머지됨"
 
+msgid "Message to team"
+msgstr "팀에 보낼 메시지"
+
 msgid "Minimum contrast"
 msgstr "최소 대비"
+
+msgid "Mobile"
+msgstr "모바일"
+
+msgid "Mobile access address"
+msgstr "모바일 접속 주소"
 
 msgid "Model"
 msgstr "모델"
@@ -2823,6 +3278,12 @@ msgstr "확인 필요"
 msgid "Needs me"
 msgstr "내 확인 필요"
 
+msgid "Needs reconciliation"
+msgstr "상태 조정 필요"
+
+msgid "Needs retry"
+msgstr "재시도 필요"
+
 msgid "Nerd Fonts"
 msgstr "Nerd Fonts"
 
@@ -2834,6 +3295,9 @@ msgstr "새 브랜치"
 
 msgid "New Chat"
 msgstr "새 채팅"
+
+msgid "New conversation"
+msgstr "새 대화"
 
 msgid "New File"
 msgstr "새 파일"
@@ -2871,6 +3335,9 @@ msgstr "새 탭"
 msgid "New Terminal"
 msgstr "새 터미널"
 
+msgid "New topic"
+msgstr "새 주제"
+
 msgid "New Window"
 msgstr "새 창"
 
@@ -2895,6 +3362,9 @@ msgstr "다음 브랜치"
 
 msgid "Next Right Sidebar Tab"
 msgstr "오른쪽 사이드바 다음 탭"
+
+msgid "Next run {time}"
+msgstr "다음 실행 {time}"
 
 #. placeholder {0}: formatDateTime(next, { dateStyle: "medium", timeStyle: "short", timeZone: timezone, })
 msgid "Next scheduled time: {0}"
@@ -2921,6 +3391,9 @@ msgstr "선택된 활성 조직이 없습니다. 조직을 선택하거나 다�
 msgid "No active services"
 msgstr "활성 서비스 없음"
 
+msgid "No active teams."
+msgstr "활성 팀이 없습니다."
+
 msgid "No active workspaces"
 msgstr "활성 워크스페이스 없음"
 
@@ -2933,11 +3406,20 @@ msgstr "아직 활동이 없습니다"
 msgid "No agent was started. After setup completes, start the agent again."
 msgstr "에이전트가 시작되지 않았습니다. 설정이 완료된 후 에이전트를 다시 시작하세요."
 
+msgid "No agents configured"
+msgstr "구성된 에이전트가 없습니다"
+
+msgid "No alerts."
+msgstr "알림이 없습니다."
+
 msgid "No automations match your filters"
 msgstr "필터와 일치하는 자동화가 없습니다"
 
 msgid "No automations yet"
 msgstr "아직 자동화가 없습니다"
+
+msgid "No automations."
+msgstr "자동화가 없습니다."
 
 msgid "No available workspace with a GitHub remote"
 msgstr "GitHub 원격이 있는 사용 가능한 워크스페이스가 없습니다"
@@ -2987,6 +3469,12 @@ msgstr "사용 가능한 GitHub 리포지터리가 없습니다"
 msgid "No importable worktrees found on this host. You can open a project and import its worktrees instead."
 msgstr "이 호스트에서 가져올 수 있는 워크트리가 없습니다. 대신 프로젝트를 열고 해당 워크트리를 가져올 수 있습니다."
 
+msgid "No items"
+msgstr "항목 없음"
+
+msgid "No items."
+msgstr "항목이 없습니다."
+
 msgid "No linked pull requests"
 msgstr "연결된 PR 없음"
 
@@ -2995,6 +3483,9 @@ msgstr "사용 가능한 로컬 터미널 프로세스 지표가 없습니다."
 
 msgid "No local usage or quota data is available."
 msgstr "사용 가능한 로컬 사용량 또는 할당량 데이터가 없습니다."
+
+msgid "No mail"
+msgstr "메일 없음"
 
 msgid "No match"
 msgstr "일치 항목 없음"
@@ -3008,11 +3499,17 @@ msgstr "일치하는 설정이 없습니다."
 msgid "No matching shortcuts."
 msgstr "일치하는 단축키가 없습니다."
 
+msgid "No memory found"
+msgstr "메모리를 찾지 못했습니다"
+
 msgid "No messages in this page"
 msgstr "이 페이지에 메시지가 없습니다"
 
 msgid "No output yet"
 msgstr "아직 출력이 없습니다"
+
+msgid "No pending approvals."
+msgstr "대기 중인 승인이 없습니다."
 
 msgid "No pending responses or unread completions"
 msgstr "대기 중인 응답이나 읽지 않은 완료 알림이 없습니다"
@@ -3044,6 +3541,9 @@ msgstr "PR을 찾을 수 없습니다"
 msgid "No pull requests match your filters"
 msgstr "필터와 일치하는 풀 리퀘스트가 없습니다"
 
+msgid "No recent Agent or Git activity was observed. Inspect the terminal before acting."
+msgstr "최근 에이전트 또는 Git 활동이 관찰되지 않았습니다. 작업 전에 터미널을 확인하세요."
+
 msgid "No removed projects"
 msgstr "제거된 프로젝트가 없습니다"
 
@@ -3061,6 +3561,18 @@ msgstr "아직 스크린샷이 없습니다"
 
 msgid "No subdirectories"
 msgstr "하위 디렉터리 없음"
+
+msgid "No task assigned"
+msgstr "할당된 작업 없음"
+
+msgid "No team"
+msgstr "팀 없음"
+
+msgid "No team mail yet"
+msgstr "아직 팀 메일이 없습니다"
+
+msgid "No teams yet"
+msgstr "아직 팀이 없습니다"
 
 msgid "No terminal presets yet."
 msgstr "아직 터미널 프리셋이 없습니다."
@@ -3095,6 +3607,9 @@ msgstr "지정되지 않음 · 설정 → 링크에서 구성하세요"
 msgid "Not checked yet"
 msgstr "아직 확인하지 않음"
 
+msgid "Not configured"
+msgstr "설정되지 않음"
+
 msgid "Not detected in the workspace right now"
 msgstr "지금은 워크스페이스에서 감지되지 않음"
 
@@ -3121,6 +3636,12 @@ msgstr "번호 매기기 목록"
 
 msgid "Off"
 msgstr "끔"
+
+msgid "Offline"
+msgstr "오프라인"
+
+msgid "Offline. Actions are disabled until you reconnect."
+msgstr "오프라인입니다. 다시 연결할 때까지 작업을 사용할 수 없습니다."
 
 msgid "On a Mac, Git comes with Apple's Command Line Tools."
 msgstr "Mac에서는 Git이 Apple의 Command Line Tools에 포함되어 있습니다."
@@ -3155,6 +3676,10 @@ msgstr "열기"
 #. placeholder {0}: binding.agentId
 msgid "Open {0} session"
 msgstr "{0} 세션 열기"
+
+#. placeholder {0}: member.name
+msgid "Open {0} terminal"
+msgstr "{0} 터미널 열기"
 
 msgid "Open {displayName}"
 msgstr "{displayName} 열기"
@@ -3256,6 +3781,9 @@ msgstr "탭에서 열기"
 msgid "Open large file"
 msgstr "큰 파일 열기"
 
+msgid "Open link"
+msgstr "링크 열기"
+
 msgid "Open local checkout"
 msgstr "로컬 체크아웃 열기"
 
@@ -3293,6 +3821,9 @@ msgstr "오픈 소스 감사의 글"
 
 msgid "Open System Settings"
 msgstr "시스템 설정 열기"
+
+msgid "Open Teamwork"
+msgstr "Teamwork 열기"
 
 msgid "Open terminal"
 msgstr "터미널 열기"
@@ -3360,6 +3891,9 @@ msgstr "워크스페이스 여는 중…"
 msgid "Opening…"
 msgstr "여는 중…"
 
+msgid "Operation failed"
+msgstr "작업 실패"
+
 msgid "Option shortcuts may prevent typing special characters"
 msgstr "Option 단축키는 특수 문자 입력을 방해할 수 있습니다"
 
@@ -3377,6 +3911,12 @@ msgstr "기타"
 
 msgid "Other ways to get Git"
 msgstr "Git을 설치하는 다른 방법"
+
+msgid "Outbound mail token"
+msgstr "발신 메일 토큰"
+
+msgid "Outcome uncertain. Retry with the same task settings."
+msgstr "결과가 불확실합니다. 같은 작업 설정으로 다시 시도하세요."
 
 msgid "Outdated"
 msgstr "오래됨"
@@ -3398,6 +3938,21 @@ msgstr "패키지"
 
 msgid "Page Not Found"
 msgstr "페이지를 찾을 수 없음"
+
+msgid "Pair device"
+msgstr "기기 연결"
+
+msgid "Pair this device"
+msgstr "이 기기 연결"
+
+msgid "Pairing code"
+msgstr "연결 코드"
+
+msgid "Pairing failed. Check the code and try again."
+msgstr "기기 연결에 실패했습니다. 코드를 확인하고 다시 시도하세요."
+
+msgid "Pairing…"
+msgstr "연결 중…"
 
 msgid "Pane areas must belong to the same active workspace"
 msgstr "패널 영역은 동일한 활성 작업 공간에 속해야 합니다"
@@ -3429,11 +3984,20 @@ msgstr "경로 복사됨"
 msgid "Pause"
 msgstr "일시 중지"
 
+msgid "Pause automatic wake-ups"
+msgstr "자동 호출 일시 중지"
+
 msgid "Paused"
 msgstr "일시 중지됨"
 
+msgid "Peer host ID"
+msgstr "피어 호스트 ID"
+
 msgid "Pending"
 msgstr "대기 중"
+
+msgid "Pending approvals and unread important faults"
+msgstr "대기 중인 승인 및 읽지 않은 중요 오류"
 
 msgid "Permissions"
 msgstr "권한"
@@ -3462,6 +4026,12 @@ msgstr "분홍"
 msgid "Pinned"
 msgstr "고정됨"
 
+msgid "Pitfall"
+msgstr "주의점"
+
+msgid "Plain folder"
+msgstr "일반 폴더"
+
 msgid "Please select a project directory."
 msgstr "프로젝트 디렉터리를 선택하세요."
 
@@ -3476,6 +4046,9 @@ msgstr "GitHub에 댓글을 게시하시겠습니까?"
 
 msgid "Post reply to GitHub?"
 msgstr "GitHub에 답글을 게시하시겠습니까?"
+
+msgid "Preferences"
+msgstr "환경 설정"
 
 msgid "Prefix"
 msgstr "접두사"
@@ -3525,8 +4098,14 @@ msgstr "비공개 호스트"
 msgid "Private host connections and application settings without a Jedv account."
 msgstr "Jedv 계정 없이 프라이빗 호스트 연결 및 애플리케이션 설정을 사용할 수 있습니다."
 
+msgid "Processed"
+msgstr "처리됨"
+
 msgid "Processed tokens"
 msgstr "처리한 토큰"
+
+msgid "Processing"
+msgstr "처리 중"
 
 msgid "Project"
 msgstr "프로젝트"
@@ -3536,6 +4115,9 @@ msgstr "프로젝트 디렉터리"
 
 msgid "Project icon and color"
 msgstr "프로젝트 아이콘 및 색상"
+
+msgid "Project memory"
+msgstr "프로젝트 메모리"
 
 msgid "Project name"
 msgstr "프로젝트 이름"
@@ -3572,6 +4154,12 @@ msgstr "프롬프트 전달 방식"
 
 msgid "Provider quota"
 msgstr "제공업체 할당량"
+
+msgid "Provider token"
+msgstr "공급자 토큰"
+
+msgid "Provider tokens"
+msgstr "공급자 토큰"
 
 msgid "Pull request"
 msgstr "풀 리퀘스트"
@@ -3655,14 +4243,26 @@ msgstr "인용"
 msgid "Reachable"
 msgstr "연결 가능"
 
+msgid "Read"
+msgstr "읽음"
+
 msgid "Read only"
 msgstr "읽기 전용"
+
+msgid "Read-only alert"
+msgstr "읽기 전용 알림"
+
+msgid "Read, awaiting acknowledgement"
+msgstr "읽음, 처리 확인 대기 중"
 
 msgid "Reading local CLI logs…"
 msgstr "로컬 CLI 로그 읽는 중…"
 
 msgid "Ready for review"
 msgstr "리뷰 준비됨"
+
+msgid "Reason (optional)"
+msgstr "사유(선택 사항)"
 
 msgid "Reasoning"
 msgstr "추론"
@@ -3703,6 +4303,9 @@ msgstr "빨강"
 msgid "Refresh"
 msgstr "새로 고침"
 
+msgid "Refresh agents"
+msgstr "에이전트 새로 고침"
+
 msgid "Refresh capabilities"
 msgstr "기능 새로 고침"
 
@@ -3724,8 +4327,17 @@ msgstr "세션 새로고침"
 msgid "Refresh status"
 msgstr "상태 새로 고침"
 
+msgid "Refresh teams"
+msgstr "팀 새로 고침"
+
 msgid "Reject"
 msgstr "거절"
+
+msgid "Reject candidate"
+msgstr "후보 거부"
+
+msgid "Reject candidate?"
+msgstr "이 후보를 거부할까요?"
 
 msgid "Rejected"
 msgstr "거절됨"
@@ -3787,8 +4399,20 @@ msgstr "아이콘 제거"
 msgid "Remove link"
 msgstr "링크 제거"
 
+msgid "Remove memories"
+msgstr "메모리 제거"
+
+msgid "Remove memory"
+msgstr "메모리 제거"
+
+msgid "Remove memory?"
+msgstr "이 메모리를 제거할까요?"
+
 msgid "Remove pasted text"
 msgstr "붙여넣은 텍스트 제거"
+
+msgid "Remove peer"
+msgstr "피어 제거"
 
 msgid "Remove project"
 msgstr "프로젝트 제거"
@@ -3820,6 +4444,9 @@ msgstr "브랜치 이름 변경"
 msgid "Rename session"
 msgstr "세션 이름 변경"
 
+msgid "Rename team"
+msgstr "팀 이름 변경"
+
 msgid "rename the branch"
 msgstr "브랜치 이름을 변경할"
 
@@ -3847,11 +4474,17 @@ msgstr "바꾸기"
 msgid "Replace All"
 msgstr "모두 바꾸기"
 
+msgid "Replace an existing memory"
+msgstr "기존 메모리 교체"
+
 msgid "Replaced {replaced} files in {where}"
 msgstr "{where}에서 파일 {replaced}개를 바꿨습니다"
 
 msgid "Replaced 1 file in {where}"
 msgstr "{where}에서 파일 1개를 바꿨습니다"
+
+msgid "Replaces memory"
+msgstr "교체할 메모리"
 
 msgid "Reply"
 msgstr "답글"
@@ -3870,6 +4503,9 @@ msgstr "리포지토리 URL 또는 경로"
 
 msgid "Request cancellation"
 msgstr "취소 요청"
+
+msgid "Request failed. Your draft has been kept."
+msgstr "요청에 실패했습니다. 초안이 보관되었습니다."
 
 msgid "Requested permissions"
 msgstr "요청된 권한"
@@ -4004,6 +4640,9 @@ msgstr "네이티브 세션을 재개합니다. 세션 ID는 이러한 인수 �
 msgid "Resume arguments"
 msgstr "재개 인수"
 
+msgid "Resume automatic wake-ups"
+msgstr "자동 호출 재개"
+
 msgid "Resume same CLI session"
 msgstr "동일한 CLI 세션 재개"
 
@@ -4034,6 +4673,9 @@ msgstr "몇 초 후 다시 시도하고, 계속되면 Jedv를 재시작하세요
 msgid "Retry in a few seconds."
 msgstr "몇 초 후 다시 시도하세요."
 
+msgid "Retry mail delivery?"
+msgstr "메일 전달을 다시 시도할까요?"
+
 msgid "Return to Save"
 msgstr "저장으로 돌아가기"
 
@@ -4061,11 +4703,23 @@ msgstr "리뷰 스레드가 업데이트되었습니다"
 msgid "Review threads could not be loaded"
 msgstr "리뷰 스레드를 불러올 수 없습니다"
 
+msgid "Revoke all sessions"
+msgstr "모든 세션 해지"
+
+msgid "Revoke session"
+msgstr "세션 해지"
+
+msgid "Revoke token"
+msgstr "토큰 해지"
+
 msgid "right pane"
 msgstr "오른쪽 패널"
 
 msgid "Rocket"
 msgstr "로켓"
+
+msgid "Rotate inbound token"
+msgstr "수신 토큰 교체"
 
 msgid "Run"
 msgstr "실행"
@@ -4139,6 +4793,9 @@ msgstr "저장"
 msgid "Save All"
 msgstr "모두 저장"
 
+msgid "Save API key"
+msgstr "API 키 저장"
+
 msgid "Save changes"
 msgstr "변경 사항 저장"
 
@@ -4175,6 +4832,9 @@ msgstr "브랜치를 전환하기 전에 저장되지 않은 파일을 저장하
 msgid "Save preset"
 msgstr "프리셋 저장"
 
+msgid "Save team name"
+msgstr "팀 이름 저장"
+
 msgid "save the agent"
 msgstr "에이전트를 저장할"
 
@@ -4195,6 +4855,9 @@ msgstr "저장됨"
 
 msgid "Saving a preset does not run its commands."
 msgstr "프리셋을 저장해도 해당 명령은 실행되지 않습니다."
+
+msgid "Saving replaces the current entry and keeps its history."
+msgstr "저장하면 현재 항목을 교체하고 기록을 유지합니다."
 
 msgid "Saving…"
 msgstr "저장하는 중…"
@@ -4228,8 +4891,14 @@ msgstr "맨 아래로 스크롤"
 msgid "Search"
 msgstr "검색"
 
+msgid "Search active memory…"
+msgstr "활성 메모리 검색…"
+
 msgid "Search active workspaces…"
 msgstr "활성 워크스페이스 검색…"
+
+msgid "Search agents…"
+msgstr "에이전트 검색…"
 
 msgid "Search and open files in the current workspace"
 msgstr "현재 워크스페이스에서 파일을 검색해 엽니다"
@@ -4257,6 +4926,9 @@ msgstr "파일 검색..."
 
 msgid "Search fonts..."
 msgstr "글꼴 검색..."
+
+msgid "Search memory"
+msgstr "메모리 검색"
 
 msgid "Search projects"
 msgstr "프로젝트 검색"
@@ -4366,6 +5038,9 @@ msgstr "범위 선택..."
 msgid "Select repositories"
 msgstr "리포지토리 선택"
 
+msgid "Select workspace"
+msgstr "워크스페이스 선택"
+
 msgid "Select worktree…"
 msgstr "워크트리 선택…"
 
@@ -4375,8 +5050,17 @@ msgstr "선택됨"
 msgid "Send"
 msgstr "보내기"
 
+msgid "Send instructions or ask the team…"
+msgstr "지시를 보내거나 팀에 질문하세요…"
+
+msgid "Send mail"
+msgstr "메일 보내기"
+
 msgid "Send message"
 msgstr "메시지 보내기"
+
+msgid "Sending…"
+msgstr "보내는 중…"
 
 msgid "Sensitive values are hidden. This preview is incomplete."
 msgstr "민감한 값은 숨겨져 있습니다. 이 미리 보기는 불완전합니다."
@@ -4389,6 +5073,9 @@ msgstr "세션"
 
 msgid "Session ended"
 msgstr "세션 종료"
+
+msgid "Session expires {time}"
+msgstr "세션이 {time}에 만료됩니다"
 
 msgid "Session ID"
 msgstr "세션 ID"
@@ -4437,8 +5124,17 @@ msgstr "이 워크스페이스의 설정 완료 상태를 사용할 수 없습�
 msgid "Shared"
 msgstr "공유"
 
+msgid "Shared memory"
+msgstr "공유 메모리"
+
 msgid "Shift+click"
 msgstr "Shift+클릭"
+
+msgid "Show"
+msgstr "표시"
+
+msgid "Show {hiddenCount} more"
+msgstr "{hiddenCount}명 더 보기"
 
 msgid "Show agent commands and pinned terminal presets above the workspace."
 msgstr "워크스페이스 위에 에이전트 명령과 고정된 터미널 프리셋을 표시합니다."
@@ -4457,6 +5153,9 @@ msgstr "숨겨진 디렉터리 표시"
 
 msgid "Show hidden files"
 msgstr "숨겨진 파일 표시"
+
+msgid "Show history"
+msgstr "기록 표시"
 
 msgid "Show in folder"
 msgstr "폴더에서 보기"
@@ -4497,14 +5196,26 @@ msgstr "작업 공간 활동 표시"
 msgid "Showing the first 100 results. Refine your search."
 msgstr "처음 100개의 결과를 표시합니다. 검색 범위를 좁히세요."
 
+msgid "Shown once. Copy before closing."
+msgstr "한 번만 표시됩니다. 닫기 전에 복사하세요."
+
 msgid "Side by side"
 msgstr "나란히 비교"
+
+msgid "Sidebar extensions"
+msgstr "사이드바 확장 기능"
 
 msgid "Sidebar file rows"
 msgstr "사이드바 파일 행"
 
 msgid "Sign in to GitHub on this host to reply"
 msgstr "이 호스트에서 GitHub에 로그인하여 답글 작성"
+
+msgid "Sign out"
+msgstr "로그아웃"
+
+msgid "Signing out…"
+msgstr "로그아웃 중…"
 
 msgid "Size"
 msgstr "크기"
@@ -4532,6 +5243,9 @@ msgstr "일부 프로젝트 트리 작업을 로드하지 못했습니다. 다�
 
 msgid "Some session details could not be loaded. Refresh to check the current host state."
 msgstr "일부 세션 세부 정보를 불러올 수 없습니다. 새로고침하여 현재 호스트 상태를 확인하세요."
+
+msgid "Some team data could not be loaded. Check the host connection and retry."
+msgstr "일부 팀 데이터를 불러오지 못했습니다. 호스트 연결을 확인하고 다시 시도하세요."
 
 msgid "Some themes were skipped"
 msgstr "일부 테마를 건너뛰었습니다"
@@ -4617,6 +5331,9 @@ msgstr "스타"
 msgid "Start a new agent, or choose an existing session from Sessions."
 msgstr "새 에이전트를 시작하거나 세션에서 기존 세션을 선택하세요."
 
+msgid "Start an agent in a workspace, then create a team."
+msgstr "워크스페이스에서 에이전트를 시작한 후 팀을 만드세요."
+
 msgid "Start from a template"
 msgstr "템플릿으로 시작"
 
@@ -4625,6 +5342,9 @@ msgstr "새 세션 시작"
 
 msgid "Start or stop the workspace run command"
 msgstr "워크스페이스 실행 명령을 시작하거나 중지합니다"
+
+msgid "Start task"
+msgstr "작업 시작"
 
 msgid "starting"
 msgstr "시작 중"
@@ -4646,6 +5366,14 @@ msgstr "상태를 사용할 수 없습니다. 시스템 설정에서 이 권한�
 
 msgid "Stop"
 msgstr "중지"
+
+#. placeholder {0}: member.name
+msgid "Stop {0}"
+msgstr "{0} 중지"
+
+#. placeholder {0}: member.name
+msgid "Stop {0}?"
+msgstr "{0}을(를) 중지할까요?"
 
 msgid "Stop {label}"
 msgstr "{label} 중지"
@@ -4674,7 +5402,19 @@ msgstr "로컬 프로세스를 중지하시겠습니까?"
 msgid "Stop response"
 msgstr "응답 중지"
 
+msgid "Stop team"
+msgstr "팀 중지"
+
+msgid "Stop Team"
+msgstr "팀 중지"
+
+msgid "Stop this team?"
+msgstr "이 팀을 중지할까요?"
+
 msgid "stopped"
+msgstr "중지됨"
+
+msgid "Stopped"
 msgstr "중지됨"
 
 msgid "Strict CLI resume is unavailable on this host. Active CLI and chat sessions remain selectable."
@@ -4688,6 +5428,9 @@ msgstr "보내기"
 
 msgid "Submit response"
 msgstr "응답 제출"
+
+msgid "Succeeded"
+msgstr "성공"
 
 msgid "Summary"
 msgstr "요약"
@@ -4767,19 +5510,58 @@ msgstr "워크스페이스 9로 전환"
 msgid "System"
 msgstr "시스템"
 
+msgid "System agents"
+msgstr "시스템 에이전트"
+
 msgid "System permissions"
 msgstr "시스템 권한"
 
 msgid "Take control"
 msgstr "제어 시작"
 
+msgid "Target"
+msgstr "대상"
+
 #. placeholder {0}: context.hostLabel
 #. placeholder {0}: session.context.hostLabel
 msgid "Target host: {0}"
 msgstr "대상 호스트: {0}"
 
+msgid "Task"
+msgstr "작업"
+
 msgid "Teal"
 msgstr "청록빛 녹색"
+
+msgid "Team"
+msgstr "팀"
+
+msgid "Team action failed"
+msgstr "팀 작업 실패"
+
+msgid "Team leader"
+msgstr "팀 리더"
+
+msgid "Team mail"
+msgstr "팀 메일"
+
+msgid "Team member needs attention"
+msgstr "팀 멤버 확인 필요"
+
+msgid "Team name"
+msgstr "팀 이름"
+
+msgid "Team peers"
+msgstr "팀 피어"
+
+msgid "Team stopped"
+msgstr "팀이 중지됨"
+
+msgid "Teams"
+msgstr "팀"
+
+msgid "Teamwork"
+msgstr "Teamwork"
 
 msgid "Teardown exited with code {exitCode}"
 msgstr "정리 스크립트가 코드 {exitCode}(으)로 종료되었습니다"
@@ -4817,6 +5599,9 @@ msgstr "터미널 세션"
 msgid "Terminal typography"
 msgstr "터미널 타이포그래피"
 
+msgid "Terminal unavailable"
+msgstr "터미널을 사용할 수 없습니다"
+
 msgid "Terminate"
 msgstr "종료"
 
@@ -4843,6 +5628,9 @@ msgstr "활성 세션이 변경되었습니다. 프롬프트가 전송되지 않
 
 msgid "The agent reports it is working."
 msgstr "에이전트가 작업 중이라고 보고했습니다."
+
+msgid "The approval status or target has changed. Refresh to verify, and request a new approval if needed."
+msgstr "승인 상태 또는 대상이 변경되었습니다. 새로 고침하여 확인하고 필요하면 새 승인을 요청하세요."
 
 msgid "The attachment copy result is incomplete. Check the workspace before retrying."
 msgstr "첨부 파일 복사 결과가 불완전합니다. 다시 시도하기 전에 워크스페이스를 확인하세요."
@@ -4886,6 +5674,12 @@ msgstr "{organization}의 Jedv 호스트 서비스가 예기치 않게 중지되
 msgid "The Jedv host service stopped unexpectedly ({cause}) and could not be restarted automatically."
 msgstr "Jedv 호스트 서비스가 예기치 않게 중지되었으며({cause}) 자동으로 다시 시작하지 못했습니다."
 
+msgid "The key stays on this host. It is never injected into terminals or returned to this screen."
+msgstr "키는 이 호스트에만 저장되며 터미널에 주입되거나 이 화면에 반환되지 않습니다."
+
+msgid "The Leader terminal continues running."
+msgstr "리더 터미널은 계속 실행됩니다."
+
 msgid "The linked local agent is unavailable on this host. Edit the preset or remove its agent link."
 msgstr "연결된 로컬 에이전트를 이 호스트에서 사용할 수 없습니다. 프리셋을 편집하거나 에이전트 연결을 해제하세요."
 
@@ -4895,8 +5689,17 @@ msgstr "{device}의 {organization}에 대해 로컬 호스트 서비스를 사�
 msgid "The operation result is unknown. Check the branch history and remote before retrying."
 msgstr "작업 결과를 알 수 없습니다. 다시 시도하기 전에 브랜치 기록과 원격 리포지토리를 확인하세요."
 
+msgid "The original terminal has ended. Its source is shown instead."
+msgstr "원래 터미널이 종료되어 해당 출처를 표시합니다."
+
 msgid "The page you're looking for doesn't exist."
 msgstr "찾으시는 페이지가 존재하지 않습니다."
+
+msgid "The pairing code expired or was already used. Request a new code on your computer."
+msgstr "연결 코드가 만료되었거나 이미 사용되었습니다. 컴퓨터에서 새 코드를 요청하세요."
+
+msgid "The previous token will stop working. Update the remote peer with the new token."
+msgstr "이전 토큰은 더 이상 작동하지 않습니다. 새 토큰으로 원격 피어를 업데이트하세요."
 
 msgid "The project is saved, but its workspace could not be opened. Continue opening to retry without creating another project."
 msgstr "프로젝트는 저장되었지만 워크스페이스를 열지 못했습니다. 다른 프로젝트를 만들지 않고 계속 열기를 시도하세요."
@@ -4909,6 +5712,15 @@ msgstr "이 호스트에 리포지토리 디렉터리가 없습니다. 현재 �
 
 msgid "The request ended before its result was confirmed. Check the target host for a completed project or partial directory before trying again."
 msgstr "결과가 확인되기 전에 요청이 종료되었습니다. 다시 시도하기 전에 대상 호스트에 완료된 프로젝트나 부분 디렉터리가 있는지 확인하세요."
+
+msgid "The requested run is not in the loaded history."
+msgstr "이 실행은 현재 불러온 기록에 없습니다."
+
+msgid "The result is uncertain. Refresh before deciding again."
+msgstr "결과가 불확실합니다. 다시 결정하기 전에 새로 고치세요."
+
+msgid "The result is uncertain. Retry this message with the same request ID."
+msgstr "결과가 불확실합니다. 동일한 요청 ID로 이 메시지를 다시 시도하세요."
 
 msgid "The resumed session identity could not be verified. Refresh before retrying."
 msgstr "재개된 세션의 ID를 확인하지 못했습니다. 새로 고친 후 다시 시도하세요."
@@ -4958,6 +5770,9 @@ msgstr "대상 워크스페이스가 변경되었습니다. 계속하기 전에 
 msgid "The target workspace changed. The result belongs to the original workspace."
 msgstr "대상 워크스페이스가 변경되었으며 결과는 원래 워크스페이스에 속합니다."
 
+msgid "The team becomes read-only. Its workspaces, files and terminals are kept."
+msgstr "팀이 읽기 전용으로 전환됩니다. 워크스페이스, 파일, 터미널은 유지됩니다."
+
 msgid "The terminal session changed. Refresh before inserting the prompt."
 msgstr "터미널 세션이 변경되었습니다. 프롬프트를 삽입하기 전에 새로 고치세요."
 
@@ -4996,6 +5811,9 @@ msgstr "이 노트는 애플리케이션에 포함되어 있습니다. 게시된
 
 msgid "This action is irreversible."
 msgstr "이 동작은 되돌릴 수 없습니다."
+
+msgid "This agent is no longer available. Choose another leader."
+msgstr "이 에이전트를 더 이상 사용할 수 없습니다. 다른 리더를 선택하세요."
 
 msgid "This API login does not expose subscription quota."
 msgstr "이 API 로그인은 구독 할당량을 제공하지 않습니다."
@@ -5048,8 +5866,14 @@ msgstr "이 기기"
 msgid "this device ({id})"
 msgstr "이 기기 ({id})"
 
+msgid "This device will need to pair again."
+msgstr "이 기기는 다시 페어링해야 합니다."
+
 msgid "This draft belongs to another session. Return to it or discard the draft before composing here."
 msgstr "이 초안은 다른 세션에 속합니다. 여기서 작성하기 전에 해당 세션으로 돌아가거나 초안을 폐기하세요."
+
+msgid "This entry will no longer be searched or injected."
+msgstr "이 항목은 더 이상 검색되거나 주입되지 않습니다."
 
 msgid "This file cannot be edited as text."
 msgstr "이 파일은 텍스트로 편집할 수 없습니다."
@@ -5063,8 +5887,20 @@ msgstr "이 파일은 워크스페이스 외부에 있거나 심볼릭 링크를
 msgid "This folder is not a Git repository. Initialize Git here and import it as a project? Existing files will be kept."
 msgstr "이 폴더는 Git 리포지토리가 아닙니다. 여기서 Git을 초기화하고 프로젝트로 가져오시겠습니까? 기존 파일은 유지됩니다."
 
+msgid "This host"
+msgstr "이 호스트"
+
+msgid "This host cannot start team tasks. Update the host or use an existing session."
+msgstr "이 호스트에서는 팀 작업을 시작할 수 없습니다. 호스트를 업데이트하거나 기존 세션을 사용하세요."
+
 msgid "This host did not provide a readable preview. Review the request in the agent CLI before approving."
 msgstr "이 호스트는 읽을 수 있는 미리 보기를 제공하지 않습니다. 승인하기 전에 에이전트 CLI에서 요청을 검토하세요."
+
+msgid "This host does not support plain folders. Update the host and retry."
+msgstr "이 호스트는 일반 폴더를 지원하지 않습니다. 호스트를 업데이트하고 다시 시도하세요."
+
+msgid "This host does not support Teamwork. Update the host to use teams and mail."
+msgstr "이 호스트는 Teamwork를 지원하지 않습니다. 팀과 메일을 사용하려면 호스트를 업데이트하세요."
 
 msgid "This is a large file. Opening it may slow down the editor."
 msgstr "큰 파일입니다. 열면 편집기가 느려질 수 있습니다."
@@ -5141,6 +5977,9 @@ msgstr "이 단축키는 {0}에 할당됩니다. 다음 작업은 할당 해제�
 msgid "This stops {0} and its child processes. Unsaved work in the terminal can be lost."
 msgstr "{0} 및 해당 하위 프로세스를 중지합니다. 터미널에서 저장되지 않은 작업이 손실될 수 있습니다."
 
+msgid "This stops all worker terminals and automatic wake-ups. The leader terminal remains open."
+msgstr "모든 워커 터미널과 자동 호출이 중지됩니다. 리더 터미널은 열린 상태로 유지됩니다."
+
 msgid "This stops only the listed forwarding tunnels. Processes on the target host keep running."
 msgstr "나열된 전달 터널만 중지합니다. 대상 호스트의 프로세스는 계속 실행됩니다."
 
@@ -5158,6 +5997,12 @@ msgstr "나열된 워크스페이스 포트에서 수신 대기 중인 프로세
 
 msgid "This stops the shell and all processes running in this terminal. Workspace files are kept. Unsaved process state may be lost."
 msgstr "이 작업은 셸과 이 터미널에서 실행 중인 모든 프로세스를 중지합니다. 워크스페이스 파일은 유지됩니다. 저장되지 않은 프로세스 상태는 손실될 수 있습니다."
+
+msgid "This stops the worker terminal and may interrupt its work."
+msgstr "워커 터미널이 중지되어 작업이 중단될 수 있습니다."
+
+msgid "This terminal has exited. Refresh the team to see its current status."
+msgstr "이 터미널이 종료되었습니다. 팀을 새로 고쳐 현재 상태를 확인하세요."
 
 msgid "This terminal is also open on a smaller screen, so it's sized to fit"
 msgstr "이 터미널이 더 작은 화면에서도 열려 있어 그 크기에 맞춰졌습니다"
@@ -5186,14 +6031,23 @@ msgstr "현재 상태에서는 이 워크스페이스를 삭제할 수 없습니
 msgid "This workspace shares the project's files, index, and current branch. It does not switch branches or run setup."
 msgstr "이 워크스페이스는 프로젝트의 파일, 인덱스 및 현재 브랜치를 공유합니다. 브랜치를 전환하거나 설정을 실행하지 않습니다."
 
+msgid "This writes .jedv/memory.json on the target host and replaces the existing file."
+msgstr "대상 호스트의 .jedv/memory.json에 쓰고 기존 파일을 덮어씁니다."
+
 msgid "Thursday"
 msgstr "목요일"
+
+msgid "Tier"
+msgstr "계층"
 
 msgid "Time unavailable"
 msgstr "시간을 사용할 수 없음"
 
 msgid "Time zone"
 msgstr "시간대"
+
+msgid "Title"
+msgstr "제목"
 
 msgid "To"
 msgstr "새 위치"
@@ -5237,11 +6091,20 @@ msgstr "드롭한 항목이 너무 많습니다. 한 번에 최대 5000개의 �
 msgid "Too many files. Some were not added."
 msgstr "파일이 너무 많습니다. 일부는 추가되지 않았습니다."
 
+msgid "Too many requests. Wait a moment and try again."
+msgstr "요청이 너무 많습니다. 잠시 후 다시 시도하세요."
+
 msgid "Too many untitled items here already."
 msgstr "여기에 이름 없는 항목이 이미 너무 많습니다."
 
 msgid "Tool output"
 msgstr "도구 출력"
+
+msgid "Tool records"
+msgstr "도구 기록"
+
+msgid "Total items: {count}"
+msgstr "전체 항목: {count}"
 
 msgid "Transcribing"
 msgstr "받아쓰기 중"
@@ -5303,11 +6166,17 @@ msgstr "받아쓰기를 시작할 수 없습니다"
 msgid "Unable to transcribe audio"
 msgstr "오디오를 변환할 수 없습니다"
 
+msgid "Unacknowledged mail: {count}"
+msgstr "미확인 메일: {count}"
+
 msgid "Unassigned"
 msgstr "미할당"
 
 msgid "Unavailable"
 msgstr "사용할 수 없음"
+
+msgid "Unavailable on this host"
+msgstr "이 호스트에서 사용할 수 없음"
 
 msgid "Uncommitted"
 msgstr "커밋 안 됨"
@@ -5339,6 +6208,9 @@ msgstr "그룹 해제"
 msgid "Unified diff"
 msgstr "통합 diff"
 
+msgid "Uninstall extension"
+msgstr "확장 기능 제거"
+
 msgid "unknown"
 msgstr "알 수 없음"
 
@@ -5362,6 +6234,9 @@ msgstr "푸시되지 않은 커밋"
 
 msgid "Unreachable"
 msgstr "연결할 수 없음"
+
+msgid "Unread"
+msgstr "읽지 않음"
 
 msgid "Unread activity"
 msgstr "읽지 않은 활동"
@@ -5462,6 +6337,9 @@ msgstr "“{0}” 사용"
 msgid "Use an existing repository at this location. Jedv changes the registered path and local checkout workspaces; it does not move files. Existing worktrees under the old repository may need to be imported again."
 msgstr "이 위치의 기존 리포지토리를 사용합니다. Jedv는 등록된 경로와 로컬 체크아웃 워크스페이스를 변경하며 파일은 이동하지 않습니다. 이전 리포지토리의 기존 워크트리는 다시 가져와야 할 수 있습니다."
 
+msgid "Use an existing session"
+msgstr "기존 세션 사용"
+
 msgid "Use another local port"
 msgstr "다른 로컬 포트 사용"
 
@@ -5477,11 +6355,17 @@ msgstr "호스트 기본값 사용"
 msgid "Use Move to group to move workspaces between groups."
 msgstr "그룹으로 이동을 사용하여 워크스페이스를 그룹 간에 이동합니다."
 
+msgid "Use provider.<id>. as the event type prefix."
+msgstr "이벤트 유형 접두사로 provider.<id>.를 사용하세요."
+
 msgid "Use the Jedv tray menu > Host Service > Restart, then retry."
 msgstr "Jedv 트레이 메뉴 > Host Service > Restart를 사용한 뒤 다시 시도하세요."
 
 msgid "Use this device"
 msgstr "이 기기 사용"
+
+msgid "Use this directory for terminals and files without initializing Git."
+msgstr "Git을 초기화하지 않고 이 디렉터리에서 터미널과 파일을 사용합니다."
 
 msgid "Use this folder"
 msgstr "이 폴더 사용"
@@ -5511,8 +6395,14 @@ msgstr "보기"
 msgid "View license"
 msgstr "라이선스 보기"
 
+msgid "View run"
+msgstr "실행 보기"
+
 msgid "View source"
 msgstr "소스 보기"
+
+msgid "View team"
+msgstr "팀 보기"
 
 msgid "Volume"
 msgstr "볼륨"
@@ -5522,6 +6412,9 @@ msgstr "VS Code"
 
 msgid "Wait for workspace setup before starting an agent"
 msgstr "에이전트를 시작하기 전에 워크스페이스 설정 완료 대기"
+
+msgid "Waiting for agent status"
+msgstr "에이전트 상태 대기 중"
 
 msgid "Waiting for approval"
 msgstr "승인 대기 중"
@@ -5553,11 +6446,23 @@ msgstr "매주 {time}"
 msgid "Welcome to Jedv"
 msgstr "Jedv에 오신 것을 환영합니다"
 
+msgid "What should the team accomplish?"
+msgstr "팀이 무엇을 달성하길 원하시나요?"
+
 msgid "What would you like to know?"
 msgstr "무엇을 알고 싶으신가요?"
 
+msgid "Whole team"
+msgstr "전체 팀"
+
 msgid "Window"
 msgstr "창"
+
+msgid "Without a key, teams, mail, active memory and rule alerts remain available."
+msgstr "키가 없어도 팀, 메일, 능동 메모리 및 규칙 알림을 사용할 수 있습니다."
+
+msgid "Worker"
+msgstr "워커"
 
 msgid "Working"
 msgstr "작업 중"
@@ -5619,6 +6524,9 @@ msgstr "워크스페이스 설정이 아직 실행 중입니다."
 msgid "Workspace state changed. Review the updated checks and confirm again."
 msgstr "워크스페이스 상태가 변경되었습니다. 업데이트된 검사 결과를 검토하고 다시 확인하세요."
 
+msgid "Workspace unavailable"
+msgstr "워크스페이스를 사용할 수 없습니다"
+
 msgid "Workspaces"
 msgstr "워크스페이스"
 
@@ -5666,6 +6574,12 @@ msgstr "내 변경 내용"
 
 msgid "Your imports are saved. Could not refresh or open them. Try continuing again."
 msgstr "가져온 항목은 저장되었습니다. 새로 고치거나 열지 못했습니다. 계속을 다시 시도하세요."
+
+msgid "Your request was refused. Refresh your session and try again."
+msgstr "요청이 거부되었습니다. 세션을 새로 고치고 다시 시도하세요."
+
+msgid "Your session expired. Pair this device again."
+msgstr "세션이 만료되었습니다. 이 기기를 다시 연결하세요."
 
 msgid "Zap"
 msgstr "번개"

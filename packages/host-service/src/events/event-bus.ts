@@ -13,6 +13,8 @@ import type {
 	DistributiveOmit,
 	ServerMessage,
 	TerminalLifecycleMessage,
+	TeamChangedMessage,
+	MailChangedMessage,
 } from "./types.ts";
 
 type WsSocket = {
@@ -221,6 +223,9 @@ export class EventBus {
 			this.clients.delete(socket);
 		}
 	}
+
+	broadcastTeamChanged(message: Omit<TeamChangedMessage, "type">): void { this.broadcast({ type: "team:changed", ...message }); }
+	broadcastMailChanged(message: Omit<MailChangedMessage, "type">): void { this.broadcast({ type: "mail:changed", ...message }); }
 
 	/** For git state changes GitWatcher cannot see, such as a ref fetched into the common dir. */
 	broadcastGitChanged(workspaceId: string): void {

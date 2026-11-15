@@ -4,6 +4,13 @@
 	"private": true,
 	"type": "module",
 	"exports": {
+		"./teamwork-peers": "./src/teamwork-peers.ts",
+		"./declarative-slots": "./src/declarative-slots.ts",
+		"./butler": "./src/butler.ts",
+		"./butler-attention": "./src/butler-attention.ts",
+		"./vcs-capabilities": "./src/vcs-capabilities.ts",
+		"./memory": "./src/memory.ts",
+		"./teamwork": "./src/teamwork.ts",
 		"./project-config": {
 			"types": "./src/project-config/index.ts",
 			"default": "./src/project-config/index.ts"

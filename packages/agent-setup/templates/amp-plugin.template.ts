@@ -1,7 +1,7 @@
 {{MARKER}}
 // @i-know-the-amp-plugin-api-is-wip-and-very-experimental-right-now
 
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { existsSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
@@ -96,7 +96,26 @@ export default function jedvAmpLifecyclePlugin(amp: AmpApi) {
 			notifyPath,
 	);
 
+  // Reserve before any await/queue/spawn. The allocation-only child does
+  // bounded local filesystem work; the event callback never waits for HTTP.
+  const reserveSequence = () => {
+    const reservation = {
+      JEDV_HOOK_SEQUENCE_ALLOCATED: "1",
+      JEDV_HOOK_DELIVERY_SEQUENCE: "",
+    };
+    if (!env.JEDV_AGENT_LAUNCH_ID || !env.JEDV_HOME_DIR) return reservation;
+    try {
+      const result = spawnSync("bash", [notifyPath, "--allocate-delivery-sequence"], {
+        env: env, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"], timeout: 1500,
+      });
+      const sequence = result.status === 0 ? result.stdout.trim() : "";
+      if (/^[1-9][0-9]{0,14}$/.test(sequence))
+        reservation.JEDV_HOOK_DELIVERY_SEQUENCE = sequence;
+    } catch { /* Reservation failures stay display-only. */ }
+    return reservation;
+  };
 	const notify = (hookEventName: string, event?: unknown) => {
+		const reservation = reserveSequence();
 		const sessionId = getSessionId(event);
 		const payload = JSON.stringify({
 			hook_event_name: hookEventName,
@@ -108,7 +127,7 @@ export default function jedvAmpLifecyclePlugin(amp: AmpApi) {
 			const child = spawn(notifyPath, [], {
 				stdio: ["pipe", "ignore", "ignore"],
 				detached: true,
-				env: { ...env, JEDV_HOOK_HARNESS: "amp" },
+				env: { ...env, ...reservation, JEDV_HOOK_HARNESS: "amp" },
 			});
 			child.on("error", (error) => {
 				debugLog("spawn failed event=" + hookEventName + " error=" + error.message);

@@ -14,8 +14,12 @@
 
 import { TZDate, tzOffset } from "@date-fns/tz";
 import { msg } from "@lingui/core/macro";
-import { type Options, RRule } from "rrule";
+import type { Options } from "rrule";
+import * as rrule from "rrule";
 import { i18n } from "./i18n";
+
+// Node loads the CJS default object; Vite loads named ESM exports only.
+const { RRule } = (Reflect.get(rrule, "default") ?? rrule) as typeof rrule;
 
 const WEEKDAYS = ["MO", "TU", "WE", "TH", "FR"] as const;
 const WEEKENDS = ["SA", "SU"] as const;

@@ -16,6 +16,7 @@ import type { Project } from "../../types";
 import type { ProjectActionKind } from "../JedvProjectActions";
 export function JedvEmptyState({
 	workspace,
+	gitEnabled,
 	projects,
 	disabled,
 	onProjectAction,
@@ -28,6 +29,7 @@ export function JedvEmptyState({
 	onSearchFiles,
 }: {
 	workspace: boolean;
+	gitEnabled: boolean;
 	projects: Project[];
 	disabled: boolean;
 	onProjectAction(kind: ProjectActionKind): void;
@@ -56,12 +58,16 @@ export function JedvEmptyState({
 					run: onTerminal,
 				},
 
-				{
-					label: t({ message: "Open Changes" }),
-					shortcut: changesShortcut,
-					icon: LuGitCompareArrows,
-					run: onChanges,
-				},
+				...(gitEnabled
+					? [
+							{
+								label: t({ message: "Open Changes" }),
+								shortcut: changesShortcut,
+								icon: LuGitCompareArrows,
+								run: onChanges,
+							},
+						]
+					: []),
 				{
 					label: t({ message: "Search Files" }),
 					shortcut: filesShortcut,

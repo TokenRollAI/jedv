@@ -32,10 +32,10 @@ import {
 export const OPENCODE_PLUGIN_FILE = "jedv-notify.js";
 
 const OPENCODE_PLUGIN_SIGNATURE = "// Jedv opencode plugin";
-const OPENCODE_PLUGIN_VERSION = "v11";
+const OPENCODE_PLUGIN_VERSION = "v12";
 export const OPENCODE_PLUGIN_MARKER = `${OPENCODE_PLUGIN_SIGNATURE} ${OPENCODE_PLUGIN_VERSION}`;
 const OPENCODE_TUI_PLUGIN_SIGNATURE = "// Jedv opencode tui plugin";
-export const OPENCODE_TUI_PLUGIN_MARKER = `${OPENCODE_TUI_PLUGIN_SIGNATURE} v2`;
+export const OPENCODE_TUI_PLUGIN_MARKER = `${OPENCODE_TUI_PLUGIN_SIGNATURE} v3`;
 
 /**
  * Returns the environment-scoped OpenCode plugin path under Jedv home.

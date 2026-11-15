@@ -1,0 +1,1 @@
+export { SlotInstaller } from "./SlotInstaller";

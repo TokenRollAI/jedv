@@ -1,0 +1,1 @@
+export { SidebarSectionHeading } from "./SidebarSectionHeading";

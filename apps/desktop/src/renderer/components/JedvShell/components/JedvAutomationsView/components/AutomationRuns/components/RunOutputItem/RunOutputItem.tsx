@@ -3,6 +3,8 @@ import { Button } from "@jedv/ui/button";
 import { Input } from "@jedv/ui/input";
 import { Trans, useLingui } from "@lingui/react/macro";
 import { useState } from "react";
+import { JedvMultiSelect } from "../../../../../JedvMultiSelect";
+import { JedvSelect } from "../../../../../JedvSelect";
 export function RunOutputItem({
 	item,
 	pending,
@@ -16,6 +18,16 @@ export function RunOutputItem({
 }) {
 	const { t } = useLingui();
 	const [values, setValues] = useState<Record<string, string | string[]>>({});
+	const requiredMissing =
+		isKnownItem(item) &&
+		item.kind === "approval_request" &&
+		item.form?.fields.some(
+			(field) =>
+				field.required &&
+				(values[field.id] == null ||
+					values[field.id] === "" ||
+					(Array.isArray(values[field.id]) && values[field.id]?.length === 0)),
+		);
 	if (!isKnownItem(item))
 		return (
 			<details className="rounded-md border border-border/50 p-2 text-xs">
@@ -63,74 +75,85 @@ export function RunOutputItem({
 							<form
 								onSubmit={(e) => {
 									e.preventDefault();
-									onApprove({ type: "form", values });
+									if (!pending && canControl && !requiredMissing)
+										onApprove({ type: "form", values });
 								}}
 							>
 								<p>{item.form.message}</p>
 								{item.form.fields.map((field) => (
-									<label
-										key={field.id}
-										htmlFor={`approval-${item.id}-${field.id}`}
-										className="mt-2 block"
-									>
-										{field.title ?? field.id}
+									<div key={field.id} className="mt-2 block">
+										<label htmlFor={`approval-${item.id}-${field.id}`}>
+											{field.title ?? field.id}
+										</label>
 										{field.description && (
 											<span className="block text-muted-foreground">
 												{field.description}
 											</span>
 										)}
 										{field.options ? (
-											<select
+											field.input === "multi" ? (
+												<JedvMultiSelect
+													id={`approval-${item.id}-${field.id}`}
+													label={field.title ?? field.id}
+													disabled={pending || !canControl}
+													value={
+														Array.isArray(values[field.id])
+															? (values[field.id] as string[])
+															: []
+													}
+													options={field.options}
+													onValueChange={(value) =>
+														setValues((v) => ({ ...v, [field.id]: value }))
+													}
+												/>
+											) : (
+												<JedvSelect
+													id={`approval-${item.id}-${field.id}`}
+													label={field.title ?? field.id}
+													disabled={pending || !canControl}
+													required={field.required}
+													value={
+														typeof values[field.id] === "string"
+															? (values[field.id] as string)
+															: ""
+													}
+													options={[
+														{
+															value: "",
+															label: t({ message: "Select an option" }),
+														},
+														...field.options,
+													]}
+													onValueChange={(value) =>
+														setValues((v) => ({ ...v, [field.id]: value }))
+													}
+													className="mt-1 w-full"
+												/>
+											)
+										) : field.input === "boolean" ? (
+											<JedvSelect
 												id={`approval-${item.id}-${field.id}`}
-												multiple={field.input === "multi"}
+												label={field.title ?? field.id}
+												disabled={pending || !canControl}
 												required={field.required}
 												value={
-													values[field.id] ??
-													(field.input === "multi" ? [] : "")
+													typeof values[field.id] === "string"
+														? (values[field.id] as string)
+														: ""
 												}
-												onChange={(e) =>
-													setValues((v) => ({
-														...v,
-														[field.id]:
-															field.input === "multi"
-																? Array.from(e.target.selectedOptions).map(
-																		(o) => o.value,
-																	)
-																: e.target.value,
-													}))
+												onValueChange={(value) =>
+													setValues((v) => ({ ...v, [field.id]: value }))
 												}
-												className="mt-1 w-full rounded-md border border-input bg-background p-1.5 text-xs"
-											>
-												{field.input !== "multi" && (
-													<option value="">
-														{t({ message: "Select an option" })}
-													</option>
-												)}
-												{field.options.map((o) => (
-													<option key={o.value} value={o.value}>
-														{o.label}
-													</option>
-												))}
-											</select>
-										) : field.input === "boolean" ? (
-											<select
-												id={`approval-${item.id}-${field.id}`}
-												required={field.required}
-												value={values[field.id] ?? ""}
-												onChange={(e) =>
-													setValues((v) => ({
-														...v,
-														[field.id]: e.target.value,
-													}))
-												}
-												className="mt-1 w-full rounded-md border border-input bg-background p-1.5"
-											>
-												<option value="">
-													{t({ message: "Select an option" })}
-												</option>
-												<option value="true">{t({ message: "Yes" })}</option>
-												<option value="false">{t({ message: "No" })}</option>
-											</select>
+												options={[
+													{
+														value: "",
+														label: t({ message: "Select an option" }),
+													},
+													{ value: "true", label: t({ message: "Yes" }) },
+													{ value: "false", label: t({ message: "No" }) },
+												]}
+												className="mt-1 w-full"
+											/>
 										) : (
 											<Input
 												id={`approval-${item.id}-${field.id}`}
@@ -151,9 +174,14 @@ export function RunOutputItem({
 												className="mt-1 h-7 text-xs"
 											/>
 										)}
-									</label>
+									</div>
 								))}
-								<Button type="submit" size="sm" className="mt-3 h-7">
+								<Button
+									type="submit"
+									size="sm"
+									className="mt-3 h-7"
+									disabled={pending || !canControl || !!requiredMissing}
+								>
 									<Trans>Submit response</Trans>
 								</Button>
 								<Button

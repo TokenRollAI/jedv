@@ -288,6 +288,62 @@
       "when": 1794626505326,
       "tag": "0040_workspace_setup",
       "breakpoints": true
+    },
+    {
+      "idx": 41,
+      "version": "6",
+      "when": 1794767979842,
+      "tag": "0041_teamwork",
+      "breakpoints": true
+    },
+    {
+      "idx": 42,
+      "version": "6",
+      "when": 1794769196785,
+      "tag": "0042_hook_source_order",
+      "breakpoints": true
+    },
+    {
+      "idx": 43,
+      "version": "6",
+      "when": 1794770095052,
+      "tag": "0043_memory_watchdog",
+      "breakpoints": true
+    },
+    {
+      "idx": 44,
+      "version": "6",
+      "when": 1794771239797,
+      "tag": "0044_butler",
+      "breakpoints": true
+    },
+    {
+      "idx": 45,
+      "version": "6",
+      "when": 1794773022441,
+      "tag": "0045_teamwork_network",
+      "breakpoints": true
+    },
+    {
+      "idx": 46,
+      "version": "6",
+      "when": 1794773840118,
+      "tag": "0046_team_start",
+      "breakpoints": true
+    },
+    {
+      "idx": 47,
+      "version": "6",
+      "when": 1794776905827,
+      "tag": "0047_watchdog_attention",
+      "breakpoints": true
+    },
+    {
+      "idx": 48,
+      "version": "6",
+      "when": 1794778654271,
+      "tag": "0048_butler_conversation",
+      "breakpoints": true
     }
   ]
 }

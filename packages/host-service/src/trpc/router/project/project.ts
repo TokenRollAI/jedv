@@ -1,3 +1,4 @@
+import { realpathSync } from "node:fs";
 import { homedir } from "node:os";
 import { basename, resolve as resolvePath } from "node:path";
 import { parseGitHubRemote } from "@jedv/shared/github-remote";
@@ -24,6 +25,10 @@ import {
 	softDeleteProject,
 } from "../../../projects/project-deletion";
 import {
+	getVcsCapabilities,
+	hasGitMetadataAbove,
+} from "../../../projects/vcs-capabilities";
+import {
 	deleteTagFolderSetting,
 	getAllTagFolderSettings,
 	upsertTagFolderSetting,
@@ -45,6 +50,7 @@ import { getCreateOperation, runCreateOperation } from "./create-operations";
 import {
 	createFromClone,
 	createFromEmpty,
+	createFromFolder,
 	createFromImportLocal,
 	createFromTemplate,
 } from "./handlers";
@@ -82,6 +88,10 @@ export interface FindByPathCandidate {
 }
 
 export const projectRouter = router({
+	capabilities: protectedProcedure.query(() => ({
+		folderProjects: true as const,
+		vcsCapabilities: true as const,
+	})),
 	listGitHubRepositories: protectedProcedure.query(() =>
 		listGitHubRepositories(),
 	),
@@ -110,6 +120,7 @@ export const projectRouter = router({
 				// honest fallback (same rule as toProjectSnapshot).
 				name: row.name || basename(row.repoPath),
 				repoPath: row.repoPath,
+				...getVcsCapabilities(row.repoPath),
 				repoOwner: row.repoOwner,
 				repoName: row.repoName,
 				repoUrl: row.repoUrl,
@@ -222,6 +233,7 @@ export const projectRouter = router({
 				// Same fallback rule as project.list / toProjectSnapshot.
 				name: row.name || basename(row.repoPath),
 				repoPath: row.repoPath,
+				...getVcsCapabilities(row.repoPath),
 				repoPathExists: await projectDirExists(row.repoPath),
 				repoOwner: row.repoOwner,
 				repoName: row.repoName,
@@ -471,6 +483,26 @@ export const projectRouter = router({
 			// instead of dead-ending on a BAD_REQUEST. Additive optional field —
 			// repo paths never carry needsGitInit, so existing callers are
 			// unaffected.
+			validateDirectoryPath(input.repoPath, "Path");
+			const folderPath = realpathSync(input.repoPath);
+			const folder = getLiveProjectAtPath(ctx.db, folderPath);
+			if (!hasGitMetadataAbove(folderPath)) {
+				return {
+					candidates: folder
+						? [
+								{
+									id: folder.id,
+									name: folder.name || basename(folderPath),
+									repoCloneUrl: null,
+									source: "local-path" as const,
+									matchesExpected: false,
+								},
+							]
+						: [],
+					needsGitInit: true as const,
+					...getVcsCapabilities(folderPath),
+				};
+			}
 			const root = await tryRevParseGitRoot(input.repoPath);
 			if (root === null) {
 				validateDirectoryPath(input.repoPath, "Path"); // 400 on missing / not-a-dir
@@ -522,6 +554,7 @@ export const projectRouter = router({
 				name: z.string().min(1),
 				operationId: z.string().min(1).max(128).optional(),
 				mode: z.discriminatedUnion("kind", [
+					z.object({ kind: z.literal("folder"), repoPath: z.string().min(1) }),
 					z.object({
 						kind: z.literal("empty"),
 						parentDir: z.string().min(1),
@@ -555,6 +588,11 @@ export const projectRouter = router({
 		.mutation(async ({ ctx, input, signal }) => {
 			return runCreateOperation(ctx, input, signal, async () => {
 				switch (input.mode.kind) {
+					case "folder":
+						return createFromFolder(ctx, {
+							name: input.name,
+							repoPath: input.mode.repoPath,
+						});
 					case "empty":
 						return createFromEmpty(ctx, {
 							name: input.name,

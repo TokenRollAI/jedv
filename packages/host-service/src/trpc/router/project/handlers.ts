@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import { realpathSync } from "node:fs";
 import { rm } from "node:fs/promises";
 import { TRPCError } from "@trpc/server";
 import {
@@ -17,6 +18,7 @@ import {
 	initLocalRepoInPlace,
 	type ResolvedRepo,
 	tryRevParseGitRoot,
+	validateDirectoryPath,
 } from "./utils/resolve-repo";
 
 function dirNameForEmpty(name: string): string {
@@ -193,5 +195,26 @@ export async function createFromTemplate(
 		name: args.name,
 		resolved,
 		cleanupRepoPathOnFailure: true,
+	});
+}
+
+/** Register user-owned files as-is. Never initialize Git or remove this path. */
+export async function createFromFolder(
+	ctx: HostServiceContext,
+	args: { name: string; repoPath: string },
+): Promise<CreateResult> {
+	validateDirectoryPath(args.repoPath, "Path");
+	const repoPath = realpathSync(args.repoPath);
+	const existing =
+		getLiveProjectAtPath(ctx.db, repoPath) ??
+		getProjectAtPathIncludingDeleted(ctx.db, repoPath);
+	if (existing) {
+		restoreProject(ctx, existing.id);
+		return { projectId: existing.id, repoPath, created: false };
+	}
+	return persistFromResolved(ctx, {
+		name: args.name,
+		resolved: { repoPath, remoteName: null, parsed: null },
+		cleanupRepoPathOnFailure: false,
 	});
 }

@@ -24,15 +24,10 @@ import { Trans, useLingui } from "@lingui/react/macro";
 import { skipToken, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import {
-	LuChevronRight,
-	LuMaximize2,
-	LuMinimize2,
-	LuSearch,
-	LuX,
-} from "react-icons/lu";
+import { LuMaximize2, LuMinimize2, LuSearch, LuX } from "react-icons/lu";
 import { VscFolderOpened, VscNewFolder } from "react-icons/vsc";
 import type { ImperativePanelHandle } from "react-resizable-panels";
+import { ContentBoundary } from "renderer/components/ContentBoundary";
 import { ThemedToaster } from "renderer/components/ThemedToaster";
 import { UpdatesPill } from "renderer/components/UpdatesPill";
 import { useSettingsExternalChangeListener } from "renderer/hooks/useSettingsExternalChangeListener";
@@ -53,14 +48,16 @@ import { useStore } from "zustand";
 import { isLoopbackBrowserUrl } from "./browser-links";
 import { ActiveWorkspaceSwitcher } from "./components/ActiveWorkspaceSwitcher";
 import { ActivityPanelAside } from "./components/ActivityPanelAside";
-
+import { ButlerNavigation } from "./components/ButlerNavigation";
+import { ButlerView } from "./components/ButlerView";
+import { CreateTeamView } from "./components/CreateTeamView";
 import { CreateWorkspaceDialog } from "./components/CreateWorkspaceDialog";
+import { DeclarativeDataSlots } from "./components/DeclarativeDataSlots";
 import {
 	AgentSetupGuard,
 	useAgentLaunchGuard,
 } from "./components/JedvAgentLaunchBar";
 import { JedvAutomationsView } from "./components/JedvAutomationsView";
-
 import { JedvCommandPalette } from "./components/JedvCommandPalette";
 import { rememberPaletteFile } from "./components/JedvCommandPalette/recent";
 import { JedvConfirmDialog } from "./components/JedvConfirmDialog";
@@ -90,6 +87,7 @@ import { JedvResourceSummary } from "./components/JedvResourceSummary";
 import { JedvSettingsView } from "./components/JedvSettingsView";
 import { JedvSidebarHeader } from "./components/JedvSidebarHeader";
 import { JedvSidebarNav } from "./components/JedvSidebarNav";
+import { JedvTeamworkView } from "./components/JedvTeamworkView";
 import { JedvTerminalTabStrip } from "./components/JedvTerminalTabStrip";
 import { useTerminalSessionsMenu } from "./components/JedvTerminalTabStrip/components/TerminalSessionsMenu";
 import {
@@ -127,6 +125,8 @@ import { PrivateConnectionDialog } from "./components/PrivateConnectionDialog";
 import { ProjectSettings } from "./components/ProjectSettings";
 import { ProjectSortMenu } from "./components/ProjectSortMenu";
 import { RightSidebarToggle } from "./components/RightSidebarToggle";
+import { SidebarSectionHeading } from "./components/SidebarSectionHeading";
+import { TeamworkDirectory } from "./components/TeamworkDirectory";
 import {
 	useWindowChromeMetrics,
 	WindowChrome,
@@ -138,7 +138,7 @@ import {
 import { WorkspaceForwards } from "./components/WorkspaceForwards";
 import { WorkspaceToolbarSlot } from "./components/WorkspaceToolbarSlot";
 import { useAgentIslandBridge } from "./hooks/useAgentIslandBridge";
-
+import { useButlerInbox } from "./hooks/useButlerInbox";
 import { useJedvHotkeys } from "./hooks/useJedvHotkeys";
 import {
 	ensureJedvLayoutRestored,
@@ -151,6 +151,7 @@ import {
 	type ShellHistory,
 	type ShellLocation,
 } from "./hooks/useJedvNavigation/history";
+import { useTeamwork } from "./hooks/useTeamwork";
 import { useWorkspaceReadReceiptSync } from "./hooks/useWorkspaceReadReceiptSync";
 import {
 	createLocalClient,
@@ -175,6 +176,7 @@ import {
 	type Project,
 	type Workspace,
 } from "./types";
+import { supportsGit, supportsPullRequests } from "./vcs-capabilities";
 import "./jedv-shell.css";
 
 export function JedvShell() {
@@ -199,6 +201,9 @@ export function JedvShell() {
 	const [remote, setRemote] = useState<LocalConnection | null>(null);
 	const activeConnection = remote ?? connection.data;
 	const hostUrl = activeConnection ? hostBaseUrl(activeConnection) : null;
+	const logicalHostId = remote
+		? `private:${hostBaseUrl(remote)}`
+		: `local:${LOCAL_HOST_NAMESPACE}`;
 
 	const client = useMemo(
 		() => (activeConnection ? createLocalClient(activeConnection) : null),
@@ -270,6 +275,24 @@ export function JedvShell() {
 	const [localPathRevision, setLocalPathRevision] = useState(0);
 
 	const [surface, setSurface] = useState<JedvSurface>("terminal");
+	const [teamSelection, setTeamSelection] = useState<{
+		hostId: string;
+		id: string;
+	} | null>(null);
+	const teamwork = useTeamwork(
+		client,
+		hostUrl,
+		activeConnection?.secret ?? null,
+	);
+	const selectedTeamId =
+		teamSelection?.hostId === logicalHostId
+			? teamSelection.id
+			: (teamwork.list.data?.find((team) => team.status !== "archived")?.id ??
+				null);
+	const openTeam = (id: string) => {
+		if (hostUrl) setTeamSelection({ hostId: logicalHostId, id });
+		navigate("teamwork");
+	};
 	const priorSurface = useRef<JedvSurface>("terminal");
 	const [fileTarget, setRawFileTarget] = useState<{
 		hostUrl: string;
@@ -402,7 +425,8 @@ export function JedvShell() {
 	const [connecting, setConnecting] = useState(false);
 	const [workspaceCreation, setWorkspaceCreation] = useState<{
 		context: ProjectActionContext;
-		projects: { id: string; name: string }[];
+		projects: (Pick<Project, "id" | "name"> &
+			Partial<Pick<Project, "vcsKind" | "capabilities">>)[];
 		projectId?: string;
 		mode?: "new" | "local" | "import";
 	} | null>(null);
@@ -561,6 +585,7 @@ export function JedvShell() {
 		!projects.isError &&
 		workspaces.isSuccess &&
 		!workspaces.isError;
+	const butler = useButlerInbox(client, hostUrl, connected);
 	const usageVisible = electronTrpc.settings.getShowUsageInSidebar.useQuery(
 		undefined,
 		{ refetchInterval: 3_000 },
@@ -905,6 +930,13 @@ export function JedvShell() {
 					(session) => session.terminalId === requestedTerminalId,
 				)
 			: null;
+		if (requestedTerminalId && !explicit)
+			throw new Error(
+				t({
+					message:
+						"This terminal has exited. Refresh the team to see its current status.",
+				}),
+			);
 		if (explicit) attachTerminalSession(store, explicit);
 		setWorkspaceId(id);
 		setTerminalId(
@@ -1775,6 +1807,7 @@ export function JedvShell() {
 			? {
 					client,
 					hostUrl,
+					logicalHostId,
 					remote,
 					projects: projects.data ?? [],
 					workspaces: workspaces.data ?? [],
@@ -1858,6 +1891,7 @@ export function JedvShell() {
 	const empty = (
 		<JedvEmptyState
 			workspace={!!workspace}
+			gitEnabled={supportsGit(workspace)}
 			projects={projects.data ?? []}
 			disabled={busy || !connected}
 			onProjectAction={projectAction}
@@ -2014,7 +2048,7 @@ export function JedvShell() {
 					{!navigation.sidebarCollapsed && surface !== "settings" && (
 						<>
 							<ResizablePanel defaultSize={21} minSize={15} maxSize={35}>
-								<aside className="flex h-full select-none flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground">
+								<aside className="flex h-full min-h-0 overflow-hidden select-none flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground">
 									<JedvSidebarHeader
 										host={
 											remote
@@ -2044,10 +2078,6 @@ export function JedvShell() {
 										onProjectAction={projectAction}
 									/>
 
-									<div className="order-last shrink-0 px-3">
-										<JedvReleaseNotes automatic />
-										<UpdatesPill variant="sidebar" />
-									</div>
 									<JedvSidebarNav
 										footerHost={
 											<JedvHostMenu
@@ -2075,207 +2105,227 @@ export function JedvShell() {
 										usageVisible={usageVisible.data ?? false}
 										onSelect={navigate}
 										onSearch={() => setPalette("commands")}
-										islandEnabled={island.state?.preferences.enabled ?? false}
-										onIslandChange={(enabled) =>
-											void run(async () => {
-												await electronTrpcClient.agentIsland.setEnabled.mutate({
-													enabled,
-												});
-												await utils.agentIsland.getState.invalidate();
-											})
-										}
-									/>
-									<div className="flex h-7 shrink-0 items-center gap-1.5 pl-4 pr-2 text-[10px] font-semibold uppercase tracking-[0.075em] text-muted-foreground">
-										<button
-											type="button"
-											aria-expanded={!projectsCollapsed}
-											className="flex min-w-0 flex-1 items-center gap-1 text-left focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-											onClick={() => {
-												setProjectsCollapsed((value) => !value);
-												setFilter("");
-												setFilterOpen(false);
-											}}
-										>
-											<LuChevronRight
-												className={`size-3 transition-transform ${projectsCollapsed ? "" : "rotate-90"}`}
-											/>
-											<Trans>Projects</Trans>
-										</button>
-										<button
-											type="button"
-											ref={filterButton}
-											aria-label={t({ message: "Search projects" })}
-											className="grid size-6 place-items-center rounded hover:bg-fill-hover"
-											onClick={() => {
-												setProjectsCollapsed(false);
-												setFilterOpen((value) => !value);
-												if (filterOpen) setFilter("");
-											}}
-										>
-											<LuSearch className="size-3.5" />
-										</button>
-										<ProjectSortMenu
-											value={navigation.workspaceSortMode ?? "manual"}
-											disabled={busy}
-											onChange={(workspaceSortMode) =>
-												setNavigation((value) => ({
-													...value,
-													workspaceSortMode,
-												}))
-											}
+									>
+										<ButlerNavigation
+											active={surface === "butler"}
+											count={butler.actionable}
+											onSelect={() => navigate("butler")}
 										/>
-										<DropdownMenu>
-											<DropdownMenuTrigger asChild>
-												<button
-													type="button"
-													aria-label={t({ message: "Add project" })}
-													className="group grid size-6 place-items-center rounded hover:bg-fill-hover focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-												>
-													<VscNewFolder className="size-3.5 group-hover:hidden" />
-													<VscFolderOpened className="hidden size-3.5 group-hover:block" />
-												</button>
-											</DropdownMenuTrigger>
-											<DropdownMenuContent align="end">
-												<JedvProjectMenuItems
-													disabled={!projectContext}
-													onAction={projectAction}
-													openShortcut={openProjectShortcut}
-												/>
-											</DropdownMenuContent>
-										</DropdownMenu>
-									</div>
-									{filterOpen && (
-										<Input
-											autoFocus
-											aria-label={t({ message: "Search projects" })}
-											className="mx-3 mb-2 h-6 w-auto text-xs"
-											value={filter}
-											onChange={(event) => setFilter(event.target.value)}
-											onKeyDown={(event) => {
-												if (event.key === "Escape") {
+										<div className="min-h-0 flex-1 overflow-y-auto">
+											<TeamworkDirectory
+												index={teamwork}
+												selectedId={selectedTeamId}
+												active={surface === "teamwork"}
+												onSelect={openTeam}
+											/>
+											<SidebarSectionHeading
+												label={<Trans>Projects</Trans>}
+												collapsed={projectsCollapsed}
+												onToggle={() => {
+													setProjectsCollapsed((value) => !value);
 													setFilter("");
 													setFilterOpen(false);
-													filterButton.current?.focus();
-												}
-											}}
-										/>
-									)}
-									<div
-										hidden={projectsCollapsed}
-										className="flex-1 space-y-1 overflow-y-auto py-1"
-									>
-										{projectContext && (
-											<JedvProjectTree
-												onOpenPullRequest={(context, target) => {
-													if (currentHost.current.hostUrl !== context.hostUrl)
-														return;
-													setActivityPullRequest({
-														hostUrl: context.hostUrl,
-														target,
-													});
-													navigate("pull-requests");
 												}}
-												onOpenPort={async (context, _id, url) => {
-													if (currentHost.current.hostUrl === context.hostUrl)
-														await electronTrpcClient.external.openUrl.mutate(
-															url,
-														);
-												}}
-												key={hostUrl}
-												onShortcutOrder={recordShortcutOrder}
-												context={projectContext}
-												projects={projects.data ?? []}
-												workspaces={workspaces.data ?? []}
-												bindings={bindings.data ?? []}
-												activeWorkspaceId={workspaceId}
-												filter={filter}
-												disabled={busy}
-												navigation={{
-													collapsedGroups: navigation.collapsedGroups,
-													setCollapsedGroups: (keys) =>
+											>
+												<button
+													type="button"
+													ref={filterButton}
+													aria-label={t({ message: "Search projects" })}
+													className="grid size-6 place-items-center rounded hover:bg-fill-hover"
+													onClick={() => {
+														setProjectsCollapsed(false);
+														setFilterOpen((value) => !value);
+														if (filterOpen) setFilter("");
+													}}
+												>
+													<LuSearch className="size-3.5" />
+												</button>
+												<ProjectSortMenu
+													value={navigation.workspaceSortMode ?? "manual"}
+													disabled={busy}
+													onChange={(workspaceSortMode) =>
 														setNavigation((value) => ({
 															...value,
-															collapsedGroups: keys.slice(-128),
-														})),
-													collapsedProjects: navigation.collapsedProjects,
-													workspaceSortMode: navigation.workspaceSortMode,
-													setCollapsedProjects: (ids) =>
-														setNavigation((value) => ({
-															...value,
-															collapsedProjects: ids.slice(-64),
-														})),
-													setWorkspaceSortMode: (mode) =>
-														setNavigation((value) => ({
-															...value,
-															workspaceSortMode: mode,
-														})),
-												}}
-												onOpenWorkspace={async (
-													context,
-													id,
-													selectedTerminal,
-												) => {
-													if (
-														currentHost.current.client === context.client &&
-														currentHost.current.hostUrl === context.hostUrl
-													)
-														await openWorkspace(id, selectedTerminal);
-												}}
-												onCreateTerminal={async (context, id) => {
-													if (
-														currentHost.current.client === context.client &&
-														currentHost.current.hostUrl === context.hostUrl
-													)
-														await createTerminal(id);
-												}}
-												onLaunch={async (context, provider, id) => {
-													if (
-														currentHost.current.client === context.client &&
-														currentHost.current.hostUrl === context.hostUrl
-													)
-														await launchAgent(provider, id);
-												}}
-												onRename={async (context, target, name) => {
-													if (target.kind === "project")
-														await context.client.project.update.mutate({
-															projectId: target.id,
-															name,
-														});
-													else
-														await context.client.workspace.update.mutate({
-															id: target.id,
-															name,
-														});
-													await refreshProjectContext(context);
-												}}
-												onDeleteWorkspace={(context, workspace) =>
-													setDeleteTarget({ context, workspace })
-												}
-												onCopy={(_context, value) => copyValue(value)}
-												onOpenFolder={(context, path) => {
-													if (!context.isRemote) openFolder(path);
-												}}
-												onProjectAction={(context, item, mode) =>
-													setWorkspaceCreation({
-														context,
-														projects: projects.data ?? [],
-														projectId: item.id,
-														mode,
-													})
-												}
-												onAppearance={(context, project) =>
-													setAppearanceTarget({ context, project })
-												}
-												onRemoveProject={(context, project) =>
-													setRemovalTarget({ context, project })
-												}
-												onProjectSettings={(context, project) =>
-													setProjectSettingsTarget({ context, project })
-												}
-												onChanged={refreshProjectContext}
-											/>
-										)}
-									</div>
+															workspaceSortMode,
+														}))
+													}
+												/>
+												<DropdownMenu>
+													<DropdownMenuTrigger asChild>
+														<button
+															type="button"
+															aria-label={t({ message: "Add project" })}
+															className="group grid size-6 place-items-center rounded hover:bg-fill-hover focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+														>
+															<VscNewFolder className="size-3.5 group-hover:hidden" />
+															<VscFolderOpened className="hidden size-3.5 group-hover:block" />
+														</button>
+													</DropdownMenuTrigger>
+													<DropdownMenuContent align="end">
+														<JedvProjectMenuItems
+															disabled={!projectContext}
+															onAction={projectAction}
+															openShortcut={openProjectShortcut}
+														/>
+													</DropdownMenuContent>
+												</DropdownMenu>
+											</SidebarSectionHeading>
+											{filterOpen && (
+												<Input
+													autoFocus
+													aria-label={t({ message: "Search projects" })}
+													className="mx-3 mb-2 h-6 w-auto text-xs"
+													value={filter}
+													onChange={(event) => setFilter(event.target.value)}
+													onKeyDown={(event) => {
+														if (event.key === "Escape") {
+															setFilter("");
+															setFilterOpen(false);
+															filterButton.current?.focus();
+														}
+													}}
+												/>
+											)}
+											<div
+												hidden={projectsCollapsed}
+												className="space-y-1 py-1"
+											>
+												{projectContext && (
+													<JedvProjectTree
+														onOpenPullRequest={(context, target) => {
+															if (
+																currentHost.current.hostUrl !== context.hostUrl
+															)
+																return;
+															setActivityPullRequest({
+																hostUrl: context.hostUrl,
+																target,
+															});
+															navigate("pull-requests");
+														}}
+														onOpenPort={async (context, _id, url) => {
+															if (
+																currentHost.current.hostUrl === context.hostUrl
+															)
+																await electronTrpcClient.external.openUrl.mutate(
+																	url,
+																);
+														}}
+														key={hostUrl}
+														onShortcutOrder={recordShortcutOrder}
+														context={projectContext}
+														projects={projects.data ?? []}
+														workspaces={workspaces.data ?? []}
+														bindings={bindings.data ?? []}
+														workspaceTeams={teamwork.workspaceTeams}
+														onOpenTeam={openTeam}
+														activeWorkspaceId={workspaceId}
+														filter={filter}
+														disabled={busy}
+														navigation={{
+															collapsedGroups: navigation.collapsedGroups,
+															setCollapsedGroups: (keys) =>
+																setNavigation((value) => ({
+																	...value,
+																	collapsedGroups: keys.slice(-128),
+																})),
+															collapsedProjects: navigation.collapsedProjects,
+															workspaceSortMode: navigation.workspaceSortMode,
+															setCollapsedProjects: (ids) =>
+																setNavigation((value) => ({
+																	...value,
+																	collapsedProjects: ids.slice(-64),
+																})),
+															setWorkspaceSortMode: (mode) =>
+																setNavigation((value) => ({
+																	...value,
+																	workspaceSortMode: mode,
+																})),
+														}}
+														onOpenWorkspace={async (
+															context,
+															id,
+															selectedTerminal,
+														) => {
+															if (
+																currentHost.current.client === context.client &&
+																currentHost.current.hostUrl === context.hostUrl
+															)
+																await openWorkspace(id, selectedTerminal);
+														}}
+														onCreateTerminal={async (context, id) => {
+															if (
+																currentHost.current.client === context.client &&
+																currentHost.current.hostUrl === context.hostUrl
+															)
+																await createTerminal(id);
+														}}
+														onLaunch={async (context, provider, id) => {
+															if (
+																currentHost.current.client === context.client &&
+																currentHost.current.hostUrl === context.hostUrl
+															)
+																await launchAgent(provider, id);
+														}}
+														onRename={async (context, target, name) => {
+															if (target.kind === "project")
+																await context.client.project.update.mutate({
+																	projectId: target.id,
+																	name,
+																});
+															else
+																await context.client.workspace.update.mutate({
+																	id: target.id,
+																	name,
+																});
+															await refreshProjectContext(context);
+														}}
+														onDeleteWorkspace={(context, workspace) =>
+															setDeleteTarget({ context, workspace })
+														}
+														onCopy={(_context, value) => copyValue(value)}
+														onOpenFolder={(context, path) => {
+															if (!context.isRemote) openFolder(path);
+														}}
+														onProjectAction={(context, item, mode) =>
+															setWorkspaceCreation({
+																context,
+																projects: projects.data ?? [],
+																projectId: item.id,
+																mode,
+															})
+														}
+														onAppearance={(context, project) =>
+															setAppearanceTarget({ context, project })
+														}
+														onRemoveProject={(context, project) =>
+															setRemovalTarget({ context, project })
+														}
+														onProjectSettings={(context, project) =>
+															setProjectSettingsTarget({ context, project })
+														}
+														onChanged={refreshProjectContext}
+													/>
+												)}
+											</div>
+											{viewContext && (
+												<DeclarativeDataSlots
+													context={viewContext}
+													surface="sidebar.panel"
+													teamId={
+														surface === "teamwork"
+															? (selectedTeamId ?? undefined)
+															: undefined
+													}
+													connected={connected}
+												/>
+											)}
+										</div>
+										<div className="shrink-0 px-3">
+											<JedvReleaseNotes automatic />
+											<UpdatesPill variant="sidebar" />
+										</div>
+									</JedvSidebarNav>
 								</aside>
 							</ResizablePanel>
 							<ResizableHandle />
@@ -2302,6 +2352,46 @@ export function JedvShell() {
 										<WindowControlsInset />
 									</WindowChrome>
 								)}
+							{!viewContext &&
+								(surface === "teamwork" ||
+									surface === "create-team" ||
+									surface === "butler") && (
+									<div
+										role="alert"
+										className="m-5 flex items-center gap-2 rounded border border-destructive/30 p-3 text-xs text-destructive"
+									>
+										<span className="flex-1">
+											<Trans>
+												Host offline. Team actions are unavailable until the
+												connection is restored.
+											</Trans>
+										</span>
+										<Button
+											size="sm"
+											variant="ghost"
+											onClick={() => void connection.refetch()}
+										>
+											<Trans>Retry</Trans>
+										</Button>
+									</div>
+								)}
+							{viewContext && surface === "butler" && (
+								<ContentBoundary key={`${viewContext.hostUrl}:butler`}>
+									<ButlerView
+										key={viewContext.hostUrl}
+										context={viewContext}
+										index={butler}
+										teams={teamwork.list.data ?? []}
+										connected={connected}
+										onSettings={() => {
+											setSettingsSection("system-agents");
+											navigate("settings");
+										}}
+										onOpenTeam={openTeam}
+										onOpenAutomations={() => navigate("automations")}
+									/>
+								</ContentBoundary>
+							)}
 							{viewContext && surface === "board" && (
 								<JedvWorkspacesBoard
 									{...viewContext}
@@ -2341,6 +2431,36 @@ export function JedvShell() {
 											await openWorkspace(id);
 									}}
 								/>
+							)}
+							{viewContext && surface === "create-team" && (
+								<ContentBoundary>
+									<CreateTeamView
+										initialWorkspaceId={workspaceId}
+										key={viewContext.hostUrl}
+										context={viewContext}
+										index={teamwork}
+										connected={connected}
+										onCreated={(id) => {
+											if (
+												currentHost.current.client === viewContext.client &&
+												currentHost.current.hostUrl === viewContext.hostUrl
+											)
+												openTeam(id);
+										}}
+									/>
+								</ContentBoundary>
+							)}
+							{viewContext && surface === "teamwork" && (
+								<ContentBoundary>
+									<JedvTeamworkView
+										key={viewContext.hostUrl}
+										context={viewContext}
+										index={teamwork}
+										connected={connected}
+										selectedId={selectedTeamId}
+										onCreate={() => navigate("create-team")}
+									/>
+								</ContentBoundary>
 							)}
 							{viewContext && surface === "automations" && (
 								<JedvAutomationsView {...viewContext} />
@@ -2476,6 +2596,10 @@ export function JedvShell() {
 													changes={
 														client && hostUrl && workspaceId ? (
 															<JedvWorkspaceActivity
+																gitEnabled={supportsGit(workspace)}
+																pullRequestsEnabled={supportsPullRequests(
+																	workspace,
+																)}
 																shipContext={viewContext ?? undefined}
 																onOpenFile={openFiles}
 																getHasUnsavedFiles={() => filesDirtyRef.current}
@@ -3165,6 +3289,11 @@ export function JedvShell() {
 								run: () => projectAction("open"),
 							},
 							{
+								id: "project-folder",
+								label: t({ message: "Import plain folder" }),
+								run: () => projectAction("folder"),
+							},
+							{
 								id: "project-clone",
 								label: t({ message: "Clone from URL" }),
 								run: () => projectAction("clone"),
@@ -3200,6 +3329,11 @@ export function JedvShell() {
 								id: "board",
 								label: t({ message: "Workspaces" }),
 								run: () => navigate("board"),
+							},
+							{
+								id: "create-team",
+								label: t({ message: "Create team" }),
+								run: () => navigate("create-team"),
 							},
 							{
 								id: "automations",

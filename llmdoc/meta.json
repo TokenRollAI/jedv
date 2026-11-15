@@ -76,6 +76,18 @@
     },
     "runtime/attachments.mdx": {
       "validatedRevision": "a801adb199a9233b389e94d5e2634653ac0fc71d"
+    },
+    "teamwork/execution.mdx": {
+      "validatedRevision": null
+    },
+    "memory/lifecycle.mdx": {
+      "validatedRevision": null
+    },
+    "butler/runtime.mdx": {
+      "validatedRevision": null
+    },
+    "teamwork/integrations.mdx": {
+      "validatedRevision": null
     }
   },
   "convergence": {

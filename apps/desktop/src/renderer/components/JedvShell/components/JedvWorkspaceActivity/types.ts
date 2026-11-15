@@ -13,6 +13,8 @@ export interface JedvWorkspaceActivityProps {
 	workspaceId: string;
 	workspaceName: string;
 	compact?: boolean;
+	gitEnabled?: boolean;
+	pullRequestsEnabled?: boolean;
 	isChangesOpen?: boolean;
 	shipContext?: JedvParityViewContext;
 	onOpenFile?(path: string, pinned?: boolean): void;

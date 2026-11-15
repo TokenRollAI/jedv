@@ -3,13 +3,15 @@ import { trpcServer } from "@hono/trpc-server";
 import { resolveAppHomeDir } from "@jedv/agent-setup/paths";
 import { JEDV_USER_ID_HEADER } from "@jedv/shared/host-routing";
 import { Octokit } from "@octokit/rest";
-
 import { TRPCError } from "@trpc/server";
 import type { MiddlewareHandler } from "hono";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { LocalAutomations } from "./automations/automations";
 import { createAutomationExecutor } from "./automations/execute";
+import { registerButlerHttp } from "./butler/http";
+import { createButler } from "./butler/runtime";
+import type { ButlerService } from "./butler/service";
 import {
 	createChatAgentBridge,
 	createChatV3Mount,
@@ -17,15 +19,29 @@ import {
 } from "./chat-v3";
 import { createDb, type HostDb } from "./db";
 import { EventBus, GitWatcher, registerEventBusRoute } from "./events";
+import { mergeOpenApiPaths, type OpenApiPaths } from "./http/openapi";
+import {
+	createHostMemoryRuntime,
+	type HostMemoryOptions,
+} from "./memory/host-runtime";
+import { registerMemoryHttp } from "./memory/http";
+import type { MemoryRuntime } from "./memory/runtime";
+import { mobilePublicAssets } from "./mobile/assets";
+import { registerMobileHttp } from "./mobile/http";
+import { MobileAuthService } from "./mobile/service";
+import { registerPeerIngest } from "./peers/ingest-http";
+import type { PeerRuntimeTestHooks } from "./peers/outbox-forwarder";
 import { registerForwardMuxRoute } from "./ports/forward-mux-route";
 import { portManager } from "./ports/port-manager";
 import type { HostAuthProvider } from "./providers/host-auth";
-
 import { WorkspaceFilesystemManager } from "./runtime/filesystem";
 import type { GitCredentialProvider } from "./runtime/git";
 import { createGitEnvResolver, createGitFactory } from "./runtime/git";
 import { runProjectBackfill } from "./runtime/project-backfill";
 import { PullRequestRuntimeManager } from "./runtime/pull-requests";
+import { DeclarativeSlotService } from "./slots/service";
+import { registerTeamworkHttp } from "./teams/http";
+import { TeamworkRuntime } from "./teams/runtime";
 import { registerWorkspaceTerminalRoute } from "./terminal/terminal";
 import {
 	SqliteTerminalAgentBindingPersistence,
@@ -75,6 +91,8 @@ export interface CreateAppOptions {
 	db?: HostDb;
 	github?: () => Promise<Octokit>;
 	execGh?: ExecGh;
+	memory?: HostMemoryOptions;
+	peers?: PeerRuntimeTestHooks & { home?: string };
 }
 
 export interface CreateAppResult {
@@ -90,6 +108,11 @@ export interface CreateAppResult {
 	>;
 	onPullRequestLinked: (listener: () => void) => () => void;
 	terminalAgentStore: TerminalAgentStore;
+	memoryRuntime: MemoryRuntime;
+	butlerService: ButlerService;
+	teamworkRuntime: TeamworkRuntime;
+	mobileAuthService: MobileAuthService;
+	slotService: DeclarativeSlotService;
 	dispose: () => Promise<void>;
 }
 
@@ -119,6 +142,7 @@ export function createApp(options: CreateAppOptions): CreateAppResult {
 		});
 	const execGh: ExecGh = options.execGh ?? defaultExecGh;
 
+	let hostMemory: ReturnType<typeof createHostMemoryRuntime> | undefined;
 	const filesystem = new WorkspaceFilesystemManager({ db });
 	// GitWatcher is the single source of truth for `.git/` and worktree fs
 	// activity per workspace. Both EventBus (broadcasts to clients) and the
@@ -129,6 +153,7 @@ export function createApp(options: CreateAppOptions): CreateAppResult {
 	});
 	gitWatcher.onChanged((event) => {
 		gitStatusStore.recordChange(event.workspaceId, event.paths);
+		hostMemory?.recordGitActivity(event.workspaceId);
 	});
 	gitWatcher.start();
 	// Per-workspace branch/HEAD/upstream reads run in the worker pool: the
@@ -196,6 +221,11 @@ export function createApp(options: CreateAppOptions): CreateAppResult {
 	const terminalAgentStore = new TerminalAgentStore(terminalAgentPersistence);
 
 	const runtime = {
+		memory: undefined as MemoryRuntime | undefined,
+		butler: undefined as ButlerService | undefined,
+		mobileAuth: undefined as MobileAuthService | undefined,
+		slots: undefined as DeclarativeSlotService | undefined,
+		teamwork: undefined as TeamworkRuntime | undefined,
 		automations: undefined as LocalAutomations | undefined,
 		automationsError: undefined as string | undefined,
 		filesystem,
@@ -223,6 +253,13 @@ export function createApp(options: CreateAppOptions): CreateAppResult {
 		isAuthenticated: true,
 		desktopBridge: config.desktopBridge,
 	};
+	hostMemory = createHostMemoryRuntime(chatAgentContext, options.memory);
+	runtime.memory = hostMemory.runtime;
+	runtime.memory.start();
+	const removeMemoryWorkspaceListener = eventBus.onWorkspaceChanged((event) => {
+		if (event.eventType === "deleted")
+			hostMemory?.forgetWorkspace(event.workspaceId);
+	});
 	const chatV3 = createChatV3Mount({
 		db,
 
@@ -291,8 +328,77 @@ export function createApp(options: CreateAppOptions): CreateAppResult {
 		db,
 		eventBus,
 		upgradeWebSocket,
+		onInput: (terminalId, workspaceId) => {
+			const binding = terminalAgentStore.get(terminalId);
+			if (binding?.workspaceId === workspaceId)
+				terminalAgentStore.invalidateAutomaticDelivery(binding);
+		},
 	});
 	registerChatV3Routes({ app, db, mount: chatV3, upgradeWebSocket });
+	runtime.teamwork = new TeamworkRuntime(chatAgentContext, {
+		peers: {
+			...options.peers,
+			isManagementToken: (raw) => providers.hostAuth.validateToken(raw),
+		},
+	});
+	runtime.mobileAuth = new MobileAuthService(
+		db.$client,
+		options.peers?.clock?.now,
+	);
+	runtime.slots = new DeclarativeSlotService(
+		runtime.teamwork.peers,
+		options.peers?.home ?? resolveAppHomeDir(),
+	);
+	const peerHttp = registerPeerIngest(app, runtime.teamwork.peers);
+	registerMobileHttp(app, chatAgentContext, runtime.mobileAuth, {
+		assets: mobilePublicAssets,
+	});
+	void runtime.teamwork.ready.catch((error) =>
+		console.error("[teamwork] recovery failed", error),
+	);
+	runtime.butler = createButler(chatAgentContext);
+	const butlerHttp = registerButlerHttp({
+		app,
+		butler: runtime.butler,
+		authenticate: (request) => providers.hostAuth.validate(request),
+	});
+	const memoryHttp = registerMemoryHttp({
+		app,
+		memory: runtime.memory.memory,
+		authenticate: (request) => providers.hostAuth.validate(request),
+	});
+	app.use("/api/v1/openapi.json", async (c, next) => {
+		await next();
+		if (c.res.status !== 200) return;
+		const document = (await c.res.json()) as {
+			paths: OpenApiPaths;
+			components?: { securitySchemes?: Record<string, unknown> };
+		};
+		c.res = new Response(
+			JSON.stringify({
+				...document,
+				paths: mergeOpenApiPaths(
+					document.paths,
+					memoryHttp.paths,
+					butlerHttp.paths,
+					peerHttp.paths,
+				),
+				components: {
+					...document.components,
+					securitySchemes: {
+						...document.components?.securitySchemes,
+						...peerHttp.securitySchemes,
+					},
+				},
+			}),
+			c.res,
+		);
+	});
+	registerTeamworkHttp({
+		app,
+		context: chatAgentContext,
+		authenticate: (request) => providers.hostAuth.validate(request),
+	});
 
 	app.use("/trpc/*", async (c, next) => {
 		if (c.req.raw.body !== null && !c.req.raw.bodyUsed) {
@@ -359,6 +465,12 @@ export function createApp(options: CreateAppOptions): CreateAppResult {
 	};
 	const ownsDb = options.db === undefined;
 	const dispose = async (): Promise<void> => {
+		removeMemoryWorkspaceListener();
+		await runtime.butler?.dispose();
+		runtime.butler = undefined;
+		await hostMemory?.dispose();
+		runtime.memory = undefined;
+		await runtime.teamwork?.dispose();
 		stopAutomationSessions();
 		if (attachmentSweepTimer) clearInterval(attachmentSweepTimer);
 		await disposeWorkspaceTitleJobs(db);
@@ -451,6 +563,11 @@ export function createApp(options: CreateAppOptions): CreateAppResult {
 		onPullRequestLinked: (listener) =>
 			pullRequestRuntime.onPullRequestLinked(listener),
 		terminalAgentStore,
+		memoryRuntime: hostMemory.runtime,
+		butlerService: runtime.butler,
+		teamworkRuntime: runtime.teamwork,
+		mobileAuthService: runtime.mobileAuth,
+		slotService: runtime.slots,
 		dispose,
 	};
 }

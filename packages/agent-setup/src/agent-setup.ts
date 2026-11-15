@@ -17,6 +17,7 @@ import {
 	removeKimiManagedHooks,
 } from "./agent-wrappers";
 import { createArtifactGuardScript } from "./artifact-guard-hook";
+import { provisionBuiltinTeamSkill } from "./managed-skills";
 import { createNotifyScript } from "./notify-hook";
 
 type LabeledAction = readonly [label: string, action: () => void];
@@ -108,9 +109,18 @@ interface SetupAgentCapabilitiesOptions {
 
 export function setupAgentCapabilities({
 	disabledAgentIds = [],
+	disabledSkillIds = [],
 }: SetupAgentCapabilitiesOptions = {}): void {
 	const disabled = new Set(disabledAgentIds);
 	const failed: string[] = [];
+	if (
+		!runSetupAction("team-skill", () =>
+			provisionBuiltinTeamSkill({
+				disabled: disabledSkillIds.includes("jedv-team"),
+			}),
+		)
+	)
+		failed.push("team-skill");
 	for (const [label, action] of BOOTSTRAP_SETUP) {
 		if (!runSetupAction(label, action)) failed.push(label);
 	}
@@ -136,6 +146,8 @@ export function setupSingleAgent(agentId: string): boolean {
 	const definition = AGENT_SETUP_DEFINITIONS[agentId as AgentSetupTargetId];
 	if (!definition) return false;
 	const failed: string[] = [];
+	if (!runSetupAction("team-skill", provisionBuiltinTeamSkill))
+		failed.push("team-skill");
 	for (const [label, action] of BOOTSTRAP_SETUP) {
 		if (!runSetupAction(label, action)) failed.push(label);
 	}

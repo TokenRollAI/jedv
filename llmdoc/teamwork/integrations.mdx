@@ -1,0 +1,67 @@
+---
+description: "Peer Mail、Mobile 与 declarative slots 的窄权限集成：独立凭证、outbox/ingest 幂等、cookie/CSRF origin、provider token 撤销和只读视图。"
+kind: architecture
+code:
+  paths:
+    - packages/shared/src/teamwork-peers.ts
+    - packages/shared/src/declarative-slots.ts
+    - packages/host-service/src/peers/service.ts
+    - packages/host-service/src/peers/outbox-forwarder.ts
+    - packages/host-service/src/peers/ingest-http.ts
+    - packages/host-service/src/http/errors.ts
+    - packages/host-service/src/http/openapi.ts
+    - packages/host-service/src/http/contracts.test.ts
+    - packages/host-service/src/peers/secret-store.ts
+    - packages/host-service/src/peers/security.ts
+    - packages/host-service/src/peers/security.test.ts
+    - packages/host-service/src/slots/slots.test.ts
+    - packages/host-service/src/mobile/service.ts
+    - packages/host-service/src/mobile/http.ts
+    - packages/host-service/src/slots/service.ts
+    - "packages/cli/src/commands/peers/**/command.ts"
+    - "packages/cli/src/commands/mobile/**/command.ts"
+    - "packages/cli/src/commands/slots/**/command.ts"
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvSettingsView/components/ConnectionSettings/components/TeamPeerSettings/TeamPeerSettings.tsx
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvSettingsView/components/ConnectionSettings/components/MobileConnectionSettings/MobileConnectionSettings.tsx
+    - apps/desktop/src/renderer/components/JedvShell/components/DeclarativeDataSlots/DeclarativeDataSlots.tsx
+relations:
+  requires:
+    - teamwork/execution.mdx
+  related:
+    - runtime/private-connections.mdx
+    - butler/runtime.mdx
+    - distribution/cli-contract.mdx
+---
+# Peer、Mobile 与 Slots 的窄集成边界
+
+这些入口共享 Teamwork 持久记录，但不共享 Host 管理凭证，也不把远程调用扩展成通用控制面。每类凭证、origin 和事件命名空间都必须独立验证；桌面和 CLI 只是同一 Host 服务的管理入口。
+
+HTTP 适配器共用 tRPC 公开状态映射，保留既有 JSON error envelope 和未知错误文案。OpenAPI 由各 route 的 Zod 输入生成 scalar query 与完整 JSON `input` 两种表达，嵌套字段只用 JSON input；同 path 的 method 逐项合并，显式空 query 仍是 400，不能把 schema 缺失误当省略。
+
+## Peer 只转发 Mail，不远程控制 Team
+
+跨 Host 能力限于本地 Team 向已配置 peer 的 remote Team 投递 Mail，不提供远程 start/spawn/init 或生命周期管理。peer origin 只接受无凭证、路径、query 和 fragment 的 HTTPS `.ts.net` 根 origin。peer inbound/outbound token 独立于 Host management token，数据库只存 hash/hint，明文仅在显式签发时返回。
+
+发送先持久化本地 event 与不可变 outbox envelope，再由 forwarder 有界重试。接收端以 peer namespace、source event ID 和请求指纹幂等落库，同 ID 不同内容冲突；重启可恢复 inflight 传输而不制造新事件。outbox `acked` 只表示远端 Host 持久化收件，不表示 recipient read/ACK。dead 只能由明确操作按原 envelope 重试，不能换内容绕过对账。
+
+## 私有文件与异步并发持久化
+
+私有 JSON 读取使用 `O_NOFOLLOW`、regular file 和大小上限；写入异步创建受限目录，以随机 exclusive `wx` 临时文件和 rename 发布，再收紧文件权限。symlink 目录必须拒绝，序列化或写入失败保留旧文件与证据，不留下半份目标内容。
+
+PeerService 以 peer ID 对整次 upsert/remove/rotateInbound 排序，包括旧快照、秘密文件、DB 更新和失败回滚，不能只串行 secret set。这样 remove 完成后旧更新不能复活 peer/inbound 凭据，失败回滚也不能覆盖另一项已成功的新 secret；PeerSecretStore 的 promise queue 继续保证单次 read-modify-write 不互相覆盖。
+
+Slot install/enable/uninstall 同样经 mutation queue，重复并发 install 只能落一个 manifest 和一个 provider token；签发失败回滚安装状态，disable/uninstall 继续先撤销再写文件。私有配置一次拒绝不阻断后续队列，但损坏配置仍使后续写入失败并保留现场。
+
+## Mobile 是受限 Cookie API，不是通用 Host 代理
+
+pairing code 短时且一次性，配对尝试有界。浏览器会话使用 HttpOnly、SameSite=Strict Cookie；远程配置使用 Secure Cookie。所有 mutation 同时要求匹配 Origin 与 CSRF，配置变更使旧 session 全部撤销。读取有界 body 是异步不可信 IO，业务分派前必须重新验证最新 session、CSRF 和 Origin；body 到达前的初始鉴权不能掩盖等待期间的撤销、到期或改配。未配置公开 origin 时只允许精确的 loopback 同源调试路径，不能把 forwarded header 当公网授权。
+
+`/mobile/api` 是显式白名单，覆盖 Butler、Attention、审批和只读状态，不暴露通用 tRPC、PTY、文件系统或凭证代理。API 响应 `no-store`，静态资产路径与缓存策略独立，不能缓存认证数据。移动审批仍调用同一 Butler 一次性 hash/target 校验，不是另一套权限。
+
+## Slots 只声明文本视图和窄 provider 事件
+
+declarative slot manifest 只允许受限文本、键值和 HTTPS/mailto 链接，不执行代码、HTML 或 iframe。provider slot 必须绑定一个 Team，并将 token 限制到指定 recipient 和 `provider.<extension>.` 事件前缀；该 token 不具有 Host 管理权限。
+
+disable 与 uninstall 先撤销 token 再更新安装状态，避免磁盘失败留下可用旧凭证；重新 enable 签发新 token，旧 token 不复活。视图仅解析启用 manifest 和有界 payload 文本，链接仍走既有安全外跳边界。
+
+源码锚点：`peers/service.ts` 与 `outbox-forwarder.ts`（幂等投递）、`mobile/http.ts`（origin/Cookie/CSRF 白名单）、`slots/service.ts`（撤销优先与声明式投影）。

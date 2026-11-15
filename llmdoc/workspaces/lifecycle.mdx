@@ -1,5 +1,5 @@
 ---
-description: "本地工作区和 worktree 区别、项目导入身份、删除工作区失败恢复；解释共享 checkout、managed path、archive tombstone 与 force/teardown 权限。"
+description: "本地工作区、folder 与 worktree 的 VCS capabilities、项目导入身份和删除恢复；共享 checkout、无 Git 副作用、managed path 与 force/teardown 权限。"
 kind: architecture
 code:
   paths:
@@ -17,6 +17,14 @@ code:
     - packages/host-service/src/trpc/router/workspace-creation/shared/worktree-paths.ts
     - packages/host-service/src/trpc/router/workspace-creation/procedures/create-session.ts
     - packages/host-service/src/workspaces/local-workspace-store.ts
+    - packages/shared/src/vcs-capabilities.ts
+    - packages/host-service/src/projects/vcs-capabilities.ts
+    - packages/host-service/src/projects/folder-project.test.ts
+    - packages/host-service/src/runtime/path-state/path-state.ts
+    - packages/host-service/src/trpc/router/git/utils/resolve-worktree.ts
+    - packages/host-service/src/trpc/router/workspace-cleanup/is-local-checkout-workspace.ts
+    - packages/cli/src/commands/projects/create/command.ts
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvProjectActions/FolderProjectForm/FolderProjectForm.tsx
 relations:
   related:
     - workspaces/setup-contract.mdx
@@ -32,8 +40,15 @@ host 数据库拥有项目与工作区身份；磁盘目录、Git checkout 和 U
 | 类型 | 文件与分支权威 | 清理边界 |
 |---|---|---|
 | local | 复用项目 primary checkout；多个工作区共享文件与当前分支 | 停止本工作区会话，不删 checkout、分支或运行 teardown |
+| folder 项目的 local | 复用用户普通目录，没有 Git/分支权威 | 归档、项目删除与 purge 均保留用户目录，不进入 Git 清理 |
 | worktree | 独立 Git worktree 与分支 | 由 Git 注册和 managed-root 检查共同决定可清理路径 |
 | session | 管理根下独立 Git 仓库，不属于某个项目 worktree | 只能直接清理受管理 sessions root 内的目录 |
+
+`vcsKind` 由 canonical root 的 `.git` 目录或 linked-worktree pointer file 决定；folder 明确返回 `git/pullRequests/worktrees=false`，但 terminals、现有 workspace 与 Team start/spawn 仍可用。Git、PR、分支和新 worktree 入口必须在副作用前以 PRECONDITION_FAILED 拒绝，watcher/PR 后台同步也跳过 folder，不能为了统一流程隐式 `git init`。
+
+`vcsKind:none` 只表示没有可用 Git 元数据，不是普通目录的正面证明。`isPlainDirectory` 仅接受真实存在且可读取的目录，并要求 lstat 明确返回 `.git` ENOENT；missing、inaccessible、普通文件以及任何 `.git` entry（包括悬空 pointer/symlink）都返回 false，保留 Git/路径错误处理。路径解析先把 missing 报 NOT_FOUND、inaccessible 报 FORBIDDEN，不能把它们当 folder 放行启动或清理。
+
+保留现有无 `.git` 目录时仍明确选择禁 Git、保目录，并以 plain-directory 防护补强 cleanup 对异常 worktree 行的保护；不引入 `repoProvider=folder` 作为另一套分类权威。
 
 创建 local 工作区不 clone、不新建 worktree、不切分支。创建前后核对 repoPath，防止并发移动项目后仍绑定旧目录；detached HEAD 不提供其需要的分支语义。新 worktree 分支不继承 base 的 upstream，首次 push 才建立自己的跟踪关系。
 
@@ -59,4 +74,4 @@ Git hook 返回非零不一定意味着 checkout 未发生。重试前核对已�
 
 旧 `toCloudShape` 是消费者字段兼容，不代表托管同步。CLI archive 的 warning、not_found、failed 应保留给调用者；success 不能倒推出资源此前一定存在。修改生命周期需同时审查桌面确认入口与 host 权限，而非只修改卡片可见性。
 
-源码锚点：`workspace-cleanup.ts`（删除 saga）、`project-deletion.ts`（项目删除/恢复）、`create-local-workspace.ts`（共享 checkout）、`add-branch-worktree.ts`（Git 创建判定）。
+源码锚点：`workspace-cleanup.ts`（删除 saga）、`project-deletion.ts`（项目删除/恢复）、`create-local-workspace.ts`（共享 checkout）、`projects/vcs-capabilities.ts`（folder 能力判定）、`add-branch-worktree.ts`（Git 创建判定）。

@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, test } from "bun:test";
+import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 
 import { formatOutput, table } from "./output";
 
@@ -12,16 +12,12 @@ const BEL = "\x07";
 // Built from constants: a regex literal cannot hold control characters.
 const OSC8 = new RegExp(`${ESC}\\]8;;[^${BEL}]*${BEL}`, "g");
 
-const originalIsTTY = process.stdout.isTTY;
-
 function setTTY(value: boolean | undefined): void {
 	Object.defineProperty(process.stdout, "isTTY", {
 		value,
 		configurable: true,
 	});
 }
-
-afterEach(() => setTTY(originalIsTTY));
 
 describe("formatOutput", () => {
 	const raw = { raw: "#!/bin/sh\necho hi\n" };
@@ -56,6 +52,39 @@ describe("formatOutput", () => {
 });
 
 describe("table", () => {
+	let previousTerm: string | undefined;
+	let previousTTY: PropertyDescriptor | undefined;
+	beforeEach(() => {
+		previousTerm = process.env.TERM;
+		previousTTY = Object.getOwnPropertyDescriptor(process.stdout, "isTTY");
+		process.env.TERM = "xterm-256color";
+	});
+	afterEach(() => {
+		if (previousTerm === undefined) delete process.env.TERM;
+		else process.env.TERM = previousTerm;
+		if (previousTTY)
+			Object.defineProperty(process.stdout, "isTTY", previousTTY);
+		else Reflect.deleteProperty(process.stdout, "isTTY");
+	});
+
+	test("keeps URLs plain in a dumb terminal even when stdout is a TTY", () => {
+		setTTY(true);
+		process.env.TERM = "dumb";
+		const out = table(ROWS, COLUMNS, undefined, CAPS);
+		expect(out).toContain(URL);
+		expect(out).not.toContain("\x1b]8;;");
+	});
+
+	test.each([
+		false,
+		undefined,
+	])("keeps URLs plain without a TTY (%s)", (tty) => {
+		setTTY(tty);
+		const out = table(ROWS, COLUMNS, undefined, CAPS);
+		expect(out).toContain(URL);
+		expect(out).not.toContain("\x1b]8;;");
+	});
+
 	test("truncates a cell wider than its cap", () => {
 		setTTY(false);
 		const out = table(

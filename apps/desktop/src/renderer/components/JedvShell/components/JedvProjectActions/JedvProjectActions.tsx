@@ -9,7 +9,7 @@ import {
 	DialogTitle,
 } from "@jedv/ui/dialog";
 import { Trans, useLingui } from "@lingui/react/macro";
-import { useQueryClient } from "@tanstack/react-query";
+import { skipToken, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
 	forwardRef,
 	useEffect,
@@ -73,6 +73,16 @@ export const JedvProjectActions = forwardRef<
 
 	const [session, setSession] = useState<ActionSession | null>(null);
 	const sessionRef = useRef<ActionSession | null>(null);
+	const folderAttempt = useRef<{ signature: string; id: string } | null>(null);
+	const folderCapabilities = useQuery({
+		queryKey: ["jedv", session?.context.hostUrl, "project-capabilities"],
+		queryFn: session
+			? () => session.context.client.project.capabilities.query()
+			: skipToken,
+		enabled: session?.kind === "folder",
+		retry: false,
+		gcTime: 30_000,
+	});
 	const sequence = useRef(0);
 	const callbacks = useRef({ onRefresh, onOpened });
 	callbacks.current = { onRefresh, onOpened };
@@ -231,6 +241,45 @@ export const JedvProjectActions = forwardRef<
 				setStatus(null);
 				update(null);
 			}
+		});
+	const importFolder = (target: ActionSession) =>
+		run(target, async () => {
+			const path = target.draft.repoPath.trim();
+			if (!isAbsoluteHostPath(path))
+				throw new Error(
+					t({
+						message: "Enter an absolute directory path on the target host.",
+					}),
+				);
+			if (!target.draft.name.trim())
+				throw new Error(t({ message: "Enter a project name and location." }));
+			const support = await target.context.client.project.capabilities.query();
+			if (!support.folderProjects)
+				throw new Error(
+					t({
+						message:
+							"This host does not support plain folders. Update the host and retry.",
+					}),
+				);
+			const signature = JSON.stringify([
+				target.context.hostUrl,
+				path,
+				target.draft.name.trim(),
+			]);
+			if (folderAttempt.current?.signature !== signature)
+				folderAttempt.current = { signature, id: crypto.randomUUID() };
+			setStatus(t({ message: "Importing project…" }));
+			const created = await target.context.client.project.create.mutate({
+				name: target.draft.name.trim(),
+				operationId: folderAttempt.current.id,
+				mode: { kind: "folder", repoPath: path },
+			});
+			setProjectId(created.projectId);
+			const workspaceId = await ensureLocalCheckout(
+				checkoutActions(target.context),
+				created.projectId,
+			);
+			await finish(target.context, created.projectId, workspaceId);
 		});
 	const checkOutcome = async (
 		target: ActionSession,
@@ -400,10 +449,19 @@ export const JedvProjectActions = forwardRef<
 			draft: {
 				...target.draft,
 				[opening ? "repoPath" : "parentDir"]: selected,
+				...(target.kind === "folder" && !target.draft.nameTouched
+					? {
+							name:
+								selected
+									.replace(/[\\/]+$/, "")
+									.split(/[\\/]/)
+									.at(-1) ?? "",
+						}
+					: {}),
 			},
 		};
 		update(next);
-		if (opening) await importPath(next, selected);
+		if (opening && target.kind !== "folder") await importPath(next, selected);
 	};
 	const launch = (kind: ProjectActionKind, path?: string) => {
 		if (!context || busy.current || sessionRef.current) return;
@@ -418,7 +476,10 @@ export const JedvProjectActions = forwardRef<
 		setStatus(null);
 		setBrowse(false);
 		setProjectId(null);
-		if (kind === "open") {
+		folderAttempt.current = null;
+		if (kind === "folder") {
+			if (!path) void browseDirectory(next, true);
+		} else if (kind === "open") {
 			if (path) void importPath(next, path);
 			else void browseDirectory(next, true);
 		} else {
@@ -457,6 +518,10 @@ export const JedvProjectActions = forwardRef<
 				);
 				await finish(target.context, id, workspaceId);
 			});
+			return;
+		}
+		if (target.kind === "folder") {
+			await importFolder(target);
 			return;
 		}
 		if (target.kind === "open") {
@@ -586,13 +651,15 @@ export const JedvProjectActions = forwardRef<
 	const gallery = kind === "template" && !selectedTemplate;
 	const cancellable = kind === "clone" || kind === "template";
 	const title =
-		kind === "open"
-			? t({ message: "Open project" })
-			: kind === "clone"
-				? t({ message: "Clone a repository" })
-				: kind === "empty"
-					? t({ message: "Create a new project" })
-					: t({ message: "Start from a template" });
+		kind === "folder"
+			? t({ message: "Import plain folder" })
+			: kind === "open"
+				? t({ message: "Open project" })
+				: kind === "clone"
+					? t({ message: "Clone a repository" })
+					: kind === "empty"
+						? t({ message: "Create a new project" })
+						: t({ message: "Start from a template" });
 	const targetSignature = JSON.stringify([
 		session.context.hostUrl,
 		joinProjectPath(
@@ -629,7 +696,12 @@ export const JedvProjectActions = forwardRef<
 					<DialogHeader>
 						<DialogTitle>{title}</DialogTitle>
 						<DialogDescription>
-							{kind === "open" ? (
+							{kind === "folder" ? (
+								<Trans>
+									Use this directory for terminals and files without
+									initializing Git.
+								</Trans>
+							) : kind === "open" ? (
 								<Trans>
 									Open an existing repository, or initialize a folder after
 									confirmation.
@@ -721,10 +793,29 @@ export const JedvProjectActions = forwardRef<
 										setStatus(null);
 									}}
 									onBrowse={() =>
-										void browseDirectory(session, kind === "open")
+										void browseDirectory(
+											session,
+											kind === "open" || kind === "folder",
+										)
 									}
 								/>
 							)}
+							{kind === "folder" &&
+								(folderCapabilities.isPending ? (
+									<output className="text-xs text-muted-foreground">
+										<Trans>Loading…</Trans>
+									</output>
+								) : (
+									(!folderCapabilities.data?.folderProjects ||
+										folderCapabilities.isError) && (
+										<p role="alert" className="text-xs text-destructive">
+											<Trans>
+												This host does not support plain folders. Update the
+												host and retry.
+											</Trans>
+										</p>
+									)
+								))}
 							{error && (
 								<p
 									role="alert"
@@ -770,13 +861,19 @@ export const JedvProjectActions = forwardRef<
 										type="submit"
 										disabled={
 											pending ||
+											(kind === "folder" &&
+												(!folderCapabilities.isSuccess ||
+													folderCapabilities.isError ||
+													!folderCapabilities.data?.folderProjects)) ||
 											(!projectId &&
 												!unresolved &&
-												(kind === "open"
-													? !draft.repoPath.trim()
-													: !draft.name.trim() ||
-														!draft.parentDir.trim() ||
-														(kind === "clone" && !draft.url.trim())))
+												(kind === "folder"
+													? !draft.repoPath.trim() || !draft.name.trim()
+													: kind === "open"
+														? !draft.repoPath.trim()
+														: !draft.name.trim() ||
+															!draft.parentDir.trim() ||
+															(kind === "clone" && !draft.url.trim())))
 										}
 									>
 										{pending ? (
@@ -802,7 +899,11 @@ export const JedvProjectActions = forwardRef<
 			{browse && (
 				<HostDirectoryPicker
 					context={session.context}
-					initialPath={kind === "open" ? draft.repoPath : draft.parentDir}
+					initialPath={
+						kind === "open" || kind === "folder"
+							? draft.repoPath
+							: draft.parentDir
+					}
 					onClose={() => setBrowse(false)}
 					onSelect={(path) => {
 						setBrowse(false);
@@ -810,7 +911,18 @@ export const JedvProjectActions = forwardRef<
 							...session,
 							draft: {
 								...draft,
-								[kind === "open" ? "repoPath" : "parentDir"]: path,
+								[kind === "open" || kind === "folder"
+									? "repoPath"
+									: "parentDir"]: path,
+								...(kind === "folder" && !draft.nameTouched
+									? {
+											name:
+												path
+													.replace(/[\\/]+$/, "")
+													.split(/[\\/]/)
+													.at(-1) ?? "",
+										}
+									: {}),
 							},
 						};
 						update(next);

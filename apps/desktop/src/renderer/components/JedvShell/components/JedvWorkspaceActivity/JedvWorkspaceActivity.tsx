@@ -91,9 +91,12 @@ export function JedvWorkspaceActivity(props: JedvWorkspaceActivityProps) {
 				)
 			: [];
 	const attention = agents.filter(needsAttention);
-	const currentPr = data.currentPr.data?.workspaces.find(
-		(row) => row.workspaceId === props.workspaceId,
-	)?.pullRequest;
+	const currentPr =
+		props.pullRequestsEnabled === false
+			? undefined
+			: data.currentPr.data?.workspaces.find(
+					(row) => row.workspaceId === props.workspaceId,
+				)?.pullRequest;
 	const background =
 		props.attachedTerminalIds && data.terminals.data
 			? collectBackgroundWork(
@@ -105,9 +108,11 @@ export function JedvWorkspaceActivity(props: JedvWorkspaceActivityProps) {
 				)
 			: null;
 	const prs =
-		data.prs.data?.workspaces.find(
-			(item) => item.workspaceId === props.workspaceId,
-		)?.pullRequests ?? [];
+		props.pullRequestsEnabled === false
+			? []
+			: (data.prs.data?.workspaces.find(
+					(item) => item.workspaceId === props.workspaceId,
+				)?.pullRequests ?? []);
 	useEffect(() => {
 		scope.current = key;
 		setFloating(false);
@@ -135,7 +140,10 @@ export function JedvWorkspaceActivity(props: JedvWorkspaceActivityProps) {
 				? () =>
 						void navigate(() => props.onOpenTerminal(entry.terminalId ?? ""))
 				: undefined;
-	const stats = data.git.data ? changesPillStats(data.git.data) : null;
+	const stats =
+		props.gitEnabled !== false && data.git.data
+			? changesPillStats(data.git.data)
+			: null;
 	const runningCount = runningWorkCount(agents, background ?? []);
 	useEffect(() => {
 		if (!open || !background?.length) return;
@@ -262,33 +270,40 @@ export function JedvWorkspaceActivity(props: JedvWorkspaceActivityProps) {
 							<span className="min-w-0 truncate text-xs text-muted-foreground">
 								{props.workspaceName}
 							</span>
-							{!currentPr && props.shipContext && (
-								<ShipActionsMenu
-									canCommit={
-										!!data.git.data &&
-										(data.git.data.staged.length > 0 ||
-											data.git.data.unstaged.length > 0)
-									}
-									canPush={!!data.git.data}
-									canCreatePr={props.shipContext.projects.some(
-										(project) =>
-											project.repoOwner &&
-											project.repoName &&
-											props.shipContext?.workspaces.some(
-												(workspace) =>
-													workspace.id === props.workspaceId &&
-													workspace.projectId === project.id,
-											),
-									)}
-									onOpen={setShipView}
-								/>
-							)}
+							{props.gitEnabled !== false &&
+								!currentPr &&
+								props.shipContext && (
+									<ShipActionsMenu
+										canCommit={
+											!!data.git.data &&
+											(data.git.data.staged.length > 0 ||
+												data.git.data.unstaged.length > 0)
+										}
+										canPush={!!data.git.data}
+										canCreatePr={
+											props.pullRequestsEnabled !== false &&
+											props.shipContext.projects.some(
+												(project) =>
+													project.repoOwner &&
+													project.repoName &&
+													props.shipContext?.workspaces.some(
+														(workspace) =>
+															workspace.id === props.workspaceId &&
+															workspace.projectId === project.id,
+													),
+											)
+										}
+										onOpen={setShipView}
+									/>
+								)}
 						</div>
-						<ChangesMenuRow
-							stats={stats}
-							isOpen={props.isChangesOpen ?? false}
-							onToggle={() => void navigate(props.onOpenChanges)}
-						/>
+						{props.gitEnabled !== false && (
+							<ChangesMenuRow
+								stats={stats}
+								isOpen={props.isChangesOpen ?? false}
+								onToggle={() => void navigate(props.onOpenChanges)}
+							/>
+						)}
 						{data.git.error && (
 							<div role="alert" className={rowClass}>
 								{data.git.error.message}
@@ -302,42 +317,46 @@ export function JedvWorkspaceActivity(props: JedvWorkspaceActivityProps) {
 							</div>
 						)}
 					</section>
-					{(data.prs.error || prs.length > 0) && (
-						<MenuGroup title={<Trans>Pull requests</Trans>} count={prs.length}>
-							{data.prs.error ? (
-								<p role="alert" className={rowClass}>
-									<Trans>Unavailable</Trans> · {data.prs.error.message}
-									<Button
-										size="sm"
-										variant="ghost"
-										onClick={() => void data.prs.refetch()}
-									>
-										<Trans>Retry</Trans>
-									</Button>
-								</p>
-							) : data.prs.isPending ? (
-								<p className={rowClass}>
-									<Trans>Loading…</Trans>
-								</p>
-							) : !prs.length ? (
-								<p className={rowClass}>
-									<Trans>No linked pull requests</Trans>
-								</p>
-							) : (
-								prs
-									.slice(0, 100)
-									.map((pr) => (
-										<PullRequestRow
-											key={`${pr.repoOwner}/${pr.repoName}#${pr.number}`}
-											pullRequest={pr}
-											onOpen={() =>
-												void navigate(() => props.onOpenPullRequests(pr))
-											}
-										/>
-									))
-							)}
-						</MenuGroup>
-					)}
+					{props.pullRequestsEnabled !== false &&
+						(data.prs.error || prs.length > 0) && (
+							<MenuGroup
+								title={<Trans>Pull requests</Trans>}
+								count={prs.length}
+							>
+								{data.prs.error ? (
+									<p role="alert" className={rowClass}>
+										<Trans>Unavailable</Trans> · {data.prs.error.message}
+										<Button
+											size="sm"
+											variant="ghost"
+											onClick={() => void data.prs.refetch()}
+										>
+											<Trans>Retry</Trans>
+										</Button>
+									</p>
+								) : data.prs.isPending ? (
+									<p className={rowClass}>
+										<Trans>Loading…</Trans>
+									</p>
+								) : !prs.length ? (
+									<p className={rowClass}>
+										<Trans>No linked pull requests</Trans>
+									</p>
+								) : (
+									prs
+										.slice(0, 100)
+										.map((pr) => (
+											<PullRequestRow
+												key={`${pr.repoOwner}/${pr.repoName}#${pr.number}`}
+												pullRequest={pr}
+												onOpen={() =>
+													void navigate(() => props.onOpenPullRequests(pr))
+												}
+											/>
+										))
+								)}
+							</MenuGroup>
+						)}
 					{(props.agentSource.status === "unavailable" ||
 						attention.length > 0) && (
 						<MenuGroup

@@ -1,5 +1,6 @@
 import { Trans, useLingui } from "@lingui/react/macro";
 import type { Project, Workspace } from "../../../../types";
+import { supportsWorktrees } from "../../../../vcs-capabilities";
 import { JedvProjectRow } from "../../../JedvProjectRow";
 import { SortableWorkspaceList } from "../../../JedvWorkspaceRow";
 import type { useProjectTreeData } from "../../hooks/useProjectTreeData";
@@ -148,8 +149,10 @@ export function ProjectTreeSection({
 					}
 					onNew={() => props.onProjectAction(context, project, "new")}
 					onCheckout={() => props.onProjectAction(context, project, "local")}
-					onImportWorktrees={() =>
-						props.onProjectAction(context, project, "import")
+					onImportWorktrees={
+						supportsWorktrees(project)
+							? () => props.onProjectAction(context, project, "import")
+							: undefined
 					}
 					onRename={async (value) => {
 						await props.onRename(

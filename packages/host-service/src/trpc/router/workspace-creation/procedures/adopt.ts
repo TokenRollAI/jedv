@@ -8,7 +8,7 @@ import {
 } from "../shared/branch-search";
 import {
 	requireLocalProject,
-	requireProjectRepoPath,
+	requireProjectGitPath,
 } from "../shared/local-project";
 import type { TerminalDescriptor } from "../shared/types";
 
@@ -23,7 +23,7 @@ export const adopt = protectedProcedure
 	.input(adoptInputSchema)
 	.mutation(async ({ ctx, input }) => {
 		const localProject = requireLocalProject(ctx, input.projectId);
-		const repoPath = requireProjectRepoPath(localProject);
+		const repoPath = requireProjectGitPath(localProject);
 
 		let branch = input.branch.trim();
 		if (!branch) {

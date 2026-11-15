@@ -1,4 +1,5 @@
 import type { findNestedRepoRoots } from "@jedv/workspace-fs/watch-scan";
+import { hasGitMetadata } from "../../projects/vcs-capabilities";
 import { getHostWorkerPool } from "../../workers/host-worker-pool.ts";
 import {
 	gitDirectoryTask,
@@ -20,6 +21,7 @@ export function scanGitIgnoredDirectories(
 	rootPath: string,
 	signal?: AbortSignal,
 ): Promise<string[]> {
+	if (!hasGitMetadata(rootPath)) return Promise.resolve([]);
 	return getHostWorkerPool().run(
 		ignoredDirectoriesTask,
 		{ rootPath },

@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX `team_leader_start_op_unique` ON `team_members` (`operation_id`) WHERE "team_members"."role"='leader' AND "team_members"."operation_id"!='init';

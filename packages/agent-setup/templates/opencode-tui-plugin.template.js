@@ -2,7 +2,7 @@
 // OpenCode V2 rejects the V1 server plugin, and its shared background server
 // cannot tell Jedv terminals apart. The TUI runs in the terminal itself,
 // so it reports the root sessions this terminal shows while they run.
-import { execFile } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 
 const notifyPath = {{NOTIFY_PATH}};
 
@@ -19,9 +19,27 @@ export default {
     let reportedSessionID = null;
     let lastSessionID = null;
     let failure = null;
-    let pending = Promise.resolve();
 
+  // Reserve before any await/queue/spawn. The allocation-only child does
+  // bounded local filesystem work; the event callback never waits for HTTP.
+  const reserveSequence = () => {
+    const reservation = {
+      JEDV_HOOK_SEQUENCE_ALLOCATED: "1",
+      JEDV_HOOK_DELIVERY_SEQUENCE: "",
+    };
+    if (!process.env.JEDV_AGENT_LAUNCH_ID || !process.env.JEDV_HOME_DIR) return reservation;
+    try {
+      const result = spawnSync("bash", [notifyPath, "--allocate-delivery-sequence"], {
+        env: process.env, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"], timeout: 1500,
+      });
+      const sequence = result.status === 0 ? result.stdout.trim() : "";
+      if (/^[1-9][0-9]{0,14}$/.test(sequence))
+        reservation.JEDV_HOOK_DELIVERY_SEQUENCE = sequence;
+    } catch { /* Reservation failures stay display-only. */ }
+    return reservation;
+  };
     const notify = (hookEventName, sessionID, message) => {
+      const reservation = reserveSequence();
       const payload = JSON.stringify({
         hook_event_name: hookEventName,
         session_id: sessionID,
@@ -29,17 +47,14 @@ export default {
           ? { message: message.slice(0, 4000) }
           : {}),
       });
-      pending = pending.then(
-        () =>
-          new Promise((resolve) => {
-            execFile(
-              "bash",
-              [notifyPath, payload],
-              { env: { ...process.env, JEDV_HOOK_HARNESS: "opencode" } },
-              () => resolve(),
-            );
-          }),
-      );
+      try {
+        const child = spawn("bash", [notifyPath, payload], {
+          detached: true, stdio: "ignore",
+          env: { ...process.env, ...reservation, JEDV_HOOK_HARNESS: "opencode" },
+        });
+        child.on("error", () => {});
+        child.unref();
+      } catch { /* Notifications must not interrupt the TUI. */ }
     };
 
     const rootOf = (sessionID) => ctx.data.session.root(sessionID) ?? sessionID;
@@ -141,7 +156,6 @@ export default {
     return async () => {
       clearInterval(routePoll);
       for (const unsubscribe of unsubscribers) unsubscribe();
-      await pending;
     };
   },
 };

@@ -580,6 +580,134 @@ describe("reported transcript path", () => {
 	});
 });
 
+describe("automatic delivery hook boundary", () => {
+	function setup() {
+		const { ctx, terminalAgentStore: store } = createContext("workspace-1");
+		const identity = {
+			terminalId: "terminal-1",
+			launchId: "launch-1",
+			agent: { agentId: "claude", sessionId: "session-1" },
+			attributionToken: issueAttributionToken("terminal-1"),
+		};
+		store.recordEvent({
+			terminalId: identity.terminalId,
+			workspaceId: "workspace-1",
+			agentId: "claude",
+			agentSessionId: "session-1",
+			launchId: identity.launchId,
+			eventType: "Attached",
+			occurredAt: 1,
+		});
+		const expected = store.get(identity.terminalId);
+		if (!expected) throw new Error("Missing fixture binding");
+		return {
+			caller: notificationsRouter.createCaller(ctx),
+			store,
+			identity,
+			expected,
+		};
+	}
+
+	it("validates a real terminal token and consumes ordered hook idle once", async () => {
+		const { caller, store, identity, expected } = setup();
+		await caller.hook({
+			...identity,
+			eventType: "UserPromptSubmit",
+			deliverySequence: 1,
+		});
+		await caller.hook({ ...identity, eventType: "Stop", deliverySequence: 2 });
+		const permit = store.acquireAutomaticDelivery(expected);
+		expect(permit?.isValid()).toBe(true);
+		await caller.hook({ ...identity, eventType: "Stop", deliverySequence: 2 });
+		expect(store.acquireAutomaticDelivery(expected)).toBeNull();
+		await caller.hook({
+			...identity,
+			eventType: "UserPromptSubmit",
+			deliverySequence: 3,
+		});
+		// Receipt time is assigned by the receiver; only source sequence orders it.
+		await caller.hook({ ...identity, eventType: "Stop", deliverySequence: 2 });
+		expect(store.getAutomaticDeliveryState(expected)).toBe("working");
+		expect(store.acquireAutomaticDelivery(expected)).toBeNull();
+		await caller.hook({ ...identity, eventType: "Stop", deliverySequence: 4 });
+		expect(store.acquireAutomaticDelivery(expected)?.isValid()).toBe(true);
+	});
+
+	for (const missing of [
+		"token",
+		"wrong-token",
+		"launch",
+		"session",
+		"sequence",
+	] as const) {
+		it(`keeps ${missing} hooks display-compatible without granting input authority`, async () => {
+			const { caller, store, identity, expected } = setup();
+			const input = {
+				...identity,
+				...(missing === "token" ? { attributionToken: undefined } : {}),
+				...(missing === "wrong-token"
+					? { attributionToken: issueAttributionToken("other-terminal") }
+					: {}),
+				...(missing === "launch" ? { launchId: "old-launch" } : {}),
+				...(missing === "session"
+					? { agent: { agentId: "claude", sessionId: "old-session" } }
+					: {}),
+			};
+			await caller.hook({
+				...input,
+				eventType: "UserPromptSubmit",
+				deliverySequence: missing === "sequence" ? undefined : 1,
+			});
+			await caller.hook({
+				...input,
+				eventType: "Stop",
+				deliverySequence: missing === "sequence" ? undefined : 2,
+			});
+			expect(store.get(identity.terminalId)?.lastEventType).toBe("Stop");
+			expect(store.acquireAutomaticDelivery(expected)).toBeNull();
+			const current = store.get(identity.terminalId);
+			if (!current) throw new Error("Missing current binding");
+			expect(store.acquireAutomaticDelivery(current)).toBeNull();
+		});
+	}
+
+	for (const eventType of ["PermissionRequest", "Interrupt"]) {
+		it(`does not authorize a normalized Stop after ${eventType}`, async () => {
+			const { caller, store, identity, expected } = setup();
+			await caller.hook({
+				...identity,
+				eventType: "UserPromptSubmit",
+				deliverySequence: 1,
+			});
+			await caller.hook({ ...identity, eventType, deliverySequence: 2 });
+			await caller.hook({
+				...identity,
+				eventType: "Stop",
+				deliverySequence: 3,
+			});
+			expect(store.acquireAutomaticDelivery(expected)).toBeNull();
+			expect(store.getAutomaticDeliveryState(expected)).toBe(
+				eventType === "Interrupt" ? "interrupted" : "permission",
+			);
+		});
+	}
+
+	it("cannot bootstrap authority using only a token and Stop on an unbound terminal", async () => {
+		const { ctx, terminalAgentStore: store } = createContext("workspace-1");
+		await notificationsRouter.createCaller(ctx).hook({
+			terminalId: "terminal-1",
+			launchId: "claimed-launch",
+			deliverySequence: 1,
+			attributionToken: issueAttributionToken("terminal-1"),
+			agent: { agentId: "claude", sessionId: "claimed-session" },
+			eventType: "Stop",
+		});
+		const current = store.get("terminal-1");
+		if (!current) throw new Error("Missing display binding");
+		expect(store.acquireAutomaticDelivery(current)).toBeNull();
+	});
+});
+
 describe("login attribution authentication", () => {
 	it("publishes launch events after the binding and account are readable", async () => {
 		const { ctx, terminalAgentStore, broadcastAgentLifecycle } =

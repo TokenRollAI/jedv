@@ -1,5 +1,6 @@
 import type { DetectedPort } from "@jedv/port-scanner";
 import type { AgentIdentity } from "@jedv/shared/agent-identity";
+import type { VcsCapabilities } from "@jedv/shared/vcs-capabilities";
 import type { WorkspaceTagAssignment } from "@jedv/shared/workspace-tags";
 import type { FsWatchEvent } from "@jedv/workspace-fs/host";
 import type { AgentLifecycleEventType } from "./map-event-type.ts";
@@ -48,6 +49,18 @@ export interface AgentBindingsChangedMessage {
 	occurredAt: number;
 }
 
+export interface TeamChangedMessage {
+	type: "team:changed";
+	teamId: string;
+	occurredAt: number;
+}
+export interface MailChangedMessage {
+	type: "mail:changed";
+	teamId: string;
+	memberId?: string;
+	occurredAt: number;
+}
+
 interface TerminalLifecycleBase {
 	type: "terminal:lifecycle";
 	workspaceId: string;
@@ -91,7 +104,7 @@ export interface PortChangedMessage {
  * Structural (not the drizzle inferred type) so workspace-client consumers
  * don't couple to the host's schema module.
  */
-export interface WorkspaceSnapshot {
+export interface WorkspaceSnapshot extends Partial<VcsCapabilities> {
 	id: string;
 	/** Null for project-less "session" workspaces. */
 	projectId: string | null;
@@ -164,7 +177,7 @@ export interface TagFoldersChangedMessage {
  * Structural (not the drizzle inferred type) so workspace-client consumers
  * don't couple to the host's schema module.
  */
-export interface ProjectSnapshot {
+export interface ProjectSnapshot extends Partial<VcsCapabilities> {
 	id: string;
 	name: string;
 	repoPath: string;
@@ -253,6 +266,8 @@ export interface ChatSessionsChangedMessage {
 }
 
 export type ServerMessage =
+	| TeamChangedMessage
+	| MailChangedMessage
 	| FsEventsMessage
 	| GitChangedMessage
 	| AgentLifecycleMessage

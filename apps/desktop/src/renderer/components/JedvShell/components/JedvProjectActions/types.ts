@@ -1,6 +1,11 @@
 import type { LocalClient } from "../../local-client";
 
-export type ProjectActionKind = "open" | "clone" | "empty" | "template";
+export type ProjectActionKind =
+	| "open"
+	| "clone"
+	| "empty"
+	| "template"
+	| "folder";
 export interface ProjectActionContext {
 	client: LocalClient;
 	hostUrl: string;

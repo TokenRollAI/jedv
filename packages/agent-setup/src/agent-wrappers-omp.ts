@@ -10,7 +10,7 @@ import { APP_HOME_DIR_NAME, resolveUserHomeDir } from "./paths";
 export const OMP_EXTENSION_FILE = "jedv-hooks.ts";
 
 const OMP_EXTENSION_SIGNATURE = "// Jedv Oh My Pi extension";
-const OMP_EXTENSION_VERSION = "v1";
+const OMP_EXTENSION_VERSION = "v2";
 export const OMP_EXTENSION_MARKER = `${OMP_EXTENSION_SIGNATURE} ${OMP_EXTENSION_VERSION}`;
 
 /**

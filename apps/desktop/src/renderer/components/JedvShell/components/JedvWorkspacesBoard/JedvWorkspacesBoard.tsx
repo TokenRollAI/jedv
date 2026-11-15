@@ -25,6 +25,7 @@ import {
 	LuTrash2,
 } from "react-icons/lu";
 import type { Workspace } from "../../types";
+import { supportsGit, supportsPullRequests } from "../../vcs-capabilities";
 import {
 	BulkDeleteWorkspaceQueue,
 	type DeletedWorkspaceResult,
@@ -151,7 +152,10 @@ export function JedvWorkspacesBoard({
 	const rows = all.data ?? workspaces;
 	const diffIds = rows
 		.filter(
-			(workspace) => workspace.archivedAt == null && workspace.worktreeExists,
+			(workspace) =>
+				workspace.archivedAt == null &&
+				workspace.worktreeExists &&
+				supportsGit(workspace),
 		)
 		.map((workspace) => workspace.id);
 	const diffStats = useQuery({
@@ -190,10 +194,15 @@ export function JedvWorkspacesBoard({
 		refetchInterval: 3000,
 		retry: false,
 	});
+	const prIds = rows
+		.filter(supportsPullRequests)
+		.map((row) => row.id)
+		.sort();
 	const prs = useQuery({
-		queryKey: ["jedv", hostUrl, "board-prs", ids],
+		queryKey: ["jedv", hostUrl, "board-prs", prIds],
 		queryFn: () =>
-			client.pullRequests.getByWorkspaces.query({ workspaceIds: ids }),
+			client.pullRequests.getByWorkspaces.query({ workspaceIds: prIds }),
+		enabled: prIds.length > 0,
 		refetchInterval: 15000,
 		retry: false,
 	});

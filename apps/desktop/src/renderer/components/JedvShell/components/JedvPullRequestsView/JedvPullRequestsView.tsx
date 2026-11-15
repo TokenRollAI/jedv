@@ -21,6 +21,8 @@ import {
 	LuSearch,
 } from "react-icons/lu";
 import type { JedvParityViewContext } from "../../parity-types";
+import { supportsPullRequests } from "../../vcs-capabilities";
+import { NonGitState } from "../NonGitState";
 import {
 	WindowChrome,
 	WindowChromeControls,
@@ -47,6 +49,7 @@ export function JedvPullRequestsView(
 		context.initialTarget,
 	);
 	const repoProjects = projects.flatMap((project) =>
+		supportsPullRequests(project) &&
 		project.repoOwner &&
 		project.repoName &&
 		(!projectId || project.id === projectId)
@@ -160,6 +163,19 @@ export function JedvPullRequestsView(
 						size="sm"
 						variant="outline"
 						className="h-7 text-xs"
+						disabled={
+							!context.workspaces.some(
+								(workspace) =>
+									supportsPullRequests(workspace) &&
+									projects.some(
+										(project) =>
+											project.id === workspace.projectId &&
+											supportsPullRequests(project) &&
+											project.repoOwner &&
+											project.repoName,
+									),
+							)
+						}
 						onClick={() => setCreating(true)}
 					>
 						<Trans>Create pull request</Trans>
@@ -233,7 +249,9 @@ export function JedvPullRequestsView(
 								<Trans>All projects</Trans>
 							</DropdownMenuRadioItem>
 							{projects
-								.filter((p) => p.repoOwner && p.repoName)
+								.filter(
+									(p) => supportsPullRequests(p) && p.repoOwner && p.repoName,
+								)
 								.map((project) => (
 									<DropdownMenuRadioItem key={project.id} value={project.id}>
 										{project.name}
@@ -353,7 +371,11 @@ export function JedvPullRequestsView(
 						{rows.length === 0 &&
 							!list.isFetching &&
 							failures.length === 0 &&
-							!list.error && (
+							!list.error &&
+							(projects.length > 0 &&
+							projects.every((project) => !supportsPullRequests(project)) ? (
+								<NonGitState />
+							) : (
 								<div className="flex h-64 flex-col items-center justify-center gap-3 text-center">
 									<LuGitPullRequest className="size-8 text-muted-foreground/40" />
 									<h2 className="text-sm font-medium">
@@ -374,7 +396,7 @@ export function JedvPullRequestsView(
 										)}
 									</p>
 								</div>
-							)}
+							))}
 						{list.hasNextPage && (
 							<Button
 								size="sm"

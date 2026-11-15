@@ -1,5 +1,5 @@
 ---
-description: "关闭窗口后终端继续运行、尚无输出不等于 shell 就绪、terminal reanchor replay detach、端口 PID 复用误杀；PTY 所有权、启动 echo 验证与直连恢复。"
+description: "关闭窗口后终端继续运行、尚无输出不等于 shell 就绪、terminal reanchor replay detach、端口 PID 复用误杀；PTY 所有权、启动 echo 验证与直连恢复、Agent Stop 展示与自动投递许可分离。"
 kind: architecture
 code:
   paths:
@@ -7,6 +7,14 @@ code:
     - packages/pty-daemon/src/Server/Server.ts
     - packages/pty-daemon/src/SessionStore/SessionStore.ts
     - packages/host-service/src/terminal/terminal.ts
+    - packages/host-service/src/terminal-agents/store.ts
+    - packages/host-service/src/terminal-agents/source-sequence.ts
+    - packages/host-service/src/terminal-agents/manual-barrier.test.ts
+    - packages/agent-setup/templates/notify-hook.template.sh
+    - packages/agent-setup/src/native-producer-sequence.test.ts
+    - packages/host-service/src/trpc/router/notifications/notifications.ts
+    - packages/host-service/src/trpc/router/terminal/terminal.ts
+    - packages/host-service/src/app.ts
     - packages/host-service/src/terminal/DaemonClient/DaemonClient.ts
     - packages/host-service/src/terminal/reaper/reaper.ts
     - packages/port-scanner/src/port-manager.ts
@@ -28,6 +36,7 @@ relations:
     - runtime/local-host.mdx
     - runtime/private-connections.mdx
     - agents/native-control.mdx
+    - teamwork/execution.mdx
 ---
 # PTY 会话、重连与端口归属
 
@@ -42,6 +51,22 @@ Unix socket 协议分开 JSON header 与 binary PTY payload，并有版本协商
 显式 dispose 先持久化 disposeRequestedAt 再尝试 kill；失败保留可重试意图，未知 session 可幂等视作已清理。reaper 区分 exited（Agent 可能恢复）与用户 disposed（不得复活），以 grace 与重复 missing 观察防止把 spawn/adoption 竞态当退出。
 
 默认 shell close 使用 SIGHUP；交互 shell 可 trap SIGTERM。关闭须同时处理进程与 master fd；部分 open 失败也不能仅删除 store 而留下进程或 fd。
+
+## Agent 展示状态不等于自动投递许可
+
+terminal binding 的持久化生命周期（包括 Stop）用于展示，不构成自动输入授权。自动投递许可只存在于 Host 内存；接收方必须同时验证 terminal attribution token、当前 launch 与 agent session 绑定，以及 producer 在 launch 内单调递增的 source deliverySequence。旧 hook 缺少序号时仍可保持展示兼容，但自动投递状态必须视为 unknown，不能仅凭 Stop 补发许可。
+
+源序号必须在事件发生时同步预分配，再交给 detached sender；不能等后台进程调度后取号。端点 failover 与同请求重试复用原序号和 payload，预分配缺失或失败的 adapter 只能 display-only，禁止 sender 晚补号制造新因果顺序。
+
+可信且新鲜的 Start 建立工作区间，只有同一绑定中其后的新鲜 Stop 才能结束该区间并允许一次自动投递。permit 在发送队列头部一次性 claim，随后不能重复使用；Host 重启不从持久化展示状态恢复许可。
+
+人工输入和 clear 除撤销已有 claim 外，还在同一 launch 以非等待锁采样 producer watermark 作为 cutoff。采样前已生成的迟到 Start/Stop 只能更新展示，不能恢复许可；采样失败保持 barrierPending fail closed，成功恢复也必须等待其后完整可信的新 Start→Stop。持久 floor 只防止旧事件回潮，不是重启后的许可，替换 launch 不继承旧 cutoff。
+
+人工终端 WS `input` 与 tRPC `writeInput` 在各自写入路径撤销当前绑定的自动许可；手动 `send` 在入队前撤销，并在队头实际写入前再次撤销。因此即使排队期间出现新的 idle，手动草稿到达队头后也会将其撤销，不会把它留给后续自动发送。撤销针对当前匹配的 agent binding，不能拿旧 binding 去改写替换后的会话状态。
+
+自动与手动发送都在入队前、队头及延迟 Enter 前复核当前 session registry；自动发送还在这些边界复核绑定和许可，且组合许可在等待 Mail reservation 后、任何字节写入前再次检查。session 被替换、adoption 后 registry 不再指向原实例，或许可失效时停止后续写入。串行与复核只能收窄交错窗口，不构成绝对零竞态或安全隔离保证。
+
+错误返回中的 `inputStaged: true` 表示文本或 Enter 可能已经部分或全部进入 PTY，不代表完整提交成功。写入后许可失效、session 更换、部分写入失败，甚至单独 Enter 的传输失败都可能返回此标记；自动许可已经被消费，调用方必须核对终端现状，不能盲目重试文本或 Enter。
 
 ## 尚无输出不等于就绪
 

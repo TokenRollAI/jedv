@@ -3,7 +3,7 @@ import { existsSync } from "node:fs";
 import { parseGitHubRemote } from "@jedv/shared/github-remote";
 import { computeChecksStatus } from "@jedv/shared/pull-request-checks";
 import type { Octokit } from "@octokit/rest";
-import { and, eq, inArray, isNull, notInArray } from "drizzle-orm";
+import { and, desc, eq, inArray, isNull, notInArray, sql } from "drizzle-orm";
 import type { HostDb } from "../../db";
 import {
 	projects,
@@ -14,6 +14,7 @@ import {
 import type { EventBus } from "../../events/event-bus";
 import type { GitWatcher } from "../../events/git-watcher";
 import { getLocalProject } from "../../projects/local-project-store";
+import { hasGitMetadata } from "../../projects/vcs-capabilities";
 import type { ExecGh } from "../../trpc/router/workspace-creation/utils/exec-gh";
 import { type GitFactory, resolveDefaultBranchName } from "../git";
 import { ConditionalGh } from "./utils/conditional-gh";
@@ -152,6 +153,7 @@ export interface PullRequestRuntimeManagerOptions {
 	readWorkspaceRefs?: (worktreePath: string) => Promise<WorkspaceRefsSnapshot>;
 	/** Test seam for the missing-worktree gate. Defaults to `existsSync`. */
 	worktreeExists?: (worktreePath: string) => boolean;
+	hasGitMetadata?: (rootPath: string) => boolean;
 }
 
 interface NormalizedRepoIdentity {
@@ -227,6 +229,7 @@ export class PullRequestRuntimeManager {
 	private readonly gitWatcher: GitWatcher;
 	private safetyNetTimer: ReturnType<typeof setInterval> | null = null;
 	private projectRefreshTimer: ReturnType<typeof setInterval> | null = null;
+	private stopped = false;
 	private unsubscribeFromGitWatcher: (() => void) | null = null;
 	private unsubscribeFromWorkspaceEvents: (() => void) | null = null;
 	private readonly inFlightProjects = new Map<string, Promise<void>>();
@@ -273,6 +276,7 @@ export class PullRequestRuntimeManager {
 	private readonly readWorkspaceRefs: (
 		worktreePath: string,
 	) => Promise<WorkspaceRefsSnapshot>;
+	private readonly hasGitMetadata: (rootPath: string) => boolean;
 	private readonly worktreeExists: (worktreePath: string) => boolean;
 	// Worktrees deleted out from under us (external `rm`, crashed teardown).
 	// While a workspace is listed here, sync attempts cost one existsSync and
@@ -294,9 +298,11 @@ export class PullRequestRuntimeManager {
 			options.readWorkspaceRefs ??
 			(async (worktreePath) => readWorkspaceRefs(await this.git(worktreePath)));
 		this.worktreeExists = options.worktreeExists ?? existsSync;
+		this.hasGitMetadata = options.hasGitMetadata ?? hasGitMetadata;
 	}
 
 	start() {
+		this.stopped = false;
 		if (
 			this.safetyNetTimer ||
 			this.projectRefreshTimer ||
@@ -362,6 +368,7 @@ export class PullRequestRuntimeManager {
 	}
 
 	stop() {
+		this.stopped = true;
 		this.conditionalGh.clear();
 		if (this.safetyNetTimer) clearInterval(this.safetyNetTimer);
 		if (this.projectRefreshTimer) clearInterval(this.projectRefreshTimer);
@@ -477,6 +484,11 @@ export class PullRequestRuntimeManager {
 				eq(workspacePullRequests.workspaceId, workspaces.id),
 			)
 			.where(inArray(workspacePullRequests.workspaceId, workspaceIds))
+			.orderBy(
+				desc(workspacePullRequests.linkedAt),
+				// Preserve newest-link order when Date.now() produces equal milliseconds.
+				desc(sql`${workspacePullRequests}.rowid`),
+			)
 			.all();
 
 		const byWorkspace = new Map<string, WorkspacePullRequestHistoryEntry[]>();
@@ -760,6 +772,7 @@ export class PullRequestRuntimeManager {
 		workspaceId: string,
 		options: { bypassCache?: boolean } = {},
 	): Promise<void> {
+		if (this.stopped) return Promise.resolve();
 		// Coalesce: if a sync is already running for this workspace, just mark
 		// "rerun pending" — there's no value in queuing N back-to-back syncs
 		// when only the final state matters. At most one sync runs and one
@@ -819,7 +832,11 @@ export class PullRequestRuntimeManager {
 		// Session workspaces (null projectId) have no remote and no PRs; the
 		// GitWatcher still fires for their repos, so gate here too. Archived
 		// workspaces are frozen tombstones — never resync or relink them.
-		if (workspace.projectId === null || workspace.archivedAt !== null) {
+		if (
+			workspace.projectId === null ||
+			workspace.archivedAt !== null ||
+			!this.hasGitMetadata(workspace.worktreePath)
+		) {
 			this.forgetMissingWorktree(workspaceId);
 			return;
 		}
@@ -834,7 +851,7 @@ export class PullRequestRuntimeManager {
 		// GitHub amplifier: every commit by any agent re-fetched every linked
 		// PR in the project. PRs opened for other workspaces are picked up by
 		// the 5-minute project sweep or their own git activity.
-		if (projectId) {
+		if (projectId && !this.stopped) {
 			await this.refreshProject(projectId, {
 				...options,
 				workspaceIds: [workspaceId],
@@ -857,7 +874,7 @@ export class PullRequestRuntimeManager {
 			const { branch, headSha, upstream } = await this.readWorkspaceRefs(
 				workspace.worktreePath,
 			);
-			if (!branch) return null;
+			if (this.stopped || !branch) return null;
 
 			const upstreamOwner = upstream?.owner ?? null;
 			const upstreamRepo = upstream?.name ?? null;
@@ -899,6 +916,7 @@ export class PullRequestRuntimeManager {
 
 			return workspace.projectId;
 		} catch (error) {
+			if (this.stopped) return null;
 			console.warn(
 				"[host-service:pull-request-runtime] Failed to sync workspace branch",
 				{
@@ -1005,7 +1023,7 @@ export class PullRequestRuntimeManager {
 		options: ProjectRefreshOptions = {},
 	): Promise<void> {
 		const repo = await this.getProjectRepository(projectId);
-		if (!repo) return;
+		if (!repo || this.stopped) return;
 
 		const scope = options.workspaceIds ? new Set(options.workspaceIds) : null;
 		const projectWorkspaces = this.db
@@ -1039,6 +1057,7 @@ export class PullRequestRuntimeManager {
 
 		const { failedKeys, matched: keyToPullRequest } =
 			await this.fetchRepoPullRequests(projectId, repo, wantedRefs, options);
+		if (this.stopped) return;
 
 		for (const workspace of projectWorkspaces) {
 			const key = this.effectiveUpstreamKey(workspace, repo);
@@ -1115,7 +1134,8 @@ export class PullRequestRuntimeManager {
 		projectId: string,
 	): Promise<NormalizedRepoIdentity | null> {
 		const project = getLocalProject(this.db, projectId);
-		if (!project) return null;
+		if (this.stopped || !project || !this.hasGitMetadata(project.repoPath))
+			return null;
 
 		let identity: Omit<NormalizedRepoIdentity, "defaultBranch">;
 		if (
@@ -1150,7 +1170,7 @@ export class PullRequestRuntimeManager {
 			}
 
 			const parsedRemote = parseGitHubRemote(remoteUrl);
-			if (!parsedRemote) return null;
+			if (this.stopped || !parsedRemote) return null;
 
 			this.db
 				.update(projects)
@@ -1168,7 +1188,7 @@ export class PullRequestRuntimeManager {
 		}
 
 		const defaultBranch = await this.resolveDefaultBranch(project.repoPath);
-		return { ...identity, defaultBranch };
+		return this.stopped ? null : { ...identity, defaultBranch };
 	}
 
 	// Shared origin/HEAD resolver; a repo-open failure disables the guard

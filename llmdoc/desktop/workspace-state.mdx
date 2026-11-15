@@ -1,5 +1,5 @@
 ---
-description: "pane remove/close 与 terminal 身份、布局恢复不覆盖用户编辑、工作区看板未读状态和 localStorage quota cleanup 的持久化边界。"
+description: "pane/terminal 身份、logicalHostId 与 endpoint 重挂、布局恢复不覆盖编辑、看板未读和有界持久化；Mail 草稿不自动重放。"
 kind: architecture
 code:
   paths:
@@ -14,6 +14,10 @@ code:
     - "apps/desktop/src/renderer/components/JedvShell/components/JedvWorkspacesBoard/stores/read-receipts.ts"
     - "apps/desktop/src/main/lib/main-events/window-access.ts"
     - "apps/desktop/src/renderer/lib/persisted-keys/persisted-key-registry.test-data.ts"
+    - "apps/desktop/src/renderer/components/JedvShell/JedvShell.tsx"
+    - "apps/desktop/src/renderer/components/JedvShell/parity-types.ts"
+    - "apps/desktop/src/renderer/components/JedvShell/components/JedvTeamworkView/team-mail-drafts.ts"
+    - "apps/desktop/src/renderer/components/JedvShell/components/JedvTeamworkView/team-mail-drafts.test.ts"
 relations:
   requires:
     - "terminals/session-lifecycle.mdx"
@@ -22,6 +26,7 @@ relations:
     - "desktop/failure-boundaries.mdx"
     - "agents/native-control.mdx"
     - "pull-requests/review-contract.mdx"
+    - "teamwork/execution.mdx"
 ---
 
 # 工作区视图状态与活资源
@@ -35,6 +40,12 @@ panes store 用 close 表示需要发出资源关闭回调的用户操作，用 
 布局 adapter 等待 saved layout 和 live terminal 列表都 ready 才恢复。恢复前用户已经编辑的布局不能被旧 snapshot 覆盖；同样不能将尚未加载的空会话列表当作“全部终端死亡”。有意从布局移出的活 terminal 以 detached identity 记住，避免 reconcile 又自动加回。
 
 保存按顺序合并 pending snapshot；失败保留可重试的数据与显式错误，不能把本地内存已更新当作已持久化。主进程按注册 window key、host identity、workspace 分区；回环端口变化规范为同一本地 host，私网 origin 则保持独立身份。
+
+## logicalHostId 与 transport endpoint 分开
+
+本地 Host 使用稳定逻辑标识，私网 Host 按已验证 origin 独立命名；端口变化、transport client 和 Electron provider 重建可以继续使用新 client，但不能因此改变 Team 选择或请求身份。不同私网 origin 不据此合并，PSK/client machineId 也不作为共享 UI 身份。
+
+Team Mail 草稿由 renderer 内存 store 按 `[logicalHostId, teamId]` 隔离，而非 endpoint key 或 localStorage/SQLite。它只保留原文、收件人、dedupe/request 和 pending，最多 32 个 scope；非 pending 闲置 24 小时清理，pending 身份受保护。成功或手清可回收空项，权威在线列表中的删除/归档立即清理，初始加载/查询失败不当作删除证据。旧回调不复活已清理 scope，重连只恢复供用户明确发送，不自动重放。具体业务归属由 `teamwork/execution` 约束。
 
 ## 有界且受校验的持久层
 

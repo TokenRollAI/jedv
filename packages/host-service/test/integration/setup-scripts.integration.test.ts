@@ -48,12 +48,7 @@ describe("setup scripts integration", () => {
 			.where(eq(projects.id, scenario.projectId))
 			.run();
 		const writes: string[] = [];
-		const spawned: Array<{
-			meta: {
-				cwd?: string;
-				env?: Record<string, string>;
-			};
-		}> = [];
+		const spawned: Array<{ meta: SessionMeta }> = [];
 
 		const server = new Server({
 			socketPath,
@@ -139,7 +134,7 @@ describe("setup scripts integration", () => {
 				writes.indexOf("\r") > writes.indexOf("echo setup-a && echo setup-b"),
 			5000,
 			() =>
-				`expected setup command write + Enter, got ${JSON.stringify(writes)}`,
+				`expected setup command write + Enter, got ${JSON.stringify({ writes, launches: spawned.map(({ meta }) => ({ shell: meta.shell, argv: meta.argv })) })}`,
 		);
 
 		const workspaceRow = scenario.host.db
@@ -195,6 +190,9 @@ function createFakePty(pid: number, writes: string[], meta: SessionMeta) {
 		},
 		onData(callback: (data: Buffer) => void) {
 			dataCallbacks.push(callback);
+			// An interactive shell produces a prompt before accepting commands.
+			// The ungated launch waits for observed output, then its quiet period.
+			queueMicrotask(() => callback(Buffer.from("$ ", "utf-8")));
 		},
 		onExit(
 			callback: (info: { code: number | null; signal: number | null }) => void,

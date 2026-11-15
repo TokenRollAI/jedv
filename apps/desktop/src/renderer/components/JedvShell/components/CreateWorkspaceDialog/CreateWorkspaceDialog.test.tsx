@@ -118,3 +118,67 @@ test("saved workspaces survive refresh failures and are not recreated", async ()
 	expect(f.create).toHaveBeenCalledTimes(1);
 	f.queryClient.clear();
 });
+
+test("plain folder workspace disables Git modes and makes no branch, PR or worktree queries", async () => {
+	const gitQuery = mock(async () => {
+		throw new Error("Git must remain disabled");
+	});
+	const create = mock(async (_input: unknown) => ({
+		workspace: { id: "created" },
+		terminals: [],
+	}));
+	const context = {
+		hostUrl: "http://folder.invalid",
+		hostLabel: "Folder host",
+		isRemote: true,
+		client: {
+			workspaces: { create: { mutate: create } },
+			workspaceCreation: {
+				searchBranches: { query: gitQuery },
+				searchPullRequests: { query: gitQuery },
+				listProjectWorktrees: { query: gitQuery },
+			},
+		},
+	} as unknown as ProjectActionContext;
+	const cache = new QueryClient({
+		defaultOptions: { queries: { retry: false } },
+	});
+	const screen = render(
+		<QueryClientProvider client={cache}>
+			<CreateWorkspaceDialog
+				context={context}
+				projects={[
+					{
+						id: "folder",
+						name: "Plain",
+						vcsKind: "none",
+						capabilities: { git: false, pullRequests: false, worktrees: false },
+					},
+				]}
+				onRefresh={async () => {}}
+				onCreated={async () => {}}
+				onClose={() => {}}
+			/>
+		</QueryClientProvider>,
+	);
+	for (const name of [
+		"New branch",
+		"Existing branch",
+		"Pull request",
+		"Import worktree",
+	])
+		expect(
+			(screen.getByRole("tab", { name }) as HTMLButtonElement).disabled,
+		).toBe(true);
+	fireEvent.click(screen.getByRole("button", { name: "Create workspace" }));
+	await waitFor(() => expect(create).toHaveBeenCalled());
+	expect(create.mock.calls[0]?.[0]).toMatchObject({
+		projectId: "folder",
+		checkout: "local",
+		runSetup: false,
+	});
+	expect(create.mock.calls[0]?.[0]).not.toHaveProperty("branch");
+	expect(gitQuery).not.toHaveBeenCalled();
+	cleanup();
+	cache.clear();
+});

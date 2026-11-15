@@ -3,6 +3,7 @@ import { resolve } from "node:path";
 import { eq } from "drizzle-orm";
 import { type projects, workspaces } from "../../../db/schema";
 import { getProjectIncludingDeleted } from "../../../projects/local-project-store";
+import { isPlainDirectory } from "../../../projects/vcs-capabilities";
 import type { HostServiceContext } from "../../../types";
 
 type WorkspaceRow = typeof workspaces.$inferSelect;
@@ -53,7 +54,10 @@ export async function isLocalCheckoutWorkspace(
 	return {
 		local,
 		project,
-		sharesProjectCheckout: samePath || local?.type === "local",
+		sharesProjectCheckout:
+			samePath ||
+			local?.type === "local" ||
+			(!!project && isPlainDirectory(project.repoPath)),
 	};
 }
 

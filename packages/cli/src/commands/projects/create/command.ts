@@ -1,10 +1,14 @@
 import { boolean, CLIError, string } from "@jedv/cli-framework";
+import { TRPCClientError } from "@trpc/client";
 import { command } from "../../../lib/command";
 import { requireHostTarget, resolveHostTarget } from "../../../lib/host-target";
 
 export default command({
 	description: "Create a project on a host",
 	options: {
+		folder: string().desc(
+			"Existing ordinary directory on the target host; never initializes Git",
+		),
 		host: string().desc("Target host machineId (required unless --local)"),
 		local: boolean().desc("Target this machine (required unless --host)"),
 		name: string().required().desc("Project name"),
@@ -21,10 +25,13 @@ export default command({
 	run: async ({ ctx, options }) => {
 		const organizationId = ctx.config.organizationId;
 
-		if (Boolean(options.clone) === Boolean(options.import)) {
+		if (
+			[options.clone, options.import, options.folder].filter(Boolean).length !==
+			1
+		) {
 			throw new CLIError(
-				"Specify exactly one of --clone or --import",
-				"Use --clone <url> --parent-dir <path> or --import <path>",
+				"Specify exactly one of --clone, --import or --folder",
+				"Use --clone <url> --parent-dir <path>, --import <repo> or --folder <path>",
 			);
 		}
 		if (options.clone && !options.parentDir) {
@@ -33,9 +40,9 @@ export default command({
 				"Pass --parent-dir <path> alongside --clone",
 			);
 		}
-		if (options.import && options.parentDir) {
+		if ((options.import || options.folder) && options.parentDir) {
 			throw new CLIError(
-				"--parent-dir cannot be used with --import",
+				"--parent-dir cannot be used with --import or --folder",
 				"--import takes the full repo path",
 			);
 		}
@@ -50,16 +57,40 @@ export default command({
 			organizationId,
 		});
 
-		const mode = options.clone
-			? {
-					kind: "clone" as const,
-					parentDir: options.parentDir as string,
-					url: options.clone,
+		if (options.folder) {
+			try {
+				const capabilities = await target.client.project.capabilities.query();
+				if (!capabilities.folderProjects)
+					throw new CLIError(
+						"Folder projects are unsupported by this host",
+						"Update the host before using --folder.",
+					);
+			} catch (error) {
+				if (
+					error instanceof TRPCClientError &&
+					(error.data?.code === "NOT_FOUND" ||
+						error.data?.code === "METHOD_NOT_SUPPORTED")
+				) {
+					throw new CLIError(
+						"Folder projects are unsupported by this host",
+						"Update the host before using --folder.",
+					);
 				}
-			: {
-					kind: "importLocal" as const,
-					repoPath: options.import as string,
-				};
+				throw error;
+			}
+		}
+		const mode = options.folder
+			? { kind: "folder" as const, repoPath: options.folder }
+			: options.clone
+				? {
+						kind: "clone" as const,
+						parentDir: options.parentDir as string,
+						url: options.clone,
+					}
+				: {
+						kind: "importLocal" as const,
+						repoPath: options.import as string,
+					};
 
 		const result = await target.client.project.create.mutate({
 			name: options.name,

@@ -188,6 +188,7 @@ interface RegisterWorkspaceTerminalRouteOptions {
 	db: HostDb;
 	eventBus: EventBus;
 	upgradeWebSocket: NodeWebSocket["upgradeWebSocket"];
+	onInput?: (terminalId: string, workspaceId: string) => void;
 }
 
 export function parseThemeType(
@@ -919,6 +920,8 @@ export type TerminalSessionErrorKind =
 	| "TERMINAL_START_FAILED";
 
 export type TerminalSessionError = {
+	/** Input may already be in the PTY, including a partially failed write.
+	 * Callers must reconcile the terminal instead of blindly retrying. */
 	inputStaged?: true;
 	kind: TerminalSessionErrorKind;
 	error: string;
@@ -1187,7 +1190,8 @@ interface SessionMessageInput {
 }
 
 interface AgentMessageTarget {
-	store: Pick<TerminalAgentStore, "get">;
+	store: Pick<TerminalAgentStore, "get"> &
+		Partial<Pick<TerminalAgentStore, "invalidateAutomaticDelivery">>;
 	binding: TerminalAgentBinding;
 	acquireDelivery?: () => Promise<{ isValid: () => boolean } | null>;
 }
@@ -1206,13 +1210,50 @@ export function writeFramedInputToSession(input: SessionMessageInput) {
 	return writeSessionMessage(input);
 }
 
+/** Automatic sends additionally consume a fresh hook-authorized idle period. */
+export async function sendAutomaticAgentMessage({
+	terminalAgentStore,
+	expectedAgent,
+	acquireDelivery,
+	...input
+}: SessionMessageInput & {
+	terminalAgentStore: Pick<
+		TerminalAgentStore,
+		"get" | "getAutomaticDeliveryState" | "acquireAutomaticDelivery"
+	>;
+	expectedAgent: TerminalAgentBinding;
+	acquireDelivery?: AgentMessageTarget["acquireDelivery"];
+}): Promise<{ success: true } | TerminalSessionError> {
+	if (terminalAgentStore.getAutomaticDeliveryState(expectedAgent) !== "idle") {
+		return {
+			kind: "SESSION_NOT_ACTIVE",
+			error: "Agent has no fresh automatic delivery permission",
+		};
+	}
+	return sendAgentMessage({
+		...input,
+		terminalAgentStore,
+		expectedAgent,
+		acquireDelivery: async () => {
+			const idle = terminalAgentStore.acquireAutomaticDelivery(expectedAgent);
+			if (!idle) return null;
+			const delivery = await acquireDelivery?.();
+			if (acquireDelivery && !delivery) return null;
+			return {
+				isValid: () => idle.isValid() && (!delivery || delivery.isValid()),
+			};
+		},
+	});
+}
+
 export async function sendAgentMessage({
 	terminalAgentStore,
 	expectedAgent,
 	acquireDelivery,
 	...input
 }: SessionMessageInput & {
-	terminalAgentStore: Pick<TerminalAgentStore, "get">;
+	terminalAgentStore: Pick<TerminalAgentStore, "get"> &
+		Partial<Pick<TerminalAgentStore, "invalidateAutomaticDelivery">>;
 	expectedAgent?: TerminalAgentBinding;
 	acquireDelivery?: AgentMessageTarget["acquireDelivery"];
 }): Promise<{ success: true } | TerminalSessionError> {
@@ -1234,6 +1275,8 @@ export async function sendAgentMessage({
 			error: "Agent does not belong to this workspace",
 		};
 	}
+	if (!acquireDelivery)
+		terminalAgentStore.invalidateAutomaticDelivery?.(binding);
 	return writeSessionMessage(input, {
 		store: terminalAgentStore,
 		binding,
@@ -1267,6 +1310,12 @@ async function writeSessionMessage(
 	if (session.exited) {
 		return { kind: "SESSION_EXITED", error: "Terminal session has exited" };
 	}
+	if (!isCurrentLiveSession(session) || (agent && !isCurrentAgent(agent))) {
+		return {
+			kind: "SESSION_NOT_ACTIVE",
+			error: "Terminal input target is no longer current",
+		};
+	}
 
 	// Serialize sends per session: the delayed Enter opens a window where a
 	// concurrent send's text (even a submit: false draft) would land between
@@ -1274,7 +1323,11 @@ async function writeSessionMessage(
 	const previous = session.followUpWriteChain ?? Promise.resolve();
 	const task = previous.then(
 		async (): Promise<{ success: true } | TerminalSessionError> => {
-			if (signal?.aborted || (agent && !isCurrentAgent(agent))) {
+			if (
+				signal?.aborted ||
+				!isCurrentLiveSession(session) ||
+				(agent && !isCurrentAgent(agent))
+			) {
 				return {
 					kind: "SESSION_NOT_ACTIVE",
 					error: "Terminal input target is no longer current",
@@ -1283,26 +1336,29 @@ async function writeSessionMessage(
 			if (session.exited) {
 				return { kind: "SESSION_EXITED", error: "Terminal session has exited" };
 			}
-			const permit = await agent?.acquireDelivery?.();
-			const targetIsCurrent = () =>
-				!signal?.aborted &&
-				(!agent || isCurrentAgent(agent)) &&
-				(!agent?.acquireDelivery || permit?.isValid() === true);
-			if (session.exited || !targetIsCurrent()) {
-				return {
-					kind: "SESSION_NOT_ACTIVE",
-					error: "Terminal input target is no longer current",
-				};
-			}
-			const message = agent ? sanitizePromptForPty(text) : text;
-			const framed =
-				agent || session.modeTracker.isBracketedPasteActive()
-					? `\x1b[200~${message}\x1b[201~`
-					: message;
-			const write = (data: string) =>
-				agent ? session.pty.writeOrThrow(data) : session.pty.write(data);
+			if (agent && !agent.acquireDelivery)
+				agent.store.invalidateAutomaticDelivery?.(agent.binding);
 			let inputStaged: true | undefined;
 			try {
+				const permit = await agent?.acquireDelivery?.();
+				const targetIsCurrent = () =>
+					!signal?.aborted &&
+					isCurrentLiveSession(session) &&
+					(!agent || isCurrentAgent(agent)) &&
+					(!agent?.acquireDelivery || permit?.isValid() === true);
+				if (!targetIsCurrent()) {
+					return {
+						kind: "SESSION_NOT_ACTIVE",
+						error: "Terminal input target is no longer current",
+					};
+				}
+				const message = agent ? sanitizePromptForPty(text) : text;
+				const framed =
+					agent || session.modeTracker.isBracketedPasteActive()
+						? `\x1b[200~${message}\x1b[201~`
+						: message;
+				const write = (data: string) =>
+					agent ? session.pty.writeOrThrow(data) : session.pty.write(data);
 				if (!submit) {
 					inputStaged = true;
 					write(framed);
@@ -1327,6 +1383,7 @@ async function writeSessionMessage(
 						inputStaged,
 					};
 				}
+				inputStaged = true;
 				write("\r");
 				return { success: true };
 			} catch (error) {
@@ -3286,7 +3343,11 @@ async function createTerminalSessionUnlocked({
 	}
 	const pty: DaemonPty = makeDaemonPty(daemon, terminalId, openResult.pid);
 
-	const createdAt = Date.now();
+	// Adoption keeps the existing PTY identity; only a new launch starts a
+	// new terminal lifetime. Recovery compares this durable creation stamp.
+	const createdAt = isAdopted
+		? (currentRecord?.createdAt ?? Date.now())
+		: Date.now();
 
 	db.insert(terminalSessions)
 		.values({
@@ -3590,6 +3651,7 @@ export function registerWorkspaceTerminalRoute({
 	db,
 	eventBus,
 	upgradeWebSocket,
+	onInput,
 }: RegisterWorkspaceTerminalRouteOptions) {
 	app.post("/terminal/sessions", async (c) => {
 		const body = await c.req.json<{
@@ -3929,6 +3991,7 @@ export function registerWorkspaceTerminalRoute({
 					}
 
 					if (message.type === "input") {
+						onInput?.(session.terminalId, session.workspaceId);
 						session.pty.write(message.data);
 						return;
 					}

@@ -4,6 +4,7 @@ kind: architecture
 code:
   paths:
     - packages/host-service/src/runtime/pull-requests/pull-requests.ts
+    - packages/host-service/src/runtime/pull-requests/pull-requests.test.ts
     - packages/host-service/src/runtime/pull-requests/utils/github-availability/github-availability.ts
     - packages/host-service/src/trpc/router/pull-requests/pull-requests.ts
     - packages/host-service/src/trpc/router/github/github.ts
@@ -32,6 +33,8 @@ host 的 GitHub、pull-requests 与 workspace-scoped Git 方法共同提供完�
 project-scoped 操作从当前真实 Git remote 解析 owner/repo，不信任导入时的缓存。remote 选择和未找到项目或 GitHub remote 的错误必须保留，不可按 UI 显示名称发外部写入。
 
 PR 关联由 GitWatcher 的 branch/HEAD/upstream 变化驱动，周期 sweep 是兜底。repo owner/name 比较忽略大小写，branch 大小写敏感；当前 link 与历史关联是不同契约，移除当前关联不能顺便删除历史。
+
+历史按 linkedAt 倒序并以 rowid 倒序打破同毫秒并列，保证连续创建的关联仍呈真实插入次序。移除当前 pointer 只清当前值，不重排或删除历史；不能用相同时间戳推断先后顺序。
 
 ## 断网不等于没有 PR
 
