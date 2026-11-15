@@ -1,11 +1,12 @@
 ---
-description: "host manifest adopt ownership、并发 start 取消、owned/adopted 清理权限，以及桌面重启和 local CLI daemon 的进程生命周期。"
+description: "host manifest adopt ownership、并发 start 取消、owned/adopted 清理权限，以及 standalone Node 身份核验、CLI stop 和桌面重启的进程生命周期。"
 kind: architecture
 code:
   paths:
     - "apps/desktop/src/main/lib/host-service-coordinator.ts"
     - "apps/desktop/src/main/host-service/shutdown.ts"
     - "packages/cli/src/lib/host/spawn.ts"
+    - "packages/cli/scripts/build-dist.ts"
     - "packages/cli/src/lib/host/manifest.ts"
     - "packages/host-service/src/serve.ts"
     - "apps/desktop/src/main/host-service/index.ts"
@@ -21,6 +22,7 @@ relations:
     - "terminals/session-lifecycle.mdx"
     - "runtime/local-persistence.mdx"
     - "distribution/cli-contract.mdx"
+    - "distribution/release-integrity.mdx"
 ---
 
 # host 进程与 manifest 所有权
@@ -44,6 +46,8 @@ restart 延续普通所有权语义；显式 reset 是更强的恢复路径，�
 host-service child 在监听成功后 claim manifest；对健康 holder 让位，并在 holder 消失后重新 claim。CLI 启动也必须先等健康再发布 manifest；启动或发布失败只清理本次 child。`--daemon` 的脱离、日志和数据目录传递是显式启动模式，不能由终端窗口是否存在来猜。
 
 CLI status 和 stop 共用 manifest liveness 核验：区分已死 PID、被复用为另一进程的 PID 与真正 host；无法读取命令身份时再用带凭证的端点探活。stop 只对通过核验的 holder 发送终止信号，不能凭 PID 存活就当作归属匹配。移除过期 manifest 仍须比较记录中的 holder，避免删掉后来建立的新 claim。额外停止 terminal daemon 是显式选项，会结束其中终端与 Agent，区别于只停止 host。
+
+独立 host wrapper 会 exec 为 Node 与 host-service.js，不能只在整条命令里搜索 wrapper 名称。直接 wrapper 必须匹配 executable；Node 形态只认可当前 CLI 安装目录（或 JEDV_HOST_BIN 指定位置）内配套 runtime 与脚本的固定组合。ps 展平后的命令文本不能证明任意参数中的路径属于可终止的 host，因此其他安装位置的 Node host 保守判为不归属，也不对明确不匹配的进程回退健康探测。修改 wrapper 或分发目录布局时，必须同步审阅身份核验和 stop 回归保护。
 
 PTY 存续由独立 pty-daemon 承担；host 重启与 terminal detach 不等同杀 shell。修改 host 退出顺序时必须同时评审终端恢复与 chat 的未完成工作记录。
 
