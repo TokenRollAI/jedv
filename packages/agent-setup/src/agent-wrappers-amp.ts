@@ -23,7 +23,7 @@ export function createAmpWrapper(): void {
 
 export const AMP_PLUGIN_FILE = "jedv-lifecycle.ts";
 const AMP_PLUGIN_SIGNATURE = "// Jedv Amp lifecycle plugin";
-const AMP_PLUGIN_VERSION = "v3";
+const AMP_PLUGIN_VERSION = "v4";
 export const AMP_PLUGIN_MARKER = `${AMP_PLUGIN_SIGNATURE} ${AMP_PLUGIN_VERSION}`;
 
 /**

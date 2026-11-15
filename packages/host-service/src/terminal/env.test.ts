@@ -81,6 +81,15 @@ describe("normalizeUtf8Locale", () => {
 // ── stripTerminalRuntimeEnv ──────────────────────────────────────────
 
 describe("stripTerminalRuntimeEnv", () => {
+	test("preserves the isolated user-home override while dropping inherited Team identity", () => {
+		expect(
+			stripTerminalRuntimeEnv({
+				JEDV_USER_HOME_DIR: "/tmp/isolated-user",
+				JEDV_TEAM_ID: "parent-team",
+				JEDV_TEAM_MEMBER_ID: "parent-member",
+			}),
+		).toEqual({ JEDV_USER_HOME_DIR: "/tmp/isolated-user" });
+	});
 	const secretsEnv: Record<string, string> = {
 		// Host-service runtime keys that must not leak
 		AUTH_TOKEN: "secret-token",

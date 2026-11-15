@@ -13,6 +13,7 @@ import {
 	LuSettings,
 	LuTerminal,
 	LuUndo2,
+	LuUsers,
 	LuWandSparkles,
 } from "react-icons/lu";
 import { useHotkeyDisplay } from "renderer/hotkeys";
@@ -32,6 +33,7 @@ const details: Record<string, { icon: typeof LuTerminal; hotkey?: HotkeyId }> =
 		welcome: { icon: LuWandSparkles },
 		"run-workspace": { icon: LuPlay, hotkey: "RUN_WORKSPACE_COMMAND" },
 		"project-open": { icon: LuFolderOpen, hotkey: "OPEN_PROJECT" },
+		"project-folder": { icon: LuFolderOpen },
 		"project-clone": { icon: LuFolderGit2 },
 		"project-empty": { icon: LuFolderGit2 },
 		"project-template": { icon: LuLayoutTemplate },
@@ -40,6 +42,8 @@ const details: Record<string, { icon: typeof LuTerminal; hotkey?: HotkeyId }> =
 		changes: { icon: LuGitCompareArrows, hotkey: "OPEN_DIFF_VIEWER" },
 		board: { icon: LuLayoutGrid },
 		automations: { icon: LuHistory },
+		teamwork: { icon: LuUsers },
+		"create-team": { icon: LuUsers },
 		pr: { icon: LuGitPullRequest },
 		undo: { icon: LuUndo2, hotkey: "UNDO" },
 	};

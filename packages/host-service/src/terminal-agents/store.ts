@@ -1,6 +1,9 @@
 import { EventEmitter } from "node:events";
 import type { BackgroundTask } from "@jedv/chat/protocol";
 import type { AgentDefinitionId } from "@jedv/shared/agent-catalog";
+import { mapEventType } from "../events/map-event-type";
+import { matchesAgentBinding } from "./matches-agent-binding";
+import { readSourceSequenceWatermark } from "./source-sequence";
 import {
 	getSubagentHarness,
 	readSubagentTranscript,
@@ -16,6 +19,8 @@ import type {
 } from "./types";
 
 interface RecordEventInput {
+	/** Only the hook receiver may attest the original event and its token. */
+	hook?: { eventType: string; trusted: boolean; sequence?: number };
 	launchId?: string;
 	account?: TerminalAgentBinding["account"];
 	terminalId: string;
@@ -25,6 +30,26 @@ interface RecordEventInput {
 	agentSessionId?: string;
 	definitionId?: AgentDefinitionId;
 	occurredAt: number;
+}
+
+export type AutomaticDeliveryState =
+	| "idle"
+	| "working"
+	| "permission"
+	| "interrupted"
+	| "cleared"
+	| "reserved"
+	| "unknown";
+
+export interface AutomaticDeliveryPermit {
+	isValid(): boolean;
+}
+
+interface AutomaticDeliveryObservation {
+	barrierPending?: boolean;
+	binding: TerminalAgentBinding;
+	state: AutomaticDeliveryState;
+	sequence: number;
 }
 
 interface RecordSubagentEventInput {
@@ -134,19 +159,53 @@ export interface TerminalAgentBindingPersistence {
  */
 export class TerminalAgentStore extends EventEmitter {
 	private readonly byTerminal = new Map<string, TerminalAgentBinding>();
+	// Never restore authority from persisted display state, including Stop.
+	private readonly automaticDelivery = new Map<
+		string,
+		AutomaticDeliveryObservation
+	>();
 	private readonly chatByTerminal = new Map<string, TerminalAgentBinding>();
 	private readonly subagentsByTerminal = new Map<
 		string,
 		Map<string, TerminalSubagent>
 	>();
 	private readonly persistence: TerminalAgentBindingPersistence | undefined;
+	private readonly readSourceSequence: (
+		terminalId: string,
+		launchId?: string,
+	) => number | null;
+	private sourceWatermark(binding: TerminalAgentBinding): number | null {
+		try {
+			const value = this.readSourceSequence(
+				binding.terminalId,
+				binding.launchId,
+			);
+			return value !== null && Number.isSafeInteger(value) && value >= 0
+				? value
+				: null;
+		} catch {
+			return null;
+		}
+	}
 
-	constructor(persistence?: TerminalAgentBindingPersistence) {
+	constructor(
+		persistence?: TerminalAgentBindingPersistence,
+		options: { readSourceSequence?: typeof readSourceSequenceWatermark } = {},
+	) {
 		super();
 		this.persistence = persistence;
+		this.readSourceSequence =
+			options.readSourceSequence ?? readSourceSequenceWatermark;
 
 		for (const binding of persistence?.load() ?? []) {
+			const source = this.sourceWatermark(binding);
 			this.byTerminal.set(binding.terminalId, binding);
+			this.automaticDelivery.set(binding.terminalId, {
+				binding,
+				state: "unknown",
+				barrierPending: source === null,
+				sequence: Math.max(binding.deliverySequence ?? 0, source ?? 0),
+			});
 		}
 	}
 
@@ -220,6 +279,8 @@ export class TerminalAgentStore extends EventEmitter {
 				? prior.lastEventType
 				: undefined;
 
+		const sameProducer =
+			prior?.launchId === (input.launchId ?? prior?.launchId);
 		const next: TerminalAgentBinding = {
 			terminalId,
 			workspaceId,
@@ -227,6 +288,13 @@ export class TerminalAgentStore extends EventEmitter {
 			agentSessionId: agentSessionId ?? prior?.agentSessionId,
 			definitionId: definitionId ?? prior?.definitionId,
 			launchId: input.launchId ?? prior?.launchId,
+			deliverySequence:
+				Math.max(
+					sameProducer ? (prior?.deliverySequence ?? 0) : 0,
+					input.hook?.trusted && Number.isSafeInteger(input.hook.sequence)
+						? (input.hook.sequence ?? 0)
+						: 0,
+				) || undefined,
 			account:
 				input.account ??
 				(prior && (!sessionChanged || prior.agentSessionId === undefined)
@@ -239,9 +307,90 @@ export class TerminalAgentStore extends EventEmitter {
 		};
 
 		this.byTerminal.set(terminalId, next);
+		this.observeAutomaticDelivery(
+			next,
+			input,
+			preservedLifecycleState !== undefined,
+		);
 		this.persistence?.upsert(next);
 		this.emit("change", workspaceId);
 		this.noteActivity(workspaceId);
+	}
+
+	private observeAutomaticDelivery(
+		binding: TerminalAgentBinding,
+		input: RecordEventInput,
+		preserved: boolean,
+	): void {
+		const previous = this.automaticDelivery.get(binding.terminalId);
+		const sameAgent =
+			previous && matchesAgentBinding(previous.binding, binding);
+		if (sameAgent)
+			binding.deliverySequence =
+				Math.max(binding.deliverySequence ?? 0, previous.sequence) || undefined;
+		if (preserved && sameAgent) return;
+		const previousSequence = sameAgent ? previous.sequence : 0;
+		const sequence = input.hook?.sequence ?? 0;
+		const setState = (state: AutomaticDeliveryState) => {
+			this.automaticDelivery.set(binding.terminalId, {
+				binding,
+				state,
+				barrierPending: sameAgent && previous.barrierPending,
+				sequence:
+					input.hook?.trusted && Number.isSafeInteger(sequence) && sequence > 0
+						? Math.max(sequence, previousSequence)
+						: previousSequence,
+			});
+		};
+		if (input.hook?.eventType === "Interrupt") {
+			setState("interrupted");
+			return;
+		}
+		if (
+			!input.hook?.trusted ||
+			mapEventType(input.hook.eventType) !== input.eventType ||
+			!Number.isSafeInteger(sequence) ||
+			sequence <= 0
+		) {
+			setState("unknown");
+			return;
+		}
+		if (sameAgent && previous.barrierPending) {
+			const watermark = this.sourceWatermark(binding);
+			if (watermark === null) {
+				setState("unknown");
+				return;
+			}
+			const floor = Math.max(previousSequence, watermark, sequence);
+			binding.deliverySequence = floor;
+			this.automaticDelivery.set(binding.terminalId, {
+				binding,
+				state: "unknown",
+				sequence: floor,
+			});
+			// Recovery sampling cannot also authorize the event that triggered it.
+			return;
+		}
+		if (input.eventType === "PermissionRequest") {
+			setState("permission");
+			return;
+		}
+		const fresh = sequence > previousSequence;
+		if (input.eventType === "Start" && fresh) {
+			setState("working");
+		} else if (input.eventType === "Stop") {
+			// Stop completes an observed work interval; it cannot create one.
+			// Repeated Stop, clear -> Stop, and permission -> Stop never re-arm.
+			if (sameAgent && previous.state === "working" && fresh) {
+				setState("idle");
+			} else if (sameAgent) {
+				previous.sequence = Math.max(sequence, previousSequence);
+			} else {
+				setState("unknown");
+			}
+		} else if (input.eventType !== "Start") {
+			setState("unknown");
+		}
 	}
 
 	/** An agent did something; the sandbox keepalive listens for this. */
@@ -478,8 +627,10 @@ export class TerminalAgentStore extends EventEmitter {
 			if (binding.workspaceId !== workspaceId) continue;
 			if (onlyTerminalId !== undefined && terminalId !== onlyTerminalId)
 				continue;
-			if (binding.lastEventType === "Stop") continue;
-			const next: TerminalAgentBinding = { ...binding, lastEventType: "Stop" };
+			this.revokeAutomaticDelivery(binding, "cleared");
+			const current = this.byTerminal.get(terminalId) ?? binding;
+			if (current.lastEventType === "Stop") continue;
+			const next: TerminalAgentBinding = { ...current, lastEventType: "Stop" };
 			this.byTerminal.set(terminalId, next);
 			this.persistence?.upsert(next);
 			changed = true;
@@ -500,6 +651,83 @@ export class TerminalAgentStore extends EventEmitter {
 			changed = true;
 		}
 		if (changed) this.emit("change", workspaceId);
+	}
+
+	getAutomaticDeliveryState(
+		expected: TerminalAgentBinding,
+	): AutomaticDeliveryState {
+		const observation = this.automaticDelivery.get(expected.terminalId);
+		return observation &&
+			matchesAgentBinding(this.get(expected.terminalId), expected) &&
+			matchesAgentBinding(observation.binding, expected)
+			? observation.state
+			: "unknown";
+	}
+
+	private revokeAutomaticDelivery(
+		binding: TerminalAgentBinding,
+		state: "unknown" | "cleared",
+	): void {
+		const previous = this.automaticDelivery.get(binding.terminalId);
+		const sequence =
+			previous && matchesAgentBinding(previous.binding, binding)
+				? previous.sequence
+				: (binding.deliverySequence ?? 0);
+		const observation: AutomaticDeliveryObservation = {
+			binding,
+			state,
+			sequence,
+			barrierPending: true,
+		};
+		// Revoke even an already-claimed permit before performing local IO.
+		this.automaticDelivery.set(binding.terminalId, observation);
+		this.emit("manual-input", binding.terminalId);
+		const watermark = this.sourceWatermark(binding);
+		if (watermark !== null) {
+			observation.sequence = Math.max(sequence, watermark);
+			observation.barrierPending = false;
+		}
+		const current = this.byTerminal.get(binding.terminalId);
+		if (current && matchesAgentBinding(current, binding)) {
+			const next = {
+				...current,
+				deliverySequence: observation.sequence || undefined,
+			};
+			this.byTerminal.set(binding.terminalId, next);
+			observation.binding = next;
+			this.persistence?.upsert(next);
+		}
+	}
+	invalidateAutomaticDelivery(expected: TerminalAgentBinding): void {
+		if (!matchesAgentBinding(this.get(expected.terminalId), expected)) return;
+		this.revokeAutomaticDelivery(
+			this.byTerminal.get(expected.terminalId) ?? expected,
+			"unknown",
+		);
+	}
+
+	/**
+	 * Claim once at the send queue head. A failed/uncertain write does not
+	 * release the claim: only fresh hook evidence can authorize another send.
+	 * Compose with a Mail reservation inside sendAgentMessage.acquireDelivery.
+	 */
+	acquireAutomaticDelivery(
+		expected: TerminalAgentBinding,
+	): AutomaticDeliveryPermit | null {
+		const current = this.automaticDelivery.get(expected.terminalId);
+		if (!current || this.getAutomaticDeliveryState(expected) !== "idle")
+			return null;
+		const observation: AutomaticDeliveryObservation = {
+			binding: expected,
+			state: "reserved",
+			sequence: current.sequence,
+		};
+		this.automaticDelivery.set(expected.terminalId, observation);
+		return {
+			isValid: () =>
+				this.automaticDelivery.get(expected.terminalId) === observation &&
+				matchesAgentBinding(this.get(expected.terminalId), expected),
+		};
 	}
 
 	get(terminalId: string): TerminalAgentBinding | undefined {
@@ -650,6 +878,7 @@ export class TerminalAgentStore extends EventEmitter {
 	): void {
 		const existing = this.byTerminal.get(terminalId);
 		this.byTerminal.delete(terminalId);
+		this.automaticDelivery.delete(terminalId);
 		this.subagentsByTerminal.delete(terminalId);
 
 		let marked: { workspaceId: string } | undefined;
@@ -659,6 +888,7 @@ export class TerminalAgentStore extends EventEmitter {
 			this.persistence?.delete(terminalId);
 		}
 
+		this.emit("ended", terminalId, existing?.launchId);
 		const workspaceId = marked?.workspaceId ?? existing?.workspaceId;
 		if (workspaceId) this.emit("change", workspaceId);
 	}

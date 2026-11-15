@@ -14,7 +14,10 @@ code:
     - "packages/cli/src/lib/upload-attachments.ts"
     - "apps/desktop/src/renderer/components/JedvShell/components/LocalTerminal/attachments.ts"
     - "apps/desktop/src/renderer/components/JedvShell/components/NativeAgentControls/components/LocalPromptComposer/utils/copy-attachments.ts"
+    - "packages/host-service/src/trpc/router/git/utils/resolve-worktree.ts"
 relations:
+  requires:
+    - "workspaces/lifecycle.mdx"
   related:
     - "files-git/filesystem.mdx"
     - "agents/chat-journal.mdx"
@@ -27,6 +30,8 @@ relations:
 ## 本地身份与完成可见性
 
 upload、read、delete 和 materialize 都经过 host 认证，客户端使用 UUID attachmentId，不指定 staging 真实路径。store 由 host manifest 目录或独立运行的应用 home 定位；旧 per-org 命名不代表存在产品云组织 ACL 或逐 viewer 隔离。复制目标仍由 workspace 持久记录解析，附件 ID 不授予任意工作区路径权限。
+
+materialize 只在解析持久 workspace 并核对路径状态后以 `requireGit:false` 复制，因此普通 folder 同样可用；missing 仍 NOT_FOUND、inaccessible 仍 FORBIDDEN，不能借附件入口把异常路径当普通目录放行。`.gitignore` 的 create-only 规则不要求目录是 Git checkout。
 
 inline base64 上传在解码分配前先估算尺寸，空 decoded payload 拒绝；未知 MIME 降级为 binary。单次附件数量、inline bytes 和图像预算由 shared policy 统一，客户端提前提示，host 再验证。不能依赖客户端校验作为 API 防线，也不能将一般附件大小上限误当 inline 传输预算。
 

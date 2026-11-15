@@ -1,0 +1,82 @@
+---
+description: "Butler 默认对话与 Host 事实边界：currentThreadId/newTopic 接纳事务、approval_audit 隔离、有界历史与完整当前请求、审批和 WatchDog Attention。"
+kind: architecture
+code:
+  paths:
+    - packages/shared/src/butler.ts
+    - packages/shared/src/butler-attention.ts
+    - packages/host-service/src/butler/service.ts
+    - packages/host-service/src/butler/tools.ts
+    - packages/host-service/src/butler/runtime.ts
+    - packages/host-service/src/butler/schema.ts
+    - packages/host-service/src/butler/conversation-context.ts
+    - packages/host-service/src/butler/conversation.test.ts
+    - packages/host-service/src/butler/service.test.ts
+    - packages/host-service/src/butler/approval-query.ts
+    - packages/host-service/src/butler/http.ts
+    - packages/host-service/src/trpc/router/butler/index.ts
+    - packages/host-service/drizzle/0048_butler_conversation.sql
+    - packages/host-service/src/ai/deepseek.ts
+    - packages/host-service/src/watchdog/service.ts
+    - packages/host-service/src/watchdog/host-source.ts
+    - "packages/cli/src/commands/butler/**/command.ts"
+    - apps/desktop/src/renderer/components/JedvShell/components/ButlerView/ButlerView.tsx
+    - apps/desktop/src/renderer/components/JedvShell/components/ButlerView/components/ButlerChat/ButlerChat.tsx
+    - apps/desktop/src/renderer/components/JedvShell/components/ButlerView/hooks/useButlerConversation.ts
+    - apps/desktop/src/renderer/components/JedvShell/components/ButlerView/hooks/useButlerConversation.test.tsx
+    - apps/desktop/src/renderer/components/JedvShell/components/ButlerView/components/ButlerChatHistory/ButlerChatHistory.tsx
+    - apps/desktop/src/renderer/components/JedvShell/components/ButlerView/components/ButlerChatMessage/ButlerChatMessage.tsx
+    - packages/host-service/src/mobile/http.ts
+relations:
+  requires:
+    - teamwork/execution.mdx
+  related:
+    - memory/lifecycle.mdx
+    - teamwork/integrations.mdx
+    - distribution/cli-contract.mdx
+---
+# Butler、WatchDog 与 Attention 权威边界
+
+Butler 是 Host 业务服务的工具协调器，不是拥有独立权限的 Agent harness。持久 threadId 只归属聊天、turn 和审批，不是 PTY 或原生 Agent session。桌面、Mobile 与 CLI 共用同一持久记录和审批服务；其他 Agent 通过 CLI 获得同等业务能力，不经过 Butler 模型，也不存在 Butler 专属写后门。
+
+## 默认对话由 Host 指针确定
+
+singleton `currentThreadId` 是稳定默认入口，不是 recently-updated 投影。首次初始化在同一事务内优先采用客户端提供的有效 conversation，空库可为 null；没有有效选择时才一次性采用当时的最近 conversation。初始化只写状态元数据，不读 key、调用模型或创建消息；此后不再猜 recent，历史阅读、显式 thread 续聊和晚回复都不移动指针。
+
+首条请求在调用模型前的接纳事务中决定归属：默认发送复用 current，无 current 才创建 conversation；`newTopic` 新建 conversation、写入 turn 并原子推进 current，且不能与显式 threadId 同传。旧 thread busy 不妨碍新话题，空白草稿或接纳失败不产生 thread/指针变化。显式 thread 始终写入原对话但不改默认。
+
+requestId 同时绑定 humanText、显式 thread、newTopic 和 context；命中既有 turn 时只返回在途或已存结果，绝不再次推进指针。响应中的 currentThreadId 按响应时 Host 状态读取，因此旧请求晚完成或 replay 不会把默认倒退。0048 以默认 `kind='conversation'` 保留全部旧 thread/ID，不按标题或正文重分类。
+
+程序化 `requestApproval` 未显式指定 thread 时创建 `approval_audit`，只承接 turn/approval 的外键审计：默认 thread 列表不展示、state 不用它初始化、current 不推进、普通对话上下文不受污染。显式 thread 的审批保留原归属和 kind。state/send/history/list/approvals 在 tRPC、REST、Mobile 与 CLI 共用这些规则，旧 Host 没有 `conversationState` capability 时不能自行猜 recent 或模拟 newTopic。
+
+## 桌面主区聊天只是 Host 状态投影
+
+桌面在主区显示当前对话，只有无草稿、无在途且未阅读历史的空闲视图才跟随 currentThreadId。历史列表按需读取且排除 approval_audit；选择历史会锁定本地视图但不改 Host 默认。新话题先保留独立本地草稿，首条被服务端接纳后才切换，旧请求在途也可起草另一话题；晚回复不能抢走当前选择。
+
+草稿按 thread/新话题键隔离且有界，未发送或在途内容不因容量清理被逐出。消息复用现有 Message/MessageResponse/input 与安全链接处理，原始 HTML 不作为活动内容，工具和审批仍读 Host 真实状态；这些展示行为不得反向改写 current、request 或审批归属。
+
+## 模型文字不是 Host 事实
+
+工具白名单是模型读取项目、Team、Mail、cron 和 Memory 的唯一业务桥；工具结果、WatchDog、Mail 和 Memory 都是不可信数据。只有当前明确 human request 可授权普通写工具，Mail read 不会隐式 ACK。assistant 对“已发送、已审批、已执行”的描述不能替代真实工具结果、delivery 或 approval 状态。
+
+DeepSeek 请求受消息条数/字节、工具轮次、单次调用、响应大小和超时限制。无 key 返回明确 degraded 状态，本地规则建议、状态和审批仍可读取；失败回复不能抹掉已持久化的工具动作或审批卡。
+
+模型历史只取同 thread、当前 turn 之前的最近 12 条 human/assistant，单条与累计均有界；本轮 humanVerbatim 从历史窗口排除，并作为末尾独立 user 消息完整传入，不能因历史截断而缺字。当前 context 引用、同 thread 近 8 轮关联审批的实时状态和近轮紧凑工具结果合并为总量有界的只读事实块；更早审批用只读 `getApprovals` 按需查询。事实块不是新指令或授权，旧 assistant 文字和已结束审批意图都不能触发重发。
+
+同 thread 推理串行并受全局并发上限。Host 重启将 running turn 标为 interrupted，不确定结果先查历史与目标，不能盲发新请求。
+
+## 高风险动作只执行持久审批卡
+
+危险动作先由 `requestApproval` 生成绑定原 thread/request 的审批，记录 canonical payload hash、目标状态快照和到期时间。批准时重新核对 payload、pending/expiry 和目标状态，再以一次性 claim 执行；目标已变化必须请求新审批，并发 claim 不重复执行。模型不能直接把危险工具调用当授权。
+
+审批执行独立于模型上下文，Attention 可从原卡片定位真实对象。重启时 claimed 执行标为 failed 并要求检查目标，不能自动重放；pending、executed、rejected、expired、failed 都是 Host 状态，不由 assistant 文案推断。执行失败可保留已知 TRPC 守卫的单行限长原因，未知异常和疑似凭据仍回退通用提示，不泄露 cause/stack。
+
+目标快照使用完整 workspace/terminal 持久行并参与 hash 与执行前复核；审批契约不另加实时 Git HEAD fingerprint，也不因此放宽 dirty 检查或保留分支的限制。
+
+## WatchDog 只观察，Attention 不改变业务状态
+
+WatchDog 用结构化 Host snapshot 和零模型规则发现疑似停滞、未 ACK Mail、Team 对账/失败及 automation 失败，不获得终端写或业务执行工具。activity unknown 不能变成停滞证据，snapshot 截断后的缺席也不能证明恢复；疑似停滞始终要求查看终端。
+
+稳定 dedupe key 聚合同一问题，恢复需要正面状态证据。Attention 的 read/ignore 只改变提醒视图，不等于 Mail ACK、审批或故障恢复；徽章只计 pending approval 与未读高严重度故障组。来源定位优先真实 workspace/terminal，已结束终端降级到所属 workspace/team/automation/Memory，不复活旧 PTY。
+
+源码锚点：`butler/service.ts`（默认指针、接纳事务与审批恢复）、`butler/conversation-context.ts`（有界历史和只读事实）、`butler/tools.ts`（写授权和真实业务桥）、`watchdog/service.ts`（规则、分组与恢复）、`watchdog/host-source.ts`（现场定位）。

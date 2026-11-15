@@ -1,5 +1,7 @@
 export { SqliteTerminalAgentBindingPersistence } from "./persistence";
 export type {
+	AutomaticDeliveryPermit,
+	AutomaticDeliveryState,
 	TerminalAgentBindingListFilter,
 	TerminalAgentBindingPersistence,
 } from "./store";

@@ -11,7 +11,9 @@ import type { GitWatcher } from "./git-watcher.ts";
 import type {
 	ClientMessage,
 	DistributiveOmit,
+	MailChangedMessage,
 	ServerMessage,
+	TeamChangedMessage,
 	TerminalLifecycleMessage,
 } from "./types.ts";
 
@@ -220,6 +222,13 @@ export class EventBus {
 			if (state) this.cleanupClient(socket, state);
 			this.clients.delete(socket);
 		}
+	}
+
+	broadcastTeamChanged(message: Omit<TeamChangedMessage, "type">): void {
+		this.broadcast({ type: "team:changed", ...message });
+	}
+	broadcastMailChanged(message: Omit<MailChangedMessage, "type">): void {
+		this.broadcast({ type: "mail:changed", ...message });
 	}
 
 	/** For git state changes GitWatcher cannot see, such as a ref fetched into the common dir. */

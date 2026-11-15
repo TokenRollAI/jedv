@@ -11,6 +11,7 @@ import {
 	useWorkspaceReadReceipts,
 	workspaceReadThrough,
 } from "../../../JedvWorkspacesBoard/stores/read-receipts";
+import { TeamworkBadge } from "../../../TeamworkBadge";
 import { WorkspaceForwards } from "../../../WorkspaceForwards";
 import type { useProjectTreeData } from "../../hooks/useProjectTreeData";
 import type { JedvProjectTreeProps } from "../../types";
@@ -155,27 +156,35 @@ export function ProjectTreeWorkspace({
 				</>
 			}
 			agentChips={
-				bindings.length > 1 ? (
-					<div className="ml-10 mr-3 flex flex-wrap items-center gap-1 py-0.5">
-						{bindings.map((binding) => (
-							<button
-								type="button"
-								key={binding.terminalId}
-								title={`${binding.agentId} · ${binding.lastEventType ?? ""}`}
-								aria-label={t({ message: `Open ${binding.agentId} session` })}
-								className="flex h-5 items-center gap-1 rounded px-1 text-[10px] text-muted-foreground hover:bg-accent focus-visible:ring-1 focus-visible:ring-ring"
-								onClick={() => {
-									void props.onOpenWorkspace(
-										context,
-										workspace.id,
-										binding.terminalId,
-									);
-								}}
-							>
-								<AgentIcon presetId={binding.agentId} className="size-3" />
-								<span>{binding.agentId}</span>
-							</button>
-						))}
+				bindings.length > 0 || props.workspaceTeams?.has(workspace.id) ? (
+					<div className="ml-10 mr-3 flex items-start gap-1 py-0.5">
+						<div className="flex min-w-0 flex-1 flex-wrap items-center gap-1">
+							{bindings.map((binding) => (
+								<button
+									type="button"
+									key={binding.terminalId}
+									title={`${binding.agentId} · ${binding.lastEventType ?? ""}`}
+									aria-label={t({ message: `Open ${binding.agentId} session` })}
+									className="flex h-5 items-center gap-1 rounded px-1 text-[10px] text-muted-foreground hover:bg-accent focus-visible:ring-1 focus-visible:ring-ring"
+									onClick={() => {
+										void props.onOpenWorkspace(
+											context,
+											workspace.id,
+											binding.terminalId,
+										);
+									}}
+								>
+									<AgentIcon presetId={binding.agentId} className="size-3" />
+									<span>{binding.agentId}</span>
+								</button>
+							))}
+						</div>
+						{props.onOpenTeam && (
+							<TeamworkBadge
+								teams={props.workspaceTeams?.get(workspace.id) ?? []}
+								onSelect={props.onOpenTeam}
+							/>
+						)}
 					</div>
 				) : undefined
 			}

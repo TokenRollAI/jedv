@@ -22,6 +22,8 @@
  *
  * @see https://github.com/sst/opencode/blob/dev/packages/app/src/context/notification.tsx
  */
+import { spawnSync } from "node:child_process";
+
 export const JedvNotifyPlugin = async ({ $, client }) => {
   if (globalThis.__jedvOpencodeNotifyPluginV11) return {};
   globalThis.__jedvOpencodeNotifyPluginV11 = true;
@@ -45,7 +47,27 @@ export const JedvNotifyPlugin = async ({ $, client }) => {
    * Sends a notification to Jedv's notification server.
    * Best-effort only - failures are silently ignored to avoid breaking the agent.
    */
-  const notify = async (hookEventName, sessionID = rootSessionID, message) => {
+  // Reserve before any await/queue/spawn. The allocation-only child does
+  // bounded local filesystem work; the event callback never waits for HTTP.
+  const reserveSequence = () => {
+    const reservation = {
+      JEDV_HOOK_SEQUENCE_ALLOCATED: "1",
+      JEDV_HOOK_DELIVERY_SEQUENCE: "",
+    };
+    if (!process.env.JEDV_AGENT_LAUNCH_ID || !process.env.JEDV_HOME_DIR) return reservation;
+    try {
+      const result = spawnSync("bash", [notifyPath, "--allocate-delivery-sequence"], {
+        env: process.env, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"], timeout: 1500,
+      });
+      const sequence = result.status === 0 ? result.stdout.trim() : "";
+      if (/^[1-9][0-9]{0,14}$/.test(sequence))
+        reservation.JEDV_HOOK_DELIVERY_SEQUENCE = sequence;
+    } catch { /* Reservation failures stay display-only. */ }
+    return reservation;
+  };
+
+  let eventReservation;
+  const notify = (hookEventName, sessionID = rootSessionID, message) => {
     // An event from a different root must not replace the active session's
     // identity or end its binding (the host uses this ID for native resume).
     if (rootSessionID && sessionID && sessionID !== rootSessionID) return;
@@ -59,7 +81,10 @@ export const JedvNotifyPlugin = async ({ $, client }) => {
       // Preserve the outer wrapper's identity. notify.sh drops this event
       // when OpenCode runs under another harness, and uses this marker as
       // its identity fallback when OpenCode bypasses the wrapper.
-      await $`JEDV_HOOK_HARNESS=opencode bash ${notifyPath} ${payload}`;
+      const delivery = $`JEDV_HOOK_HARNESS=opencode JEDV_HOOK_SEQUENCE_ALLOCATED=1 JEDV_HOOK_DELIVERY_SEQUENCE= bash ${notifyPath} ${payload} ${eventReservation.JEDV_HOOK_DELIVERY_SEQUENCE}`;
+      void Promise.resolve(delivery).catch((err) => {
+        log('Notification failed:', err?.message || err);
+      });
       log('Notification sent successfully');
     } catch (err) {
       log('Notification failed:', err?.message || err);
@@ -157,15 +182,21 @@ export const JedvNotifyPlugin = async ({ $, client }) => {
   // flight. Keep ownership transitions and their notifications in arrival
   // order, including legacy permission callbacks that use the current root.
   let pendingEvent = Promise.resolve();
-  const enqueue = (handle) => {
-    pendingEvent = pendingEvent.then(handle).catch((err) => {
+  const enqueue = (handle, reservation) => {
+    pendingEvent = pendingEvent.then(() => {
+      eventReservation = reservation;
+      return handle();
+    }).catch((err) => {
       log('Event handling failed:', err?.message || err);
     });
     return pendingEvent;
   };
 
   return {
-    event: ({ event }) => enqueue(async () => {
+    event: ({ event }) => {
+      if (!["session.created", "session.deleted", "session.status", "session.busy", "session.idle", "session.error", "permission.asked", "question.asked"].includes(event.type)) return;
+      const reservation = reserveSequence();
+      return enqueue(async () => {
       // session.created carries the new session info under `info`, not `sessionID`.
       const sessionID =
         event.properties?.sessionID ??
@@ -248,13 +279,17 @@ export const JedvNotifyPlugin = async ({ $, client }) => {
       if (event.type === "session.error") {
         await handleStop(sessionID, 'session.error', event.properties?.error?.data?.message ?? event.properties?.error?.message);
       }
-    }),
-    "permission.ask": (permission, output) => enqueue(async () => {
+      }, reservation);
+    },
+    "permission.ask": (permission, output) => {
+      const reservation = reserveSequence();
+      return enqueue(async () => {
       if (output.status === "ask") {
         const sessionID = permission?.sessionID ?? rootSessionID;
         if (!sessionID || await isChildSession(sessionID)) return;
         await notify("PermissionRequest", sessionID);
       }
-    }),
+      }, reservation);
+    },
   };
 };

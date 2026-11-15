@@ -85,6 +85,34 @@ function tables(sqlite: Database): string[] {
 }
 
 describe("host.db migrations", () => {
+	test("Team/Mail migration preserves existing workspaces and is idempotent", () => {
+		const sqlite = open();
+		const db = drizzle(sqlite);
+		runMigrations(
+			db,
+			folderWithout({ omit: [], through: "0040_workspace_setup" }),
+		);
+		sqlite.exec(
+			"INSERT INTO projects (id,repo_path,created_at) VALUES ('existing-project','/tmp/existing',1); INSERT INTO workspaces (id,project_id,worktree_path,branch,created_at) VALUES ('existing-workspace','existing-project','/tmp/existing','main',1)",
+		);
+		runMigrations(db, MIGRATIONS_FOLDER);
+		runMigrations(db, MIGRATIONS_FOLDER);
+		expect(tables(sqlite)).toEqual(
+			expect.arrayContaining([
+				"teams",
+				"team_members",
+				"mail_events",
+				"mail_deliveries",
+			]),
+		);
+		expect(
+			sqlite
+				.prepare("SELECT branch FROM workspaces WHERE id='existing-workspace'")
+				.get(),
+		).toEqual({ branch: "main" });
+		expect(sqlite.prepare("PRAGMA foreign_key_check").all()).toEqual([]);
+		sqlite.close();
+	});
 	afterEach(() => {
 		for (const dir of tempDirs.splice(0)) {
 			rmSync(dir, { recursive: true, force: true });

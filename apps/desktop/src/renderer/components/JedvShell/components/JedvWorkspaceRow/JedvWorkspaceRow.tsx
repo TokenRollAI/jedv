@@ -32,6 +32,7 @@ import {
 	type NativeProvider,
 	type Workspace,
 } from "../../types";
+import { supportsGit } from "../../vcs-capabilities";
 import type { ProjectActionContext } from "../JedvProjectActions";
 import { JedvRowMenu, type RowAction } from "../JedvRowMenu";
 export interface JedvWorkspaceRowProps {
@@ -209,7 +210,7 @@ export function JedvWorkspaceRow({
 			label: t({ message: "Copy Branch Name" }),
 			icon: <LuGitBranch className="size-4" />,
 			run: () => onCopy(workspace.branch),
-			disabled: unavailable,
+			disabled: unavailable || !supportsGit(workspace),
 			separator: true,
 		},
 		...(workspace.worktreePath
@@ -355,9 +356,11 @@ export function JedvWorkspaceRow({
 					? LuLoaderCircle
 					: status === "review"
 						? LuCheck
-						: workspace.type === "local"
-							? LuFolderGit2
-							: LuGitBranch;
+						: !supportsGit(workspace)
+							? LuFolderOpen
+							: workspace.type === "local"
+								? LuFolderGit2
+								: LuGitBranch;
 	return (
 		<div>
 			<JedvRowMenu

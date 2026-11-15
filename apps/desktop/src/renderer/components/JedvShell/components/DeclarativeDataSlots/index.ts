@@ -1,0 +1,1 @@
+export { DeclarativeDataSlots } from "./DeclarativeDataSlots";

@@ -104,7 +104,8 @@ export {
 	createManagedSkills,
 	type PluginSkillSource,
 } from "./managed-skills";
-export { getBinDir, resolveAppHomeDir } from "./paths";
+export { createNotifyScript, getNotifyScriptContent } from "./notify-hook";
+export { getBinDir, resolveAppHomeDir, resolveUserHomeDir } from "./paths";
 export {
 	assertSafePluginSegment,
 	isSafePluginSegment,

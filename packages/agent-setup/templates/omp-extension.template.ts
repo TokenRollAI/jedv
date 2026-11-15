@@ -33,7 +33,7 @@
  * agent loop. notify.sh has its own connect/max timeouts.
  */
 
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { existsSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
@@ -70,12 +70,31 @@ export default function (pi: OmpExtensionApi) {
 	const notifyScript = join(jedvHome, "hooks", "notify.sh");
 	if (!existsSync(notifyScript)) return;
 
+  // Reserve before any await/queue/spawn. The allocation-only child does
+  // bounded local filesystem work; the event callback never waits for HTTP.
+  const reserveSequence = () => {
+    const reservation = {
+      JEDV_HOOK_SEQUENCE_ALLOCATED: "1",
+      JEDV_HOOK_DELIVERY_SEQUENCE: "",
+    };
+    if (!process.env.JEDV_AGENT_LAUNCH_ID || !process.env.JEDV_HOME_DIR) return reservation;
+    try {
+      const result = spawnSync("bash", [notifyScript, "--allocate-delivery-sequence"], {
+        env: process.env, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"], timeout: 1500,
+      });
+      const sequence = result.status === 0 ? result.stdout.trim() : "";
+      if (/^[1-9][0-9]{0,14}$/.test(sequence))
+        reservation.JEDV_HOOK_DELIVERY_SEQUENCE = sequence;
+    } catch { /* Reservation failures stay display-only. */ }
+    return reservation;
+  };
 	const fire = (eventName: string) => {
+		const reservation = reserveSequence();
 		try {
 			const child = spawn(notifyScript, [], {
 				stdio: ["pipe", "ignore", "ignore"],
 				detached: true,
-				env: { ...process.env, JEDV_HOOK_HARNESS: "omp" },
+				env: { ...process.env, ...reservation, JEDV_HOOK_HARNESS: "omp" },
 			});
 			child.on("error", () => {
 				/* swallow — never let hook failures affect OMP */

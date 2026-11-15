@@ -46,6 +46,7 @@ function fixture() {
 		isRemote: true,
 		client: {
 			project: {
+				capabilities: { query: async () => ({ folderProjects: true }) },
 				create: { mutate: create },
 				findByPath: { query: find },
 				getCreateOperation: { query: operation },
@@ -392,5 +393,32 @@ test("only a settled cancelled operation releases the clone target for a new att
 	expect(f.create.mock.calls[0]?.[1]).toMatchObject({
 		context: { skipBatch: true },
 	});
+	f.queries.clear();
+});
+
+test("plain folder import never initializes Git and opens only a local workspace", async () => {
+	const f = fixture();
+	act(() => f.ref.current?.open("folder", "/fixture/plain"));
+	fireEvent.change(f.screen.getByLabelText("Project name"), {
+		target: { value: "Plain folder" },
+	});
+	const submit = f.screen.getByRole("button", { name: "Create project" });
+	await waitFor(() =>
+		expect((submit as HTMLButtonElement).disabled).toBe(false),
+	);
+	fireEvent.click(submit);
+	await waitFor(() => expect(f.opened).toHaveBeenCalled());
+	expect(f.create.mock.calls[0]?.[0]).toMatchObject({
+		name: "Plain folder",
+		mode: { kind: "folder", repoPath: "/fixture/plain" },
+		operationId: expect.any(String),
+	});
+	expect(f.find).not.toHaveBeenCalled();
+	expect(f.workspace.mock.calls[0]?.[0]).toEqual({
+		projectId: "project-1",
+		checkout: "local",
+		runSetup: false,
+	});
+	expect(f.screen.queryByText("Initialize Git repository?")).toBeNull();
 	f.queries.clear();
 });

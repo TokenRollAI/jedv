@@ -5,12 +5,16 @@ export type JedvSurface =
 	| "terminal"
 	| "board"
 	| "automations"
+	| "butler"
+	| "teamwork"
+	| "create-team"
 	| "pull-requests"
 	| "usage"
 	| "settings"
 	| "files";
 
 export type JedvSettingsSection =
+	| "system-agents"
 	| "appearance"
 	| "projects"
 	| "permissions"
@@ -27,6 +31,7 @@ export type JedvSettingsSection =
 export interface JedvParityViewContext {
 	client: LocalClient;
 	hostUrl: string;
+	logicalHostId?: string;
 	remote: LocalConnection | null;
 	projects: Project[];
 	workspaces: Workspace[];

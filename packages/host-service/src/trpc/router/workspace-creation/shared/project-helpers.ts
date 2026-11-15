@@ -1,5 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import { getLocalProject } from "../../../../projects/local-project-store";
+import { requireGitCapability } from "../../../../projects/vcs-capabilities";
 import { createUserSimpleGit } from "../../../../runtime/git/simple-git";
 import type { HostServiceContext } from "../../../../types";
 import type { ProjectNotSetupCause } from "../../../error-types";
@@ -45,6 +46,7 @@ export async function resolveGithubRepo(
 		throw projectNotSetupError(projectId);
 	}
 
+	requireGitCapability(local.repoPath);
 	let gitRoot: string;
 	try {
 		gitRoot = await readGitToplevel(local.repoPath);

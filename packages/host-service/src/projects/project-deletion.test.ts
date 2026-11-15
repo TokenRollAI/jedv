@@ -44,6 +44,7 @@ function setup() {
 	const dir = mkdtempSync(join(root, "case-"));
 	const repoPath = join(dir, "repo");
 	mkdirSync(repoPath);
+	mkdirSync(join(repoPath, ".git"));
 	db.insert(projects).values({ id: PROJECT_ID, repoPath, name: "demo" }).run();
 	const addWorkspace = (
 		id: string,

@@ -13,6 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useId, useRef, useState } from "react";
 import { LuLoaderCircle } from "react-icons/lu";
 import type { Project } from "../../../types";
+import { supportsGit } from "../../../vcs-capabilities";
 import type { ProjectActionContext } from "../types";
 
 import { removalRiskFingerprint } from "./removal-risk";
@@ -50,7 +51,11 @@ export function ProjectRemovalDialog({
 					.filter((item) => item.projectId === project.id)
 					.map(async (workspace) => {
 						const [git, inspection] = await Promise.all([
-							context.client.git.getStatus.query({ workspaceId: workspace.id }),
+							supportsGit(workspace)
+								? context.client.git.getStatus.query({
+										workspaceId: workspace.id,
+									})
+								: Promise.resolve(null),
 							context.client.workspaceCleanup.inspect.query({
 								workspaceId: workspace.id,
 							}),
@@ -58,9 +63,10 @@ export function ProjectRemovalDialog({
 						return {
 							id: workspace.id,
 							name: workspace.name || workspace.branch,
-							dirty: git.staged.length > 0 || git.unstaged.length > 0,
+							dirty:
+								!!git && (git.staged.length > 0 || git.unstaged.length > 0),
 							unpushed:
-								git.currentBranch.aheadCount > 0 ||
+								(git?.currentBranch.aheadCount ?? 0) > 0 ||
 								inspection.hasUnpushedCommits,
 							blocked: !inspection.canDelete,
 						};

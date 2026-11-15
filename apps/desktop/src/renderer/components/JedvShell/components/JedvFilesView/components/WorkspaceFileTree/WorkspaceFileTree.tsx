@@ -71,6 +71,7 @@ export function WorkspaceFileTree({
 	hostUrl,
 	remote,
 	active,
+	gitEnabled = true,
 	onSelectFile,
 	refreshRevision,
 	selectedPath,
@@ -84,6 +85,7 @@ export function WorkspaceFileTree({
 	hostUrl: string;
 	remote: boolean;
 	active: boolean;
+	gitEnabled?: boolean;
 	onSelectFile(path: string, pinned: boolean): void;
 	refreshRevision: number;
 	selectedPath?: string;
@@ -177,11 +179,11 @@ export function WorkspaceFileTree({
 		queryKey: ["jedv", hostUrl, workspaceId, "git-status"],
 		queryFn: () =>
 			client.git.getStatus.query({ workspaceId, priority: "background" }),
-		enabled: active,
-		refetchInterval: active ? 10000 : false,
+		enabled: active && gitEnabled,
+		refetchInterval: active && gitEnabled ? 10000 : false,
 		retry: false,
 	});
-	const maps = useGitStatusMap(git.data);
+	const maps = useGitStatusMap(gitEnabled ? git.data : undefined);
 	useEffect(
 		() =>
 			model.setGitStatus(

@@ -4,6 +4,7 @@ import { TRPCError } from "@trpc/server";
 import { ne } from "drizzle-orm";
 import { projects } from "../../../../db/schema";
 import { getLocalProject } from "../../../../projects/local-project-store";
+import { requireGitCapability } from "../../../../projects/vcs-capabilities";
 import type { HostServiceContext } from "../../../../types";
 import type { ProjectDirMissingCause } from "../../../error-types";
 import { projectNotSetupError } from "./project-helpers";
@@ -70,4 +71,10 @@ export function requireProjectRepoPath(localProject: LocalProject): string {
 		});
 	}
 	return localProject.repoPath;
+}
+
+export function requireProjectGitPath(project: LocalProject): string {
+	const path = requireProjectRepoPath(project);
+	requireGitCapability(path);
+	return path;
 }

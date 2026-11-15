@@ -2,6 +2,7 @@ import type { FsWatchEvent } from "@jedv/workspace-fs/host";
 import { and, eq, isNull } from "drizzle-orm";
 import type { HostDb } from "../db/index.ts";
 import { workspaces } from "../db/schema.ts";
+import { hasGitMetadata } from "../projects/vcs-capabilities";
 import type { WorkspaceFilesystemManager } from "../runtime/filesystem/index.ts";
 import {
 	scanGitIgnoredDirectories as listGitIgnoredDirs,
@@ -688,6 +689,7 @@ export class GitWatcher {
 	): Promise<void> {
 		if (
 			this.closed ||
+			!hasGitMetadata(worktreePath) ||
 			this.attaching.has(workspaceId) ||
 			this.filesystem.isWatchAttachBackingOff(worktreePath) ||
 			!this.interest.has(workspaceId)

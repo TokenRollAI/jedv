@@ -7,9 +7,9 @@ import { createGitFixture } from "../helpers/git-fixture";
 import { createProjectScenario } from "../helpers/scenarios";
 
 test.each([
-	1, 2,
-])("Local create rejects relocation during git read %i and retries on the new checkout", async (pausedRead) => {
-	let gitReads = 0;
+	"opening Git",
+	"reading the branch",
+])("Local create rejects relocation while %s and retries on the new checkout", async (pausedPhase) => {
 	const s = await createProjectScenario();
 	const moved = await createGitFixture();
 	const entered = Promise.withResolvers<void>();
@@ -20,11 +20,21 @@ test.each([
 		isAuthenticated: true,
 		organizationId: "00000000-0000-0000-0000-000000000001",
 		git: async () => {
-			if (++gitReads === pausedRead) {
+			if (pausedPhase === "opening Git") {
 				entered.resolve();
 				await release.promise;
 			}
-			return s.repo.git;
+			return {
+				raw: async (args: string[]) => {
+					const result = await s.repo.git.raw(args);
+					if (pausedPhase === "reading the branch") {
+						entered.resolve();
+						await release.promise;
+					}
+					return result;
+				},
+				revparse: (args: string[]) => s.repo.git.revparse(args),
+			};
 		},
 	} as unknown as HostServiceContext;
 	try {

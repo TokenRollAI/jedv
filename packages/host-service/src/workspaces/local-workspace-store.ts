@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { getHostId } from "@jedv/shared/host-info";
+import type { VcsCapabilities } from "@jedv/shared/vcs-capabilities";
 import {
 	isWorkspaceTagVisibleTo,
 	normalizeWorkspaceTags,
@@ -11,6 +12,7 @@ import type { HostDb } from "../db";
 import { workspaces, workspaceTags } from "../db/schema";
 import type { EventBus } from "../events";
 import type { WorkspaceSnapshot } from "../events/types";
+import { getVcsCapabilities } from "../projects/vcs-capabilities";
 
 import {
 	keepWorkspaceBranch,
@@ -50,7 +52,7 @@ function fromStoredTagCreator(stored: string): string | null {
  * kept so consumers written against the old cloud rows keep working now
  * that the host answers from its own table.
  */
-export interface CloudShapedWorkspace {
+export interface CloudShapedWorkspace extends VcsCapabilities {
 	id: string;
 	organizationId: string;
 	/** Null for project-less "session" workspaces. */
@@ -75,6 +77,7 @@ export function toWorkspaceSnapshot(
 		name: row.name || row.branch,
 		branch: row.branch,
 		type: row.type,
+		...getVcsCapabilities(row.worktreePath),
 		worktreePath: row.worktreePath,
 		taskId: row.taskId,
 		createdByUserId: row.createdByUserId,
@@ -177,6 +180,7 @@ export function toCloudShape(
 		name: row.name || row.branch,
 		branch: row.branch,
 		type: row.type,
+		...getVcsCapabilities(row.worktreePath),
 		createdByUserId: row.createdByUserId,
 		taskId: row.taskId,
 		createdAt: new Date(row.createdAt),

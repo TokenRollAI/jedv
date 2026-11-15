@@ -1,6 +1,7 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { electronTrpc } from "renderer/lib/electron-trpc";
 import type { Workspace } from "../../../../types";
+import { supportsPullRequests } from "../../../../vcs-capabilities";
 import type { ProjectActionContext } from "../../../JedvProjectActions";
 export function useProjectTreeData(
 	context: ProjectActionContext,
@@ -18,11 +19,17 @@ export function useProjectTreeData(
 		refetchInterval: 5000,
 		retry: false,
 	});
+	const prIds = workspaces
+		.filter((row) => row.archivedAt == null && supportsPullRequests(row))
+		.map((row) => row.id)
+		.sort();
 	const prs = useQuery({
-		queryKey: ["jedv", context.hostUrl, "tree-prs", ids],
+		queryKey: ["jedv", context.hostUrl, "tree-prs", prIds],
 		queryFn: () =>
-			context.client.pullRequests.getByWorkspaces.query({ workspaceIds: ids }),
-		enabled: ids.length > 0,
+			context.client.pullRequests.getByWorkspaces.query({
+				workspaceIds: prIds,
+			}),
+		enabled: prIds.length > 0,
 		refetchInterval: 15000,
 		retry: false,
 	});

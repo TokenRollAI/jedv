@@ -35,7 +35,13 @@ export function withLocalHostService(
 						try {
 							const procedure = procedures[path];
 							if (!procedure) {
-								throw new Error(`No procedure found on path "${path}"`);
+								return {
+									error: SuperJSON.serialize({
+										message: `No procedure found on path "${path}"`,
+										code: -32004,
+										data: { code: "NOT_FOUND", httpStatus: 404, path },
+									}),
+								};
 							}
 							const serialized = inputs[index];
 							const output = await procedure(

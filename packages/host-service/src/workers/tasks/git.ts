@@ -956,7 +956,23 @@ export const gitPushSnapshotTask = defineWorkerTask<
 	},
 });
 
+export const gitWorktreeListTask = defineWorkerTask<
+	{ repoPath: string; gitEnv: GitTaskEnv },
+	ReturnType<typeof parseWorktreeList>
+>({
+	type: "git/listWorktrees",
+	handler: async ({ repoPath, gitEnv }) =>
+		parseWorktreeList(
+			await createUserSimpleGit(repoPath, { env: gitEnv }).raw([
+				"worktree",
+				"list",
+				"--porcelain",
+			]),
+		),
+});
+
 export const gitTasks = [
+	gitWorktreeListTask,
 	gitStatusSnapshotTask,
 	gitStatusPartialTask,
 	gitFetchBaseRefTask,

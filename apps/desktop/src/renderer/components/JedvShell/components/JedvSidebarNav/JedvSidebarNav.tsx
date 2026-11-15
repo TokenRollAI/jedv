@@ -8,7 +8,7 @@ import {
 	LuPlus,
 	LuSearch,
 	LuSettings2,
-	LuSparkles,
+	LuUsers,
 } from "react-icons/lu";
 import { useHotkeyDisplay } from "renderer/hotkeys";
 import type { JedvSurface } from "../../parity-types";
@@ -20,8 +20,7 @@ export function JedvSidebarNav({
 	onNewWorkspace,
 	canCreateWorkspace,
 	footerHost,
-	islandEnabled,
-	onIslandChange,
+	children,
 }: {
 	surface: JedvSurface;
 	usageVisible: boolean;
@@ -30,8 +29,7 @@ export function JedvSidebarNav({
 	onNewWorkspace(): void;
 	canCreateWorkspace: boolean;
 	footerHost?: ReactNode;
-	islandEnabled: boolean;
-	onIslandChange(enabled: boolean): void;
+	children?: ReactNode;
 }) {
 	const { t } = useLingui();
 	const newWorkspaceKey = useHotkeyDisplay("NEW_WORKSPACE").text;
@@ -46,6 +44,11 @@ export function JedvSidebarNav({
 			id: "automations" as const,
 			label: t({ message: "Automations" }),
 			icon: LuClock,
+		},
+		{
+			id: "create-team" as const,
+			label: t({ message: "Create team" }),
+			icon: LuUsers,
 		},
 		{
 			id: "pull-requests" as const,
@@ -66,7 +69,7 @@ export function JedvSidebarNav({
 		<>
 			<nav
 				aria-label={t({ message: "Workspace navigation" })}
-				className="space-y-0.5 border-b border-sidebar-border px-2 pb-3"
+				className="shrink-0 space-y-0.5 border-b border-sidebar-border px-2 pb-3"
 			>
 				<button
 					type="button"
@@ -110,26 +113,9 @@ export function JedvSidebarNav({
 					</button>
 				))}
 			</nav>
-			<div className="order-last flex h-10 shrink-0 items-center justify-between gap-1 border-t border-sidebar-border px-3">
+			{children}
+			<div className="flex h-10 shrink-0 items-center justify-between gap-1 border-t border-sidebar-border px-3">
 				{footerHost}
-				<button
-					type="button"
-					aria-pressed={islandEnabled}
-					title={t({
-						message:
-							"Open agent activity from the menu bar. The panel closes when it loses focus or when you press Escape.",
-					})}
-					className="flex h-6 items-center gap-1.5 rounded-full px-2 text-[11px] text-muted-foreground hover:bg-fill-hover"
-					onClick={() => onIslandChange(!islandEnabled)}
-				>
-					<LuSparkles className="size-3" />
-					<span className={footerHost ? "sr-only" : undefined}>
-						<Trans>Menu bar activity</Trans>
-					</span>
-					<span
-						className={`size-1 rounded-full ${islandEnabled ? "bg-success" : "bg-muted-foreground"}`}
-					/>
-				</button>
 				<button
 					type="button"
 					aria-label={t({ message: "Settings" })}

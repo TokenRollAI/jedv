@@ -16,6 +16,7 @@ import {
 	Search,
 	Settings2,
 	Shield,
+	Sparkles,
 	Terminal,
 	X,
 } from "lucide-react";
@@ -40,6 +41,7 @@ import { LocalSettings } from "./components/LocalSettings/LocalSettings";
 import { NotificationSettings } from "./components/NotificationSettings/NotificationSettings";
 import { PermissionsSettings } from "./components/PermissionsSettings/PermissionsSettings";
 import { ProjectSettingsSection } from "./components/ProjectSettingsSection/ProjectSettingsSection";
+import { SystemAgentSettings } from "./components/SystemAgentSettings";
 import { SettingsSearchContext } from "./hooks/useSettingsSearch";
 import {
 	getVisibleMatchCountBySection,
@@ -114,6 +116,13 @@ const sections = [
 		icon: Monitor,
 		words:
 			"claude codex antigravity agy kimi command prompt resume fork custom env",
+	},
+	{
+		id: "system-agents",
+		label: msg({ message: "System agents" }),
+		description: msg({ message: "DeepSeek for Butler and memory extraction." }),
+		icon: Sparkles,
+		words: "deepseek api key butler watchdog memory",
 	},
 	{
 		id: "terminal",
@@ -338,7 +347,9 @@ export function JedvSettingsView({
 										{i18n._(current.description)}
 									</p>
 								</header>
-								{section === "projects" ? (
+								{section === "system-agents" ? (
+									<SystemAgentSettings key={context.hostUrl} {...context} />
+								) : section === "projects" ? (
 									<ProjectSettingsSection {...context} />
 								) : section === "permissions" ? (
 									<PermissionsSettings />

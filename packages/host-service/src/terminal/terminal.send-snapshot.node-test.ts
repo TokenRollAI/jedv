@@ -19,14 +19,19 @@
 
 import { strict as assert } from "node:assert";
 import { randomUUID } from "node:crypto";
+import { EventEmitter, once } from "node:events";
 import * as fs from "node:fs";
 import * as os from "node:os";
 import * as path from "node:path";
 import { after, before, describe, mock, test } from "node:test";
 import { fileURLToPath } from "node:url";
+import { serve } from "@hono/node-server";
+import { createNodeWebSocket } from "@hono/node-ws";
 import { Server } from "@jedv/pty-daemon";
+import { Hono } from "hono";
 import { createDb, type HostDb } from "../db/index.ts";
 import { projects, workspaces } from "../db/schema.ts";
+import type { EventBus } from "../events/index.ts";
 import {
 	markTerminalAgentBindingEnded,
 	SqliteTerminalAgentBindingPersistence,
@@ -42,7 +47,9 @@ import {
 	__resetSessionsForTesting,
 	createTerminalSessionInternal,
 	disposeSessionAndWait,
+	registerWorkspaceTerminalRoute,
 	sendAgentMessage,
+	sendAutomaticAgentMessage,
 	snapshotSession,
 	writeFramedInputToSession,
 	writeInputToSession,
@@ -62,6 +69,23 @@ let otherWorkspaceId: string;
 let worktreePath: string;
 let otherWorktreePath: string;
 const terminalAgentStore = new TerminalAgentStore();
+
+async function makeCaller(store = terminalAgentStore) {
+	const organizationId = "00000000-0000-4000-8000-000000000000";
+	process.env.ORGANIZATION_ID = organizationId;
+	process.env.HOST_SERVICE_SECRET = "test-secret";
+	process.env.HOST_DB_PATH = path.join(TEST_HOME, "host.db");
+	process.env.HOST_MIGRATIONS_FOLDER = MIGRATIONS;
+	process.env.AUTH_TOKEN = "test-auth-token";
+	process.env.JEDV_API_URL = "https://cloud.example.com";
+	const { appRouter } = await import("../trpc/router/router.ts");
+	return appRouter.createCaller({
+		isAuthenticated: true,
+		organizationId,
+		db,
+		terminalAgentStore: store,
+	} as unknown as Parameters<typeof appRouter.createCaller>[0]);
+}
 
 test("agent sends reject persisted terminal death even while the memory binding survives", async () => {
 	const terminalId = `e2e-stale-${randomUUID().slice(0, 8)}`;
@@ -147,7 +171,7 @@ before(async () => {
 	__setAccountShellForTesting("/bin/sh");
 	initTerminalBaseEnv({
 		PATH: process.env.PATH ?? "/usr/bin:/bin",
-		HOME: process.env.HOME ?? TEST_HOME,
+		HOME: TEST_HOME,
 		SHELL: "/bin/sh",
 	});
 
@@ -185,6 +209,473 @@ after(async () => {
 	} catch {
 		// best-effort
 	}
+});
+
+describe("automatic delivery safety", () => {
+	async function target() {
+		const terminalId = `e2e-auto-${randomUUID().slice(0, 8)}`;
+		const captureFile = path.join(TEST_HOME, `auto-${terminalId}`);
+		const session = await createTerminalSessionInternal({
+			terminalId,
+			workspaceId,
+			db,
+			initialCommand: `stty raw -echo; cat > "${captureFile}"`,
+		});
+		if ("error" in session) throw new Error(String(session.error));
+		await waitFor(() => fs.existsSync(captureFile), 5000);
+		const store = new TerminalAgentStore();
+		const identity = {
+			terminalId,
+			workspaceId,
+			agentId: "claude" as const,
+			launchId: randomUUID(),
+			agentSessionId: randomUUID(),
+		};
+		store.recordEvent({ ...identity, eventType: "Attached", occurredAt: 1 });
+		const expectedAgent = store.get(terminalId);
+		assert.ok(expectedAgent);
+		const counterPath = path.join(
+			TEST_HOME,
+			"state/hook-sequences",
+			`${terminalId}.${identity.launchId}`,
+		);
+		fs.mkdirSync(path.dirname(counterPath), { recursive: true });
+		fs.writeFileSync(counterPath, "0\n");
+		const hook = (eventType: string, sequence: number) => {
+			const producer = Number(fs.readFileSync(counterPath, "utf8"));
+			fs.writeFileSync(counterPath, `${Math.max(producer, sequence)}\n`);
+			store.recordEvent({
+				...identity,
+				eventType,
+				occurredAt: Date.now(),
+				hook: { eventType, sequence, trusted: true },
+			});
+		};
+		const send = (text = "automatic message") =>
+			sendAutomaticAgentMessage({
+				terminalId,
+				workspaceId,
+				db,
+				expectedAgent,
+				terminalAgentStore: store,
+				text,
+				submit: true,
+			});
+		const flushAndCheck = async (prefix: string) => {
+			assert.deepEqual(
+				await sendAgentMessage({
+					terminalId,
+					workspaceId,
+					db,
+					terminalAgentStore: store,
+					text: "manual sentinel",
+					submit: true,
+				}),
+				{ success: true },
+			);
+			const expected = `${prefix}\x1b[200~manual sentinel\x1b[201~\r`;
+			await waitFor(
+				() => fs.statSync(captureFile).size >= Buffer.byteLength(expected),
+				5000,
+			);
+			assert.equal(fs.readFileSync(captureFile, "utf8"), expected);
+		};
+		return {
+			terminalId,
+			captureFile,
+			counterPath,
+			session,
+			store,
+			identity,
+			expectedAgent,
+			hook,
+			send,
+			flushAndCheck,
+		};
+	}
+
+	test("a fresh idle interval submits exactly once to a real PTY", async () => {
+		const t = await target();
+		try {
+			t.hook("Start", 1);
+			t.hook("Stop", 2);
+			assert.deepEqual(await t.send(), { success: true });
+			t.hook("Stop", 2);
+			assert.ok("error" in (await t.send()));
+			await t.flushAndCheck("\x1b[200~automatic message\x1b[201~\r");
+		} finally {
+			await disposeSessionAndWait(t.terminalId, db);
+		}
+	});
+
+	for (const blocked of [
+		"fake-stop",
+		"permission",
+		"legacy",
+		"late-stop",
+	] as const) {
+		test(`${blocked} never writes automatic input, while manual sends still work`, async () => {
+			const t = await target();
+			try {
+				t.hook("Start", 1);
+				if (blocked === "fake-stop")
+					t.store.clearWorkspaceStatuses(workspaceId);
+				if (blocked === "permission") t.hook("PermissionRequest", 2);
+				if (blocked === "legacy")
+					t.store.recordEvent({
+						...t.identity,
+						eventType: "Stop",
+						occurredAt: Date.now(),
+						hook: { eventType: "Stop", trusted: true },
+					});
+				if (blocked === "late-stop") {
+					t.hook("Stop", 2);
+					t.hook("Start", 3);
+					t.hook("Stop", 2);
+				}
+				assert.ok("error" in (await t.send()));
+				await t.flushAndCheck("");
+			} finally {
+				await disposeSessionAndWait(t.terminalId, db);
+			}
+		});
+	}
+
+	test("permission revoked while queued is checked before acquiring Mail or writing", async () => {
+		const t = await target();
+		const gate = Promise.withResolvers<void>();
+		try {
+			t.hook("Start", 1);
+			t.hook("Stop", 2);
+			t.session.followUpWriteChain = gate.promise;
+			let acquired = false;
+			const sending = sendAutomaticAgentMessage({
+				terminalId: t.terminalId,
+				workspaceId,
+				db,
+				expectedAgent: t.expectedAgent,
+				terminalAgentStore: t.store,
+				text: "queued automatic input",
+				submit: true,
+				acquireDelivery: async () => {
+					acquired = true;
+					return { isValid: () => true };
+				},
+			});
+			await waitFor(() => t.session.followUpWriteChain !== gate.promise, 5000);
+			t.store.clearWorkspaceStatuses(workspaceId);
+			t.hook("Stop", 2);
+			gate.resolve();
+			const result = await sending;
+			assert.ok("error" in result);
+			assert.equal(result.inputStaged, undefined);
+			assert.equal(acquired, false);
+			await t.flushAndCheck("");
+		} finally {
+			gate.resolve();
+			await disposeSessionAndWait(t.terminalId, db);
+		}
+	});
+
+	for (const change of [
+		"clear",
+		"permission",
+		"replacement",
+		"session-registry",
+		"partial-write",
+	] as const) {
+		test(`${change} after writing never submits Enter or blindly retries staged input`, async () => {
+			const t = await target();
+			const daemon = await getDaemonClient();
+			const original = daemon.input.bind(daemon);
+			let writes = 0;
+			const framed = "\x1b[200~automatic message\x1b[201~";
+			const prefix = change === "partial-write" ? framed.slice(0, 12) : framed;
+			const write = mock.method(daemon, "input", (id: string, data: Buffer) => {
+				writes++;
+				original(id, change === "partial-write" ? data.subarray(0, 12) : data);
+				if (change === "partial-write")
+					throw new Error("disconnected after partial input");
+				if (change === "clear") t.store.clearWorkspaceStatuses(workspaceId);
+				if (change === "permission") t.hook("PermissionRequest", 3);
+				if (change === "replacement")
+					t.store.recordEvent({
+						...t.identity,
+						launchId: randomUUID(),
+						eventType: "Attached",
+						occurredAt: Date.now(),
+					});
+				if (change === "session-registry") __resetSessionsForTesting();
+			});
+			try {
+				t.hook("Start", 1);
+				t.hook("Stop", 2);
+				const result = await t.send();
+				assert.ok("error" in result);
+				assert.equal(result.inputStaged, true);
+				assert.equal(writes, 1);
+				if (change !== "replacement" && change !== "session-registry") {
+					t.hook("Stop", 2);
+					assert.ok("error" in (await t.send()));
+					assert.equal(writes, 1);
+				}
+				write.mock.restore();
+				await t.flushAndCheck(prefix);
+			} finally {
+				write.mock.restore();
+				await disposeSessionAndWait(t.terminalId, db);
+			}
+		});
+	}
+
+	for (const verb of ["writeInput", "send"] as const) {
+		for (const reserved of [false, true]) {
+			test(`manual tRPC ${verb} revokes ${reserved ? "reserved" : "idle"} permission`, async () => {
+				const t = await target();
+				try {
+					t.hook("Start", 1);
+					t.hook("Stop", 2);
+					const permit = reserved
+						? t.store.acquireAutomaticDelivery(t.expectedAgent)
+						: null;
+					const caller = await makeCaller(t.store);
+					fs.writeFileSync(t.counterPath, "4\n");
+					if (verb === "writeInput")
+						await caller.terminal.writeInput({
+							terminalId: t.terminalId,
+							workspaceId,
+							data: "human draft",
+						});
+					else
+						await caller.terminal.send({
+							terminalId: t.terminalId,
+							workspaceId,
+							text: "human draft",
+							submit: false,
+						});
+					assert.equal(
+						t.store.getAutomaticDeliveryState(t.expectedAgent),
+						"unknown",
+					);
+					if (permit) assert.equal(permit.isValid(), false);
+					t.hook("Start", 3);
+					t.hook("Stop", 4);
+					assert.equal(
+						t.store.getAutomaticDeliveryState(t.expectedAgent),
+						"unknown",
+					);
+					assert.ok("error" in (await t.send()));
+					await t.flushAndCheck(
+						verb === "writeInput"
+							? "human draft"
+							: "\x1b[200~human draft\x1b[201~",
+					);
+				} finally {
+					await disposeSessionAndWait(t.terminalId, db);
+				}
+			});
+		}
+	}
+
+	test("a queued manual draft revokes idle permission refreshed while it waited", async () => {
+		const t = await target();
+		const gate = Promise.withResolvers<void>();
+		try {
+			t.hook("Start", 1);
+			t.hook("Stop", 2);
+			const caller = await makeCaller(t.store);
+			t.session.followUpWriteChain = gate.promise;
+			const draft = caller.terminal.send({
+				terminalId: t.terminalId,
+				workspaceId,
+				text: "human draft",
+				submit: false,
+			});
+			await waitFor(() => t.session.followUpWriteChain !== gate.promise, 5000);
+			t.hook("Start", 3);
+			t.hook("Stop", 4);
+			assert.equal(t.store.getAutomaticDeliveryState(t.expectedAgent), "idle");
+			gate.resolve();
+			await draft;
+			assert.equal(
+				t.store.getAutomaticDeliveryState(t.expectedAgent),
+				"unknown",
+			);
+			assert.ok("error" in (await t.send()));
+			await t.flushAndCheck("\x1b[200~human draft\x1b[201~");
+		} finally {
+			gate.resolve();
+			await disposeSessionAndWait(t.terminalId, db);
+		}
+	});
+
+	test("automatic permission revoked while awaiting Mail is checked before any bytes", async () => {
+		const t = await target();
+		const acquiring = Promise.withResolvers<void>();
+		const reservation = Promise.withResolvers<{ isValid: () => boolean }>();
+		try {
+			t.hook("Start", 1);
+			t.hook("Stop", 2);
+			const sending = sendAutomaticAgentMessage({
+				terminalId: t.terminalId,
+				workspaceId,
+				db,
+				terminalAgentStore: t.store,
+				expectedAgent: t.expectedAgent,
+				text: "pending reservation",
+				submit: true,
+				acquireDelivery: () => {
+					acquiring.resolve();
+					return reservation.promise;
+				},
+			});
+			await acquiring.promise;
+			t.store.clearWorkspaceStatuses(workspaceId);
+			reservation.resolve({ isValid: () => true });
+			const result = await sending;
+			assert.ok("error" in result);
+			assert.equal(result.inputStaged, undefined);
+			await t.flushAndCheck("");
+		} finally {
+			reservation.resolve({ isValid: () => false });
+			await disposeSessionAndWait(t.terminalId, db);
+		}
+	});
+
+	test("manual tRPC input between automatic paste and Enter prevents submission", async () => {
+		const t = await target();
+		const caller = await makeCaller(t.store);
+		const pasted = Promise.withResolvers<void>();
+		const daemon = await getDaemonClient();
+		const original = daemon.input.bind(daemon);
+		const write = mock.method(daemon, "input", (id: string, data: Buffer) => {
+			original(id, data);
+			pasted.resolve();
+		});
+		try {
+			t.hook("Start", 1);
+			t.hook("Stop", 2);
+			const sending = t.send();
+			await pasted.promise;
+			await caller.terminal.writeInput({
+				terminalId: t.terminalId,
+				workspaceId,
+				data: "human draft",
+			});
+			const result = await sending;
+			assert.ok("error" in result);
+			assert.equal(result.inputStaged, true);
+			write.mock.restore();
+			await t.flushAndCheck("\x1b[200~automatic message\x1b[201~human draft");
+		} finally {
+			write.mock.restore();
+			await disposeSessionAndWait(t.terminalId, db);
+		}
+	});
+
+	for (const reserved of [false, true]) {
+		test(`real WS input revokes ${reserved ? "a pending automatic Enter" : "idle permission"}`, async () => {
+			const t = await target();
+			const app = new Hono();
+			const { injectWebSocket, upgradeWebSocket } = createNodeWebSocket({
+				app,
+			});
+			const inputEvents = new EventEmitter();
+			registerWorkspaceTerminalRoute({
+				app,
+				db,
+				eventBus: undefined as unknown as EventBus,
+				upgradeWebSocket,
+				onInput: (terminalId, ownerWorkspaceId) => {
+					const binding = t.store.get(terminalId);
+					if (binding?.workspaceId === ownerWorkspaceId)
+						t.store.invalidateAutomaticDelivery(binding);
+					inputEvents.emit("input");
+				},
+			});
+			const httpServer = serve({
+				fetch: app.fetch,
+				port: 0,
+				hostname: "127.0.0.1",
+			});
+			injectWebSocket(httpServer);
+			await once(httpServer, "listening", {
+				signal: AbortSignal.timeout(5000),
+			});
+			const address = httpServer.address();
+			assert.ok(address && typeof address !== "string");
+			const ws = new WebSocket(
+				`ws://127.0.0.1:${address.port}/terminal/${t.terminalId}?workspaceId=${workspaceId}`,
+			);
+			const pasted = Promise.withResolvers<void>();
+			const daemon = await getDaemonClient();
+			const original = daemon.input.bind(daemon);
+			const write = mock.method(daemon, "input", (id: string, data: Buffer) => {
+				original(id, data);
+				pasted.resolve();
+			});
+			try {
+				const [message] = await once(ws, "message", {
+					signal: AbortSignal.timeout(5000),
+				});
+				assert.equal(JSON.parse(String(message.data)).type, "attached");
+				t.hook("Start", 1);
+				t.hook("Stop", 2);
+				const sending = reserved ? t.send() : undefined;
+				if (sending) await pasted.promise;
+				const seen = once(inputEvents, "input", {
+					signal: AbortSignal.timeout(5000),
+				});
+				fs.writeFileSync(t.counterPath, "4\n");
+				ws.send(JSON.stringify({ type: "input", data: "human draft" }));
+				await seen;
+				t.hook("Start", 3);
+				t.hook("Stop", 4);
+				assert.equal(
+					t.store.getAutomaticDeliveryState(t.expectedAgent),
+					"unknown",
+				);
+				if (sending) {
+					const result = await sending;
+					assert.ok("error" in result);
+					assert.equal(result.inputStaged, true);
+				} else assert.ok("error" in (await t.send()));
+				write.mock.restore();
+				await t.flushAndCheck(
+					`${reserved ? "\x1b[200~automatic message\x1b[201~" : ""}human draft`,
+				);
+			} finally {
+				write.mock.restore();
+				const closed = once(ws, "close", { signal: AbortSignal.timeout(5000) });
+				ws.close();
+				await closed;
+				await new Promise<void>((resolve) => httpServer.close(() => resolve()));
+				await disposeSessionAndWait(t.terminalId, db);
+			}
+		});
+	}
+
+	test("a failed bare Enter is uncertain and consumes automatic permission", async () => {
+		const t = await target();
+		const daemon = await getDaemonClient();
+		let attempts = 0;
+		const write = mock.method(daemon, "input", () => {
+			attempts++;
+			throw new Error("submit transport failed");
+		});
+		try {
+			t.hook("Start", 1);
+			t.hook("Stop", 2);
+			const result = await t.send("");
+			assert.ok("error" in result);
+			assert.equal(result.inputStaged, true);
+			assert.ok("error" in (await t.send("")));
+			assert.equal(attempts, 1);
+		} finally {
+			write.mock.restore();
+			await disposeSessionAndWait(t.terminalId, db);
+		}
+	});
 });
 
 describe("writeFramedInputToSession / snapshotSession", () => {
@@ -1178,22 +1669,6 @@ describe("writeFramedInputToSession / snapshotSession", () => {
 // actually exercised — the public MCP/SDK/CLI verbs hit exactly this layer.
 describe("terminal.send / terminal.snapshot tRPC procedures", () => {
 	const TEST_ORG_ID = "00000000-0000-4000-8000-000000000000";
-
-	async function makeCaller() {
-		process.env.ORGANIZATION_ID = TEST_ORG_ID;
-		process.env.HOST_SERVICE_SECRET = "test-secret";
-		process.env.HOST_DB_PATH = path.join(TEST_HOME, "host.db");
-		process.env.HOST_MIGRATIONS_FOLDER = MIGRATIONS;
-		process.env.AUTH_TOKEN = "test-auth-token";
-		process.env.JEDV_API_URL = "https://cloud.example.com";
-		const { appRouter } = await import("../trpc/router/router.ts");
-		return appRouter.createCaller({
-			isAuthenticated: true,
-			organizationId: TEST_ORG_ID,
-			db,
-			terminalAgentStore,
-		} as unknown as Parameters<typeof appRouter.createCaller>[0]);
-	}
 
 	test("send preserves paste framing after startup output is evicted and the host restarts", async () => {
 		const caller = await makeCaller();

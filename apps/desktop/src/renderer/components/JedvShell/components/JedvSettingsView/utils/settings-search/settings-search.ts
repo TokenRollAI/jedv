@@ -9,6 +9,22 @@ interface SettingsSearchItem {
 }
 export const SETTINGS_SEARCH_ITEMS: SettingsSearchItem[] = [
 	{
+		id: "system-agents-deepseek",
+		section: "system-agents",
+		title: "System agents",
+		description: "DeepSeek for Butler and memory extraction.",
+		keywords: [
+			"deepseek",
+			"api key",
+			"butler",
+			"watchdog",
+			"memory",
+			"系统智能体",
+			"密钥",
+			"记忆",
+		],
+	},
+	{
 		id: "appearance-language",
 		section: "appearance",
 		title: "Language",

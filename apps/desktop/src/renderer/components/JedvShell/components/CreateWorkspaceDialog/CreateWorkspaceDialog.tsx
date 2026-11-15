@@ -21,6 +21,8 @@ import { Tabs, TabsList, TabsTrigger } from "@jedv/ui/tabs";
 import { Trans, useLingui } from "@lingui/react/macro";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useId, useRef, useState } from "react";
+import type { Project } from "../../types";
+import { supportsWorktrees } from "../../vcs-capabilities";
 import type { ProjectActionContext } from "../JedvProjectActions";
 import { redactProjectError } from "../JedvProjectActions/project-utils";
 import { CompareBaseBranchPicker } from "./components/CompareBaseBranchPicker";
@@ -35,7 +37,8 @@ import type {
 export type { CreatedWorkspaceResult, CreateWorkspaceInput } from "./types";
 export interface CreateWorkspaceDialogProps {
 	context: ProjectActionContext;
-	projects: { id: string; name: string }[];
+	projects: (Pick<Project, "id" | "name"> &
+		Partial<Pick<Project, "vcsKind" | "capabilities">>)[];
 	initialProjectId?: string;
 	initialMode?: WorkspaceCreateMode;
 	onRefresh(context: ProjectActionContext): Promise<void>;
@@ -49,9 +52,12 @@ export function CreateWorkspaceDialog(props: CreateWorkspaceDialogProps) {
 	const [projectId, setProjectId] = useState(
 		props.initialProjectId ?? props.projects[0]?.id ?? "",
 	);
-	const [mode, setMode] = useState<WorkspaceCreateMode>(
+	const [requestedMode, setMode] = useState<WorkspaceCreateMode>(
 		props.initialMode ?? "new",
 	);
+	const project = props.projects.find((project) => project.id === projectId);
+	const gitEnabled = supportsWorktrees(project);
+	const mode = gitEnabled ? requestedMode : "local";
 	const [name, setName] = useState("");
 	const [branch, setBranch] = useState("");
 	const [baseBranch, setBaseBranch] = useState<string | null>(null);
@@ -250,19 +256,35 @@ export function CreateWorkspaceDialog(props: CreateWorkspaceDialogProps) {
 						}}
 					>
 						<TabsList className="grid h-auto w-full grid-cols-3 gap-1">
-							<TabsTrigger disabled={pending || !!saved} value="new">
+							<TabsTrigger
+								disabled={!gitEnabled || pending || !!saved}
+								value="new"
+							>
 								<Trans>New branch</Trans>
 							</TabsTrigger>
 							<TabsTrigger disabled={pending || !!saved} value="local">
-								<Trans>Local checkout</Trans>
+								{gitEnabled ? (
+									<Trans>Local checkout</Trans>
+								) : (
+									<Trans>Plain folder</Trans>
+								)}
 							</TabsTrigger>
-							<TabsTrigger disabled={pending || !!saved} value="branch">
+							<TabsTrigger
+								disabled={!gitEnabled || pending || !!saved}
+								value="branch"
+							>
 								<Trans>Existing branch</Trans>
 							</TabsTrigger>
-							<TabsTrigger disabled={pending || !!saved} value="pr">
+							<TabsTrigger
+								disabled={!gitEnabled || pending || !!saved}
+								value="pr"
+							>
 								<Trans>Pull request</Trans>
 							</TabsTrigger>
-							<TabsTrigger disabled={pending || !!saved} value="import">
+							<TabsTrigger
+								disabled={!gitEnabled || pending || !!saved}
+								value="import"
+							>
 								<Trans>Import worktree</Trans>
 							</TabsTrigger>
 						</TabsList>
@@ -340,10 +362,17 @@ export function CreateWorkspaceDialog(props: CreateWorkspaceDialogProps) {
 					)}
 					{mode === "local" && (
 						<p className="rounded border p-3 text-xs text-muted-foreground">
-							<Trans>
-								This workspace shares the project's files, index, and current
-								branch. It does not switch branches or run setup.
-							</Trans>
+							{gitEnabled ? (
+								<Trans>
+									This workspace shares the project's files, index, and current
+									branch. It does not switch branches or run setup.
+								</Trans>
+							) : (
+								<Trans>
+									Git features are unavailable here. Terminals and files remain
+									available.
+								</Trans>
+							)}
 						</p>
 					)}
 					{mode === "pr" && (

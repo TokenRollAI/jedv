@@ -4,6 +4,7 @@ import type { HostDb } from "../db";
 import { projects } from "../db/schema";
 import type { EventBus } from "../events";
 import type { ProjectSnapshot, TagSettingSnapshot } from "../events/types";
+import { getVcsCapabilities } from "./vcs-capabilities";
 
 export type HostProjectRow = typeof projects.$inferSelect;
 
@@ -22,6 +23,7 @@ export function toProjectSnapshot(
 		// backfill sweep fills it; the folder name is the honest fallback.
 		name: row.name || basename(row.repoPath) || row.id,
 		repoPath: row.repoPath,
+		...getVcsCapabilities(row.repoPath),
 		repoOwner: row.repoOwner,
 		repoName: row.repoName,
 		repoUrl: row.repoUrl,

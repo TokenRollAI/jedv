@@ -167,7 +167,10 @@ export const terminalRouter = router({
 				data: z.string(),
 			}),
 		)
-		.mutation(({ input }) => {
+		.mutation(({ ctx, input }) => {
+			const binding = ctx.terminalAgentStore.get(input.terminalId);
+			if (binding?.workspaceId === input.workspaceId)
+				ctx.terminalAgentStore.invalidateAutomaticDelivery(binding);
 			const result = writeInputToSession(input);
 			if ("error" in result) {
 				throw toTerminalSessionError(result);

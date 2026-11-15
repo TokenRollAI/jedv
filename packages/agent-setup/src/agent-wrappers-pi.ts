@@ -10,7 +10,7 @@ import { APP_HOME_DIR_NAME, resolveUserHomeDir } from "./paths";
 export const PI_EXTENSION_FILE = "jedv-hooks.ts";
 
 const PI_EXTENSION_SIGNATURE = "// Jedv pi extension";
-const PI_EXTENSION_VERSION = "v2";
+const PI_EXTENSION_VERSION = "v3";
 export const PI_EXTENSION_MARKER = `${PI_EXTENSION_SIGNATURE} ${PI_EXTENSION_VERSION}`;
 
 /**

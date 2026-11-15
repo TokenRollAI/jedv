@@ -1,0 +1,1 @@
+export { NonGitState } from "./NonGitState";

@@ -4,6 +4,57 @@
 # host-service endpoint, with a v1 Electron hook fallback while both
 # terminal stacks are supported.
 
+# Allocate before parsing or network work. The foreground hook owns source
+# ordering; endpoint failover reuses this exact number and payload. A stale
+# lock or unwritable profile fails closed (display-only legacy payload).
+next_delivery_sequence() (
+  case "$JEDV_TERMINAL_ID.$JEDV_AGENT_LAUNCH_ID" in
+    *[!a-zA-Z0-9._-]*|.) exit 1 ;;
+  esac
+  [ -n "$JEDV_TERMINAL_ID" ] && [ -n "$JEDV_AGENT_LAUNCH_ID" ] && [ -n "$JEDV_HOME_DIR" ] || exit 1
+  umask 077
+  SEQ_DIR="$JEDV_HOME_DIR/state/hook-sequences"
+  mkdir -p "$SEQ_DIR" || exit 1
+  SEQ_FILE="$SEQ_DIR/$JEDV_TERMINAL_ID.$JEDV_AGENT_LAUNCH_ID"
+  SEQ_LOCK="$SEQ_FILE.lock"
+  ATTEMPTS=0
+  until mkdir "$SEQ_LOCK" 2>/dev/null; do
+    ATTEMPTS=$((ATTEMPTS + 1))
+    [ "$ATTEMPTS" -lt 200 ] || exit 1
+    sleep 0.005
+  done
+  trap 'rm -f "$SEQ_LOCK/next"; rmdir "$SEQ_LOCK" 2>/dev/null' EXIT
+  SEQUENCE=0
+  if [ -f "$SEQ_FILE" ]; then
+    read -r SEQUENCE < "$SEQ_FILE"
+    case "$SEQUENCE" in ''|*[!0-9]*) exit 1 ;; esac
+    [ "${#SEQUENCE}" -lt 16 ] || exit 1
+  fi
+  SEQUENCE=$((SEQUENCE + 1))
+  printf '%s\n' "$SEQUENCE" > "$SEQ_LOCK/next" && mv "$SEQ_LOCK/next" "$SEQ_FILE" || exit 1
+  printf '%s' "$SEQUENCE"
+)
+# JS adapters reserve synchronously in their native callback. This mode only
+# touches local sequence state: never read stdin, parse events, or contact HTTP.
+if [ "$1" = "--allocate-delivery-sequence" ]; then
+  next_delivery_sequence 2>/dev/null
+  exit $?
+fi
+if [ "$JEDV_HOOK_SEQUENCE_ALLOCATED" = "1" ]; then
+  # An adapter that failed to reserve stays display-only. Never allocate later
+  # in the detached sender, where process scheduling could reorder causality.
+  DELIVERY_SEQUENCE="${JEDV_HOOK_DELIVERY_SEQUENCE:-$2}"
+  case "$DELIVERY_SEQUENCE" in ''|*[!0-9]*|0|0*) DELIVERY_SEQUENCE="" ;; esac
+  [ "${#DELIVERY_SEQUENCE}" -lt 16 ] || DELIVERY_SEQUENCE=""
+else
+  case "${JEDV_HOOK_HARNESS:-$JEDV_AGENT_ID}" in
+    amp|pi|omp|opencode) DELIVERY_SEQUENCE="" ;; # Legacy detached adapters are display-only.
+    *) DELIVERY_SEQUENCE=$(next_delivery_sequence 2>/dev/null) ;;
+  esac
+fi
+SEQUENCE_FIELD=""
+[ -n "$DELIVERY_SEQUENCE" ] && SEQUENCE_FIELD=",\"deliverySequence\":$DELIVERY_SEQUENCE"
+
 # Codex passes JSON as argv; Claude/Mastra/Droid/Kimi/Grok pipe via stdin.
 if [ -n "$1" ]; then
   INPUT="$1"
@@ -269,7 +320,7 @@ case "$EVENT_TYPE" in
 esac
 
 if [ -n "$JEDV_TERMINAL_ID" ]; then
-  dispatch_to_host "{\"json\":{\"terminalId\":\"$(json_escape "$JEDV_TERMINAL_ID")\",\"eventType\":\"$(json_escape "$EVENT_TYPE")\",\"agent\":{\"agentId\":\"$(json_escape "$AGENT_ID")\",\"sessionId\":\"$(json_escape "$SESSION_ID")\"}$PREVIEW_FIELD$ACCOUNT_FIELD$TRANSCRIPT_FIELD$LAUNCH_FIELD$ATTRIBUTION_FIELD}}"
+  dispatch_to_host "{\"json\":{\"terminalId\":\"$(json_escape "$JEDV_TERMINAL_ID")\",\"eventType\":\"$(json_escape "$EVENT_TYPE")\",\"agent\":{\"agentId\":\"$(json_escape "$AGENT_ID")\",\"sessionId\":\"$(json_escape "$SESSION_ID")\"}$PREVIEW_FIELD$ACCOUNT_FIELD$TRANSCRIPT_FIELD$LAUNCH_FIELD$ATTRIBUTION_FIELD$SEQUENCE_FIELD}}"
   [ "$HOOK_ACCEPTED" = "1" ] && exit 0
   # Delivered somewhere (2xx) but no host owned the terminal: keep the
   # pre-existing "any 2xx wins" behavior and skip the v1 fallback.

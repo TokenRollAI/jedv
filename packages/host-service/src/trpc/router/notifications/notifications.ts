@@ -1,9 +1,11 @@
+import { resolveUserHomeDir } from "@jedv/agent-setup/paths";
 import type { AgentIdentity } from "@jedv/shared/agent-identity";
 import { desktopNotificationSchema } from "@jedv/shared/desktop-notification";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { terminalSessions } from "../../../db/schema";
 import { mapEventType } from "../../../events";
+import { captureTrustedMemoryHook } from "../../../memory/host-runtime";
 import { verifyAttributionToken } from "../../../terminal-agents/attribution-token";
 import { recordTerminalAgentTranscriptPath } from "../../../terminal-agents/persistence";
 import { isTrustedTranscriptPath } from "../../../terminal-agents/transcript-path";
@@ -45,6 +47,13 @@ const hookInput = z.object({
 		.optional(),
 	subagent: subagentInput,
 	launchId: z.string().max(128).optional(),
+	// Producer-owned, monotonic within a launch; retries retain the same value.
+	deliverySequence: z
+		.number()
+		.int()
+		.positive()
+		.max(Number.MAX_SAFE_INTEGER)
+		.optional(),
 	accountProfile: z.string().max(4096).optional(),
 	apiKey: z.boolean().optional(),
 	attributionToken: z.string().max(128).optional(),
@@ -82,10 +91,9 @@ export const notificationsRouter = router({
 	 * Agent lifecycle hook. The shell hook POSTs here; we normalize, resolve
 	 * the terminal's workspace, and fan out over the WS event bus.
 	 *
-	 * Intentionally unauthenticated: a caller can only trigger a chime, a
-	 * sidebar indicator, and the idempotent forward-only "linked task →
-	 * In Progress" nudge for a real workspace. Reusing the host-service PSK
-	 * would leak it into every agent shell's env for zero practical gain.
+	 * Legacy hooks remain public for display compatibility. Automatic input
+	 * requires the terminal-scoped attribution token and ordered events for
+	 * the current binding. The token is not an independent launch credential.
 	 */
 	hook: publicProcedure.input(hookInput).mutation(async ({ ctx, input }) => {
 		const subagentId = trimOrUndefined(input.subagent?.id);
@@ -164,7 +172,30 @@ export const notificationsRouter = router({
 						input.apiKey ?? false,
 					).catch(() => undefined)
 				: undefined;
+		const trustedMemoryEvent = !!(
+			prior?.launchId &&
+			prior.launchId === trimOrUndefined(input.launchId) &&
+			prior.agentId === agent?.agentId &&
+			prior.agentSessionId &&
+			prior.agentSessionId === agent?.sessionId &&
+			verifyAttributionToken(input.terminalId, input.attributionToken) &&
+			Number.isSafeInteger(input.deliverySequence) &&
+			(input.deliverySequence ?? 0) > (prior.deliverySequence ?? 0)
+		);
 		ctx.terminalAgentStore.recordEvent({
+			hook: {
+				eventType: input.eventType ?? "",
+				sequence: input.deliverySequence,
+				trusted:
+					verifyAttributionToken(input.terminalId, input.attributionToken) &&
+					prior !== undefined &&
+					prior.launchId !== undefined &&
+					prior.launchId === trimOrUndefined(input.launchId) &&
+					prior.agentId === agent?.agentId &&
+					agent?.sessionId !== undefined &&
+					(prior.agentSessionId === undefined ||
+						prior.agentSessionId === agent.sessionId),
+			},
 			account,
 			launchId: trimOrUndefined(input.launchId),
 			terminalId: input.terminalId,
@@ -179,13 +210,26 @@ export const notificationsRouter = router({
 		if (
 			agent?.sessionId &&
 			transcriptPath &&
-			isTrustedTranscriptPath(transcriptPath)
+			isTrustedTranscriptPath(transcriptPath, resolveUserHomeDir())
 		) {
 			recordTerminalAgentTranscriptPath(ctx.db, {
 				terminalId: input.terminalId,
 				agentSessionId: agent.sessionId,
 				transcriptPath,
 			});
+		}
+
+		if (trustedMemoryEvent && prior?.launchId && agent?.sessionId) {
+			void captureTrustedMemoryHook(ctx, {
+				terminalId: input.terminalId,
+				workspaceId: terminalSession.originWorkspaceId,
+				launchId: prior.launchId,
+				agentSessionId: agent.sessionId,
+				sequence: input.deliverySequence ?? 0,
+				eventType: input.eventType ?? "",
+				trusted: true,
+				transcriptPath,
+			}).catch(() => {});
 		}
 
 		fanOutAgentLifecycle(ctx, {

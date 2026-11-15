@@ -12,6 +12,7 @@ import {
 	LuUnlink,
 } from "react-icons/lu";
 import type { Workspace } from "../../../../types";
+import { supportsGit } from "../../../../vcs-capabilities";
 import { RestoreWorkspaceButton } from "../../../JedvDeleteWorkspaceDialog";
 import type { ProjectActionContext } from "../../../JedvProjectActions";
 import { JedvRowMenu, type RowAction } from "../../../JedvRowMenu";
@@ -105,7 +106,7 @@ export function WorkspaceBoardActions({
 		{
 			label: t({ message: "Copy Branch Name" }),
 			icon: <LuGitBranch className="size-4" />,
-			disabled: pending,
+			disabled: pending || !supportsGit(workspace),
 			separator: true,
 			run: () =>
 				void run(() => navigator.clipboard.writeText(workspace.branch)),

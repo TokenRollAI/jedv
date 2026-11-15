@@ -13,7 +13,7 @@ import {
 } from "../shared/branch-search";
 import {
 	findLocalProject,
-	requireProjectRepoPath,
+	requireProjectGitPath,
 } from "../shared/local-project";
 import type { BranchRow } from "../shared/types";
 
@@ -39,7 +39,7 @@ export const searchBranches = protectedProcedure
 			};
 		}
 
-		const git = await ctx.git(requireProjectRepoPath(localProject));
+		const git = await ctx.git(requireProjectGitPath(localProject));
 
 		// Honor `refresh` only if TTL elapsed — prevents thrashing `git fetch`
 		// on every keystroke when the client tags first-page requests.

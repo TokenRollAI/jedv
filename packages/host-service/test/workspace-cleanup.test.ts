@@ -102,6 +102,13 @@ function restoreOwnerAccess(root: string): void {
 	}
 }
 
+// These tests stub Git operations but still represent a Git checkout on disk.
+function makeGitCheckout(): string {
+	const repo = mkdtempSync(join(tmpdir(), "workspace-delete-repo-"));
+	mkdirSync(join(repo, ".git"));
+	return repo;
+}
+
 function makeCtx(spec: ContextSpec): HostServiceContext & {
 	__mocks: {
 		broadcastWorkspaceChanged: ReturnType<typeof mock>;
@@ -418,7 +425,7 @@ describe("workspaceCleanup.destroy cleanup ordering", () => {
 	beforeEach(() => __testDestroysInFlight.clear());
 
 	test("a local workspace retires its record without touching git or disk", async () => {
-		const repo = mkdtempSync(join(tmpdir(), "workspace-delete-repo-"));
+		const repo = makeGitCheckout();
 		writeFileSync(join(repo, "dirty.txt"), "uncommitted");
 		let gitTouched = false;
 		try {
@@ -470,7 +477,7 @@ describe("workspaceCleanup.destroy cleanup ordering", () => {
 		const tmp = mkdtempSync(join(tmpdir(), "workspace-delete-"));
 		// The repo must exist on disk: a missing repo directory now takes the
 		// direct-removal branch instead of the mocked git layer under test.
-		const repo = mkdtempSync(join(tmpdir(), "workspace-delete-repo-"));
+		const repo = makeGitCheckout();
 		try {
 			const ctx = makeCtx({
 				workspace: {
@@ -511,7 +518,7 @@ describe("workspaceCleanup.destroy cleanup ordering", () => {
 		// (locked file, live writer). The registry read then says "removed"
 		// while the directory is still on disk (#6730).
 		const base = mkdtempSync(join(tmpdir(), "worktrees-base-"));
-		const repo = mkdtempSync(join(tmpdir(), "workspace-delete-repo-"));
+		const repo = makeGitCheckout();
 		const worktree = join(base, "p-1", "wt-partial");
 		mkdirSync(worktree, { recursive: true });
 		writeFileSync(join(worktree, "leftover.txt"), "still here");
@@ -555,7 +562,7 @@ describe("workspaceCleanup.destroy cleanup ordering", () => {
 		// tool's own output folder, and a Go module cache, which `go mod
 		// download` leaves read-only by design.
 		const base = mkdtempSync(join(tmpdir(), "worktrees-base-"));
-		const repo = mkdtempSync(join(tmpdir(), "workspace-delete-repo-"));
+		const repo = makeGitCheckout();
 		const worktree = join(base, "p-1", "wt-readonly");
 		const results = join(worktree, "evals", "results");
 		const goModule = join(worktree, "pkg", "mod", "gopkg.in", "yaml.v3");
@@ -604,7 +611,7 @@ describe("workspaceCleanup.destroy cleanup ordering", () => {
 		// denies writes is not ours to widen, so this stays exactly the
 		// failure it is today — reported, folder on disk, row retryable.
 		const base = mkdtempSync(join(tmpdir(), "worktrees-base-"));
-		const repo = mkdtempSync(join(tmpdir(), "workspace-delete-repo-"));
+		const repo = makeGitCheckout();
 		const projectRoot = join(base, "p-1");
 		const worktree = join(projectRoot, "wt-parent-readonly");
 		mkdirSync(worktree, { recursive: true });
@@ -645,7 +652,7 @@ describe("workspaceCleanup.destroy cleanup ordering", () => {
 		// link, sees nothing, and reports the worktree removed while the entry
 		// is still in the managed root.
 		const base = mkdtempSync(join(tmpdir(), "worktrees-base-"));
-		const repo = mkdtempSync(join(tmpdir(), "workspace-delete-repo-"));
+		const repo = makeGitCheckout();
 		const worktree = join(base, "p-1", "wt-dangling");
 		mkdirSync(join(base, "p-1"), { recursive: true });
 		symlinkSync(join(base, "gone-target"), worktree);
@@ -680,7 +687,7 @@ describe("workspaceCleanup.destroy cleanup ordering", () => {
 
 	test("worktree path is a symlink into the managed root: destroy removes the link, not through it", async () => {
 		const base = mkdtempSync(join(tmpdir(), "worktrees-base-"));
-		const repo = mkdtempSync(join(tmpdir(), "workspace-delete-repo-"));
+		const repo = makeGitCheckout();
 		const outside = mkdtempSync(join(tmpdir(), "workspace-delete-outside-"));
 		const worktree = join(base, "p-1", "wt-link");
 		mkdirSync(join(base, "p-1"), { recursive: true });
@@ -721,7 +728,7 @@ describe("workspaceCleanup.destroy cleanup ordering", () => {
 
 	test("unregistered leftover outside the managed root is left on disk with a warning", async () => {
 		const tmp = mkdtempSync(join(tmpdir(), "workspace-delete-"));
-		const repo = mkdtempSync(join(tmpdir(), "workspace-delete-repo-"));
+		const repo = makeGitCheckout();
 		try {
 			const ctx = makeCtx({
 				workspace: {
@@ -758,7 +765,7 @@ describe("workspaceCleanup.destroy cleanup ordering", () => {
 
 	test("still-registered failure surfaces git's own error", async () => {
 		const tmp = mkdtempSync(join(tmpdir(), "workspace-delete-"));
-		const repo = mkdtempSync(join(tmpdir(), "workspace-delete-repo-"));
+		const repo = makeGitCheckout();
 		try {
 			const ctx = makeCtx({
 				workspace: {
@@ -792,7 +799,7 @@ describe("workspaceCleanup.destroy cleanup ordering", () => {
 		const tmp = mkdtempSync(join(tmpdir(), "workspace-delete-"));
 		// The repo must exist on disk: a missing repo directory now takes the
 		// direct-removal branch instead of the mocked git layer under test.
-		const repo = mkdtempSync(join(tmpdir(), "workspace-delete-repo-"));
+		const repo = makeGitCheckout();
 		try {
 			const ctx = makeCtx({
 				workspace: {
@@ -825,7 +832,7 @@ describe("workspaceCleanup.destroy cleanup ordering", () => {
 		const tmp = mkdtempSync(join(tmpdir(), "workspace-delete-"));
 		// The repo must exist on disk: a missing repo directory now takes the
 		// direct-removal branch instead of the mocked git layer under test.
-		const repo = mkdtempSync(join(tmpdir(), "workspace-delete-repo-"));
+		const repo = makeGitCheckout();
 		try {
 			const ctx = makeCtx({
 				workspace: {
@@ -886,7 +893,7 @@ describe("workspaceCleanup.destroy cleanup ordering", () => {
 		const tmp = mkdtempSync(join(tmpdir(), "workspace-delete-"));
 		// The repo must exist on disk: a missing repo directory now takes the
 		// direct-removal branch instead of the mocked git layer under test.
-		const repo = mkdtempSync(join(tmpdir(), "workspace-delete-repo-"));
+		const repo = makeGitCheckout();
 		try {
 			const ctx = makeCtx({
 				workspace: {
@@ -913,7 +920,7 @@ describe("workspaceCleanup.destroy cleanup ordering", () => {
 	});
 
 	test("branch delete failure is reported as a warning after the local commit point", async () => {
-		const repo = mkdtempSync(join(tmpdir(), "workspace-delete-repo-"));
+		const repo = makeGitCheckout();
 		try {
 			const ctx = makeCtx({
 				workspace: {
@@ -983,7 +990,7 @@ describe("workspaceCleanup.destroy cleanup ordering", () => {
 		const poolTimeout = new WorkerTaskError(
 			'[host-worker] Task "git/removeWorktree" timed out after 120000ms in phase "worktree-remove"',
 		);
-		const repo = mkdtempSync(join(tmpdir(), "workspace-delete-repo-"));
+		const repo = makeGitCheckout();
 		try {
 			const ctx = makeCtx({
 				workspace: {
@@ -1142,6 +1149,7 @@ describe("workspace.delete (CLI/SDK/MCP surface)", () => {
 
 	test("teardown runs while the worktree exists, and its failure is reported", async () => {
 		const repo = mkdtempSync(join(tmpdir(), "workspace-delete-teardown-"));
+		mkdirSync(join(repo, ".git"));
 		const worktreePath = join(repo, "worktree");
 		mkdirSync(worktreePath);
 		const steps: string[] = [];

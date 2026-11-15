@@ -64,6 +64,9 @@ msgstr "{0}: {1} actieve terminals, {2} actieve agenten"
 msgid "{approvals} approvals"
 msgstr "{approvals} goedkeuringen"
 
+msgid "{attention} need attention"
+msgstr "{attention} vereisen aandacht"
+
 msgid "{completed} finished"
 msgstr "{completed} afgerond"
 
@@ -90,6 +93,9 @@ msgstr "{count, plural, one {Om de # week op {day}} other {Om de # weken op {day
 
 msgid "{count} files are over {limit} and were not added"
 msgstr "{count} bestanden zijn groter dan {limit} en zijn niet toegevoegd"
+
+msgid "{count} important items"
+msgstr "{count} belangrijke items"
 
 msgid "{currentPage} of {totalBranches}"
 msgstr "{currentPage} van {totalBranches}"
@@ -204,8 +210,21 @@ msgstr "Over {displayName}"
 msgid "Accept"
 msgstr "Accepteren"
 
+msgid "Accept candidate"
+msgstr "Voorstel accepteren"
+
+msgid "Accept global memory"
+msgstr "Globale herinnering accepteren"
+
 msgid "Accessibility"
 msgstr "Toegankelijkheid"
+
+#. placeholder {0}: name(delivery.recipientMemberId)
+msgid "Acknowledge mail to {0}"
+msgstr "Mail aan {0} bevestigen"
+
+msgid "Acknowledged"
+msgstr "Bevestigd"
 
 msgid "Actions"
 msgstr "Acties"
@@ -215,6 +234,9 @@ msgstr "Actief"
 
 msgid "Active CLI sessions"
 msgstr "Actieve CLI-sessies"
+
+msgid "Active items: {count}"
+msgstr "Actieve items: {count}"
 
 msgid "Active workspaces"
 msgstr "Actieve werkruimtes"
@@ -245,6 +267,12 @@ msgstr "Bestanden, apps en meer toevoegen"
 
 msgid "Add files, apps, and more (@)"
 msgstr "Bestanden, apps en meer toevoegen (@)"
+
+msgid "Add memory"
+msgstr "Herinnering toevoegen"
+
+msgid "Add peer"
+msgstr "Peer toevoegen"
 
 msgid "Add photos or files"
 msgstr "Foto's of bestanden toevoegen"
@@ -327,6 +355,9 @@ msgstr "Agent-eiland"
 msgid "Agent launch is waiting for setup"
 msgstr "Het starten van de agent wacht op de voltooiing van de configuratie"
 
+msgid "Agent may be stalled"
+msgstr "Agent is mogelijk vastgelopen"
+
 msgid "Agent saved, but linked presets could not be updated."
 msgstr "Agent opgeslagen, maar gekoppelde voorinstellingen konden niet worden bijgewerkt."
 
@@ -347,6 +378,9 @@ msgstr "Agents"
 
 msgid "AI chatbot built with Next.js and the AI SDK"
 msgstr "AI-chatbot gebouwd met Next.js en de AI SDK"
+
+msgid "Alerts"
+msgstr "Waarschuwingen"
 
 #. placeholder {0}: cmd.aliases.map((alias) => `/${alias}`).join(", ")
 msgid "aliases: {0}"
@@ -390,6 +424,9 @@ msgstr "Al geopend"
 
 msgid "Also delete local branch"
 msgstr "Ook lokale branch verwijderen"
+
+msgid "An automation did not complete. Inspect its run on your computer."
+msgstr "Een automatisering is niet voltooid. Controleer de uitvoering op je computer."
 
 msgid "An update is ready to install."
 msgstr "Er staat een update klaar om te installeren."
@@ -449,6 +486,9 @@ msgstr "Van toepassing op URL's in Markdown-voorbeelden en terminaluitvoer."
 msgid "Apply"
 msgstr "Toepassen"
 
+msgid "Approval execution failed. Check the target before trying again."
+msgstr "Uitvoering van goedkeuring mislukt. Controleer het doel voordat je opnieuw probeert."
+
 msgid "Approval expired"
 msgstr "Goedkeuring verlopen"
 
@@ -467,8 +507,32 @@ msgstr "Goedkeuring vereist"
 msgid "Approval response sent"
 msgstr "Antwoord op goedkeuring verzonden"
 
+msgid "Approvals"
+msgstr "Goedkeuringen"
+
+msgid "Approve"
+msgstr "Goedkeuren"
+
 msgid "Approved"
 msgstr "Goedgekeurd"
+
+msgid "Archival"
+msgstr "Archief"
+
+msgid "Archive team"
+msgstr "Team archiveren"
+
+msgid "Archive this team?"
+msgstr "Dit team archiveren?"
+
+msgid "Archive Workspace"
+msgstr "Werkruimte archiveren"
+
+msgid "Archived"
+msgstr "Gearchiveerd"
+
+msgid "Archived team · read-only"
+msgstr "Gearchiveerd team · alleen-lezen"
 
 msgid "Are you sure you want to quit?"
 msgstr "Weet je zeker dat je wilt afsluiten?"
@@ -479,11 +543,23 @@ msgstr "Vragen voordat de app wordt afgesloten."
 msgid "Ask before terminating a terminal with a running process. Closing a view keeps its session running."
 msgstr "Vraag voordat u een terminal met een actief proces beëindigt. Bij het sluiten van een weergave blijft de sessie actief."
 
+msgid "Ask Butler"
+msgstr "Butler vragen"
+
+msgid "Ask Butler about your teams, alerts or automations."
+msgstr "Vraag Butler naar je teams, waarschuwingen of automatiseringen."
+
+msgid "Ask Butler…"
+msgstr "Vraag Butler…"
+
 msgid "Ask to make changes, @mention files"
 msgstr "Vraag wijzigingen aan, @vermeld bestanden"
 
 msgid "Ask to make changes, @mention files, run /commands"
 msgstr "Vraag om wijzigingen, @vermeld bestanden, voer /commands uit"
+
+msgid "Associated provider tokens will be revoked."
+msgstr "Gekoppelde providertokens worden ingetrokken."
 
 msgid "Attach"
 msgstr "Koppelen"
@@ -513,6 +589,9 @@ msgstr "voorbeeld van bijlage"
 
 msgid "Attachments are available for local workspaces only."
 msgstr "Bijlagen zijn alleen beschikbaar voor lokale werkruimtes."
+
+msgid "Attention is unavailable. Refresh or update the host."
+msgstr "De openstaande items zijn niet beschikbaar. Vernieuw de pagina of werk de host bij."
 
 msgid "Audio"
 msgstr "Audio"
@@ -550,6 +629,9 @@ msgstr "Automatiseringsacties"
 msgid "Automation deleted"
 msgstr "Automatisering verwijderd"
 
+msgid "Automation did not finish"
+msgstr "Automatisering is niet voltooid"
+
 msgid "Automation enabled"
 msgstr "Automatisering ingeschakeld"
 
@@ -577,11 +659,17 @@ msgstr "Wachten op antwoord"
 msgid "Awaiting Response · {workspaceName}"
 msgstr "Wacht op antwoord · {workspaceName}"
 
+msgid "Awaiting review"
+msgstr "Wacht op beoordeling"
+
 msgid "Back"
 msgstr "Terug"
 
 msgid "Back to automations"
 msgstr "Terug naar automatiseringen"
+
+msgid "Back to current conversation"
+msgstr "Terug naar huidig gesprek"
 
 msgid "Background processes"
 msgstr "Achtergrondprocessen"
@@ -651,6 +739,12 @@ msgstr "Opsommingslijst"
 msgid "Bulleted list"
 msgstr "Opsommingslijst"
 
+msgid "Butler"
+msgstr "Butler"
+
+msgid "Butler is unavailable. Status and Inbox still work."
+msgstr "Butler is niet beschikbaar. Status en Inbox blijven werken."
+
 msgid "Cached input"
 msgstr "Gecachete input"
 
@@ -669,14 +763,23 @@ msgstr "Annulering vraagt de doelhost te stoppen. Controleer het resultaat van d
 msgid "Cancelled"
 msgstr "Geannuleerd"
 
+msgid "Candidate"
+msgstr "Voorstel"
+
 msgid "Cannot {action}: no active organization is selected. Select an organization or sign in again."
 msgstr "Kan {action} niet: er is geen actieve organisatie geselecteerd. Kies een organisatie of log opnieuw in."
 
 msgid "Cannot {action}: the local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
 msgstr "Kan {action} niet: de lokale hostservice is niet beschikbaar voor {organization} op {device}. Status: {status}. {recovery}"
 
+msgid "Category"
+msgstr "Categorie"
+
 msgid "Change location…"
 msgstr "Locatie wijzigen…"
+
+msgid "Change mobile address?"
+msgstr "Mobiel adres wijzigen?"
 
 msgid "Change project icon and color"
 msgstr "Projecticoon en -kleur wijzigen"
@@ -695,6 +798,9 @@ msgstr "Wijzigingen genegeerd"
 
 msgid "Changes requested"
 msgstr "Wijzigingen gevraagd"
+
+msgid "Changing or clearing this address signs out all paired devices."
+msgstr "Als je dit adres wijzigt of wist, worden alle gekoppelde apparaten afgemeld."
 
 msgid "Changing this location affects new worktrees. Existing folders are not moved."
 msgstr "Het wijzigen van deze locatie heeft invloed op nieuwe werkbomen. Bestaande mappen worden niet verplaatst."
@@ -777,6 +883,9 @@ msgstr "Kies een project of werkruimte"
 msgid "Choose a project to start working."
 msgstr "Kies een project om te beginnen met werken."
 
+msgid "Choose a running agent as leader to start collaborating."
+msgstr "Kies een actieve agent als leider om samen te gaan werken."
+
 msgid "Choose a saved screenshot to attach. Files are copied only when you submit the prompt."
 msgstr "Kies een opgeslagen schermafbeelding om te koppelen. Bestanden worden alleen gekopieerd wanneer u de prompt indient."
 
@@ -800,6 +909,12 @@ msgstr "Kies meldingsgeluiden en volume."
 
 msgid "Clear"
 msgstr "Helder"
+
+msgid "Clear API key"
+msgstr "API-sleutel wissen"
+
+msgid "Clear API key?"
+msgstr "API-sleutel wissen?"
 
 msgid "Clear saved screenshots?"
 msgstr "Opgeslagen schermafbeeldingen wissen?"
@@ -955,6 +1070,9 @@ msgstr "Alles inklappen"
 msgid "Collapse All"
 msgstr "Alles inklappen"
 
+msgid "Collapse message"
+msgstr "Bericht inklappen"
+
 msgid "Color"
 msgstr "Kleur"
 
@@ -1031,14 +1149,32 @@ msgstr "Configureren"
 msgid "Configure agent commands for the connected host."
 msgstr "Configureer agentcommando’s voor de verbonden host."
 
+msgid "Configured"
+msgstr "Geconfigureerd"
+
 msgid "Confirm"
 msgstr "Bevestigen"
+
+msgid "Confirm archive"
+msgstr "Archivering bevestigen"
 
 msgid "Confirm before closing a running terminal"
 msgstr "Bevestigen voordat u een actieve terminal sluit"
 
 msgid "Confirm before quitting"
 msgstr "Bevestigen voor afsluiten"
+
+msgid "Confirm global memory adoption"
+msgstr "Aanname globale herinnering bevestigen"
+
+msgid "Confirm memory removal"
+msgstr "Verwijderen van herinnering bevestigen"
+
+msgid "Confirm receipt"
+msgstr "Ontvangst bevestigen"
+
+msgid "Confirm stop"
+msgstr "Stop bevestigen"
 
 msgid "Connect"
 msgstr "Verbinden"
@@ -1063,6 +1199,12 @@ msgstr "Verbonden host"
 
 msgid "Connecting…"
 msgstr "Verbinden…"
+
+msgid "Content"
+msgstr "Inhoud"
+
+msgid "Context"
+msgstr "Context"
 
 msgid "Continue"
 msgstr "Doorgaan"
@@ -1102,6 +1244,15 @@ msgstr "Besturing bezit deze sessie"
 
 msgid "Control shortcuts on macOS are reserved for terminal programs."
 msgstr "Control-snelkoppelingen zijn op macOS gereserveerd voor terminalprogramma’s."
+
+msgid "Convention"
+msgstr "Conventie"
+
+msgid "Conversation state is unavailable. Refresh or update the host."
+msgstr "De gespreksstatus is niet beschikbaar. Vernieuw de pagina of werk de host bij."
+
+msgid "Conversations"
+msgstr "Gesprekken"
 
 msgid "Convert to config.toml"
 msgstr "Omzetten naar config.toml"
@@ -1179,6 +1330,15 @@ msgstr "Werkruimte-ID kopiëren"
 msgid "Copy..."
 msgstr "Kopiëren…"
 
+msgid "Core"
+msgstr "Kern"
+
+msgid "Core injection: {budget} characters in this scope, 4800 total. Candidates are excluded."
+msgstr "Kerninjectie: {budget} tekens in dit bereik, 4800 in totaal. Voorstellen worden uitgesloten."
+
+msgid "Correction"
+msgstr "Correctie"
+
 msgid "Costs are estimates based on API list rates, not a bill or actual subscription spending. Unknown models use approximate rates."
 msgstr "Kosten zijn schattingen op basis van API-lijstprijzen, geen factuur of werkelijke abonnementsuitgaven. Onbekende modellen gebruiken geschatte tarieven."
 
@@ -1199,6 +1359,9 @@ msgstr "Kon het resultaat op de doelhost niet bevestigen. Controleer de verbindi
 
 msgid "Could not confirm this session. Refresh before retrying."
 msgstr "Kan deze sessie niet bevestigen. Vernieuw voordat je het opnieuw probeert."
+
+msgid "Could not create team. Refresh the agents and retry."
+msgstr "Team kon niet worden gemaakt. Vernieuw de agenten en probeer opnieuw."
 
 msgid "Could not create workspace. Check the target host and retry."
 msgstr "Kon de werkruimte niet maken. Controleer de doelhost en probeer het opnieuw."
@@ -1227,6 +1390,9 @@ msgstr "Kon deze werkruimte niet inspecteren. Probeer de controles opnieuw voord
 msgid "Could not list repositories. Check gh authentication on the target host, or enter a URL below."
 msgstr "Kon repositories niet weergeven. Controleer de gh-authenticatie op de doelhost of voer hieronder een URL in."
 
+msgid "Could not load agents"
+msgstr "Agenten konden niet worden geladen"
+
 msgid "Could not load branches from the target host."
 msgstr "Kon branches niet van de doelhost laden."
 
@@ -1242,8 +1408,14 @@ msgstr "Kon projectinstellingen niet van de doelhost laden."
 msgid "Could not load pull requests. Check gh access on the target host."
 msgstr "Kon PR's niet laden. Controleer de gh-toegang op de doelhost."
 
+msgid "Could not load Teamwork. Check the host connection and retry."
+msgstr "Teamwork kon niet worden geladen. Controleer de hostverbinding en probeer opnieuw."
+
 msgid "Could not load workspace status. Check the target host and try again."
 msgstr "Kon de werkruimtestatus niet laden. Controleer de doelhost en probeer het opnieuw."
+
+msgid "Could not open terminal"
+msgstr "Terminal kon niet worden geopend"
 
 msgid "Could not open this workspace. Check the target host and try again."
 msgstr "Kon deze werkruimte niet openen. Controleer de doelhost en probeer het opnieuw."
@@ -1272,6 +1444,9 @@ msgstr "Kon deze map niet lezen. Controleer het pad en de machtigingen op de doe
 msgid "Could not read worktrees from the target host."
 msgstr "Kon werkbomen niet van de doelhost lezen."
 
+msgid "Could not refresh. Showing the last loaded information."
+msgstr "Vernieuwen mislukt. De laatst geladen informatie wordt getoond."
+
 msgid "Could not rename project. Try again."
 msgstr "Kon project niet hernoemen. Probeer het opnieuw."
 
@@ -1286,6 +1461,9 @@ msgstr "Kon pictogram niet weergeven"
 
 msgid "Could not render image"
 msgstr "Kon afbeelding niet weergeven"
+
+msgid "Could not save memory. Your draft is kept."
+msgstr "Herinnering kon niet worden opgeslagen. Je concept blijft bewaard."
 
 msgid "Could not save the group. Your draft is kept."
 msgstr "Kon de groep niet opslaan. Uw concept wordt bewaard."
@@ -1311,8 +1489,14 @@ msgstr "Kon uw voortgang niet opslaan. Probeer het opnieuw."
 msgid "Could not select a project directory."
 msgstr "Kon geen projectmap selecteren."
 
+msgid "Could not send mail. Your draft is kept for retry."
+msgstr "Mail kon niet worden verzonden. Je concept blijft bewaard om opnieuw te proberen."
+
 msgid "Could not set icon"
 msgstr "Kan icoon niet instellen"
+
+msgid "Could not sign out. Reconnect and try again."
+msgstr "Afmelden mislukt. Maak opnieuw verbinding en probeer het opnieuw."
 
 msgid "Could not stop a listening process. Earlier successful stops are kept."
 msgstr "Kon een luisterend proces niet stoppen. Eerder geslaagde stops blijven behouden."
@@ -1320,11 +1504,20 @@ msgstr "Kon een luisterend proces niet stoppen. Eerder geslaagde stops blijven b
 msgid "Could not stop it"
 msgstr "Kon niet worden gestopt"
 
+msgid "Could not update DeepSeek settings. Check the host and retry."
+msgstr "DeepSeek-instellingen konden niet worden bijgewerkt. Controleer de host en probeer opnieuw."
+
+msgid "Could not update mail"
+msgstr "Mail kon niet worden bijgewerkt"
+
 msgid "Could not update the project tree. Try again."
 msgstr "Kon de projectboom niet bijwerken. Probeer het opnieuw."
 
 msgid "Could not update the removed project. Check its status before retrying."
 msgstr "Kon het verwijderde project niet bijwerken. Controleer de status voordat u het opnieuw probeert."
+
+msgid "Could not update this item. Refresh to check its status."
+msgstr "Dit item kon niet worden bijgewerkt. Vernieuw de pagina om de status te controleren."
 
 msgid "Could not update workspace. Try again."
 msgstr "Kon de werkruimte niet bijwerken. Probeer het opnieuw."
@@ -1337,6 +1530,9 @@ msgstr "Kan niet opslaan. Bewerk of klik ernaast om opnieuw te proberen"
 
 msgid "Couldn't save. Retrying…"
 msgstr "Kan niet opslaan. Opnieuw proberen…"
+
+msgid "Create"
+msgstr "Maken"
 
 msgid "Create a blank folder and initialize it as a Git repository."
 msgstr "Maak een lege map en initialiseer deze als een Git-repository."
@@ -1362,11 +1558,17 @@ msgstr "PR maken"
 msgid "Create project"
 msgstr "Project maken"
 
+msgid "Create provider token"
+msgstr "Providertoken maken"
+
 msgid "Create pull request"
 msgstr "Pull request aanmaken"
 
 msgid "Create pull request on GitHub?"
 msgstr "Pull request op GitHub aanmaken?"
+
+msgid "Create team"
+msgstr "Team maken"
 
 msgid "create the project"
 msgstr "het project aanmaken"
@@ -1471,8 +1673,20 @@ msgstr "Donker"
 msgid "Dark theme"
 msgstr "Donker thema"
 
+msgid "Declarative extensions"
+msgstr "Declaratieve extensies"
+
 msgid "Decline"
 msgstr "Afwijzen"
+
+msgid "DeepSeek API Key"
+msgstr "DeepSeek-API-sleutel"
+
+msgid "DeepSeek for Butler and memory extraction."
+msgstr "DeepSeek voor Butler en het extraheren van herinneringen."
+
+msgid "DeepSeek is not configured. Status and Inbox still work."
+msgstr "DeepSeek is niet geconfigureerd. Status en Inbox blijven werken."
 
 msgid "default"
 msgstr "standaard"
@@ -1537,6 +1751,18 @@ msgstr "Verwijderde sessies kunnen niet worden hersteld."
 msgid "Deleting…"
 msgstr "Verwijderen…"
 
+msgid "Delivered"
+msgstr "Bezorgd"
+
+msgid "Delivered means the remote host stored the mail, not that a recipient read or acknowledged it."
+msgstr "Bezorgd betekent dat de externe host de mail heeft opgeslagen, niet dat de ontvanger deze heeft gelezen of de verwerking heeft bevestigd."
+
+msgid "Describe a goal to start a new task."
+msgstr "Beschrijf een doel om een nieuwe taak te starten."
+
+msgid "Describe the task…"
+msgstr "Beschrijf de taak…"
+
 msgid "Describe what the agent should do…"
 msgstr "Beschrijf wat de agent moet doen…"
 
@@ -1561,6 +1787,12 @@ msgstr "Details"
 msgid "Detect workspaces from other tools"
 msgstr "Werkruimtes van andere tools detecteren"
 
+msgid "Device"
+msgstr "Apparaat"
+
+msgid "Device name"
+msgstr "Apparaatnaam"
+
 msgid "Diagnostics"
 msgstr "Diagnostiek"
 
@@ -1578,6 +1810,9 @@ msgstr "diff in nieuw tabblad"
 
 msgid "Directory path"
 msgstr "Mappad"
+
+msgid "Disabled"
+msgstr "Uitgeschakeld"
 
 msgid "Discard"
 msgstr "Verwerpen"
@@ -1638,6 +1873,9 @@ msgstr "Documentatie"
 msgid "Done"
 msgstr "Klaar"
 
+msgid "Download JSON"
+msgstr "JSON downloaden"
+
 msgid "Download starter"
 msgstr "Startbestand downloaden"
 
@@ -1683,6 +1921,12 @@ msgstr "Bewerken"
 msgid "Edit group"
 msgstr "Groep bewerken"
 
+msgid "Edit memory"
+msgstr "Herinnering bewerken"
+
+msgid "Edit peer"
+msgstr "Peer bewerken"
+
 msgid "Edit shared setup, run and teardown commands, or personal overrides. Saving does not execute commands."
 msgstr "Bewerk gedeelde configuratie-, uitvoerings- en opruimopdrachten of persoonlijke overschrijvingen. Opslaan voert geen opdrachten uit."
 
@@ -1698,8 +1942,14 @@ msgstr "Editor en workflow"
 msgid "Editor typography"
 msgstr "Editortypografie"
 
+msgid "Effort"
+msgstr "Denkinspanning"
+
 msgid "Enable"
 msgstr "Inschakelen"
+
+msgid "Enabled"
+msgstr "Ingeschakeld"
 
 msgid "Endpoint"
 msgstr "Eindpunt"
@@ -1709,6 +1959,9 @@ msgstr "Voer een commando in."
 
 msgid "Enter a group name of 1 to 64 characters."
 msgstr "Voer een groepsnaam van 1 tot 64 tekens in."
+
+msgid "Enter a new API key to replace it"
+msgstr "Voer een nieuwe API-sleutel in om deze te vervangen"
 
 msgid "Enter a project name and location."
 msgstr "Voer een projectnaam en locatie in."
@@ -1731,6 +1984,9 @@ msgstr "Voer een absoluut mappad op de doelhost in."
 msgid "Enter an agent name."
 msgstr "Voer een agentnaam in."
 
+msgid "Enter the pairing code shown in Jedv on your computer."
+msgstr "Voer de koppelcode in die Jedv op je computer toont."
+
 msgid "Enter URL..."
 msgstr "Voer URL in..."
 
@@ -1746,6 +2002,9 @@ msgstr "Panelen gelijk verdelen"
 msgid "Estimated cost"
 msgstr "Geschatte kosten"
 
+msgid "Event type prefix"
+msgstr "Voorvoegsel voor gebeurtenistype"
+
 msgid "Every {day}"
 msgstr "Elke {day}"
 
@@ -1754,6 +2013,9 @@ msgstr "Elke {day} om {time}"
 
 msgid "Every minute"
 msgstr "Elke minuut"
+
+msgid "Executed"
+msgstr "Uitgevoerd"
 
 msgid "Execution mode"
 msgstr "Uitvoeringsmodus"
@@ -1788,14 +2050,38 @@ msgstr "Uitklappen"
 msgid "Expand all"
 msgstr "Alles uitklappen"
 
+msgid "Expand message"
+msgstr "Bericht uitklappen"
+
 msgid "Expand pane area"
 msgstr "Deelvenstergebied uitvouwen"
 
 msgid "Expand the right pane to fill the window, or restore it"
 msgstr "Rechterpaneel uitvouwen tot het hele venster, of herstellen"
 
+msgid "Expired"
+msgstr "Verlopen"
+
+msgid "Expired {time}"
+msgstr "Verlopen {time}"
+
+msgid "Expires {time}"
+msgstr "Verloopt {time}"
+
+msgid "Export memory"
+msgstr "Herinneringen exporteren"
+
+msgid "Export project memory?"
+msgstr "Projectherinneringen exporteren?"
+
 msgid "Export theme"
 msgstr "Thema exporteren"
+
+msgid "Export to .jedv/memory.json"
+msgstr "Exporteren naar .jedv/memory.json"
+
+msgid "Extensions display data and can receive narrowly scoped mail."
+msgstr "Extensies tonen gegevens en kunnen mail met beperkte rechten ontvangen."
 
 msgid "external browser"
 msgstr "externe browser"
@@ -1808,6 +2094,9 @@ msgstr "Externe editors openen bestanden alleen op deze machine"
 
 msgid "Failed"
 msgstr "Mislukt"
+
+msgid "Failed runs: {activeCount}"
+msgstr "Mislukte uitvoeringen: {activeCount}"
 
 msgid "Failed to add {failed} files"
 msgstr "Toevoegen van {failed} bestanden mislukt"
@@ -1937,6 +2226,9 @@ msgstr "Bestandslinks"
 
 msgid "File not found"
 msgstr "Bestand niet gevonden"
+
+msgid "File path on target host"
+msgstr "Bestandspad op de doelhost"
 
 msgid "File tree limit reached. Search files to open an unloaded path."
 msgstr "Bestandsboomlimiet bereikt. Zoek bestanden om een niet-geladen pad te openen."
@@ -2097,6 +2389,9 @@ msgstr "Vrijdag"
 msgid "From"
 msgstr "Van"
 
+msgid "From the task’s first sentence"
+msgstr "Uit de eerste zin van de taak"
+
 msgid "Front matter hidden. Switch to the Markdown view to edit it"
 msgstr "Front matter verborgen. Schakel over naar de Markdown-weergave om die te bewerken"
 
@@ -2127,6 +2422,9 @@ msgstr "Git-auteur"
 msgid "Git author name"
 msgstr "Naam van git-auteur"
 
+msgid "Git features are unavailable here. Terminals and files remain available."
+msgstr "Git-functies zijn hier niet beschikbaar. Terminals en bestanden blijven beschikbaar."
+
 msgid "GitHub authentication failed. Sign in with gh on this host, then refresh."
 msgstr "GitHub-authenticatie mislukt. Meld je met gh aan op deze host en vernieuw daarna."
 
@@ -2141,6 +2439,9 @@ msgstr "GitHub-limiet bereikt. Links naar pull requests zijn mogelijk verouderd.
 
 msgid "GitHub username"
 msgstr "GitHub-gebruikersnaam"
+
+msgid "Global"
+msgstr "Globaal"
 
 msgid "Globe"
 msgstr "Wereldbol"
@@ -2187,6 +2488,9 @@ msgstr "Stuurt de door AI gegenereerde namen van werkruimtes en branches voor di
 msgid "Handle in terminal"
 msgstr "In terminal afhandelen"
 
+msgid "Handled"
+msgstr "Afgehandeld"
+
 msgid "Has uncommitted changes"
 msgstr "Heeft niet-gecommitte wijzigingen"
 
@@ -2211,11 +2515,17 @@ msgstr "Hart"
 msgid "Help"
 msgstr "Help"
 
+msgid "Hide"
+msgstr "Verbergen"
+
 msgid "Hide {displayName}"
 msgstr "Verberg {displayName}"
 
 msgid "Hide details"
 msgstr "Details verbergen"
+
+msgid "Hide history"
+msgstr "Geschiedenis verbergen"
 
 msgid "Hide workspace activity"
 msgstr "Werkruimteactiviteit verbergen"
@@ -2235,6 +2545,9 @@ msgstr "Hostverbinding niet beschikbaar"
 msgid "Host is offline"
 msgstr "Host is offline"
 
+msgid "Host offline. Team actions are unavailable until the connection is restored."
+msgstr "Host offline. Teamacties zijn niet beschikbaar totdat de verbinding is hersteld."
+
 msgid "Host Service"
 msgstr "Hostservice"
 
@@ -2250,8 +2563,14 @@ msgstr "Hostservice niet beschikbaar"
 msgid "Hourly"
 msgstr "Elk uur"
 
+msgid "HTTPS address"
+msgstr "HTTPS-adres"
+
 msgid "https://github.com/owner/repo.git or /path/to/repo"
 msgstr "https://github.com/owner/repo.git of /pad/naar/repo"
+
+msgid "Human"
+msgstr "Mens"
 
 msgid "I checked the attachments"
 msgstr "Ik heb de bijlagen gecontroleerd"
@@ -2270,6 +2589,18 @@ msgstr "IDE"
 
 msgid "Idle"
 msgstr "Inactief"
+
+msgid "Ignore"
+msgstr "Negeren"
+
+msgid "Ignore suggestion"
+msgstr "Suggestie negeren"
+
+msgid "Ignored"
+msgstr "Genegeerd"
+
+msgid "Ignoring this suggestion does not acknowledge mail or resolve its cause."
+msgstr "Deze suggestie negeren bevestigt geen mailverwerking en lost de oorzaak niet op."
 
 msgid "Image"
 msgstr "Afbeelding"
@@ -2302,8 +2633,23 @@ msgstr "Importeer een themabestand of pak een startbestand om te bewerken."
 msgid "Import an audio file or preview the selected sound."
 msgstr "Importeer een audiobestand of beluister een voorbeeld van het geselecteerde geluid."
 
+msgid "Import from host file"
+msgstr "Importeren uit een bestand op de host"
+
 msgid "Import from other tools"
 msgstr "Importeren vanuit andere tools"
+
+msgid "Import JSON file"
+msgstr "JSON-bestand importeren"
+
+msgid "Import memory"
+msgstr "Herinneringen importeren"
+
+msgid "Import memory?"
+msgstr "Herinneringen importeren?"
+
+msgid "Import plain folder"
+msgstr "Gewone map importeren"
 
 msgid "Import results"
 msgstr "Importresultaten"
@@ -2323,6 +2669,9 @@ msgstr "Niet-gevolgde worktrees importeren"
 msgid "Import worktree"
 msgstr "Werkboom importeren"
 
+msgid "Imported entries stay in the selected scope. Existing content is deduplicated."
+msgstr "Geïmporteerde items blijven in het geselecteerde bereik. Bestaande inhoud wordt ontdubbeld."
+
 msgid "Importing project…"
 msgstr "Project importeren…"
 
@@ -2340,6 +2689,15 @@ msgstr "Klik in het venster van Apple op Installeer. Dit duurt een paar minuten 
 
 msgid "In review"
 msgstr "In review"
+
+msgid "Inbound mail token"
+msgstr "Token voor inkomende mail"
+
+msgid "Inbox"
+msgstr "Inbox"
+
+msgid "Include archived teams"
+msgstr "Gearchiveerde teams opnemen"
 
 msgid "Include the Linear ticket id from the prompt in the branch name (e.g. bin-344-fix-login). Prefix branches with fix/ or feat/ based on the task."
 msgstr "Neem het Linear-ticket-id uit de prompt op in de branchnaam (bijv. bin-344-fix-login). Geef branches het voorvoegsel fix/ of feat/ op basis van de taak."
@@ -2368,8 +2726,14 @@ msgstr "Invoegen in CLI"
 msgid "Insert into the existing CLI, then submit in the terminal."
 msgstr "Voeg in bij de bestaande CLI en dien vervolgens in bij de terminal."
 
+msgid "Install"
+msgstr "Installeren"
+
 msgid "Install Command Line Tools"
 msgstr "Command Line Tools installeren"
+
+msgid "Install extension"
+msgstr "Extensie installeren"
 
 msgid "Install Git, then come back."
 msgstr "Installeer Git en kom dan terug."
@@ -2391,6 +2755,9 @@ msgstr "Onderbreking aangevraagd"
 
 msgid "Interrupted"
 msgstr "Onderbroken"
+
+msgid "Invalid memory JSON"
+msgstr "Ongeldige herinnerings-JSON"
 
 msgid "Italic"
 msgstr "Cursief"
@@ -2415,6 +2782,9 @@ msgstr "Ga naar een werkruimte die aandacht nodig heeft of actief is."
 
 msgid "Keep editing"
 msgstr "Verder bewerken"
+
+msgid "Keep existing entries"
+msgstr "Bestaande items behouden"
 
 msgid "Keep notifications silent on this device."
 msgstr "Houd meldingen op dit apparaat stil."
@@ -2455,6 +2825,9 @@ msgstr "Laatste dag van elke maand"
 msgid "Last day of each month at {time}"
 msgstr "Laatste dag van elke maand om {time}"
 
+msgid "Last run {time}"
+msgstr "Laatste uitvoering {time}"
+
 msgid "Later"
 msgstr "Later"
 
@@ -2469,6 +2842,9 @@ msgstr "Startresultaat onbekend. Vernieuw en inspecteer de terminal voordat u op
 
 msgid "Layout"
 msgstr "Indeling"
+
+msgid "Leader"
+msgstr "Leider"
 
 msgid "Leaf"
 msgstr "Blad"
@@ -2568,6 +2944,12 @@ msgstr "Lettertypen laden..."
 msgid "Loading identity…"
 msgstr "Identiteit laden…"
 
+msgid "Loading mail…"
+msgstr "Mail laden…"
+
+msgid "Loading memory…"
+msgstr "Herinneringen laden…"
+
 msgid "Loading more..."
 msgstr "Meer laden..."
 
@@ -2597,6 +2979,12 @@ msgstr "Runs laden…"
 
 msgid "Loading sessions…"
 msgstr "Sessies laden…"
+
+msgid "Loading team…"
+msgstr "Team laden…"
+
+msgid "Loading teams…"
+msgstr "Teams laden…"
 
 msgid "Loading workspace status…"
 msgstr "Werkruimtestatus laden…"
@@ -2637,6 +3025,24 @@ msgstr "Locatie"
 msgid "Location & checkout"
 msgstr "Locatie en checkout"
 
+msgid "Mail awaiting acknowledgement: {activeCount}"
+msgstr "Berichten zonder ontvangstbevestiging: {activeCount}"
+
+msgid "Mail awaits acknowledgement"
+msgstr "Mail wacht op bevestiging"
+
+msgid "Mail has not been acknowledged. Reading it does not acknowledge it."
+msgstr "De mail is niet bevestigd. Lezen bevestigt de verwerking niet."
+
+msgid "Mail outbox"
+msgstr "Postvak UIT"
+
+msgid "Mail recipient"
+msgstr "Mailontvanger"
+
+msgid "Mail-only access. The host administration key is never shared."
+msgstr "Alleen toegang tot mail. De beheersleutel van de host wordt nooit gedeeld."
+
 msgid "Make all panes equal size"
 msgstr "Alle panelen even groot maken"
 
@@ -2648,6 +3054,9 @@ msgstr "Terminalscripts beheren"
 
 msgid "Manage the host used by your workspaces."
 msgstr "Beheer de host die je werkruimtes gebruiken."
+
+msgid "Manifest path on host"
+msgstr "Manifestpad op de host"
 
 msgid "Manual"
 msgstr "Handmatig"
@@ -2663,6 +3072,10 @@ msgstr "Markeren als gelezen"
 
 msgid "Mark as unread"
 msgstr "Markeren als ongelezen"
+
+#. placeholder {0}: name(delivery.recipientMemberId)
+msgid "Mark mail to {0} as read"
+msgstr "Mail aan {0} als gelezen markeren"
 
 msgid "Mark ready for review?"
 msgstr "Markeren als klaar voor review?"
@@ -2685,6 +3098,39 @@ msgstr "Maximale grootte is 256 KB."
 msgid "Member"
 msgstr "Lid"
 
+msgid "Member activity"
+msgstr "Lidactiviteit"
+
+msgid "Member activity needs checking"
+msgstr "Lidactiviteit controleren"
+
+msgid "Member status"
+msgstr "Lidstatus"
+
+msgid "Member status needs checking"
+msgstr "Lidstatus controleren"
+
+msgid "Memory"
+msgstr "Herinneringen"
+
+msgid "Memory action failed"
+msgstr "Herinneringsactie mislukt"
+
+msgid "Memory entries: {count}"
+msgstr "Herinneringsitems: {count}"
+
+msgid "Memory imported"
+msgstr "Herinneringen geïmporteerd"
+
+msgid "Memory is unavailable on this host."
+msgstr "Herinneringen zijn niet beschikbaar op deze host."
+
+msgid "Memory JSON must be at most 4 MB."
+msgstr "Herinnerings-JSON mag maximaal 4 MB zijn."
+
+msgid "Memory scope"
+msgstr "Herinneringsbereik"
+
 msgid "Menu bar activity"
 msgstr "Menubalkactiviteit"
 
@@ -2706,8 +3152,17 @@ msgstr "Er wordt gecontroleerd of er gemergd kan worden"
 msgid "Merged"
 msgstr "Gemerged"
 
+msgid "Message to team"
+msgstr "Bericht aan het team"
+
 msgid "Minimum contrast"
 msgstr "Minimumcontrast"
+
+msgid "Mobile"
+msgstr "Mobiel"
+
+msgid "Mobile access address"
+msgstr "Mobiel toegangsadres"
 
 msgid "Model"
 msgstr "Model"
@@ -2826,6 +3281,12 @@ msgstr "Vraagt aandacht"
 msgid "Needs me"
 msgstr "Heeft mij nodig"
 
+msgid "Needs reconciliation"
+msgstr "Afstemming nodig"
+
+msgid "Needs retry"
+msgstr "Opnieuw proberen nodig"
+
 msgid "Nerd Fonts"
 msgstr "Nerd Fonts"
 
@@ -2837,6 +3298,9 @@ msgstr "Nieuwe branch"
 
 msgid "New Chat"
 msgstr "Nieuwe chat"
+
+msgid "New conversation"
+msgstr "Nieuw gesprek"
 
 msgid "New File"
 msgstr "Nieuw bestand"
@@ -2874,6 +3338,9 @@ msgstr "Nieuwe tabbladen"
 msgid "New Terminal"
 msgstr "Nieuwe terminal"
 
+msgid "New topic"
+msgstr "Nieuw onderwerp"
+
 msgid "New Window"
 msgstr "Nieuw venster"
 
@@ -2898,6 +3365,9 @@ msgstr "Volgende branch"
 
 msgid "Next Right Sidebar Tab"
 msgstr "Volgend tabblad in de rechterzijbalk"
+
+msgid "Next run {time}"
+msgstr "Volgende uitvoering {time}"
 
 #. placeholder {0}: formatDateTime(next, { dateStyle: "medium", timeStyle: "short", timeZone: timezone, })
 msgid "Next scheduled time: {0}"
@@ -2924,6 +3394,9 @@ msgstr "Er is geen actieve organisatie geselecteerd. Kies een organisatie of log
 msgid "No active services"
 msgstr "Geen actieve services"
 
+msgid "No active teams."
+msgstr "Geen actieve teams."
+
 msgid "No active workspaces"
 msgstr "Geen actieve werkruimtes"
 
@@ -2936,11 +3409,20 @@ msgstr "Nog geen activiteit"
 msgid "No agent was started. After setup completes, start the agent again."
 msgstr "Er is geen agent gestart. Start de agent nadat de configuratie is voltooid opnieuw."
 
+msgid "No agents configured"
+msgstr "Geen agenten ingesteld"
+
+msgid "No alerts."
+msgstr "Geen waarschuwingen."
+
 msgid "No automations match your filters"
 msgstr "Geen automatiseringen komen overeen met je filters"
 
 msgid "No automations yet"
 msgstr "Nog geen automatiseringen"
+
+msgid "No automations."
+msgstr "Geen automatiseringen."
 
 msgid "No available workspace with a GitHub remote"
 msgstr "Geen beschikbare werkruimte met een GitHub-remote"
@@ -2990,6 +3472,12 @@ msgstr "Geen GitHub-repository's beschikbaar"
 msgid "No importable worktrees found on this host. You can open a project and import its worktrees instead."
 msgstr "Geen importeerbare werkbomen gevonden op deze host. U kunt in plaats daarvan een project openen en de werkbomen importeren."
 
+msgid "No items"
+msgstr "Geen items"
+
+msgid "No items."
+msgstr "Geen items."
+
 msgid "No linked pull requests"
 msgstr "Geen gekoppelde PR's"
 
@@ -2998,6 +3486,9 @@ msgstr "Geen lokale terminalprocesmetrieken beschikbaar."
 
 msgid "No local usage or quota data is available."
 msgstr "Geen lokale gebruiks- of quotagegevens beschikbaar."
+
+msgid "No mail"
+msgstr "Geen mail"
 
 msgid "No match"
 msgstr "Geen overeenkomst"
@@ -3011,11 +3502,17 @@ msgstr "Geen overeenkomende instellingen."
 msgid "No matching shortcuts."
 msgstr "Geen overeenkomende sneltoetsen."
 
+msgid "No memory found"
+msgstr "Geen herinneringen gevonden"
+
 msgid "No messages in this page"
 msgstr "Geen berichten op deze pagina"
 
 msgid "No output yet"
 msgstr "Nog geen uitvoer"
+
+msgid "No pending approvals."
+msgstr "Geen wachtende goedkeuringen."
 
 msgid "No pending responses or unread completions"
 msgstr "Geen openstaande antwoorden of ongelezen voltooide taken"
@@ -3047,6 +3544,9 @@ msgstr "Geen PR's gevonden"
 msgid "No pull requests match your filters"
 msgstr "Geen pull requests komen overeen met je filters"
 
+msgid "No recent Agent or Git activity was observed. Inspect the terminal before acting."
+msgstr "Er is geen recente agent- of Git-activiteit waargenomen. Controleer de terminal voordat je handelt."
+
 msgid "No removed projects"
 msgstr "Geen verwijderde projecten"
 
@@ -3064,6 +3564,18 @@ msgstr "Nog geen screenshots"
 
 msgid "No subdirectories"
 msgstr "Geen submappen"
+
+msgid "No task assigned"
+msgstr "Geen taak toegewezen"
+
+msgid "No team"
+msgstr "Geen team"
+
+msgid "No team mail yet"
+msgstr "Nog geen teammail"
+
+msgid "No teams yet"
+msgstr "Nog geen teams"
 
 msgid "No terminal presets yet."
 msgstr "Nog geen terminalvoorinstellingen."
@@ -3098,6 +3610,9 @@ msgstr "Niet gekoppeld · in te stellen bij Instellingen → Links"
 msgid "Not checked yet"
 msgstr "Nog niet gecontroleerd"
 
+msgid "Not configured"
+msgstr "Niet geconfigureerd"
+
 msgid "Not detected in the workspace right now"
 msgstr "Momenteel niet gedetecteerd in de workspace"
 
@@ -3124,6 +3639,12 @@ msgstr "Genummerde lijst"
 
 msgid "Off"
 msgstr "Uit"
+
+msgid "Offline"
+msgstr "Offline"
+
+msgid "Offline. Actions are disabled until you reconnect."
+msgstr "Offline. Acties zijn uitgeschakeld totdat je opnieuw verbinding maakt."
 
 msgid "On a Mac, Git comes with Apple's Command Line Tools."
 msgstr "Op een Mac wordt Git geleverd met de Command Line Tools van Apple."
@@ -3158,6 +3679,10 @@ msgstr "Openen"
 #. placeholder {0}: binding.agentId
 msgid "Open {0} session"
 msgstr "{0}-sessie openen"
+
+#. placeholder {0}: member.name
+msgid "Open {0} terminal"
+msgstr "Terminal van {0} openen"
 
 msgid "Open {displayName}"
 msgstr "{displayName} openen"
@@ -3259,6 +3784,9 @@ msgstr "Openen in tabblad"
 msgid "Open large file"
 msgstr "Groot bestand openen"
 
+msgid "Open link"
+msgstr "Link openen"
+
 msgid "Open local checkout"
 msgstr "Lokale checkout openen"
 
@@ -3296,6 +3824,9 @@ msgstr "Open-source-erkenningen"
 
 msgid "Open System Settings"
 msgstr "Systeeminstellingen openen"
+
+msgid "Open Teamwork"
+msgstr "Teamwork openen"
 
 msgid "Open terminal"
 msgstr "Terminal openen"
@@ -3363,6 +3894,9 @@ msgstr "Werkruimte openen…"
 msgid "Opening…"
 msgstr "Openen…"
 
+msgid "Operation failed"
+msgstr "Bewerking mislukt"
+
 msgid "Option shortcuts may prevent typing special characters"
 msgstr "Option-sneltoetsen kunnen het typen van speciale tekens blokkeren"
 
@@ -3380,6 +3914,12 @@ msgstr "Overig"
 
 msgid "Other ways to get Git"
 msgstr "Andere manieren om Git te krijgen"
+
+msgid "Outbound mail token"
+msgstr "Token voor uitgaande mail"
+
+msgid "Outcome uncertain. Retry with the same task settings."
+msgstr "Resultaat onzeker. Probeer opnieuw met dezelfde taakinstellingen."
 
 msgid "Outdated"
 msgstr "Verouderd"
@@ -3401,6 +3941,21 @@ msgstr "Pakket"
 
 msgid "Page Not Found"
 msgstr "Pagina niet gevonden"
+
+msgid "Pair device"
+msgstr "Apparaat koppelen"
+
+msgid "Pair this device"
+msgstr "Dit apparaat koppelen"
+
+msgid "Pairing code"
+msgstr "Koppelcode"
+
+msgid "Pairing failed. Check the code and try again."
+msgstr "Koppelen mislukt. Controleer de code en probeer opnieuw."
+
+msgid "Pairing…"
+msgstr "Koppelen…"
 
 msgid "Pane areas must belong to the same active workspace"
 msgstr "Deelvenstergebieden moeten tot dezelfde actieve werkruimte behoren"
@@ -3432,11 +3987,20 @@ msgstr "Pad gekopieerd"
 msgid "Pause"
 msgstr "Pauzeren"
 
+msgid "Pause automatic wake-ups"
+msgstr "Automatisch activeren pauzeren"
+
 msgid "Paused"
 msgstr "Gepauzeerd"
 
+msgid "Peer host ID"
+msgstr "Host-ID van peer"
+
 msgid "Pending"
 msgstr "In behandeling"
+
+msgid "Pending approvals and unread important faults"
+msgstr "Openstaande goedkeuringen en ongelezen belangrijke fouten"
 
 msgid "Permissions"
 msgstr "Machtigingen"
@@ -3465,6 +4029,12 @@ msgstr "Roze"
 msgid "Pinned"
 msgstr "Vastgezet"
 
+msgid "Pitfall"
+msgstr "Valkuil"
+
+msgid "Plain folder"
+msgstr "Gewone map"
+
 msgid "Please select a project directory."
 msgstr "Selecteer een projectmap."
 
@@ -3479,6 +4049,9 @@ msgstr "Opmerking op GitHub plaatsen?"
 
 msgid "Post reply to GitHub?"
 msgstr "Antwoord op GitHub plaatsen?"
+
+msgid "Preferences"
+msgstr "Voorkeuren"
 
 msgid "Prefix"
 msgstr "Prefix"
@@ -3528,8 +4101,14 @@ msgstr "Privéhost"
 msgid "Private host connections and application settings without a Jedv account."
 msgstr "Privéhostverbindingen en toepassingsinstellingen zonder een Jedv-account."
 
+msgid "Processed"
+msgstr "Afgehandeld"
+
 msgid "Processed tokens"
 msgstr "Verwerkte tokens"
+
+msgid "Processing"
+msgstr "Bezig met verwerken"
 
 msgid "Project"
 msgstr "Project"
@@ -3539,6 +4118,9 @@ msgstr "Projectmap"
 
 msgid "Project icon and color"
 msgstr "Projectpictogram en -kleur"
+
+msgid "Project memory"
+msgstr "Projectherinneringen"
 
 msgid "Project name"
 msgstr "Projectnaam"
@@ -3575,6 +4157,12 @@ msgstr "Prompttransport"
 
 msgid "Provider quota"
 msgstr "Providerquota"
+
+msgid "Provider token"
+msgstr "Providertoken"
+
+msgid "Provider tokens"
+msgstr "Providertokens"
 
 msgid "Pull request"
 msgstr "Pull request"
@@ -3658,14 +4246,26 @@ msgstr "Citaat"
 msgid "Reachable"
 msgstr "Bereikbaar"
 
+msgid "Read"
+msgstr "Gelezen"
+
 msgid "Read only"
 msgstr "Alleen-lezen"
+
+msgid "Read-only alert"
+msgstr "Waarschuwing alleen-lezen"
+
+msgid "Read, awaiting acknowledgement"
+msgstr "Gelezen, wacht op bevestiging"
 
 msgid "Reading local CLI logs…"
 msgstr "Lokale CLI-logboeken lezen…"
 
 msgid "Ready for review"
 msgstr "Klaar voor review"
+
+msgid "Reason (optional)"
+msgstr "Reden (optioneel)"
 
 msgid "Reasoning"
 msgstr "Redeneren"
@@ -3706,6 +4306,9 @@ msgstr "Rood"
 msgid "Refresh"
 msgstr "Vernieuwen"
 
+msgid "Refresh agents"
+msgstr "Agenten vernieuwen"
+
 msgid "Refresh capabilities"
 msgstr "Mogelijkheden vernieuwen"
 
@@ -3727,8 +4330,17 @@ msgstr "Sessies vernieuwen"
 msgid "Refresh status"
 msgstr "Status vernieuwen"
 
+msgid "Refresh teams"
+msgstr "Teams vernieuwen"
+
 msgid "Reject"
 msgstr "Afwijzen"
+
+msgid "Reject candidate"
+msgstr "Voorstel afwijzen"
+
+msgid "Reject candidate?"
+msgstr "Dit voorstel afwijzen?"
 
 msgid "Rejected"
 msgstr "Afgewezen"
@@ -3790,8 +4402,20 @@ msgstr "Icoon verwijderen"
 msgid "Remove link"
 msgstr "Link verwijderen"
 
+msgid "Remove memories"
+msgstr "Herinneringen verwijderen"
+
+msgid "Remove memory"
+msgstr "Herinnering verwijderen"
+
+msgid "Remove memory?"
+msgstr "Deze herinnering verwijderen?"
+
 msgid "Remove pasted text"
 msgstr "Geplakte tekst verwijderen"
+
+msgid "Remove peer"
+msgstr "Peer verwijderen"
 
 msgid "Remove project"
 msgstr "Project verwijderen"
@@ -3823,6 +4447,9 @@ msgstr "Branchnaam wijzigen"
 msgid "Rename session"
 msgstr "Sessienaam wijzigen"
 
+msgid "Rename team"
+msgstr "Team hernoemen"
+
 msgid "rename the branch"
 msgstr "de branch hernoemen"
 
@@ -3850,11 +4477,17 @@ msgstr "Vervangen"
 msgid "Replace All"
 msgstr "Alles vervangen"
 
+msgid "Replace an existing memory"
+msgstr "Bestaande herinnering vervangen"
+
 msgid "Replaced {replaced} files in {where}"
 msgstr "{replaced} bestanden vervangen in {where}"
 
 msgid "Replaced 1 file in {where}"
 msgstr "1 bestand vervangen in {where}"
+
+msgid "Replaces memory"
+msgstr "Vervangt herinnering"
 
 msgid "Reply"
 msgstr "Antwoorden"
@@ -3873,6 +4506,9 @@ msgstr "Repository-URL of pad"
 
 msgid "Request cancellation"
 msgstr "Annulering aanvragen"
+
+msgid "Request failed. Your draft has been kept."
+msgstr "Aanvraag mislukt. Je concept is bewaard."
 
 msgid "Requested permissions"
 msgstr "Aangevraagde machtigingen"
@@ -4007,6 +4643,9 @@ msgstr "Zet een native sessie voort. De sessie-ID wordt na deze argumenten toege
 msgid "Resume arguments"
 msgstr "Argumenten voor voortzetting"
 
+msgid "Resume automatic wake-ups"
+msgstr "Automatisch activeren hervatten"
+
 msgid "Resume same CLI session"
 msgstr "Dezelfde CLI-sessie hervatten"
 
@@ -4037,6 +4676,9 @@ msgstr "Probeer het over een paar seconden opnieuw; blijft het misgaan, herstart
 msgid "Retry in a few seconds."
 msgstr "Probeer het over een paar seconden opnieuw."
 
+msgid "Retry mail delivery?"
+msgstr "Mailbezorging opnieuw proberen?"
+
 msgid "Return to Save"
 msgstr "Terugkeren om op te slaan"
 
@@ -4064,11 +4706,23 @@ msgstr "Reviewthread bijgewerkt"
 msgid "Review threads could not be loaded"
 msgstr "Kan reviewthreads niet laden"
 
+msgid "Revoke all sessions"
+msgstr "Alle sessies intrekken"
+
+msgid "Revoke session"
+msgstr "Sessie intrekken"
+
+msgid "Revoke token"
+msgstr "Token intrekken"
+
 msgid "right pane"
 msgstr "rechterpaneel"
 
 msgid "Rocket"
 msgstr "Raket"
+
+msgid "Rotate inbound token"
+msgstr "Inkomend token vernieuwen"
 
 msgid "Run"
 msgstr "Uitvoeren"
@@ -4142,6 +4796,9 @@ msgstr "Opslaan"
 msgid "Save All"
 msgstr "Alles opslaan"
 
+msgid "Save API key"
+msgstr "API-sleutel opslaan"
+
 msgid "Save changes"
 msgstr "Wijzigingen opslaan"
 
@@ -4178,6 +4835,9 @@ msgstr "Sla niet-opgeslagen bestanden op of sluit ze en commit of negeer wijzigi
 msgid "Save preset"
 msgstr "Voorinstelling opslaan"
 
+msgid "Save team name"
+msgstr "Teamnaam opslaan"
+
 msgid "save the agent"
 msgstr "de agent opslaan"
 
@@ -4198,6 +4858,9 @@ msgstr "Opgeslagen"
 
 msgid "Saving a preset does not run its commands."
 msgstr "Het opslaan van een voorinstelling voert de bijbehorende opdrachten niet uit."
+
+msgid "Saving replaces the current entry and keeps its history."
+msgstr "Opslaan vervangt het huidige item en bewaart de geschiedenis."
 
 msgid "Saving…"
 msgstr "Opslaan…"
@@ -4231,8 +4894,14 @@ msgstr "Naar beneden scrollen"
 msgid "Search"
 msgstr "Zoeken"
 
+msgid "Search active memory…"
+msgstr "Actieve herinneringen doorzoeken…"
+
 msgid "Search active workspaces…"
 msgstr "Actieve werkruimtes zoeken…"
+
+msgid "Search agents…"
+msgstr "Agenten zoeken…"
 
 msgid "Search and open files in the current workspace"
 msgstr "Bestanden zoeken en openen in de huidige werkruimte"
@@ -4260,6 +4929,9 @@ msgstr "Bestanden zoeken..."
 
 msgid "Search fonts..."
 msgstr "Lettertypen zoeken..."
+
+msgid "Search memory"
+msgstr "Herinneringen doorzoeken"
 
 msgid "Search projects"
 msgstr "Projecten zoeken"
@@ -4369,6 +5041,9 @@ msgstr "Bereik kiezen..."
 msgid "Select repositories"
 msgstr "Repositories selecteren"
 
+msgid "Select workspace"
+msgstr "Werkruimte selecteren"
+
 msgid "Select worktree…"
 msgstr "Werkboom selecteren…"
 
@@ -4378,8 +5053,17 @@ msgstr "Geselecteerd"
 msgid "Send"
 msgstr "Versturen"
 
+msgid "Send instructions or ask the team…"
+msgstr "Stuur instructies of stel het team een vraag…"
+
+msgid "Send mail"
+msgstr "Mail verzenden"
+
 msgid "Send message"
 msgstr "Bericht versturen"
+
+msgid "Sending…"
+msgstr "Verzenden…"
 
 msgid "Sensitive values are hidden. This preview is incomplete."
 msgstr "Gevoelige waarden zijn verborgen. Dit voorbeeld is onvolledig."
@@ -4392,6 +5076,9 @@ msgstr "Sessie"
 
 msgid "Session ended"
 msgstr "Sessie beëindigd"
+
+msgid "Session expires {time}"
+msgstr "Sessie verloopt {time}"
 
 msgid "Session ID"
 msgstr "Sessie-ID"
@@ -4440,8 +5127,17 @@ msgstr "De voltooiingsstatus van de configuratie is niet beschikbaar voor deze w
 msgid "Shared"
 msgstr "Gedeeld"
 
+msgid "Shared memory"
+msgstr "Gedeelde herinneringen"
+
 msgid "Shift+click"
 msgstr "Shift+klik"
+
+msgid "Show"
+msgstr "Tonen"
+
+msgid "Show {hiddenCount} more"
+msgstr "Nog {hiddenCount} tonen"
 
 msgid "Show agent commands and pinned terminal presets above the workspace."
 msgstr "Toon agentopdrachten en vastgepinde terminalvoorinstellingen boven de werkruimte."
@@ -4460,6 +5156,9 @@ msgstr "Verborgen mappen tonen"
 
 msgid "Show hidden files"
 msgstr "Verborgen bestanden tonen"
+
+msgid "Show history"
+msgstr "Geschiedenis tonen"
 
 msgid "Show in folder"
 msgstr "Tonen in map"
@@ -4500,14 +5199,26 @@ msgstr "Werkruimteactiviteit weergeven"
 msgid "Showing the first 100 results. Refine your search."
 msgstr "De eerste 100 resultaten worden getoond. Verfijn uw zoekopdracht."
 
+msgid "Shown once. Copy before closing."
+msgstr "Wordt één keer getoond. Kopieer vóór het sluiten."
+
 msgid "Side by side"
 msgstr "Naast elkaar"
+
+msgid "Sidebar extensions"
+msgstr "Zijbalkextensies"
 
 msgid "Sidebar file rows"
 msgstr "Bestandsrijen in de zijbalk"
 
 msgid "Sign in to GitHub on this host to reply"
 msgstr "Meld je op deze host aan bij GitHub om te antwoorden"
+
+msgid "Sign out"
+msgstr "Afmelden"
+
+msgid "Signing out…"
+msgstr "Afmelden…"
 
 msgid "Size"
 msgstr "Grootte"
@@ -4535,6 +5246,9 @@ msgstr "Sommige projectboomacties konden niet worden geladen. Andere acties blij
 
 msgid "Some session details could not be loaded. Refresh to check the current host state."
 msgstr "Sommige sessiegegevens konden niet worden geladen. Vernieuw om de huidige hoststatus te controleren."
+
+msgid "Some team data could not be loaded. Check the host connection and retry."
+msgstr "Sommige teamgegevens konden niet worden geladen. Controleer de hostverbinding en probeer opnieuw."
 
 msgid "Some themes were skipped"
 msgstr "Sommige thema's zijn overgeslagen"
@@ -4620,6 +5334,9 @@ msgstr "Ster"
 msgid "Start a new agent, or choose an existing session from Sessions."
 msgstr "Start een nieuwe agent of kies een bestaande sessie onder Sessies."
 
+msgid "Start an agent in a workspace, then create a team."
+msgstr "Start een agent in een werkruimte en maak daarna een team."
+
 msgid "Start from a template"
 msgstr "Beginnen met een sjabloon"
 
@@ -4628,6 +5345,9 @@ msgstr "Nieuwe sessie starten"
 
 msgid "Start or stop the workspace run command"
 msgstr "Het run-commando van de werkruimte starten of stoppen"
+
+msgid "Start task"
+msgstr "Taak starten"
 
 msgid "starting"
 msgstr "starten"
@@ -4649,6 +5369,14 @@ msgstr "Status niet beschikbaar. Controleer deze machtiging in Systeeminstelling
 
 msgid "Stop"
 msgstr "Stoppen"
+
+#. placeholder {0}: member.name
+msgid "Stop {0}"
+msgstr "{0} stoppen"
+
+#. placeholder {0}: member.name
+msgid "Stop {0}?"
+msgstr "{0} stoppen?"
 
 msgid "Stop {label}"
 msgstr "{label} stoppen"
@@ -4677,8 +5405,20 @@ msgstr "Lokaal proces stoppen?"
 msgid "Stop response"
 msgstr "Antwoord stoppen"
 
+msgid "Stop team"
+msgstr "Team stoppen"
+
+msgid "Stop Team"
+msgstr "Team stoppen"
+
+msgid "Stop this team?"
+msgstr "Dit team stoppen?"
+
 msgid "stopped"
 msgstr "gestopt"
+
+msgid "Stopped"
+msgstr "Gestopt"
 
 msgid "Strict CLI resume is unavailable on this host. Active CLI and chat sessions remain selectable."
 msgstr "Strikte CLI-hervatting is niet beschikbaar op deze host. Actieve CLI- en chatsessies blijven selecteerbaar."
@@ -4691,6 +5431,9 @@ msgstr "Versturen"
 
 msgid "Submit response"
 msgstr "Antwoord verzenden"
+
+msgid "Succeeded"
+msgstr "Geslaagd"
 
 msgid "Summary"
 msgstr "Samenvatting"
@@ -4770,19 +5513,58 @@ msgstr "Naar werkruimte 9"
 msgid "System"
 msgstr "Systeem"
 
+msgid "System agents"
+msgstr "Systeemagenten"
+
 msgid "System permissions"
 msgstr "Systeemmachtigingen"
 
 msgid "Take control"
 msgstr "Besturing overnemen"
 
+msgid "Target"
+msgstr "Doel"
+
 #. placeholder {0}: context.hostLabel
 #. placeholder {0}: session.context.hostLabel
 msgid "Target host: {0}"
 msgstr "Doelhost: {0}"
 
+msgid "Task"
+msgstr "Taak"
+
 msgid "Teal"
 msgstr "Turquoise"
+
+msgid "Team"
+msgstr "Team"
+
+msgid "Team action failed"
+msgstr "Teamactie mislukt"
+
+msgid "Team leader"
+msgstr "Teamleider"
+
+msgid "Team mail"
+msgstr "Teammail"
+
+msgid "Team member needs attention"
+msgstr "Een teamlid heeft aandacht nodig"
+
+msgid "Team name"
+msgstr "Teamnaam"
+
+msgid "Team peers"
+msgstr "Teampeers"
+
+msgid "Team stopped"
+msgstr "Team gestopt"
+
+msgid "Teams"
+msgstr "Teams"
+
+msgid "Teamwork"
+msgstr "Teamwork"
 
 msgid "Teardown exited with code {exitCode}"
 msgstr "Teardown is afgesloten met code {exitCode}"
@@ -4820,6 +5602,9 @@ msgstr "Terminalsessies"
 msgid "Terminal typography"
 msgstr "Terminaltypografie"
 
+msgid "Terminal unavailable"
+msgstr "Terminal niet beschikbaar"
+
 msgid "Terminate"
 msgstr "Beëindigen"
 
@@ -4846,6 +5631,9 @@ msgstr "De actieve sessie is gewijzigd. De prompt is niet verzonden."
 
 msgid "The agent reports it is working."
 msgstr "De agent meldt dat hij bezig is."
+
+msgid "The approval status or target has changed. Refresh to verify, and request a new approval if needed."
+msgstr "De goedkeuringsstatus of het doel is gewijzigd. Vernieuw om dit te controleren en vraag zo nodig een nieuwe goedkeuring aan."
 
 msgid "The attachment copy result is incomplete. Check the workspace before retrying."
 msgstr "Het resultaat van het kopiëren van de bijlage is onvolledig. Controleer de werkruimte voordat u het opnieuw probeert."
@@ -4889,6 +5677,12 @@ msgstr "De Jedv-hostservice voor {organization} is onverwacht gestopt ({cause}) 
 msgid "The Jedv host service stopped unexpectedly ({cause}) and could not be restarted automatically."
 msgstr "De Jedv-hostservice is onverwacht gestopt ({cause}) en kon niet automatisch opnieuw worden gestart."
 
+msgid "The key stays on this host. It is never injected into terminals or returned to this screen."
+msgstr "De sleutel blijft op deze host. Deze wordt nooit in terminals geïnjecteerd of naar dit scherm teruggestuurd."
+
+msgid "The Leader terminal continues running."
+msgstr "De terminal van de leider blijft draaien."
+
 msgid "The linked local agent is unavailable on this host. Edit the preset or remove its agent link."
 msgstr "De gekoppelde lokale agent is niet beschikbaar op deze host. Bewerk de voorinstelling of verwijder de agentkoppeling."
 
@@ -4898,8 +5692,17 @@ msgstr "De lokale hostservice is niet beschikbaar voor {organization} op {device
 msgid "The operation result is unknown. Check the branch history and remote before retrying."
 msgstr "Het resultaat van de bewerking is onbekend. Controleer de branchgeschiedenis en de externe repository voordat u het opnieuw probeert."
 
+msgid "The original terminal has ended. Its source is shown instead."
+msgstr "De oorspronkelijke terminal is beëindigd. In plaats daarvan wordt de bron getoond."
+
 msgid "The page you're looking for doesn't exist."
 msgstr "De pagina die je zoekt bestaat niet."
+
+msgid "The pairing code expired or was already used. Request a new code on your computer."
+msgstr "De koppelcode is verlopen of al gebruikt. Vraag op je computer een nieuwe code aan."
+
+msgid "The previous token will stop working. Update the remote peer with the new token."
+msgstr "Het vorige token werkt niet meer. Werk de externe peer bij met het nieuwe token."
 
 msgid "The project is saved, but its workspace could not be opened. Continue opening to retry without creating another project."
 msgstr "Het project is opgeslagen, maar de bijbehorende werkruimte kon niet worden geopend. Ga door met openen om het opnieuw te proberen zonder een ander project te maken."
@@ -4912,6 +5715,15 @@ msgstr "De repositorymap ontbreekt op deze host. Open de repository op het huidi
 
 msgid "The request ended before its result was confirmed. Check the target host for a completed project or partial directory before trying again."
 msgstr "Het verzoek is beëindigd voordat het resultaat werd bevestigd. Controleer de doelhost op een voltooid project of een gedeeltelijke map voordat u het opnieuw probeert."
+
+msgid "The requested run is not in the loaded history."
+msgstr "Deze uitvoering staat niet in de geladen geschiedenis."
+
+msgid "The result is uncertain. Refresh before deciding again."
+msgstr "Het resultaat is onzeker. Vernieuw voordat je opnieuw beslist."
+
+msgid "The result is uncertain. Retry this message with the same request ID."
+msgstr "Het resultaat is onzeker. Probeer dit bericht opnieuw met dezelfde aanvraag-ID."
 
 msgid "The resumed session identity could not be verified. Refresh before retrying."
 msgstr "De identiteit van de hervatte sessie kon niet worden geverifieerd. Vernieuw voordat u het opnieuw probeert."
@@ -4961,6 +5773,9 @@ msgstr "De doelwerkruimte is gewijzigd. Ga terug naar de oorspronkelijke werkrui
 msgid "The target workspace changed. The result belongs to the original workspace."
 msgstr "De doelwerkruimte is gewijzigd. Het resultaat behoort tot de oorspronkelijke werkruimte."
 
+msgid "The team becomes read-only. Its workspaces, files and terminals are kept."
+msgstr "Het team wordt alleen-lezen. Werkruimtes, bestanden en terminals blijven behouden."
+
 msgid "The terminal session changed. Refresh before inserting the prompt."
 msgstr "De terminalsessie is gewijzigd. Vernieuw voordat u de prompt invoegt."
 
@@ -4999,6 +5814,9 @@ msgstr "Deze opmerkingen worden bij de toepassing geleverd. Gepubliceerde versie
 
 msgid "This action is irreversible."
 msgstr "Deze actie kan niet worden teruggedraaid."
+
+msgid "This agent is no longer available. Choose another leader."
+msgstr "Deze agent is niet meer beschikbaar. Kies een andere leider."
 
 msgid "This API login does not expose subscription quota."
 msgstr "Deze API-aanmelding geeft geen abonnementsquota vrij."
@@ -5051,8 +5869,14 @@ msgstr "Dit apparaat"
 msgid "this device ({id})"
 msgstr "dit apparaat ({id})"
 
+msgid "This device will need to pair again."
+msgstr "Dit apparaat moet opnieuw worden gekoppeld."
+
 msgid "This draft belongs to another session. Return to it or discard the draft before composing here."
 msgstr "Dit concept behoort tot een andere sessie. Ga terug naar die sessie of negeer het concept voordat u hier schrijft."
+
+msgid "This entry will no longer be searched or injected."
+msgstr "Dit item wordt niet meer doorzocht of geïnjecteerd."
 
 msgid "This file cannot be edited as text."
 msgstr "Dit bestand kan niet als tekst worden bewerkt."
@@ -5066,8 +5890,20 @@ msgstr "Dit bestand bevindt zich buiten de werkruimte of de symbolische koppelin
 msgid "This folder is not a Git repository. Initialize Git here and import it as a project? Existing files will be kept."
 msgstr "Deze map is geen Git-repository. Git hier initialiseren en als project importeren? Bestaande bestanden blijven behouden."
 
+msgid "This host"
+msgstr "Deze host"
+
+msgid "This host cannot start team tasks. Update the host or use an existing session."
+msgstr "Deze host kan geen teamtaken starten. Werk de host bij of gebruik een bestaande sessie."
+
 msgid "This host did not provide a readable preview. Review the request in the agent CLI before approving."
 msgstr "Deze host heeft geen leesbaar voorbeeld geleverd. Beoordeel het verzoek in de agent-CLI voordat u het goedkeurt."
+
+msgid "This host does not support plain folders. Update the host and retry."
+msgstr "Deze host ondersteunt geen gewone mappen. Werk de host bij en probeer opnieuw."
+
+msgid "This host does not support Teamwork. Update the host to use teams and mail."
+msgstr "Deze host ondersteunt Teamwork niet. Werk de host bij om teams en mail te gebruiken."
 
 msgid "This is a large file. Opening it may slow down the editor."
 msgstr "Dit is een groot bestand. Het openen ervan kan de editor vertragen."
@@ -5144,6 +5980,9 @@ msgstr "Deze sneltoets wordt toegewezen aan {0}. Deze acties worden niet meer to
 msgid "This stops {0} and its child processes. Unsaved work in the terminal can be lost."
 msgstr "Dit stopt {0} en de onderliggende processen. Niet-opgeslagen werk in de terminal kan verloren gaan."
 
+msgid "This stops all worker terminals and automatic wake-ups. The leader terminal remains open."
+msgstr "Dit stopt alle workerterminals en automatische activering. De terminal van de leider blijft open."
+
 msgid "This stops only the listed forwarding tunnels. Processes on the target host keep running."
 msgstr "Dit stopt alleen de vermelde doorstuurtunnels. Processen op de doelhost blijven actief."
 
@@ -5161,6 +6000,12 @@ msgstr "Dit stopt de processen die op de vermelde werkruimtepoorten luisteren."
 
 msgid "This stops the shell and all processes running in this terminal. Workspace files are kept. Unsaved process state may be lost."
 msgstr "Dit stopt de shell en alle processen in deze terminal. Werkruimtebestanden blijven behouden. Niet-opgeslagen processtatus kan verloren gaan."
+
+msgid "This stops the worker terminal and may interrupt its work."
+msgstr "Dit stopt de workerterminal en kan het werk onderbreken."
+
+msgid "This terminal has exited. Refresh the team to see its current status."
+msgstr "Deze terminal is afgesloten. Vernieuw het team om de huidige status te zien."
 
 msgid "This terminal is also open on a smaller screen, so it's sized to fit"
 msgstr "Deze terminal is ook open op een kleiner scherm en is daarom daarop afgestemd"
@@ -5189,14 +6034,23 @@ msgstr "Deze werkruimte kan in zijn huidige staat niet worden verwijderd."
 msgid "This workspace shares the project's files, index, and current branch. It does not switch branches or run setup."
 msgstr "Deze werkruimte deelt de bestanden, index en huidige branch van het project. Er wordt niet van branch gewisseld en geen configuratie uitgevoerd."
 
+msgid "This writes .jedv/memory.json on the target host and replaces the existing file."
+msgstr "Dit schrijft .jedv/memory.json op de doelhost en vervangt het bestaande bestand."
+
 msgid "Thursday"
 msgstr "Donderdag"
+
+msgid "Tier"
+msgstr "Niveau"
 
 msgid "Time unavailable"
 msgstr "Tijd niet beschikbaar"
 
 msgid "Time zone"
 msgstr "Tijdzone"
+
+msgid "Title"
+msgstr "Titel"
 
 msgid "To"
 msgstr "Naar"
@@ -5240,11 +6094,20 @@ msgstr "Te veel neergezette items. Voeg maximaal 5000 bestanden en mappen tegeli
 msgid "Too many files. Some were not added."
 msgstr "Te veel bestanden. Sommige zijn niet toegevoegd."
 
+msgid "Too many requests. Wait a moment and try again."
+msgstr "Te veel aanvragen. Wacht even en probeer opnieuw."
+
 msgid "Too many untitled items here already."
 msgstr "Er zijn hier al te veel naamloze items."
 
 msgid "Tool output"
 msgstr "Tooluitvoer"
+
+msgid "Tool records"
+msgstr "Gereedschapslogboeken"
+
+msgid "Total items: {count}"
+msgstr "Totaal aantal items: {count}"
 
 msgid "Transcribing"
 msgstr "Transcriberen"
@@ -5306,11 +6169,17 @@ msgstr "Kan dicteren niet starten"
 msgid "Unable to transcribe audio"
 msgstr "Kan audio niet transcriberen"
 
+msgid "Unacknowledged mail: {count}"
+msgstr "Onbevestigde mail: {count}"
+
 msgid "Unassigned"
 msgstr "Niet toegewezen"
 
 msgid "Unavailable"
 msgstr "Niet beschikbaar"
+
+msgid "Unavailable on this host"
+msgstr "Niet beschikbaar op deze host"
 
 msgid "Uncommitted"
 msgstr "Niet gecommit"
@@ -5342,6 +6211,9 @@ msgstr "Niet gegroepeerd"
 msgid "Unified diff"
 msgstr "Geünificeerde diff"
 
+msgid "Uninstall extension"
+msgstr "Extensie verwijderen"
+
 msgid "unknown"
 msgstr "onbekend"
 
@@ -5365,6 +6237,9 @@ msgstr "Niet-gepushte commits"
 
 msgid "Unreachable"
 msgstr "Onbereikbaar"
+
+msgid "Unread"
+msgstr "Ongelezen"
 
 msgid "Unread activity"
 msgstr "Ongelezen activiteit"
@@ -5468,6 +6343,9 @@ msgstr "“{0}” gebruiken"
 msgid "Use an existing repository at this location. Jedv changes the registered path and local checkout workspaces; it does not move files. Existing worktrees under the old repository may need to be imported again."
 msgstr "Gebruik een bestaande repository op deze locatie. Jedv wijzigt het geregistreerde pad en de lokale checkout-werkruimtes; het verplaatst geen bestanden. Bestaande werkbomen in de oude repository moeten mogelijk opnieuw worden geïmporteerd."
 
+msgid "Use an existing session"
+msgstr "Bestaande sessie gebruiken"
+
 msgid "Use another local port"
 msgstr "Gebruik een andere lokale poort"
 
@@ -5483,11 +6361,17 @@ msgstr "Gebruik de hoststandaard"
 msgid "Use Move to group to move workspaces between groups."
 msgstr "Gebruik Verplaatsen naar groep om werkruimtes tussen groepen te verplaatsen."
 
+msgid "Use provider.<id>. as the event type prefix."
+msgstr "Gebruik provider.<id>. als voorvoegsel voor het gebeurtenistype."
+
 msgid "Use the Jedv tray menu > Host Service > Restart, then retry."
 msgstr "Gebruik het Jedv-menu in de menubalk > Hostservice > Opnieuw starten en probeer het opnieuw."
 
 msgid "Use this device"
 msgstr "Dit apparaat gebruiken"
+
+msgid "Use this directory for terminals and files without initializing Git."
+msgstr "Gebruik deze map voor terminals en bestanden zonder Git te initialiseren."
 
 msgid "Use this folder"
 msgstr "Deze map gebruiken"
@@ -5517,8 +6401,14 @@ msgstr "Weergave"
 msgid "View license"
 msgstr "Licentie bekijken"
 
+msgid "View run"
+msgstr "Uitvoering bekijken"
+
 msgid "View source"
 msgstr "Bron weergeven"
+
+msgid "View team"
+msgstr "Team bekijken"
 
 msgid "Volume"
 msgstr "Volume"
@@ -5528,6 +6418,9 @@ msgstr "VS Code"
 
 msgid "Wait for workspace setup before starting an agent"
 msgstr "Wacht op de voltooiing van de werkruimteconfiguratie voordat u een agent start"
+
+msgid "Waiting for agent status"
+msgstr "Wachten op agentstatus"
 
 msgid "Waiting for approval"
 msgstr "Wachten op goedkeuring"
@@ -5559,11 +6452,23 @@ msgstr "Wekelijks om {time}"
 msgid "Welcome to Jedv"
 msgstr "Welkom bij Jedv"
 
+msgid "What should the team accomplish?"
+msgstr "Wat moet het team bereiken?"
+
 msgid "What would you like to know?"
 msgstr "Wat wil je weten?"
 
+msgid "Whole team"
+msgstr "Hele team"
+
 msgid "Window"
 msgstr "Venster"
+
+msgid "Without a key, teams, mail, active memory and rule alerts remain available."
+msgstr "Zonder sleutel blijven teams, mail, actieve herinneringen en regelwaarschuwingen beschikbaar."
+
+msgid "Worker"
+msgstr "Worker"
 
 msgid "Working"
 msgstr "Bezig"
@@ -5625,6 +6530,9 @@ msgstr "De werkruimteconfiguratie is nog bezig."
 msgid "Workspace state changed. Review the updated checks and confirm again."
 msgstr "De werkruimtestatus is gewijzigd. Controleer de bijgewerkte controles en bevestig opnieuw."
 
+msgid "Workspace unavailable"
+msgstr "Werkruimte niet beschikbaar"
+
 msgid "Workspaces"
 msgstr "Werkruimtes"
 
@@ -5672,6 +6580,12 @@ msgstr "Jouw wijzigingen"
 
 msgid "Your imports are saved. Could not refresh or open them. Try continuing again."
 msgstr "Uw imports zijn opgeslagen. Kon ze niet vernieuwen of openen. Probeer opnieuw door te gaan."
+
+msgid "Your request was refused. Refresh your session and try again."
+msgstr "Je aanvraag is geweigerd. Vernieuw je sessie en probeer opnieuw."
+
+msgid "Your session expired. Pair this device again."
+msgstr "Je sessie is verlopen. Koppel dit apparaat opnieuw."
 
 msgid "Zap"
 msgstr "Bliksem"

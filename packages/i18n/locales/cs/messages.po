@@ -64,6 +64,9 @@ msgstr "{0}: běžící terminály: {1}, běžící agenti: {2}"
 msgid "{approvals} approvals"
 msgstr "{approvals} schválení"
 
+msgid "{attention} need attention"
+msgstr "Vyžaduje pozornost: {attention}"
+
 msgid "{completed} finished"
 msgstr "{completed} dokončeno"
 
@@ -90,6 +93,9 @@ msgstr "{count, plural, one {Každý # týden, {day}} few {Každé # týdny, {da
 
 msgid "{count} files are over {limit} and were not added"
 msgstr "Soubory nad {limit} nebyly přidány: {count}"
+
+msgid "{count} important items"
+msgstr "Důležité položky: {count}"
 
 msgid "{currentPage} of {totalBranches}"
 msgstr "{currentPage} z {totalBranches}"
@@ -204,8 +210,21 @@ msgstr "O aplikaci {displayName}"
 msgid "Accept"
 msgstr "Přijmout"
 
+msgid "Accept candidate"
+msgstr "Přijmout návrh"
+
+msgid "Accept global memory"
+msgstr "Přijmout globální paměť"
+
 msgid "Accessibility"
 msgstr "Zpřístupnění"
+
+#. placeholder {0}: name(delivery.recipientMemberId)
+msgid "Acknowledge mail to {0}"
+msgstr "Potvrdit zprávu pro {0}"
+
+msgid "Acknowledged"
+msgstr "Potvrzeno"
 
 msgid "Actions"
 msgstr "Akce"
@@ -215,6 +234,9 @@ msgstr "Aktivní"
 
 msgid "Active CLI sessions"
 msgstr "Aktivní relace CLI"
+
+msgid "Active items: {count}"
+msgstr "Aktivní položky: {count}"
 
 msgid "Active workspaces"
 msgstr "Aktivní pracovní prostory"
@@ -245,6 +267,12 @@ msgstr "Přidat soubory, aplikace a další"
 
 msgid "Add files, apps, and more (@)"
 msgstr "Přidat soubory, aplikace a další (@)"
+
+msgid "Add memory"
+msgstr "Přidat paměť"
+
+msgid "Add peer"
+msgstr "Přidat protějšek"
 
 msgid "Add photos or files"
 msgstr "Přidat fotky nebo soubory"
@@ -327,6 +355,9 @@ msgstr "Ostrov agentů"
 msgid "Agent launch is waiting for setup"
 msgstr "Spuštění agenta čeká na přípravu"
 
+msgid "Agent may be stalled"
+msgstr "Agent může být zaseknutý"
+
 msgid "Agent saved, but linked presets could not be updated."
 msgstr "Agent byl uložen, ale propojené předvolby se nepodařilo aktualizovat."
 
@@ -347,6 +378,9 @@ msgstr "Agenti"
 
 msgid "AI chatbot built with Next.js and the AI SDK"
 msgstr "AI chatbot vytvořený pomocí Next.js a AI SDK"
+
+msgid "Alerts"
+msgstr "Upozornění"
 
 #. placeholder {0}: cmd.aliases.map((alias) => `/${alias}`).join(", ")
 msgid "aliases: {0}"
@@ -390,6 +424,9 @@ msgstr "Již otevřeno"
 
 msgid "Also delete local branch"
 msgstr "Smazat i lokální větev"
+
+msgid "An automation did not complete. Inspect its run on your computer."
+msgstr "Automatizace nebyla dokončena. Zkontrolujte její běh na počítači."
 
 msgid "An update is ready to install."
 msgstr "Aktualizace je připravena k instalaci."
@@ -449,6 +486,9 @@ msgstr "Platí pro adresy URL v náhledech Markdownu a výstupu terminálu."
 msgid "Apply"
 msgstr "Použít"
 
+msgid "Approval execution failed. Check the target before trying again."
+msgstr "Provedení schválení selhalo. Před dalším pokusem zkontrolujte cíl."
+
 msgid "Approval expired"
 msgstr "Schválení vypršelo"
 
@@ -467,8 +507,32 @@ msgstr "Vyžaduje se schválení"
 msgid "Approval response sent"
 msgstr "Odpověď na schválení odeslána"
 
+msgid "Approvals"
+msgstr "Schválení"
+
+msgid "Approve"
+msgstr "Schválit"
+
 msgid "Approved"
 msgstr "Schváleno"
+
+msgid "Archival"
+msgstr "Archiv"
+
+msgid "Archive team"
+msgstr "Archivovat tým"
+
+msgid "Archive this team?"
+msgstr "Archivovat tento tým?"
+
+msgid "Archive Workspace"
+msgstr "Archivovat pracovní prostor"
+
+msgid "Archived"
+msgstr "Archivováno"
+
+msgid "Archived team · read-only"
+msgstr "Archivovaný tým · jen pro čtení"
 
 msgid "Are you sure you want to quit?"
 msgstr "Opravdu chcete aplikaci ukončit?"
@@ -479,11 +543,23 @@ msgstr "Zeptat se před ukončením aplikace."
 msgid "Ask before terminating a terminal with a running process. Closing a view keeps its session running."
 msgstr "Před ukončením terminálu s běžícím procesem se zeptat. Zavření zobrazení ponechá relaci spuštěnou."
 
+msgid "Ask Butler"
+msgstr "Zeptat se Butlera"
+
+msgid "Ask Butler about your teams, alerts or automations."
+msgstr "Zeptejte se Butler na týmy, upozornění nebo automatizace."
+
+msgid "Ask Butler…"
+msgstr "Zeptat se Butler…"
+
 msgid "Ask to make changes, @mention files"
 msgstr "Požádejte o provedení změn a označte soubory pomocí @"
 
 msgid "Ask to make changes, @mention files, run /commands"
 msgstr "Požádejte o změny, zmiňte soubory přes @, spouštějte /commands"
+
+msgid "Associated provider tokens will be revoked."
+msgstr "Přidružené tokeny poskytovatelů budou odvolány."
 
 msgid "Attach"
 msgstr "Připojit"
@@ -513,6 +589,9 @@ msgstr "náhled přílohy"
 
 msgid "Attachments are available for local workspaces only."
 msgstr "Přílohy jsou dostupné pouze pro místní pracovní prostory."
+
+msgid "Attention is unavailable. Refresh or update the host."
+msgstr "Položky vyžadující pozornost nejsou dostupné. Obnovte stránku nebo aktualizujte hostitele."
 
 msgid "Audio"
 msgstr "Zvuk"
@@ -550,6 +629,9 @@ msgstr "Akce automatizace"
 msgid "Automation deleted"
 msgstr "Automatizace smazána"
 
+msgid "Automation did not finish"
+msgstr "Automatizace neskončila"
+
 msgid "Automation enabled"
 msgstr "Automatizace povolena"
 
@@ -577,11 +659,17 @@ msgstr "Čeká se na odpověď"
 msgid "Awaiting Response · {workspaceName}"
 msgstr "Čeká na odpověď · {workspaceName}"
 
+msgid "Awaiting review"
+msgstr "Čeká na kontrolu"
+
 msgid "Back"
 msgstr "Zpět"
 
 msgid "Back to automations"
 msgstr "Zpět na automatizace"
+
+msgid "Back to current conversation"
+msgstr "Zpět k aktuální konverzaci"
 
 msgid "Background processes"
 msgstr "Procesy na pozadí"
@@ -651,6 +739,12 @@ msgstr "Odrážkový seznam"
 msgid "Bulleted list"
 msgstr "Odrážkový seznam"
 
+msgid "Butler"
+msgstr "Butler"
+
+msgid "Butler is unavailable. Status and Inbox still work."
+msgstr "Butler není dostupný. Stav a doručená pošta stále fungují."
+
 msgid "Cached input"
 msgstr "Vstup z cache"
 
@@ -669,14 +763,23 @@ msgstr "Zrušení požádá cílového hostitele o zastavení. Před opakování
 msgid "Cancelled"
 msgstr "Zrušeno"
 
+msgid "Candidate"
+msgstr "Návrh"
+
 msgid "Cannot {action}: no active organization is selected. Select an organization or sign in again."
 msgstr "Nelze {action}: není vybraná žádná aktivní organizace. Vyberte organizaci nebo se znovu přihlaste."
 
 msgid "Cannot {action}: the local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
 msgstr "Nelze {action}: místní host service není dostupná pro {organization} na {device}. Stav: {status}. {recovery}"
 
+msgid "Category"
+msgstr "Kategorie"
+
 msgid "Change location…"
 msgstr "Změnit umístění…"
+
+msgid "Change mobile address?"
+msgstr "Změnit mobilní adresu?"
 
 msgid "Change project icon and color"
 msgstr "Změnit ikonu a barvu projektu"
@@ -695,6 +798,9 @@ msgstr "Změny byly zahozeny"
 
 msgid "Changes requested"
 msgstr "Vyžádány změny"
+
+msgid "Changing or clearing this address signs out all paired devices."
+msgstr "Změna nebo vymazání této adresy odhlásí všechna spárovaná zařízení."
 
 msgid "Changing this location affects new worktrees. Existing folders are not moved."
 msgstr "Změna tohoto umístění ovlivní nové pracovní stromy. Stávající složky se nepřesouvají."
@@ -777,6 +883,9 @@ msgstr "Vyberte projekt nebo pracovní prostor"
 msgid "Choose a project to start working."
 msgstr "Začněte pracovat výběrem projektu."
 
+msgid "Choose a running agent as leader to start collaborating."
+msgstr "Vyberte běžícího agenta jako vedoucího a začněte spolupracovat."
+
 msgid "Choose a saved screenshot to attach. Files are copied only when you submit the prompt."
 msgstr "Vyberte uložený snímek obrazovky, který chcete připojit. Soubory se zkopírují až při odeslání promptu."
 
@@ -800,6 +909,12 @@ msgstr "Vyberte zvuky a hlasitost oznámení."
 
 msgid "Clear"
 msgstr "Čirý"
+
+msgid "Clear API key"
+msgstr "Vymazat API klíč"
+
+msgid "Clear API key?"
+msgstr "Vymazat API klíč?"
 
 msgid "Clear saved screenshots?"
 msgstr "Vymazat uložené snímky obrazovky?"
@@ -955,6 +1070,9 @@ msgstr "Sbalit vše"
 msgid "Collapse All"
 msgstr "Sbalit vše"
 
+msgid "Collapse message"
+msgstr "Sbalit zprávu"
+
 msgid "Color"
 msgstr "Barva"
 
@@ -1031,14 +1149,32 @@ msgstr "Nastavit"
 msgid "Configure agent commands for the connected host."
 msgstr "Konfigurujte příkazy agentů pro připojeného hosta."
 
+msgid "Configured"
+msgstr "Nastaveno"
+
 msgid "Confirm"
 msgstr "Potvrdit"
+
+msgid "Confirm archive"
+msgstr "Potvrdit archivaci"
 
 msgid "Confirm before closing a running terminal"
 msgstr "Před zavřením běžícího terminálu vyžadovat potvrzení"
 
 msgid "Confirm before quitting"
 msgstr "Potvrdit před ukončením"
+
+msgid "Confirm global memory adoption"
+msgstr "Potvrdit přijetí globální paměti"
+
+msgid "Confirm memory removal"
+msgstr "Potvrdit odebrání paměti"
+
+msgid "Confirm receipt"
+msgstr "Potvrdit přijetí"
+
+msgid "Confirm stop"
+msgstr "Potvrdit zastavení"
 
 msgid "Connect"
 msgstr "Připojit"
@@ -1063,6 +1199,12 @@ msgstr "Připojený host"
 
 msgid "Connecting…"
 msgstr "Připojuji…"
+
+msgid "Content"
+msgstr "Obsah"
+
+msgid "Context"
+msgstr "Kontext"
 
 msgid "Continue"
 msgstr "Pokračovat"
@@ -1102,6 +1244,15 @@ msgstr "Tuto relaci vlastní řízení"
 
 msgid "Control shortcuts on macOS are reserved for terminal programs."
 msgstr "Klávesové zkratky řízení jsou v macOS vyhrazeny pro terminálové programy."
+
+msgid "Convention"
+msgstr "Konvence"
+
+msgid "Conversation state is unavailable. Refresh or update the host."
+msgstr "Stav konverzace není dostupný. Obnovte stránku nebo aktualizujte hostitele."
+
+msgid "Conversations"
+msgstr "Konverzace"
 
 msgid "Convert to config.toml"
 msgstr "Převést na config.toml"
@@ -1179,6 +1330,15 @@ msgstr "Kopírovat ID pracovního prostoru"
 msgid "Copy..."
 msgstr "Kopírovat…"
 
+msgid "Core"
+msgstr "Základní"
+
+msgid "Core injection: {budget} characters in this scope, 4800 total. Candidates are excluded."
+msgstr "Vkládání základní paměti: {budget} znaků v tomto rozsahu, celkem 4800. Návrhy jsou vyloučeny."
+
+msgid "Correction"
+msgstr "Oprava"
+
 msgid "Costs are estimates based on API list rates, not a bill or actual subscription spending. Unknown models use approximate rates."
 msgstr "Náklady jsou odhady podle ceníkových sazeb API, ne účet ani skutečné výdaje za předplatné. U neznámých modelů se používají přibližné sazby."
 
@@ -1199,6 +1359,9 @@ msgstr "Výsledek na cílovém hostiteli se nepodařilo potvrdit. Zkontrolujte p
 
 msgid "Could not confirm this session. Refresh before retrying."
 msgstr "Tuto relaci se nepodařilo potvrdit. Před dalším pokusem obnovte údaje."
+
+msgid "Could not create team. Refresh the agents and retry."
+msgstr "Tým se nepodařilo vytvořit. Obnovte agenty a zkuste to znovu."
 
 msgid "Could not create workspace. Check the target host and retry."
 msgstr "Pracovní prostor se nepodařilo vytvořit. Zkontrolujte cílového hostitele a zkuste to znovu."
@@ -1227,6 +1390,9 @@ msgstr "Tento pracovní prostor se nepodařilo zkontrolovat. Před jeho odstran�
 msgid "Could not list repositories. Check gh authentication on the target host, or enter a URL below."
 msgstr "Repozitáře se nepodařilo vypsat. Zkontrolujte ověření gh na cílovém hostiteli nebo níže zadejte adresu URL."
 
+msgid "Could not load agents"
+msgstr "Agenty se nepodařilo načíst"
+
 msgid "Could not load branches from the target host."
 msgstr "Větve z cílového hostitele se nepodařilo načíst."
 
@@ -1242,8 +1408,14 @@ msgstr "Nastavení projektu z cílového hostitele se nepodařilo načíst."
 msgid "Could not load pull requests. Check gh access on the target host."
 msgstr "Pull requesty se nepodařilo načíst. Zkontrolujte přístup gh na cílovém hostiteli."
 
+msgid "Could not load Teamwork. Check the host connection and retry."
+msgstr "Teamwork se nepodařilo načíst. Zkontrolujte připojení k hostiteli a zkuste to znovu."
+
 msgid "Could not load workspace status. Check the target host and try again."
 msgstr "Stav pracovního prostoru se nepodařilo načíst. Zkontrolujte cílového hostitele a zkuste to znovu."
+
+msgid "Could not open terminal"
+msgstr "Terminál se nepodařilo otevřít"
 
 msgid "Could not open this workspace. Check the target host and try again."
 msgstr "Tento pracovní prostor se nepodařilo otevřít. Zkontrolujte cílového hostitele a zkuste to znovu."
@@ -1272,6 +1444,9 @@ msgstr "Tento adresář se nepodařilo přečíst. Zkontrolujte cestu a oprávn�
 msgid "Could not read worktrees from the target host."
 msgstr "Pracovní stromy z cílového hostitele se nepodařilo přečíst."
 
+msgid "Could not refresh. Showing the last loaded information."
+msgstr "Obnovení se nezdařilo. Zobrazují se poslední načtené informace."
+
 msgid "Could not rename project. Try again."
 msgstr "Projekt se nepodařilo přejmenovat. Zkuste to znovu."
 
@@ -1286,6 +1461,9 @@ msgstr "Ikonu se nepodařilo vykreslit"
 
 msgid "Could not render image"
 msgstr "Obrázek se nepodařilo vykreslit"
+
+msgid "Could not save memory. Your draft is kept."
+msgstr "Paměť se nepodařilo uložit. Koncept zůstává zachován."
 
 msgid "Could not save the group. Your draft is kept."
 msgstr "Skupinu se nepodařilo uložit. Váš koncept zůstal zachovaný."
@@ -1311,8 +1489,14 @@ msgstr "Váš postup se nepodařilo uložit. Zkuste to znovu."
 msgid "Could not select a project directory."
 msgstr "Adresář projektu se nepodařilo vybrat."
 
+msgid "Could not send mail. Your draft is kept for retry."
+msgstr "Zprávu se nepodařilo odeslat. Koncept je uložen pro další pokus."
+
 msgid "Could not set icon"
 msgstr "Nepodařilo se nastavit ikonu"
+
+msgid "Could not sign out. Reconnect and try again."
+msgstr "Odhlášení se nezdařilo. Připojte se znovu a opakujte pokus."
 
 msgid "Could not stop a listening process. Earlier successful stops are kept."
 msgstr "Naslouchající proces se nepodařilo zastavit. Dřívější úspěšná zastavení zůstávají zachovaná."
@@ -1320,11 +1504,20 @@ msgstr "Naslouchající proces se nepodařilo zastavit. Dřívější úspěšn�
 msgid "Could not stop it"
 msgstr "Nepodařilo se ho zastavit"
 
+msgid "Could not update DeepSeek settings. Check the host and retry."
+msgstr "Nastavení DeepSeek se nepodařilo aktualizovat. Zkontrolujte hostitele a zkuste to znovu."
+
+msgid "Could not update mail"
+msgstr "Zprávu se nepodařilo aktualizovat"
+
 msgid "Could not update the project tree. Try again."
 msgstr "Strom projektu se nepodařilo aktualizovat. Zkuste to znovu."
 
 msgid "Could not update the removed project. Check its status before retrying."
 msgstr "Odebraný projekt se nepodařilo aktualizovat. Před dalším pokusem zkontrolujte jeho stav."
+
+msgid "Could not update this item. Refresh to check its status."
+msgstr "Tuto položku nelze aktualizovat. Obnovte stránku a ověřte její stav."
 
 msgid "Could not update workspace. Try again."
 msgstr "Pracovní prostor se nepodařilo aktualizovat. Zkuste to znovu."
@@ -1337,6 +1530,9 @@ msgstr "Nepodařilo se uložit. Upravte pole nebo klikněte jinam a zkuste to zn
 
 msgid "Couldn't save. Retrying…"
 msgstr "Nepodařilo se uložit. Zkouším znovu…"
+
+msgid "Create"
+msgstr "Vytvořit"
 
 msgid "Create a blank folder and initialize it as a Git repository."
 msgstr "Vytvořte prázdnou složku a inicializujte ji jako repozitář Git."
@@ -1362,11 +1558,17 @@ msgstr "Vytvořit PR"
 msgid "Create project"
 msgstr "Vytvořit projekt"
 
+msgid "Create provider token"
+msgstr "Vytvořit token poskytovatele"
+
 msgid "Create pull request"
 msgstr "Vytvořit pull request"
 
 msgid "Create pull request on GitHub?"
 msgstr "Vytvořit pull request na GitHubu?"
+
+msgid "Create team"
+msgstr "Vytvořit tým"
 
 msgid "create the project"
 msgstr "vytvořit projekt"
@@ -1471,8 +1673,20 @@ msgstr "Tmavý"
 msgid "Dark theme"
 msgstr "Tmavý motiv"
 
+msgid "Declarative extensions"
+msgstr "Deklarativní rozšíření"
+
 msgid "Decline"
 msgstr "Odmítnout"
+
+msgid "DeepSeek API Key"
+msgstr "API klíč DeepSeek"
+
+msgid "DeepSeek for Butler and memory extraction."
+msgstr "DeepSeek pro Butler a získávání paměti."
+
+msgid "DeepSeek is not configured. Status and Inbox still work."
+msgstr "DeepSeek není nastaven. Stav a doručená pošta stále fungují."
 
 msgid "default"
 msgstr "výchozí"
@@ -1537,6 +1751,18 @@ msgstr "Odstraněné relace nelze obnovit."
 msgid "Deleting…"
 msgstr "Mažu…"
 
+msgid "Delivered"
+msgstr "Doručeno"
+
+msgid "Delivered means the remote host stored the mail, not that a recipient read or acknowledged it."
+msgstr "Doručeno znamená, že vzdálený hostitel zprávu uložil, nikoli že ji příjemce přečetl nebo potvrdil její zpracování."
+
+msgid "Describe a goal to start a new task."
+msgstr "Popište cíl a začněte nový úkol."
+
+msgid "Describe the task…"
+msgstr "Popište úkol…"
+
 msgid "Describe what the agent should do…"
 msgstr "Popište, co má agent udělat…"
 
@@ -1561,6 +1787,12 @@ msgstr "Podrobnosti"
 msgid "Detect workspaces from other tools"
 msgstr "Zjistit pracovní prostory z jiných nástrojů"
 
+msgid "Device"
+msgstr "Zařízení"
+
+msgid "Device name"
+msgstr "Název zařízení"
+
 msgid "Diagnostics"
 msgstr "Diagnostika"
 
@@ -1578,6 +1810,9 @@ msgstr "rozdíl na nové kartě"
 
 msgid "Directory path"
 msgstr "Cesta k adresáři"
+
+msgid "Disabled"
+msgstr "Zakázáno"
 
 msgid "Discard"
 msgstr "Zahodit"
@@ -1638,6 +1873,9 @@ msgstr "Dokumentace"
 msgid "Done"
 msgstr "Hotovo"
 
+msgid "Download JSON"
+msgstr "Stáhnout JSON"
+
 msgid "Download starter"
 msgstr "Stáhnout základ"
 
@@ -1683,6 +1921,12 @@ msgstr "Upravit"
 msgid "Edit group"
 msgstr "Upravit skupinu"
 
+msgid "Edit memory"
+msgstr "Upravit paměť"
+
+msgid "Edit peer"
+msgstr "Upravit protějšek"
+
 msgid "Edit shared setup, run and teardown commands, or personal overrides. Saving does not execute commands."
 msgstr "Upravte sdílené příkazy pro přípravu, spuštění a uklizení nebo osobní přepsání. Uložení příkazy nespustí."
 
@@ -1698,8 +1942,14 @@ msgstr "Editor a pracovní postup"
 msgid "Editor typography"
 msgstr "Typografie editoru"
 
+msgid "Effort"
+msgstr "Úroveň uvažování"
+
 msgid "Enable"
 msgstr "Povolit"
+
+msgid "Enabled"
+msgstr "Povoleno"
 
 msgid "Endpoint"
 msgstr "Koncový bod"
@@ -1709,6 +1959,9 @@ msgstr "Zadejte příkaz."
 
 msgid "Enter a group name of 1 to 64 characters."
 msgstr "Zadejte název skupiny o délce 1 až 64 znaků."
+
+msgid "Enter a new API key to replace it"
+msgstr "Zadejte nový API klíč pro nahrazení"
 
 msgid "Enter a project name and location."
 msgstr "Zadejte název a umístění projektu."
@@ -1731,6 +1984,9 @@ msgstr "Zadejte absolutní cestu k adresáři na cílovém hostiteli."
 msgid "Enter an agent name."
 msgstr "Zadejte název agenta."
 
+msgid "Enter the pairing code shown in Jedv on your computer."
+msgstr "Zadejte párovací kód zobrazený v Jedv na počítači."
+
 msgid "Enter URL..."
 msgstr "Zadejte URL..."
 
@@ -1746,6 +2002,9 @@ msgstr "Vyrovnat rozdělení panelů"
 msgid "Estimated cost"
 msgstr "Odhadované náklady"
 
+msgid "Event type prefix"
+msgstr "Předpona typu události"
+
 msgid "Every {day}"
 msgstr "Každý týden: {day}"
 
@@ -1754,6 +2013,9 @@ msgstr "Každý týden: {day} v {time}"
 
 msgid "Every minute"
 msgstr "Každou minutu"
+
+msgid "Executed"
+msgstr "Provedeno"
 
 msgid "Execution mode"
 msgstr "Režim spouštění"
@@ -1788,14 +2050,38 @@ msgstr "Rozbalit"
 msgid "Expand all"
 msgstr "Rozbalit vše"
 
+msgid "Expand message"
+msgstr "Rozbalit zprávu"
+
 msgid "Expand pane area"
 msgstr "Rozšířit oblast podokna"
 
 msgid "Expand the right pane to fill the window, or restore it"
 msgstr "Roztáhnout pravý panel na celé okno, nebo ho obnovit"
 
+msgid "Expired"
+msgstr "Platnost vypršela"
+
+msgid "Expired {time}"
+msgstr "Platnost vypršela {time}"
+
+msgid "Expires {time}"
+msgstr "Platnost vyprší {time}"
+
+msgid "Export memory"
+msgstr "Exportovat paměť"
+
+msgid "Export project memory?"
+msgstr "Exportovat paměť projektu?"
+
 msgid "Export theme"
 msgstr "Exportovat motiv"
+
+msgid "Export to .jedv/memory.json"
+msgstr "Exportovat do .jedv/memory.json"
+
+msgid "Extensions display data and can receive narrowly scoped mail."
+msgstr "Rozšíření zobrazují data a mohou přijímat poštu s omezenými oprávněními."
 
 msgid "external browser"
 msgstr "externí prohlížeč"
@@ -1808,6 +2094,9 @@ msgstr "Externí editory otevírají soubory pouze na tomto počítači"
 
 msgid "Failed"
 msgstr "Selhalo"
+
+msgid "Failed runs: {activeCount}"
+msgstr "Neúspěšná spuštění: {activeCount}"
 
 msgid "Failed to add {failed} files"
 msgstr "Nepodařilo se přidat {failed} souborů"
@@ -1937,6 +2226,9 @@ msgstr "Odkazy na soubory"
 
 msgid "File not found"
 msgstr "Soubor nenalezen"
+
+msgid "File path on target host"
+msgstr "Cesta k souboru na cílovém hostiteli"
 
 msgid "File tree limit reached. Search files to open an unloaded path."
 msgstr "Byl dosažen limit stromu souborů. Chcete-li otevřít nenačtenou cestu, vyhledejte soubory."
@@ -2097,6 +2389,9 @@ msgstr "Pátek"
 msgid "From"
 msgstr "Z"
 
+msgid "From the task’s first sentence"
+msgstr "Z první věty úkolu"
+
 msgid "Front matter hidden. Switch to the Markdown view to edit it"
 msgstr "Front matter je skrytý. Pro úpravy přepněte na zobrazení Markdown"
 
@@ -2127,6 +2422,9 @@ msgstr "Autor v Gitu"
 msgid "Git author name"
 msgstr "Jméno autora v Gitu"
 
+msgid "Git features are unavailable here. Terminals and files remain available."
+msgstr "Funkce Git zde nejsou dostupné. Terminály a soubory zůstávají dostupné."
+
 msgid "GitHub authentication failed. Sign in with gh on this host, then refresh."
 msgstr "Ověření GitHubu selhalo. Přihlaste se na tomto hostu pomocí gh a pak obsah obnovte."
 
@@ -2141,6 +2439,9 @@ msgstr "Bylo dosaženo limitu požadavků GitHubu. Odkazy na pull requesty mohou
 
 msgid "GitHub username"
 msgstr "GitHub uživatelské jméno"
+
+msgid "Global"
+msgstr "Globální"
 
 msgid "Globe"
 msgstr "Zeměkoule"
@@ -2187,6 +2488,9 @@ msgstr "Řídí názvy pracovních prostorů a větví generované AI pro tento 
 msgid "Handle in terminal"
 msgstr "Zpracovat v terminálu"
 
+msgid "Handled"
+msgstr "Vyřízeno"
+
 msgid "Has uncommitted changes"
 msgstr "Obsahuje necommitnuté změny"
 
@@ -2211,11 +2515,17 @@ msgstr "Srdce"
 msgid "Help"
 msgstr "Nápověda"
 
+msgid "Hide"
+msgstr "Skrýt"
+
 msgid "Hide {displayName}"
 msgstr "Skrýt {displayName}"
 
 msgid "Hide details"
 msgstr "Skrýt podrobnosti"
+
+msgid "Hide history"
+msgstr "Skrýt historii"
 
 msgid "Hide workspace activity"
 msgstr "Skrýt aktivitu pracovního prostoru"
@@ -2235,6 +2545,9 @@ msgstr "Připojení k hostiteli není dostupné"
 msgid "Host is offline"
 msgstr "Host je offline"
 
+msgid "Host offline. Team actions are unavailable until the connection is restored."
+msgstr "Hostitel je offline. Akce týmu budou dostupné po obnovení připojení."
+
 msgid "Host Service"
 msgstr "Host Service"
 
@@ -2250,8 +2563,14 @@ msgstr "Host service není dostupná"
 msgid "Hourly"
 msgstr "Každou hodinu"
 
+msgid "HTTPS address"
+msgstr "Adresa HTTPS"
+
 msgid "https://github.com/owner/repo.git or /path/to/repo"
 msgstr "https://github.com/owner/repo.git nebo /cesta/k/repo"
+
+msgid "Human"
+msgstr "Člověk"
 
 msgid "I checked the attachments"
 msgstr "Přílohy jsem zkontroloval(a)"
@@ -2270,6 +2589,18 @@ msgstr "IDE"
 
 msgid "Idle"
 msgstr "Nečinný"
+
+msgid "Ignore"
+msgstr "Ignorovat"
+
+msgid "Ignore suggestion"
+msgstr "Ignorovat doporučení"
+
+msgid "Ignored"
+msgstr "Ignorováno"
+
+msgid "Ignoring this suggestion does not acknowledge mail or resolve its cause."
+msgstr "Ignorování doporučení nepotvrzuje zpracování pošty ani neřeší příčinu."
 
 msgid "Image"
 msgstr "Obrázek"
@@ -2302,8 +2633,23 @@ msgstr "Naimportujte soubor motivu nebo si stáhněte základ k úpravám."
 msgid "Import an audio file or preview the selected sound."
 msgstr "Importujte zvukový soubor nebo si přehrajte ukázku vybraného zvuku."
 
+msgid "Import from host file"
+msgstr "Importovat ze souboru na hostiteli"
+
 msgid "Import from other tools"
 msgstr "Importovat z jiných nástrojů"
+
+msgid "Import JSON file"
+msgstr "Importovat soubor JSON"
+
+msgid "Import memory"
+msgstr "Importovat paměť"
+
+msgid "Import memory?"
+msgstr "Importovat paměť?"
+
+msgid "Import plain folder"
+msgstr "Importovat běžnou složku"
 
 msgid "Import results"
 msgstr "Výsledky importu"
@@ -2323,6 +2669,9 @@ msgstr "Importovat nesledované worktree"
 msgid "Import worktree"
 msgstr "Importovat pracovní strom"
 
+msgid "Imported entries stay in the selected scope. Existing content is deduplicated."
+msgstr "Importované položky zůstávají ve vybraném rozsahu. Existující obsah je deduplikován."
+
 msgid "Importing project…"
 msgstr "Import projektu…"
 
@@ -2340,6 +2689,15 @@ msgstr "V okně od Applu klikněte na Instalovat. Trvá to pár minut a tato str
 
 msgid "In review"
 msgstr "V revizi"
+
+msgid "Inbound mail token"
+msgstr "Token příchozí pošty"
+
+msgid "Inbox"
+msgstr "Doručená pošta"
+
+msgid "Include archived teams"
+msgstr "Zahrnout archivované týmy"
 
 msgid "Include the Linear ticket id from the prompt in the branch name (e.g. bin-344-fix-login). Prefix branches with fix/ or feat/ based on the task."
 msgstr "Zahrň do názvu větve id ticketu z Linearu uvedené v promptu (např. bin-344-fix-login). Podle úkolu předřaď větvi fix/ nebo feat/."
@@ -2368,8 +2726,14 @@ msgstr "Vložit do CLI"
 msgid "Insert into the existing CLI, then submit in the terminal."
 msgstr "Vložte do existujícího CLI a potom odešlete v terminálu."
 
+msgid "Install"
+msgstr "Nainstalovat"
+
 msgid "Install Command Line Tools"
 msgstr "Nainstalovat Command Line Tools"
+
+msgid "Install extension"
+msgstr "Nainstalovat rozšíření"
 
 msgid "Install Git, then come back."
 msgstr "Nainstalujte Git a pak se sem vraťte."
@@ -2391,6 +2755,9 @@ msgstr "Požadováno přerušení"
 
 msgid "Interrupted"
 msgstr "Přerušeno"
+
+msgid "Invalid memory JSON"
+msgstr "Neplatný JSON paměti"
 
 msgid "Italic"
 msgstr "Kurzíva"
@@ -2415,6 +2782,9 @@ msgstr "Přejděte do pracovního prostoru, který vyžaduje pozornost nebo je s
 
 msgid "Keep editing"
 msgstr "Pokračovat v úpravách"
+
+msgid "Keep existing entries"
+msgstr "Zachovat existující položky"
 
 msgid "Keep notifications silent on this device."
 msgstr "Ponechat oznámení na tomto zařízení ztlumená."
@@ -2455,6 +2825,9 @@ msgstr "Poslední den v měsíci"
 msgid "Last day of each month at {time}"
 msgstr "Poslední den v měsíci v {time}"
 
+msgid "Last run {time}"
+msgstr "Poslední běh {time}"
+
 msgid "Later"
 msgstr "Později"
 
@@ -2469,6 +2842,9 @@ msgstr "Výsledek spuštění není znám. Před opětovným spuštěním obnovt
 
 msgid "Layout"
 msgstr "Rozložení"
+
+msgid "Leader"
+msgstr "Vedoucí"
 
 msgid "Leaf"
 msgstr "List"
@@ -2568,6 +2944,12 @@ msgstr "Načítám fonty..."
 msgid "Loading identity…"
 msgstr "Načítání identity…"
 
+msgid "Loading mail…"
+msgstr "Načítání pošty…"
+
+msgid "Loading memory…"
+msgstr "Načítání paměti…"
+
 msgid "Loading more..."
 msgstr "Načítám další..."
 
@@ -2597,6 +2979,12 @@ msgstr "Načítání běhů…"
 
 msgid "Loading sessions…"
 msgstr "Načítání relací…"
+
+msgid "Loading team…"
+msgstr "Načítání týmu…"
+
+msgid "Loading teams…"
+msgstr "Načítání týmů…"
 
 msgid "Loading workspace status…"
 msgstr "Načítání stavu pracovního prostoru…"
@@ -2637,6 +3025,24 @@ msgstr "Umístění"
 msgid "Location & checkout"
 msgstr "Umístění a checkout"
 
+msgid "Mail awaiting acknowledgement: {activeCount}"
+msgstr "Zprávy čekající na potvrzení: {activeCount}"
+
+msgid "Mail awaits acknowledgement"
+msgstr "Pošta čeká na potvrzení"
+
+msgid "Mail has not been acknowledged. Reading it does not acknowledge it."
+msgstr "Pošta nebyla potvrzena. Přečtení nepotvrzuje její zpracování."
+
+msgid "Mail outbox"
+msgstr "Pošta k odeslání"
+
+msgid "Mail recipient"
+msgstr "Příjemce zprávy"
+
+msgid "Mail-only access. The host administration key is never shared."
+msgstr "Přístup pouze k poště. Klíč správy hostitele se nikdy nesdílí."
+
 msgid "Make all panes equal size"
 msgstr "Nastavit všem panelům stejnou velikost"
 
@@ -2648,6 +3054,9 @@ msgstr "Spravovat skripty terminálu"
 
 msgid "Manage the host used by your workspaces."
 msgstr "Spravujte hosta používaného vašimi pracovními prostory."
+
+msgid "Manifest path on host"
+msgstr "Cesta k manifestu na hostiteli"
 
 msgid "Manual"
 msgstr "Manuální"
@@ -2663,6 +3072,10 @@ msgstr "Označit jako přečtené"
 
 msgid "Mark as unread"
 msgstr "Označit jako nepřečtené"
+
+#. placeholder {0}: name(delivery.recipientMemberId)
+msgid "Mark mail to {0} as read"
+msgstr "Označit zprávu pro {0} jako přečtenou"
 
 msgid "Mark ready for review?"
 msgstr "Označit jako připravené k revizi?"
@@ -2685,6 +3098,39 @@ msgstr "Maximální velikost je 256 KB."
 msgid "Member"
 msgstr "Člen"
 
+msgid "Member activity"
+msgstr "Aktivita člena"
+
+msgid "Member activity needs checking"
+msgstr "Zkontrolujte aktivitu člena"
+
+msgid "Member status"
+msgstr "Stav člena"
+
+msgid "Member status needs checking"
+msgstr "Zkontrolujte stav člena"
+
+msgid "Memory"
+msgstr "Paměť"
+
+msgid "Memory action failed"
+msgstr "Akce paměti selhala"
+
+msgid "Memory entries: {count}"
+msgstr "Položky paměti: {count}"
+
+msgid "Memory imported"
+msgstr "Paměť importována"
+
+msgid "Memory is unavailable on this host."
+msgstr "Paměť není na tomto hostiteli dostupná."
+
+msgid "Memory JSON must be at most 4 MB."
+msgstr "JSON paměti smí mít nejvýše 4 MB."
+
+msgid "Memory scope"
+msgstr "Rozsah paměti"
+
 msgid "Menu bar activity"
 msgstr "Aktivita v řádku nabídek"
 
@@ -2706,8 +3152,17 @@ msgstr "Kontroluje se možnost sloučení"
 msgid "Merged"
 msgstr "Sloučený"
 
+msgid "Message to team"
+msgstr "Zpráva týmu"
+
 msgid "Minimum contrast"
 msgstr "Minimální kontrast"
+
+msgid "Mobile"
+msgstr "Mobilní přístup"
+
+msgid "Mobile access address"
+msgstr "Adresa mobilního přístupu"
 
 msgid "Model"
 msgstr "Model"
@@ -2826,6 +3281,12 @@ msgstr "Vyžaduje pozornost"
 msgid "Needs me"
 msgstr "Čeká na mě"
 
+msgid "Needs reconciliation"
+msgstr "Nutné ověření stavu"
+
+msgid "Needs retry"
+msgstr "Vyžaduje opakování"
+
 msgid "Nerd Fonts"
 msgstr "Nerd Fonts"
 
@@ -2837,6 +3298,9 @@ msgstr "Nová větev"
 
 msgid "New Chat"
 msgstr "Nový chat"
+
+msgid "New conversation"
+msgstr "Nová konverzace"
 
 msgid "New File"
 msgstr "Nový soubor"
@@ -2874,6 +3338,9 @@ msgstr "Nové karty"
 msgid "New Terminal"
 msgstr "Nový terminál"
 
+msgid "New topic"
+msgstr "Nové téma"
+
 msgid "New Window"
 msgstr "Nové okno"
 
@@ -2898,6 +3365,9 @@ msgstr "Další větev"
 
 msgid "Next Right Sidebar Tab"
 msgstr "Další karta pravého postranního panelu"
+
+msgid "Next run {time}"
+msgstr "Další běh {time}"
 
 #. placeholder {0}: formatDateTime(next, { dateStyle: "medium", timeStyle: "short", timeZone: timezone, })
 msgid "Next scheduled time: {0}"
@@ -2924,6 +3394,9 @@ msgstr "Není vybraná žádná aktivní organizace. Vyberte organizaci nebo se 
 msgid "No active services"
 msgstr "Žádné aktivní služby"
 
+msgid "No active teams."
+msgstr "Žádné aktivní týmy."
+
 msgid "No active workspaces"
 msgstr "Žádné aktivní pracovní prostory"
 
@@ -2936,11 +3409,20 @@ msgstr "Zatím žádná aktivita"
 msgid "No agent was started. After setup completes, start the agent again."
 msgstr "Nebyl spuštěn žádný agent. Po dokončení přípravy spusťte agenta znovu."
 
+msgid "No agents configured"
+msgstr "Nejsou nastaveni žádní agenti"
+
+msgid "No alerts."
+msgstr "Žádná upozornění."
+
 msgid "No automations match your filters"
 msgstr "Žádné automatizace neodpovídají vašim filtrům"
 
 msgid "No automations yet"
 msgstr "Zatím žádné automatizace"
+
+msgid "No automations."
+msgstr "Žádné automatizace."
 
 msgid "No available workspace with a GitHub remote"
 msgstr "Není dostupný žádný pracovní prostor se vzdáleným repozitářem GitHub"
@@ -2990,6 +3472,12 @@ msgstr "Nejsou dostupné žádné repozitáře GitHubu"
 msgid "No importable worktrees found on this host. You can open a project and import its worktrees instead."
 msgstr "Na tomto hostiteli nebyly nalezeny žádné importovatelné pracovní stromy. Místo toho můžete otevřít projekt a importovat jeho pracovní stromy."
 
+msgid "No items"
+msgstr "Žádné položky"
+
+msgid "No items."
+msgstr "Žádné položky."
+
 msgid "No linked pull requests"
 msgstr "Žádné propojené pull requesty"
 
@@ -2998,6 +3486,9 @@ msgstr "Nejsou dostupné žádné metriky místních procesů terminálu."
 
 msgid "No local usage or quota data is available."
 msgstr "Nejsou dostupná žádná místní data o využití nebo kvótě."
+
+msgid "No mail"
+msgstr "Žádná pošta"
 
 msgid "No match"
 msgstr "Žádná shoda"
@@ -3011,11 +3502,17 @@ msgstr "Žádná odpovídající nastavení."
 msgid "No matching shortcuts."
 msgstr "Žádné odpovídající klávesové zkratky."
 
+msgid "No memory found"
+msgstr "Paměť nenalezena"
+
 msgid "No messages in this page"
 msgstr "Na této stránce nejsou žádné zprávy"
 
 msgid "No output yet"
 msgstr "Zatím žádný výstup"
+
+msgid "No pending approvals."
+msgstr "Žádná čekající schválení."
 
 msgid "No pending responses or unread completions"
 msgstr "Žádné čekající odpovědi ani nepřečtená dokončení"
@@ -3047,6 +3544,9 @@ msgstr "Nebyly nalezeny žádné pull requesty"
 msgid "No pull requests match your filters"
 msgstr "Žádné pull requesty neodpovídají vašim filtrům"
 
+msgid "No recent Agent or Git activity was observed. Inspect the terminal before acting."
+msgstr "Nebyla zaznamenána nedávná aktivita agenta ani Gitu. Před akcí zkontrolujte terminál."
+
 msgid "No removed projects"
 msgstr "Žádné odebrané projekty"
 
@@ -3064,6 +3564,18 @@ msgstr "Zatím žádné snímky obrazovky"
 
 msgid "No subdirectories"
 msgstr "Žádné podadresáře"
+
+msgid "No task assigned"
+msgstr "Žádný přiřazený úkol"
+
+msgid "No team"
+msgstr "Bez týmu"
+
+msgid "No team mail yet"
+msgstr "Zatím žádné zprávy týmu"
+
+msgid "No teams yet"
+msgstr "Zatím žádné týmy"
 
 msgid "No terminal presets yet."
 msgstr "Zatím žádné předvolby terminálu."
@@ -3098,6 +3610,9 @@ msgstr "Nepřiřazeno · nastavte v Nastavení → Odkazy"
 msgid "Not checked yet"
 msgstr "Zatím nezkontrolováno"
 
+msgid "Not configured"
+msgstr "Nenastaveno"
+
 msgid "Not detected in the workspace right now"
 msgstr "V pracovním prostoru teď není vidět"
 
@@ -3124,6 +3639,12 @@ msgstr "Číslovaný seznam"
 
 msgid "Off"
 msgstr "Vypnuto"
+
+msgid "Offline"
+msgstr "Offline"
+
+msgid "Offline. Actions are disabled until you reconnect."
+msgstr "Offline. Akce jsou zakázány do obnovení připojení."
 
 msgid "On a Mac, Git comes with Apple's Command Line Tools."
 msgstr "Na Macu je Git součástí Command Line Tools od společnosti Apple."
@@ -3158,6 +3679,10 @@ msgstr "Otevřít"
 #. placeholder {0}: binding.agentId
 msgid "Open {0} session"
 msgstr "Otevřít relaci {0}"
+
+#. placeholder {0}: member.name
+msgid "Open {0} terminal"
+msgstr "Otevřít terminál {0}"
 
 msgid "Open {displayName}"
 msgstr "Otevřít {displayName}"
@@ -3259,6 +3784,9 @@ msgstr "Otevřít na kartě"
 msgid "Open large file"
 msgstr "Otevřít velký soubor"
 
+msgid "Open link"
+msgstr "Otevřít odkaz"
+
 msgid "Open local checkout"
 msgstr "Otevřít lokální checkout"
 
@@ -3296,6 +3824,9 @@ msgstr "Poděkování open source projektům"
 
 msgid "Open System Settings"
 msgstr "Otevřít Nastavení systému"
+
+msgid "Open Teamwork"
+msgstr "Otevřít Teamwork"
 
 msgid "Open terminal"
 msgstr "Otevřít terminál"
@@ -3363,6 +3894,9 @@ msgstr "Otevírání pracovního prostoru…"
 msgid "Opening…"
 msgstr "Otevírání…"
 
+msgid "Operation failed"
+msgstr "Operace selhala"
+
 msgid "Option shortcuts may prevent typing special characters"
 msgstr "Zkratky s Option mohou bránit psaní speciálních znaků"
 
@@ -3380,6 +3914,12 @@ msgstr "Ostatní"
 
 msgid "Other ways to get Git"
 msgstr "Další způsoby, jak získat Git"
+
+msgid "Outbound mail token"
+msgstr "Token odchozí pošty"
+
+msgid "Outcome uncertain. Retry with the same task settings."
+msgstr "Výsledek je nejistý. Zkuste to znovu se stejným nastavením úkolu."
 
 msgid "Outdated"
 msgstr "Zastaralé"
@@ -3401,6 +3941,21 @@ msgstr "Balík"
 
 msgid "Page Not Found"
 msgstr "Stránka nenalezena"
+
+msgid "Pair device"
+msgstr "Spárovat zařízení"
+
+msgid "Pair this device"
+msgstr "Spárovat toto zařízení"
+
+msgid "Pairing code"
+msgstr "Párovací kód"
+
+msgid "Pairing failed. Check the code and try again."
+msgstr "Párování selhalo. Zkontrolujte kód a zkuste to znovu."
+
+msgid "Pairing…"
+msgstr "Párování…"
 
 msgid "Pane areas must belong to the same active workspace"
 msgstr "Oblasti podoken musí patřit do stejného aktivního pracovního prostoru"
@@ -3432,11 +3987,20 @@ msgstr "Cesta zkopírována"
 msgid "Pause"
 msgstr "Pozastavit"
 
+msgid "Pause automatic wake-ups"
+msgstr "Pozastavit automatická probouzení"
+
 msgid "Paused"
 msgstr "Pozastaveno"
 
+msgid "Peer host ID"
+msgstr "ID hostitele protějšku"
+
 msgid "Pending"
 msgstr "Čeká na zpracování"
+
+msgid "Pending approvals and unread important faults"
+msgstr "Čekající schválení a nepřečtené důležité chyby"
 
 msgid "Permissions"
 msgstr "Oprávnění"
@@ -3465,6 +4029,12 @@ msgstr "Růžová"
 msgid "Pinned"
 msgstr "Připnuté"
 
+msgid "Pitfall"
+msgstr "Úskalí"
+
+msgid "Plain folder"
+msgstr "Běžná složka"
+
 msgid "Please select a project directory."
 msgstr "Vyberte adresář projektu."
 
@@ -3479,6 +4049,9 @@ msgstr "Odeslat komentář na GitHub?"
 
 msgid "Post reply to GitHub?"
 msgstr "Odeslat odpověď na GitHub?"
+
+msgid "Preferences"
+msgstr "Předvolby"
 
 msgid "Prefix"
 msgstr "Prefix"
@@ -3528,8 +4101,14 @@ msgstr "Soukromý host"
 msgid "Private host connections and application settings without a Jedv account."
 msgstr "Soukromá připojení k hostitelům a nastavení aplikace bez účtu Jedv."
 
+msgid "Processed"
+msgstr "Zpracováno"
+
 msgid "Processed tokens"
 msgstr "Zpracované tokeny"
+
+msgid "Processing"
+msgstr "Zpracovávání"
 
 msgid "Project"
 msgstr "Projekt"
@@ -3539,6 +4118,9 @@ msgstr "Adresář projektu"
 
 msgid "Project icon and color"
 msgstr "Ikona a barva projektu"
+
+msgid "Project memory"
+msgstr "Paměť projektu"
 
 msgid "Project name"
 msgstr "Název projektu"
@@ -3575,6 +4157,12 @@ msgstr "Přenos promptu"
 
 msgid "Provider quota"
 msgstr "Kvóta poskytovatele"
+
+msgid "Provider token"
+msgstr "Token poskytovatele"
+
+msgid "Provider tokens"
+msgstr "Tokeny poskytovatelů"
 
 msgid "Pull request"
 msgstr "Pull request"
@@ -3658,14 +4246,26 @@ msgstr "Citace"
 msgid "Reachable"
 msgstr "Dostupný"
 
+msgid "Read"
+msgstr "Přečteno"
+
 msgid "Read only"
 msgstr "Pouze pro čtení"
+
+msgid "Read-only alert"
+msgstr "Upozornění jen pro čtení"
+
+msgid "Read, awaiting acknowledgement"
+msgstr "Přečteno, čeká na potvrzení"
 
 msgid "Reading local CLI logs…"
 msgstr "Čtení místních protokolů CLI…"
 
 msgid "Ready for review"
 msgstr "Připraveno k revizi"
+
+msgid "Reason (optional)"
+msgstr "Důvod (volitelný)"
 
 msgid "Reasoning"
 msgstr "Uvažování"
@@ -3706,6 +4306,9 @@ msgstr "Červená"
 msgid "Refresh"
 msgstr "Obnovit"
 
+msgid "Refresh agents"
+msgstr "Obnovit agenty"
+
 msgid "Refresh capabilities"
 msgstr "Obnovit možnosti"
 
@@ -3727,8 +4330,17 @@ msgstr "Obnovit relace"
 msgid "Refresh status"
 msgstr "Obnovit stav"
 
+msgid "Refresh teams"
+msgstr "Obnovit týmy"
+
 msgid "Reject"
 msgstr "Odmítnout"
+
+msgid "Reject candidate"
+msgstr "Odmítnout návrh"
+
+msgid "Reject candidate?"
+msgstr "Odmítnout tento návrh?"
 
 msgid "Rejected"
 msgstr "Odmítnuto"
@@ -3790,8 +4402,20 @@ msgstr "Odebrat ikonu"
 msgid "Remove link"
 msgstr "Odebrat odkaz"
 
+msgid "Remove memories"
+msgstr "Odebrat paměti"
+
+msgid "Remove memory"
+msgstr "Odebrat paměť"
+
+msgid "Remove memory?"
+msgstr "Odebrat tuto paměť?"
+
 msgid "Remove pasted text"
 msgstr "Odebrat vložený text"
+
+msgid "Remove peer"
+msgstr "Odebrat protějšek"
 
 msgid "Remove project"
 msgstr "Odebrat projekt"
@@ -3823,6 +4447,9 @@ msgstr "Přejmenovat větev"
 msgid "Rename session"
 msgstr "Přejmenovat relaci"
 
+msgid "Rename team"
+msgstr "Přejmenovat tým"
+
 msgid "rename the branch"
 msgstr "přejmenovat větev"
 
@@ -3850,11 +4477,17 @@ msgstr "Nahradit"
 msgid "Replace All"
 msgstr "Nahradit vše"
 
+msgid "Replace an existing memory"
+msgstr "Nahradit existující paměť"
+
 msgid "Replaced {replaced} files in {where}"
 msgstr "Nahrazeno {replaced} souborů v {where}"
 
 msgid "Replaced 1 file in {where}"
 msgstr "Nahrazen 1 soubor v {where}"
+
+msgid "Replaces memory"
+msgstr "Nahrazuje paměť"
 
 msgid "Reply"
 msgstr "Odpovědět"
@@ -3873,6 +4506,9 @@ msgstr "URL nebo cesta repozitáře"
 
 msgid "Request cancellation"
 msgstr "Požádat o zrušení"
+
+msgid "Request failed. Your draft has been kept."
+msgstr "Požadavek selhal. Koncept byl zachován."
 
 msgid "Requested permissions"
 msgstr "Požadovaná oprávnění"
@@ -4007,6 +4643,9 @@ msgstr "Pokračovat v nativní relaci. ID relace se připojí za tyto argumenty.
 msgid "Resume arguments"
 msgstr "Argumenty pro pokračování"
 
+msgid "Resume automatic wake-ups"
+msgstr "Obnovit automatická probouzení"
+
 msgid "Resume same CLI session"
 msgstr "Pokračovat ve stejné relaci CLI"
 
@@ -4037,6 +4676,9 @@ msgstr "Zkuste to znovu za pár sekund; pokud potíže přetrvávají, restartuj
 msgid "Retry in a few seconds."
 msgstr "Zkuste to znovu za pár sekund."
 
+msgid "Retry mail delivery?"
+msgstr "Zkusit doručení zprávy znovu?"
+
 msgid "Return to Save"
 msgstr "Vrátit se k uložení"
 
@@ -4064,11 +4706,23 @@ msgstr "Vlákno revize aktualizováno"
 msgid "Review threads could not be loaded"
 msgstr "Vlákna revizí se nepodařilo načíst"
 
+msgid "Revoke all sessions"
+msgstr "Odvolat všechny relace"
+
+msgid "Revoke session"
+msgstr "Odvolat relaci"
+
+msgid "Revoke token"
+msgstr "Odvolat token"
+
 msgid "right pane"
 msgstr "pravý panel"
 
 msgid "Rocket"
 msgstr "Raketa"
+
+msgid "Rotate inbound token"
+msgstr "Obnovit příchozí token"
 
 msgid "Run"
 msgstr "Spustit"
@@ -4142,6 +4796,9 @@ msgstr "Uložit"
 msgid "Save All"
 msgstr "Uložit vše"
 
+msgid "Save API key"
+msgstr "Uložit API klíč"
+
 msgid "Save changes"
 msgstr "Uložit změny"
 
@@ -4178,6 +4835,9 @@ msgstr "Před přepnutím větve uložte nebo zavřete neuložené soubory a zm�
 msgid "Save preset"
 msgstr "Uložit předvolbu"
 
+msgid "Save team name"
+msgstr "Uložit název týmu"
+
 msgid "save the agent"
 msgstr "uložit agenta"
 
@@ -4198,6 +4858,9 @@ msgstr "Uloženo"
 
 msgid "Saving a preset does not run its commands."
 msgstr "Uložení předvolby nespustí její příkazy."
+
+msgid "Saving replaces the current entry and keeps its history."
+msgstr "Uložení nahradí aktuální položku a zachová její historii."
 
 msgid "Saving…"
 msgstr "Ukládám…"
@@ -4231,8 +4894,14 @@ msgstr "Přejít dolů"
 msgid "Search"
 msgstr "Hledat"
 
+msgid "Search active memory…"
+msgstr "Hledat aktivní paměť…"
+
 msgid "Search active workspaces…"
 msgstr "Hledat aktivní pracovní prostory…"
+
+msgid "Search agents…"
+msgstr "Hledat agenty…"
 
 msgid "Search and open files in the current workspace"
 msgstr "Hledat a otevírat soubory v aktuálním pracovním prostoru"
@@ -4260,6 +4929,9 @@ msgstr "Hledat soubory..."
 
 msgid "Search fonts..."
 msgstr "Hledat fonty..."
+
+msgid "Search memory"
+msgstr "Hledat v paměti"
 
 msgid "Search projects"
 msgstr "Hledat projekty"
@@ -4369,6 +5041,9 @@ msgstr "Vyberte rozsah..."
 msgid "Select repositories"
 msgstr "Vybrat repozitáře"
 
+msgid "Select workspace"
+msgstr "Vybrat pracovní prostor"
+
 msgid "Select worktree…"
 msgstr "Vybrat pracovní strom…"
 
@@ -4378,8 +5053,17 @@ msgstr "Vybráno"
 msgid "Send"
 msgstr "Odeslat"
 
+msgid "Send instructions or ask the team…"
+msgstr "Pošlete pokyny nebo se zeptejte týmu…"
+
+msgid "Send mail"
+msgstr "Odeslat zprávu"
+
 msgid "Send message"
 msgstr "Odeslat zprávu"
+
+msgid "Sending…"
+msgstr "Odesílání…"
 
 msgid "Sensitive values are hidden. This preview is incomplete."
 msgstr "Citlivé hodnoty jsou skryté. Tento náhled je neúplný."
@@ -4392,6 +5076,9 @@ msgstr "Relace"
 
 msgid "Session ended"
 msgstr "Relace skončila"
+
+msgid "Session expires {time}"
+msgstr "Platnost relace vyprší {time}"
 
 msgid "Session ID"
 msgstr "ID relace"
@@ -4440,8 +5127,17 @@ msgstr "Dokončení přípravy není pro tento pracovní prostor dostupné. Zkon
 msgid "Shared"
 msgstr "Sdílené"
 
+msgid "Shared memory"
+msgstr "Sdílená paměť"
+
 msgid "Shift+click"
 msgstr "Shift+kliknutí"
+
+msgid "Show"
+msgstr "Zobrazit"
+
+msgid "Show {hiddenCount} more"
+msgstr "Zobrazit dalších {hiddenCount}"
 
 msgid "Show agent commands and pinned terminal presets above the workspace."
 msgstr "Zobrazit příkazy agentů a připnuté předvolby terminálu nad pracovním prostorem."
@@ -4460,6 +5156,9 @@ msgstr "Zobrazit skryté adresáře"
 
 msgid "Show hidden files"
 msgstr "Zobrazit skryté soubory"
+
+msgid "Show history"
+msgstr "Zobrazit historii"
 
 msgid "Show in folder"
 msgstr "Zobrazit ve složce"
@@ -4500,14 +5199,26 @@ msgstr "Zobrazit aktivitu pracovního prostoru"
 msgid "Showing the first 100 results. Refine your search."
 msgstr "Zobrazuje se prvních 100 výsledků. Upřesněte hledání."
 
+msgid "Shown once. Copy before closing."
+msgstr "Zobrazí se pouze jednou. Před zavřením zkopírujte."
+
 msgid "Side by side"
 msgstr "Srovnání"
+
+msgid "Sidebar extensions"
+msgstr "Rozšíření postranního panelu"
 
 msgid "Sidebar file rows"
 msgstr "Řádky souborů v postranním panelu"
 
 msgid "Sign in to GitHub on this host to reply"
 msgstr "Pro odpověď se na tomto hostu přihlaste k GitHubu"
+
+msgid "Sign out"
+msgstr "Odhlásit se"
+
+msgid "Signing out…"
+msgstr "Odhlašování…"
 
 msgid "Size"
 msgstr "Velikost"
@@ -4535,6 +5246,9 @@ msgstr "Některé akce stromu projektu se nepodařilo načíst. Ostatní akce z�
 
 msgid "Some session details could not be loaded. Refresh to check the current host state."
 msgstr "Některé podrobnosti relace se nepodařilo načíst. Obnovte údaje a zkontrolujte aktuální stav hostitele."
+
+msgid "Some team data could not be loaded. Check the host connection and retry."
+msgstr "Některá data týmu se nepodařilo načíst. Zkontrolujte připojení k hostiteli a zkuste to znovu."
 
 msgid "Some themes were skipped"
 msgstr "Některé motivy byly přeskočeny"
@@ -4620,6 +5334,9 @@ msgstr "Dát hvězdu"
 msgid "Start a new agent, or choose an existing session from Sessions."
 msgstr "Spusťte nového agenta nebo vyberte existující relaci v oddílu Relace."
 
+msgid "Start an agent in a workspace, then create a team."
+msgstr "Spusťte agenta v pracovním prostoru a poté vytvořte tým."
+
 msgid "Start from a template"
 msgstr "Začít ze šablony"
 
@@ -4628,6 +5345,9 @@ msgstr "Spustit novou relaci"
 
 msgid "Start or stop the workspace run command"
 msgstr "Spustit nebo zastavit spouštěcí příkaz pracovního prostoru"
+
+msgid "Start task"
+msgstr "Spustit úkol"
 
 msgid "starting"
 msgstr "spouští se"
@@ -4649,6 +5369,14 @@ msgstr "Stav není dostupný. Zkontrolujte toto oprávnění v Nastavení systé
 
 msgid "Stop"
 msgstr "Zastavit"
+
+#. placeholder {0}: member.name
+msgid "Stop {0}"
+msgstr "Zastavit {0}"
+
+#. placeholder {0}: member.name
+msgid "Stop {0}?"
+msgstr "Zastavit {0}?"
 
 msgid "Stop {label}"
 msgstr "Zastavit {label}"
@@ -4677,8 +5405,20 @@ msgstr "Zastavit místní proces?"
 msgid "Stop response"
 msgstr "Zastavit odpověď"
 
+msgid "Stop team"
+msgstr "Zastavit tým"
+
+msgid "Stop Team"
+msgstr "Zastavit tým"
+
+msgid "Stop this team?"
+msgstr "Zastavit tento tým?"
+
 msgid "stopped"
 msgstr "zastaveno"
+
+msgid "Stopped"
+msgstr "Zastaveno"
 
 msgid "Strict CLI resume is unavailable on this host. Active CLI and chat sessions remain selectable."
 msgstr "Striktní obnovení CLI není na tomto hostiteli dostupné. Aktivní relace CLI a chatu lze stále vybírat."
@@ -4691,6 +5431,9 @@ msgstr "Odeslat"
 
 msgid "Submit response"
 msgstr "Odeslat odpověď"
+
+msgid "Succeeded"
+msgstr "Úspěšné"
 
 msgid "Summary"
 msgstr "Souhrn"
@@ -4770,19 +5513,58 @@ msgstr "Přepnout na pracovní prostor 9"
 msgid "System"
 msgstr "Systémový"
 
+msgid "System agents"
+msgstr "Systémoví agenti"
+
 msgid "System permissions"
 msgstr "Systémová oprávnění"
 
 msgid "Take control"
 msgstr "Převzít ovládání"
 
+msgid "Target"
+msgstr "Cíl"
+
 #. placeholder {0}: context.hostLabel
 #. placeholder {0}: session.context.hostLabel
 msgid "Target host: {0}"
 msgstr "Cílový hostitel: {0}"
 
+msgid "Task"
+msgstr "Úkol"
+
 msgid "Teal"
 msgstr "Modrozelená"
+
+msgid "Team"
+msgstr "Tým"
+
+msgid "Team action failed"
+msgstr "Akce týmu selhala"
+
+msgid "Team leader"
+msgstr "Vedoucí týmu"
+
+msgid "Team mail"
+msgstr "Pošta týmu"
+
+msgid "Team member needs attention"
+msgstr "Člen týmu vyžaduje pozornost"
+
+msgid "Team name"
+msgstr "Název týmu"
+
+msgid "Team peers"
+msgstr "Protějšky týmu"
+
+msgid "Team stopped"
+msgstr "Tým zastaven"
+
+msgid "Teams"
+msgstr "Týmy"
+
+msgid "Teamwork"
+msgstr "Teamwork"
 
 msgid "Teardown exited with code {exitCode}"
 msgstr "Teardown skončil s kódem {exitCode}"
@@ -4820,6 +5602,9 @@ msgstr "Relace terminálu"
 msgid "Terminal typography"
 msgstr "Typografie terminálu"
 
+msgid "Terminal unavailable"
+msgstr "Terminál není dostupný"
+
 msgid "Terminate"
 msgstr "Ukončit"
 
@@ -4846,6 +5631,9 @@ msgstr "Aktivní relace se změnila. Prompt nebyl odeslán."
 
 msgid "The agent reports it is working."
 msgstr "Agent hlásí, že pracuje."
+
+msgid "The approval status or target has changed. Refresh to verify, and request a new approval if needed."
+msgstr "Stav nebo cíl schválení se změnil. Obnovte údaje pro ověření a v případě potřeby požádejte o nové schválení."
 
 msgid "The attachment copy result is incomplete. Check the workspace before retrying."
 msgstr "Výsledek kopírování přílohy je neúplný. Před dalším pokusem zkontrolujte pracovní prostor."
@@ -4889,6 +5677,12 @@ msgstr "Host service Jedv pro {organization} se nečekaně zastavila ({cause}) a
 msgid "The Jedv host service stopped unexpectedly ({cause}) and could not be restarted automatically."
 msgstr "Host service Jedv se nečekaně zastavila ({cause}) a nešlo ji automaticky restartovat."
 
+msgid "The key stays on this host. It is never injected into terminals or returned to this screen."
+msgstr "Klíč zůstává na tomto hostiteli. Nikdy se nevkládá do terminálů ani nevrací na tuto obrazovku."
+
+msgid "The Leader terminal continues running."
+msgstr "Terminál vedoucího zůstává spuštěný."
+
 msgid "The linked local agent is unavailable on this host. Edit the preset or remove its agent link."
 msgstr "Propojený místní agent není na tomto hostiteli dostupný. Upravte předvolbu nebo odeberte její propojení s agentem."
 
@@ -4898,8 +5692,17 @@ msgstr "Místní host service není dostupná pro {organization} na {device}. St
 msgid "The operation result is unknown. Check the branch history and remote before retrying."
 msgstr "Výsledek operace není znám. Před dalším pokusem zkontrolujte historii větve a vzdálený repozitář."
 
+msgid "The original terminal has ended. Its source is shown instead."
+msgstr "Původní terminál byl ukončen. Místo něj se zobrazuje zdroj."
+
 msgid "The page you're looking for doesn't exist."
 msgstr "Stránka, kterou hledáte, neexistuje."
+
+msgid "The pairing code expired or was already used. Request a new code on your computer."
+msgstr "Párovací kód vypršel nebo byl již použit. Vyžádejte si nový kód na počítači."
+
+msgid "The previous token will stop working. Update the remote peer with the new token."
+msgstr "Předchozí token přestane fungovat. Aktualizujte vzdálený protějšek novým tokenem."
 
 msgid "The project is saved, but its workspace could not be opened. Continue opening to retry without creating another project."
 msgstr "Projekt je uložený, ale jeho pracovní prostor se nepodařilo otevřít. Pokračujte v otevírání a zkuste to znovu bez vytvoření dalšího projektu."
@@ -4912,6 +5715,15 @@ msgstr "Adresář repozitáře na tomto hostiteli chybí. Otevřete repozitář 
 
 msgid "The request ended before its result was confirmed. Check the target host for a completed project or partial directory before trying again."
 msgstr "Žádost skončila dříve, než byl potvrzen její výsledek. Před dalším pokusem zkontrolujte na cílovém hostiteli dokončený projekt nebo částečný adresář."
+
+msgid "The requested run is not in the loaded history."
+msgstr "Toto spuštění není v načtené historii."
+
+msgid "The result is uncertain. Refresh before deciding again."
+msgstr "Výsledek je nejistý. Před dalším rozhodnutím obnovte zobrazení."
+
+msgid "The result is uncertain. Retry this message with the same request ID."
+msgstr "Výsledek je nejistý. Opakujte zprávu se stejným ID požadavku."
 
 msgid "The resumed session identity could not be verified. Refresh before retrying."
 msgstr "Identitu obnovené relace se nepodařilo ověřit. Před dalším pokusem obnovte údaje."
@@ -4961,6 +5773,9 @@ msgstr "Cílový pracovní prostor se změnil. Před pokračováním se vraťte 
 msgid "The target workspace changed. The result belongs to the original workspace."
 msgstr "Cílový pracovní prostor se změnil. Výsledek patří původnímu pracovnímu prostoru."
 
+msgid "The team becomes read-only. Its workspaces, files and terminals are kept."
+msgstr "Tým přejde do režimu jen pro čtení. Jeho pracovní prostory, soubory a terminály zůstanou zachovány."
+
 msgid "The terminal session changed. Refresh before inserting the prompt."
 msgstr "Relace terminálu se změnila. Před vložením promptu obnovte údaje."
 
@@ -4999,6 +5814,9 @@ msgstr "Tyto poznámky jsou součástí aplikace. Podrobnosti o publikovaných v
 
 msgid "This action is irreversible."
 msgstr "Tuto akci nelze vrátit zpět."
+
+msgid "This agent is no longer available. Choose another leader."
+msgstr "Tento agent již není dostupný. Vyberte jiného vedoucího."
 
 msgid "This API login does not expose subscription quota."
 msgstr "Toto přihlášení API neposkytuje kvótu předplatného."
@@ -5051,8 +5869,14 @@ msgstr "Toto zařízení"
 msgid "this device ({id})"
 msgstr "tomto zařízení ({id})"
 
+msgid "This device will need to pair again."
+msgstr "Toto zařízení bude třeba znovu spárovat."
+
 msgid "This draft belongs to another session. Return to it or discard the draft before composing here."
 msgstr "Tento koncept patří jiné relaci. Vraťte se k němu nebo koncept zahoďte, než zde začnete psát."
+
+msgid "This entry will no longer be searched or injected."
+msgstr "Tato položka se již nebude vyhledávat ani vkládat."
 
 msgid "This file cannot be edited as text."
 msgstr "Tento soubor nelze upravovat jako text."
@@ -5066,8 +5890,20 @@ msgstr "Tento soubor je mimo pracovní prostor nebo jeho symbolický odkaz nelze
 msgid "This folder is not a Git repository. Initialize Git here and import it as a project? Existing files will be kept."
 msgstr "Tato složka není repozitář Git. Inicializovat zde Git a importovat ji jako projekt? Stávající soubory zůstanou zachované."
 
+msgid "This host"
+msgstr "Tento hostitel"
+
+msgid "This host cannot start team tasks. Update the host or use an existing session."
+msgstr "Tento hostitel nemůže spouštět týmové úkoly. Aktualizujte ho nebo použijte existující relaci."
+
 msgid "This host did not provide a readable preview. Review the request in the agent CLI before approving."
 msgstr "Tento hostitel neposkytl čitelný náhled. Před schválením zkontrolujte žádost v CLI agenta."
+
+msgid "This host does not support plain folders. Update the host and retry."
+msgstr "Tento hostitel nepodporuje běžné složky. Aktualizujte ho a zkuste to znovu."
+
+msgid "This host does not support Teamwork. Update the host to use teams and mail."
+msgstr "Tento hostitel nepodporuje Teamwork. Aktualizujte ho pro používání týmů a pošty."
 
 msgid "This is a large file. Opening it may slow down the editor."
 msgstr "Toto je velký soubor. Jeho otevření může zpomalit editor."
@@ -5144,6 +5980,9 @@ msgstr "Tato zkratka bude přiřazena akci {0}. Tyto akce zůstanou bez přiřaz
 msgid "This stops {0} and its child processes. Unsaved work in the terminal can be lost."
 msgstr "Tímto se zastaví proces {0} a jeho podřízené procesy. Neuložená práce v terminálu může být ztracena."
 
+msgid "This stops all worker terminals and automatic wake-ups. The leader terminal remains open."
+msgstr "Tím se zastaví všechny terminály workerů a automatická probouzení. Terminál vedoucího zůstane otevřený."
+
 msgid "This stops only the listed forwarding tunnels. Processes on the target host keep running."
 msgstr "Tímto se zastaví pouze uvedené tunely přesměrování. Procesy na cílovém hostiteli budou pokračovat."
 
@@ -5161,6 +6000,12 @@ msgstr "Tímto se zastaví procesy naslouchající na uvedených portech pracovn
 
 msgid "This stops the shell and all processes running in this terminal. Workspace files are kept. Unsaved process state may be lost."
 msgstr "Tímto se zastaví shell a všechny procesy v tomto terminálu. Soubory pracovního prostoru zůstanou zachovány. Neuložený stav procesů může být ztracen."
+
+msgid "This stops the worker terminal and may interrupt its work."
+msgstr "Tím se zastaví terminál workera a může se přerušit jeho práce."
+
+msgid "This terminal has exited. Refresh the team to see its current status."
+msgstr "Tento terminál skončil. Obnovte tým a zobrazte aktuální stav."
 
 msgid "This terminal is also open on a smaller screen, so it's sized to fit"
 msgstr "Tento terminál je otevřený i na menší obrazovce, proto je přizpůsobený její velikosti"
@@ -5189,14 +6034,23 @@ msgstr "Tento pracovní prostor nelze v jeho aktuálním stavu odstranit."
 msgid "This workspace shares the project's files, index, and current branch. It does not switch branches or run setup."
 msgstr "Tento pracovní prostor sdílí soubory, index a aktuální větev projektu. Nepřepíná větve ani nespouští přípravu."
 
+msgid "This writes .jedv/memory.json on the target host and replaces the existing file."
+msgstr "Tím se zapíše .jedv/memory.json na cílovém hostiteli a nahradí existující soubor."
+
 msgid "Thursday"
 msgstr "Čtvrtek"
+
+msgid "Tier"
+msgstr "Úroveň"
 
 msgid "Time unavailable"
 msgstr "Čas není dostupný"
 
 msgid "Time zone"
 msgstr "Časové pásmo"
+
+msgid "Title"
+msgstr "Název"
 
 msgid "To"
 msgstr "Do"
@@ -5240,11 +6094,20 @@ msgstr "Příliš mnoho přetažených položek. Přidávejte najednou nejvýše
 msgid "Too many files. Some were not added."
 msgstr "Příliš mnoho souborů. Některé nebyly přidány."
 
+msgid "Too many requests. Wait a moment and try again."
+msgstr "Příliš mnoho požadavků. Chvíli počkejte a zkuste to znovu."
+
 msgid "Too many untitled items here already."
 msgstr "Tady už je nepojmenovaných položek příliš mnoho."
 
 msgid "Tool output"
 msgstr "Výstup nástroje"
+
+msgid "Tool records"
+msgstr "Záznamy nástrojů"
+
+msgid "Total items: {count}"
+msgstr "Celkem položek: {count}"
 
 msgid "Transcribing"
 msgstr "Přepisování"
@@ -5306,11 +6169,17 @@ msgstr "Diktování se nepodařilo spustit"
 msgid "Unable to transcribe audio"
 msgstr "Zvuk se nepodařilo přepsat"
 
+msgid "Unacknowledged mail: {count}"
+msgstr "Nepotvrzená pošta: {count}"
+
 msgid "Unassigned"
 msgstr "Nepřiřazeno"
 
 msgid "Unavailable"
 msgstr "Nedostupné"
+
+msgid "Unavailable on this host"
+msgstr "Na tomto hostiteli není dostupné"
 
 msgid "Uncommitted"
 msgstr "Necommitnuto"
@@ -5342,6 +6211,9 @@ msgstr "Neeskupené"
 msgid "Unified diff"
 msgstr "Sjednocený diff"
 
+msgid "Uninstall extension"
+msgstr "Odinstalovat rozšíření"
+
 msgid "unknown"
 msgstr "neznámý"
 
@@ -5365,6 +6237,9 @@ msgstr "Neodeslané commity"
 
 msgid "Unreachable"
 msgstr "Nedostupný"
+
+msgid "Unread"
+msgstr "Nepřečteno"
 
 msgid "Unread activity"
 msgstr "Nepřečtená aktivita"
@@ -5468,6 +6343,9 @@ msgstr "Použít „{0}“"
 msgid "Use an existing repository at this location. Jedv changes the registered path and local checkout workspaces; it does not move files. Existing worktrees under the old repository may need to be imported again."
 msgstr "Použijte existující repozitář v tomto umístění. Jedv změní registrovanou cestu a pracovní prostory místního checkoutu; soubory nepřesouvá. Stávající pracovní stromy pod starým repozitářem může být nutné znovu importovat."
 
+msgid "Use an existing session"
+msgstr "Použít existující relaci"
+
 msgid "Use another local port"
 msgstr "Použít jiný místní port"
 
@@ -5483,11 +6361,17 @@ msgstr "Použít výchozí nastavení hostitele"
 msgid "Use Move to group to move workspaces between groups."
 msgstr "K přesouvání pracovních prostorů mezi skupinami použijte Přesunout do skupiny."
 
+msgid "Use provider.<id>. as the event type prefix."
+msgstr "Jako předponu typu události použijte provider.<id>."
+
 msgid "Use the Jedv tray menu > Host Service > Restart, then retry."
 msgstr "Použijte nabídku Jedv na liště > Host Service > Restart a zkuste to znovu."
 
 msgid "Use this device"
 msgstr "Použít toto zařízení"
+
+msgid "Use this directory for terminals and files without initializing Git."
+msgstr "Používejte tento adresář pro terminály a soubory bez inicializace Gitu."
 
 msgid "Use this folder"
 msgstr "Použít tuto složku"
@@ -5517,8 +6401,14 @@ msgstr "Zobrazit"
 msgid "View license"
 msgstr "Zobrazit licenci"
 
+msgid "View run"
+msgstr "Zobrazit spuštění"
+
 msgid "View source"
 msgstr "Zobrazit zdroj"
+
+msgid "View team"
+msgstr "Zobrazit tým"
 
 msgid "Volume"
 msgstr "Hlasitost"
@@ -5528,6 +6418,9 @@ msgstr "VS Code"
 
 msgid "Wait for workspace setup before starting an agent"
 msgstr "Před spuštěním agenta počkat na přípravu pracovního prostoru"
+
+msgid "Waiting for agent status"
+msgstr "Čekání na stav agenta"
 
 msgid "Waiting for approval"
 msgstr "Čeká se na schválení"
@@ -5559,11 +6452,23 @@ msgstr "Týdně v {time}"
 msgid "Welcome to Jedv"
 msgstr "Vítejte v Jedv"
 
+msgid "What should the team accomplish?"
+msgstr "Čeho má tým dosáhnout?"
+
 msgid "What would you like to know?"
 msgstr "Co byste chtěli vědět?"
 
+msgid "Whole team"
+msgstr "Celý tým"
+
 msgid "Window"
 msgstr "Okno"
+
+msgid "Without a key, teams, mail, active memory and rule alerts remain available."
+msgstr "Bez klíče zůstávají týmy, pošta, aktivní paměť a pravidlová upozornění dostupné."
+
+msgid "Worker"
+msgstr "Worker"
 
 msgid "Working"
 msgstr "Pracuje"
@@ -5625,6 +6530,9 @@ msgstr "Příprava pracovního prostoru stále probíhá."
 msgid "Workspace state changed. Review the updated checks and confirm again."
 msgstr "Stav pracovního prostoru se změnil. Zkontrolujte aktualizované kontroly a znovu potvrďte."
 
+msgid "Workspace unavailable"
+msgstr "Pracovní prostor není dostupný"
+
 msgid "Workspaces"
 msgstr "Pracovní prostory"
 
@@ -5672,6 +6580,12 @@ msgstr "Vaše změny"
 
 msgid "Your imports are saved. Could not refresh or open them. Try continuing again."
 msgstr "Vaše importy jsou uložené. Nepodařilo se je obnovit ani otevřít. Zkuste znovu pokračovat."
+
+msgid "Your request was refused. Refresh your session and try again."
+msgstr "Požadavek byl odmítnut. Obnovte relaci a zkuste to znovu."
+
+msgid "Your session expired. Pair this device again."
+msgstr "Platnost relace vypršela. Spárujte zařízení znovu."
 
 msgid "Zap"
 msgstr "Blesk"

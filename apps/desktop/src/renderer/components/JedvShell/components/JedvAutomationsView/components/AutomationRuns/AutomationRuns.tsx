@@ -16,10 +16,12 @@ export function AutomationRuns({
 	hostUrl,
 	automationId,
 	onOpenWorkspace,
+	initialRunId,
 }: {
 	client: JedvParityViewContext["client"];
 	hostUrl: string;
 	automationId: string;
+	initialRunId?: string;
 	onOpenWorkspace: JedvParityViewContext["onOpenWorkspace"];
 }) {
 	const { t, i18n } = useLingui();
@@ -33,7 +35,8 @@ export function AutomationRuns({
 		refetchInterval: 3000,
 		retry: false,
 	});
-	const run = runs.data?.find((r) => r.id === selected?.id) ?? selected;
+	const run =
+		runs.data?.find((r) => r.id === (selected?.id ?? initialRunId)) ?? selected;
 	const identity =
 		run?.workspaceId && run.chatSessionId
 			? { workspaceId: run.workspaceId, sessionId: run.chatSessionId }
@@ -129,6 +132,14 @@ export function AutomationRuns({
 					</Button>
 				</div>
 			)}
+			{initialRunId &&
+				!selected &&
+				runs.isSuccess &&
+				!runs.data.some((item) => item.id === initialRunId) && (
+					<p role="alert" className="mb-3 text-xs text-muted-foreground">
+						<Trans>The requested run is not in the loaded history.</Trans>
+					</p>
+				)}
 			{runs.data?.length === 0 && (
 				<p className="text-sm italic text-muted-foreground">
 					<Trans>No runs yet</Trans>

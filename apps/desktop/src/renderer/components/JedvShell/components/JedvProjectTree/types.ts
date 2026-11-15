@@ -16,6 +16,11 @@ export interface JedvProjectTreeProps {
 	projects: Project[];
 	workspaces: Workspace[];
 	bindings: ActiveBinding[];
+	workspaceTeams?: Map<
+		string,
+		import("../../hooks/useTeamwork").WorkspaceTeam[]
+	>;
+	onOpenTeam?(id: string): void;
 	activeWorkspaceId: string | null;
 	onShortcutOrder?(ids: string[]): void;
 	shortcutOrder?: readonly string[];

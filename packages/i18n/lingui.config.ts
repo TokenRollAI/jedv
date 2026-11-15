@@ -37,6 +37,7 @@ export default defineConfig({
 				"<rootDir>/../../packages/panes/src",
 				"<rootDir>/../../packages/chat-ui/src",
 				"<rootDir>/../../packages/shared/src",
+				"<rootDir>/../../packages/host-service/src/mobile/assets/messages.ts",
 				"<rootDir>/src",
 			],
 			exclude: [

@@ -37,6 +37,8 @@ describe("Local workspace launch retries", () => {
 		const daemonRoot = mkdtempSync(join(tmpdir(), "local-retry-daemon-"));
 		const socketPath = join(daemonRoot, "pty-daemon.sock");
 		const writes: string[] = [];
+		const perTerminalWrites = new Map<string, string[]>();
+		const commandEntered = Promise.withResolvers<string>();
 		let spawned = 0;
 
 		const server = new Server({
@@ -44,7 +46,16 @@ describe("Local workspace launch retries", () => {
 			daemonVersion: "0.0.0-local-retry-test",
 			spawnPty: ({ meta }) => {
 				spawned++;
-				return createFakePty(5200 + spawned, writes, meta);
+				return createFakePty(5200 + spawned, writes, meta, (text) => {
+					const terminalId = meta.env?.JEDV_TERMINAL_ID;
+					if (!terminalId)
+						throw new Error("Fixture launch must expose its terminal identity");
+					const inputs = perTerminalWrites.get(terminalId) ?? [];
+					inputs.push(text);
+					perTerminalWrites.set(terminalId, inputs);
+					if (text === "\r" && inputs.includes("echo local-command"))
+						commandEntered.resolve(terminalId);
+				});
 			},
 		});
 
@@ -98,12 +109,9 @@ describe("Local workspace launch retries", () => {
 		expect(created.terminals).toHaveLength(1);
 		expect(created.terminals[0]?.label).toBe("Command");
 
-		await waitFor(
-			() =>
-				writes.includes("echo local-command") &&
-				writes.indexOf("\r") > writes.indexOf("echo local-command"),
-			5000,
-			() => `expected command write + Enter, got ${JSON.stringify(writes)}`,
+		expect(await commandEntered.promise).toBe(created.terminals[0]?.terminalId);
+		expect(writes.filter((text) => text === "echo local-command")).toHaveLength(
+			1,
 		);
 
 		expect(spawned).toBe(2);
@@ -112,7 +120,12 @@ describe("Local workspace launch retries", () => {
 	}, 20_000);
 });
 
-function createFakePty(pid: number, writes: string[], meta: SessionMeta) {
+function createFakePty(
+	pid: number,
+	writes: string[],
+	meta: SessionMeta,
+	onInput: (text: string) => void,
+) {
 	const dataCallbacks: Array<(data: Buffer) => void> = [];
 	const exitCallbacks: Array<
 		(info: { code: number | null; signal: number | null }) => void
@@ -128,6 +141,7 @@ function createFakePty(pid: number, writes: string[], meta: SessionMeta) {
 			const text =
 				typeof data === "string" ? data : Buffer.from(data).toString("utf-8");
 			writes.push(text);
+			onInput(text);
 			// Simulate the kernel's canonical-mode echo: an ungated (`/bin/sh`)
 			// launch verifies its typed command by watching for this echo and
 			// would otherwise burn its whole retype budget against silence.
@@ -147,9 +161,9 @@ function createFakePty(pid: number, writes: string[], meta: SessionMeta) {
 		},
 		onData(callback: (data: Buffer) => void) {
 			dataCallbacks.push(callback);
-			// An interactive shell prints a prompt before accepting input. The
-			// ungated launch only starts its quiet period after observing output.
-			queueMicrotask(() => callback(Buffer.from("$ ", "utf-8")));
+			// A real interactive sh emits a prompt. Without one this fixture
+			// models a silent startup and waits for the production safety cap.
+			queueMicrotask(() => callback(Buffer.from("$ ")));
 		},
 		onExit(
 			callback: (info: { code: number | null; signal: number | null }) => void,
@@ -160,17 +174,4 @@ function createFakePty(pid: number, writes: string[], meta: SessionMeta) {
 			return 0;
 		},
 	};
-}
-
-async function waitFor(
-	predicate: () => boolean,
-	timeoutMs: number,
-	message?: () => string,
-): Promise<void> {
-	const start = Date.now();
-	while (Date.now() - start < timeoutMs) {
-		if (predicate()) return;
-		await new Promise((resolve) => setTimeout(resolve, 25));
-	}
-	throw new Error(message?.() ?? `condition timed out after ${timeoutMs}ms`);
 }

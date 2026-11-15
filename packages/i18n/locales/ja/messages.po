@@ -64,6 +64,9 @@ msgstr "{0}：実行中のターミナル {1} 個、実行中のエージェン�
 msgid "{approvals} approvals"
 msgstr "{approvals} 件の承認"
 
+msgid "{attention} need attention"
+msgstr "{attention} 件に対応が必要"
+
 msgid "{completed} finished"
 msgstr "{completed} 完了"
 
@@ -90,6 +93,9 @@ msgstr "{count, plural, one {#週間ごと {day}} other {#週間ごと {day}}}"
 
 msgid "{count} files are over {limit} and were not added"
 msgstr "{count} 件のファイルが {limit} を超えているため追加されませんでした"
+
+msgid "{count} important items"
+msgstr "重要な項目：{count}"
 
 msgid "{currentPage} of {totalBranches}"
 msgstr "{currentPage}/{totalBranches}"
@@ -204,8 +210,21 @@ msgstr "{displayName}について"
 msgid "Accept"
 msgstr "同意する"
 
+msgid "Accept candidate"
+msgstr "候補を採用"
+
+msgid "Accept global memory"
+msgstr "グローバルメモリを採用"
+
 msgid "Accessibility"
 msgstr "アクセシビリティ"
+
+#. placeholder {0}: name(delivery.recipientMemberId)
+msgid "Acknowledge mail to {0}"
+msgstr "{0} 宛てのメールを確認済みにする"
+
+msgid "Acknowledged"
+msgstr "確認済み"
 
 msgid "Actions"
 msgstr "アクション"
@@ -215,6 +234,9 @@ msgstr "有効"
 
 msgid "Active CLI sessions"
 msgstr "アクティブな CLI セッション"
+
+msgid "Active items: {count}"
+msgstr "対応中の項目：{count}"
 
 msgid "Active workspaces"
 msgstr "アクティブなワークスペース"
@@ -245,6 +267,12 @@ msgstr "ファイルやアプリなどを追加"
 
 msgid "Add files, apps, and more (@)"
 msgstr "ファイルやアプリなどを追加(@)"
+
+msgid "Add memory"
+msgstr "メモリを追加"
+
+msgid "Add peer"
+msgstr "ピアを追加"
 
 msgid "Add photos or files"
 msgstr "写真やファイルを追加"
@@ -327,6 +355,9 @@ msgstr "エージェントアイランド"
 msgid "Agent launch is waiting for setup"
 msgstr "エージェントの起動はセットアップの完了を待っています"
 
+msgid "Agent may be stalled"
+msgstr "エージェントが停滞している可能性があります"
+
 msgid "Agent saved, but linked presets could not be updated."
 msgstr "エージェントを保存しましたが、リンクされたプリセットを更新できませんでした。"
 
@@ -347,6 +378,9 @@ msgstr "エージェント"
 
 msgid "AI chatbot built with Next.js and the AI SDK"
 msgstr "Next.js と AI SDK で構築された AI チャットボット"
+
+msgid "Alerts"
+msgstr "警告"
 
 #. placeholder {0}: cmd.aliases.map((alias) => `/${alias}`).join(", ")
 msgid "aliases: {0}"
@@ -390,6 +424,9 @@ msgstr "すでに開いています"
 
 msgid "Also delete local branch"
 msgstr "ローカルブランチも削除"
+
+msgid "An automation did not complete. Inspect its run on your computer."
+msgstr "自動化が完了しませんでした。コンピューターで実行履歴を確認してください。"
 
 msgid "An update is ready to install."
 msgstr "アップデートをインストールする準備ができました。"
@@ -449,6 +486,9 @@ msgstr "Markdownプレビューとターミナル出力内のURLに適用され�
 msgid "Apply"
 msgstr "適用"
 
+msgid "Approval execution failed. Check the target before trying again."
+msgstr "承認の実行に失敗しました。再試行する前に対象を確認してください。"
+
 msgid "Approval expired"
 msgstr "承認が期限切れです"
 
@@ -467,8 +507,32 @@ msgstr "承認が必要です"
 msgid "Approval response sent"
 msgstr "承認の応答を送信しました"
 
+msgid "Approvals"
+msgstr "承認"
+
+msgid "Approve"
+msgstr "承認する"
+
 msgid "Approved"
 msgstr "承認"
+
+msgid "Archival"
+msgstr "保管"
+
+msgid "Archive team"
+msgstr "チームをアーカイブ"
+
+msgid "Archive this team?"
+msgstr "このチームをアーカイブしますか？"
+
+msgid "Archive Workspace"
+msgstr "ワークスペースをアーカイブ"
+
+msgid "Archived"
+msgstr "アーカイブ済み"
+
+msgid "Archived team · read-only"
+msgstr "アーカイブ済みチーム · 読み取り専用"
 
 msgid "Are you sure you want to quit?"
 msgstr "終了してもよろしいですか?"
@@ -479,11 +543,23 @@ msgstr "アプリを終了する前に確認します。"
 msgid "Ask before terminating a terminal with a running process. Closing a view keeps its session running."
 msgstr "実行中のプロセスがあるターミナルを終了する前に確認します。ビューを閉じてもセッションは実行されたままです。"
 
+msgid "Ask Butler"
+msgstr "Butler に質問"
+
+msgid "Ask Butler about your teams, alerts or automations."
+msgstr "チーム、警告、自動化について Butler に質問してください。"
+
+msgid "Ask Butler…"
+msgstr "Butler に質問…"
+
 msgid "Ask to make changes, @mention files"
 msgstr "変更を依頼し、@でファイルをメンション"
 
 msgid "Ask to make changes, @mention files, run /commands"
 msgstr "変更を依頼、@でファイルをメンション、/でコマンドを実行"
+
+msgid "Associated provider tokens will be revoked."
+msgstr "関連するプロバイダートークンは取り消されます。"
 
 msgid "Attach"
 msgstr "アタッチ"
@@ -513,6 +589,9 @@ msgstr "添付ファイルのプレビュー"
 
 msgid "Attachments are available for local workspaces only."
 msgstr "添付ファイルはローカルワークスペースでのみ使用できます。"
+
+msgid "Attention is unavailable. Refresh or update the host."
+msgstr "要対応の項目を取得できません。更新するか、ホストをアップデートしてください。"
 
 msgid "Audio"
 msgstr "オーディオ"
@@ -550,6 +629,9 @@ msgstr "自動化アクション"
 msgid "Automation deleted"
 msgstr "自動化を削除しました"
 
+msgid "Automation did not finish"
+msgstr "自動化が完了しませんでした"
+
 msgid "Automation enabled"
 msgstr "自動化を有効にしました"
 
@@ -577,11 +659,17 @@ msgstr "応答待ち"
 msgid "Awaiting Response · {workspaceName}"
 msgstr "返信待ち · {workspaceName}"
 
+msgid "Awaiting review"
+msgstr "レビュー待ち"
+
 msgid "Back"
 msgstr "戻る"
 
 msgid "Back to automations"
 msgstr "オートメーションに戻る"
+
+msgid "Back to current conversation"
+msgstr "現在の会話に戻る"
 
 msgid "Background processes"
 msgstr "バックグラウンドプロセス"
@@ -651,6 +739,12 @@ msgstr "箇条書きリスト"
 msgid "Bulleted list"
 msgstr "箇条書きリスト"
 
+msgid "Butler"
+msgstr "Butler"
+
+msgid "Butler is unavailable. Status and Inbox still work."
+msgstr "Butler は利用できません。状態と受信箱は引き続き利用できます。"
+
 msgid "Cached input"
 msgstr "キャッシュ入力"
 
@@ -669,14 +763,23 @@ msgstr "キャンセルはターゲットホストに停止を要求します。
 msgid "Cancelled"
 msgstr "キャンセル済み"
 
+msgid "Candidate"
+msgstr "候補"
+
 msgid "Cannot {action}: no active organization is selected. Select an organization or sign in again."
 msgstr "{action}ことができません: アクティブな組織が選択されていません。組織を選択するか、もう一度サインインしてください。"
 
 msgid "Cannot {action}: the local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
 msgstr "{action}ことができません: {device}の{organization}でローカルのホストサービスが利用できません。ステータス: {status}。{recovery}"
 
+msgid "Category"
+msgstr "カテゴリ"
+
 msgid "Change location…"
 msgstr "場所を変更…"
+
+msgid "Change mobile address?"
+msgstr "モバイル用アドレスを変更しますか？"
 
 msgid "Change project icon and color"
 msgstr "プロジェクトのアイコンと色を変更"
@@ -695,6 +798,9 @@ msgstr "変更を破棄しました"
 
 msgid "Changes requested"
 msgstr "変更リクエスト"
+
+msgid "Changing or clearing this address signs out all paired devices."
+msgstr "このアドレスを変更または削除すると、ペアリング済みのすべてのデバイスがサインアウトします。"
 
 msgid "Changing this location affects new worktrees. Existing folders are not moved."
 msgstr "この場所を変更すると新しいワークツリーに影響します。既存のフォルダーは移動されません。"
@@ -777,6 +883,9 @@ msgstr "プロジェクトまたはワークスペースを選択"
 msgid "Choose a project to start working."
 msgstr "作業を開始するプロジェクトを選択してください。"
 
+msgid "Choose a running agent as leader to start collaborating."
+msgstr "実行中のエージェントをリーダーに選んで共同作業を始めます。"
+
 msgid "Choose a saved screenshot to attach. Files are copied only when you submit the prompt."
 msgstr "添付する保存済みスクリーンショットを選択してください。ファイルはプロンプトを送信したときにのみコピーされます。"
 
@@ -800,6 +909,12 @@ msgstr "通知音と音量を選択します。"
 
 msgid "Clear"
 msgstr "クリア"
+
+msgid "Clear API key"
+msgstr "API キーを削除"
+
+msgid "Clear API key?"
+msgstr "API キーを削除しますか？"
 
 msgid "Clear saved screenshots?"
 msgstr "保存済みのスクリーンショットを消去しますか？"
@@ -955,6 +1070,9 @@ msgstr "すべて折りたたむ"
 msgid "Collapse All"
 msgstr "すべて折りたたむ"
 
+msgid "Collapse message"
+msgstr "メッセージを折りたたむ"
+
 msgid "Color"
 msgstr "色"
 
@@ -1031,14 +1149,32 @@ msgstr "設定"
 msgid "Configure agent commands for the connected host."
 msgstr "接続されたホストのエージェントコマンドを設定します。"
 
+msgid "Configured"
+msgstr "設定済み"
+
 msgid "Confirm"
 msgstr "確認"
+
+msgid "Confirm archive"
+msgstr "アーカイブを確定"
 
 msgid "Confirm before closing a running terminal"
 msgstr "実行中のターミナルを閉じる前に確認"
 
 msgid "Confirm before quitting"
 msgstr "終了前に確認"
+
+msgid "Confirm global memory adoption"
+msgstr "グローバルメモリの採用を確定"
+
+msgid "Confirm memory removal"
+msgstr "メモリの削除を確定"
+
+msgid "Confirm receipt"
+msgstr "受領を確認"
+
+msgid "Confirm stop"
+msgstr "停止を確定"
 
 msgid "Connect"
 msgstr "接続"
@@ -1063,6 +1199,12 @@ msgstr "接続されたホスト"
 
 msgid "Connecting…"
 msgstr "接続中…"
+
+msgid "Content"
+msgstr "内容"
+
+msgid "Context"
+msgstr "コンテキスト"
 
 msgid "Continue"
 msgstr "続行"
@@ -1102,6 +1244,15 @@ msgstr "このセッションはコントロールが所有しています"
 
 msgid "Control shortcuts on macOS are reserved for terminal programs."
 msgstr "macOSではControlショートカットがターミナルプログラム用に予約されています。"
+
+msgid "Convention"
+msgstr "規約"
+
+msgid "Conversation state is unavailable. Refresh or update the host."
+msgstr "会話の状態を取得できません。更新するか、ホストをアップデートしてください。"
+
+msgid "Conversations"
+msgstr "会話"
 
 msgid "Convert to config.toml"
 msgstr "config.toml に変換"
@@ -1179,6 +1330,15 @@ msgstr "ワークスペースIDをコピー"
 msgid "Copy..."
 msgstr "コピー…"
 
+msgid "Core"
+msgstr "コア"
+
+msgid "Core injection: {budget} characters in this scope, 4800 total. Candidates are excluded."
+msgstr "コア注入：このスコープは {budget} 文字、合計 4800 文字まで。候補は対象外です。"
+
+msgid "Correction"
+msgstr "修正"
+
 msgid "Costs are estimates based on API list rates, not a bill or actual subscription spending. Unknown models use approximate rates."
 msgstr "費用はAPIの定価に基づく推定であり、請求書や実際のサブスクリプション支出ではありません。不明なモデルには概算レートを使用します。"
 
@@ -1199,6 +1359,9 @@ msgstr "ターゲットホストで結果を確認できませんでした。接
 
 msgid "Could not confirm this session. Refresh before retrying."
 msgstr "このセッションを確認できませんでした。再試行する前に更新してください。"
+
+msgid "Could not create team. Refresh the agents and retry."
+msgstr "チームを作成できませんでした。エージェントを更新して再試行してください。"
 
 msgid "Could not create workspace. Check the target host and retry."
 msgstr "ワークスペースを作成できませんでした。ターゲットホストを確認して再試行してください。"
@@ -1227,6 +1390,9 @@ msgstr "このワークスペースを検査できませんでした。削除す
 msgid "Could not list repositories. Check gh authentication on the target host, or enter a URL below."
 msgstr "リポジトリを一覧表示できませんでした。ターゲットホストでの gh 認証を確認するか、下に URL を入力してください。"
 
+msgid "Could not load agents"
+msgstr "エージェントを読み込めませんでした"
+
 msgid "Could not load branches from the target host."
 msgstr "ターゲットホストからブランチを読み込めませんでした。"
 
@@ -1242,8 +1408,14 @@ msgstr "ターゲットホストからプロジェクト設定を読み込めま
 msgid "Could not load pull requests. Check gh access on the target host."
 msgstr "PR を読み込めませんでした。ターゲットホストでの gh アクセスを確認してください。"
 
+msgid "Could not load Teamwork. Check the host connection and retry."
+msgstr "Teamwork を読み込めませんでした。ホスト接続を確認して再試行してください。"
+
 msgid "Could not load workspace status. Check the target host and try again."
 msgstr "ワークスペースの状態を読み込めませんでした。ターゲットホストを確認して再試行してください。"
+
+msgid "Could not open terminal"
+msgstr "ターミナルを開けませんでした"
 
 msgid "Could not open this workspace. Check the target host and try again."
 msgstr "このワークスペースを開けませんでした。ターゲットホストを確認して再試行してください。"
@@ -1272,6 +1444,9 @@ msgstr "このディレクトリを読み込めませんでした。ターゲッ
 msgid "Could not read worktrees from the target host."
 msgstr "ターゲットホストからワークツリーを読み込めませんでした。"
 
+msgid "Could not refresh. Showing the last loaded information."
+msgstr "更新できませんでした。前回読み込んだ情報を表示しています。"
+
 msgid "Could not rename project. Try again."
 msgstr "プロジェクト名を変更できませんでした。もう一度お試しください。"
 
@@ -1286,6 +1461,9 @@ msgstr "アイコンを描画できませんでした"
 
 msgid "Could not render image"
 msgstr "画像を描画できませんでした"
+
+msgid "Could not save memory. Your draft is kept."
+msgstr "メモリを保存できませんでした。下書きを保持しています。"
 
 msgid "Could not save the group. Your draft is kept."
 msgstr "グループを保存できませんでした。下書きは保持されています。"
@@ -1311,8 +1489,14 @@ msgstr "進行状況を保存できませんでした。もう一度お試しく
 msgid "Could not select a project directory."
 msgstr "プロジェクトディレクトリを選択できませんでした。"
 
+msgid "Could not send mail. Your draft is kept for retry."
+msgstr "メールを送信できませんでした。再試行用に下書きを保持しています。"
+
 msgid "Could not set icon"
 msgstr "アイコンを設定できませんでした"
+
+msgid "Could not sign out. Reconnect and try again."
+msgstr "サインアウトできませんでした。再接続して再試行してください。"
 
 msgid "Could not stop a listening process. Earlier successful stops are kept."
 msgstr "リスニングプロセスを停止できませんでした。以前に正常に停止したプロセスは停止したままです。"
@@ -1320,11 +1504,20 @@ msgstr "リスニングプロセスを停止できませんでした。以前に
 msgid "Could not stop it"
 msgstr "停止できませんでした"
 
+msgid "Could not update DeepSeek settings. Check the host and retry."
+msgstr "DeepSeek の設定を更新できませんでした。ホストを確認して再試行してください。"
+
+msgid "Could not update mail"
+msgstr "メールを更新できませんでした"
+
 msgid "Could not update the project tree. Try again."
 msgstr "プロジェクトツリーを更新できませんでした。もう一度お試しください。"
 
 msgid "Could not update the removed project. Check its status before retrying."
 msgstr "削除されたプロジェクトを更新できませんでした。状態を確認してから再試行してください。"
+
+msgid "Could not update this item. Refresh to check its status."
+msgstr "この項目を更新できませんでした。更新して状態を確認してください。"
 
 msgid "Could not update workspace. Try again."
 msgstr "ワークスペースを更新できませんでした。もう一度お試しください。"
@@ -1337,6 +1530,9 @@ msgstr "保存できませんでした。編集するかフォーカスを外し
 
 msgid "Couldn't save. Retrying…"
 msgstr "保存できませんでした。再試行中…"
+
+msgid "Create"
+msgstr "作成"
 
 msgid "Create a blank folder and initialize it as a Git repository."
 msgstr "空のフォルダーを作成し、Git リポジトリとして初期化します。"
@@ -1362,11 +1558,17 @@ msgstr "PR を作成"
 msgid "Create project"
 msgstr "プロジェクトを作成"
 
+msgid "Create provider token"
+msgstr "プロバイダートークンを作成"
+
 msgid "Create pull request"
 msgstr "プルリクエストを作成"
 
 msgid "Create pull request on GitHub?"
 msgstr "GitHubでプルリクエストを作成しますか？"
+
+msgid "Create team"
+msgstr "チームを作成"
 
 msgid "create the project"
 msgstr "プロジェクトを作成する"
@@ -1471,8 +1673,20 @@ msgstr "ダーク"
 msgid "Dark theme"
 msgstr "ダークテーマ"
 
+msgid "Declarative extensions"
+msgstr "宣言型拡張機能"
+
 msgid "Decline"
 msgstr "拒否"
+
+msgid "DeepSeek API Key"
+msgstr "DeepSeek API キー"
+
+msgid "DeepSeek for Butler and memory extraction."
+msgstr "Butler とメモリ抽出用の DeepSeek。"
+
+msgid "DeepSeek is not configured. Status and Inbox still work."
+msgstr "DeepSeek が未設定です。状態と受信箱は引き続き利用できます。"
 
 msgid "default"
 msgstr "デフォルト"
@@ -1537,6 +1751,18 @@ msgstr "削除されたセッションは復元できません。"
 msgid "Deleting…"
 msgstr "削除中…"
 
+msgid "Delivered"
+msgstr "配信済み"
+
+msgid "Delivered means the remote host stored the mail, not that a recipient read or acknowledged it."
+msgstr "配信済みは、リモートホストがメールを保存したことを示します。受信者の既読や処理完了を意味しません。"
+
+msgid "Describe a goal to start a new task."
+msgstr "目標を入力して新しいタスクを開始します。"
+
+msgid "Describe the task…"
+msgstr "タスクを入力…"
+
 msgid "Describe what the agent should do…"
 msgstr "エージェントに実行させる内容を説明してください…"
 
@@ -1561,6 +1787,12 @@ msgstr "詳細"
 msgid "Detect workspaces from other tools"
 msgstr "他のツールからワークスペースを検出"
 
+msgid "Device"
+msgstr "デバイス"
+
+msgid "Device name"
+msgstr "デバイス名"
+
 msgid "Diagnostics"
 msgstr "診断"
 
@@ -1578,6 +1810,9 @@ msgstr "新しいタブで差分"
 
 msgid "Directory path"
 msgstr "ディレクトリパス"
+
+msgid "Disabled"
+msgstr "無効"
 
 msgid "Discard"
 msgstr "破棄"
@@ -1638,6 +1873,9 @@ msgstr "ドキュメント"
 msgid "Done"
 msgstr "完了"
 
+msgid "Download JSON"
+msgstr "JSON をダウンロード"
+
 msgid "Download starter"
 msgstr "スターターをダウンロード"
 
@@ -1683,6 +1921,12 @@ msgstr "編集"
 msgid "Edit group"
 msgstr "グループを編集"
 
+msgid "Edit memory"
+msgstr "メモリを編集"
+
+msgid "Edit peer"
+msgstr "ピアを編集"
+
 msgid "Edit shared setup, run and teardown commands, or personal overrides. Saving does not execute commands."
 msgstr "共有のセットアップ、実行、クリーンアップコマンド、または個人の上書き設定を編集します。保存してもコマンドは実行されません。"
 
@@ -1698,7 +1942,13 @@ msgstr "エディターとワークフロー"
 msgid "Editor typography"
 msgstr "エディタのタイポグラフィ"
 
+msgid "Effort"
+msgstr "推論の強度"
+
 msgid "Enable"
+msgstr "有効"
+
+msgid "Enabled"
 msgstr "有効"
 
 msgid "Endpoint"
@@ -1709,6 +1959,9 @@ msgstr "コマンドを入力してください。"
 
 msgid "Enter a group name of 1 to 64 characters."
 msgstr "1～64 文字のグループ名を入力してください。"
+
+msgid "Enter a new API key to replace it"
+msgstr "置き換える新しい API キーを入力"
 
 msgid "Enter a project name and location."
 msgstr "プロジェクト名と場所を入力してください。"
@@ -1731,6 +1984,9 @@ msgstr "ターゲットホストのディレクトリの絶対パスを入力し
 msgid "Enter an agent name."
 msgstr "エージェント名を入力してください。"
 
+msgid "Enter the pairing code shown in Jedv on your computer."
+msgstr "コンピューターの Jedv に表示されたペアリングコードを入力してください。"
+
 msgid "Enter URL..."
 msgstr "URLを入力..."
 
@@ -1746,6 +2002,9 @@ msgstr "ペインの分割を均等化"
 msgid "Estimated cost"
 msgstr "推定コスト"
 
+msgid "Event type prefix"
+msgstr "イベント種別の接頭辞"
+
 msgid "Every {day}"
 msgstr "毎週{day}"
 
@@ -1754,6 +2013,9 @@ msgstr "毎週{day} {time}"
 
 msgid "Every minute"
 msgstr "毎分"
+
+msgid "Executed"
+msgstr "実行済み"
 
 msgid "Execution mode"
 msgstr "実行モード"
@@ -1788,14 +2050,38 @@ msgstr "展開"
 msgid "Expand all"
 msgstr "すべて展開"
 
+msgid "Expand message"
+msgstr "メッセージを展開"
+
 msgid "Expand pane area"
 msgstr "ペイン領域を展開"
 
 msgid "Expand the right pane to fill the window, or restore it"
 msgstr "右ペインをウィンドウ全体に広げる、または元に戻す"
 
+msgid "Expired"
+msgstr "期限切れ"
+
+msgid "Expired {time}"
+msgstr "{time} に期限切れ"
+
+msgid "Expires {time}"
+msgstr "{time} に期限切れになります"
+
+msgid "Export memory"
+msgstr "メモリをエクスポート"
+
+msgid "Export project memory?"
+msgstr "プロジェクトのメモリをエクスポートしますか？"
+
 msgid "Export theme"
 msgstr "テーマをエクスポート"
+
+msgid "Export to .jedv/memory.json"
+msgstr ".jedv/memory.json にエクスポート"
+
+msgid "Extensions display data and can receive narrowly scoped mail."
+msgstr "拡張機能はデータを表示し、権限が限定されたメールを受信できます。"
 
 msgid "external browser"
 msgstr "外部ブラウザ"
@@ -1808,6 +2094,9 @@ msgstr "外部エディターはこのマシン上のファイルのみを開き
 
 msgid "Failed"
 msgstr "失敗"
+
+msgid "Failed runs: {activeCount}"
+msgstr "失敗した実行：{activeCount}"
 
 msgid "Failed to add {failed} files"
 msgstr "{failed}件のファイルの追加に失敗しました"
@@ -1937,6 +2226,9 @@ msgstr "ファイルリンク"
 
 msgid "File not found"
 msgstr "ファイルが見つかりません"
+
+msgid "File path on target host"
+msgstr "接続先ホスト上のファイルパス"
 
 msgid "File tree limit reached. Search files to open an unloaded path."
 msgstr "ファイルツリーの上限に達しました。ファイルを検索して、読み込まれていないパスを開いてください。"
@@ -2097,6 +2389,9 @@ msgstr "金曜日"
 msgid "From"
 msgstr "移動元"
 
+msgid "From the task’s first sentence"
+msgstr "タスクの最初の文から生成"
+
 msgid "Front matter hidden. Switch to the Markdown view to edit it"
 msgstr "フロントマターは非表示です。編集するにはMarkdownビューに切り替えてください"
 
@@ -2127,6 +2422,9 @@ msgstr "Git作成者"
 msgid "Git author name"
 msgstr "Gitの作成者名"
 
+msgid "Git features are unavailable here. Terminals and files remain available."
+msgstr "ここでは Git 機能を利用できません。ターミナルとファイルは引き続き利用できます。"
+
 msgid "GitHub authentication failed. Sign in with gh on this host, then refresh."
 msgstr "GitHub認証に失敗しました。このホストでghにサインインしてから更新してください。"
 
@@ -2141,6 +2439,9 @@ msgstr "GitHubのレート制限に達しました。PRリンクが古い場合�
 
 msgid "GitHub username"
 msgstr "GitHubのユーザー名"
+
+msgid "Global"
+msgstr "グローバル"
 
 msgid "Globe"
 msgstr "地球"
@@ -2187,6 +2488,9 @@ msgstr "このプロジェクトのAI生成のワークスペース名とブラ�
 msgid "Handle in terminal"
 msgstr "ターミナルで処理"
 
+msgid "Handled"
+msgstr "対応済み"
+
 msgid "Has uncommitted changes"
 msgstr "未コミットの変更があります"
 
@@ -2211,11 +2515,17 @@ msgstr "ハート"
 msgid "Help"
 msgstr "ヘルプ"
 
+msgid "Hide"
+msgstr "非表示"
+
 msgid "Hide {displayName}"
 msgstr "{displayName}を非表示"
 
 msgid "Hide details"
 msgstr "詳細を隠す"
+
+msgid "Hide history"
+msgstr "履歴を非表示"
 
 msgid "Hide workspace activity"
 msgstr "ワークスペースアクティビティを非表示"
@@ -2235,6 +2545,9 @@ msgstr "ホストに接続できません"
 msgid "Host is offline"
 msgstr "ホストはオフラインです"
 
+msgid "Host offline. Team actions are unavailable until the connection is restored."
+msgstr "ホストはオフラインです。接続が復旧するまでチーム操作は利用できません。"
+
 msgid "Host Service"
 msgstr "ホストサービス"
 
@@ -2250,8 +2563,14 @@ msgstr "ホストサービスが利用できません"
 msgid "Hourly"
 msgstr "毎時"
 
+msgid "HTTPS address"
+msgstr "HTTPS アドレス"
+
 msgid "https://github.com/owner/repo.git or /path/to/repo"
 msgstr "https://github.com/owner/repo.git または /path/to/repo"
+
+msgid "Human"
+msgstr "人間"
 
 msgid "I checked the attachments"
 msgstr "添付ファイルを確認しました"
@@ -2270,6 +2589,18 @@ msgstr "IDE"
 
 msgid "Idle"
 msgstr "アイドル"
+
+msgid "Ignore"
+msgstr "無視"
+
+msgid "Ignore suggestion"
+msgstr "提案を無視"
+
+msgid "Ignored"
+msgstr "無視済み"
+
+msgid "Ignoring this suggestion does not acknowledge mail or resolve its cause."
+msgstr "この提案を無視しても、メールの処理完了や原因の解消にはなりません。"
 
 msgid "Image"
 msgstr "画像"
@@ -2302,8 +2633,23 @@ msgstr "テーマファイルをインポートするか、スターターを入
 msgid "Import an audio file or preview the selected sound."
 msgstr "音声ファイルをインポートするか、選択したサウンドをプレビューします。"
 
+msgid "Import from host file"
+msgstr "ホスト上のファイルからインポート"
+
 msgid "Import from other tools"
 msgstr "他のツールからインポート"
+
+msgid "Import JSON file"
+msgstr "JSON ファイルをインポート"
+
+msgid "Import memory"
+msgstr "メモリをインポート"
+
+msgid "Import memory?"
+msgstr "メモリをインポートしますか？"
+
+msgid "Import plain folder"
+msgstr "通常のフォルダーをインポート"
 
 msgid "Import results"
 msgstr "インポート結果"
@@ -2323,6 +2669,9 @@ msgstr "未追跡のワークツリーをインポート"
 msgid "Import worktree"
 msgstr "ワークツリーをインポート"
 
+msgid "Imported entries stay in the selected scope. Existing content is deduplicated."
+msgstr "インポートした項目は選択したスコープ内に保存されます。既存の内容は重複除去されます。"
+
 msgid "Importing project…"
 msgstr "プロジェクトをインポートしています…"
 
@@ -2340,6 +2689,15 @@ msgstr "Apple のウインドウで「インストール」をクリックして
 
 msgid "In review"
 msgstr "レビュー中"
+
+msgid "Inbound mail token"
+msgstr "受信メール用トークン"
+
+msgid "Inbox"
+msgstr "受信箱"
+
+msgid "Include archived teams"
+msgstr "アーカイブ済みチームを含める"
 
 msgid "Include the Linear ticket id from the prompt in the branch name (e.g. bin-344-fix-login). Prefix branches with fix/ or feat/ based on the task."
 msgstr "プロンプトのLinearチケットIDをブランチ名に含める(例: bin-344-fix-login)。タスクに応じてブランチにfix/またはfeat/を付ける。"
@@ -2368,8 +2726,14 @@ msgstr "CLI に挿入"
 msgid "Insert into the existing CLI, then submit in the terminal."
 msgstr "既存の CLI に挿入してから、ターミナルで送信します。"
 
+msgid "Install"
+msgstr "インストール"
+
 msgid "Install Command Line Tools"
 msgstr "Command Line Toolsをインストール"
+
+msgid "Install extension"
+msgstr "拡張機能をインストール"
 
 msgid "Install Git, then come back."
 msgstr "Gitをインストールしてから、ここに戻ってきてください。"
@@ -2391,6 +2755,9 @@ msgstr "中断をリクエストしました"
 
 msgid "Interrupted"
 msgstr "中断されました"
+
+msgid "Invalid memory JSON"
+msgstr "無効なメモリ JSON"
 
 msgid "Italic"
 msgstr "斜体"
@@ -2415,6 +2782,9 @@ msgstr "注意が必要な、または実行中のワークスペースに移動
 
 msgid "Keep editing"
 msgstr "編集を続ける"
+
+msgid "Keep existing entries"
+msgstr "既存の項目を保持"
 
 msgid "Keep notifications silent on this device."
 msgstr "このデバイスでは通知を静音にします。"
@@ -2455,6 +2825,9 @@ msgstr "毎月末日"
 msgid "Last day of each month at {time}"
 msgstr "毎月末日 {time}"
 
+msgid "Last run {time}"
+msgstr "前回の実行 {time}"
+
 msgid "Later"
 msgstr "後で"
 
@@ -2469,6 +2842,9 @@ msgstr "起動結果は不明です。再起動する前に、更新してター
 
 msgid "Layout"
 msgstr "レイアウト"
+
+msgid "Leader"
+msgstr "リーダー"
 
 msgid "Leaf"
 msgstr "葉"
@@ -2568,6 +2944,12 @@ msgstr "フォントを読み込み中..."
 msgid "Loading identity…"
 msgstr "ID 情報を読み込んでいます…"
 
+msgid "Loading mail…"
+msgstr "メールを読み込み中…"
+
+msgid "Loading memory…"
+msgstr "メモリを読み込み中…"
+
 msgid "Loading more..."
 msgstr "さらに読み込み中..."
 
@@ -2597,6 +2979,12 @@ msgstr "実行履歴を読み込み中…"
 
 msgid "Loading sessions…"
 msgstr "セッションを読み込んでいます…"
+
+msgid "Loading team…"
+msgstr "チームを読み込み中…"
+
+msgid "Loading teams…"
+msgstr "チーム一覧を読み込み中…"
 
 msgid "Loading workspace status…"
 msgstr "ワークスペースの状態を読み込み中…"
@@ -2637,6 +3025,24 @@ msgstr "場所"
 msgid "Location & checkout"
 msgstr "場所とチェックアウト"
 
+msgid "Mail awaiting acknowledgement: {activeCount}"
+msgstr "確認待ちのメール：{activeCount}"
+
+msgid "Mail awaits acknowledgement"
+msgstr "メールの確認待ち"
+
+msgid "Mail has not been acknowledged. Reading it does not acknowledge it."
+msgstr "メールは未確認です。読むだけでは処理の確認になりません。"
+
+msgid "Mail outbox"
+msgstr "メール送信トレイ"
+
+msgid "Mail recipient"
+msgstr "メールの宛先"
+
+msgid "Mail-only access. The host administration key is never shared."
+msgstr "メール権限のみ付与します。ホストの管理キーは共有されません。"
+
 msgid "Make all panes equal size"
 msgstr "すべてのペインを同じサイズにする"
 
@@ -2648,6 +3054,9 @@ msgstr "ターミナルスクリプトを管理"
 
 msgid "Manage the host used by your workspaces."
 msgstr "ワークスペースで使用するホストを管理します。"
+
+msgid "Manifest path on host"
+msgstr "ホスト上のマニフェストのパス"
 
 msgid "Manual"
 msgstr "手作業"
@@ -2663,6 +3072,10 @@ msgstr "既読にする"
 
 msgid "Mark as unread"
 msgstr "未読にする"
+
+#. placeholder {0}: name(delivery.recipientMemberId)
+msgid "Mark mail to {0} as read"
+msgstr "{0} 宛てのメールを既読にする"
 
 msgid "Mark ready for review?"
 msgstr "レビュー可能としてマークしますか？"
@@ -2685,6 +3098,39 @@ msgstr "最大サイズは256 KBです。"
 msgid "Member"
 msgstr "メンバー"
 
+msgid "Member activity"
+msgstr "メンバーの活動"
+
+msgid "Member activity needs checking"
+msgstr "メンバーの活動を確認してください"
+
+msgid "Member status"
+msgstr "メンバーの状態"
+
+msgid "Member status needs checking"
+msgstr "メンバーの状態を確認してください"
+
+msgid "Memory"
+msgstr "メモリ"
+
+msgid "Memory action failed"
+msgstr "メモリ操作に失敗しました"
+
+msgid "Memory entries: {count}"
+msgstr "メモリ項目：{count}"
+
+msgid "Memory imported"
+msgstr "メモリをインポートしました"
+
+msgid "Memory is unavailable on this host."
+msgstr "このホストではメモリを利用できません。"
+
+msgid "Memory JSON must be at most 4 MB."
+msgstr "メモリ JSON は 4 MB 以下にしてください。"
+
+msgid "Memory scope"
+msgstr "メモリのスコープ"
+
 msgid "Menu bar activity"
 msgstr "メニューバーのアクティビティ"
 
@@ -2706,8 +3152,17 @@ msgstr "マージ可否を確認中"
 msgid "Merged"
 msgstr "マージ済み"
 
+msgid "Message to team"
+msgstr "チームへのメッセージ"
+
 msgid "Minimum contrast"
 msgstr "最小コントラスト"
+
+msgid "Mobile"
+msgstr "モバイル"
+
+msgid "Mobile access address"
+msgstr "モバイル用アクセスアドレス"
 
 msgid "Model"
 msgstr "モデル"
@@ -2826,6 +3281,12 @@ msgstr "要対応"
 msgid "Needs me"
 msgstr "自分の対応が必要"
 
+msgid "Needs reconciliation"
+msgstr "照合が必要"
+
+msgid "Needs retry"
+msgstr "再試行が必要"
+
 msgid "Nerd Fonts"
 msgstr "Nerd Fonts"
 
@@ -2837,6 +3298,9 @@ msgstr "新しいブランチ"
 
 msgid "New Chat"
 msgstr "新規チャット"
+
+msgid "New conversation"
+msgstr "新しい会話"
 
 msgid "New File"
 msgstr "新規ファイル"
@@ -2874,6 +3338,9 @@ msgstr "新しいタブ"
 msgid "New Terminal"
 msgstr "新規ターミナル"
 
+msgid "New topic"
+msgstr "新しい話題"
+
 msgid "New Window"
 msgstr "新規ウィンドウ"
 
@@ -2898,6 +3365,9 @@ msgstr "次のブランチ"
 
 msgid "Next Right Sidebar Tab"
 msgstr "右サイドバーの次のタブ"
+
+msgid "Next run {time}"
+msgstr "次回の実行 {time}"
 
 #. placeholder {0}: formatDateTime(next, { dateStyle: "medium", timeStyle: "short", timeZone: timezone, })
 msgid "Next scheduled time: {0}"
@@ -2924,6 +3394,9 @@ msgstr "アクティブな組織が選択されていません。組織を選択
 msgid "No active services"
 msgstr "アクティブなサービスはありません"
 
+msgid "No active teams."
+msgstr "アクティブなチームはありません。"
+
 msgid "No active workspaces"
 msgstr "アクティブなワークスペースはありません"
 
@@ -2936,11 +3409,20 @@ msgstr "まだアクティビティがありません"
 msgid "No agent was started. After setup completes, start the agent again."
 msgstr "エージェントは起動されませんでした。セットアップが完了したら、エージェントを再度起動してください。"
 
+msgid "No agents configured"
+msgstr "エージェントが設定されていません"
+
+msgid "No alerts."
+msgstr "警告はありません。"
+
 msgid "No automations match your filters"
 msgstr "フィルターに一致する自動化がありません"
 
 msgid "No automations yet"
 msgstr "まだ自動化がありません"
+
+msgid "No automations."
+msgstr "自動化はありません。"
 
 msgid "No available workspace with a GitHub remote"
 msgstr "GitHubリモートを持つ利用可能なワークスペースがありません"
@@ -2990,6 +3472,12 @@ msgstr "利用可能なGitHubリポジトリがありません"
 msgid "No importable worktrees found on this host. You can open a project and import its worktrees instead."
 msgstr "このホストにはインポート可能なワークツリーがありません。代わりにプロジェクトを開いて、そのワークツリーをインポートできます。"
 
+msgid "No items"
+msgstr "項目はありません"
+
+msgid "No items."
+msgstr "項目はありません。"
+
 msgid "No linked pull requests"
 msgstr "リンクされた PR はありません"
 
@@ -2998,6 +3486,9 @@ msgstr "ローカルターミナルプロセスのメトリクスはありませ
 
 msgid "No local usage or quota data is available."
 msgstr "利用可能なローカルの使用量またはクォータデータがありません。"
+
+msgid "No mail"
+msgstr "メールはありません"
 
 msgid "No match"
 msgstr "一致なし"
@@ -3011,11 +3502,17 @@ msgstr "一致する設定がありません。"
 msgid "No matching shortcuts."
 msgstr "一致するショートカットはありません。"
 
+msgid "No memory found"
+msgstr "メモリが見つかりません"
+
 msgid "No messages in this page"
 msgstr "このページにはメッセージがありません"
 
 msgid "No output yet"
 msgstr "まだ出力がありません"
+
+msgid "No pending approvals."
+msgstr "保留中の承認はありません。"
 
 msgid "No pending responses or unread completions"
 msgstr "保留中の応答や未読の完了通知はありません"
@@ -3047,6 +3544,9 @@ msgstr "PR が見つかりません"
 msgid "No pull requests match your filters"
 msgstr "フィルターに一致するプルリクエストがありません"
 
+msgid "No recent Agent or Git activity was observed. Inspect the terminal before acting."
+msgstr "最近のエージェントまたは Git の活動が検出されませんでした。操作前にターミナルを確認してください。"
+
 msgid "No removed projects"
 msgstr "削除されたプロジェクトはありません"
 
@@ -3064,6 +3564,18 @@ msgstr "スクリーンショットはまだありません"
 
 msgid "No subdirectories"
 msgstr "サブディレクトリはありません"
+
+msgid "No task assigned"
+msgstr "タスク未割り当て"
+
+msgid "No team"
+msgstr "チームなし"
+
+msgid "No team mail yet"
+msgstr "チームのメールはまだありません"
+
+msgid "No teams yet"
+msgstr "チームはまだありません"
 
 msgid "No terminal presets yet."
 msgstr "ターミナルプリセットはまだありません。"
@@ -3098,6 +3610,9 @@ msgstr "未割り当て · 設定 → リンクで設定"
 msgid "Not checked yet"
 msgstr "まだ確認していません"
 
+msgid "Not configured"
+msgstr "未設定"
+
 msgid "Not detected in the workspace right now"
 msgstr "現在ワークスペースで検出されていません"
 
@@ -3124,6 +3639,12 @@ msgstr "番号付きリスト"
 
 msgid "Off"
 msgstr "オフ"
+
+msgid "Offline"
+msgstr "オフライン"
+
+msgid "Offline. Actions are disabled until you reconnect."
+msgstr "オフラインです。再接続するまで操作できません。"
 
 msgid "On a Mac, Git comes with Apple's Command Line Tools."
 msgstr "Macでは、GitはAppleのCommand Line Toolsに含まれています。"
@@ -3158,6 +3679,10 @@ msgstr "開く"
 #. placeholder {0}: binding.agentId
 msgid "Open {0} session"
 msgstr "{0} セッションを開く"
+
+#. placeholder {0}: member.name
+msgid "Open {0} terminal"
+msgstr "{0} のターミナルを開く"
 
 msgid "Open {displayName}"
 msgstr "{displayName}を開く"
@@ -3259,6 +3784,9 @@ msgstr "タブで開く"
 msgid "Open large file"
 msgstr "大きなファイルを開く"
 
+msgid "Open link"
+msgstr "リンクを開く"
+
 msgid "Open local checkout"
 msgstr "ローカルチェックアウトを開く"
 
@@ -3296,6 +3824,9 @@ msgstr "オープンソースの謝辞"
 
 msgid "Open System Settings"
 msgstr "システム設定を開く"
+
+msgid "Open Teamwork"
+msgstr "Teamwork を開く"
 
 msgid "Open terminal"
 msgstr "ターミナルを開く"
@@ -3363,6 +3894,9 @@ msgstr "ワークスペースを開いています…"
 msgid "Opening…"
 msgstr "開いています…"
 
+msgid "Operation failed"
+msgstr "操作に失敗しました"
+
 msgid "Option shortcuts may prevent typing special characters"
 msgstr "Optionのショートカットは特殊文字の入力を妨げる場合があります"
 
@@ -3380,6 +3914,12 @@ msgstr "その他"
 
 msgid "Other ways to get Git"
 msgstr "Git を入手するほかの方法"
+
+msgid "Outbound mail token"
+msgstr "送信メール用トークン"
+
+msgid "Outcome uncertain. Retry with the same task settings."
+msgstr "結果が不明です。同じタスク設定で再試行してください。"
 
 msgid "Outdated"
 msgstr "古いコメント"
@@ -3401,6 +3941,21 @@ msgstr "パッケージ"
 
 msgid "Page Not Found"
 msgstr "ページが見つかりません"
+
+msgid "Pair device"
+msgstr "デバイスをペアリング"
+
+msgid "Pair this device"
+msgstr "このデバイスをペアリング"
+
+msgid "Pairing code"
+msgstr "ペアリングコード"
+
+msgid "Pairing failed. Check the code and try again."
+msgstr "ペアリングに失敗しました。コードを確認して再試行してください。"
+
+msgid "Pairing…"
+msgstr "ペアリング中…"
 
 msgid "Pane areas must belong to the same active workspace"
 msgstr "ペイン領域は同じアクティブなワークスペースに属している必要があります"
@@ -3432,11 +3987,20 @@ msgstr "パスをコピーしました"
 msgid "Pause"
 msgstr "一時停止"
 
+msgid "Pause automatic wake-ups"
+msgstr "自動呼び出しを一時停止"
+
 msgid "Paused"
 msgstr "一時停止中"
 
+msgid "Peer host ID"
+msgstr "ピアホスト ID"
+
 msgid "Pending"
 msgstr "保留中"
+
+msgid "Pending approvals and unread important faults"
+msgstr "保留中の承認と未読の重要な障害"
 
 msgid "Permissions"
 msgstr "権限"
@@ -3465,6 +4029,12 @@ msgstr "ピンク"
 msgid "Pinned"
 msgstr "ピン留め済み"
 
+msgid "Pitfall"
+msgstr "落とし穴"
+
+msgid "Plain folder"
+msgstr "通常のフォルダー"
+
 msgid "Please select a project directory."
 msgstr "プロジェクトディレクトリを選択してください。"
 
@@ -3479,6 +4049,9 @@ msgstr "GitHubにコメントを投稿しますか？"
 
 msgid "Post reply to GitHub?"
 msgstr "GitHubに返信を投稿しますか？"
+
+msgid "Preferences"
+msgstr "環境設定"
 
 msgid "Prefix"
 msgstr "プレフィックス"
@@ -3528,8 +4101,14 @@ msgstr "プライベートホスト"
 msgid "Private host connections and application settings without a Jedv account."
 msgstr "Jedv アカウントなしで、プライベートホスト接続とアプリケーション設定を使用できます。"
 
+msgid "Processed"
+msgstr "処理済み"
+
 msgid "Processed tokens"
 msgstr "処理トークン"
+
+msgid "Processing"
+msgstr "処理中"
 
 msgid "Project"
 msgstr "プロジェクト"
@@ -3539,6 +4118,9 @@ msgstr "プロジェクトディレクトリ"
 
 msgid "Project icon and color"
 msgstr "プロジェクトのアイコンと色"
+
+msgid "Project memory"
+msgstr "プロジェクトのメモリ"
 
 msgid "Project name"
 msgstr "プロジェクト名"
@@ -3575,6 +4157,12 @@ msgstr "プロンプトの受け渡し"
 
 msgid "Provider quota"
 msgstr "プロバイダークォータ"
+
+msgid "Provider token"
+msgstr "プロバイダートークン"
+
+msgid "Provider tokens"
+msgstr "プロバイダートークン"
 
 msgid "Pull request"
 msgstr "プルリクエスト"
@@ -3658,14 +4246,26 @@ msgstr "引用"
 msgid "Reachable"
 msgstr "接続可能"
 
+msgid "Read"
+msgstr "既読"
+
 msgid "Read only"
 msgstr "読み取り専用"
+
+msgid "Read-only alert"
+msgstr "読み取り専用の警告"
+
+msgid "Read, awaiting acknowledgement"
+msgstr "既読、確認待ち"
 
 msgid "Reading local CLI logs…"
 msgstr "ローカルCLIログを読み取り中…"
 
 msgid "Ready for review"
 msgstr "レビュー可能"
+
+msgid "Reason (optional)"
+msgstr "理由（任意）"
 
 msgid "Reasoning"
 msgstr "推論"
@@ -3706,6 +4306,9 @@ msgstr "赤"
 msgid "Refresh"
 msgstr "更新"
 
+msgid "Refresh agents"
+msgstr "エージェントを更新"
+
 msgid "Refresh capabilities"
 msgstr "機能を更新"
 
@@ -3727,8 +4330,17 @@ msgstr "セッションを更新"
 msgid "Refresh status"
 msgstr "状態を更新"
 
+msgid "Refresh teams"
+msgstr "チームを更新"
+
 msgid "Reject"
 msgstr "拒否"
+
+msgid "Reject candidate"
+msgstr "候補を却下"
+
+msgid "Reject candidate?"
+msgstr "この候補を却下しますか？"
 
 msgid "Rejected"
 msgstr "拒否されました"
@@ -3790,8 +4402,20 @@ msgstr "アイコンを削除"
 msgid "Remove link"
 msgstr "リンクを削除"
 
+msgid "Remove memories"
+msgstr "メモリを削除"
+
+msgid "Remove memory"
+msgstr "メモリを削除"
+
+msgid "Remove memory?"
+msgstr "このメモリを削除しますか？"
+
 msgid "Remove pasted text"
 msgstr "貼り付けたテキストを削除"
+
+msgid "Remove peer"
+msgstr "ピアを削除"
 
 msgid "Remove project"
 msgstr "プロジェクトを削除"
@@ -3823,6 +4447,9 @@ msgstr "ブランチ名を変更"
 msgid "Rename session"
 msgstr "セッションの名前を変更"
 
+msgid "Rename team"
+msgstr "チーム名を変更"
+
 msgid "rename the branch"
 msgstr "ブランチ名を変更する"
 
@@ -3850,11 +4477,17 @@ msgstr "置き換える"
 msgid "Replace All"
 msgstr "すべて置き換える"
 
+msgid "Replace an existing memory"
+msgstr "既存のメモリを置き換える"
+
 msgid "Replaced {replaced} files in {where}"
 msgstr "{replaced}件のファイルを{where}で置き換えました"
 
 msgid "Replaced 1 file in {where}"
 msgstr "1件のファイルを{where}で置き換えました"
+
+msgid "Replaces memory"
+msgstr "置き換えるメモリ"
 
 msgid "Reply"
 msgstr "返信"
@@ -3873,6 +4506,9 @@ msgstr "リポジトリのURLまたはパス"
 
 msgid "Request cancellation"
 msgstr "キャンセルを要求"
+
+msgid "Request failed. Your draft has been kept."
+msgstr "リクエストに失敗しました。下書きを保持しています。"
 
 msgid "Requested permissions"
 msgstr "要求された権限"
@@ -4007,6 +4643,9 @@ msgstr "ネイティブセッションを再開します。セッションIDは�
 msgid "Resume arguments"
 msgstr "再開引数"
 
+msgid "Resume automatic wake-ups"
+msgstr "自動呼び出しを再開"
+
 msgid "Resume same CLI session"
 msgstr "同じ CLI セッションを再開"
 
@@ -4037,6 +4676,9 @@ msgstr "数秒後に再試行してください。解消しない場合はJedv�
 msgid "Retry in a few seconds."
 msgstr "数秒後に再試行してください。"
 
+msgid "Retry mail delivery?"
+msgstr "メール配信を再試行しますか？"
+
 msgid "Return to Save"
 msgstr "保存に戻る"
 
@@ -4064,11 +4706,23 @@ msgstr "レビュースレッドを更新しました"
 msgid "Review threads could not be loaded"
 msgstr "レビュースレッドを読み込めませんでした"
 
+msgid "Revoke all sessions"
+msgstr "すべてのセッションを取り消す"
+
+msgid "Revoke session"
+msgstr "セッションを取り消す"
+
+msgid "Revoke token"
+msgstr "トークンを取り消す"
+
 msgid "right pane"
 msgstr "右ペイン"
 
 msgid "Rocket"
 msgstr "ロケット"
+
+msgid "Rotate inbound token"
+msgstr "受信トークンを更新"
 
 msgid "Run"
 msgstr "実行"
@@ -4142,6 +4796,9 @@ msgstr "保存"
 msgid "Save All"
 msgstr "すべて保存"
 
+msgid "Save API key"
+msgstr "API キーを保存"
+
 msgid "Save changes"
 msgstr "変更を保存"
 
@@ -4178,6 +4835,9 @@ msgstr "ブランチを切り替える前に、未保存のファイルを保存
 msgid "Save preset"
 msgstr "プリセットを保存"
 
+msgid "Save team name"
+msgstr "チーム名を保存"
+
 msgid "save the agent"
 msgstr "エージェントを保存する"
 
@@ -4198,6 +4858,9 @@ msgstr "保存済み"
 
 msgid "Saving a preset does not run its commands."
 msgstr "プリセットを保存しても、そのコマンドは実行されません。"
+
+msgid "Saving replaces the current entry and keeps its history."
+msgstr "保存すると現在の項目を置き換え、履歴を保持します。"
 
 msgid "Saving…"
 msgstr "保存中…"
@@ -4231,8 +4894,14 @@ msgstr "一番下までスクロール"
 msgid "Search"
 msgstr "検索"
 
+msgid "Search active memory…"
+msgstr "有効なメモリを検索…"
+
 msgid "Search active workspaces…"
 msgstr "アクティブなワークスペースを検索…"
+
+msgid "Search agents…"
+msgstr "エージェントを検索…"
 
 msgid "Search and open files in the current workspace"
 msgstr "現在のワークスペース内のファイルを検索して開く"
@@ -4260,6 +4929,9 @@ msgstr "ファイルを検索..."
 
 msgid "Search fonts..."
 msgstr "フォントを検索..."
+
+msgid "Search memory"
+msgstr "メモリを検索"
 
 msgid "Search projects"
 msgstr "プロジェクトを検索"
@@ -4369,6 +5041,9 @@ msgstr "範囲を選択..."
 msgid "Select repositories"
 msgstr "リポジトリを選択"
 
+msgid "Select workspace"
+msgstr "ワークスペースを選択"
+
 msgid "Select worktree…"
 msgstr "ワークツリーを選択…"
 
@@ -4378,8 +5053,17 @@ msgstr "選択済み"
 msgid "Send"
 msgstr "送信"
 
+msgid "Send instructions or ask the team…"
+msgstr "指示を送信するかチームに質問…"
+
+msgid "Send mail"
+msgstr "メールを送信"
+
 msgid "Send message"
 msgstr "メッセージを送信"
+
+msgid "Sending…"
+msgstr "送信中…"
 
 msgid "Sensitive values are hidden. This preview is incomplete."
 msgstr "機密情報は非表示になっています。このプレビューは不完全です。"
@@ -4392,6 +5076,9 @@ msgstr "セッション"
 
 msgid "Session ended"
 msgstr "セッション終了"
+
+msgid "Session expires {time}"
+msgstr "セッションは {time} に期限切れになります"
 
 msgid "Session ID"
 msgstr "セッション ID"
@@ -4440,8 +5127,17 @@ msgstr "このワークスペースのセットアップ完了状態を利用で
 msgid "Shared"
 msgstr "共有"
 
+msgid "Shared memory"
+msgstr "共有メモリ"
+
 msgid "Shift+click"
 msgstr "Shift+クリック"
+
+msgid "Show"
+msgstr "表示"
+
+msgid "Show {hiddenCount} more"
+msgstr "さらに {hiddenCount} 人を表示"
 
 msgid "Show agent commands and pinned terminal presets above the workspace."
 msgstr "ワークスペースの上にエージェントコマンドとピン留めされたターミナルプリセットを表示します。"
@@ -4460,6 +5156,9 @@ msgstr "隠しディレクトリを表示"
 
 msgid "Show hidden files"
 msgstr "隠しファイルを表示"
+
+msgid "Show history"
+msgstr "履歴を表示"
 
 msgid "Show in folder"
 msgstr "フォルダに表示"
@@ -4500,14 +5199,26 @@ msgstr "ワークスペースアクティビティを表示"
 msgid "Showing the first 100 results. Refine your search."
 msgstr "最初の 100 件を表示しています。検索条件を絞り込んでください。"
 
+msgid "Shown once. Copy before closing."
+msgstr "表示は一度だけです。閉じる前にコピーしてください。"
+
 msgid "Side by side"
 msgstr "並べて比較"
+
+msgid "Sidebar extensions"
+msgstr "サイドバー拡張機能"
 
 msgid "Sidebar file rows"
 msgstr "サイドバーのファイル行"
 
 msgid "Sign in to GitHub on this host to reply"
 msgstr "このホストでGitHubにサインインして返信"
+
+msgid "Sign out"
+msgstr "サインアウト"
+
+msgid "Signing out…"
+msgstr "サインアウト中…"
 
 msgid "Size"
 msgstr "サイズ"
@@ -4535,6 +5246,9 @@ msgstr "一部のプロジェクトツリー操作を読み込めませんでし
 
 msgid "Some session details could not be loaded. Refresh to check the current host state."
 msgstr "一部のセッション詳細を読み込めませんでした。更新して現在のホスト状態を確認してください。"
+
+msgid "Some team data could not be loaded. Check the host connection and retry."
+msgstr "一部のチームデータを読み込めませんでした。ホスト接続を確認して再試行してください。"
 
 msgid "Some themes were skipped"
 msgstr "一部のテーマはスキップされました"
@@ -4620,6 +5334,9 @@ msgstr "スター"
 msgid "Start a new agent, or choose an existing session from Sessions."
 msgstr "新しいエージェントを開始するか、「セッション」から既存のセッションを選択してください。"
 
+msgid "Start an agent in a workspace, then create a team."
+msgstr "ワークスペースでエージェントを起動してからチームを作成してください。"
+
 msgid "Start from a template"
 msgstr "テンプレートから開始"
 
@@ -4628,6 +5345,9 @@ msgstr "新しいセッションを開始"
 
 msgid "Start or stop the workspace run command"
 msgstr "ワークスペースの実行コマンドを開始または停止する"
+
+msgid "Start task"
+msgstr "タスクを開始"
 
 msgid "starting"
 msgstr "起動中"
@@ -4649,6 +5369,14 @@ msgstr "状態を利用できません。システム設定でこの権限を確
 
 msgid "Stop"
 msgstr "停止"
+
+#. placeholder {0}: member.name
+msgid "Stop {0}"
+msgstr "{0} を停止"
+
+#. placeholder {0}: member.name
+msgid "Stop {0}?"
+msgstr "{0} を停止しますか？"
 
 msgid "Stop {label}"
 msgstr "{label} を停止"
@@ -4677,8 +5405,20 @@ msgstr "ローカルプロセスを停止しますか？"
 msgid "Stop response"
 msgstr "応答を停止"
 
+msgid "Stop team"
+msgstr "チームを停止"
+
+msgid "Stop Team"
+msgstr "チームを停止"
+
+msgid "Stop this team?"
+msgstr "このチームを停止しますか？"
+
 msgid "stopped"
 msgstr "停止"
+
+msgid "Stopped"
+msgstr "停止済み"
 
 msgid "Strict CLI resume is unavailable on this host. Active CLI and chat sessions remain selectable."
 msgstr "このホストでは厳密な CLI 再開を利用できません。アクティブな CLI セッションとチャットセッションは引き続き選択できます。"
@@ -4691,6 +5431,9 @@ msgstr "送信"
 
 msgid "Submit response"
 msgstr "応答を送信"
+
+msgid "Succeeded"
+msgstr "成功"
 
 msgid "Summary"
 msgstr "概要"
@@ -4770,19 +5513,58 @@ msgstr "ワークスペース9に切り替え"
 msgid "System"
 msgstr "システム"
 
+msgid "System agents"
+msgstr "システムエージェント"
+
 msgid "System permissions"
 msgstr "システム権限"
 
 msgid "Take control"
 msgstr "操作を開始"
 
+msgid "Target"
+msgstr "対象"
+
 #. placeholder {0}: context.hostLabel
 #. placeholder {0}: session.context.hostLabel
 msgid "Target host: {0}"
 msgstr "ターゲットホスト：{0}"
 
+msgid "Task"
+msgstr "タスク"
+
 msgid "Teal"
 msgstr "ティール"
+
+msgid "Team"
+msgstr "チーム"
+
+msgid "Team action failed"
+msgstr "チーム操作に失敗しました"
+
+msgid "Team leader"
+msgstr "チームリーダー"
+
+msgid "Team mail"
+msgstr "チームのメール"
+
+msgid "Team member needs attention"
+msgstr "チームメンバーへの対応が必要です"
+
+msgid "Team name"
+msgstr "チーム名"
+
+msgid "Team peers"
+msgstr "チームピア"
+
+msgid "Team stopped"
+msgstr "チーム停止済み"
+
+msgid "Teams"
+msgstr "チーム"
+
+msgid "Teamwork"
+msgstr "Teamwork"
 
 msgid "Teardown exited with code {exitCode}"
 msgstr "ティアダウンがコード{exitCode}で終了しました"
@@ -4820,6 +5602,9 @@ msgstr "ターミナルセッション"
 msgid "Terminal typography"
 msgstr "ターミナルのタイポグラフィ"
 
+msgid "Terminal unavailable"
+msgstr "ターミナルを利用できません"
+
 msgid "Terminate"
 msgstr "終了"
 
@@ -4846,6 +5631,9 @@ msgstr "アクティブなセッションが変更されました。プロンプ
 
 msgid "The agent reports it is working."
 msgstr "エージェントは作業中と報告しています。"
+
+msgid "The approval status or target has changed. Refresh to verify, and request a new approval if needed."
+msgstr "承認の状態または対象が変更されました。更新して確認し、必要に応じて新しい承認を申請してください。"
 
 msgid "The attachment copy result is incomplete. Check the workspace before retrying."
 msgstr "添付ファイルのコピー結果が不完全です。再試行する前にワークスペースを確認してください。"
@@ -4889,6 +5677,12 @@ msgstr "{organization}のJedvホストサービスが予期せず停止し ({cau
 msgid "The Jedv host service stopped unexpectedly ({cause}) and could not be restarted automatically."
 msgstr "Jedvのホストサービスが予期せず停止し ({cause})、自動的に再起動できませんでした。"
 
+msgid "The key stays on this host. It is never injected into terminals or returned to this screen."
+msgstr "キーはこのホストにのみ保存されます。ターミナルに注入されたり、この画面に返されたりすることはありません。"
+
+msgid "The Leader terminal continues running."
+msgstr "リーダーのターミナルは実行を続けます。"
+
 msgid "The linked local agent is unavailable on this host. Edit the preset or remove its agent link."
 msgstr "リンクされたローカルエージェントはこのホストでは利用できません。プリセットを編集するか、エージェントのリンクを解除してください。"
 
@@ -4898,8 +5692,17 @@ msgstr "{device}の{organization}でローカルのホストサービスが利�
 msgid "The operation result is unknown. Check the branch history and remote before retrying."
 msgstr "操作結果は不明です。再試行する前に、ブランチ履歴とリモートを確認してください。"
 
+msgid "The original terminal has ended. Its source is shown instead."
+msgstr "元のターミナルは終了しました。代わりにその参照元を表示しています。"
+
 msgid "The page you're looking for doesn't exist."
 msgstr "お探しのページは存在しません。"
+
+msgid "The pairing code expired or was already used. Request a new code on your computer."
+msgstr "ペアリングコードは期限切れか使用済みです。コンピューターで新しいコードを発行してください。"
+
+msgid "The previous token will stop working. Update the remote peer with the new token."
+msgstr "以前のトークンは無効になります。リモートピアを新しいトークンに更新してください。"
 
 msgid "The project is saved, but its workspace could not be opened. Continue opening to retry without creating another project."
 msgstr "プロジェクトは保存されましたが、そのワークスペースを開けませんでした。別のプロジェクトを作成せずに、開く処理を続行して再試行してください。"
@@ -4912,6 +5715,15 @@ msgstr "このホストにはリポジトリディレクトリがありません
 
 msgid "The request ended before its result was confirmed. Check the target host for a completed project or partial directory before trying again."
 msgstr "結果が確認される前にリクエストが終了しました。再試行する前に、ターゲットホストに完了したプロジェクトまたは部分的なディレクトリがあるか確認してください。"
+
+msgid "The requested run is not in the loaded history."
+msgstr "この実行は、読み込み済みの履歴にありません。"
+
+msgid "The result is uncertain. Refresh before deciding again."
+msgstr "結果が不確定です。再び判断する前に更新してください。"
+
+msgid "The result is uncertain. Retry this message with the same request ID."
+msgstr "結果が不確定です。同じリクエスト ID でこのメッセージを再試行してください。"
 
 msgid "The resumed session identity could not be verified. Refresh before retrying."
 msgstr "再開したセッションの ID を検証できませんでした。更新してから再試行してください。"
@@ -4961,6 +5773,9 @@ msgstr "対象ワークスペースが変わりました。続行する前に元
 msgid "The target workspace changed. The result belongs to the original workspace."
 msgstr "対象ワークスペースが変わりました。結果は元のワークスペースに属します。"
 
+msgid "The team becomes read-only. Its workspaces, files and terminals are kept."
+msgstr "チームは読み取り専用になります。ワークスペース、ファイル、ターミナルは保持されます。"
+
 msgid "The terminal session changed. Refresh before inserting the prompt."
 msgstr "ターミナルセッションが変更されました。プロンプトを挿入する前に更新してください。"
 
@@ -4999,6 +5814,9 @@ msgstr "これらのノートはアプリケーションに同梱されていま
 
 msgid "This action is irreversible."
 msgstr "この操作は元に戻せません。"
+
+msgid "This agent is no longer available. Choose another leader."
+msgstr "このエージェントは利用できなくなりました。別のリーダーを選択してください。"
 
 msgid "This API login does not expose subscription quota."
 msgstr "このAPIログインではサブスクリプションクォータは公開されません。"
@@ -5051,8 +5869,14 @@ msgstr "このデバイス"
 msgid "this device ({id})"
 msgstr "このデバイス ({id})"
 
+msgid "This device will need to pair again."
+msgstr "このデバイスは再ペアリングが必要です。"
+
 msgid "This draft belongs to another session. Return to it or discard the draft before composing here."
 msgstr "この下書きは別のセッションのものです。ここで作成する前に、そのセッションに戻るか、下書きを破棄してください。"
+
+msgid "This entry will no longer be searched or injected."
+msgstr "この項目は検索や注入の対象から除外されます。"
 
 msgid "This file cannot be edited as text."
 msgstr "このファイルはテキストとして編集できません。"
@@ -5066,8 +5890,20 @@ msgstr "このファイルはワークスペースの外にあるか、そのシ
 msgid "This folder is not a Git repository. Initialize Git here and import it as a project? Existing files will be kept."
 msgstr "このフォルダーは Git リポジトリではありません。ここで Git を初期化してプロジェクトとしてインポートしますか？既存のファイルは保持されます。"
 
+msgid "This host"
+msgstr "このホスト"
+
+msgid "This host cannot start team tasks. Update the host or use an existing session."
+msgstr "このホストはチームタスクの開始に対応していません。更新するか既存のセッションを使用してください。"
+
 msgid "This host did not provide a readable preview. Review the request in the agent CLI before approving."
 msgstr "このホストは読み取り可能なプレビューを提供していません。承認する前に、エージェント CLI でリクエストを確認してください。"
+
+msgid "This host does not support plain folders. Update the host and retry."
+msgstr "このホストは通常のフォルダーに対応していません。ホストを更新して再試行してください。"
+
+msgid "This host does not support Teamwork. Update the host to use teams and mail."
+msgstr "このホストは Teamwork に対応していません。チームとメールを利用するにはホストを更新してください。"
 
 msgid "This is a large file. Opening it may slow down the editor."
 msgstr "これは大きなファイルです。開くとエディターの動作が遅くなる場合があります。"
@@ -5144,6 +5980,9 @@ msgstr "このショートカットは {0} に割り当てられます。次の�
 msgid "This stops {0} and its child processes. Unsaved work in the terminal can be lost."
 msgstr "{0} とその子プロセスを停止します。ターミナルで未保存の作業が失われる場合があります。"
 
+msgid "This stops all worker terminals and automatic wake-ups. The leader terminal remains open."
+msgstr "すべてのワーカーのターミナルと自動呼び出しを停止します。リーダーのターミナルは開いたままです。"
+
 msgid "This stops only the listed forwarding tunnels. Processes on the target host keep running."
 msgstr "一覧にある転送トンネルのみを停止します。ターゲットホストのプロセスは実行されたままです。"
 
@@ -5161,6 +6000,12 @@ msgstr "一覧にあるワークスペースポートでリスニングしてい
 
 msgid "This stops the shell and all processes running in this terminal. Workspace files are kept. Unsaved process state may be lost."
 msgstr "これにより、シェルとこのターミナルで実行中のすべてのプロセスが停止します。ワークスペースのファイルは保持されます。保存されていないプロセスの状態は失われる場合があります。"
+
+msgid "This stops the worker terminal and may interrupt its work."
+msgstr "ワーカーのターミナルを停止するため、作業が中断される可能性があります。"
+
+msgid "This terminal has exited. Refresh the team to see its current status."
+msgstr "このターミナルは終了しました。チームを更新して現在の状態を確認してください。"
 
 msgid "This terminal is also open on a smaller screen, so it's sized to fit"
 msgstr "このターミナルは小さい画面でも開かれているため、その画面に合わせたサイズになっています"
@@ -5189,14 +6034,23 @@ msgstr "このワークスペースは現在の状態では削除できません
 msgid "This workspace shares the project's files, index, and current branch. It does not switch branches or run setup."
 msgstr "このワークスペースはプロジェクトのファイル、インデックス、現在のブランチを共有します。ブランチの切り替えやセットアップは実行されません。"
 
+msgid "This writes .jedv/memory.json on the target host and replaces the existing file."
+msgstr "接続先ホストの .jedv/memory.json に書き込み、既存のファイルを上書きします。"
+
 msgid "Thursday"
 msgstr "木曜日"
+
+msgid "Tier"
+msgstr "階層"
 
 msgid "Time unavailable"
 msgstr "時刻を利用できません"
 
 msgid "Time zone"
 msgstr "タイムゾーン"
+
+msgid "Title"
+msgstr "タイトル"
 
 msgid "To"
 msgstr "移動先"
@@ -5240,11 +6094,20 @@ msgstr "ドロップされた項目が多すぎます。一度に追加できる
 msgid "Too many files. Some were not added."
 msgstr "ファイルが多すぎます。一部は追加されませんでした。"
 
+msgid "Too many requests. Wait a moment and try again."
+msgstr "リクエストが多すぎます。しばらくしてから再試行してください。"
+
 msgid "Too many untitled items here already."
 msgstr "ここには無題のアイテムが多すぎます。"
 
 msgid "Tool output"
 msgstr "ツール出力"
+
+msgid "Tool records"
+msgstr "ツールの記録"
+
+msgid "Total items: {count}"
+msgstr "項目の合計：{count}"
 
 msgid "Transcribing"
 msgstr "文字起こし中"
@@ -5306,11 +6169,17 @@ msgstr "音声入力を開始できません"
 msgid "Unable to transcribe audio"
 msgstr "音声を文字起こしできません"
 
+msgid "Unacknowledged mail: {count}"
+msgstr "未確認のメール：{count}"
+
 msgid "Unassigned"
 msgstr "未割り当て"
 
 msgid "Unavailable"
 msgstr "利用不可"
+
+msgid "Unavailable on this host"
+msgstr "このホストでは利用できません"
 
 msgid "Uncommitted"
 msgstr "未コミット"
@@ -5342,6 +6211,9 @@ msgstr "グループなし"
 msgid "Unified diff"
 msgstr "統一差分"
 
+msgid "Uninstall extension"
+msgstr "拡張機能をアンインストール"
+
 msgid "unknown"
 msgstr "不明"
 
@@ -5365,6 +6237,9 @@ msgstr "未プッシュのコミット"
 
 msgid "Unreachable"
 msgstr "接続できません"
+
+msgid "Unread"
+msgstr "未読"
 
 msgid "Unread activity"
 msgstr "未読のアクティビティ"
@@ -5468,6 +6343,9 @@ msgstr "「{0}」を使用"
 msgid "Use an existing repository at this location. Jedv changes the registered path and local checkout workspaces; it does not move files. Existing worktrees under the old repository may need to be imported again."
 msgstr "この場所にある既存のリポジトリを使用します。Jedv は登録されたパスとローカルチェックアウトのワークスペースを変更しますが、ファイルは移動しません。古いリポジトリの既存のワークツリーは、再インポートが必要になる場合があります。"
 
+msgid "Use an existing session"
+msgstr "既存のセッションを使用"
+
 msgid "Use another local port"
 msgstr "別のローカルポートを使用"
 
@@ -5483,11 +6361,17 @@ msgstr "ホストのデフォルトを使用"
 msgid "Use Move to group to move workspaces between groups."
 msgstr "「グループに移動」を使用して、ワークスペースをグループ間で移動します。"
 
+msgid "Use provider.<id>. as the event type prefix."
+msgstr "イベント種別の接頭辞には provider.<id>. を使用してください。"
+
 msgid "Use the Jedv tray menu > Host Service > Restart, then retry."
 msgstr "Jedvのトレイメニューから「ホストサービス」>「再起動」を実行してから、再試行してください。"
 
 msgid "Use this device"
 msgstr "このデバイスを使用"
+
+msgid "Use this directory for terminals and files without initializing Git."
+msgstr "Git を初期化せずに、このディレクトリでターミナルとファイルを利用します。"
 
 msgid "Use this folder"
 msgstr "このフォルダを使用"
@@ -5517,8 +6401,14 @@ msgstr "表示"
 msgid "View license"
 msgstr "ライセンスを表示"
 
+msgid "View run"
+msgstr "実行を表示"
+
 msgid "View source"
 msgstr "ソースを表示"
+
+msgid "View team"
+msgstr "チームを表示"
 
 msgid "Volume"
 msgstr "音量"
@@ -5528,6 +6418,9 @@ msgstr "VS Code"
 
 msgid "Wait for workspace setup before starting an agent"
 msgstr "エージェントを起動する前にワークスペースのセットアップを待機"
+
+msgid "Waiting for agent status"
+msgstr "エージェントの状態を待機中"
 
 msgid "Waiting for approval"
 msgstr "承認待ち"
@@ -5559,11 +6452,23 @@ msgstr "毎週 {time}"
 msgid "Welcome to Jedv"
 msgstr "Jedv へようこそ"
 
+msgid "What should the team accomplish?"
+msgstr "チームに何を達成してほしいですか？"
+
 msgid "What would you like to know?"
 msgstr "何を知りたいですか?"
 
+msgid "Whole team"
+msgstr "チーム全体"
+
 msgid "Window"
 msgstr "ウィンドウ"
+
+msgid "Without a key, teams, mail, active memory and rule alerts remain available."
+msgstr "キーがなくてもチーム、メール、能動的なメモリ、ルール警告は利用できます。"
+
+msgid "Worker"
+msgstr "ワーカー"
 
 msgid "Working"
 msgstr "作業中"
@@ -5625,6 +6530,9 @@ msgstr "ワークスペースのセットアップはまだ実行中です。"
 msgid "Workspace state changed. Review the updated checks and confirm again."
 msgstr "ワークスペースの状態が変更されました。更新された検査結果を確認して、再度承認してください。"
 
+msgid "Workspace unavailable"
+msgstr "ワークスペースを利用できません"
+
 msgid "Workspaces"
 msgstr "ワークスペース"
 
@@ -5672,6 +6580,12 @@ msgstr "編集中の内容"
 
 msgid "Your imports are saved. Could not refresh or open them. Try continuing again."
 msgstr "インポートは保存されましたが、更新または開くことができませんでした。もう一度続行してみてください。"
+
+msgid "Your request was refused. Refresh your session and try again."
+msgstr "リクエストが拒否されました。セッションを更新して再試行してください。"
+
+msgid "Your session expired. Pair this device again."
+msgstr "セッションの期限が切れました。このデバイスを再度ペアリングしてください。"
 
 msgid "Zap"
 msgstr "稲妻"

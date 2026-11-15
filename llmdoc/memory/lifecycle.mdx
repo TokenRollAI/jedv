@@ -1,0 +1,46 @@
+---
+description: "项目/Team/global Memory 的作用域、candidate/supersede 与归档封存；可信 transcript 提取、DeepSeek 降级和有界 core 注入。"
+kind: architecture
+code:
+  paths:
+    - packages/shared/src/memory.ts
+    - packages/host-service/src/memory/service.ts
+    - packages/host-service/src/memory/runtime.ts
+    - packages/host-service/src/memory/extraction.ts
+    - packages/host-service/src/memory/host-runtime.ts
+    - packages/host-service/src/memory/http.ts
+    - packages/host-service/src/http/errors.ts
+    - packages/host-service/src/http/openapi.ts
+    - packages/host-service/src/http/contracts.test.ts
+    - packages/host-service/src/ai/deepseek.ts
+    - packages/host-service/src/teams/service.ts
+    - "packages/cli/src/commands/memory/**/command.ts"
+    - apps/desktop/src/renderer/components/JedvShell/components/MemoryPanel/MemoryPanel.tsx
+    - apps/desktop/src/renderer/components/JedvShell/components/ProjectSettings/components/ProjectMemorySection/ProjectMemorySection.tsx
+relations:
+  related:
+    - teamwork/execution.mdx
+    - butler/runtime.mdx
+    - distribution/cli-contract.mdx
+---
+# Memory 生命周期与有界注入
+
+Memory 是 Host 持久知识，不是聊天历史或模型上下文本身。global、project、Team 是不同作用域；外部写入先验证目标存在，归档 Team 的 Memory 封存。桌面、CLI、Team launch 与 Butler 都调用同一服务，不能各自维护不可对账的副本。Project settings 的 ProjectMemorySection 复用同一 MemoryPanel，以当前 project 和 global scopes 读取与编辑，不建立另一份项目记忆存储。Memory HTTP 同样使用共享 tRPC 状态映射和由 Zod 生成的 GET 参数，保留同 path GET/POST。
+
+## active、candidate 与 supersede
+
+搜索和默认列表只返回 active 且未被 supersede 的条目；candidate、rejected、removed 和历史版本不等于可注入事实。supersede 目标必须仍是同作用域的 active 条目，模型生成的 ID 不能任意选择被覆盖对象。导入导出及项目文件同步仍经过同一作用域与内容哈希规则，而不是绕过审查写另一份真相。
+
+被动提取只来自已通过 terminal/launch/agent session 和 source sequence 核验的可信 hook。transcript 路径必须位于受信 home，canonical path 与 `O_NOFOLLOW` 再次防 symlink/路径替换；大小、JSONL 和尾部摘录均有界，文件内容始终是不可信数据而非指令。
+
+DeepSeek 输出还要通过结构 schema、原文精确证据和凭证形态过滤。只有 project 的 correction/convention/pitfall 可按规范化语义槽自动激活或 supersede；global 与其他候选保留人工审查，不能由模型自批。无 key、超时、响应过大、无效 JSON 或证据不匹配都降级为不提取，不影响本地 CRUD/search 和零模型 WatchDog。
+
+异步提炼按项目登记 observation 接纳顺序，而不是按模型完成顺序决定新旧。较新提炼一旦接纳，较旧结果只能保留 candidate，不能自动激活或 supersede；即使新结果只是再次确认既有 active、没有修改 active 行，也仍使旧结果过期。只有最新任务可清理自己的登记，Host 重启不重放这些在途响应。
+
+## 启动注入按实际目标取 core
+
+Team start/spawn 只注入 global、实际目标 project 和当前未归档 Team 的 active core 条目，不把 Team origin project、其他 Team、archival 或 candidate 混入 prompt。各作用域及总量都有字符预算，截断只提供按需 `memory search` 提示；这不等于把完整 Memory 复制进每个任务。
+
+DeepSeek client 对消息、工具、响应和超时实施硬预算，并禁止 redirect 和响应回显 key。它服务于被动提取与 Butler 推理，但模型不可用不成为本地 Memory、Team、Mail 或 WatchDog 的可用性前置条件。
+
+源码锚点：`memory/service.ts`（作用域、审查与注入）、`memory/extraction.ts`（不可信 transcript 过滤）、`memory/host-runtime.ts`（可信 hook 与 Host 适配）、`ai/deepseek.ts`（模型降级和预算）。

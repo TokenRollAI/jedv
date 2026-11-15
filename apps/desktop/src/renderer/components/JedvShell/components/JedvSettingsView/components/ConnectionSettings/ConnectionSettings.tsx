@@ -4,49 +4,60 @@ import { Trans, useLingui } from "@lingui/react/macro";
 import { useMutation } from "@tanstack/react-query";
 import type { JedvParityViewContext } from "../../../../parity-types";
 import { SettingRow } from "../SettingRow";
+import { ExtensionSettings } from "./components/ExtensionSettings/ExtensionSettings";
+import { MobileConnectionSettings } from "./components/MobileConnectionSettings/MobileConnectionSettings";
+import { TeamPeerSettings } from "./components/TeamPeerSettings/TeamPeerSettings";
 export function ConnectionSettings(context: JedvParityViewContext) {
 	const { t } = useLingui();
 	const disconnect = useMutation({ mutationFn: context.onSelectLocalHost });
 	return (
-		<div className="rounded-lg border border-border overflow-hidden divide-y">
-			<SettingRow
-				label={t({ message: "Connected host" })}
-				description={context.hostUrl}
-			>
-				<span className="text-xs text-muted-foreground">
-					{context.remote
-						? t({ message: "Private host" })
-						: t({ message: "This device" })}
-				</span>
-			</SettingRow>
-			<SettingRow
-				label={t({ message: "Private connection" })}
-				description={t({
-					message:
-						"Connect over Tailscale using the host's HTTPS address and PSK.",
-				})}
-				error={disconnect.error ? errorMessage(disconnect.error) : undefined}
-			>
-				<div className="flex gap-2">
-					{context.remote && (
+		<div className="space-y-4">
+			<div className="rounded-lg border border-border overflow-hidden divide-y">
+				<SettingRow
+					label={t({ message: "Connected host" })}
+					description={context.hostUrl}
+				>
+					<span className="text-xs text-muted-foreground">
+						{context.remote
+							? t({ message: "Private host" })
+							: t({ message: "This device" })}
+					</span>
+				</SettingRow>
+				<SettingRow
+					label={t({ message: "Private connection" })}
+					description={t({
+						message:
+							"Connect over Tailscale using the host's HTTPS address and PSK.",
+					})}
+					error={disconnect.error ? errorMessage(disconnect.error) : undefined}
+				>
+					<div className="flex gap-2">
+						{context.remote && (
+							<Button
+								variant="outline"
+								size="sm"
+								disabled={disconnect.isPending}
+								onClick={() => disconnect.mutate()}
+							>
+								<Trans>Use this device</Trans>
+							</Button>
+						)}
 						<Button
 							variant="outline"
 							size="sm"
-							disabled={disconnect.isPending}
-							onClick={() => disconnect.mutate()}
+							onClick={context.onOpenPrivateConnection}
 						>
-							<Trans>Use this device</Trans>
+							<Trans>Connect to host</Trans>
 						</Button>
-					)}
-					<Button
-						variant="outline"
-						size="sm"
-						onClick={context.onOpenPrivateConnection}
-					>
-						<Trans>Connect to host</Trans>
-					</Button>
-				</div>
-			</SettingRow>
+					</div>
+				</SettingRow>
+			</div>
+			<MobileConnectionSettings
+				key={`mobile:${context.hostUrl}`}
+				{...context}
+			/>
+			<TeamPeerSettings key={`peers:${context.hostUrl}`} {...context} />
+			<ExtensionSettings key={`slots:${context.hostUrl}`} {...context} />
 		</div>
 	);
 }

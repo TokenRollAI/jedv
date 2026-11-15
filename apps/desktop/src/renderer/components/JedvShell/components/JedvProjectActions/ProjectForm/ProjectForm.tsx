@@ -4,6 +4,7 @@ import { Label } from "@jedv/ui/label";
 import { Trans, useLingui } from "@lingui/react/macro";
 import { useId, useState } from "react";
 import { LuFolderOpen } from "react-icons/lu";
+import { FolderProjectForm } from "../FolderProjectForm";
 import { GitHubRepositoryPicker } from "../GitHubRepositoryPicker";
 import { ProjectFields } from "../ProjectFields";
 import {
@@ -43,6 +44,15 @@ export function ProjectForm({
 			url,
 			name: draft.nameTouched ? draft.name : deriveProjectNameFromUrl(url),
 		});
+	if (kind === "folder")
+		return (
+			<FolderProjectForm
+				draft={draft}
+				disabled={disabled}
+				onChange={onChange}
+				onBrowse={onBrowse}
+			/>
+		);
 	if (kind === "open")
 		return (
 			<div className="flex flex-col gap-1.5">

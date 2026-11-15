@@ -20,6 +20,7 @@ import { useFileOpenMode } from "renderer/hooks/useFileOpenMode";
 import { electronTrpc } from "renderer/lib/electron-trpc";
 import { electronTrpcClient } from "renderer/lib/trpc-client";
 import { isMarkdownFile } from "shared/file-types";
+import { supportsGit } from "../../../../vcs-capabilities";
 import type { JedvFilesViewProps } from "../../props";
 import { FileAutoSaveController } from "../../state/fileDocumentStore/fileAutoSave";
 import { createFileDocumentStore } from "../../state/fileDocumentStore/fileDocumentStore";
@@ -469,6 +470,7 @@ export function FilesWorkspace({
 			<ResizablePanelGroup direction="horizontal">
 				<ResizablePanel defaultSize={22} minSize={15} maxSize={40}>
 					<WorkspaceFileTree
+						gitEnabled={supportsGit(workspace.data)}
 						client={client}
 						hostUrl={hostUrl}
 						remote={remote !== null}

@@ -24,6 +24,8 @@ import type {
 } from "./types";
 
 const bindingColumns = {
+	launchId: terminalAgentBindings.launchId,
+	deliverySequence: terminalAgentBindings.deliverySequence,
 	terminalId: terminalAgentBindings.terminalId,
 	workspaceId: terminalAgentBindings.workspaceId,
 	agentId: terminalAgentBindings.agentId,
@@ -37,6 +39,8 @@ const bindingColumns = {
 };
 
 interface BindingRow {
+	launchId?: string | null;
+	deliverySequence?: number | null;
 	terminalId: string;
 	workspaceId: string;
 	agentId: TerminalAgentId;
@@ -51,6 +55,10 @@ interface BindingRow {
 
 function rowToBinding(row: BindingRow): TerminalAgentBinding {
 	return {
+		...(row.launchId ? { launchId: row.launchId } : {}),
+		...(row.deliverySequence != null
+			? { deliverySequence: row.deliverySequence }
+			: {}),
 		terminalId: row.terminalId,
 		workspaceId: row.workspaceId,
 		agentId: row.agentId,
@@ -649,6 +657,8 @@ export class SqliteTerminalAgentBindingPersistence
 			.insert(terminalAgentBindings)
 			.values({
 				terminalId: binding.terminalId,
+				launchId: binding.launchId ?? null,
+				deliverySequence: binding.deliverySequence ?? null,
 				workspaceId: binding.workspaceId,
 				agentId: binding.agentId,
 				agentSessionId: binding.agentSessionId ?? null,
@@ -663,6 +673,8 @@ export class SqliteTerminalAgentBindingPersistence
 				target: terminalAgentBindings.terminalId,
 				set: {
 					workspaceId: binding.workspaceId,
+					launchId: binding.launchId ?? null,
+					deliverySequence: binding.deliverySequence ?? null,
 					agentId: binding.agentId,
 					agentSessionId: binding.agentSessionId ?? null,
 					definitionId: binding.definitionId ?? null,

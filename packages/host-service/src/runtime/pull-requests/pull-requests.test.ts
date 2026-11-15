@@ -158,6 +158,7 @@ function createManager(
 	} = {},
 ) {
 	return new PullRequestRuntimeManager({
+		hasGitMetadata: () => true,
 		db,
 		execGh:
 			(overrides.execGh as never) ??
@@ -2011,6 +2012,7 @@ describe("missing-worktree degraded state", () => {
 		});
 		let refsReads = 0;
 		const manager = new PullRequestRuntimeManager({
+			hasGitMetadata: () => true,
 			db,
 			execGh: routeGh({
 				"feat/real": makePrNode({
@@ -2156,6 +2158,12 @@ describe("PullRequestRuntimeManager workspace PR history", () => {
 		const current = await manager.getPullRequestsByWorkspaces(["ws"]);
 		expect(current[0]?.pullRequest?.number).toBe(102);
 
+		// Both links can be created within one millisecond. Removing the current
+		// pointer must retain insertion order even when their timestamps tie.
+		db.update(schema.workspacePullRequests)
+			.set({ linkedAt: 1_000 })
+			.where(eq(schema.workspacePullRequests.workspaceId, "ws"))
+			.run();
 		// Remove PR Link: the sidebar loses the pointer; history keeps 102.
 		manager.unlinkWorkspacePullRequest("ws");
 		const afterUnlink = await manager.getPullRequestsByWorkspaces(["ws"]);

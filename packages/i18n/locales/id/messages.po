@@ -64,6 +64,9 @@ msgstr "{0}: {1} terminal berjalan, {2} agen berjalan"
 msgid "{approvals} approvals"
 msgstr "{approvals} persetujuan"
 
+msgid "{attention} need attention"
+msgstr "{attention} perlu perhatian"
+
 msgid "{completed} finished"
 msgstr "{completed} selesai"
 
@@ -90,6 +93,9 @@ msgstr "{count, plural, one {Tiap # minggu pada {day}} other {Tiap # minggu pada
 
 msgid "{count} files are over {limit} and were not added"
 msgstr "{count} file melebihi {limit} dan tidak ditambahkan"
+
+msgid "{count} important items"
+msgstr "{count} item penting"
 
 msgid "{currentPage} of {totalBranches}"
 msgstr "{currentPage} dari {totalBranches}"
@@ -204,8 +210,21 @@ msgstr "Tentang {displayName}"
 msgid "Accept"
 msgstr "Terima"
 
+msgid "Accept candidate"
+msgstr "Terima kandidat"
+
+msgid "Accept global memory"
+msgstr "Terima memori global"
+
 msgid "Accessibility"
 msgstr "Accessibility"
+
+#. placeholder {0}: name(delivery.recipientMemberId)
+msgid "Acknowledge mail to {0}"
+msgstr "Konfirmasi surat untuk {0}"
+
+msgid "Acknowledged"
+msgstr "Dikonfirmasi"
 
 msgid "Actions"
 msgstr "Aksi"
@@ -215,6 +234,9 @@ msgstr "Aktif"
 
 msgid "Active CLI sessions"
 msgstr "Sesi CLI aktif"
+
+msgid "Active items: {count}"
+msgstr "Item aktif: {count}"
 
 msgid "Active workspaces"
 msgstr "Ruang kerja aktif"
@@ -245,6 +267,12 @@ msgstr "Tambah file, aplikasi, dan lainnya"
 
 msgid "Add files, apps, and more (@)"
 msgstr "Tambah file, aplikasi, dan lainnya (@)"
+
+msgid "Add memory"
+msgstr "Tambah memori"
+
+msgid "Add peer"
+msgstr "Tambah peer"
 
 msgid "Add photos or files"
 msgstr "Tambah foto atau file"
@@ -327,6 +355,9 @@ msgstr "Pulau Agen"
 msgid "Agent launch is waiting for setup"
 msgstr "Peluncuran agen menunggu konfigurasi selesai"
 
+msgid "Agent may be stalled"
+msgstr "Agen mungkin macet"
+
 msgid "Agent saved, but linked presets could not be updated."
 msgstr "Agen disimpan, tetapi prasetel tertaut tidak dapat diperbarui."
 
@@ -347,6 +378,9 @@ msgstr "Agen"
 
 msgid "AI chatbot built with Next.js and the AI SDK"
 msgstr "Chatbot AI yang dibuat dengan Next.js dan AI SDK"
+
+msgid "Alerts"
+msgstr "Peringatan"
 
 #. placeholder {0}: cmd.aliases.map((alias) => `/${alias}`).join(", ")
 msgid "aliases: {0}"
@@ -390,6 +424,9 @@ msgstr "Sudah terbuka"
 
 msgid "Also delete local branch"
 msgstr "Hapus juga branch lokal"
+
+msgid "An automation did not complete. Inspect its run on your computer."
+msgstr "Automasi belum selesai. Periksa eksekusinya di komputer."
 
 msgid "An update is ready to install."
 msgstr "Pembaruan siap dipasang."
@@ -449,6 +486,9 @@ msgstr "Berlaku untuk URL di pratinjau Markdown dan output terminal."
 msgid "Apply"
 msgstr "Terapkan"
 
+msgid "Approval execution failed. Check the target before trying again."
+msgstr "Eksekusi persetujuan gagal. Periksa tujuan sebelum mencoba lagi."
+
 msgid "Approval expired"
 msgstr "Persetujuan kedaluwarsa"
 
@@ -467,8 +507,32 @@ msgstr "Persetujuan diperlukan"
 msgid "Approval response sent"
 msgstr "Respons persetujuan terkirim"
 
+msgid "Approvals"
+msgstr "Persetujuan"
+
+msgid "Approve"
+msgstr "Setujui"
+
 msgid "Approved"
 msgstr "Disetujui"
+
+msgid "Archival"
+msgstr "Arsip"
+
+msgid "Archive team"
+msgstr "Arsipkan tim"
+
+msgid "Archive this team?"
+msgstr "Arsipkan tim ini?"
+
+msgid "Archive Workspace"
+msgstr "Arsipkan ruang kerja"
+
+msgid "Archived"
+msgstr "Diarsipkan"
+
+msgid "Archived team · read-only"
+msgstr "Tim diarsipkan · hanya baca"
 
 msgid "Are you sure you want to quit?"
 msgstr "Yakin ingin keluar?"
@@ -479,11 +543,23 @@ msgstr "Tanya sebelum keluar dari aplikasi."
 msgid "Ask before terminating a terminal with a running process. Closing a view keeps its session running."
 msgstr "Tanyakan sebelum mengakhiri terminal dengan proses yang berjalan. Menutup tampilan mempertahankan sesi tetap berjalan."
 
+msgid "Ask Butler"
+msgstr "Tanya Butler"
+
+msgid "Ask Butler about your teams, alerts or automations."
+msgstr "Tanyakan kepada Butler tentang tim, peringatan, atau automasi."
+
+msgid "Ask Butler…"
+msgstr "Tanya Butler…"
+
 msgid "Ask to make changes, @mention files"
 msgstr "Minta perubahan, @sebut file"
 
 msgid "Ask to make changes, @mention files, run /commands"
 msgstr "Minta perubahan, @mention file, jalankan /command"
+
+msgid "Associated provider tokens will be revoked."
+msgstr "Token penyedia terkait akan dicabut."
 
 msgid "Attach"
 msgstr "Lampirkan"
@@ -513,6 +589,9 @@ msgstr "pratinjau lampiran"
 
 msgid "Attachments are available for local workspaces only."
 msgstr "Lampiran hanya tersedia untuk ruang kerja lokal."
+
+msgid "Attention is unavailable. Refresh or update the host."
+msgstr "Item yang perlu ditangani tidak tersedia. Muat ulang atau perbarui host."
 
 msgid "Audio"
 msgstr "Audio"
@@ -550,6 +629,9 @@ msgstr "Tindakan otomasi"
 msgid "Automation deleted"
 msgstr "Otomasi dihapus"
 
+msgid "Automation did not finish"
+msgstr "Automasi belum selesai"
+
 msgid "Automation enabled"
 msgstr "Otomasi diaktifkan"
 
@@ -577,11 +659,17 @@ msgstr "Menunggu Respons"
 msgid "Awaiting Response · {workspaceName}"
 msgstr "Menunggu Balasan · {workspaceName}"
 
+msgid "Awaiting review"
+msgstr "Menunggu peninjauan"
+
 msgid "Back"
 msgstr "Kembali"
 
 msgid "Back to automations"
 msgstr "Kembali ke otomatisasi"
+
+msgid "Back to current conversation"
+msgstr "Kembali ke percakapan saat ini"
 
 msgid "Background processes"
 msgstr "Proses latar belakang"
@@ -651,6 +739,12 @@ msgstr "Daftar berpoin"
 msgid "Bulleted list"
 msgstr "Daftar berpoin"
 
+msgid "Butler"
+msgstr "Butler"
+
+msgid "Butler is unavailable. Status and Inbox still work."
+msgstr "Butler tidak tersedia. Status dan Kotak Masuk tetap berfungsi."
+
 msgid "Cached input"
 msgstr "Input ter-cache"
 
@@ -669,14 +763,23 @@ msgstr "Pembatalan meminta host tujuan berhenti. Periksa hasil operasi sebelum m
 msgid "Cancelled"
 msgstr "Dibatalkan"
 
+msgid "Candidate"
+msgstr "Kandidat"
+
 msgid "Cannot {action}: no active organization is selected. Select an organization or sign in again."
 msgstr "Tidak bisa {action}: tidak ada organisasi aktif yang dipilih. Pilih organisasi atau masuk lagi."
 
 msgid "Cannot {action}: the local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
 msgstr "Tidak bisa {action}: layanan host lokal tidak tersedia untuk {organization} di {device}. Status: {status}. {recovery}"
 
+msgid "Category"
+msgstr "Kategori"
+
 msgid "Change location…"
 msgstr "Ubah lokasi…"
+
+msgid "Change mobile address?"
+msgstr "Ubah alamat seluler?"
 
 msgid "Change project icon and color"
 msgstr "Ganti ikon dan warna proyek"
@@ -695,6 +798,9 @@ msgstr "Perubahan dibatalkan"
 
 msgid "Changes requested"
 msgstr "Perubahan diminta"
+
+msgid "Changing or clearing this address signs out all paired devices."
+msgstr "Mengubah atau menghapus alamat ini mengeluarkan semua perangkat yang dipasangkan."
 
 msgid "Changing this location affects new worktrees. Existing folders are not moved."
 msgstr "Mengubah lokasi ini memengaruhi pohon kerja baru. Folder yang ada tidak dipindahkan."
@@ -777,6 +883,9 @@ msgstr "Pilih proyek atau workspace"
 msgid "Choose a project to start working."
 msgstr "Pilih proyek untuk mulai bekerja."
 
+msgid "Choose a running agent as leader to start collaborating."
+msgstr "Pilih agen yang sedang berjalan sebagai pemimpin untuk mulai berkolaborasi."
+
 msgid "Choose a saved screenshot to attach. Files are copied only when you submit the prompt."
 msgstr "Pilih tangkapan layar tersimpan untuk dilampirkan. File hanya disalin saat Anda mengirimkan prompt."
 
@@ -800,6 +909,12 @@ msgstr "Pilih suara dan volume notifikasi."
 
 msgid "Clear"
 msgstr "Bening"
+
+msgid "Clear API key"
+msgstr "Hapus kunci API"
+
+msgid "Clear API key?"
+msgstr "Hapus kunci API?"
 
 msgid "Clear saved screenshots?"
 msgstr "Hapus tangkapan layar tersimpan?"
@@ -955,6 +1070,9 @@ msgstr "Ciutkan semua"
 msgid "Collapse All"
 msgstr "Ciutkan Semua"
 
+msgid "Collapse message"
+msgstr "Ciutkan pesan"
+
 msgid "Color"
 msgstr "Warna"
 
@@ -1031,14 +1149,32 @@ msgstr "Atur"
 msgid "Configure agent commands for the connected host."
 msgstr "Konfigurasikan perintah agen untuk host yang terhubung."
 
+msgid "Configured"
+msgstr "Dikonfigurasi"
+
 msgid "Confirm"
 msgstr "Konfirmasi"
+
+msgid "Confirm archive"
+msgstr "Konfirmasi pengarsipan"
 
 msgid "Confirm before closing a running terminal"
 msgstr "Konfirmasi sebelum menutup terminal yang berjalan"
 
 msgid "Confirm before quitting"
 msgstr "Konfirmasi sebelum keluar"
+
+msgid "Confirm global memory adoption"
+msgstr "Konfirmasi penerimaan memori global"
+
+msgid "Confirm memory removal"
+msgstr "Konfirmasi penghapusan memori"
+
+msgid "Confirm receipt"
+msgstr "Konfirmasi penerimaan"
+
+msgid "Confirm stop"
+msgstr "Konfirmasi penghentian"
 
 msgid "Connect"
 msgstr "Hubungkan"
@@ -1063,6 +1199,12 @@ msgstr "Host terhubung"
 
 msgid "Connecting…"
 msgstr "Menghubungkan…"
+
+msgid "Content"
+msgstr "Konten"
+
+msgid "Context"
+msgstr "Konteks"
 
 msgid "Continue"
 msgstr "Lanjutkan"
@@ -1102,6 +1244,15 @@ msgstr "Kontrol memiliki sesi ini"
 
 msgid "Control shortcuts on macOS are reserved for terminal programs."
 msgstr "Pintasan Control di macOS dicadangkan untuk program terminal."
+
+msgid "Convention"
+msgstr "Konvensi"
+
+msgid "Conversation state is unavailable. Refresh or update the host."
+msgstr "Status percakapan tidak tersedia. Muat ulang atau perbarui host."
+
+msgid "Conversations"
+msgstr "Percakapan"
 
 msgid "Convert to config.toml"
 msgstr "Konversi ke config.toml"
@@ -1179,6 +1330,15 @@ msgstr "Salin ID Workspace"
 msgid "Copy..."
 msgstr "Salin…"
 
+msgid "Core"
+msgstr "Inti"
+
+msgid "Core injection: {budget} characters in this scope, 4800 total. Candidates are excluded."
+msgstr "Injeksi inti: {budget} karakter dalam cakupan ini, total 4800. Kandidat tidak disertakan."
+
+msgid "Correction"
+msgstr "Koreksi"
+
 msgid "Costs are estimates based on API list rates, not a bill or actual subscription spending. Unknown models use approximate rates."
 msgstr "Biaya adalah perkiraan berdasarkan tarif daftar API, bukan tagihan atau pengeluaran langganan aktual. Model yang tidak dikenal memakai tarif perkiraan."
 
@@ -1199,6 +1359,9 @@ msgstr "Tidak dapat mengonfirmasi hasil di host tujuan. Periksa koneksi dan izin
 
 msgid "Could not confirm this session. Refresh before retrying."
 msgstr "Tidak dapat mengonfirmasi sesi ini. Muat ulang sebelum mencoba lagi."
+
+msgid "Could not create team. Refresh the agents and retry."
+msgstr "Tidak dapat membuat tim. Segarkan agen lalu coba lagi."
 
 msgid "Could not create workspace. Check the target host and retry."
 msgstr "Tidak dapat membuat ruang kerja. Periksa host tujuan dan coba lagi."
@@ -1227,6 +1390,9 @@ msgstr "Tidak dapat memeriksa ruang kerja ini. Coba periksa lagi sebelum menghap
 msgid "Could not list repositories. Check gh authentication on the target host, or enter a URL below."
 msgstr "Tidak dapat mencantumkan repositori. Periksa autentikasi gh di host tujuan atau masukkan URL di bawah."
 
+msgid "Could not load agents"
+msgstr "Tidak dapat memuat agen"
+
 msgid "Could not load branches from the target host."
 msgstr "Tidak dapat memuat cabang dari host tujuan."
 
@@ -1242,8 +1408,14 @@ msgstr "Tidak dapat memuat pengaturan proyek dari host tujuan."
 msgid "Could not load pull requests. Check gh access on the target host."
 msgstr "Tidak dapat memuat PR. Periksa akses gh di host tujuan."
 
+msgid "Could not load Teamwork. Check the host connection and retry."
+msgstr "Tidak dapat memuat Teamwork. Periksa koneksi host lalu coba lagi."
+
 msgid "Could not load workspace status. Check the target host and try again."
 msgstr "Tidak dapat memuat status ruang kerja. Periksa host tujuan dan coba lagi."
+
+msgid "Could not open terminal"
+msgstr "Tidak dapat membuka terminal"
 
 msgid "Could not open this workspace. Check the target host and try again."
 msgstr "Tidak dapat membuka ruang kerja ini. Periksa host tujuan dan coba lagi."
@@ -1272,6 +1444,9 @@ msgstr "Tidak dapat membaca direktori ini. Periksa jalur dan izin di host tujuan
 msgid "Could not read worktrees from the target host."
 msgstr "Tidak dapat membaca pohon kerja dari host tujuan."
 
+msgid "Could not refresh. Showing the last loaded information."
+msgstr "Tidak dapat menyegarkan. Menampilkan informasi terakhir yang dimuat."
+
 msgid "Could not rename project. Try again."
 msgstr "Tidak dapat mengganti nama proyek. Coba lagi."
 
@@ -1286,6 +1461,9 @@ msgstr "Tidak dapat menampilkan ikon"
 
 msgid "Could not render image"
 msgstr "Tidak dapat menampilkan gambar"
+
+msgid "Could not save memory. Your draft is kept."
+msgstr "Tidak dapat menyimpan memori. Draf Anda disimpan."
 
 msgid "Could not save the group. Your draft is kept."
 msgstr "Tidak dapat menyimpan grup. Draf Anda dipertahankan."
@@ -1311,8 +1489,14 @@ msgstr "Tidak dapat menyimpan kemajuan Anda. Coba lagi."
 msgid "Could not select a project directory."
 msgstr "Tidak dapat memilih direktori proyek."
 
+msgid "Could not send mail. Your draft is kept for retry."
+msgstr "Tidak dapat mengirim surat. Draf disimpan untuk dicoba lagi."
+
 msgid "Could not set icon"
 msgstr "Tidak bisa menyetel ikon"
+
+msgid "Could not sign out. Reconnect and try again."
+msgstr "Tidak dapat keluar. Hubungkan kembali lalu coba lagi."
 
 msgid "Could not stop a listening process. Earlier successful stops are kept."
 msgstr "Tidak dapat menghentikan proses pendengar. Penghentian sebelumnya yang berhasil dipertahankan."
@@ -1320,11 +1504,20 @@ msgstr "Tidak dapat menghentikan proses pendengar. Penghentian sebelumnya yang b
 msgid "Could not stop it"
 msgstr "Tidak bisa dihentikan"
 
+msgid "Could not update DeepSeek settings. Check the host and retry."
+msgstr "Tidak dapat memperbarui pengaturan DeepSeek. Periksa host lalu coba lagi."
+
+msgid "Could not update mail"
+msgstr "Tidak dapat memperbarui surat"
+
 msgid "Could not update the project tree. Try again."
 msgstr "Tidak dapat memperbarui pohon proyek. Coba lagi."
 
 msgid "Could not update the removed project. Check its status before retrying."
 msgstr "Tidak dapat memperbarui proyek yang dihapus. Periksa statusnya sebelum mencoba lagi."
+
+msgid "Could not update this item. Refresh to check its status."
+msgstr "Tidak dapat memperbarui item ini. Muat ulang untuk memeriksa statusnya."
 
 msgid "Could not update workspace. Try again."
 msgstr "Tidak dapat memperbarui ruang kerja. Coba lagi."
@@ -1337,6 +1530,9 @@ msgstr "Tidak bisa menyimpan. Edit atau klik di luar untuk mencoba lagi"
 
 msgid "Couldn't save. Retrying…"
 msgstr "Tidak bisa menyimpan. Mencoba lagi…"
+
+msgid "Create"
+msgstr "Buat"
 
 msgid "Create a blank folder and initialize it as a Git repository."
 msgstr "Buat folder kosong dan inisialisasi sebagai repositori Git."
@@ -1362,11 +1558,17 @@ msgstr "Buat PR"
 msgid "Create project"
 msgstr "Buat proyek"
 
+msgid "Create provider token"
+msgstr "Buat token penyedia"
+
 msgid "Create pull request"
 msgstr "Buat pull request"
 
 msgid "Create pull request on GitHub?"
 msgstr "Buat pull request di GitHub?"
+
+msgid "Create team"
+msgstr "Buat tim"
 
 msgid "create the project"
 msgstr "membuat proyek"
@@ -1471,8 +1673,20 @@ msgstr "Gelap"
 msgid "Dark theme"
 msgstr "Tema gelap"
 
+msgid "Declarative extensions"
+msgstr "Ekstensi deklaratif"
+
 msgid "Decline"
 msgstr "Tolak"
+
+msgid "DeepSeek API Key"
+msgstr "Kunci API DeepSeek"
+
+msgid "DeepSeek for Butler and memory extraction."
+msgstr "DeepSeek untuk Butler dan ekstraksi memori."
+
+msgid "DeepSeek is not configured. Status and Inbox still work."
+msgstr "DeepSeek belum dikonfigurasi. Status dan Kotak Masuk tetap berfungsi."
 
 msgid "default"
 msgstr "bawaan"
@@ -1537,6 +1751,18 @@ msgstr "Sesi yang dihapus tidak dapat dipulihkan."
 msgid "Deleting…"
 msgstr "Menghapus…"
 
+msgid "Delivered"
+msgstr "Terkirim"
+
+msgid "Delivered means the remote host stored the mail, not that a recipient read or acknowledged it."
+msgstr "Terkirim berarti host jarak jauh menyimpan surat, bukan penerima telah membaca atau mengonfirmasi penanganannya."
+
+msgid "Describe a goal to start a new task."
+msgstr "Jelaskan tujuan untuk memulai tugas baru."
+
+msgid "Describe the task…"
+msgstr "Jelaskan tugas…"
+
 msgid "Describe what the agent should do…"
 msgstr "Jelaskan apa yang harus dilakukan agen…"
 
@@ -1561,6 +1787,12 @@ msgstr "Detail"
 msgid "Detect workspaces from other tools"
 msgstr "Deteksi ruang kerja dari alat lain"
 
+msgid "Device"
+msgstr "Perangkat"
+
+msgid "Device name"
+msgstr "Nama perangkat"
+
 msgid "Diagnostics"
 msgstr "Diagnostik"
 
@@ -1578,6 +1810,9 @@ msgstr "diff di tab baru"
 
 msgid "Directory path"
 msgstr "Jalur direktori"
+
+msgid "Disabled"
+msgstr "Dinonaktifkan"
 
 msgid "Discard"
 msgstr "Buang"
@@ -1638,6 +1873,9 @@ msgstr "Dokumentasi"
 msgid "Done"
 msgstr "Selesai"
 
+msgid "Download JSON"
+msgstr "Unduh JSON"
+
 msgid "Download starter"
 msgstr "Unduh starter"
 
@@ -1683,6 +1921,12 @@ msgstr "Edit"
 msgid "Edit group"
 msgstr "Edit grup"
 
+msgid "Edit memory"
+msgstr "Edit memori"
+
+msgid "Edit peer"
+msgstr "Edit peer"
+
 msgid "Edit shared setup, run and teardown commands, or personal overrides. Saving does not execute commands."
 msgstr "Edit perintah konfigurasi, eksekusi, dan pembersihan bersama atau penimpaan pribadi. Menyimpan tidak menjalankan perintah."
 
@@ -1698,8 +1942,14 @@ msgstr "Editor & alur kerja"
 msgid "Editor typography"
 msgstr "Tipografi editor"
 
+msgid "Effort"
+msgstr "Tingkat penalaran"
+
 msgid "Enable"
 msgstr "Aktifkan"
+
+msgid "Enabled"
+msgstr "Diaktifkan"
 
 msgid "Endpoint"
 msgstr "Endpoint"
@@ -1709,6 +1959,9 @@ msgstr "Masukkan perintah."
 
 msgid "Enter a group name of 1 to 64 characters."
 msgstr "Masukkan nama grup dengan 1 hingga 64 karakter."
+
+msgid "Enter a new API key to replace it"
+msgstr "Masukkan kunci API baru untuk menggantinya"
 
 msgid "Enter a project name and location."
 msgstr "Masukkan nama dan lokasi proyek."
@@ -1731,6 +1984,9 @@ msgstr "Masukkan jalur direktori absolut di host tujuan."
 msgid "Enter an agent name."
 msgstr "Masukkan nama agen."
 
+msgid "Enter the pairing code shown in Jedv on your computer."
+msgstr "Masukkan kode pemasangan yang ditampilkan Jedv di komputer."
+
 msgid "Enter URL..."
 msgstr "Masukkan URL..."
 
@@ -1746,6 +2002,9 @@ msgstr "Samakan Pembagian Panel"
 msgid "Estimated cost"
 msgstr "Perkiraan biaya"
 
+msgid "Event type prefix"
+msgstr "Awalan jenis peristiwa"
+
 msgid "Every {day}"
 msgstr "Setiap {day}"
 
@@ -1754,6 +2013,9 @@ msgstr "Setiap {day} pukul {time}"
 
 msgid "Every minute"
 msgstr "Tiap menit"
+
+msgid "Executed"
+msgstr "Dieksekusi"
 
 msgid "Execution mode"
 msgstr "Mode eksekusi"
@@ -1788,14 +2050,38 @@ msgstr "Bentangkan"
 msgid "Expand all"
 msgstr "Bentangkan semua"
 
+msgid "Expand message"
+msgstr "Perluas pesan"
+
 msgid "Expand pane area"
 msgstr "Perluas area panel"
 
 msgid "Expand the right pane to fill the window, or restore it"
 msgstr "Perluas panel kanan hingga memenuhi jendela, atau pulihkan"
 
+msgid "Expired"
+msgstr "Kedaluwarsa"
+
+msgid "Expired {time}"
+msgstr "Kedaluwarsa {time}"
+
+msgid "Expires {time}"
+msgstr "Kedaluwarsa pada {time}"
+
+msgid "Export memory"
+msgstr "Ekspor memori"
+
+msgid "Export project memory?"
+msgstr "Ekspor memori proyek?"
+
 msgid "Export theme"
 msgstr "Ekspor tema"
+
+msgid "Export to .jedv/memory.json"
+msgstr "Ekspor ke .jedv/memory.json"
+
+msgid "Extensions display data and can receive narrowly scoped mail."
+msgstr "Ekstensi menampilkan data dan dapat menerima surat dengan izin terbatas."
 
 msgid "external browser"
 msgstr "browser eksternal"
@@ -1808,6 +2094,9 @@ msgstr "Editor eksternal hanya membuka file di mesin ini"
 
 msgid "Failed"
 msgstr "Gagal"
+
+msgid "Failed runs: {activeCount}"
+msgstr "Eksekusi gagal: {activeCount}"
 
 msgid "Failed to add {failed} files"
 msgstr "Gagal menambahkan {failed} file"
@@ -1937,6 +2226,9 @@ msgstr "Tautan file"
 
 msgid "File not found"
 msgstr "File tidak ditemukan"
+
+msgid "File path on target host"
+msgstr "Jalur berkas pada host tujuan"
 
 msgid "File tree limit reached. Search files to open an unloaded path."
 msgstr "Batas pohon file tercapai. Cari file untuk membuka jalur yang belum dimuat."
@@ -2097,6 +2389,9 @@ msgstr "Jumat"
 msgid "From"
 msgstr "Dari"
 
+msgid "From the task’s first sentence"
+msgstr "Dari kalimat pertama tugas"
+
 msgid "Front matter hidden. Switch to the Markdown view to edit it"
 msgstr "Front matter disembunyikan. Beralih ke tampilan Markdown untuk mengeditnya"
 
@@ -2127,6 +2422,9 @@ msgstr "Penulis Git"
 msgid "Git author name"
 msgstr "Nama author Git"
 
+msgid "Git features are unavailable here. Terminals and files remain available."
+msgstr "Fitur Git tidak tersedia di sini. Terminal dan berkas tetap tersedia."
+
 msgid "GitHub authentication failed. Sign in with gh on this host, then refresh."
 msgstr "Autentikasi GitHub gagal. Masuk dengan gh di host ini, lalu muat ulang."
 
@@ -2141,6 +2439,9 @@ msgstr "Batas laju GitHub tercapai. Tautan PR mungkin sudah kedaluwarsa."
 
 msgid "GitHub username"
 msgstr "Username GitHub"
+
+msgid "Global"
+msgstr "Global"
 
 msgid "Globe"
 msgstr "Globe"
@@ -2187,6 +2488,9 @@ msgstr "Mengarahkan nama workspace dan branch yang dibuat AI untuk proyek ini. K
 msgid "Handle in terminal"
 msgstr "Tangani di terminal"
 
+msgid "Handled"
+msgstr "Ditangani"
+
 msgid "Has uncommitted changes"
 msgstr "Ada perubahan yang belum di-commit"
 
@@ -2211,11 +2515,17 @@ msgstr "Hati"
 msgid "Help"
 msgstr "Bantuan"
 
+msgid "Hide"
+msgstr "Sembunyikan"
+
 msgid "Hide {displayName}"
 msgstr "Sembunyikan {displayName}"
 
 msgid "Hide details"
 msgstr "Sembunyikan detail"
+
+msgid "Hide history"
+msgstr "Sembunyikan riwayat"
 
 msgid "Hide workspace activity"
 msgstr "Sembunyikan aktivitas workspace"
@@ -2235,6 +2545,9 @@ msgstr "Koneksi host tidak tersedia"
 msgid "Host is offline"
 msgstr "Host sedang offline"
 
+msgid "Host offline. Team actions are unavailable until the connection is restored."
+msgstr "Host offline. Tindakan tim tidak tersedia sampai koneksi pulih."
+
 msgid "Host Service"
 msgstr "Host Service"
 
@@ -2250,8 +2563,14 @@ msgstr "Layanan host tidak tersedia"
 msgid "Hourly"
 msgstr "Tiap jam"
 
+msgid "HTTPS address"
+msgstr "Alamat HTTPS"
+
 msgid "https://github.com/owner/repo.git or /path/to/repo"
 msgstr "https://github.com/owner/repo.git atau /path/to/repo"
+
+msgid "Human"
+msgstr "Manusia"
 
 msgid "I checked the attachments"
 msgstr "Saya telah memeriksa lampiran"
@@ -2270,6 +2589,18 @@ msgstr "IDE"
 
 msgid "Idle"
 msgstr "Idle"
+
+msgid "Ignore"
+msgstr "Abaikan"
+
+msgid "Ignore suggestion"
+msgstr "Abaikan saran"
+
+msgid "Ignored"
+msgstr "Diabaikan"
+
+msgid "Ignoring this suggestion does not acknowledge mail or resolve its cause."
+msgstr "Mengabaikan saran ini tidak mengonfirmasi penanganan surat atau menyelesaikan penyebabnya."
 
 msgid "Image"
 msgstr "Gambar"
@@ -2302,8 +2633,23 @@ msgstr "Impor file tema atau ambil starter untuk diedit."
 msgid "Import an audio file or preview the selected sound."
 msgstr "Impor file audio atau pratinjau suara yang dipilih."
 
+msgid "Import from host file"
+msgstr "Impor dari berkas host"
+
 msgid "Import from other tools"
 msgstr "Impor dari alat lain"
+
+msgid "Import JSON file"
+msgstr "Impor berkas JSON"
+
+msgid "Import memory"
+msgstr "Impor memori"
+
+msgid "Import memory?"
+msgstr "Impor memori?"
+
+msgid "Import plain folder"
+msgstr "Impor folder biasa"
 
 msgid "Import results"
 msgstr "Hasil impor"
@@ -2323,6 +2669,9 @@ msgstr "Impor worktree yang belum terlacak"
 msgid "Import worktree"
 msgstr "Impor pohon kerja"
 
+msgid "Imported entries stay in the selected scope. Existing content is deduplicated."
+msgstr "Entri yang diimpor tetap berada dalam cakupan terpilih. Konten yang sudah ada dideduplikasi."
+
 msgid "Importing project…"
 msgstr "Mengimpor proyek…"
 
@@ -2340,6 +2689,15 @@ msgstr "Di jendela Apple, klik Instal. Prosesnya beberapa menit, dan halaman ini
 
 msgid "In review"
 msgstr "Dalam review"
+
+msgid "Inbound mail token"
+msgstr "Token surat masuk"
+
+msgid "Inbox"
+msgstr "Kotak Masuk"
+
+msgid "Include archived teams"
+msgstr "Sertakan tim yang diarsipkan"
 
 msgid "Include the Linear ticket id from the prompt in the branch name (e.g. bin-344-fix-login). Prefix branches with fix/ or feat/ based on the task."
 msgstr "Sertakan id tiket Linear dari prompt di nama branch (mis. bin-344-fix-login). Beri prefix fix/ atau feat/ sesuai tugasnya."
@@ -2368,8 +2726,14 @@ msgstr "Sisipkan ke CLI"
 msgid "Insert into the existing CLI, then submit in the terminal."
 msgstr "Sisipkan ke CLI yang ada, lalu kirim di terminal."
 
+msgid "Install"
+msgstr "Pasang"
+
 msgid "Install Command Line Tools"
 msgstr "Instal Command Line Tools"
+
+msgid "Install extension"
+msgstr "Pasang ekstensi"
 
 msgid "Install Git, then come back."
 msgstr "Instal Git, lalu kembali ke sini."
@@ -2391,6 +2755,9 @@ msgstr "Penyelaan diminta"
 
 msgid "Interrupted"
 msgstr "Disela"
+
+msgid "Invalid memory JSON"
+msgstr "JSON memori tidak valid"
 
 msgid "Italic"
 msgstr "Miring"
@@ -2415,6 +2782,9 @@ msgstr "Buka ruang kerja yang memerlukan perhatian atau sedang berjalan."
 
 msgid "Keep editing"
 msgstr "Lanjutkan mengedit"
+
+msgid "Keep existing entries"
+msgstr "Pertahankan entri yang ada"
 
 msgid "Keep notifications silent on this device."
 msgstr "Jaga notifikasi tetap senyap di perangkat ini."
@@ -2455,6 +2825,9 @@ msgstr "Hari terakhir tiap bulan"
 msgid "Last day of each month at {time}"
 msgstr "Hari terakhir tiap bulan pukul {time}"
 
+msgid "Last run {time}"
+msgstr "Eksekusi terakhir {time}"
+
 msgid "Later"
 msgstr "Nanti"
 
@@ -2469,6 +2842,9 @@ msgstr "Hasil peluncuran tidak diketahui. Segarkan dan periksa terminal sebelum 
 
 msgid "Layout"
 msgstr "Tata letak"
+
+msgid "Leader"
+msgstr "Pemimpin"
 
 msgid "Leaf"
 msgstr "Daun"
@@ -2568,6 +2944,12 @@ msgstr "Memuat font..."
 msgid "Loading identity…"
 msgstr "Memuat identitas…"
 
+msgid "Loading mail…"
+msgstr "Memuat surat…"
+
+msgid "Loading memory…"
+msgstr "Memuat memori…"
+
 msgid "Loading more..."
 msgstr "Memuat lagi..."
 
@@ -2597,6 +2979,12 @@ msgstr "Memuat run…"
 
 msgid "Loading sessions…"
 msgstr "Memuat sesi…"
+
+msgid "Loading team…"
+msgstr "Memuat tim…"
+
+msgid "Loading teams…"
+msgstr "Memuat daftar tim…"
 
 msgid "Loading workspace status…"
 msgstr "Memuat status workspace…"
@@ -2637,6 +3025,24 @@ msgstr "Lokasi"
 msgid "Location & checkout"
 msgstr "Lokasi & checkout"
 
+msgid "Mail awaiting acknowledgement: {activeCount}"
+msgstr "Surat menunggu konfirmasi penerimaan: {activeCount}"
+
+msgid "Mail awaits acknowledgement"
+msgstr "Surat menunggu konfirmasi"
+
+msgid "Mail has not been acknowledged. Reading it does not acknowledge it."
+msgstr "Surat belum dikonfirmasi. Membacanya tidak mengonfirmasi penanganannya."
+
+msgid "Mail outbox"
+msgstr "Kotak keluar"
+
+msgid "Mail recipient"
+msgstr "Penerima surat"
+
+msgid "Mail-only access. The host administration key is never shared."
+msgstr "Akses hanya ke surat. Kunci administrasi host tidak pernah dibagikan."
+
 msgid "Make all panes equal size"
 msgstr "Samakan ukuran semua panel"
 
@@ -2648,6 +3054,9 @@ msgstr "Kelola Skrip Terminal"
 
 msgid "Manage the host used by your workspaces."
 msgstr "Kelola host yang digunakan workspace Anda."
+
+msgid "Manifest path on host"
+msgstr "Jalur manifes pada host"
 
 msgid "Manual"
 msgstr "Manual"
@@ -2663,6 +3072,10 @@ msgstr "Tandai sudah dibaca"
 
 msgid "Mark as unread"
 msgstr "Tandai belum dibaca"
+
+#. placeholder {0}: name(delivery.recipientMemberId)
+msgid "Mark mail to {0} as read"
+msgstr "Tandai surat untuk {0} sebagai sudah dibaca"
 
 msgid "Mark ready for review?"
 msgstr "Tandai siap direview?"
@@ -2685,6 +3098,39 @@ msgstr "Ukuran maksimum 256 KB."
 msgid "Member"
 msgstr "Anggota"
 
+msgid "Member activity"
+msgstr "Aktivitas anggota"
+
+msgid "Member activity needs checking"
+msgstr "Aktivitas anggota perlu diperiksa"
+
+msgid "Member status"
+msgstr "Status anggota"
+
+msgid "Member status needs checking"
+msgstr "Status anggota perlu diperiksa"
+
+msgid "Memory"
+msgstr "Memori"
+
+msgid "Memory action failed"
+msgstr "Tindakan memori gagal"
+
+msgid "Memory entries: {count}"
+msgstr "Entri memori: {count}"
+
+msgid "Memory imported"
+msgstr "Memori diimpor"
+
+msgid "Memory is unavailable on this host."
+msgstr "Memori tidak tersedia pada host ini."
+
+msgid "Memory JSON must be at most 4 MB."
+msgstr "JSON memori maksimal 4 MB."
+
+msgid "Memory scope"
+msgstr "Cakupan memori"
+
 msgid "Menu bar activity"
 msgstr "Aktivitas bar menu"
 
@@ -2706,8 +3152,17 @@ msgstr "Kelayakan merge sedang diperiksa"
 msgid "Merged"
 msgstr "Di-merge"
 
+msgid "Message to team"
+msgstr "Pesan untuk tim"
+
 msgid "Minimum contrast"
 msgstr "Kontras minimum"
+
+msgid "Mobile"
+msgstr "Seluler"
+
+msgid "Mobile access address"
+msgstr "Alamat akses seluler"
 
 msgid "Model"
 msgstr "Model"
@@ -2826,6 +3281,12 @@ msgstr "Perlu perhatian"
 msgid "Needs me"
 msgstr "Butuh saya"
 
+msgid "Needs reconciliation"
+msgstr "Perlu rekonsiliasi"
+
+msgid "Needs retry"
+msgstr "Perlu dicoba lagi"
+
 msgid "Nerd Fonts"
 msgstr "Nerd Fonts"
 
@@ -2837,6 +3298,9 @@ msgstr "Cabang baru"
 
 msgid "New Chat"
 msgstr "Chat Baru"
+
+msgid "New conversation"
+msgstr "Percakapan baru"
 
 msgid "New File"
 msgstr "File Baru"
@@ -2874,6 +3338,9 @@ msgstr "Tab baru"
 msgid "New Terminal"
 msgstr "Terminal Baru"
 
+msgid "New topic"
+msgstr "Topik baru"
+
 msgid "New Window"
 msgstr "Jendela Baru"
 
@@ -2898,6 +3365,9 @@ msgstr "Branch berikutnya"
 
 msgid "Next Right Sidebar Tab"
 msgstr "Tab Sidebar Kanan Berikutnya"
+
+msgid "Next run {time}"
+msgstr "Eksekusi berikutnya {time}"
 
 #. placeholder {0}: formatDateTime(next, { dateStyle: "medium", timeStyle: "short", timeZone: timezone, })
 msgid "Next scheduled time: {0}"
@@ -2924,6 +3394,9 @@ msgstr "Tidak ada organisasi aktif yang dipilih. Pilih organisasi atau masuk lag
 msgid "No active services"
 msgstr "Tidak ada layanan aktif"
 
+msgid "No active teams."
+msgstr "Tidak ada tim aktif."
+
 msgid "No active workspaces"
 msgstr "Tidak ada workspace aktif"
 
@@ -2936,11 +3409,20 @@ msgstr "Belum ada aktivitas"
 msgid "No agent was started. After setup completes, start the agent again."
 msgstr "Tidak ada agen yang dimulai. Setelah konfigurasi selesai, mulai agen lagi."
 
+msgid "No agents configured"
+msgstr "Belum ada agen yang dikonfigurasi"
+
+msgid "No alerts."
+msgstr "Tidak ada peringatan."
+
 msgid "No automations match your filters"
 msgstr "Tidak ada otomatisasi yang cocok dengan filter Anda"
 
 msgid "No automations yet"
 msgstr "Belum ada otomatisasi"
+
+msgid "No automations."
+msgstr "Tidak ada automasi."
 
 msgid "No available workspace with a GitHub remote"
 msgstr "Tidak ada workspace tersedia dengan remote GitHub"
@@ -2990,6 +3472,12 @@ msgstr "Tidak ada repositori GitHub tersedia"
 msgid "No importable worktrees found on this host. You can open a project and import its worktrees instead."
 msgstr "Tidak ada pohon kerja yang dapat diimpor di host ini. Sebagai gantinya, Anda dapat membuka proyek dan mengimpor pohon kerjanya."
 
+msgid "No items"
+msgstr "Tidak ada item"
+
+msgid "No items."
+msgstr "Tidak ada item."
+
 msgid "No linked pull requests"
 msgstr "Tidak ada PR tertaut"
 
@@ -2998,6 +3486,9 @@ msgstr "Tidak ada metrik proses terminal lokal yang tersedia."
 
 msgid "No local usage or quota data is available."
 msgstr "Tidak ada data penggunaan atau kuota lokal yang tersedia."
+
+msgid "No mail"
+msgstr "Tidak ada surat"
 
 msgid "No match"
 msgstr "Tidak ada yang cocok"
@@ -3011,11 +3502,17 @@ msgstr "Tidak ada pengaturan yang cocok."
 msgid "No matching shortcuts."
 msgstr "Tidak ada pintasan yang cocok."
 
+msgid "No memory found"
+msgstr "Memori tidak ditemukan"
+
 msgid "No messages in this page"
 msgstr "Tidak ada pesan di halaman ini"
 
 msgid "No output yet"
 msgstr "Belum ada output"
+
+msgid "No pending approvals."
+msgstr "Tidak ada persetujuan tertunda."
 
 msgid "No pending responses or unread completions"
 msgstr "Tidak ada respons tertunda atau penyelesaian yang belum dibaca"
@@ -3047,6 +3544,9 @@ msgstr "Tidak ada PR yang ditemukan"
 msgid "No pull requests match your filters"
 msgstr "Tidak ada pull request yang cocok dengan filter Anda"
 
+msgid "No recent Agent or Git activity was observed. Inspect the terminal before acting."
+msgstr "Tidak terlihat aktivitas agen atau Git baru-baru ini. Periksa terminal sebelum bertindak."
+
 msgid "No removed projects"
 msgstr "Tidak ada proyek yang dihapus"
 
@@ -3064,6 +3564,18 @@ msgstr "Belum ada tangkapan layar"
 
 msgid "No subdirectories"
 msgstr "Tidak ada subdirektori"
+
+msgid "No task assigned"
+msgstr "Belum ada tugas"
+
+msgid "No team"
+msgstr "Tanpa tim"
+
+msgid "No team mail yet"
+msgstr "Belum ada surat tim"
+
+msgid "No teams yet"
+msgstr "Belum ada tim"
 
 msgid "No terminal presets yet."
 msgstr "Belum ada prasetel terminal."
@@ -3098,6 +3610,9 @@ msgstr "Tidak terikat · atur di Pengaturan → Tautan"
 msgid "Not checked yet"
 msgstr "Belum diperiksa"
 
+msgid "Not configured"
+msgstr "Belum dikonfigurasi"
+
 msgid "Not detected in the workspace right now"
 msgstr "Saat ini tidak terdeteksi di workspace"
 
@@ -3124,6 +3639,12 @@ msgstr "Daftar bernomor"
 
 msgid "Off"
 msgstr "Mati"
+
+msgid "Offline"
+msgstr "Offline"
+
+msgid "Offline. Actions are disabled until you reconnect."
+msgstr "Offline. Tindakan dinonaktifkan sampai terhubung kembali."
 
 msgid "On a Mac, Git comes with Apple's Command Line Tools."
 msgstr "Di Mac, Git disertakan dalam Command Line Tools dari Apple."
@@ -3158,6 +3679,10 @@ msgstr "Buka"
 #. placeholder {0}: binding.agentId
 msgid "Open {0} session"
 msgstr "Buka sesi {0}"
+
+#. placeholder {0}: member.name
+msgid "Open {0} terminal"
+msgstr "Buka terminal {0}"
 
 msgid "Open {displayName}"
 msgstr "Buka {displayName}"
@@ -3259,6 +3784,9 @@ msgstr "Buka di tab"
 msgid "Open large file"
 msgstr "Buka file besar"
 
+msgid "Open link"
+msgstr "Buka tautan"
+
 msgid "Open local checkout"
 msgstr "Buka checkout lokal"
 
@@ -3296,6 +3824,9 @@ msgstr "Pengakuan sumber terbuka"
 
 msgid "Open System Settings"
 msgstr "Buka System Settings"
+
+msgid "Open Teamwork"
+msgstr "Buka Teamwork"
 
 msgid "Open terminal"
 msgstr "Buka terminal"
@@ -3363,6 +3894,9 @@ msgstr "Membuka ruang kerja…"
 msgid "Opening…"
 msgstr "Membuka…"
 
+msgid "Operation failed"
+msgstr "Operasi gagal"
+
 msgid "Option shortcuts may prevent typing special characters"
 msgstr "Pintasan Option bisa menghalangi pengetikan karakter khusus"
 
@@ -3380,6 +3914,12 @@ msgstr "Lainnya"
 
 msgid "Other ways to get Git"
 msgstr "Cara lain mendapatkan Git"
+
+msgid "Outbound mail token"
+msgstr "Token surat keluar"
+
+msgid "Outcome uncertain. Retry with the same task settings."
+msgstr "Hasil belum pasti. Coba lagi dengan pengaturan tugas yang sama."
 
 msgid "Outdated"
 msgstr "Usang"
@@ -3401,6 +3941,21 @@ msgstr "Paket"
 
 msgid "Page Not Found"
 msgstr "Halaman Tidak Ditemukan"
+
+msgid "Pair device"
+msgstr "Pasangkan perangkat"
+
+msgid "Pair this device"
+msgstr "Pasangkan perangkat ini"
+
+msgid "Pairing code"
+msgstr "Kode pemasangan"
+
+msgid "Pairing failed. Check the code and try again."
+msgstr "Pemasangan gagal. Periksa kode lalu coba lagi."
+
+msgid "Pairing…"
+msgstr "Memasangkan…"
 
 msgid "Pane areas must belong to the same active workspace"
 msgstr "Area panel harus berada dalam workspace aktif yang sama"
@@ -3432,11 +3987,20 @@ msgstr "Path disalin"
 msgid "Pause"
 msgstr "Jeda"
 
+msgid "Pause automatic wake-ups"
+msgstr "Jeda pemanggilan otomatis"
+
 msgid "Paused"
 msgstr "Dijeda"
 
+msgid "Peer host ID"
+msgstr "ID host peer"
+
 msgid "Pending"
 msgstr "Menunggu"
+
+msgid "Pending approvals and unread important faults"
+msgstr "Persetujuan tertunda dan gangguan penting yang belum dibaca"
 
 msgid "Permissions"
 msgstr "Izin"
@@ -3465,6 +4029,12 @@ msgstr "Merah muda"
 msgid "Pinned"
 msgstr "Tersemat"
 
+msgid "Pitfall"
+msgstr "Jebakan"
+
+msgid "Plain folder"
+msgstr "Folder biasa"
+
 msgid "Please select a project directory."
 msgstr "Pilih direktori proyek."
 
@@ -3479,6 +4049,9 @@ msgstr "Posting komentar ke GitHub?"
 
 msgid "Post reply to GitHub?"
 msgstr "Posting balasan ke GitHub?"
+
+msgid "Preferences"
+msgstr "Preferensi"
 
 msgid "Prefix"
 msgstr "Prefix"
@@ -3528,8 +4101,14 @@ msgstr "Host pribadi"
 msgid "Private host connections and application settings without a Jedv account."
 msgstr "Koneksi host pribadi dan pengaturan aplikasi tanpa akun Jedv."
 
+msgid "Processed"
+msgstr "Ditangani"
+
 msgid "Processed tokens"
 msgstr "Token yang diproses"
+
+msgid "Processing"
+msgstr "Memproses"
 
 msgid "Project"
 msgstr "Proyek"
@@ -3539,6 +4118,9 @@ msgstr "Direktori proyek"
 
 msgid "Project icon and color"
 msgstr "Ikon dan warna proyek"
+
+msgid "Project memory"
+msgstr "Memori proyek"
 
 msgid "Project name"
 msgstr "Nama proyek"
@@ -3575,6 +4157,12 @@ msgstr "Transport prompt"
 
 msgid "Provider quota"
 msgstr "Kuota provider"
+
+msgid "Provider token"
+msgstr "Token penyedia"
+
+msgid "Provider tokens"
+msgstr "Token penyedia"
 
 msgid "Pull request"
 msgstr "Pull request"
@@ -3658,14 +4246,26 @@ msgstr "Kutipan"
 msgid "Reachable"
 msgstr "Dapat dijangkau"
 
+msgid "Read"
+msgstr "Dibaca"
+
 msgid "Read only"
 msgstr "Hanya baca"
+
+msgid "Read-only alert"
+msgstr "Peringatan hanya baca"
+
+msgid "Read, awaiting acknowledgement"
+msgstr "Sudah dibaca, menunggu konfirmasi"
 
 msgid "Reading local CLI logs…"
 msgstr "Membaca log CLI lokal…"
 
 msgid "Ready for review"
 msgstr "Siap direview"
+
+msgid "Reason (optional)"
+msgstr "Alasan (opsional)"
 
 msgid "Reasoning"
 msgstr "Penalaran"
@@ -3706,6 +4306,9 @@ msgstr "Merah"
 msgid "Refresh"
 msgstr "Segarkan"
 
+msgid "Refresh agents"
+msgstr "Segarkan agen"
+
 msgid "Refresh capabilities"
 msgstr "Segarkan kemampuan"
 
@@ -3727,8 +4330,17 @@ msgstr "Muat ulang sesi"
 msgid "Refresh status"
 msgstr "Segarkan status"
 
+msgid "Refresh teams"
+msgstr "Segarkan tim"
+
 msgid "Reject"
 msgstr "Tolak"
+
+msgid "Reject candidate"
+msgstr "Tolak kandidat"
+
+msgid "Reject candidate?"
+msgstr "Tolak kandidat ini?"
 
 msgid "Rejected"
 msgstr "Ditolak"
@@ -3790,8 +4402,20 @@ msgstr "Hapus ikon"
 msgid "Remove link"
 msgstr "Hapus tautan"
 
+msgid "Remove memories"
+msgstr "Hapus memori"
+
+msgid "Remove memory"
+msgstr "Hapus memori"
+
+msgid "Remove memory?"
+msgstr "Hapus memori ini?"
+
 msgid "Remove pasted text"
 msgstr "Hapus teks yang ditempel"
+
+msgid "Remove peer"
+msgstr "Hapus peer"
 
 msgid "Remove project"
 msgstr "Hapus proyek"
@@ -3823,6 +4447,9 @@ msgstr "Ganti nama branch"
 msgid "Rename session"
 msgstr "Ganti nama sesi"
 
+msgid "Rename team"
+msgstr "Ganti nama tim"
+
 msgid "rename the branch"
 msgstr "mengganti nama branch"
 
@@ -3850,11 +4477,17 @@ msgstr "Ganti"
 msgid "Replace All"
 msgstr "Ganti Semua"
 
+msgid "Replace an existing memory"
+msgstr "Ganti memori yang ada"
+
 msgid "Replaced {replaced} files in {where}"
 msgstr "Mengganti {replaced} file di {where}"
 
 msgid "Replaced 1 file in {where}"
 msgstr "Mengganti 1 file di {where}"
+
+msgid "Replaces memory"
+msgstr "Menggantikan memori"
 
 msgid "Reply"
 msgstr "Balas"
@@ -3873,6 +4506,9 @@ msgstr "URL atau path repositori"
 
 msgid "Request cancellation"
 msgstr "Minta pembatalan"
+
+msgid "Request failed. Your draft has been kept."
+msgstr "Permintaan gagal. Draf Anda disimpan."
 
 msgid "Requested permissions"
 msgstr "Izin yang diminta"
@@ -4007,6 +4643,9 @@ msgstr "Lanjutkan sesi native. ID sesi ditambahkan setelah argumen ini."
 msgid "Resume arguments"
 msgstr "Argumen lanjutan"
 
+msgid "Resume automatic wake-ups"
+msgstr "Lanjutkan pemanggilan otomatis"
+
 msgid "Resume same CLI session"
 msgstr "Lanjutkan sesi CLI yang sama"
 
@@ -4037,6 +4676,9 @@ msgstr "Coba lagi dalam beberapa detik; kalau terus terjadi, mulai ulang Jedv."
 msgid "Retry in a few seconds."
 msgstr "Coba lagi dalam beberapa detik."
 
+msgid "Retry mail delivery?"
+msgstr "Coba kirim surat lagi?"
+
 msgid "Return to Save"
 msgstr "Kembali untuk menyimpan"
 
@@ -4064,11 +4706,23 @@ msgstr "Thread review diperbarui"
 msgid "Review threads could not be loaded"
 msgstr "Thread review tidak dapat dimuat"
 
+msgid "Revoke all sessions"
+msgstr "Cabut semua sesi"
+
+msgid "Revoke session"
+msgstr "Cabut sesi"
+
+msgid "Revoke token"
+msgstr "Cabut token"
+
 msgid "right pane"
 msgstr "panel kanan"
 
 msgid "Rocket"
 msgstr "Roket"
+
+msgid "Rotate inbound token"
+msgstr "Perbarui token masuk"
 
 msgid "Run"
 msgstr "Jalankan"
@@ -4142,6 +4796,9 @@ msgstr "Simpan"
 msgid "Save All"
 msgstr "Simpan Semua"
 
+msgid "Save API key"
+msgstr "Simpan kunci API"
+
 msgid "Save changes"
 msgstr "Simpan perubahan"
 
@@ -4178,6 +4835,9 @@ msgstr "Simpan atau tutup file yang belum disimpan dan commit atau abaikan perub
 msgid "Save preset"
 msgstr "Simpan prasetel"
 
+msgid "Save team name"
+msgstr "Simpan nama tim"
+
 msgid "save the agent"
 msgstr "menyimpan agen"
 
@@ -4198,6 +4858,9 @@ msgstr "Tersimpan"
 
 msgid "Saving a preset does not run its commands."
 msgstr "Menyimpan prasetel tidak menjalankan perintahnya."
+
+msgid "Saving replaces the current entry and keeps its history."
+msgstr "Menyimpan mengganti entri saat ini dan mempertahankan riwayatnya."
 
 msgid "Saving…"
 msgstr "Menyimpan…"
@@ -4231,8 +4894,14 @@ msgstr "Gulir ke Bawah"
 msgid "Search"
 msgstr "Cari"
 
+msgid "Search active memory…"
+msgstr "Cari memori aktif…"
+
 msgid "Search active workspaces…"
 msgstr "Cari ruang kerja aktif…"
+
+msgid "Search agents…"
+msgstr "Cari agen…"
 
 msgid "Search and open files in the current workspace"
 msgstr "Cari dan buka file di workspace saat ini"
@@ -4260,6 +4929,9 @@ msgstr "Cari file..."
 
 msgid "Search fonts..."
 msgstr "Cari font..."
+
+msgid "Search memory"
+msgstr "Cari memori"
 
 msgid "Search projects"
 msgstr "Cari proyek"
@@ -4369,6 +5041,9 @@ msgstr "Pilih rentang..."
 msgid "Select repositories"
 msgstr "Pilih repositori"
 
+msgid "Select workspace"
+msgstr "Pilih ruang kerja"
+
 msgid "Select worktree…"
 msgstr "Pilih pohon kerja…"
 
@@ -4378,8 +5053,17 @@ msgstr "Dipilih"
 msgid "Send"
 msgstr "Kirim"
 
+msgid "Send instructions or ask the team…"
+msgstr "Kirim instruksi atau tanyakan kepada tim…"
+
+msgid "Send mail"
+msgstr "Kirim surat"
+
 msgid "Send message"
 msgstr "Kirim pesan"
+
+msgid "Sending…"
+msgstr "Mengirim…"
 
 msgid "Sensitive values are hidden. This preview is incomplete."
 msgstr "Nilai sensitif disembunyikan. Pratinjau ini tidak lengkap."
@@ -4392,6 +5076,9 @@ msgstr "Sesi"
 
 msgid "Session ended"
 msgstr "Sesi berakhir"
+
+msgid "Session expires {time}"
+msgstr "Sesi kedaluwarsa {time}"
 
 msgid "Session ID"
 msgstr "ID Sesi"
@@ -4440,8 +5127,17 @@ msgstr "Status penyelesaian konfigurasi tidak tersedia untuk ruang kerja ini. Ti
 msgid "Shared"
 msgstr "Dibagikan"
 
+msgid "Shared memory"
+msgstr "Memori bersama"
+
 msgid "Shift+click"
 msgstr "Shift+klik"
+
+msgid "Show"
+msgstr "Tampilkan"
+
+msgid "Show {hiddenCount} more"
+msgstr "Tampilkan {hiddenCount} lagi"
 
 msgid "Show agent commands and pinned terminal presets above the workspace."
 msgstr "Tampilkan perintah agen dan prasetel terminal yang disematkan di atas ruang kerja."
@@ -4460,6 +5156,9 @@ msgstr "Tampilkan direktori tersembunyi"
 
 msgid "Show hidden files"
 msgstr "Tampilkan file tersembunyi"
+
+msgid "Show history"
+msgstr "Tampilkan riwayat"
 
 msgid "Show in folder"
 msgstr "Tampilkan di folder"
@@ -4500,14 +5199,26 @@ msgstr "Tampilkan aktivitas workspace"
 msgid "Showing the first 100 results. Refine your search."
 msgstr "Menampilkan 100 hasil pertama. Persempit pencarian Anda."
 
+msgid "Shown once. Copy before closing."
+msgstr "Ditampilkan sekali. Salin sebelum menutup."
+
 msgid "Side by side"
 msgstr "Berdampingan"
+
+msgid "Sidebar extensions"
+msgstr "Ekstensi bilah sisi"
 
 msgid "Sidebar file rows"
 msgstr "Baris file di sidebar"
 
 msgid "Sign in to GitHub on this host to reply"
 msgstr "Masuk ke GitHub di host ini untuk membalas"
+
+msgid "Sign out"
+msgstr "Keluar"
+
+msgid "Signing out…"
+msgstr "Keluar…"
 
 msgid "Size"
 msgstr "Ukuran"
@@ -4535,6 +5246,9 @@ msgstr "Beberapa tindakan pohon proyek tidak dapat dimuat. Tindakan lain tetap t
 
 msgid "Some session details could not be loaded. Refresh to check the current host state."
 msgstr "Beberapa detail sesi tidak dapat dimuat. Muat ulang untuk memeriksa status host saat ini."
+
+msgid "Some team data could not be loaded. Check the host connection and retry."
+msgstr "Sebagian data tim tidak dapat dimuat. Periksa koneksi host lalu coba lagi."
 
 msgid "Some themes were skipped"
 msgstr "Sebagian tema dilewati"
@@ -4620,6 +5334,9 @@ msgstr "Star"
 msgid "Start a new agent, or choose an existing session from Sessions."
 msgstr "Mulai agen baru atau pilih sesi yang ada dari Sesi."
 
+msgid "Start an agent in a workspace, then create a team."
+msgstr "Mulai agen di ruang kerja, lalu buat tim."
+
 msgid "Start from a template"
 msgstr "Mulai dari templat"
 
@@ -4628,6 +5345,9 @@ msgstr "Mulai sesi baru"
 
 msgid "Start or stop the workspace run command"
 msgstr "Mulai atau hentikan perintah run workspace"
+
+msgid "Start task"
+msgstr "Mulai tugas"
 
 msgid "starting"
 msgstr "memulai"
@@ -4649,6 +5369,14 @@ msgstr "Status tidak tersedia. Tinjau izin ini di Pengaturan Sistem."
 
 msgid "Stop"
 msgstr "Hentikan"
+
+#. placeholder {0}: member.name
+msgid "Stop {0}"
+msgstr "Hentikan {0}"
+
+#. placeholder {0}: member.name
+msgid "Stop {0}?"
+msgstr "Hentikan {0}?"
 
 msgid "Stop {label}"
 msgstr "Hentikan {label}"
@@ -4677,8 +5405,20 @@ msgstr "Hentikan proses lokal?"
 msgid "Stop response"
 msgstr "Hentikan respons"
 
+msgid "Stop team"
+msgstr "Hentikan tim"
+
+msgid "Stop Team"
+msgstr "Hentikan tim"
+
+msgid "Stop this team?"
+msgstr "Hentikan tim ini?"
+
 msgid "stopped"
 msgstr "berhenti"
+
+msgid "Stopped"
+msgstr "Dihentikan"
 
 msgid "Strict CLI resume is unavailable on this host. Active CLI and chat sessions remain selectable."
 msgstr "Kelanjutan CLI ketat tidak tersedia di host ini. Sesi CLI dan chat aktif tetap dapat dipilih."
@@ -4691,6 +5431,9 @@ msgstr "Kirim"
 
 msgid "Submit response"
 msgstr "Kirim respons"
+
+msgid "Succeeded"
+msgstr "Berhasil"
 
 msgid "Summary"
 msgstr "Ringkasan"
@@ -4770,19 +5513,58 @@ msgstr "Beralih ke Workspace 9"
 msgid "System"
 msgstr "Sistem"
 
+msgid "System agents"
+msgstr "Agen sistem"
+
 msgid "System permissions"
 msgstr "Izin sistem"
 
 msgid "Take control"
 msgstr "Ambil kendali"
 
+msgid "Target"
+msgstr "Tujuan"
+
 #. placeholder {0}: context.hostLabel
 #. placeholder {0}: session.context.hostLabel
 msgid "Target host: {0}"
 msgstr "Host tujuan: {0}"
 
+msgid "Task"
+msgstr "Tugas"
+
 msgid "Teal"
 msgstr "Tosca"
+
+msgid "Team"
+msgstr "Tim"
+
+msgid "Team action failed"
+msgstr "Tindakan tim gagal"
+
+msgid "Team leader"
+msgstr "Pemimpin tim"
+
+msgid "Team mail"
+msgstr "Surat tim"
+
+msgid "Team member needs attention"
+msgstr "Anggota tim perlu perhatian"
+
+msgid "Team name"
+msgstr "Nama tim"
+
+msgid "Team peers"
+msgstr "Peer tim"
+
+msgid "Team stopped"
+msgstr "Tim dihentikan"
+
+msgid "Teams"
+msgstr "Tim"
+
+msgid "Teamwork"
+msgstr "Teamwork"
 
 msgid "Teardown exited with code {exitCode}"
 msgstr "Teardown keluar dengan kode {exitCode}"
@@ -4820,6 +5602,9 @@ msgstr "Sesi terminal"
 msgid "Terminal typography"
 msgstr "Tipografi terminal"
 
+msgid "Terminal unavailable"
+msgstr "Terminal tidak tersedia"
+
 msgid "Terminate"
 msgstr "Akhiri"
 
@@ -4846,6 +5631,9 @@ msgstr "Sesi aktif berubah. Prompt tidak dikirim."
 
 msgid "The agent reports it is working."
 msgstr "Agen melaporkan bahwa ia sedang bekerja."
+
+msgid "The approval status or target has changed. Refresh to verify, and request a new approval if needed."
+msgstr "Status atau target persetujuan telah berubah. Segarkan untuk memeriksa dan minta persetujuan baru jika diperlukan."
 
 msgid "The attachment copy result is incomplete. Check the workspace before retrying."
 msgstr "Hasil penyalinan lampiran tidak lengkap. Periksa ruang kerja sebelum mencoba lagi."
@@ -4889,6 +5677,12 @@ msgstr "Layanan host Jedv untuk {organization} berhenti tak terduga ({cause}) da
 msgid "The Jedv host service stopped unexpectedly ({cause}) and could not be restarted automatically."
 msgstr "Layanan host Jedv berhenti tak terduga ({cause}) dan tidak bisa dimulai ulang otomatis."
 
+msgid "The key stays on this host. It is never injected into terminals or returned to this screen."
+msgstr "Kunci tetap berada pada host ini. Kunci tidak pernah disuntikkan ke terminal atau dikembalikan ke layar ini."
+
+msgid "The Leader terminal continues running."
+msgstr "Terminal pemimpin tetap berjalan."
+
 msgid "The linked local agent is unavailable on this host. Edit the preset or remove its agent link."
 msgstr "Agen lokal tertaut tidak tersedia di host ini. Edit prasetel atau hapus tautan agennya."
 
@@ -4898,8 +5692,17 @@ msgstr "Layanan host lokal tidak tersedia untuk {organization} di {device}. Stat
 msgid "The operation result is unknown. Check the branch history and remote before retrying."
 msgstr "Hasil operasi tidak diketahui. Periksa riwayat cabang dan repositori jarak jauh sebelum mencoba lagi."
 
+msgid "The original terminal has ended. Its source is shown instead."
+msgstr "Terminal asal telah berakhir. Sumbernya ditampilkan sebagai gantinya."
+
 msgid "The page you're looking for doesn't exist."
 msgstr "Halaman yang Anda cari tidak ada."
+
+msgid "The pairing code expired or was already used. Request a new code on your computer."
+msgstr "Kode pemasangan kedaluwarsa atau sudah digunakan. Minta kode baru di komputer."
+
+msgid "The previous token will stop working. Update the remote peer with the new token."
+msgstr "Token lama akan berhenti berfungsi. Perbarui peer jarak jauh dengan token baru."
 
 msgid "The project is saved, but its workspace could not be opened. Continue opening to retry without creating another project."
 msgstr "Proyek disimpan, tetapi ruang kerjanya tidak dapat dibuka. Lanjutkan membuka untuk mencoba lagi tanpa membuat proyek lain."
@@ -4912,6 +5715,15 @@ msgstr "Direktori repositori tidak ada di host ini. Buka repositori di jalur saa
 
 msgid "The request ended before its result was confirmed. Check the target host for a completed project or partial directory before trying again."
 msgstr "Permintaan berakhir sebelum hasilnya dikonfirmasi. Periksa host tujuan untuk proyek yang selesai atau direktori parsial sebelum mencoba lagi."
+
+msgid "The requested run is not in the loaded history."
+msgstr "Eksekusi ini tidak ada dalam riwayat yang dimuat."
+
+msgid "The result is uncertain. Refresh before deciding again."
+msgstr "Hasil tidak pasti. Segarkan sebelum memutuskan lagi."
+
+msgid "The result is uncertain. Retry this message with the same request ID."
+msgstr "Hasil tidak pasti. Coba pesan ini lagi dengan ID permintaan yang sama."
 
 msgid "The resumed session identity could not be verified. Refresh before retrying."
 msgstr "Identitas sesi yang dilanjutkan tidak dapat diverifikasi. Segarkan sebelum mencoba lagi."
@@ -4961,6 +5773,9 @@ msgstr "Ruang kerja target berubah. Kembali ke ruang kerja asli sebelum melanjut
 msgid "The target workspace changed. The result belongs to the original workspace."
 msgstr "Ruang kerja target berubah. Hasilnya milik ruang kerja asli."
 
+msgid "The team becomes read-only. Its workspaces, files and terminals are kept."
+msgstr "Tim menjadi hanya baca. Ruang kerja, berkas, dan terminalnya tetap disimpan."
+
 msgid "The terminal session changed. Refresh before inserting the prompt."
 msgstr "Sesi terminal berubah. Segarkan sebelum menyisipkan prompt."
 
@@ -4999,6 +5814,9 @@ msgstr "Catatan ini disertakan dengan aplikasi. Detail rilis yang dipublikasikan
 
 msgid "This action is irreversible."
 msgstr "Tindakan ini tidak bisa dibatalkan."
+
+msgid "This agent is no longer available. Choose another leader."
+msgstr "Agen ini tidak lagi tersedia. Pilih pemimpin lain."
 
 msgid "This API login does not expose subscription quota."
 msgstr "Login API ini tidak menyediakan kuota langganan."
@@ -5051,8 +5869,14 @@ msgstr "Perangkat ini"
 msgid "this device ({id})"
 msgstr "perangkat ini ({id})"
 
+msgid "This device will need to pair again."
+msgstr "Perangkat ini perlu dipasangkan lagi."
+
 msgid "This draft belongs to another session. Return to it or discard the draft before composing here."
 msgstr "Draf ini milik sesi lain. Kembali ke sesi tersebut atau abaikan draf sebelum menulis di sini."
+
+msgid "This entry will no longer be searched or injected."
+msgstr "Entri ini tidak akan lagi dicari atau disuntikkan."
 
 msgid "This file cannot be edited as text."
 msgstr "File ini tidak dapat diedit sebagai teks."
@@ -5066,8 +5890,20 @@ msgstr "File ini berada di luar ruang kerja atau tautan simbolisnya tidak dapat 
 msgid "This folder is not a Git repository. Initialize Git here and import it as a project? Existing files will be kept."
 msgstr "Folder ini bukan repositori Git. Inisialisasi Git di sini dan impor sebagai proyek? File yang ada akan dipertahankan."
 
+msgid "This host"
+msgstr "Host ini"
+
+msgid "This host cannot start team tasks. Update the host or use an existing session."
+msgstr "Host ini tidak dapat memulai tugas tim. Perbarui host atau gunakan sesi yang ada."
+
 msgid "This host did not provide a readable preview. Review the request in the agent CLI before approving."
 msgstr "Host ini tidak menyediakan pratinjau yang dapat dibaca. Tinjau permintaan di CLI agen sebelum menyetujui."
+
+msgid "This host does not support plain folders. Update the host and retry."
+msgstr "Host ini tidak mendukung folder biasa. Perbarui host lalu coba lagi."
+
+msgid "This host does not support Teamwork. Update the host to use teams and mail."
+msgstr "Host ini tidak mendukung Teamwork. Perbarui host untuk menggunakan tim dan surat."
 
 msgid "This is a large file. Opening it may slow down the editor."
 msgstr "Ini adalah file besar. Membukanya dapat memperlambat editor."
@@ -5144,6 +5980,9 @@ msgstr "Pintasan ini akan ditetapkan ke {0}. Tindakan berikut akan menjadi tidak
 msgid "This stops {0} and its child processes. Unsaved work in the terminal can be lost."
 msgstr "Ini menghentikan {0} dan proses turunannya. Pekerjaan yang belum disimpan di terminal dapat hilang."
 
+msgid "This stops all worker terminals and automatic wake-ups. The leader terminal remains open."
+msgstr "Ini menghentikan semua terminal worker dan pemanggilan otomatis. Terminal pemimpin tetap terbuka."
+
 msgid "This stops only the listed forwarding tunnels. Processes on the target host keep running."
 msgstr "Ini hanya menghentikan tunnel penerusan yang tercantum. Proses di host tujuan tetap berjalan."
 
@@ -5161,6 +6000,12 @@ msgstr "Ini menghentikan proses yang mendengarkan di port ruang kerja yang terca
 
 msgid "This stops the shell and all processes running in this terminal. Workspace files are kept. Unsaved process state may be lost."
 msgstr "Ini menghentikan shell dan semua proses di terminal ini. File workspace tetap dipertahankan. Status proses yang belum disimpan dapat hilang."
+
+msgid "This stops the worker terminal and may interrupt its work."
+msgstr "Ini menghentikan terminal worker dan dapat mengganggu pekerjaannya."
+
+msgid "This terminal has exited. Refresh the team to see its current status."
+msgstr "Terminal ini telah berakhir. Segarkan tim untuk melihat status terkini."
 
 msgid "This terminal is also open on a smaller screen, so it's sized to fit"
 msgstr "Terminal ini juga terbuka di layar yang lebih kecil, jadi ukurannya disesuaikan"
@@ -5189,14 +6034,23 @@ msgstr "Ruang kerja ini tidak dapat dihapus dalam keadaan saat ini."
 msgid "This workspace shares the project's files, index, and current branch. It does not switch branches or run setup."
 msgstr "Ruang kerja ini berbagi file, indeks, dan cabang proyek saat ini. Tidak berpindah cabang atau menjalankan konfigurasi."
 
+msgid "This writes .jedv/memory.json on the target host and replaces the existing file."
+msgstr "Ini menulis .jedv/memory.json pada host tujuan dan mengganti berkas yang ada."
+
 msgid "Thursday"
 msgstr "Kamis"
+
+msgid "Tier"
+msgstr "Tingkat"
 
 msgid "Time unavailable"
 msgstr "Waktu tidak tersedia"
 
 msgid "Time zone"
 msgstr "Zona waktu"
+
+msgid "Title"
+msgstr "Judul"
 
 msgid "To"
 msgstr "Ke"
@@ -5240,11 +6094,20 @@ msgstr "Terlalu banyak item yang dilepas. Tambahkan maksimal 5000 file dan folde
 msgid "Too many files. Some were not added."
 msgstr "Terlalu banyak file. Sebagian tidak ditambahkan."
 
+msgid "Too many requests. Wait a moment and try again."
+msgstr "Terlalu banyak permintaan. Tunggu sebentar lalu coba lagi."
+
 msgid "Too many untitled items here already."
 msgstr "Sudah terlalu banyak item tanpa judul di sini."
 
 msgid "Tool output"
 msgstr "Output alat"
+
+msgid "Tool records"
+msgstr "Catatan alat"
+
+msgid "Total items: {count}"
+msgstr "Total item: {count}"
 
 msgid "Transcribing"
 msgstr "Mentranskripsi"
@@ -5306,11 +6169,17 @@ msgstr "Tidak bisa memulai dikte"
 msgid "Unable to transcribe audio"
 msgstr "Tidak bisa mentranskripsi audio"
 
+msgid "Unacknowledged mail: {count}"
+msgstr "Surat belum dikonfirmasi: {count}"
+
 msgid "Unassigned"
 msgstr "Belum ditugaskan"
 
 msgid "Unavailable"
 msgstr "Tidak tersedia"
+
+msgid "Unavailable on this host"
+msgstr "Tidak tersedia pada host ini"
 
 msgid "Uncommitted"
 msgstr "Belum di-commit"
@@ -5342,6 +6211,9 @@ msgstr "Tidak dikelompokkan"
 msgid "Unified diff"
 msgstr "Diff terpadu"
 
+msgid "Uninstall extension"
+msgstr "Copot ekstensi"
+
 msgid "unknown"
 msgstr "tidak diketahui"
 
@@ -5365,6 +6237,9 @@ msgstr "Commit yang belum dikirim"
 
 msgid "Unreachable"
 msgstr "Tidak dapat dijangkau"
+
+msgid "Unread"
+msgstr "Belum dibaca"
 
 msgid "Unread activity"
 msgstr "Aktivitas belum dibaca"
@@ -5468,6 +6343,9 @@ msgstr "Pakai “{0}”"
 msgid "Use an existing repository at this location. Jedv changes the registered path and local checkout workspaces; it does not move files. Existing worktrees under the old repository may need to be imported again."
 msgstr "Gunakan repositori yang ada di lokasi ini. Jedv mengubah jalur terdaftar dan ruang kerja checkout lokal; tidak memindahkan file. Pohon kerja yang ada di repositori lama mungkin perlu diimpor kembali."
 
+msgid "Use an existing session"
+msgstr "Gunakan sesi yang ada"
+
 msgid "Use another local port"
 msgstr "Gunakan port lokal lain"
 
@@ -5483,11 +6361,17 @@ msgstr "Gunakan default host"
 msgid "Use Move to group to move workspaces between groups."
 msgstr "Gunakan Pindahkan ke grup untuk memindahkan ruang kerja antargrup."
 
+msgid "Use provider.<id>. as the event type prefix."
+msgstr "Gunakan provider.<id>. sebagai awalan jenis peristiwa."
+
 msgid "Use the Jedv tray menu > Host Service > Restart, then retry."
 msgstr "Pakai menu tray Jedv > Host Service > Restart, lalu coba lagi."
 
 msgid "Use this device"
 msgstr "Gunakan perangkat ini"
+
+msgid "Use this directory for terminals and files without initializing Git."
+msgstr "Gunakan direktori ini untuk terminal dan berkas tanpa menginisialisasi Git."
 
 msgid "Use this folder"
 msgstr "Pakai folder ini"
@@ -5517,8 +6401,14 @@ msgstr "Tampilan"
 msgid "View license"
 msgstr "Lihat lisensi"
 
+msgid "View run"
+msgstr "Lihat eksekusi"
+
 msgid "View source"
 msgstr "Lihat sumber"
+
+msgid "View team"
+msgstr "Lihat tim"
 
 msgid "Volume"
 msgstr "Volume"
@@ -5528,6 +6418,9 @@ msgstr "VS Code"
 
 msgid "Wait for workspace setup before starting an agent"
 msgstr "Tunggu konfigurasi ruang kerja selesai sebelum memulai agen"
+
+msgid "Waiting for agent status"
+msgstr "Menunggu status agen"
 
 msgid "Waiting for approval"
 msgstr "Menunggu persetujuan"
@@ -5559,11 +6452,23 @@ msgstr "Mingguan pukul {time}"
 msgid "Welcome to Jedv"
 msgstr "Selamat datang di Jedv"
 
+msgid "What should the team accomplish?"
+msgstr "Apa yang harus dicapai tim?"
+
 msgid "What would you like to know?"
 msgstr "Apa yang ingin Anda ketahui?"
 
+msgid "Whole team"
+msgstr "Seluruh tim"
+
 msgid "Window"
 msgstr "Jendela"
+
+msgid "Without a key, teams, mail, active memory and rule alerts remain available."
+msgstr "Tanpa kunci, tim, surat, memori aktif, dan peringatan aturan tetap tersedia."
+
+msgid "Worker"
+msgstr "Worker"
 
 msgid "Working"
 msgstr "Bekerja"
@@ -5625,6 +6530,9 @@ msgstr "Konfigurasi ruang kerja masih berjalan."
 msgid "Workspace state changed. Review the updated checks and confirm again."
 msgstr "Status ruang kerja berubah. Tinjau pemeriksaan yang diperbarui dan konfirmasi kembali."
 
+msgid "Workspace unavailable"
+msgstr "Ruang kerja tidak tersedia"
+
 msgid "Workspaces"
 msgstr "Workspace"
 
@@ -5672,6 +6580,12 @@ msgstr "Perubahan Anda"
 
 msgid "Your imports are saved. Could not refresh or open them. Try continuing again."
 msgstr "Impor Anda disimpan. Tidak dapat menyegarkan atau membukanya. Coba lanjutkan lagi."
+
+msgid "Your request was refused. Refresh your session and try again."
+msgstr "Permintaan ditolak. Segarkan sesi lalu coba lagi."
+
+msgid "Your session expired. Pair this device again."
+msgstr "Sesi Anda kedaluwarsa. Pasangkan kembali perangkat ini."
 
 msgid "Zap"
 msgstr "Petir"

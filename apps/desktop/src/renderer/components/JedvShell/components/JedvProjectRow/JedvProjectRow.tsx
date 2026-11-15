@@ -14,6 +14,7 @@ import {
 	LuTrash2,
 } from "react-icons/lu";
 import type { Project } from "../../types";
+import { supportsGit } from "../../vcs-capabilities";
 import {
 	type ProjectRowAction,
 	ProjectRowMenu,
@@ -101,7 +102,9 @@ export function JedvProjectRow({
 			disabled,
 		},
 		{
-			label: t({ message: "Open local checkout" }),
+			label: supportsGit(project)
+				? t({ message: "Open local checkout" })
+				: t({ message: "Open workspace" }),
 			icon: LuFolderOpen,
 			run: onCheckout,
 			disabled,

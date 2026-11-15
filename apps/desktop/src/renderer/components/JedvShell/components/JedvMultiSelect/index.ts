@@ -1,0 +1,1 @@
+export { JedvMultiSelect } from "./JedvMultiSelect";

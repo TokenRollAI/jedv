@@ -2,6 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { and, eq, isNull } from "drizzle-orm";
 import { workspaces } from "../../../../db/schema";
 import { getLocalProject } from "../../../../projects/local-project-store";
+import { isPlainDirectory } from "../../../../projects/vcs-capabilities";
 import type { HostServiceContext } from "../../../../types";
 import {
 	type HostWorkspaceRow,
@@ -94,7 +95,9 @@ export async function createLocalWorkspace(
 	values: CreateLocalWorkspaceValues,
 ): Promise<HostWorkspaceRow> {
 	requireUnchangedProjectCheckout(ctx, values.projectId, values.repoPath);
-	const branch = await requireCheckedOutBranch(ctx, values.repoPath);
+	const branch = isPlainDirectory(values.repoPath)
+		? ""
+		: await requireCheckedOutBranch(ctx, values.repoPath);
 	requireUnchangedProjectCheckout(ctx, values.projectId, values.repoPath);
 	return insertLocalWorkspace(
 		{

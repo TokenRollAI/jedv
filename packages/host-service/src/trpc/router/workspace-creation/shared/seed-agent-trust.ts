@@ -27,9 +27,8 @@ import {
 	stat,
 	writeFile,
 } from "node:fs/promises";
-import { homedir } from "node:os";
 import { dirname, join, resolve } from "node:path";
-import { resolveWriteTarget } from "@jedv/agent-setup";
+import { resolveUserHomeDir, resolveWriteTarget } from "@jedv/agent-setup";
 import type { HostDb } from "../../../../db";
 import { resolveDefaultAccountEnv } from "../../usage/default-account";
 
@@ -78,7 +77,12 @@ function resolveTrustTarget(
 	if (family === "agy") {
 		return {
 			family,
-			file: join(homedir(), ".gemini", "antigravity-cli", "settings.json"),
+			file: join(
+				resolveUserHomeDir(),
+				".gemini",
+				"antigravity-cli",
+				"settings.json",
+			),
 		};
 	}
 	const env = { ...resolveDefaultAccountEnv(db, family), ...config.env };
@@ -88,10 +92,10 @@ function resolveTrustTarget(
 			family,
 			file: configDir
 				? join(configDir, ".claude.json")
-				: join(homedir(), ".claude.json"),
+				: join(resolveUserHomeDir(), ".claude.json"),
 		};
 	}
-	const codexHome = env.CODEX_HOME || join(homedir(), ".codex");
+	const codexHome = env.CODEX_HOME || join(resolveUserHomeDir(), ".codex");
 	return { family, file: join(codexHome, "config.toml") };
 }
 

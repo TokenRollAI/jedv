@@ -1,5 +1,11 @@
 import { describe, expect, it } from "bun:test";
-import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import {
+	mkdirSync,
+	mkdtempSync,
+	readFileSync,
+	rmSync,
+	writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { getTemplatePath } from "./config";
@@ -112,8 +118,161 @@ function writeHookManifest(home: string, orgId: string, endpoint: string) {
 }
 
 describe("getNotifyScriptContent", () => {
+	it("allocates unique launch-scoped source sequence before any network completion", async () => {
+		const home = mkdtempSync(path.join(tmpdir(), "jedv-source-sequence-"));
+		const host = fakeHostService(false);
+		try {
+			const env = {
+				JEDV_HOME_DIR: home,
+				JEDV_AGENT_LAUNCH_ID: "launch-a",
+				JEDV_HOST_AGENT_HOOK_URL: `${host.url}/trpc/notifications.hook`,
+			};
+			await Promise.all(
+				Array.from({ length: 8 }, () =>
+					runNotifyHookAsync(
+						{ hook_event_name: "Start", session_id: "s" },
+						env,
+					),
+				),
+			);
+			expect(
+				host.requests
+					.map((row) => row.json.deliverySequence)
+					.sort((a, b) => Number(a) - Number(b)),
+			).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
+			await runNotifyHookAsync(
+				{ hook_event_name: "Stop", session_id: "s" },
+				env,
+			);
+			expect(host.requests.at(-1)?.json.deliverySequence).toBe(9);
+			await runNotifyHookAsync(
+				{ hook_event_name: "Start", session_id: "s" },
+				{ ...env, JEDV_AGENT_LAUNCH_ID: "launch-b" },
+			);
+			expect(host.requests.at(-1)?.json.deliverySequence).toBe(1);
+			await runNotifyHookAsync(
+				{ hook_event_name: "Stop" },
+				{ ...env, JEDV_AGENT_LAUNCH_ID: "" },
+			);
+			expect(host.requests.at(-1)?.json.deliverySequence).toBeUndefined();
+		} finally {
+			host.stop();
+			rmSync(home, { recursive: true, force: true });
+		}
+	});
+
+	it("endpoint failover retains the original source sequence and identical payload", async () => {
+		const home = mkdtempSync(path.join(tmpdir(), "jedv-sequence-failover-"));
+		const ignored = fakeHostService(true),
+			owner = fakeHostService(false);
+		const manifestDir = path.join(home, "host", "test");
+		mkdirSync(manifestDir, { recursive: true });
+		writeFileSync(
+			path.join(manifestDir, "manifest.json"),
+			JSON.stringify({ endpoint: owner.url }),
+		);
+		try {
+			await runNotifyHookAsync(
+				{ hook_event_name: "Stop", session_id: "s" },
+				{
+					JEDV_HOME_DIR: home,
+					JEDV_AGENT_LAUNCH_ID: "launch",
+					JEDV_HOST_AGENT_HOOK_URL: `${ignored.url}/trpc/notifications.hook`,
+				},
+			);
+			expect(ignored.requests[0]?.json.deliverySequence).toBe(1);
+			expect(owner.requests[0]).toEqual(ignored.requests[0]);
+		} finally {
+			ignored.stop();
+			owner.stop();
+			rmSync(home, { recursive: true, force: true });
+		}
+	});
+	it("allocation-only mode never contacts HTTP and preallocated retries reuse the exact source number", async () => {
+		const home = mkdtempSync(path.join(tmpdir(), "jedv-preallocated-retry-"));
+		const host = fakeHostService(false);
+		const script = path.join(home, "notify.sh");
+		writeFileSync(script, renderNotifyHookScript());
+		const env = {
+			JEDV_HOME_DIR: home,
+			JEDV_AGENT_LAUNCH_ID: "launch",
+			JEDV_AGENT_ID: "amp",
+			JEDV_HOST_AGENT_HOOK_URL: `${host.url}/hook`,
+		};
+		try {
+			const reservation = Bun.spawnSync({
+				cmd: ["bash", script, "--allocate-delivery-sequence"],
+				env: hookEnv(env),
+				stdout: "pipe",
+				stderr: "pipe",
+			});
+			expect(reservation.exitCode).toBe(0);
+			const sequence = reservation.stdout.toString().trim();
+			expect(sequence).toBe("1");
+			expect(host.requests).toHaveLength(0);
+			for (let attempt = 0; attempt < 2; attempt++)
+				await runNotifyHookAsync(
+					{ hook_event_name: "Stop", session_id: "same" },
+					{
+						...env,
+						JEDV_HOOK_SEQUENCE_ALLOCATED: "1",
+						JEDV_HOOK_DELIVERY_SEQUENCE: sequence,
+					},
+				);
+			expect(host.requests.map((row) => row.json.deliverySequence)).toEqual([
+				1, 1,
+			]);
+			expect(host.requests[0]).toEqual(host.requests[1]);
+			expect(
+				readFileSync(
+					path.join(home, "state/hook-sequences/terminal-test.launch"),
+					"utf8",
+				).trim(),
+			).toBe("1");
+		} finally {
+			host.stop();
+			rmSync(home, { recursive: true, force: true });
+		}
+	});
+
+	it("legacy asynchronous adapters and invalid reservations cannot acquire a late source number", async () => {
+		const home = mkdtempSync(
+			path.join(tmpdir(), "jedv-display-only-producer-"),
+		);
+		const host = fakeHostService(false);
+		const env = {
+			JEDV_HOME_DIR: home,
+			JEDV_AGENT_LAUNCH_ID: "launch",
+			JEDV_HOST_AGENT_HOOK_URL: `${host.url}/hook`,
+		};
+		try {
+			for (const harness of ["amp", "pi", "omp", "opencode"])
+				await runNotifyHookAsync(
+					{ hook_event_name: "Stop", session_id: "same" },
+					{ ...env, JEDV_AGENT_ID: harness, JEDV_HOOK_HARNESS: harness },
+				);
+			for (const sequence of ["", "invalid", "-1", "0", "01"])
+				await runNotifyHookAsync(
+					{ hook_event_name: "Stop", session_id: "same" },
+					{
+						...env,
+						JEDV_AGENT_ID: "amp",
+						JEDV_HOOK_SEQUENCE_ALLOCATED: "1",
+						JEDV_HOOK_DELIVERY_SEQUENCE: sequence,
+					},
+				);
+			expect(host.requests).toHaveLength(9);
+			expect(
+				host.requests.every((row) => row.json.deliverySequence === undefined),
+			).toBe(true);
+		} finally {
+			host.stop();
+			rmSync(home, { recursive: true, force: true });
+		}
+	});
+
 	it("bumps the notify hook marker when hook semantics change", () => {
-		expect(NOTIFY_SCRIPT_MARKER).toBe("# Jedv agent notification hook v21");
+		expect(NOTIFY_SCRIPT_MARKER).toBe("# Jedv agent notification hook v23");
 	});
 
 	it("forwards the main session's transcript path with its identity", async () => {
@@ -339,7 +498,7 @@ describe("getNotifyScriptContent", () => {
 			"HOOK_SESSION_ID=$(json_field session_id sessionId conversationId)",
 		);
 		expect(script).toContain(
-			'dispatch_to_host "{\\"json\\":{\\"terminalId\\":\\"$(json_escape "$JEDV_TERMINAL_ID")\\",\\"eventType\\":\\"$(json_escape "$EVENT_TYPE")\\",\\"agent\\":{\\"agentId\\":\\"$(json_escape "$AGENT_ID")\\",\\"sessionId\\":\\"$(json_escape "$SESSION_ID")\\"}$PREVIEW_FIELD$ACCOUNT_FIELD$TRANSCRIPT_FIELD$LAUNCH_FIELD$ATTRIBUTION_FIELD}}"',
+			'dispatch_to_host "{\\"json\\":{\\"terminalId\\":\\"$(json_escape "$JEDV_TERMINAL_ID")\\",\\"eventType\\":\\"$(json_escape "$EVENT_TYPE")\\",\\"agent\\":{\\"agentId\\":\\"$(json_escape "$AGENT_ID")\\",\\"sessionId\\":\\"$(json_escape "$SESSION_ID")\\"}$PREVIEW_FIELD$ACCOUNT_FIELD$TRANSCRIPT_FIELD$LAUNCH_FIELD$ATTRIBUTION_FIELD$SEQUENCE_FIELD}}"',
 		);
 		// One dispatcher serves both the agent and subagent payloads.
 		expect(script.split('dispatch_to_host "').length - 1).toBe(2);

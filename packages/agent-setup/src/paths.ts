@@ -26,6 +26,8 @@ export function isDefaultAppHomeDir(dir: string | undefined): boolean {
  * startup. Reading it here keeps both runtimes the same.
  */
 export function resolveUserHomeDir(): string {
+	const override = process.env.JEDV_USER_HOME_DIR?.trim();
+	if (override) return path.resolve(override);
 	if (process.platform === "win32") return os.homedir();
 	return process.env.HOME || os.homedir();
 }

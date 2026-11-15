@@ -1,5 +1,5 @@
 ---
-description: "Agent hooks bootstrap、symlink config atomic write、切换 profile 后共享 MCP/skills 设置；管理能力共享、凭证隔离与用户配置保护。"
+description: "Agent hooks、managed Team skill 与 profile 共享的 bootstrap：原子写入、marker 所有权、用户 skill 保护、凭证隔离和无 marketplace 降级。"
 kind: architecture
 code:
   paths:
@@ -12,10 +12,15 @@ code:
     - packages/host-service/src/trpc/router/agents/agents.ts
     - packages/agent-setup/src/local-agent-bootstrap.test.ts
     - packages/agent-setup/src/empty-plugin-product.test.ts
+    - packages/agent-setup/src/managed-skills.ts
+    - packages/agent-setup/templates/skills/jedv-team/SKILL.md
+    - packages/agent-setup/src/team-skill.test.ts
 relations:
   related:
     - usage/provider-accounts.mdx
     - runtime/local-persistence.mdx
+    - teamwork/execution.mdx
+    - terminals/session-lifecycle.mdx
 ---
 # Agent 环境与用户配置保护
 
@@ -38,6 +43,12 @@ per-profile ledger 记录自己写过的值，后续只更新仍由 Jedv 管理�
 Chat native process 使用与终端相同 launch environment，并补足无 shell bootstrap 的 PATH。只有保存的 agent config 仍匹配 provider 才叠加配置，不能因后来改名或换账号而改变旧会话的身份。
 
 自定义配置用于 Chat 时只提供匹配 provider 的环境；配置中的 terminal command 路径和 args 不成为 Chat executable authority，实际进程仍由所选 harness 解析。调查 profile 下 transcript 是否存在也必须使用本次真实 launch env，不能从默认账号目录得出 pinned profile 无历史的结论。
+
+## 内置 Team skill 不是插件市场
+
+`provisionBuiltinTeamSkill` 将同一模板幂等写入 `.agents`、`.claude`、`.gemini`、`.kimi` 的 `jedv-team` skill，并插入 managed marker。无 marker 的用户同名文件始终跳过；disable 只删除 managed 文件，内容未变不刷新 mtime。缺模板仍遵循局部失败，不阻断其它 bootstrap。
+
+该 skill 只是已安装 CLI 的 Team/Mail 工作流入口，必须运行时探测 schema/help 与 Host feature，不提供额外业务权限，也不替用户固定 Agent/model 分工。旧 Host 回退、operationId/dedupe、Read 与 ACK、结果不确定时对账仍由 `teamwork/execution` 和终端 permit owner 约束。
 
 本地 bootstrap 不安装默认 marketplace 或产品插件。源码中存在通用本地插件管理导出，不意味着恢复插件发布运行链；启用新的消费路径时须重新评审其权限与用户配置合并规则。
 

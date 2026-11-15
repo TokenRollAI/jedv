@@ -135,6 +135,8 @@ function buildAttachmentBlock(
 }
 
 export interface AgentRunInput {
+	/** Host-owned context, applied after account/config env. Not a wire input. */
+	launchEnv?: Record<string, string>;
 	colors?: TerminalColors;
 	workspaceId: string;
 	agent: string;
@@ -473,7 +475,7 @@ export function buildTerminalAgentLaunch(
 	);
 	const modelEnv = buildAgentModelEnv(launchPresetId, input.model);
 	return {
-		fullCommand: `${envOverlayPrefix({ ...agentLaunchEnv(db, config), ...modelEnv })}${command}`,
+		fullCommand: `${envOverlayPrefix({ ...agentLaunchEnv(db, config), ...modelEnv, ...input.launchEnv })}${command}`,
 		label: config.label,
 	};
 }
@@ -545,7 +547,7 @@ async function runTerminalAgent(
  * custom agent running `claude` arrives looking exactly like a preset one.
  * That is the granularity such a binding has, which is what this returns.
  */
-function launchIdentity(config: ResolvedHostAgentConfig): string {
+export function launchIdentity(config: ResolvedHostAgentConfig): string {
 	if (isBuiltinAgentId(config.presetId)) return config.presetId;
 	const [command = ""] = config.command.trim().split(/\s+/);
 	const executable = command.split(/[\\/]/).pop() ?? "";

@@ -3,6 +3,7 @@ import { Trans } from "@lingui/react/macro";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import type { Project } from "../../types";
+import { supportsGit, supportsWorktrees } from "../../vcs-capabilities";
 import {
 	IconUploadField,
 	type ProjectActionContext,
@@ -12,6 +13,7 @@ import { BranchPrefixSection } from "./components/BranchPrefixSection";
 import { NameSection } from "./components/NameSection";
 import { NamingInstructionsSection } from "./components/NamingInstructionsSection";
 import { ProjectLocationSection } from "./components/ProjectLocationSection";
+import { ProjectMemorySection } from "./components/ProjectMemorySection";
 import { RepositorySection } from "./components/RepositorySection";
 import { SparseCheckoutSection } from "./components/SparseCheckoutSection";
 import { WorkspaceConfigEditor } from "./components/WorkspaceConfigEditor";
@@ -106,29 +108,37 @@ export function ProjectSettings(props: ProjectSettingsProps) {
 					<p className="text-xs text-muted-foreground">
 						<Trans>Repository</Trans>
 					</p>
-					<RepositorySection repoUrl={value.repoUrl} />
+					{supportsGit(value) ? (
+						<RepositorySection repoUrl={value.repoUrl} />
+					) : (
+						<p className="text-xs text-muted-foreground">
+							<Trans>Plain folder</Trans>
+						</p>
+					)}
 				</div>
 			</section>
-			<section className="space-y-4 border-t pt-6">
-				<h3 className="text-sm font-medium">
-					<Trans>Branches & naming</Trans>
-				</h3>
-				<BranchPrefixSection
-					client={context.client}
-					hostUrl={context.hostUrl}
-					projectId={projectId}
-					mode={value.branchPrefixMode ?? null}
-					customPrefix={value.branchPrefixCustom ?? null}
-					onChanged={() => void refresh()}
-				/>
-				<NamingInstructionsSection
-					client={context.client}
-					hostUrl={context.hostUrl}
-					projectId={projectId}
-					instructions={value.namingInstructions ?? null}
-					onChanged={() => void refresh()}
-				/>
-			</section>
+			{supportsGit(value) && (
+				<section className="space-y-4 border-t pt-6">
+					<h3 className="text-sm font-medium">
+						<Trans>Branches & naming</Trans>
+					</h3>
+					<BranchPrefixSection
+						client={context.client}
+						hostUrl={context.hostUrl}
+						projectId={projectId}
+						mode={value.branchPrefixMode ?? null}
+						customPrefix={value.branchPrefixCustom ?? null}
+						onChanged={() => void refresh()}
+					/>
+					<NamingInstructionsSection
+						client={context.client}
+						hostUrl={context.hostUrl}
+						projectId={projectId}
+						instructions={value.namingInstructions ?? null}
+						onChanged={() => void refresh()}
+					/>
+				</section>
+			)}
 			<section className="space-y-4 border-t pt-6">
 				<h3 className="text-sm font-medium">
 					<Trans>Location & checkout</Trans>
@@ -148,31 +158,35 @@ export function ProjectSettings(props: ProjectSettingsProps) {
 						</Trans>
 					</p>
 				)}
-				<WorktreeLocationSection
-					context={context}
-					projectId={projectId}
-					currentPath={value.worktreeBaseDir}
-					onChanged={refresh}
-				/>
-				<div className="space-y-2">
-					<h4 className="text-xs font-medium">
-						<Trans>Sparse checkout</Trans>
-					</h4>
-					<p className="text-xs text-muted-foreground">
-						<Trans>
-							Folders to check out into new worktrees, one per line, relative to
-							the repo root. Root files are always included. Empty checks out
-							everything.
-						</Trans>
-					</p>
-					<SparseCheckoutSection
-						client={context.client}
-						hostUrl={context.hostUrl}
-						projectId={projectId}
-						paths={value.sparseCheckoutPaths ?? []}
-						onChanged={() => void refresh()}
-					/>
-				</div>
+				{supportsWorktrees(value) && (
+					<>
+						<WorktreeLocationSection
+							context={context}
+							projectId={projectId}
+							currentPath={value.worktreeBaseDir}
+							onChanged={refresh}
+						/>
+						<div className="space-y-2">
+							<h4 className="text-xs font-medium">
+								<Trans>Sparse checkout</Trans>
+							</h4>
+							<p className="text-xs text-muted-foreground">
+								<Trans>
+									Folders to check out into new worktrees, one per line,
+									relative to the repo root. Root files are always included.
+									Empty checks out everything.
+								</Trans>
+							</p>
+							<SparseCheckoutSection
+								client={context.client}
+								hostUrl={context.hostUrl}
+								projectId={projectId}
+								paths={value.sparseCheckoutPaths ?? []}
+								onChanged={() => void refresh()}
+							/>
+						</div>
+					</>
+				)}
 			</section>
 			<section className="space-y-4 border-t pt-6">
 				<h3 className="text-sm font-medium">
@@ -190,6 +204,12 @@ export function ProjectSettings(props: ProjectSettingsProps) {
 					projectId={projectId}
 				/>
 			</section>
+			<ProjectMemorySection
+				client={context.client}
+				hostUrl={context.hostUrl}
+				projectId={projectId}
+				projectName={value.name}
+			/>
 			{props.onRequestRemove && (
 				<section className="space-y-3 border-t pt-6">
 					<h3 className="text-sm font-medium">

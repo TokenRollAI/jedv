@@ -1,9 +1,28 @@
 import { createHmac, randomBytes, timingSafeEqual } from "node:crypto";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+import { resolveAppHomeDir } from "@jedv/agent-setup";
 
-const secret = randomBytes(32);
+let cached: { path: string; secret: Buffer } | undefined;
+
+function secret(): Buffer {
+	const dir = join(resolveAppHomeDir(), "state");
+	const path = join(dir, "hook-attribution.key");
+	if (cached?.path === path) return cached.secret;
+	mkdirSync(dir, { recursive: true, mode: 0o700 });
+	try {
+		writeFileSync(path, randomBytes(32), { flag: "wx", mode: 0o600 });
+	} catch (error) {
+		if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw error;
+	}
+	const value = readFileSync(path);
+	if (value.length !== 32) throw new Error("Invalid hook attribution key");
+	cached = { path, secret: value };
+	return value;
+}
 
 export function issueAttributionToken(terminalId: string): string {
-	return createHmac("sha256", secret).update(terminalId).digest("hex");
+	return createHmac("sha256", secret()).update(terminalId).digest("hex");
 }
 
 export function verifyAttributionToken(
