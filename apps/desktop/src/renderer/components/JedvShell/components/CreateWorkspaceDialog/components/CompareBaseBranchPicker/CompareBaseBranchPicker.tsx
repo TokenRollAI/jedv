@@ -1,0 +1,300 @@
+import { formatRelativeTime } from "@jedv/i18n/format";
+import {
+	Command,
+	CommandEmpty,
+	CommandInput,
+	CommandItem,
+	CommandList,
+} from "@jedv/ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "@jedv/ui/popover";
+import { Tabs, TabsList, TabsTrigger } from "@jedv/ui/tabs";
+import { Trans, useLingui } from "@lingui/react/macro";
+import { useEffect, useState } from "react";
+import { GoGitBranch, GoGlobe } from "react-icons/go";
+import { HiCheck } from "react-icons/hi2";
+import { LuFolderOpen } from "react-icons/lu";
+import type { BranchFilter, BranchRow } from "../../types";
+import { BranchLoadFailure } from "../BranchLoadFailure";
+import {
+	FORM_PICKER_MENU_CLASS,
+	FormPickerTrigger,
+} from "../FormPickerTrigger";
+import { PickerChevron } from "../PickerChevron";
+import {
+	type OpenWorkspaceTarget,
+	toOpenWorkspaceTarget,
+} from "./openWorkspaceTarget";
+
+const MOD_KEY = "⌘/Ctrl";
+
+interface CompareBaseBranchPickerProps {
+	effectiveCompareBaseBranch: string | null;
+	defaultBranch: string | null | undefined;
+	isBranchesLoading: boolean;
+	isBranchesError: boolean;
+	branchesError: unknown;
+	isBranchesRefetching: boolean;
+	onRetryBranches: () => void;
+	onChangeProjectLocation?: () => void;
+	isHostOffline: boolean;
+	branches: BranchRow[];
+	branchSearch: string;
+	onBranchSearchChange: (value: string) => void;
+	branchFilter: BranchFilter;
+	onBranchFilterChange: (filter: BranchFilter) => void;
+	isFetchingNextPage: boolean;
+	hasNextPage: boolean;
+	onLoadMore: () => void;
+	onSelectCompareBaseBranch: (
+		branchName: string,
+		source: "local" | "remote-tracking",
+	) => void;
+
+	onOpenWorkspace: (target: OpenWorkspaceTarget) => void;
+}
+
+export function CompareBaseBranchPicker({
+	effectiveCompareBaseBranch,
+	defaultBranch,
+	isBranchesLoading,
+	isBranchesError,
+	branchesError,
+	isBranchesRefetching,
+	onRetryBranches,
+	onChangeProjectLocation,
+	isHostOffline,
+	branches,
+	branchSearch,
+	onBranchSearchChange,
+	branchFilter,
+	onBranchFilterChange,
+	isFetchingNextPage,
+	hasNextPage,
+	onLoadMore,
+	onSelectCompareBaseBranch,
+	onOpenWorkspace,
+}: CompareBaseBranchPickerProps) {
+	const { t } = useLingui();
+	const isJedvShell = false;
+	const [open, setOpen] = useState(false);
+
+	const [selectedValue, setSelectedValue] = useState("");
+	const [sentinel, setSentinel] = useState<HTMLDivElement | null>(null);
+	const handleOpenChange = (nextOpen: boolean) => {
+		setOpen(nextOpen);
+		if (!nextOpen) onBranchSearchChange("");
+	};
+
+	useEffect(() => {
+		if (!open || !hasNextPage || isFetchingNextPage || !sentinel) return;
+
+		let inFlight = false;
+		const observer = new IntersectionObserver(
+			(entries) => {
+				if (inFlight) return;
+				if (entries.some((e) => e.isIntersecting)) {
+					inFlight = true;
+					onLoadMore();
+				}
+			},
+			{ rootMargin: "64px" },
+		);
+		observer.observe(sentinel);
+		return () => observer.disconnect();
+	}, [open, hasNextPage, isFetchingNextPage, sentinel, onLoadMore]);
+
+	if (isHostOffline) {
+		return (
+			<span className="truncate text-[11px] text-muted-foreground">
+				<Trans>Host is offline</Trans>
+			</span>
+		);
+	}
+
+	const branchesFailure = (
+		<BranchLoadFailure
+			error={branchesError}
+			isRetrying={isBranchesRefetching}
+			onRetry={onRetryBranches}
+			onChangeProjectLocation={onChangeProjectLocation}
+		/>
+	);
+
+	if (isBranchesError && branches.length === 0 && !open) {
+		return branchesFailure;
+	}
+
+	return (
+		<Popover open={open} onOpenChange={handleOpenChange}>
+			<PopoverTrigger asChild>
+				<FormPickerTrigger
+					disabled={isBranchesLoading && branches.length === 0}
+					className="max-w-full"
+				>
+					<GoGitBranch
+						className={isJedvShell ? "size-3.5 shrink-0" : "size-3 shrink-0"}
+					/>
+					{isBranchesLoading && branches.length === 0 ? (
+						<span className="h-2.5 w-14 rounded-sm bg-muted-foreground/15 animate-pulse" />
+					) : effectiveCompareBaseBranch ? (
+						<span className="font-mono truncate">
+							{effectiveCompareBaseBranch}
+						</span>
+					) : (
+						<span className="truncate text-muted-foreground/80">
+							<Trans>Select base branch…</Trans>
+						</span>
+					)}
+					<PickerChevron />
+				</FormPickerTrigger>
+			</PopoverTrigger>
+			<PopoverContent
+				className={`w-[440px] p-0 ${FORM_PICKER_MENU_CLASS}`}
+				align="start"
+				onWheel={(event) => event.stopPropagation()}
+			>
+				<Command
+					shouldFilter={false}
+					value={selectedValue}
+					onValueChange={setSelectedValue}
+					onKeyDown={(e) => {
+						if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+							const selectedBranch = branches.find(
+								(branch) => branch.name === selectedValue,
+							);
+							if (!selectedBranch) return;
+							e.preventDefault();
+							e.stopPropagation();
+							onOpenWorkspace(toOpenWorkspaceTarget(selectedBranch));
+							handleOpenChange(false);
+						}
+					}}
+				>
+					<CommandInput
+						placeholder={t({
+							message: "Search branches...",
+						})}
+						value={branchSearch}
+						onValueChange={onBranchSearchChange}
+					/>
+					<Tabs
+						value={branchFilter}
+						onValueChange={(v) => onBranchFilterChange(v as BranchFilter)}
+						className="p-2"
+					>
+						<TabsList className="grid w-full grid-cols-2 h-7 bg-transparent">
+							<TabsTrigger value="all" className="text-[11px]">
+								<Trans>All</Trans>
+							</TabsTrigger>
+							<TabsTrigger value="worktree" className="text-[11px]">
+								<Trans>Worktree</Trans>
+							</TabsTrigger>
+						</TabsList>
+					</Tabs>
+					<CommandList className="max-h-[420px]">
+						{!isBranchesLoading &&
+							!isBranchesError &&
+							branches.length === 0 && (
+								<CommandEmpty>
+									<Trans>No branches found</Trans>
+								</CommandEmpty>
+							)}
+						{branches.map((branch) => {
+							const isRemoteOnly = branch.isRemote && !branch.isLocal;
+							const isWorktree = Boolean(branch.worktreePath);
+							return (
+								<CommandItem
+									key={branch.name}
+									value={branch.name}
+									onSelect={() => {
+										onSelectCompareBaseBranch(
+											branch.name,
+											branch.isLocal ? "local" : "remote-tracking",
+										);
+										handleOpenChange(false);
+									}}
+									className="group items-start gap-3 rounded-md px-2.5 py-2"
+								>
+									{isWorktree ? (
+										<LuFolderOpen className="mt-0.5 size-4 shrink-0 text-primary/80" />
+									) : isRemoteOnly ? (
+										<GoGlobe className="mt-0.5 size-4 shrink-0 text-muted-foreground/60" />
+									) : (
+										<GoGitBranch className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
+									)}
+									<div className="flex min-w-0 flex-1 flex-col gap-0.5">
+										<span className="truncate text-sm leading-snug">
+											{branch.name}
+										</span>
+										<span className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+											{branch.lastCommitDate > 0 && (
+												<span>
+													{formatRelativeTime(branch.lastCommitDate * 1000)}
+												</span>
+											)}
+											{branch.name === defaultBranch && (
+												<>
+													<span aria-hidden>·</span>
+													<span>
+														<Trans>default</Trans>
+													</span>
+												</>
+											)}
+											{isRemoteOnly && (
+												<>
+													<span aria-hidden>·</span>
+													<span>
+														<Trans>remote</Trans>
+													</span>
+												</>
+											)}
+											{isWorktree && (
+												<>
+													<span aria-hidden>·</span>
+													<span className="text-primary/80">
+														<Trans>worktree</Trans>
+													</span>
+												</>
+											)}
+										</span>
+									</div>
+									<span className="ml-2 flex shrink-0 items-center gap-1.5 self-center">
+										<button
+											type="button"
+											className="hidden items-center rounded-sm bg-primary/10 px-2 py-0.5 text-[11px] font-medium text-primary hover:bg-primary/20 group-hover:inline-flex group-data-[selected=true]:inline-flex"
+											onClick={(e) => {
+												e.stopPropagation();
+												onOpenWorkspace(toOpenWorkspaceTarget(branch));
+												handleOpenChange(false);
+											}}
+										>
+											<Trans>Open workspace</Trans>
+											<span className="ml-1.5 text-[10px] opacity-70">
+												{MOD_KEY}↵
+											</span>
+										</button>
+										{effectiveCompareBaseBranch === branch.name && (
+											<HiCheck className="size-4 text-primary group-hover:hidden group-data-[selected=true]:hidden" />
+										)}
+									</span>
+								</CommandItem>
+							);
+						})}
+						{isBranchesError ? (
+							<div className="flex justify-center py-2">{branchesFailure}</div>
+						) : (
+							hasNextPage && (
+								<div
+									ref={setSentinel}
+									className="py-2 text-center text-[11px] text-muted-foreground/60"
+								>
+									{isFetchingNextPage ? <Trans>Loading more...</Trans> : ""}
+								</div>
+							)
+						)}
+					</CommandList>
+				</Command>
+			</PopoverContent>
+		</Popover>
+	);
+}

@@ -1,0 +1,6 @@
+[setup]
+run = ["bun install --frozen-lockfile"]
+
+[terminals.dev]
+run = "bun run dev:desktop"
+default = true

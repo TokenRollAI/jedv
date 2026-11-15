@@ -1,0 +1,54 @@
+---
+description: "本地应用数据目录与 SQLite 兼容：旧数据库列改名风险、migration watermark 漏执行、created_at 集合补缺及 host 外键检查失败策略。"
+kind: architecture
+code:
+  paths:
+    - "packages/agent-setup/src/paths.ts"
+    - "apps/desktop/src/main/lib/app-environment.ts"
+    - "apps/desktop/src/main/lib/local-db/index.ts"
+    - "packages/local-db/src/schema/schema.ts"
+    - "packages/shared/src/sqlite-migrations/runMigrations.ts"
+    - "packages/host-service/src/db/db.ts"
+    - "packages/host-service/src/db/schema.ts"
+    - "packages/host-service/src/db/migrations.test.ts"
+relations:
+  related:
+    - "runtime/local-host.mdx"
+    - "workspaces/lifecycle.mdx"
+    - "desktop/workspace-state.mdx"
+    - "distribution/release-integrity.mdx"
+---
+
+# 本地存储与迁移兼容
+
+用户数据目录是跨 Electron main、host、CLI、Agent bootstrap 与 PTY 进程的约定。共同 resolver 懒读取 `JEDV_HOME_DIR`，让桌面启动时选出的开发 profile 能传播到后来创建的进程；在模块加载时提前缓存默认 home 会造成跨 profile 写入。
+
+桌面为开发 worktree 选择隔离 profile，并尊重显式自定义目录。目录与敏感文件权限采取限制性默认及 best-effort 修复。测试必须使用隔离目录和仓库，不能借验证初始化触碰真实 profile。
+
+## 多个本地库不互换权威
+
+host.db 拥有活项目、工作区和执行会话身份；desktop local.db 保留设备设置与兼容 schema。不能把 desktop 的历史实体行重新提升为 host 工作区事实，也不能因为某列仍有上游产品名称就重命名 SQL 字段。
+
+TypeScript 属性与实际 SQL 列名可以不同。已存数据、旧版本和迁移 ledger 的可读性优先于品牌命名一致；删除功能也不自动授权删列、重置数据库或改写已发布迁移。
+
+## 为什么不用最高 migration watermark
+
+Drizzle journal 的时间戳代表生成时刻，合入和发布次序可能不同。只看已应用记录里的最大时间戳，会永远漏掉后来合入但时间戳更低的迁移。
+
+共同 runner 以已记录 `created_at` 的集合判断 pending，补回缺失的低时间戳迁移；新增 journal 时间戳必须唯一。也不能按 SQL hash 决定是否已执行：历史发行曾改过迁移文件，hash 变化会将已经执行的操作误重放。pending 整批在事务内执行，失败回滚并向调用方抛错。
+
+## host 与 desktop 的失败策略不同
+
+host 在连接级、事务外关闭外键 enforcement 再迁移。generated table rebuild 里的事务内 PRAGMA 无法阻止 DROP 触发旧外键副作用，因此不能移除外层处理。迁移前后按 child table、parent table、外键索引的违规数量比较，避免 rebuild 重排 rowid 导致误判。
+
+新增违规使 host 启动失败；原有 legacy orphan 保留警告后可继续服务，避免升级锁死原本可用的数据库。成功完成后才启用外键。不能把 migration 异常吞成可服务的半迁移 host。
+
+desktop local-db 初始化目前捕获迁移异常并记录日志，后续仍可出现完成日志。因此“看见 complete”不是成功证据，维护时应核对实际 journal 与所需 schema。调整这两条启动路径必须分别评审，不能推断它们共享同一失败政策。
+
+历史云数据库 drizzle 存档不属于运行 host 数据面；保留存档不表示存在云运行依赖，也不授权执行或改写它。
+
+## 权威锚点
+
+- `packages/agent-setup/src/paths.ts`、`apps/desktop/src/main/lib/app-environment.ts`：目录解析与 profile 选择。
+- `packages/shared/src/sqlite-migrations/runMigrations.ts`：集合补缺与事务边界。
+- `packages/host-service/src/db/db.ts`：外键违规差分与启动拒绝策略。

@@ -1,0 +1,5689 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-08-26 16:05-0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: vi\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+msgid "./"
+msgstr "./"
+
+msgid "\"{title}\" has finished its task"
+msgstr "\"{title}\" đã hoàn thành tác vụ"
+
+msgid "\"{title}\" is waiting for your reply"
+msgstr "\"{title}\" đang chờ bạn trả lời"
+
+#. placeholder {0}: summary.updated
+msgid "{0, plural, one {# existing theme updated} other {# existing themes updated}}"
+msgstr "{0, plural, one {Đã cập nhật # theme có sẵn} other {Đã cập nhật # theme có sẵn}}"
+
+#. placeholder {0}: items.length
+msgid "{0} changed files"
+msgstr "{0} tệp đã thay đổi"
+
+#. placeholder {0}: collisions.length
+msgid "{0} files already exist in {where}. Do you want to replace them?"
+msgstr "{0} tệp đã tồn tại trong {where}. Bạn có muốn thay thế chúng không?"
+
+#. placeholder {0}: failedSaves.length
+msgid "{0} files could not be saved."
+msgstr "Không thể lưu {0} tệp."
+
+#. placeholder {0}: ports.length
+msgid "{0} live ports"
+msgstr "{0} cổng đang hoạt động"
+
+#. placeholder {0}: checks.data?.running
+msgid "{0} running terminal sessions will stop. Worktree deletion may run teardown commands."
+msgstr "{0} phiên terminal đang chạy sẽ dừng. Việc xóa worktree có thể chạy các lệnh dọn dẹp."
+
+#. placeholder {0}: daemon.sessions.data?.length ?? 0
+msgid "{0} sessions"
+msgstr "{0} phiên"
+
+#. placeholder {0}: project.workspaceCount
+#. placeholder {1}: formatDate(project.purgeAt)
+msgid "{0} workspace records · retained until {1}"
+msgstr "{0} bản ghi không gian làm việc · giữ lại đến {1}"
+
+#. placeholder {0}: row.name
+#. placeholder {1}: row.runningTerminalCount
+#. placeholder {2}: row.runningAgentCount
+msgid "{0}: {1} running terminals, {2} running agents"
+msgstr "{0}: {1} terminal đang chạy, {2} tác tử đang chạy"
+
+msgid "{approvals} approvals"
+msgstr "{approvals} lượt phê duyệt"
+
+msgid "{completed} finished"
+msgstr "{completed} đã hoàn thành"
+
+msgid "{configTitle} font size"
+msgstr "Cỡ chữ {configTitle}"
+
+msgid "{count, plural, one {Every # day at {time}} other {Every # days at {time}}}"
+msgstr "{count, plural, one {Mỗi # ngày lúc {time}} other {Mỗi # ngày lúc {time}}}"
+
+msgid "{count, plural, one {Every # day} other {Every # days}}"
+msgstr "{count, plural, one {Mỗi # ngày} other {Mỗi # ngày}}"
+
+msgid "{count, plural, one {Every # hour} other {Every # hours}}"
+msgstr "{count, plural, one {Mỗi # giờ} other {Mỗi # giờ}}"
+
+msgid "{count, plural, one {Every # minute} other {Every # minutes}}"
+msgstr "{count, plural, one {Mỗi # phút} other {Mỗi # phút}}"
+
+msgid "{count, plural, one {Every # week on {day} at {time}} other {Every # weeks on {day} at {time}}}"
+msgstr "{count, plural, one {Mỗi # tuần vào {day} lúc {time}} other {Mỗi # tuần vào {day} lúc {time}}}"
+
+msgid "{count, plural, one {Every # week on {day}} other {Every # weeks on {day}}}"
+msgstr "{count, plural, one {Mỗi # tuần vào {day}} other {Mỗi # tuần vào {day}}}"
+
+msgid "{count} files are over {limit} and were not added"
+msgstr "{count} tệp vượt quá {limit} và không được thêm"
+
+msgid "{currentPage} of {totalBranches}"
+msgstr "{currentPage}/{totalBranches}"
+
+msgid "{days} at {time}"
+msgstr "{days} lúc {time}"
+
+msgid "{days}d"
+msgstr "{days} ngày"
+
+msgid "{days}d {hours}h"
+msgstr "{days} ngày {hours} giờ"
+
+msgid "{focusShortcutText} to focus"
+msgstr "{focusShortcutText} để focus"
+
+msgid "{hours}h"
+msgstr "{hours} giờ"
+
+msgid "{hours}h {minutes}m"
+msgstr "{hours} giờ {minutes} phút"
+
+#. placeholder {0}: failed.length
+msgid "{imported} imported, {0} failed. Successful imports are kept."
+msgstr "Đã nhập {imported}, thất bại {0}. Các mục nhập thành công được giữ lại."
+
+msgid "{lines, plural, one {# line} other {# lines}}"
+msgstr "{lines, plural, other {# dòng}}"
+
+msgid "{minimumContrast}:1 contrast"
+msgstr "độ tương phản {minimumContrast}:1"
+
+msgid "{minutes}m"
+msgstr "{minutes} phút"
+
+#. placeholder {0}: Number(previewLineHeight.toFixed(2))
+msgid "{previewSize}px · {0} line height"
+msgstr "{previewSize}px · chiều cao dòng {0}"
+
+msgid "{projectName} icon"
+msgstr "Biểu tượng {projectName}"
+
+msgid "{running} working"
+msgstr "{running} đang làm việc"
+
+msgid "{stagedCount} staged files"
+msgstr "{stagedCount} tệp đã stage"
+
+msgid "{totalImported, plural, one {Imported # custom theme} other {Imported # custom themes}}"
+msgstr "{totalImported, plural, one {Đã nhập # theme tùy chỉnh} other {Đã nhập # theme tùy chỉnh}}"
+
+msgid "{uncommittedCount, plural, one {# file changed} other {# files changed}}"
+msgstr "{uncommittedCount, plural, one {# tệp thay đổi} other {# tệp thay đổi}}"
+
+msgid "⇧ click"
+msgstr "⇧ nhấp"
+
+msgid "<0>{primaryFont}</0> is not installed on this system. Falling back to the next available font."
+msgstr "<0>{primaryFont}</0> chưa được cài trên hệ thống này. Đang dùng font khả dụng kế tiếp."
+
+msgid "<0>Nerd Fonts</0> are recommended."
+msgstr "Khuyến nghị dùng <0>Nerd Fonts</0>."
+
+msgid "<0>vs</0> <1/>"
+msgstr "<0>vs</0> <1/>"
+
+msgid "~/agent $"
+msgstr "~/agent $"
+
+msgid "⌘ click"
+msgstr "⌘ nhấp"
+
+msgid "⌘⇧ click"
+msgstr "⌘⇧ nhấp"
+
+msgid "1 file is over {limit} and was not added"
+msgstr "1 tệp vượt quá {limit} và không được thêm"
+
+msgid "4.5:1 (AA)"
+msgstr "4.5:1 (AA)"
+
+msgid "7:1 (AAA)"
+msgstr "7:1 (AAA)"
+
+msgid "A daemon operation is already in progress"
+msgstr "Một thao tác daemon đang được thực hiện"
+
+msgid "A file named '{firstName}' already exists in {where}. Do you want to replace it?"
+msgstr "Đã có tệp tên '{firstName}' trong {where}. Bạn có muốn thay thế không?"
+
+msgid "A listening process changed. Cancel and review the current process list before trying again."
+msgstr "Một tiến trình đang lắng nghe đã thay đổi. Hãy hủy và xem lại danh sách tiến trình hiện tại trước khi thử lại."
+
+msgid "A pull request already exists for this branch. Refresh the pull request list."
+msgstr "Nhánh này đã có pull request. Hãy làm mới danh sách pull request."
+
+msgid "A tab can contain at most eight panes."
+msgstr "Một thẻ có thể chứa tối đa tám khung."
+
+msgid "A tab can contain at most eight terminal panes."
+msgstr "Một thẻ có thể chứa tối đa tám ngăn terminal."
+
+msgid "A workspace is protected. Resolve its protection before removing this project."
+msgstr "Một không gian làm việc đang được bảo vệ. Hãy gỡ bỏ chế độ bảo vệ trước khi xóa dự án này."
+
+msgid "Aa"
+msgstr "Aa"
+
+msgid "About {displayName}"
+msgstr "Giới thiệu về {displayName}"
+
+msgid "Accept"
+msgstr "Chấp nhận"
+
+msgid "Accessibility"
+msgstr "Trợ năng"
+
+msgid "Actions"
+msgstr "Hành động"
+
+msgid "Active"
+msgstr "Đang hoạt động"
+
+msgid "Active CLI sessions"
+msgstr "Phiên CLI đang hoạt động"
+
+msgid "Active workspaces"
+msgstr "Không gian làm việc đang hoạt động"
+
+msgid "Activity"
+msgstr "Hoạt động"
+
+msgid "Adaptive keyboard layout"
+msgstr "Bố cục bàn phím thích ứng"
+
+msgid "Add"
+msgstr "Thêm"
+
+msgid "Add agent"
+msgstr "Thêm agent"
+
+msgid "add an agent"
+msgstr "thêm một agent"
+
+msgid "Add Attachment"
+msgstr "Thêm tệp đính kèm"
+
+msgid "Add command"
+msgstr "Thêm lệnh"
+
+msgid "Add files, apps, and more"
+msgstr "Thêm tệp, ứng dụng và hơn thế"
+
+msgid "Add files, apps, and more (@)"
+msgstr "Thêm tệp, ứng dụng và hơn thế (@)"
+
+msgid "Add photos or files"
+msgstr "Thêm ảnh hoặc tệp"
+
+msgid "Add preset"
+msgstr "Thêm cấu hình định sẵn"
+
+msgid "Add project"
+msgstr "Thêm dự án"
+
+msgid "Add Project from Folder"
+msgstr "Thêm dự án từ thư mục"
+
+msgid "Add Project from Folder..."
+msgstr "Thêm dự án từ thư mục..."
+
+msgid "Add to Dictionary"
+msgstr "Thêm vào từ điển"
+
+msgid "Added {added} files to {where}"
+msgstr "Đã thêm {added} tệp vào {where}"
+
+msgid "Added 1 file to {where}"
+msgstr "Đã thêm 1 tệp vào {where}"
+
+msgid "Added only when launching with a prompt."
+msgstr "Chỉ thêm khi khởi chạy với prompt."
+
+msgid "Admin"
+msgstr "Admin"
+
+msgid "Advanced environment values override variables written before the command."
+msgstr "Các giá trị môi trường nâng cao sẽ ghi đè các biến được viết trước lệnh."
+
+msgid "Affected paths"
+msgstr "Đường dẫn bị ảnh hưởng"
+
+msgid "After delay"
+msgstr "Sau độ trễ"
+
+msgid "Agent"
+msgstr "Agent"
+
+msgid "Agent activity"
+msgstr "Hoạt động của tác nhân"
+
+msgid "Agent activity changed. Refresh before opening the session."
+msgstr "Hoạt động của tác tử đã thay đổi. Hãy làm mới trước khi mở phiên."
+
+msgid "Agent activity is loading or unavailable"
+msgstr "Hoạt động của tác tử đang tải hoặc không khả dụng"
+
+msgid "Agent commands"
+msgstr "Lệnh của agent"
+
+msgid "Agent Complete · {workspaceName}"
+msgstr "Agent đã xong · {workspaceName}"
+
+msgid "Agent configuration unavailable"
+msgstr "Cấu hình agent không khả dụng"
+
+msgid "Agent control"
+msgstr "Điều khiển tác tử"
+
+msgid "Agent Control"
+msgstr "Điều khiển Agent"
+
+msgid "Agent did not start a terminal"
+msgstr "Agent không khởi động được terminal"
+
+msgid "Agent failed"
+msgstr "Tác tử thất bại"
+
+msgid "Agent finished"
+msgstr "Agent đã xong"
+
+msgid "Agent Island"
+msgstr "Đảo Agent"
+
+msgid "Agent launch is waiting for setup"
+msgstr "Việc khởi chạy tác tử đang chờ thiết lập"
+
+msgid "Agent saved, but linked presets could not be updated."
+msgstr "Đã lưu tác tử nhưng không thể cập nhật các cấu hình định sẵn được liên kết."
+
+msgid "Agent session has not been created yet"
+msgstr "Phiên agent chưa được tạo"
+
+msgid "Agent session is no longer available"
+msgstr "Phiên tác tử không còn khả dụng"
+
+msgid "Agent sessions"
+msgstr "Các phiên agent"
+
+msgid "Agent status unavailable"
+msgstr "Trạng thái agent không khả dụng"
+
+msgid "Agents"
+msgstr "Agent"
+
+msgid "AI chatbot built with Next.js and the AI SDK"
+msgstr "Chatbot AI được xây dựng bằng Next.js và AI SDK"
+
+#. placeholder {0}: cmd.aliases.map((alias) => `/${alias}`).join(", ")
+msgid "aliases: {0}"
+msgstr "bí danh: {0}"
+
+msgid "Alive"
+msgstr "Đang hoạt động"
+
+msgid "All"
+msgstr "Tất cả"
+
+msgid "All commits"
+msgstr "Tất cả commit"
+
+msgid "All files exceed the maximum size."
+msgstr "Mọi tệp đều vượt quá kích thước tối đa."
+
+msgid "All open terminal sessions will be killed and any running host-services will be stopped. Use “Close {displayName}” instead if you want services to keep running for the next launch."
+msgstr "Mọi phiên terminal đang mở sẽ bị kết thúc và các host-service đang chạy sẽ bị dừng. Hãy dùng “Đóng {displayName}” nếu bạn muốn các dịch vụ tiếp tục chạy cho lần khởi động sau."
+
+msgid "All projects"
+msgstr "Tất cả dự án"
+
+msgid "All releases"
+msgstr "Tất cả bản phát hành"
+
+msgid "All templates"
+msgstr "Tất cả mẫu"
+
+msgid "All themes used reserved IDs (built-in or system)."
+msgstr "Mọi theme đều dùng ID dành riêng (dựng sẵn hoặc hệ thống)."
+
+msgid "Allow"
+msgstr "Cho phép"
+
+msgid "Allow microphone access to use dictation"
+msgstr "Cho phép truy cập micro để dùng đọc chính tả"
+
+msgid "Already open"
+msgstr "Đã mở"
+
+msgid "Also delete local branch"
+msgstr "Xóa luôn nhánh cục bộ"
+
+msgid "An update is ready to install."
+msgstr "Đã có bản cập nhật sẵn sàng để cài đặt."
+
+msgid "Animate the active terminal cursor."
+msgstr "Cho con trỏ terminal đang hoạt động nhấp nháy."
+
+msgid "Annually"
+msgstr "Hằng năm"
+
+msgid "Annually at {time}"
+msgstr "Hằng năm lúc {time}"
+
+msgid "Annually on {date}"
+msgstr "Hằng năm vào {date}"
+
+msgid "Annually on {date} at {time}"
+msgstr "Hằng năm vào {date} lúc {time}"
+
+msgid "Another deletion is already running for this workspace. Wait and check its status; do not force a second deletion."
+msgstr "Một thao tác xóa khác đang chạy cho không gian làm việc này. Hãy đợi và kiểm tra trạng thái; không buộc thực hiện thao tác xóa thứ hai."
+
+msgid "Answered"
+msgstr "Đã trả lời"
+
+msgid "App display language. Auto follows your system language."
+msgstr "Ngôn ngữ hiển thị của ứng dụng. Tự động sẽ theo ngôn ngữ hệ thống."
+
+msgid "Appearance"
+msgstr "Giao diện"
+
+msgid "Apple's installer closed before Git was installed."
+msgstr "Trình cài đặt của Apple đã đóng trước khi Git được cài."
+
+#. placeholder {0}: phase.reason
+msgid "Apple's installer did not open: {0}"
+msgstr "Trình cài đặt của Apple không mở được: {0}"
+
+msgid "Apple's time estimate is usually much longer than the real install."
+msgstr "Thời gian Apple ước tính thường lâu hơn nhiều so với thời gian cài đặt thực tế."
+
+msgid "Application menu"
+msgstr "Menu ứng dụng"
+
+msgid "Applies to file paths in Markdown previews and terminal output."
+msgstr "Áp dụng cho đường dẫn tệp trong bản xem trước Markdown và đầu ra terminal."
+
+msgid "Applies to file rows in the workspace file tree."
+msgstr "Áp dụng cho các hàng tệp trong cây tệp của không gian làm việc."
+
+msgid "Applies to folder paths in Markdown previews, terminal output, and workspace file tree rows."
+msgstr "Áp dụng cho đường dẫn thư mục trong bản xem trước Markdown, đầu ra terminal và các hàng cây tệp không gian làm việc."
+
+msgid "Applies to URLs in Markdown previews and terminal output."
+msgstr "Áp dụng cho URL trong bản xem trước Markdown và đầu ra terminal."
+
+msgid "Apply"
+msgstr "Áp dụng"
+
+msgid "Approval expired"
+msgstr "Phê duyệt đã hết hạn"
+
+msgid "Approval failed. Open the workspace to inspect its current state."
+msgstr "Phê duyệt thất bại. Mở workspace để kiểm tra trạng thái hiện tại."
+
+msgid "Approval needed"
+msgstr "Cần phê duyệt"
+
+msgid "Approval requested"
+msgstr "Đã yêu cầu phê duyệt"
+
+msgid "Approval required"
+msgstr "Cần phê duyệt"
+
+msgid "Approval response sent"
+msgstr "Đã gửi phản hồi phê duyệt"
+
+msgid "Approved"
+msgstr "Đã duyệt"
+
+msgid "Are you sure you want to quit?"
+msgstr "Bạn có chắc muốn thoát?"
+
+msgid "Ask before quitting the app."
+msgstr "Hỏi trước khi thoát ứng dụng."
+
+msgid "Ask before terminating a terminal with a running process. Closing a view keeps its session running."
+msgstr "Hỏi trước khi chấm dứt terminal có tiến trình đang chạy. Đóng chế độ xem vẫn giữ phiên đang chạy."
+
+msgid "Ask to make changes, @mention files"
+msgstr "Yêu cầu thực hiện thay đổi, dùng @ để đề cập tệp"
+
+msgid "Ask to make changes, @mention files, run /commands"
+msgstr "Yêu cầu thay đổi, @nhắc đến tệp, chạy /commands"
+
+msgid "Attach"
+msgstr "Đính kèm"
+
+msgid "Attach files"
+msgstr "Đính kèm tệp"
+
+msgid "Attached"
+msgstr "Đã gắn"
+
+msgid "attachment"
+msgstr "tệp đính kèm"
+
+msgid "Attachment"
+msgstr "Tệp đính kèm"
+
+#. placeholder {0}: (cause.index ?? 0) + 1
+#. placeholder {1}: cause.problem
+msgid "Attachment {0} could not be copied: {1}"
+msgstr "Không thể sao chép tệp đính kèm {0}: {1}"
+
+msgid "Attachment limits exceeded"
+msgstr "Đã vượt quá giới hạn tệp đính kèm"
+
+msgid "attachment preview"
+msgstr "xem trước tệp đính kèm"
+
+msgid "Attachments are available for local workspaces only."
+msgstr "Tệp đính kèm chỉ khả dụng cho không gian làm việc cục bộ."
+
+msgid "Audio"
+msgstr "Âm thanh"
+
+msgid "Auto"
+msgstr "Tự động"
+
+msgid "Auto (system)"
+msgstr "Tự động (theo hệ thống)"
+
+msgid "Auto save"
+msgstr "Tự động lưu"
+
+msgid "Automatic branch"
+msgstr "Nhánh tự động"
+
+msgid "Automatic name"
+msgstr "Tên tự động"
+
+msgid "Automatic updates are unavailable for this build."
+msgstr "Bản dựng này không hỗ trợ cập nhật tự động."
+
+msgid "Automation"
+msgstr "Tự động hóa"
+
+msgid "Automation (Apple Events)"
+msgstr "Tự động hóa (Apple Events)"
+
+msgid "Automation action failed"
+msgstr "Hành động tự động hóa thất bại"
+
+msgid "Automation actions"
+msgstr "Các hành động tự động hóa"
+
+msgid "Automation deleted"
+msgstr "Đã xóa tự động hóa"
+
+msgid "Automation enabled"
+msgstr "Đã bật tự động hóa"
+
+msgid "Automation name"
+msgstr "Tên tự động hóa"
+
+msgid "Automation paused"
+msgstr "Đã tạm dừng tự động hóa"
+
+msgid "Automation saved"
+msgstr "Đã lưu automation"
+
+msgid "Automation started"
+msgstr "Đã bắt đầu tự động hóa"
+
+msgid "Automations"
+msgstr "Tự động hóa"
+
+msgid "Awaiting approval"
+msgstr "Đang chờ phê duyệt"
+
+msgid "Awaiting Response"
+msgstr "Đang chờ phản hồi"
+
+msgid "Awaiting Response · {workspaceName}"
+msgstr "Đang chờ phản hồi · {workspaceName}"
+
+msgid "Back"
+msgstr "Quay lại"
+
+msgid "Back to automations"
+msgstr "Quay lại tự động hóa"
+
+msgid "Background processes"
+msgstr "Tiến trình nền"
+
+msgid "Bar"
+msgstr "Thanh"
+
+msgid "Base branch"
+msgstr "Nhánh gốc"
+
+msgid "Base branch (repository default)"
+msgstr "Branch cơ sở (mặc định của repository)"
+
+msgid "Binary file"
+msgstr "Tệp nhị phân"
+
+msgid "Block"
+msgstr "Khối"
+
+msgid "Blockquote"
+msgstr "Trích dẫn"
+
+msgid "Blue"
+msgstr "Xanh dương"
+
+msgid "Bold"
+msgstr "Đậm"
+
+msgid "Branch"
+msgstr "Nhánh"
+
+#. placeholder {0}: params?.branch
+#. placeholder {1}: params?.remote
+msgid "Branch \"{0}\" is not on this device or on {1}. Only pushed commits can be restored."
+msgstr "Nhánh \"{0}\" không có trên thiết bị này hay trên {1}. Chỉ có thể khôi phục các commit đã được đẩy lên."
+
+msgid "Branch name"
+msgstr "Tên nhánh"
+
+msgid "Branch prefix"
+msgstr "Tiền tố nhánh"
+
+msgid "Branch preview"
+msgstr "Xem trước nhánh"
+
+msgid "Branch switched"
+msgstr "Đã chuyển nhánh"
+
+msgid "Branches & naming"
+msgstr "Nhánh & đặt tên"
+
+msgid "Browse"
+msgstr "Duyệt"
+
+msgid "Browse for directory"
+msgstr "Duyệt thư mục"
+
+msgid "Bug"
+msgstr "Bug"
+
+msgid "builtin"
+msgstr "tích hợp sẵn"
+
+msgid "Bullet list"
+msgstr "Danh sách dấu đầu dòng"
+
+msgid "Bulleted list"
+msgstr "Danh sách dấu đầu dòng"
+
+msgid "Cached input"
+msgstr "Đầu vào đã cache"
+
+msgid "Cached terminal views"
+msgstr "Chế độ xem terminal đã lưu vào bộ nhớ đệm"
+
+msgid "Cancel"
+msgstr "Hủy"
+
+msgid "Cancellation requested. Checking the host before another clone…"
+msgstr "Đã yêu cầu hủy. Đang kiểm tra máy chủ trước khi clone lần nữa…"
+
+msgid "Cancellation requests the target host to stop. Check the operation result before retrying at this location."
+msgstr "Việc hủy yêu cầu máy chủ đích dừng lại. Hãy kiểm tra kết quả thao tác trước khi thử lại tại vị trí này."
+
+msgid "Cancelled"
+msgstr "Đã hủy"
+
+msgid "Cannot {action}: no active organization is selected. Select an organization or sign in again."
+msgstr "Không thể {action}: chưa chọn tổ chức nào đang hoạt động. Hãy chọn một tổ chức hoặc đăng nhập lại."
+
+msgid "Cannot {action}: the local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
+msgstr "Không thể {action}: dịch vụ host cục bộ không khả dụng cho {organization} trên {device}. Trạng thái: {status}. {recovery}"
+
+msgid "Change location…"
+msgstr "Thay đổi vị trí…"
+
+msgid "Change project icon and color"
+msgstr "Đổi biểu tượng và màu của dự án"
+
+msgid "Change state"
+msgstr "Đổi trạng thái"
+
+msgid "Changed files"
+msgstr "Các tệp đã thay đổi"
+
+msgid "Changes"
+msgstr "Thay đổi"
+
+msgid "Changes discarded"
+msgstr "Đã hủy các thay đổi"
+
+msgid "Changes requested"
+msgstr "Yêu cầu thay đổi"
+
+msgid "Changing this location affects new worktrees. Existing folders are not moved."
+msgstr "Thay đổi vị trí này ảnh hưởng đến worktree mới. Các thư mục hiện có không được di chuyển."
+
+msgid "Chat"
+msgstr "Chat"
+
+msgid "Chat is being reworked"
+msgstr "Chat đang được làm lại"
+
+msgid "Check for updates"
+msgstr "Kiểm tra cập nhật"
+
+msgid "Check for Updates..."
+msgstr "Kiểm tra cập nhật..."
+
+msgid "Check resources"
+msgstr "Kiểm tra tài nguyên"
+
+msgid "Check Resources"
+msgstr "Kiểm tra tài nguyên"
+
+msgid "Check result"
+msgstr "Kiểm tra kết quả"
+
+msgid "Check status"
+msgstr "Kiểm tra trạng thái"
+
+msgid "Check your connection and try again"
+msgstr "Kiểm tra kết nối và thử lại"
+
+msgid "Checking for updates…"
+msgstr "Đang kiểm tra bản cập nhật…"
+
+msgid "Checking project…"
+msgstr "Đang kiểm tra dự án…"
+
+msgid "Checking repository access…"
+msgstr "Đang kiểm tra quyền truy cập repository…"
+
+msgid "Checking the target host for a completed project…"
+msgstr "Đang kiểm tra dự án đã hoàn tất trên máy chủ đích…"
+
+msgid "Checking workspace state…"
+msgstr "Đang kiểm tra trạng thái không gian làm việc…"
+
+msgid "Checking workspaces and running sessions…"
+msgstr "Đang kiểm tra không gian làm việc và các phiên đang chạy…"
+
+msgid "Checklist"
+msgstr "Danh sách kiểm"
+
+msgid "Checks"
+msgstr "Check"
+
+msgid "Checks failed"
+msgstr "Check thất bại"
+
+msgid "Checks passed"
+msgstr "Check đã qua"
+
+msgid "Checks running"
+msgstr "Các kiểm tra đang chạy"
+
+msgid "Choose a checkout, branch, pull request, or existing worktree on the target host."
+msgstr "Chọn bản checkout, nhánh, pull request hoặc worktree hiện có trên máy chủ đích."
+
+msgid "Choose a folder on the connected host"
+msgstr "Chọn thư mục trên máy chủ đã kết nối"
+
+msgid "Choose a glyph, upload an image, or change the accent color."
+msgstr "Chọn ký tự biểu tượng, tải ảnh lên hoặc thay đổi màu nhấn."
+
+msgid "Choose a project"
+msgstr "Chọn dự án"
+
+msgid "Choose a project or workspace"
+msgstr "Chọn một dự án hoặc workspace"
+
+msgid "Choose a project to start working."
+msgstr "Chọn một dự án để bắt đầu làm việc."
+
+msgid "Choose a saved screenshot to attach. Files are copied only when you submit the prompt."
+msgstr "Chọn ảnh chụp màn hình đã lưu để đính kèm. Tệp chỉ được sao chép khi bạn gửi prompt."
+
+msgid "Choose a workspace"
+msgstr "Chọn một workspace"
+
+msgid "Choose agent session"
+msgstr "Chọn phiên tác tử"
+
+msgid "Choose an available project or workspace"
+msgstr "Chọn một dự án hoặc workspace khả dụng"
+
+msgid "Choose file and editor behavior on this device."
+msgstr "Chọn hành vi tệp và trình chỉnh sửa trên thiết bị này."
+
+msgid "Choose how Jedv behaves on this device."
+msgstr "Chọn cách Jedv hoạt động trên thiết bị này."
+
+msgid "Choose notification sounds and volume."
+msgstr "Chọn âm thanh và âm lượng thông báo."
+
+msgid "Clear"
+msgstr "Trong suốt"
+
+msgid "Clear saved screenshots?"
+msgstr "Xóa ảnh chụp màn hình đã lưu?"
+
+msgid "Clear screenshots"
+msgstr "Xóa ảnh chụp màn hình"
+
+msgid "Clear search"
+msgstr "Xóa tìm kiếm"
+
+msgid "Clear shortcut"
+msgstr "Xóa phím tắt"
+
+msgid "Clear Status"
+msgstr "Xóa trạng thái"
+
+msgid "Clear Terminal"
+msgstr "Xóa terminal"
+
+msgid "CLI remains available. Structured control is unavailable for this session; check capabilities or continue in its terminal."
+msgstr "CLI vẫn khả dụng. Không thể điều khiển có cấu trúc cho phiên này; hãy kiểm tra khả năng hoặc tiếp tục trong terminal của phiên."
+
+msgid "click"
+msgstr "nhấp"
+
+msgid "Click two commits to define the range."
+msgstr "Nhấp vào hai commit để xác định khoảng."
+
+msgid "Clone a repository"
+msgstr "Clone một repository"
+
+msgid "Clone from URL"
+msgstr "Clone từ URL"
+
+msgid "Clone repository"
+msgstr "Clone kho mã"
+
+msgid "clone the repository"
+msgstr "clone repository"
+
+msgid "Cloning repository…"
+msgstr "Đang clone kho mã…"
+
+msgid "Close"
+msgstr "Đóng"
+
+msgid "Close (Esc)"
+msgstr "Đóng (Esc)"
+
+msgid "Close {displayName}"
+msgstr "Đóng {displayName}"
+
+msgid "Close a diff tab before opening another. At most eight diffs can be open."
+msgstr "Đóng một thẻ diff trước khi mở thẻ khác. Có thể mở tối đa tám diff."
+
+msgid "Close a tab before opening more tabs in this workspace."
+msgstr "Hãy đóng một thẻ trước khi mở thêm thẻ trong không gian làm việc này."
+
+msgid "Close all"
+msgstr "Đóng tất cả"
+
+msgid "Close All"
+msgstr "Đóng tất cả"
+
+msgid "Close all ports?"
+msgstr "Đóng tất cả cổng?"
+
+msgid "Close CLI terminal and take control"
+msgstr "Đóng terminal CLI và tiếp quản điều khiển"
+
+msgid "Close detail"
+msgstr "Đóng chi tiết"
+
+msgid "Close details"
+msgstr "Đóng chi tiết"
+
+msgid "Close file"
+msgstr "Đóng tệp"
+
+msgid "Close forwarded ports"
+msgstr "Đóng cổng được chuyển tiếp"
+
+msgid "Close or delete the current workspace"
+msgstr "Đóng hoặc xóa workspace hiện tại"
+
+msgid "Close other apps using the microphone"
+msgstr "Đóng các ứng dụng khác đang dùng micro"
+
+msgid "Close Others"
+msgstr "Đóng các mục khác"
+
+msgid "Close pane"
+msgstr "Đóng ngăn"
+
+msgid "Close Pane"
+msgstr "Đóng khung"
+
+#. placeholder {0}: port.port
+msgid "Close port {0}"
+msgstr "Đóng cổng {0}"
+
+msgid "Close port?"
+msgstr "Đóng cổng?"
+
+msgid "Close Saved"
+msgstr "Đóng mục đã lưu"
+
+msgid "Close tab"
+msgstr "Đóng tab"
+
+msgid "Close Tab"
+msgstr "Đóng tab"
+
+msgid "Close Terminal"
+msgstr "Đóng terminal"
+
+msgid "Close the current pane"
+msgstr "Đóng khung hiện tại"
+
+msgid "Close the current tab"
+msgstr "Đóng tab hiện tại"
+
+msgid "Close this CLI terminal and take control of the same session? The terminal process will stop. Other terminal work may be lost."
+msgstr "Đóng terminal CLI này và kiểm soát cùng phiên? Tiến trình terminal sẽ dừng. Công việc khác trong terminal có thể bị mất."
+
+msgid "Close to the Right"
+msgstr "Đóng các thẻ bên phải"
+
+msgid "Close View"
+msgstr "Đóng chế độ xem"
+
+msgid "Close Window"
+msgstr "Đóng cửa sổ"
+
+msgid "Close Workspace"
+msgstr "Đóng workspace"
+
+msgid "Closed"
+msgstr "Đã đóng"
+
+msgid "Code"
+msgstr "Code"
+
+msgid "Code block"
+msgstr "Khối mã"
+
+msgid "Collapse"
+msgstr "Thu gọn"
+
+msgid "Collapse all"
+msgstr "Thu gọn tất cả"
+
+msgid "Collapse All"
+msgstr "Thu gọn tất cả"
+
+msgid "Color"
+msgstr "Màu"
+
+msgid "Color saved, but the icon could not be updated. Retry the icon update."
+msgstr "Đã lưu màu nhưng không thể cập nhật biểu tượng. Hãy thử cập nhật biểu tượng lại."
+
+msgid "Combine sequences such as => and !==."
+msgstr "Ghép các chuỗi như => và !==."
+
+msgid "Coming soon"
+msgstr "Sắp ra mắt"
+
+msgid "Command"
+msgstr "Lệnh"
+
+#. placeholder {0}: index + 1
+msgid "Command {0}"
+msgstr "Lệnh {0}"
+
+msgid "Command needs approval"
+msgstr "Lệnh cần được phê duyệt"
+
+msgid "Commands"
+msgstr "Lệnh"
+
+msgid "Commands and arguments for the connected host."
+msgstr "Các lệnh và đối số cho host đã kết nối."
+
+msgid "Commands follow the linked agent."
+msgstr "Các lệnh tuân theo tác tử được liên kết."
+
+msgid "Comment"
+msgstr "Bình luận"
+
+msgid "Comment posted"
+msgstr "Đã đăng bình luận"
+
+msgid "Commented"
+msgstr "Đã bình luận"
+
+msgid "Commit"
+msgstr "Commit"
+
+msgid "Commit message"
+msgstr "Thông điệp commit"
+
+msgid "Commit or discard changes before switching branches."
+msgstr "Commit hoặc hủy các thay đổi trước khi chuyển nhánh."
+
+msgid "Commit staged changes"
+msgstr "Commit các thay đổi đã stage"
+
+msgid "Commits"
+msgstr "Commit"
+
+msgid "Committed with the repository and shared with everyone who works on it."
+msgstr "Được commit cùng repository và chia sẻ với mọi người cùng làm việc trên đó."
+
+msgid "Compare"
+msgstr "So sánh"
+
+msgid "Completed"
+msgstr "Hoàn tất"
+
+msgid "Config file contents"
+msgstr "Nội dung tệp cấu hình"
+
+msgid "config.json must be a JSON object"
+msgstr "config.json phải là một đối tượng JSON"
+
+msgid "Configure"
+msgstr "Cấu hình"
+
+msgid "Configure agent commands for the connected host."
+msgstr "Cấu hình các lệnh agent cho host đã kết nối."
+
+msgid "Confirm"
+msgstr "Xác nhận"
+
+msgid "Confirm before closing a running terminal"
+msgstr "Xác nhận trước khi đóng terminal đang chạy"
+
+msgid "Confirm before quitting"
+msgstr "Xác nhận trước khi thoát"
+
+msgid "Connect"
+msgstr "Kết nối"
+
+msgid "Connect a microphone to use dictation"
+msgstr "Kết nối micro để dùng đọc chính tả"
+
+msgid "Connect over Tailscale using the host's HTTPS address and PSK."
+msgstr "Kết nối qua Tailscale bằng địa chỉ HTTPS và PSK của host."
+
+msgid "Connect to a host before changing workspace presentation."
+msgstr "Kết nối với máy chủ trước khi thay đổi cách hiển thị không gian làm việc."
+
+msgid "Connect to host"
+msgstr "Kết nối tới host"
+
+msgid "Connected"
+msgstr "Đã kết nối"
+
+msgid "Connected host"
+msgstr "Host đã kết nối"
+
+msgid "Connecting…"
+msgstr "Đang kết nối…"
+
+msgid "Continue"
+msgstr "Tiếp tục"
+
+msgid "Continue {title}"
+msgstr "Tiếp tục {title}"
+
+msgid "Continue opening"
+msgstr "Tiếp tục mở"
+
+msgid "Continue same session"
+msgstr "Tiếp tục cùng phiên"
+
+msgid "Continue the same agent session"
+msgstr "Tiếp tục cùng phiên tác tử"
+
+msgid "Continue this exact existing session. A new agent session will not be started."
+msgstr "Tiếp tục chính phiên hiện có này. Sẽ không bắt đầu phiên tác tử mới."
+
+msgid "Continue with agent"
+msgstr "Tiếp tục với tác tử"
+
+msgid "Continue with agent…"
+msgstr "Tiếp tục với tác tử…"
+
+msgid "Continuing…"
+msgstr "Đang tiếp tục…"
+
+msgid "Control mode"
+msgstr "Chế độ điều khiển"
+
+msgid "Control output only. Earlier CLI history is not included."
+msgstr "Chỉ đầu ra điều khiển. Lịch sử CLI trước đó không được bao gồm."
+
+msgid "Control owns this session"
+msgstr "Control sở hữu phiên này"
+
+msgid "Control shortcuts on macOS are reserved for terminal programs."
+msgstr "Các phím tắt Control trên macOS được dành cho các chương trình terminal."
+
+msgid "Convert to config.toml"
+msgstr "Chuyển sang config.toml"
+
+msgid "Convert to draft?"
+msgstr "Chuyển thành bản nháp?"
+
+msgid "Converting to draft…"
+msgstr "Đang chuyển thành bản nháp…"
+
+msgid "Copied"
+msgstr "Đã sao chép"
+
+msgid "Copied to clipboard"
+msgstr "Đã sao chép vào bảng nhớ tạm"
+
+msgid "Copy"
+msgstr "Sao chép"
+
+msgid "Copy agent session ID"
+msgstr "Sao chép ID phiên agent"
+
+msgid "Copy as CSV"
+msgstr "Sao chép dưới dạng CSV"
+
+msgid "Copy as Markdown"
+msgstr "Sao chép dưới dạng Markdown"
+
+msgid "Copy Branch Name"
+msgstr "Sao chép tên nhánh"
+
+msgid "Copy error details"
+msgstr "Sao chép chi tiết lỗi"
+
+msgid "Copy failed"
+msgstr "Sao chép thất bại"
+
+msgid "Copy image"
+msgstr "Sao chép hình ảnh"
+
+msgid "Copy Link"
+msgstr "Sao chép liên kết"
+
+msgid "Copy Link Address"
+msgstr "Sao chép địa chỉ liên kết"
+
+#. placeholder {0}: port.port
+msgid "Copy localhost:{0}"
+msgstr "Sao chép localhost:{0}"
+
+msgid "Copy on select"
+msgstr "Sao chép khi chọn"
+
+msgid "Copy path"
+msgstr "Sao chép đường dẫn"
+
+msgid "Copy Path"
+msgstr "Sao chép đường dẫn"
+
+msgid "Copy Relative Path"
+msgstr "Sao chép đường dẫn tương đối"
+
+msgid "Copy selected terminal text to the clipboard."
+msgstr "Sao chép văn bản terminal đã chọn vào bảng nhớ tạm."
+
+msgid "Copy terminal ID"
+msgstr "Sao chép ID terminal"
+
+msgid "Copy the workspace path to the clipboard"
+msgstr "Sao chép đường dẫn workspace vào clipboard"
+
+msgid "Copy Workspace ID"
+msgstr "Sao chép ID workspace"
+
+msgid "Copy..."
+msgstr "Sao chép…"
+
+msgid "Costs are estimates based on API list rates, not a bill or actual subscription spending. Unknown models use approximate rates."
+msgstr "Chi phí là ước tính dựa trên giá niêm yết API, không phải hóa đơn hoặc chi tiêu thuê bao thực tế. Các model không xác định dùng giá gần đúng."
+
+msgid "Could not change the project location. Your files have not been moved."
+msgstr "Không thể thay đổi vị trí dự án. Tệp của bạn chưa được di chuyển."
+
+msgid "Could not check all workspaces. Check the host connection and try again before removing this project."
+msgstr "Không thể kiểm tra tất cả không gian làm việc. Hãy kiểm tra kết nối máy chủ và thử lại trước khi xóa dự án này."
+
+msgid "Could not check Git on this computer. You can retry or continue."
+msgstr "Không thể kiểm tra Git trên máy tính này. Bạn có thể thử lại hoặc tiếp tục."
+
+msgid "Could not confirm the operation on the target host. Check its connection and retry the result check."
+msgstr "Không thể xác nhận thao tác trên máy chủ đích. Hãy kiểm tra kết nối và thử kiểm tra kết quả lại."
+
+msgid "Could not confirm the result on the target host. Check its connection and permissions, then check the result again."
+msgstr "Không thể xác nhận kết quả trên máy chủ đích. Hãy kiểm tra kết nối và quyền, sau đó kiểm tra lại kết quả."
+
+msgid "Could not confirm this session. Refresh before retrying."
+msgstr "Không thể xác nhận phiên này. Hãy làm mới trước khi thử lại."
+
+msgid "Could not create workspace. Check the target host and retry."
+msgstr "Không thể tạo không gian làm việc. Hãy kiểm tra máy chủ đích và thử lại."
+
+msgid "Could not delete workspace. Check its status before retrying."
+msgstr "Không thể xóa không gian làm việc. Hãy kiểm tra trạng thái trước khi thử lại."
+
+msgid "Could not detect workspaces"
+msgstr "Không thể phát hiện không gian làm việc"
+
+msgid "Could not finish importing. Successful imports are kept."
+msgstr "Không thể hoàn tất nhập. Các mục nhập thành công được giữ lại."
+
+msgid "Could not finish removing the project. Refresh its status before trying again."
+msgstr "Không thể hoàn tất xóa dự án. Hãy làm mới trạng thái trước khi thử lại."
+
+msgid "Could not finish restoring the workspace. Check the target host; an occupied path or unavailable branch blocks restoration."
+msgstr "Không thể hoàn tất khôi phục không gian làm việc. Hãy kiểm tra máy chủ đích; đường dẫn đang được sử dụng hoặc nhánh không khả dụng đang chặn khôi phục."
+
+msgid "Could not import workspace"
+msgstr "Không thể nhập không gian làm việc"
+
+msgid "Could not inspect this workspace. Retry the checks before deleting it."
+msgstr "Không thể kiểm tra không gian làm việc này. Hãy thử kiểm tra lại trước khi xóa."
+
+msgid "Could not list repositories. Check gh authentication on the target host, or enter a URL below."
+msgstr "Không thể liệt kê kho mã. Hãy kiểm tra xác thực gh trên máy chủ đích hoặc nhập URL bên dưới."
+
+msgid "Could not load branches from the target host."
+msgstr "Không thể tải nhánh từ máy chủ đích."
+
+msgid "Could not load GitHub permissions"
+msgstr "Không thể tải quyền GitHub"
+
+msgid "Could not load image"
+msgstr "Không thể tải ảnh"
+
+msgid "Could not load project settings from the target host."
+msgstr "Không thể tải cài đặt dự án từ máy chủ đích."
+
+msgid "Could not load pull requests. Check gh access on the target host."
+msgstr "Không thể tải pull request. Hãy kiểm tra quyền truy cập gh trên máy chủ đích."
+
+msgid "Could not load workspace status. Check the target host and try again."
+msgstr "Không thể tải trạng thái không gian làm việc. Hãy kiểm tra máy chủ đích và thử lại."
+
+msgid "Could not open this workspace. Check the target host and try again."
+msgstr "Không thể mở không gian làm việc này. Hãy kiểm tra máy chủ đích và thử lại."
+
+#. placeholder {0}: params?.remote
+#. placeholder {1}: params?.branch
+#. placeholder {2}: params?.remote
+msgid "Could not reach {0} to look for branch \"{1}\". Check your connection and access to {2}, then try again."
+msgstr "Không thể kết nối tới {0} để tìm nhánh \"{1}\". Hãy kiểm tra kết nối và quyền truy cập {2}, rồi thử lại."
+
+msgid "Could not read image"
+msgstr "Không thể đọc ảnh"
+
+msgid "Could not read removed projects from this host."
+msgstr "Không thể đọc các dự án đã xóa từ máy chủ này."
+
+msgid "Could not read selected file"
+msgstr "Không thể đọc tệp đã chọn"
+
+msgid "Could not read the dropped files"
+msgstr "Không thể đọc các tệp đã thả"
+
+msgid "Could not read this directory. Check the path and permissions on the target host."
+msgstr "Không thể đọc thư mục này. Hãy kiểm tra đường dẫn và quyền trên máy chủ đích."
+
+msgid "Could not read worktrees from the target host."
+msgstr "Không thể đọc worktree từ máy chủ đích."
+
+msgid "Could not rename project. Try again."
+msgstr "Không thể đổi tên dự án. Hãy thử lại."
+
+msgid "Could not rename project. Your draft is kept; try again."
+msgstr "Không thể đổi tên dự án. Bản nháp của bạn được giữ lại; hãy thử lại."
+
+msgid "Could not rename this session. Your draft is kept."
+msgstr "Không thể đổi tên phiên này. Bản nháp của bạn được giữ lại."
+
+msgid "Could not render icon"
+msgstr "Không thể hiển thị biểu tượng"
+
+msgid "Could not render image"
+msgstr "Không thể hiển thị ảnh"
+
+msgid "Could not save the group. Your draft is kept."
+msgstr "Không thể lưu nhóm. Bản nháp của bạn được giữ lại."
+
+msgid "Could not save the project. Check the project name and target location."
+msgstr "Không thể lưu dự án. Hãy kiểm tra tên dự án và vị trí đích."
+
+msgid "Could not save the theme. Try again."
+msgstr "Không thể lưu theme. Thử lại."
+
+msgid "Could not save this setting. Try again."
+msgstr "Không thể lưu cài đặt này. Thử lại."
+
+msgid "Could not save workspace order. The list may have changed on the host; refresh and try again."
+msgstr "Không thể lưu thứ tự không gian làm việc. Danh sách trên máy chủ có thể đã thay đổi; hãy làm mới và thử lại."
+
+msgid "Could not save worktree location. Your previous setting is unchanged unless the host already saved this request."
+msgstr "Không thể lưu vị trí worktree. Cài đặt trước đó không thay đổi trừ khi máy chủ đã lưu yêu cầu này."
+
+msgid "Could not save your progress. Try again."
+msgstr "Không thể lưu tiến độ của bạn. Hãy thử lại."
+
+msgid "Could not select a project directory."
+msgstr "Không thể chọn thư mục dự án."
+
+msgid "Could not set icon"
+msgstr "Không thể đặt biểu tượng"
+
+msgid "Could not stop a listening process. Earlier successful stops are kept."
+msgstr "Không thể dừng một tiến trình đang lắng nghe. Các lần dừng thành công trước đó được giữ nguyên."
+
+msgid "Could not stop it"
+msgstr "Không thể dừng"
+
+msgid "Could not update the project tree. Try again."
+msgstr "Không thể cập nhật cây dự án. Hãy thử lại."
+
+msgid "Could not update the removed project. Check its status before retrying."
+msgstr "Không thể cập nhật dự án đã xóa. Hãy kiểm tra trạng thái trước khi thử lại."
+
+msgid "Could not update workspace. Try again."
+msgstr "Không thể cập nhật không gian làm việc. Hãy thử lại."
+
+msgid "Couldn't save"
+msgstr "Không lưu được"
+
+msgid "Couldn't save. Edit or click away to retry"
+msgstr "Không lưu được. Hãy sửa hoặc nhấp ra ngoài để thử lại"
+
+msgid "Couldn't save. Retrying…"
+msgstr "Không lưu được. Đang thử lại…"
+
+msgid "Create a blank folder and initialize it as a Git repository."
+msgstr "Tạo thư mục trống và khởi tạo thư mục đó thành kho Git."
+
+msgid "Create a new project"
+msgstr "Tạo dự án mới"
+
+msgid "Create a new project by cloning a repository or local path."
+msgstr "Tạo dự án mới bằng cách clone một repository hoặc đường dẫn cục bộ."
+
+msgid "Create a pull request from an existing workspace branch. Its configured base branch is used."
+msgstr "Tạo pull request từ một branch workspace hiện có. Branch gốc đã cấu hình sẽ được dùng."
+
+msgid "Create a separate session from an existing one. Use the session ID placeholder for its position."
+msgstr "Tạo một phiên riêng từ phiên hiện có. Dùng placeholder ID phiên để chỉ định vị trí."
+
+msgid "Create new project"
+msgstr "Tạo dự án mới"
+
+msgid "Create PR"
+msgstr "Tạo PR"
+
+msgid "Create project"
+msgstr "Tạo dự án"
+
+msgid "Create pull request"
+msgstr "Tạo pull request"
+
+msgid "Create pull request on GitHub?"
+msgstr "Tạo pull request trên GitHub?"
+
+msgid "create the project"
+msgstr "tạo dự án"
+
+msgid "create the workspace"
+msgstr "tạo workspace"
+
+msgid "Create workspace"
+msgstr "Tạo workspace"
+
+msgid "Created"
+msgstr "Được tạo"
+
+msgid "Created {createdDirs} folders in {where}"
+msgstr "Đã tạo {createdDirs} thư mục trong {where}"
+
+msgid "Created 1 folder in {where}"
+msgstr "Đã tạo 1 thư mục trong {where}"
+
+#. placeholder {0}: completed.hash
+msgid "Created commit {0}"
+msgstr "Đã tạo commit {0}"
+
+msgid "Creating directory and initializing Git…"
+msgstr "Đang tạo thư mục và khởi tạo Git…"
+
+msgid "Creating…"
+msgstr "Đang tạo…"
+
+msgid "Cross-platform mobile app with Expo"
+msgstr "Ứng dụng di động đa nền tảng với Expo"
+
+msgid "Ctrl+click"
+msgstr "Ctrl+nhấp"
+
+msgid "Ctrl+Shift+click"
+msgstr "Ctrl+Shift+nhấp"
+
+msgid "Current"
+msgstr "Hiện tại"
+
+msgid "Cursor blinking"
+msgstr "Con trỏ nhấp nháy"
+
+msgid "Cursor style"
+msgstr "Kiểu con trỏ"
+
+msgid "Custom"
+msgstr "Tùy chỉnh"
+
+msgid "Custom branch prefix"
+msgstr "Tiền tố branch tùy chỉnh"
+
+msgid "Custom notification sound"
+msgstr "Âm thanh thông báo tùy chỉnh"
+
+msgid "Custom prefix"
+msgstr "Tiền tố tùy chỉnh"
+
+msgid "Custom sound"
+msgstr "Âm thanh tùy chỉnh"
+
+msgid "Custom themes"
+msgstr "Theme tùy chỉnh"
+
+msgid "Customize how Jedv looks on your device"
+msgstr "Tùy chỉnh giao diện Jedv trên thiết bị của bạn"
+
+msgid "Customize shortcuts for your local workflow."
+msgstr "Tùy chỉnh phím tắt cho quy trình làm việc cục bộ."
+
+msgid "Customize terminal behavior and typography."
+msgstr "Tùy chỉnh hành vi và kiểu chữ của terminal."
+
+msgid "Cyan"
+msgstr "Xanh lơ"
+
+msgid "Daemon restarted. All sessions were closed."
+msgstr "Đã khởi động lại daemon. Tất cả phiên đã được đóng."
+
+msgid "Daemon unavailable"
+msgstr "Daemon không khả dụng"
+
+msgid "Daemon updated. Sessions preserved."
+msgstr "Đã cập nhật daemon. Các phiên được giữ nguyên."
+
+msgid "Daily"
+msgstr "Hằng ngày"
+
+msgid "Daily at {time}"
+msgstr "Hằng ngày lúc {time}"
+
+msgid "Daily token history"
+msgstr "Lịch sử token hằng ngày"
+
+msgid "Danger zone"
+msgstr "Vùng nguy hiểm"
+
+msgid "Dark"
+msgstr "Tối"
+
+msgid "Dark theme"
+msgstr "Theme tối"
+
+msgid "Decline"
+msgstr "Từ chối"
+
+msgid "default"
+msgstr "mặc định"
+
+msgid "Default"
+msgstr "Mặc định"
+
+msgid "Default external editor"
+msgstr "Trình soạn thảo bên ngoài mặc định"
+
+msgid "Defaults for new workspaces on the connected host."
+msgstr "Mặc định cho workspace mới trên host đã kết nối."
+
+msgid "Delete"
+msgstr "Xóa"
+
+msgid "Delete agent"
+msgstr "Xóa agent"
+
+msgid "Delete anyway"
+msgstr "Vẫn xóa"
+
+msgid "Delete anyway will skip the teardown script entirely."
+msgstr "Vẫn xóa sẽ bỏ qua hoàn toàn script teardown."
+
+msgid "Delete automation?"
+msgstr "Xóa automation?"
+
+msgid "Delete multiple workspaces"
+msgstr "Xóa nhiều không gian làm việc"
+
+msgid "Delete permanently"
+msgstr "Xóa vĩnh viễn"
+
+msgid "Delete permanently…"
+msgstr "Xóa vĩnh viễn…"
+
+msgid "Delete project permanently?"
+msgstr "Xóa vĩnh viễn dự án?"
+
+msgid "Delete session \"{workspaceName}\"?"
+msgstr "Xóa phiên \"{workspaceName}\"?"
+
+msgid "Delete this custom agent?"
+msgstr "Xóa agent tùy chỉnh này?"
+
+msgid "Delete this preset?"
+msgstr "Xóa cấu hình định sẵn này?"
+
+msgid "Delete workspace \"{workspaceName}\"?"
+msgstr "Xóa workspace \"{workspaceName}\"?"
+
+msgid "Delete Workspace…"
+msgstr "Xóa Workspace…"
+
+msgid "Deleted"
+msgstr "Đã xóa"
+
+msgid "Deleted sessions cannot be restored."
+msgstr "Không thể khôi phục phiên đã xóa."
+
+msgid "Deleting…"
+msgstr "Đang xóa…"
+
+msgid "Describe what the agent should do…"
+msgstr "Mô tả việc agent cần làm…"
+
+msgid "Description"
+msgstr "Mô tả"
+
+msgid "Description (optional)"
+msgstr "Mô tả (không bắt buộc)"
+
+msgid "Desktop resources"
+msgstr "Tài nguyên máy tính"
+
+msgid "Destination path"
+msgstr "Đường dẫn đích"
+
+msgid "Detached"
+msgstr "Đã tách"
+
+msgid "Details"
+msgstr "Chi tiết"
+
+msgid "Detect workspaces from other tools"
+msgstr "Phát hiện không gian làm việc từ công cụ khác"
+
+msgid "Diagnostics"
+msgstr "Chẩn đoán"
+
+msgid "Dictate"
+msgstr "Đọc chính tả"
+
+msgid "Dictation is not available on this device"
+msgstr "Đọc chính tả không khả dụng trên thiết bị này"
+
+msgid "diff"
+msgstr "diff"
+
+msgid "diff in new tab"
+msgstr "diff ở tab mới"
+
+msgid "Directory path"
+msgstr "Đường dẫn thư mục"
+
+msgid "Discard"
+msgstr "Bỏ"
+
+msgid "Discard changes"
+msgstr "Bỏ thay đổi"
+
+msgid "Discard Changes"
+msgstr "Hủy thay đổi"
+
+msgid "Discard draft"
+msgstr "Hủy bản nháp"
+
+msgid "Discard recording"
+msgstr "Bỏ bản ghi"
+
+msgid "Discard this unsent draft and its selected attachments?"
+msgstr "Hủy bản nháp chưa gửi này và các tệp đính kèm đã chọn?"
+
+msgid "Discard unsaved changes?"
+msgstr "Bỏ các thay đổi chưa lưu?"
+
+msgid "Discarding renamed or copied files is unavailable. Restore both paths with Git."
+msgstr "Không thể hủy thay đổi của tệp đã đổi tên hoặc sao chép. Hãy dùng Git để khôi phục cả hai đường dẫn."
+
+msgid "Disconnected"
+msgstr "Đã ngắt kết nối"
+
+#. placeholder {0}: formatNumber(logins.data.claude.length)
+#. placeholder {1}: formatNumber(logins.data.codex.length)
+msgid "Discovered {0} Claude Code and {1} Codex login profiles on this host."
+msgstr "Đã tìm thấy {0} hồ sơ đăng nhập Claude Code và {1} Codex trên host này."
+
+msgid "Disk version"
+msgstr "Phiên bản trên đĩa"
+
+msgid "Dismiss"
+msgstr "Bỏ qua"
+
+msgid "Dismissed"
+msgstr "Đã bỏ qua"
+
+msgid "Display"
+msgstr "Hiển thị"
+
+msgid "Do anything"
+msgstr "Làm bất cứ điều gì"
+
+msgid "Do not start a new agent until workspace setup has succeeded or is not required. If setup fails or its status cannot be confirmed, starting the agent is blocked."
+msgstr "Không khởi chạy tác tử mới cho đến khi thiết lập không gian làm việc thành công hoặc không còn cần thiết. Nếu thiết lập thất bại hoặc không thể xác nhận trạng thái, việc khởi chạy tác tử sẽ bị chặn."
+
+msgid "Do nothing"
+msgstr "Không làm gì"
+
+msgid "Documentation"
+msgstr "Tài liệu"
+
+msgid "Done"
+msgstr "Xong"
+
+msgid "Download starter"
+msgstr "Tải bản mẫu"
+
+msgid "Downloading {version} · {percent}%"
+msgstr "Đang tải xuống {version} · {percent}%"
+
+msgid "Downloading {version}…"
+msgstr "Đang tải xuống {version}…"
+
+msgid "Downloading template and creating fresh Git history…"
+msgstr "Đang tải mẫu xuống và tạo lịch sử Git mới…"
+
+msgid "Downloading update…"
+msgstr "Đang tải bản cập nhật xuống…"
+
+msgid "Draft"
+msgstr "Nháp"
+
+msgid "Drop files to attach"
+msgstr "Thả tệp để đính kèm"
+
+msgid "Drop into {label}"
+msgstr "Thả vào {label}"
+
+msgid "Drop to attach"
+msgstr "Thả để đính kèm"
+
+msgid "dropdown"
+msgstr "danh sách thả xuống"
+
+msgid "Each surface has its own typography. Changes appear immediately in the live previews."
+msgstr "Mỗi bề mặt có kiểu chữ riêng. Thay đổi hiện ra ngay trong phần xem trước trực tiếp."
+
+msgid "Earlier output"
+msgstr "Output trước đó"
+
+msgid "Edit"
+msgstr "Sửa"
+
+msgid "Edit group"
+msgstr "Chỉnh sửa nhóm"
+
+msgid "Edit shared setup, run and teardown commands, or personal overrides. Saving does not execute commands."
+msgstr "Chỉnh sửa lệnh thiết lập, chạy và dọn dẹp dùng chung hoặc tùy chỉnh ghi đè cá nhân. Lưu không thực thi lệnh."
+
+msgid "Edit terminal preset"
+msgstr "Chỉnh sửa cài đặt sẵn của terminal"
+
+msgid "editor"
+msgstr "editor"
+
+msgid "Editor & workflow"
+msgstr "Trình soạn thảo & quy trình làm việc"
+
+msgid "Editor typography"
+msgstr "Kiểu chữ trình soạn thảo"
+
+msgid "Enable"
+msgstr "Bật"
+
+msgid "Endpoint"
+msgstr "Điểm cuối"
+
+msgid "Enter a command."
+msgstr "Nhập lệnh."
+
+msgid "Enter a group name of 1 to 64 characters."
+msgstr "Nhập tên nhóm dài từ 1 đến 64 ký tự."
+
+msgid "Enter a project name and location."
+msgstr "Nhập tên và vị trí dự án."
+
+msgid "Enter a project name."
+msgstr "Nhập tên dự án."
+
+msgid "Enter a valid repository URL, SSH address, or absolute path on the target host. Remove query strings and fragments from GitHub URLs."
+msgstr "Nhập URL kho mã, địa chỉ SSH hoặc đường dẫn tuyệt đối hợp lệ trên máy chủ đích. Xóa chuỗi truy vấn và fragment khỏi URL GitHub."
+
+msgid "Enter a valid schedule and time zone"
+msgstr "Nhập lịch và múi giờ hợp lệ"
+
+msgid "Enter a valid value within the allowed range."
+msgstr "Nhập giá trị hợp lệ trong phạm vi cho phép."
+
+msgid "Enter an absolute directory path on the target host."
+msgstr "Nhập đường dẫn thư mục tuyệt đối trên máy chủ đích."
+
+msgid "Enter an agent name."
+msgstr "Nhập tên agent."
+
+msgid "Enter URL..."
+msgstr "Nhập URL..."
+
+msgid "Environment must be a JSON object with valid variable names and string values."
+msgstr "Môi trường phải là một đối tượng JSON có tên biến hợp lệ và giá trị chuỗi."
+
+msgid "Environment variables"
+msgstr "Biến môi trường"
+
+msgid "Equalize Pane Splits"
+msgstr "Cân đều các khung"
+
+msgid "Estimated cost"
+msgstr "Chi phí ước tính"
+
+msgid "Every {day}"
+msgstr "{day} hằng tuần"
+
+msgid "Every {day} at {time}"
+msgstr "{day} hằng tuần, lúc {time}"
+
+msgid "Every minute"
+msgstr "Mỗi phút"
+
+msgid "Execution mode"
+msgstr "Chế độ thực thi"
+
+msgid "Existing branch"
+msgstr "Nhánh hiện có"
+
+msgid "Existing chat session. No CLI terminal is attached."
+msgstr "Phiên chat hiện có. Không có terminal CLI nào được kết nối."
+
+msgid "Existing chat sessions"
+msgstr "Phiên trò chuyện hiện có"
+
+msgid "Existing worktree"
+msgstr "Worktree hiện có"
+
+#. placeholder {0}: blocker.state.exitCode ?? "—"
+#. placeholder {1}: blocker.state.exitSignal ?? "—"
+msgid "Exit code: {0}; signal: {1}"
+msgstr "Mã thoát: {0}; tín hiệu: {1}"
+
+msgid "Exited"
+msgstr "Đã thoát"
+
+#. placeholder {0}: session.exitCode
+msgid "Exited ({0})"
+msgstr "Đã thoát ({0})"
+
+msgid "Expand"
+msgstr "Mở rộng"
+
+msgid "Expand all"
+msgstr "Mở rộng tất cả"
+
+msgid "Expand pane area"
+msgstr "Mở rộng vùng ngăn"
+
+msgid "Expand the right pane to fill the window, or restore it"
+msgstr "Mở rộng ngăn bên phải để lấp đầy cửa sổ, hoặc khôi phục"
+
+msgid "Export theme"
+msgstr "Xuất theme"
+
+msgid "external browser"
+msgstr "trình duyệt ngoài"
+
+msgid "External editors are available for local workspaces only."
+msgstr "Trình chỉnh sửa bên ngoài chỉ khả dụng cho không gian làm việc cục bộ."
+
+msgid "External editors open files on this machine only"
+msgstr "Trình soạn thảo bên ngoài chỉ mở tệp trên máy này"
+
+msgid "Failed"
+msgstr "Thất bại"
+
+msgid "Failed to add {failed} files"
+msgstr "Không thể thêm {failed} tệp"
+
+msgid "Failed to add 1 file"
+msgstr "Không thể thêm 1 tệp"
+
+msgid "Failed to check for updates. Please try again later."
+msgstr "Không thể kiểm tra cập nhật. Vui lòng thử lại sau."
+
+msgid "Failed to close port"
+msgstr "Không thể đóng cổng"
+
+msgid "Failed to control run"
+msgstr "Không thể điều khiển lượt chạy"
+
+msgid "Failed to copy path: {reason}"
+msgstr "Không thể sao chép đường dẫn: {reason}"
+
+msgid "Failed to create {failedDirs} folders"
+msgstr "Không thể tạo {failedDirs} thư mục"
+
+msgid "Failed to create 1 folder"
+msgstr "Không thể tạo 1 thư mục"
+
+msgid "Failed to create item"
+msgstr "Không thể tạo mục"
+
+msgid "Failed to create pull request"
+msgstr "Không thể tạo pull request"
+
+msgid "Failed to discard the new item"
+msgstr "Không thể bỏ mục mới"
+
+msgid "Failed to find linked workspace"
+msgstr "Không thể tìm thấy workspace đã liên kết"
+
+msgid "Failed to import theme file"
+msgstr "Không thể nhập tệp theme"
+
+msgid "Failed to load automations"
+msgstr "Không thể tải automation"
+
+msgid "Failed to load changes"
+msgstr "Không thể tải thay đổi"
+
+msgid "Failed to load pull request"
+msgstr "Không thể tải pull request"
+
+msgid "Failed to load pull requests"
+msgstr "Không thể tải các pull request"
+
+msgid "Failed to load run output"
+msgstr "Không thể tải output lượt chạy"
+
+msgid "Failed to load runs"
+msgstr "Không thể tải các lượt chạy"
+
+msgid "Failed to load workspace status"
+msgstr "Không thể tải trạng thái workspace"
+
+msgid "Failed to open workspace"
+msgstr "Không thể mở workspace"
+
+msgid "Failed to parse pull request diff"
+msgstr "Không thể phân tích diff của pull request"
+
+msgid "Failed to refresh pull requests"
+msgstr "Không thể làm mới pull request"
+
+msgid "Failed to rename"
+msgstr "Không thể đổi tên"
+
+msgid "Failed to replace {replaceFailed} files"
+msgstr "Không thể thay thế {replaceFailed} tệp"
+
+msgid "Failed to replace 1 file"
+msgstr "Không thể thay thế 1 tệp"
+
+msgid "Failed to reveal in Finder: {reason}"
+msgstr "Không thể hiện trong Finder: {reason}"
+
+msgid "Failed to save automation"
+msgstr "Không thể lưu automation"
+
+msgid "Failed to send the files to the remote workspace"
+msgstr "Không thể gửi các tệp tới workspace từ xa"
+
+msgid "Failed to set color"
+msgstr "Không thể đặt màu"
+
+msgid "Failed to set icon"
+msgstr "Không thể đặt biểu tượng"
+
+msgid "Failed to update branch prefix"
+msgstr "Không thể cập nhật tiền tố nhánh"
+
+msgid "Failed to update pull request state"
+msgstr "Không thể cập nhật trạng thái pull request"
+
+msgid "Failed to update review thread"
+msgstr "Không thể cập nhật luồng review"
+
+msgid "Fetch completed"
+msgstr "Đã hoàn tất fetch"
+
+msgid "Fetch current branch from origin"
+msgstr "Fetch nhánh hiện tại từ origin"
+
+msgid "File"
+msgstr "Tệp"
+
+msgid "File change needs approval"
+msgstr "Thay đổi tệp cần được phê duyệt"
+
+msgid "File changed on disk"
+msgstr "Tệp trên đĩa đã thay đổi"
+
+msgid "File changed on disk. Reload before saving."
+msgstr "Tệp trên đĩa đã thay đổi. Hãy tải lại trước khi lưu."
+
+msgid "File is not in an open workspace"
+msgstr "Tệp không nằm trong không gian làm việc đang mở"
+
+msgid "File links"
+msgstr "Liên kết tệp"
+
+msgid "File not found"
+msgstr "Không tìm thấy tệp"
+
+msgid "File tree limit reached. Search files to open an unloaded path."
+msgstr "Đã đạt giới hạn cây tệp. Hãy tìm tệp để mở đường dẫn chưa được tải."
+
+msgid "File updates may be out of date. Reload open files to check the disk."
+msgstr "Cập nhật tệp có thể đã lỗi thời. Hãy tải lại tệp đang mở để kiểm tra ổ đĩa."
+
+msgid "File was deleted on disk."
+msgstr "Tệp đã bị xóa trên đĩa."
+
+msgid "File was deleted on disk. You still have unsaved changes."
+msgstr "Tệp đã bị xóa trên đĩa. Bạn vẫn còn thay đổi chưa lưu."
+
+msgid "Files"
+msgstr "Tệp"
+
+msgid "Files & editor"
+msgstr "Tệp & trình soạn thảo"
+
+msgid "Files larger than 32 MiB must be opened in an external editor."
+msgstr "Tệp lớn hơn 32 MiB phải được mở trong trình chỉnh sửa bên ngoài."
+
+msgid "Files, Git changes, pull requests, project scripts, and port forwarding."
+msgstr "Tệp, thay đổi Git, pull request, tập lệnh dự án và chuyển tiếp cổng."
+
+msgid "Filter"
+msgstr "Lọc"
+
+msgid "Filter agents"
+msgstr "Lọc agent"
+
+msgid "Filter agents…"
+msgstr "Lọc agent…"
+
+msgid "Find"
+msgstr "Tìm"
+
+msgid "Find in Changes"
+msgstr "Tìm trong Thay đổi"
+
+msgid "Find in Chat"
+msgstr "Tìm trong Chat"
+
+msgid "Find in File Viewer"
+msgstr "Tìm trong khung xem tệp"
+
+msgid "Find in Page"
+msgstr "Tìm trong trang"
+
+msgid "Find in Terminal"
+msgstr "Tìm trong terminal"
+
+msgid "Finish refreshing"
+msgstr "Hoàn tất làm mới"
+
+msgid "Finished"
+msgstr "Đã xong"
+
+msgid "Finished · unread"
+msgstr "Đã xong · chưa đọc"
+
+msgid "Fit"
+msgstr "Vừa khung"
+
+msgid "Flame"
+msgstr "Ngọn lửa"
+
+msgid "Focus Chat Input"
+msgstr "Focus ô nhập chat"
+
+msgid "Focus Pane Down"
+msgstr "Focus khung dưới"
+
+msgid "Focus Pane Left"
+msgstr "Focus khung trái"
+
+msgid "Focus Pane Right"
+msgstr "Focus khung phải"
+
+msgid "Focus Pane Up"
+msgstr "Focus khung trên"
+
+msgid "Focus Task Search"
+msgstr "Focus ô tìm tác vụ"
+
+msgid "Focus the next tab in the active workspace"
+msgstr "Chuyển tới tab kế tiếp trong workspace hiện tại"
+
+msgid "Focus the pane above the active pane"
+msgstr "Chuyển focus lên khung bên trên"
+
+msgid "Focus the pane below the active pane"
+msgstr "Chuyển focus xuống khung bên dưới"
+
+msgid "Focus the pane to the left of the active pane"
+msgstr "Chuyển focus sang khung bên trái"
+
+msgid "Focus the pane to the right of the active pane"
+msgstr "Chuyển focus sang khung bên phải"
+
+msgid "Focus the previous tab in the active workspace"
+msgstr "Chuyển tới tab trước trong workspace hiện tại"
+
+msgid "Focus the search input in the tasks view"
+msgstr "Chuyển focus tới ô tìm kiếm trong màn hình tác vụ"
+
+msgid "Folder"
+msgstr "Thư mục"
+
+msgid "Folder links"
+msgstr "Liên kết thư mục"
+
+msgid "Folder view"
+msgstr "Xem theo thư mục"
+
+msgid "Folders cannot be sent to the remote workspace"
+msgstr "Không thể gửi thư mục đến không gian làm việc từ xa"
+
+msgid "Folders to check out into new worktrees, one per line, relative to the repo root. Root files are always included. Empty checks out everything."
+msgstr "Các thư mục cần checkout vào worktree mới, mỗi dòng một thư mục, tương đối với thư mục gốc kho mã. Tệp ở thư mục gốc luôn được bao gồm. Để trống sẽ checkout tất cả."
+
+msgid "Follow the characters printed on your keyboard instead of physical key positions."
+msgstr "Hãy theo các ký tự in trên bàn phím thay vì vị trí phím vật lý."
+
+msgid "Font family"
+msgstr "Họ font"
+
+msgid "Font size"
+msgstr "Cỡ chữ"
+
+msgid "Font weight"
+msgstr "Độ đậm chữ"
+
+msgid "Force Reload"
+msgstr "Tải lại cưỡng bức"
+
+msgid "Force restart"
+msgstr "Buộc khởi động lại"
+
+msgid "Force restart terminal daemon?"
+msgstr "Buộc khởi động lại daemon terminal?"
+
+msgid "Force Stop"
+msgstr "Dừng cưỡng bức"
+
+msgid "Fork arguments"
+msgstr "Tham số fork"
+
+msgid "Forward"
+msgstr "Tiến"
+
+msgid "Forward port…"
+msgstr "Chuyển tiếp cổng…"
+
+msgid "Friday"
+msgstr "Thứ Sáu"
+
+msgid "From"
+msgstr "Từ"
+
+msgid "Front matter hidden. Switch to the Markdown view to edit it"
+msgstr "Đã ẩn front matter. Hãy chuyển sang chế độ xem Markdown để sửa"
+
+msgid "Full Disk Access"
+msgstr "Full Disk Access"
+
+msgid "Full-stack Turborepo with Next.js, Expo, and tRPC"
+msgstr "Turborepo full-stack với Next.js, Expo và tRPC"
+
+msgid "Fullstack template on Cloudflare Workers"
+msgstr "Mẫu fullstack trên Cloudflare Workers"
+
+msgid "Garry Tan's role-based Claude Code workflow"
+msgstr "Quy trình Claude Code theo vai trò của Garry Tan"
+
+msgid "General"
+msgstr "Chung"
+
+msgid "Get Git"
+msgstr "Tải Git"
+
+msgid "Git & worktree"
+msgstr "Git và worktree"
+
+msgid "Git author"
+msgstr "Tác giả Git"
+
+msgid "Git author name"
+msgstr "Tên tác giả Git"
+
+msgid "GitHub authentication failed. Sign in with gh on this host, then refresh."
+msgstr "Xác thực GitHub thất bại. Đăng nhập bằng gh trên host này, rồi làm mới."
+
+msgid "GitHub enforces branch protection and required checks."
+msgstr "GitHub áp dụng bảo vệ branch và các kiểm tra bắt buộc."
+
+msgid "GitHub is unreachable. PR links may be out of date."
+msgstr "Không thể truy cập GitHub. Liên kết PR có thể đã lỗi thởi."
+
+msgid "GitHub rate limit reached. PR links may be out of date."
+msgstr "Đã đạt giới hạn yêu cầu của GitHub. Liên kết PR có thể đã lỗi thởi."
+
+msgid "GitHub username"
+msgstr "Tên người dùng GitHub"
+
+msgid "Globe"
+msgstr "Quả địa cầu"
+
+msgid "Go"
+msgstr "Đi"
+
+msgid "Go Back"
+msgstr "Quay lại"
+
+msgid "Go back home"
+msgstr "Quay về trang chủ"
+
+msgid "Go back to the previous page in history"
+msgstr "Quay lại trang trước trong lịch sử"
+
+msgid "Go Forward"
+msgstr "Tiến tới"
+
+msgid "Go forward to the next page in history"
+msgstr "Đi tới trang kế tiếp trong lịch sử"
+
+msgid "Go home"
+msgstr "Về trang chủ"
+
+msgid "Got it"
+msgstr "Đã hiểu"
+
+msgid "Granted"
+msgstr "Đã cấp"
+
+msgid "Green"
+msgstr "Xanh lá"
+
+msgid "Group name"
+msgstr "Tên nhóm"
+
+msgid "Groups use workspace tags on the target host."
+msgstr "Nhóm sử dụng thẻ không gian làm việc trên máy chủ đích."
+
+msgid "Guides AI-generated workspace and branch names for this project. Empty uses the default naming."
+msgstr "Định hướng cách AI đặt tên workspace và nhánh cho dự án này. Để trống sẽ dùng cách đặt tên mặc định."
+
+msgid "Handle in terminal"
+msgstr "Xử lý trong terminal"
+
+msgid "Has uncommitted changes"
+msgstr "Có thay đổi chưa commit"
+
+msgid "Has uncommitted changes and unpushed commits"
+msgstr "Có thay đổi chưa commit và commit chưa push"
+
+msgid "Has unpushed commits"
+msgstr "Có commit chưa push"
+
+msgid "Heading 1"
+msgstr "Tiêu đề 1"
+
+msgid "Heading 2"
+msgstr "Tiêu đề 2"
+
+msgid "Heading 3"
+msgstr "Tiêu đề 3"
+
+msgid "Heart"
+msgstr "Trái tim"
+
+msgid "Help"
+msgstr "Trợ giúp"
+
+msgid "Hide {displayName}"
+msgstr "Ẩn {displayName}"
+
+msgid "Hide details"
+msgstr "Ẩn chi tiết"
+
+msgid "Hide workspace activity"
+msgstr "Ẩn hoạt động không gian làm việc"
+
+msgid "History"
+msgstr "Lịch sử"
+
+msgid "Home"
+msgstr "Trang chủ"
+
+msgid "Host changed. Review the current daemon before restarting."
+msgstr "Máy chủ đã thay đổi. Hãy xem lại daemon hiện tại trước khi khởi động lại."
+
+msgid "Host connection is unavailable"
+msgstr "Kết nối máy chủ không khả dụng"
+
+msgid "Host is offline"
+msgstr "Host đang ngoại tuyến"
+
+msgid "Host Service"
+msgstr "Dịch vụ host"
+
+msgid "Host Service ({count})"
+msgstr "Dịch vụ host ({count})"
+
+msgid "Host service crashed"
+msgstr "Dịch vụ host đã crash"
+
+msgid "Host service unavailable"
+msgstr "Dịch vụ host không khả dụng"
+
+msgid "Hourly"
+msgstr "Hằng giờ"
+
+msgid "https://github.com/owner/repo.git or /path/to/repo"
+msgstr "https://github.com/owner/repo.git hoặc /path/to/repo"
+
+msgid "I checked the attachments"
+msgstr "Tôi đã kiểm tra tệp đính kèm"
+
+msgid "I checked the result"
+msgstr "Tôi đã kiểm tra kết quả"
+
+msgid "I understand that running sessions will stop and teardown commands may affect files with unsaved work."
+msgstr "Tôi hiểu rằng các phiên đang chạy sẽ dừng và lệnh dọn dẹp có thể ảnh hưởng đến tệp có công việc chưa lưu."
+
+msgid "Icon"
+msgstr "Biểu tượng"
+
+msgid "IDE"
+msgstr "IDE"
+
+msgid "Idle"
+msgstr "Rảnh"
+
+msgid "Image"
+msgstr "Hình ảnh"
+
+msgid "Image blocked"
+msgstr "Ảnh bị chặn"
+
+#. placeholder {0}: src ?? "(empty)"
+msgid "Image blocked: {0}"
+msgstr "Ảnh bị chặn: {0}"
+
+msgid "Image is too large (max 10MB)"
+msgstr "Ảnh quá lớn (tối đa 10MB)"
+
+msgid "Images"
+msgstr "Hình ảnh"
+
+msgid "Import"
+msgstr "Nhập"
+
+msgid "import a folder"
+msgstr "nhập một thư mục"
+
+msgid "Import a project with a GitHub remote to view its pull requests."
+msgstr "Nhập một dự án có remote GitHub để xem pull request."
+
+msgid "Import a theme file or grab a starter to edit."
+msgstr "Nhập một tệp theme hoặc lấy bản mẫu để chỉnh sửa."
+
+msgid "Import an audio file or preview the selected sound."
+msgstr "Nhập tệp âm thanh hoặc nghe thử âm thanh đã chọn."
+
+msgid "Import from other tools"
+msgstr "Nhập từ công cụ khác"
+
+msgid "Import results"
+msgstr "Kết quả nhập"
+
+msgid "Import selected"
+msgstr "Nhập mục đã chọn"
+
+msgid "Import sound"
+msgstr "Nhập âm thanh"
+
+msgid "import the project"
+msgstr "nhập dự án"
+
+msgid "Import untracked worktrees"
+msgstr "Nhập các worktree chưa theo dõi"
+
+msgid "Import worktree"
+msgstr "Nhập worktree"
+
+msgid "Importing project…"
+msgstr "Đang nhập dự án…"
+
+msgid "Importing selected workspaces…"
+msgstr "Đang nhập không gian làm việc đã chọn…"
+
+msgid "Importing..."
+msgstr "Đang nhập..."
+
+msgid "In"
+msgstr "Trong"
+
+msgid "In Apple's window, click Install. It takes a few minutes, and this page updates when it's done."
+msgstr "Trong cửa sổ của Apple, bấm Cài đặt. Quá trình mất vài phút và trang này sẽ cập nhật khi xong."
+
+msgid "In review"
+msgstr "Đang xem xét"
+
+msgid "Include the Linear ticket id from the prompt in the branch name (e.g. bin-344-fix-login). Prefix branches with fix/ or feat/ based on the task."
+msgstr "Đưa id ticket Linear từ prompt vào tên nhánh (ví dụ bin-344-fix-login). Thêm tiền tố fix/ hoặc feat/ cho nhánh tùy theo tác vụ."
+
+msgid "Included in this build"
+msgstr "Được bao gồm trong bản dựng này"
+
+msgid "Indigo"
+msgstr "Chàm"
+
+msgid "Initialize and open"
+msgstr "Khởi tạo và mở"
+
+msgid "Initialize Git repository?"
+msgstr "Khởi tạo kho Git?"
+
+msgid "Inline"
+msgstr "Nội dòng"
+
+msgid "Inline code"
+msgstr "Mã nội dòng"
+
+msgid "Insert into CLI"
+msgstr "Chèn vào CLI"
+
+msgid "Insert into the existing CLI, then submit in the terminal."
+msgstr "Chèn vào CLI hiện có, sau đó gửi trong terminal."
+
+msgid "Install Command Line Tools"
+msgstr "Cài đặt Command Line Tools"
+
+msgid "Install Git, then come back."
+msgstr "Hãy cài đặt Git, rồi quay lại đây."
+
+msgid "Install lifecycle hooks for this agent on this device."
+msgstr "Cài đặt lifecycle hook cho agent này trên thiết bị này."
+
+msgid "Installing update…"
+msgstr "Đang cài đặt bản cập nhật…"
+
+msgid "Instructions"
+msgstr "Hướng dẫn"
+
+msgid "Interrupt"
+msgstr "Ngắt lời"
+
+msgid "Interrupt requested"
+msgstr "Đã yêu cầu ngắt"
+
+msgid "Interrupted"
+msgstr "Đã ngắt"
+
+msgid "Italic"
+msgstr "Nghiêng"
+
+msgid "Its workspaces and terminals are unavailable until it restarts. Use the Jedv tray menu > Host Service > Restart."
+msgstr "Các workspace và terminal của nó không khả dụng cho đến khi khởi động lại. Dùng menu khay Jedv > Host Service > Restart."
+
+msgid "Jedv"
+msgstr "Jedv"
+
+msgid "Jedv hit an unexpected error. Reload to try again."
+msgstr "Jedv gặp lỗi không mong muốn. Tải lại để thử lại."
+
+msgid "Jedv needs Git to add a project."
+msgstr "Jedv cần Git để thêm dự án."
+
+msgid "JetBrains"
+msgstr "JetBrains"
+
+msgid "Jump to a workspace that needs attention or is running."
+msgstr "Chuyển đến không gian làm việc cần chú ý hoặc đang chạy."
+
+msgid "Keep editing"
+msgstr "Tiếp tục chỉnh sửa"
+
+msgid "Keep notifications silent on this device."
+msgstr "Giữ thông báo ở chế độ im lặng trên thiết bị này."
+
+msgid "Kept the new file because it changed after it was created"
+msgstr "Đã giữ tệp mới, nó đã thay đổi sau khi được tạo"
+
+msgid "Kept the new folder because it is no longer empty"
+msgstr "Đã giữ thư mục mới, nó không còn rỗng"
+
+msgid "Keyboard"
+msgstr "Bàn phím"
+
+msgid "Keyboard Shortcuts"
+msgstr "Phím tắt"
+
+msgid "Kill {title}"
+msgstr "Buộc chấm dứt {title}"
+
+msgid "Kill Terminal Session"
+msgstr "Kết thúc phiên terminal"
+
+msgid "Language"
+msgstr "Ngôn ngữ"
+
+msgid "Last {n} days"
+msgstr "{n} ngày qua"
+
+msgid "Last activity"
+msgstr "Hoạt động gần nhất"
+
+msgid "Last check completed"
+msgstr "Lần kiểm tra gần nhất đã hoàn tất"
+
+msgid "Last day of each month"
+msgstr "Ngày cuối mỗi tháng"
+
+msgid "Last day of each month at {time}"
+msgstr "Ngày cuối mỗi tháng lúc {time}"
+
+msgid "Later"
+msgstr "Để sau"
+
+msgid "Latest output"
+msgstr "Output mới nhất"
+
+msgid "Launch Agent"
+msgstr "Khởi chạy Agent"
+
+msgid "Launch result unknown. Refresh and inspect the terminal before restarting."
+msgstr "Không rõ kết quả khởi chạy. Hãy làm mới và kiểm tra terminal trước khi khởi chạy lại."
+
+msgid "Layout"
+msgstr "Bố cục"
+
+msgid "Leaf"
+msgstr "Chiếc lá"
+
+msgid "Leave a comment…"
+msgstr "Để lại bình luận…"
+
+msgid "Leave empty to use the workspace directory. Relative paths are resolved inside the workspace."
+msgstr "Để trống để dùng thư mục không gian làm việc. Đường dẫn tương đối được xử lý bên trong không gian làm việc."
+
+msgid "Leave it empty to go back to the name the terminal reports."
+msgstr "Để trống để quay lại tên do terminal báo cáo."
+
+msgid "Letter spacing (px)"
+msgstr "Giãn cách chữ (px)"
+
+msgid "Ligatures"
+msgstr "Ligature"
+
+msgid "Ligatures off"
+msgstr "Tắt ligature"
+
+msgid "Ligatures on"
+msgstr "Bật ligature"
+
+msgid "Light"
+msgstr "Sáng"
+
+msgid "Light theme"
+msgstr "Theme sáng"
+
+msgid "Lime"
+msgstr "Xanh chanh"
+
+#. placeholder {0}: problem.line
+#. placeholder {1}: problem.message
+msgid "Line {0}: {1}"
+msgstr "Dòng {0}: {1}"
+
+msgid "Line height"
+msgstr "Chiều cao dòng"
+
+msgid "Link"
+msgstr "Liên kết"
+
+msgid "Linked agent"
+msgstr "Tác tử được liên kết"
+
+msgid "Linked agent is unavailable."
+msgstr "Tác tử được liên kết không khả dụng."
+
+msgid "Linked presets cannot run on remote hosts."
+msgstr "Cấu hình định sẵn được liên kết không thể chạy trên máy chủ từ xa."
+
+msgid "List"
+msgstr "Danh sách"
+
+msgid "Live"
+msgstr "Trực tiếp"
+
+msgid "Live preview"
+msgstr "Xem trước trực tiếp"
+
+msgid "Live terminal"
+msgstr "Terminal đang hoạt động"
+
+msgid "load agent settings"
+msgstr "tải cài đặt agent"
+
+msgid "Load more"
+msgstr "Tải thêm"
+
+msgid "Loading"
+msgstr "Đang tải"
+
+msgid "Loading agents…"
+msgstr "Đang tải agent…"
+
+msgid "Loading automations…"
+msgstr "Đang tải automation…"
+
+msgid "Loading changes…"
+msgstr "Đang tải thay đổi…"
+
+msgid "Loading directories…"
+msgstr "Đang tải thư mục…"
+
+msgid "Loading file…"
+msgstr "Đang tải tệp…"
+
+msgid "Loading files…"
+msgstr "Đang tải tệp…"
+
+msgid "Loading fonts..."
+msgstr "Đang tải font..."
+
+msgid "Loading identity…"
+msgstr "Đang tải danh tính…"
+
+msgid "Loading more..."
+msgstr "Đang tải thêm..."
+
+msgid "Loading output…"
+msgstr "Đang tải output…"
+
+msgid "Loading project settings…"
+msgstr "Đang tải cài đặt dự án…"
+
+msgid "Loading pull request…"
+msgstr "Đang tải pull request…"
+
+msgid "Loading pull requests…"
+msgstr "Đang tải pull request…"
+
+msgid "Loading quota…"
+msgstr "Đang tải hạn mức…"
+
+msgid "Loading removed projects…"
+msgstr "Đang tải dự án đã xóa…"
+
+msgid "Loading repositories..."
+msgstr "Đang tải repository..."
+
+msgid "Loading runs…"
+msgstr "Đang tải lượt chạy…"
+
+msgid "Loading sessions…"
+msgstr "Đang tải phiên…"
+
+msgid "Loading workspace status…"
+msgstr "Đang tải trạng thái workspace…"
+
+msgid "Loading worktrees…"
+msgstr "Đang tải worktree…"
+
+msgid "Loading..."
+msgstr "Đang tải..."
+
+msgid "Loading…"
+msgstr "Đang tải…"
+
+msgid "Local"
+msgstr "Cục bộ"
+
+msgid "Local checkout"
+msgstr "Bản checkout cục bộ"
+
+msgid "Local CLI history and provider quota for the connected host."
+msgstr "Lịch sử CLI cục bộ và hạn mức nhà cung cấp cho host đã kết nối."
+
+msgid "Local CLI history and provider quota."
+msgstr "Lịch sử CLI cục bộ và hạn mức nhà cung cấp."
+
+msgid "Local desktop and terminal process usage. Closing a view keeps its process running; terminating a session stops its processes."
+msgstr "Mức sử dụng tiến trình desktop và terminal cục bộ. Đóng chế độ xem vẫn giữ tiến trình đang chạy; chấm dứt phiên sẽ dừng các tiến trình của phiên."
+
+msgid "Local network"
+msgstr "Mạng cục bộ"
+
+msgid "Local projects, Git worktrees, grouped workspaces, and terminal tabs with split panes."
+msgstr "Dự án cục bộ, worktree Git, không gian làm việc được nhóm và thẻ terminal có khung chia đôi."
+
+msgid "Location"
+msgstr "Vị trí"
+
+msgid "Location & checkout"
+msgstr "Vị trí & checkout"
+
+msgid "Make all panes equal size"
+msgstr "Làm mọi khung bằng nhau"
+
+msgid "Manage local projects and recently deleted projects."
+msgstr "Quản lý các dự án cục bộ và dự án đã xóa gần đây."
+
+msgid "Manage Terminal Scripts"
+msgstr "Quản lý script terminal"
+
+msgid "Manage the host used by your workspaces."
+msgstr "Quản lý host mà các workspace của bạn sử dụng."
+
+msgid "Manual"
+msgstr "Thủ công"
+
+msgid "Manual only"
+msgstr "Chỉ thủ công"
+
+msgid "Manually"
+msgstr "Thủ công"
+
+msgid "Mark as read"
+msgstr "Đánh dấu đã đọc"
+
+msgid "Mark as unread"
+msgstr "Đánh dấu chưa đọc"
+
+msgid "Mark ready for review?"
+msgstr "Đánh dấu sẵn sàng review?"
+
+msgid "Markdown style"
+msgstr "Kiểu markdown"
+
+msgid "Marking ready…"
+msgstr "Đang đánh dấu sẵn sàng…"
+
+msgid "Match case"
+msgstr "Phân biệt chữ hoa chữ thường"
+
+msgid "Maximum hidden terminal renderers kept in memory. Evicting a view keeps its PTY session running."
+msgstr "Số bộ kết xuất terminal ẩn tối đa được giữ trong bộ nhớ. Loại bỏ chế độ xem vẫn giữ phiên PTY đang chạy."
+
+msgid "Maximum size is 256 KB."
+msgstr "Kích thước tối đa là 256 KB."
+
+msgid "Member"
+msgstr "Thành viên"
+
+msgid "Menu bar activity"
+msgstr "Hoạt động trên thanh menu"
+
+msgid "Merge"
+msgstr "Merge"
+
+msgid "Merge method"
+msgstr "Phương thức merge"
+
+msgid "Merge pull request"
+msgstr "Merge pull request"
+
+msgid "Merge pull request?"
+msgstr "Tiến hành merge pull request?"
+
+msgid "Mergeability is being checked"
+msgstr "Đang kiểm tra khả năng merge"
+
+msgid "Merged"
+msgstr "Đã merge"
+
+msgid "Minimum contrast"
+msgstr "Độ tương phản tối thiểu"
+
+msgid "Model"
+msgstr "Mô hình"
+
+msgid "Models"
+msgstr "Mô hình"
+
+msgid "Monday"
+msgstr "Thứ Hai"
+
+msgid "Monospace"
+msgstr "Monospace"
+
+msgid "Monthly"
+msgstr "Hằng tháng"
+
+msgid "Monthly at {time}"
+msgstr "Hằng tháng lúc {time}"
+
+msgid "Monthly on {day}"
+msgstr "Hằng tháng vào {day}"
+
+msgid "Monthly on {day} at {time}"
+msgstr "Hằng tháng vào {day} lúc {time}"
+
+msgid "Monthly on the {day, selectordinal, one {#st} two {#nd} few {#rd} other {#th}}"
+msgstr "Hàng tháng vào ngày {day, selectordinal, one {#} two {#} few {#} other {#}}"
+
+msgid "Monthly on the {day, selectordinal, one {#st} two {#nd} few {#rd} other {#th}} at {time}"
+msgstr "Hàng tháng vào ngày {day, selectordinal, one {#} two {#} few {#} other {#}} lúc {time}"
+
+msgid "More actions"
+msgstr "Thêm hành động"
+
+msgid "More options"
+msgstr "Tùy chọn khác"
+
+msgid "More than one agent matches this preset."
+msgstr "Có nhiều hơn một tác tử khớp với cấu hình định sẵn này."
+
+msgid "Move"
+msgstr "Chuyển"
+
+msgid "Move agent down"
+msgstr "Di chuyển tác tử xuống"
+
+msgid "Move agent up"
+msgstr "Di chuyển tác tử lên"
+
+msgid "Move focus between the main tabs and the right sidebar, and open the sidebar if it is closed"
+msgstr "Di chuyển tiêu điểm giữa các tab chính và thanh bên phải, và mở thanh bên nếu đang đóng"
+
+msgid "Move group down"
+msgstr "Di chuyển nhóm xuống"
+
+msgid "Move group up"
+msgstr "Di chuyển nhóm lên"
+
+msgid "Move preset down"
+msgstr "Di chuyển cấu hình định sẵn xuống"
+
+msgid "Move preset up"
+msgstr "Di chuyển cấu hình định sẵn lên"
+
+msgid "Move to group"
+msgstr "Chuyển vào nhóm"
+
+msgid "Move to Left Side"
+msgstr "Di chuyển sang bên trái"
+
+msgid "Move to Right Side"
+msgstr "Di chuyển sang bên phải"
+
+msgid "Move to Tab"
+msgstr "Chuyển sang tab"
+
+msgid "Move..."
+msgstr "Di chuyển…"
+
+msgid "Multiple projects match this repository. Open the project first and import its worktrees."
+msgstr "Nhiều dự án khớp với kho mã này. Hãy mở dự án trước rồi nhập worktree của dự án."
+
+msgid "Multiple projects use this directory. Choose the project in the sidebar."
+msgstr "Nhiều dự án sử dụng thư mục này. Hãy chọn dự án trong thanh bên."
+
+msgid "Mute notification sounds"
+msgstr "Tắt âm thanh thông báo"
+
+msgid "Name"
+msgstr "Tên"
+
+msgid "Naming instructions"
+msgstr "Hướng dẫn đặt tên"
+
+msgid "Native agent sessions and local attachments."
+msgstr "Phiên Agent gốc và tệp đính kèm cục bộ."
+
+msgid "Navigate Back"
+msgstr "Quay lại"
+
+msgid "Navigate Forward"
+msgstr "Đi tới"
+
+msgid "Navigate to the next workspace in the sidebar"
+msgstr "Chuyển tới workspace kế tiếp trong thanh bên"
+
+msgid "Navigate to the previous workspace in the sidebar"
+msgstr "Chuyển tới workspace trước trong thanh bên"
+
+msgid "Navigation"
+msgstr "Điều hướng"
+
+msgid "Needs attention"
+msgstr "Cần chú ý"
+
+msgid "Needs me"
+msgstr "Cần tôi xử lý"
+
+msgid "Nerd Fonts"
+msgstr "Nerd Fonts"
+
+msgid "New automation"
+msgstr "Tự động hóa mới"
+
+msgid "New branch"
+msgstr "Nhánh mới"
+
+msgid "New Chat"
+msgstr "Chat mới"
+
+msgid "New File"
+msgstr "Tệp mới"
+
+msgid "New File..."
+msgstr "Tệp mới..."
+
+msgid "New Folder"
+msgstr "Thư mục mới"
+
+msgid "New Folder..."
+msgstr "Thư mục mới..."
+
+msgid "New group"
+msgstr "Nhóm mới"
+
+msgid "New shell"
+msgstr "Shell mới"
+
+msgid "new tab"
+msgstr "tab mới"
+
+msgid "New tab"
+msgstr "Tab mới"
+
+msgid "New Tab"
+msgstr "Tab mới"
+
+msgid "New tab with split panes"
+msgstr "Thẻ mới có khung chia đôi"
+
+msgid "New tabs"
+msgstr "Thẻ mới"
+
+msgid "New Terminal"
+msgstr "Terminal mới"
+
+msgid "New Window"
+msgstr "Cửa sổ mới"
+
+msgid "New workspace"
+msgstr "Workspace mới"
+
+msgid "New Workspace"
+msgstr "Workspace mới"
+
+msgid "New worktree each run"
+msgstr "Worktree mới cho mỗi lượt chạy"
+
+#. placeholder {0}: location.data.defaultWorktreeBaseDir
+msgid "New worktrees are stored here. Leave empty to use {0}."
+msgstr "Worktree mới được lưu ở đây. Để trống để dùng {0}."
+
+msgid "Next (Enter)"
+msgstr "Tiếp (Enter)"
+
+msgid "Next branch"
+msgstr "Nhánh kế tiếp"
+
+msgid "Next Right Sidebar Tab"
+msgstr "Tab kế tiếp của thanh bên phải"
+
+#. placeholder {0}: formatDateTime(next, { dateStyle: "medium", timeStyle: "short", timeZone: timezone, })
+msgid "Next scheduled time: {0}"
+msgstr "Lịch tiếp theo: {0}"
+
+msgid "Next Tab"
+msgstr "Tab kế tiếp"
+
+msgid "Next Tab (Second Shortcut)"
+msgstr "Tab kế tiếp (phím tắt thứ hai)"
+
+msgid "Next Workspace"
+msgstr "Workspace kế tiếp"
+
+msgid "No"
+msgstr "Không"
+
+msgid "No active agents"
+msgstr "Không có agent nào đang hoạt động"
+
+msgid "No active organization is selected. Select an organization or sign in again."
+msgstr "Chưa chọn tổ chức nào đang hoạt động. Hãy chọn một tổ chức hoặc đăng nhập lại."
+
+msgid "No active services"
+msgstr "Không có dịch vụ nào đang chạy"
+
+msgid "No active workspaces"
+msgstr "Không có workspace đang hoạt động"
+
+msgid "No active writer"
+msgstr "Không có tiến trình ghi nào đang hoạt động"
+
+msgid "No activity yet"
+msgstr "Chưa có hoạt động"
+
+msgid "No agent was started. After setup completes, start the agent again."
+msgstr "Không có tác tử nào được khởi chạy. Sau khi thiết lập hoàn tất, hãy khởi chạy lại tác tử."
+
+msgid "No automations match your filters"
+msgstr "Không có automation nào khớp với bộ lọc"
+
+msgid "No automations yet"
+msgstr "Chưa có automation"
+
+msgid "No available workspace with a GitHub remote"
+msgstr "Không có workspace khả dụng nào có remote GitHub"
+
+msgid "No background terminals"
+msgstr "Không có terminal chạy nền"
+
+msgid "No branches found"
+msgstr "Không tìm thấy nhánh nào"
+
+msgid "No changes"
+msgstr "Không có thay đổi"
+
+msgid "No checks"
+msgstr "Không có check"
+
+msgid "No checks reported"
+msgstr "Không có check nào"
+
+msgid "No completed project was found yet. The host may still be stopping or finishing the operation. Check again before retrying at this location."
+msgstr "Chưa tìm thấy dự án đã hoàn tất. Máy chủ có thể vẫn đang dừng hoặc hoàn tất thao tác. Hãy kiểm tra lại trước khi thử lại tại vị trí này."
+
+msgid "No description provided"
+msgstr "Chưa có mô tả"
+
+msgid "No existing worktrees found."
+msgstr "Không tìm thấy worktree hiện có."
+
+msgid "No file changes"
+msgstr "Không có thay đổi tệp"
+
+msgid "No files found"
+msgstr "Không tìm thấy tệp nào"
+
+msgid "No files match the accepted types."
+msgstr "Không có tệp nào thuộc loại được chấp nhận."
+
+msgid "No fonts found."
+msgstr "Không tìm thấy font nào."
+
+msgid "No git remote detected"
+msgstr "Không phát hiện remote git nào"
+
+msgid "No GitHub repositories available"
+msgstr "Không có repository GitHub khả dụng"
+
+msgid "No importable worktrees found on this host. You can open a project and import its worktrees instead."
+msgstr "Không tìm thấy worktree có thể nhập trên máy chủ này. Thay vào đó, bạn có thể mở dự án và nhập worktree của dự án."
+
+msgid "No linked pull requests"
+msgstr "Không có pull request được liên kết"
+
+msgid "No local terminal process metrics are available."
+msgstr "Không có chỉ số tiến trình terminal cục bộ."
+
+msgid "No local usage or quota data is available."
+msgstr "Không có dữ liệu sử dụng hoặc hạn mức cục bộ."
+
+msgid "No match"
+msgstr "Không khớp"
+
+msgid "No matches"
+msgstr "Không có kết quả khớp"
+
+msgid "No matching settings."
+msgstr "Không có cài đặt phù hợp."
+
+msgid "No matching shortcuts."
+msgstr "Không có phím tắt phù hợp."
+
+msgid "No messages in this page"
+msgstr "Không có tin nhắn trong trang này"
+
+msgid "No output yet"
+msgstr "Chưa có output"
+
+msgid "No pending responses or unread completions"
+msgstr "Không có phản hồi đang chờ hoặc mục hoàn tất chưa đọc"
+
+msgid "No ports yet. Start a dev server in a terminal and it shows up here."
+msgstr "Chưa có cổng nào. Hãy chạy máy chủ phát triển trong terminal và cổng sẽ hiện ở đây."
+
+msgid "No prefix"
+msgstr "Không có tiền tố"
+
+msgid "No prefix could be resolved from this host's identity."
+msgstr "Không thể xác định tiền tố từ danh tính máy chủ này."
+
+msgid "No projects match your filters"
+msgstr "Không có dự án khớp với bộ lọc"
+
+msgid "No projects on this host."
+msgstr "Không có dự án trên máy chủ này."
+
+msgid "No projects yet"
+msgstr "Chưa có dự án"
+
+msgid "No provider quota is available. Sign in with an agent CLI, then refresh."
+msgstr "Không có hạn mức nhà cung cấp. Đăng nhập bằng CLI agent, rồi làm mới."
+
+msgid "No pull requests found"
+msgstr "Không tìm thấy pull request"
+
+msgid "No pull requests match your filters"
+msgstr "Không có pull request nào khớp với bộ lọc"
+
+msgid "No removed projects"
+msgstr "Không có dự án đã xóa"
+
+msgid "No results"
+msgstr "Không có kết quả"
+
+msgid "No results found."
+msgstr "Không tìm thấy kết quả nào."
+
+msgid "No runs yet"
+msgstr "Chưa có lần chạy nào"
+
+msgid "No screenshots yet"
+msgstr "Chưa có ảnh chụp màn hình nào"
+
+msgid "No subdirectories"
+msgstr "Không có thư mục con"
+
+msgid "No terminal presets yet."
+msgstr "Chưa có cấu hình định sẵn terminal."
+
+msgid "No terminal sessions"
+msgstr "Không có phiên terminal"
+
+msgid "No themes were imported"
+msgstr "Không có theme nào được nhập"
+
+msgid "No usage logs were found for this period."
+msgstr "Không tìm thấy log sử dụng cho giai đoạn này."
+
+msgid "No workspaces in this group"
+msgstr "Không có không gian làm việc trong nhóm này"
+
+msgid "No workspaces match your filters"
+msgstr "Không có workspace nào khớp bộ lọc"
+
+msgid "No workspaces yet"
+msgstr "Chưa có workspace nào"
+
+msgid "No workspaces yet. Create a workspace to get started."
+msgstr "Chưa có workspace. Tạo workspace để bắt đầu."
+
+msgid "None"
+msgstr "Không có"
+
+msgid "Not bound · configure in Settings → Links"
+msgstr "Chưa gán · cấu hình trong Cài đặt → Liên kết"
+
+msgid "Not checked yet"
+msgstr "Chưa kiểm tra"
+
+msgid "Not detected in the workspace right now"
+msgstr "Hiện không phát hiện trong workspace"
+
+msgid "Not forwarded"
+msgstr "Chưa chuyển tiếp"
+
+msgid "Not granted"
+msgstr "Chưa cấp"
+
+msgid "Notification sound"
+msgstr "Âm báo"
+
+msgid "Notification sound volume from 0 to 100."
+msgstr "Âm lượng âm thanh thông báo từ 0 đến 100."
+
+msgid "Notifications"
+msgstr "Thông báo"
+
+msgid "now"
+msgstr "vừa xong"
+
+msgid "Numbered list"
+msgstr "Danh sách đánh số"
+
+msgid "Off"
+msgstr "Tắt"
+
+msgid "On a Mac, Git comes with Apple's Command Line Tools."
+msgstr "Trên Mac, Git đi kèm với Command Line Tools của Apple."
+
+msgid "On focus change"
+msgstr "Khi thay đổi tiêu điểm"
+
+msgid "On window change"
+msgstr "Khi thay đổi cửa sổ"
+
+msgid "Only agents on this device can be linked."
+msgstr "Chỉ có thể liên kết tác tử trên thiết bị này."
+
+msgid "Only new worktrees use this location. Existing worktrees are not moved."
+msgstr "Chỉ worktree mới sử dụng vị trí này. Worktree hiện có không được di chuyển."
+
+msgid "Only on this machine: gitignored, and applied to every worktree of this repository. Any key set here replaces the shared one."
+msgstr "Chỉ trên máy này: được git bỏ qua và áp dụng cho mọi worktree của repository này. Mọi khóa đặt ở đây sẽ thay thế khóa dùng chung."
+
+msgid "Only the listed staged files will be committed. Hooks may modify files or reject the commit."
+msgstr "Chỉ các tệp đã stage được liệt kê mới được commit. Hook có thể sửa tệp hoặc từ chối commit."
+
+msgid "Only the thread author or a user with pull request write access can resolve this conversation."
+msgstr "Chỉ tác giả luồng hoặc ai có quyền ghi vào pull request mới có thể đánh dấu cuộc trò chuyện này là đã giải quyết."
+
+msgid "open"
+msgstr "mở"
+
+msgid "Open"
+msgstr "Mở"
+
+#. placeholder {0}: binding.agentId
+msgid "Open {0} session"
+msgstr "Mở phiên {0}"
+
+msgid "Open {displayName}"
+msgstr "Mở {displayName}"
+
+msgid "Open {path} in file pane"
+msgstr "Mở {path} trong khung tệp"
+
+msgid "Open a multiline prompt composer for the active terminal"
+msgstr "Mở ô soạn prompt nhiều dòng cho terminal đang mở"
+
+msgid "Open a workspace for this project first"
+msgstr "Trước tiên hãy mở không gian làm việc cho dự án này"
+
+msgid "Open agent activity from the menu bar. The panel closes when it loses focus or when you press Escape."
+msgstr "Mở hoạt động của tác nhân từ thanh menu. Bảng sẽ đóng khi mất tiêu điểm hoặc khi bạn nhấn Escape."
+
+msgid "Open an existing repository, or initialize a folder after confirmation."
+msgstr "Mở kho mã hiện có hoặc khởi tạo thư mục sau khi xác nhận."
+
+msgid "Open Changes"
+msgstr "Mở thay đổi"
+
+msgid "Open Changes in"
+msgstr "Mở thay đổi trong"
+
+msgid "Open check on GitHub"
+msgstr "Mở kiểm tra trên GitHub"
+
+msgid "Open CLI"
+msgstr "Mở CLI"
+
+msgid "Open Command Palette"
+msgstr "Mở bảng lệnh"
+
+msgid "Open Diff"
+msgstr "Mở diff"
+
+msgid "Open Diff in New Tab"
+msgstr "Mở diff ở tab mới"
+
+msgid "Open existing PR or create a new one on GitHub"
+msgstr "Mở PR hiện có hoặc tạo PR mới trên GitHub"
+
+msgid "open file"
+msgstr "mở tệp"
+
+msgid "Open File"
+msgstr "Mở tệp"
+
+msgid "Open File in New Tab"
+msgstr "Mở tệp ở tab mới"
+
+msgid "Open files"
+msgstr "Mở tệp"
+
+msgid "Open files in"
+msgstr "Mở tệp trong"
+
+msgid "Open in"
+msgstr "Mở trong"
+
+#. placeholder {0}: currentApp.displayLabel ?? currentApp.label
+msgid "Open in {0}"
+msgstr "Mở trong {0}"
+
+msgid "Open in editor"
+msgstr "Mở trong editor"
+
+msgid "Open in Editor"
+msgstr "Mở trong editor"
+
+msgid "Open in external browser"
+msgstr "Mở trong trình duyệt ngoài"
+
+msgid "Open in external editor"
+msgstr "Mở trong trình soạn thảo bên ngoài"
+
+msgid "Open in Finder"
+msgstr "Mở trong Finder"
+
+msgid "Open in GitHub"
+msgstr "Mở trong GitHub"
+
+msgid "Open in new tab"
+msgstr "Mở ở tab mới"
+
+msgid "Open in New Tab"
+msgstr "Mở ở tab mới"
+
+msgid "Open in right pane"
+msgstr "Mở ở ngăn bên phải"
+
+msgid "Open in split pane"
+msgstr "Mở ở khung chia đôi"
+
+msgid "Open in tab"
+msgstr "Mở trong tab"
+
+msgid "Open large file"
+msgstr "Mở tệp lớn"
+
+msgid "Open local checkout"
+msgstr "Mở checkout cục bộ"
+
+#. placeholder {0}: port.port
+msgid "Open localhost:{0} in external browser"
+msgstr "Mở localhost:{0} trong trình duyệt ngoài"
+
+msgid "Open project"
+msgstr "Mở dự án"
+
+msgid "Open Pull Request"
+msgstr "Mở pull request"
+
+#. placeholder {0}: pr.number
+msgid "Open pull request #{0}"
+msgstr "Mở pull request #{0}"
+
+msgid "Open remote localhost links from Ports after forwarding the port."
+msgstr "Mở liên kết localhost từ xa trong Ports sau khi chuyển tiếp cổng."
+
+msgid "Open session"
+msgstr "Mở phiên"
+
+msgid "Open settings"
+msgstr "Mở cài đặt"
+
+msgid "Open Settings"
+msgstr "Mở cài đặt"
+
+msgid "Open setup terminal"
+msgstr "Mở terminal thiết lập"
+
+msgid "Open source acknowledgements"
+msgstr "Ghi nhận mã nguồn mở"
+
+msgid "Open System Settings"
+msgstr "Mở System Settings"
+
+msgid "Open terminal"
+msgstr "Mở terminal"
+
+msgid "Open Terminal"
+msgstr "Mở terminal"
+
+msgid "Open Terminal Script 1"
+msgstr "Mở script terminal 1"
+
+msgid "Open Terminal Script 2"
+msgstr "Mở script terminal 2"
+
+msgid "Open Terminal Script 3"
+msgstr "Mở script terminal 3"
+
+msgid "Open Terminal Script 4"
+msgstr "Mở script terminal 4"
+
+msgid "Open Terminal Script 5"
+msgstr "Mở script terminal 5"
+
+msgid "Open Terminal Script 6"
+msgstr "Mở script terminal 6"
+
+msgid "Open Terminal Script 7"
+msgstr "Mở script terminal 7"
+
+msgid "Open Terminal Script 8"
+msgstr "Mở script terminal 8"
+
+msgid "Open Terminal Script 9"
+msgstr "Mở script terminal 9"
+
+msgid "Open the Changes pane in a new tab, or focus the existing one"
+msgstr "Mở bảng thay đổi trong tab mới, hoặc chuyển tiêu điểm đến bảng hiện có"
+
+msgid "Open the global command palette"
+msgstr "Mở bảng lệnh toàn cục"
+
+msgid "Open the main window to select this workspace"
+msgstr "Mở cửa sổ chính để chọn workspace này"
+
+msgid "Open the new workspace modal"
+msgstr "Mở hộp thoại tạo workspace mới"
+
+msgid "Open the resource usage view in the command palette"
+msgstr "Mở khung tài nguyên trong bảng lệnh"
+
+msgid "open the task in a workspace"
+msgstr "mở tác vụ trong một workspace"
+
+msgid "Open the workspace in the app picked in the Open In menu (VS Code, Cursor, etc.)"
+msgstr "Mở workspace trong ứng dụng đã chọn ở menu \"Mở trong\" (VS Code, Cursor, v.v.)"
+
+msgid "Open workspace"
+msgstr "Mở workspace"
+
+msgid "Opening the CLI is unavailable in this dialog."
+msgstr "Không thể mở CLI trong hộp thoại này."
+
+msgid "Opening workspace…"
+msgstr "Đang mở không gian làm việc…"
+
+msgid "Opening…"
+msgstr "Đang mở…"
+
+msgid "Option shortcuts may prevent typing special characters"
+msgstr "Phím tắt Option có thể cản trở việc gõ ký tự đặc biệt"
+
+msgid "Orange"
+msgstr "Cam"
+
+msgid "Order by"
+msgstr "Sắp xếp theo"
+
+msgid "organization {id}"
+msgstr "tổ chức {id}"
+
+msgid "Other"
+msgstr "Khác"
+
+msgid "Other ways to get Git"
+msgstr "Cách khác để có Git"
+
+msgid "Outdated"
+msgstr "Lỗi thời"
+
+msgid "Output"
+msgstr "Đầu ra"
+
+msgid "Overwrite file"
+msgstr "Ghi đè tệp"
+
+msgid "Owner"
+msgstr "Chủ sở hữu"
+
+msgid "Owns every PTY session and survives app restarts."
+msgstr "Sở hữu mọi phiên PTY và tồn tại qua các lần khởi động lại ứng dụng."
+
+msgid "Package"
+msgstr "Kiện hàng"
+
+msgid "Page Not Found"
+msgstr "Không tìm thấy trang"
+
+msgid "Pane areas must belong to the same active workspace"
+msgstr "Các vùng ngăn phải thuộc cùng một không gian làm việc đang hoạt động"
+
+msgid "Pane attachment state is unavailable."
+msgstr "Trạng thái đính kèm khung không khả dụng."
+
+msgid "Paragraph"
+msgstr "Đoạn văn"
+
+msgid "Parent directory"
+msgstr "Thư mục cha"
+
+msgid "Parent folder"
+msgstr "Thư mục cha"
+
+msgid "Passed"
+msgstr "Đã qua"
+
+msgid "Paste"
+msgstr "Dán"
+
+msgid "Paste a link"
+msgstr "Dán liên kết"
+
+msgid "Path copied"
+msgstr "Đã sao chép đường dẫn"
+
+msgid "Pause"
+msgstr "Tạm dừng"
+
+msgid "Paused"
+msgstr "Đã tạm dừng"
+
+msgid "Pending"
+msgstr "Đang chờ"
+
+msgid "Permissions"
+msgstr "Quyền"
+
+msgid "Personal"
+msgstr "Cá nhân"
+
+msgid "Pick a folder on disk and add it as a project"
+msgstr "Chọn một thư mục trên ổ đĩa và thêm nó làm dự án"
+
+msgid "Pick a theme or follow your system appearance."
+msgstr "Chọn theme hoặc theo giao diện hệ thống."
+
+msgid "Pick a workspace whose agent is waiting for your input, has finished since you last looked, or is still running"
+msgstr "Chọn workspace có agent đang chờ bạn nhập, đã hoàn tất kể từ lần cuối bạn xem, hoặc vẫn đang chạy"
+
+msgid "PID"
+msgstr "PID"
+
+msgid "Pin workspace"
+msgstr "Ghim không gian làm việc"
+
+msgid "Pink"
+msgstr "Hồng"
+
+msgid "Pinned"
+msgstr "Đã ghim"
+
+msgid "Please select a project directory."
+msgstr "Vui lòng chọn thư mục dự án."
+
+msgid "Port forwarding is not active"
+msgstr "Chuyển tiếp cổng không hoạt động"
+
+msgid "Ports"
+msgstr "Cổng"
+
+msgid "Post comment to GitHub?"
+msgstr "Đăng bình luận lên GitHub?"
+
+msgid "Post reply to GitHub?"
+msgstr "Đăng phản hồi lên GitHub?"
+
+msgid "Prefix"
+msgstr "Tiền tố"
+
+msgid "Prefix new workspace branches on the connected host. Project overrides take priority."
+msgstr "Thêm tiền tố cho nhánh không gian làm việc mới trên máy chủ đã kết nối. Tùy chỉnh ghi đè của dự án được ưu tiên."
+
+msgid "Preparing workspace on the target host…"
+msgstr "Đang chuẩn bị không gian làm việc trên máy chủ đích…"
+
+msgid "Preset association could not be confirmed. Refresh and try again."
+msgstr "Không thể xác nhận liên kết cấu hình định sẵn. Hãy làm mới và thử lại."
+
+msgid "Presets are stored on this device. Run them explicitly from the workspace launcher."
+msgstr "Cấu hình định sẵn được lưu trên thiết bị này. Hãy chạy chúng một cách rõ ràng từ trình khởi chạy không gian làm việc."
+
+msgid "Press shortcut…"
+msgstr "Nhấn phím tắt…"
+
+msgid "Preview"
+msgstr "Xem trước"
+
+msgid "Previous (Shift+Enter)"
+msgstr "Trước (Shift+Enter)"
+
+msgid "Previous branch"
+msgstr "Nhánh trước"
+
+msgid "Previous Right Sidebar Tab"
+msgstr "Tab trước của thanh bên phải"
+
+msgid "Previous Tab"
+msgstr "Tab trước"
+
+msgid "Previous Tab (Second Shortcut)"
+msgstr "Tab trước (phím tắt thứ hai)"
+
+msgid "Previous Workspace"
+msgstr "Workspace trước"
+
+msgid "Private connection"
+msgstr "Kết nối riêng tư"
+
+msgid "Private host"
+msgstr "Host riêng tư"
+
+msgid "Private host connections and application settings without a Jedv account."
+msgstr "Kết nối máy chủ riêng tư và cài đặt ứng dụng mà không cần tài khoản Jedv."
+
+msgid "Processed tokens"
+msgstr "Token đã xử lý"
+
+msgid "Project"
+msgstr "Dự án"
+
+msgid "Project directory"
+msgstr "Thư mục dự án"
+
+msgid "Project icon and color"
+msgstr "Biểu tượng và màu dự án"
+
+msgid "Project name"
+msgstr "Tên dự án"
+
+msgid "Project name must produce a valid directory name. Use letters, numbers, dots, dashes, or underscores."
+msgstr "Tên dự án phải tạo thành tên thư mục hợp lệ. Chỉ dùng chữ cái, số, dấu chấm, dấu gạch ngang hoặc dấu gạch dưới."
+
+msgid "Project options"
+msgstr "Tùy chọn dự án"
+
+msgid "Project scripts"
+msgstr "Tập lệnh dự án"
+
+msgid "Project settings"
+msgstr "Cài đặt dự án"
+
+msgid "Project Settings"
+msgstr "Cài đặt dự án"
+
+msgid "Projects"
+msgstr "Dự án"
+
+msgid "Projects and workspaces"
+msgstr "Dự án và workspace"
+
+msgid "Prompt arguments"
+msgstr "Tham số prompt"
+
+msgid "Prompt preview"
+msgstr "Xem trước prompt"
+
+msgid "Prompt transport"
+msgstr "Cách truyền prompt"
+
+msgid "Provider quota"
+msgstr "Hạn mức nhà cung cấp"
+
+msgid "Pull request"
+msgstr "Pull request"
+
+msgid "Pull request created"
+msgstr "Đã tạo pull request"
+
+msgid "Pull request merged"
+msgstr "Đã merge pull request"
+
+msgid "Pull request number"
+msgstr "Số pull request"
+
+msgid "Pull request title"
+msgstr "Tiêu đề pull request"
+
+msgid "Pull requests"
+msgstr "Pull request"
+
+msgid "Pull Requests"
+msgstr "Pull request"
+
+msgid "Purple"
+msgstr "Tím"
+
+msgid "Push"
+msgstr "Push"
+
+msgid "Push changes?"
+msgstr "Push thay đổi?"
+
+msgid "Push completed"
+msgstr "Đã hoàn tất push"
+
+msgid "Push this commit to the reviewed remote branch. A changed target requires a new confirmation."
+msgstr "Push commit này lên nhánh từ xa đã xem xét. Đích thay đổi sẽ yêu cầu xác nhận mới."
+
+msgid "px"
+msgstr "px"
+
+msgid "Queue message"
+msgstr "Đưa tin nhắn vào hàng đợi"
+
+msgid "Queue; ⌘↩ to steer the running turn"
+msgstr "Vào hàng đợi; ⌘↩ để dừng và gửi trong lượt đang chạy"
+
+msgid "Quick Create Workspace"
+msgstr "Tạo nhanh workspace"
+
+msgid "Quick Open File"
+msgstr "Mở nhanh tệp"
+
+msgid "Quickly create a workspace in the current project"
+msgstr "Tạo nhanh một workspace trong dự án hiện tại"
+
+msgid "Quit"
+msgstr "Thoát"
+
+msgid "Quit {displayName}"
+msgstr "Thoát {displayName}"
+
+msgctxt "quit confirmation dialog title"
+msgid "Quit {displayName}"
+msgstr "Thoát {displayName}"
+
+msgid "Quit {displayName} and stop all background services?"
+msgstr "Thoát {displayName} và dừng mọi dịch vụ nền?"
+
+msgid "Quit {displayName} Completely"
+msgstr "Thoát hẳn {displayName}"
+
+msgid "Quit Completely"
+msgstr "Thoát hẳn"
+
+msgid "Quota is read from your provider. Refreshing may contact the provider using your existing CLI login."
+msgstr "Hạn mức được đọc từ nhà cung cấp của bạn. Làm mới có thể liên hệ nhà cung cấp bằng thông tin đăng nhập CLI hiện có."
+
+msgid "Quote"
+msgstr "Trích dẫn"
+
+msgid "Reachable"
+msgstr "Có thể kết nối"
+
+msgid "Read only"
+msgstr "Chỉ đọc"
+
+msgid "Reading local CLI logs…"
+msgstr "Đang đọc log CLI cục bộ…"
+
+msgid "Ready for review"
+msgstr "Sẵn sàng review"
+
+msgid "Reasoning"
+msgstr "Suy luận"
+
+msgid "Reassign shortcut"
+msgstr "Gán lại phím tắt"
+
+msgid "Reassign this shortcut?"
+msgstr "Gán lại phím tắt này?"
+
+msgid "Rebase"
+msgstr "Rebase"
+
+msgid "Recent"
+msgstr "Gần đây"
+
+msgid "Recent files"
+msgstr "Tệp gần đây"
+
+msgid "Recent projects"
+msgstr "Dự án gần đây"
+
+msgid "Recently removed projects"
+msgstr "Dự án đã xóa gần đây"
+
+msgid "Recording"
+msgstr "Đang ghi âm"
+
+msgid "Recreate the worktree from committed branch history, then run the project's setup script if configured. Deleted uncommitted files and terminated sessions cannot be recovered."
+msgstr "Tạo lại worktree từ lịch sử nhánh đã commit, sau đó chạy script thiết lập dự án nếu đã cấu hình. Không thể khôi phục tệp chưa commit đã bị xóa và phiên đã chấm dứt."
+
+msgid "Recurrence rule"
+msgstr "Quy tắc lặp lại"
+
+msgid "Red"
+msgstr "Đỏ"
+
+msgid "Refresh"
+msgstr "Làm mới"
+
+msgid "Refresh capabilities"
+msgstr "Làm mới khả năng"
+
+msgid "Refresh failed"
+msgstr "Làm mới thất bại"
+
+msgid "Refresh history"
+msgstr "Làm mới lịch sử"
+
+msgid "Refresh pull request"
+msgstr "Làm mới pull request"
+
+msgid "Refresh pull requests"
+msgstr "Làm mới pull request"
+
+msgid "Refresh sessions"
+msgstr "Làm mới phiên"
+
+msgid "Refresh status"
+msgstr "Làm mới trạng thái"
+
+msgid "Reject"
+msgstr "Từ chối"
+
+msgid "Rejected"
+msgstr "Đã từ chối"
+
+msgid "Relative path copied"
+msgstr "Đã sao chép đường dẫn tương đối"
+
+msgid "Release notes"
+msgstr "Ghi chú phát hành"
+
+msgid "Release Notes"
+msgstr "Ghi chú phát hành"
+
+msgid "Reload"
+msgstr "Tải lại"
+
+msgid "Reload app"
+msgstr "Tải lại ứng dụng"
+
+msgid "Reload from disk"
+msgstr "Tải lại từ đĩa"
+
+msgid "Reloading discards your edits. Overwriting replaces the file on disk."
+msgstr "Tải lại sẽ loại bỏ các chỉnh sửa của bạn. Ghi đè sẽ thay thế tệp trên đĩa."
+
+msgid "Relocate"
+msgstr "Chuyển vị trí"
+
+msgid "Relocate project?"
+msgstr "Chuyển vị trí dự án?"
+
+msgid "Relocating…"
+msgstr "Đang chuyển…"
+
+msgid "remote"
+msgstr "remote"
+
+msgid "Remote"
+msgstr "Từ xa"
+
+msgid "Remote port"
+msgstr "Cổng từ xa"
+
+msgid "Remove"
+msgstr "Gỡ"
+
+msgid "Remove agent link"
+msgstr "Gỡ liên kết tác tử"
+
+msgid "Remove attachment"
+msgstr "Xóa tệp đính kèm"
+
+msgid "Remove from Jedv…"
+msgstr "Xóa khỏi Jedv…"
+
+msgid "Remove icon"
+msgstr "Gỡ biểu tượng"
+
+msgid "Remove link"
+msgstr "Xóa liên kết"
+
+msgid "Remove pasted text"
+msgstr "Xóa văn bản đã dán"
+
+msgid "Remove project"
+msgstr "Xóa dự án"
+
+msgid "Remove pull request link"
+msgstr "Gỡ liên kết pull request"
+
+msgid "remove the agent"
+msgstr "gỡ agent"
+
+msgid "remove the PR link"
+msgstr "gỡ liên kết PR"
+
+msgid "Remove this project and its workspaces from Jedv and stop their terminals. Repository files stay on disk. Teardown commands may run."
+msgstr "Xóa dự án này và không gian làm việc của dự án khỏi Jedv, đồng thời dừng terminal của chúng. Tệp kho mã vẫn nằm trên ổ đĩa. Lệnh dọn dẹp có thể chạy."
+
+msgid "Removing…"
+msgstr "Đang xóa…"
+
+msgid "Rename"
+msgstr "Đổi tên"
+
+msgid "Rename {title}"
+msgstr "Đổi tên {title}"
+
+msgid "Rename branch"
+msgstr "Đổi tên nhánh"
+
+msgid "Rename session"
+msgstr "Đổi tên phiên"
+
+msgid "rename the branch"
+msgstr "đổi tên nhánh"
+
+msgid "Rename workspace"
+msgstr "Đổi tên workspace"
+
+msgid "Rename..."
+msgstr "Đổi tên..."
+
+msgid "Rendering style for markdown files. Tufte uses elegant serif typography inspired by Edward Tufte's books."
+msgstr "Kiểu hiển thị cho tệp markdown. Tufte dùng kiểu chữ serif thanh lịch lấy cảm hứng từ sách của Edward Tufte."
+
+msgid "Reopen Closed Tab"
+msgstr "Mở lại tab vừa đóng"
+
+msgid "reorder agents"
+msgstr "sắp xếp lại agent"
+
+msgid "Reorder workspace"
+msgstr "Sắp xếp lại không gian làm việc"
+
+msgid "Replace"
+msgstr "Thay thế"
+
+msgid "Replace All"
+msgstr "Thay thế tất cả"
+
+msgid "Replaced {replaced} files in {where}"
+msgstr "Đã thay thế {replaced} tệp trong {where}"
+
+msgid "Replaced 1 file in {where}"
+msgstr "Đã thay thế 1 tệp trong {where}"
+
+msgid "Reply"
+msgstr "Trả lời"
+
+msgid "Report Issue"
+msgstr "Báo lỗi"
+
+msgid "Repositories"
+msgstr "Repository"
+
+msgid "Repository"
+msgstr "Repository"
+
+msgid "Repository URL or path"
+msgstr "URL hoặc đường dẫn repository"
+
+msgid "Request cancellation"
+msgstr "Yêu cầu hủy"
+
+msgid "Requested permissions"
+msgstr "Quyền được yêu cầu"
+
+msgid "Reserved by OS"
+msgstr "Hệ điều hành đã dùng"
+
+msgid "Reserved by terminal"
+msgstr "Terminal đã dùng"
+
+msgid "Reset"
+msgstr "Đặt lại"
+
+msgid "reset agents"
+msgstr "đặt lại agent"
+
+msgid "Reset all"
+msgstr "Đặt lại tất cả"
+
+msgid "Reset all agent commands?"
+msgstr "Đặt lại tất cả lệnh tác tử?"
+
+msgid "Reset all shortcuts?"
+msgstr "Đặt lại tất cả phím tắt?"
+
+msgid "Reset editor"
+msgstr "Đặt lại trình soạn thảo"
+
+msgid "Reset group appearance"
+msgstr "Đặt lại giao diện nhóm"
+
+msgid "Reset terminal"
+msgstr "Đặt lại terminal"
+
+msgid "Reset to default"
+msgstr "Đặt lại về mặc định"
+
+msgid "Reset zoom"
+msgstr "Đặt lại thu phóng"
+
+msgid "Reset Zoom"
+msgstr "Đặt lại thu phóng"
+
+msgid "resets"
+msgstr "được đặt lại"
+
+msgid "Resets in {countdown} · {absolute}"
+msgstr "Đặt lại sau {countdown} · {absolute}"
+
+msgid "Resets now"
+msgstr "Đặt lại ngay bây giờ"
+
+msgid "Resolve conversation"
+msgstr "Giải quyết cuộc thảo luận"
+
+msgid "Resolve conversation?"
+msgstr "Đánh dấu cuộc trò chuyện là đã giải quyết?"
+
+msgid "resolve the workspace path"
+msgstr "xác định đường dẫn workspace"
+
+msgid "Resolve these conflicts before committing."
+msgstr "Giải quyết các xung đột này trước khi commit."
+
+msgid "Resolved"
+msgstr "Đã giải quyết"
+
+msgid "Resource monitor"
+msgstr "Giám sát tài nguyên"
+
+msgid "Resources"
+msgstr "Tài nguyên"
+
+msgid "Restart"
+msgstr "Khởi động lại"
+
+msgid "Restart Local Host"
+msgstr "Khởi động lại Host cục bộ"
+
+msgid "Restart to Install"
+msgstr "Khởi động lại để cài đặt"
+
+#. placeholder {0}: event.version ?? ""
+msgid "Restart to install v{0}"
+msgstr "Khởi động lại để cài đặt v{0}"
+
+msgid "Restart to update"
+msgstr "Khởi động lại để cập nhật"
+
+msgid "Restore"
+msgstr "Khôi phục"
+
+msgid "Restore default"
+msgstr "Khôi phục mặc định"
+
+msgid "Restore pane area"
+msgstr "Khôi phục vùng ngăn"
+
+msgid "restore the agent defaults"
+msgstr "khôi phục mặc định của agent"
+
+msgid "Restore this workspace record on the shared repository checkout. Terminated terminal sessions are not restarted."
+msgstr "Khôi phục bản ghi không gian làm việc này trên bản checkout kho mã dùng chung. Phiên terminal đã chấm dứt không được khởi động lại."
+
+msgid "Restore workspace"
+msgstr "Khôi phục workspace"
+
+msgid "Restore workspace?"
+msgstr "Khôi phục không gian làm việc?"
+
+msgid "Restore workspace…"
+msgstr "Khôi phục không gian làm việc…"
+
+msgid "Restoring brings back available workspace records and existing directories. It does not restart terminated sessions or recover files changed by teardown."
+msgstr "Khôi phục sẽ khôi phục các bản ghi không gian làm việc khả dụng và thư mục hiện có. Thao tác này không khởi động lại phiên đã chấm dứt hoặc khôi phục tệp bị lệnh dọn dẹp thay đổi."
+
+msgid "Restoring workspace layout…"
+msgstr "Đang khôi phục bố cục không gian làm việc…"
+
+msgid "Restoring…"
+msgstr "Đang khôi phục…"
+
+msgid "Result unknown"
+msgstr "Không rõ kết quả"
+
+msgid "Result unknown. Refresh before retrying."
+msgstr "Không rõ kết quả. Hãy làm mới trước khi thử lại."
+
+msgid "Resume a native session. The session ID is appended after these arguments."
+msgstr "Tiếp tục phiên native. ID phiên được thêm sau các tham số này."
+
+msgid "Resume arguments"
+msgstr "Tham số tiếp tục"
+
+msgid "Resume same CLI session"
+msgstr "Tiếp tục cùng phiên CLI"
+
+msgid "Resume same session"
+msgstr "Tiếp tục cùng phiên"
+
+msgid "Retry"
+msgstr "Thử lại"
+
+msgid "Retry after the connection refreshes."
+msgstr "Thử lại sau khi kết nối được làm mới."
+
+msgid "Retry checks"
+msgstr "Thử kiểm tra lại"
+
+msgid "Retry dictation"
+msgstr "Thử đọc lại"
+
+msgid "Retry failed imports"
+msgstr "Thử nhập lại các mục thất bại"
+
+msgid "Retry icon update"
+msgstr "Thử cập nhật biểu tượng lại"
+
+msgid "Retry in a few seconds; if it persists, restart Jedv."
+msgstr "Thử lại sau vài giây; nếu vẫn lỗi, khởi động lại Jedv."
+
+msgid "Retry in a few seconds."
+msgstr "Thử lại sau vài giây."
+
+msgid "Return to Save"
+msgstr "Quay lại để lưu"
+
+msgid "Reveal in Finder"
+msgstr "Hiện trong Finder"
+
+msgid "Reveal in sidebar"
+msgstr "Hiện trong thanh bên"
+
+msgid "Review"
+msgstr "Review"
+
+msgid "Review selected workspaces"
+msgstr "Xem lại không gian làm việc đã chọn"
+
+msgid "Review system permissions on this device."
+msgstr "Xem lại các quyền hệ thống trên thiết bị này."
+
+msgid "Review thread"
+msgstr "Luồng review"
+
+msgid "Review thread updated"
+msgstr "Đã cập nhật luồng review"
+
+msgid "Review threads could not be loaded"
+msgstr "Không thể tải các luồng review"
+
+msgid "right pane"
+msgstr "ngăn bên phải"
+
+msgid "Rocket"
+msgstr "Tên lửa"
+
+msgid "Run"
+msgstr "Chạy"
+
+msgid "Run agent"
+msgstr "Chạy tác tử"
+
+msgid "Run agent…"
+msgstr "Chạy tác tử…"
+
+msgid "Run configuration is not available"
+msgstr "Cấu hình chạy không khả dụng"
+
+msgid "Run History"
+msgstr "Lịch sử chạy"
+
+msgid "Run history is unavailable. Refresh to try again."
+msgstr "Lịch sử lượt chạy không khả dụng. Làm mới để thử lại."
+
+msgid "Run in new terminal"
+msgstr "Chạy trong terminal mới"
+
+msgid "run issues in workspaces"
+msgstr "chạy issue trong workspace"
+
+msgid "Run now"
+msgstr "Chạy ngay"
+
+msgid "Run output"
+msgstr "Output lượt chạy"
+
+msgid "Run repeatable work with your local agents, on a schedule or when you need it."
+msgstr "Chạy công việc lặp lại với agent cục bộ, theo lịch hoặc khi bạn cần."
+
+msgid "Run setup script"
+msgstr "Chạy script thiết lập"
+
+msgid "Run target"
+msgstr "Đích chạy"
+
+msgid "run tasks in workspaces"
+msgstr "chạy tác vụ trong workspace"
+
+msgid "Run time"
+msgstr "Giờ chạy"
+
+msgid "Run workspace command"
+msgstr "Chạy lệnh của workspace"
+
+msgid "Run Workspace Command"
+msgstr "Chạy lệnh của workspace"
+
+msgid "running"
+msgstr "đang chạy"
+
+msgid "Running"
+msgstr "Đang chạy"
+
+msgid "Same-session CLI control is unavailable. No new session was started."
+msgstr "Không thể điều khiển CLI trong cùng phiên. Không có phiên mới nào được khởi chạy."
+
+msgid "Same-session control is unavailable. No new agent session was started."
+msgstr "Không thể điều khiển cùng phiên. Không có phiên tác tử mới nào được bắt đầu."
+
+msgid "Saturday"
+msgstr "Thứ Bảy"
+
+msgid "Save"
+msgstr "Lưu"
+
+msgid "Save All"
+msgstr "Lưu tất cả"
+
+msgid "Save changes"
+msgstr "Lưu thay đổi"
+
+msgid "Save changes before closing?"
+msgstr "Lưu thay đổi trước khi đóng?"
+
+msgid "Save failed: {message}"
+msgstr "Lưu thất bại: {message}"
+
+msgid "Save file"
+msgstr "Lưu tệp"
+
+msgid "Save group"
+msgstr "Lưu nhóm"
+
+msgid "Save or close all unsaved files in this project before removing it."
+msgstr "Lưu hoặc đóng tất cả tệp chưa lưu trong dự án này trước khi xóa dự án."
+
+msgid "Save or close every unsaved file in this workspace before deleting it."
+msgstr "Lưu hoặc đóng mọi tệp chưa lưu trong không gian làm việc này trước khi xóa."
+
+msgid "Save or close the unsaved files before opening another workspace"
+msgstr "Lưu hoặc đóng các tệp chưa lưu trước khi mở workspace khác"
+
+msgid "Save or close the unsaved files before removing this project"
+msgstr "Lưu hoặc đóng các tệp chưa lưu trước khi xóa dự án này"
+
+msgid "Save or close the unsaved files before switching hosts"
+msgstr "Lưu hoặc đóng các tệp chưa lưu trước khi đổi host"
+
+msgid "Save or close unsaved files and commit or discard changes before switching branches."
+msgstr "Lưu hoặc đóng tệp chưa lưu và commit hoặc hủy thay đổi trước khi chuyển nhánh."
+
+msgid "Save preset"
+msgstr "Lưu cấu hình định sẵn"
+
+msgid "save the agent"
+msgstr "lưu agent"
+
+msgid "save the agent command"
+msgstr "lưu lệnh của agent"
+
+msgid "Save to apply your changes. Drafts are kept if saving fails."
+msgstr "Lưu để áp dụng thay đổi. Bản nháp được giữ lại nếu lưu thất bại."
+
+msgid "Save your changes before closing?"
+msgstr "Lưu thay đổi trước khi đóng?"
+
+msgid "Save your work before restarting. Unsaved changes can still prevent the restart."
+msgstr "Lưu công việc trước khi khởi động lại. Thay đổi chưa lưu vẫn có thể ngăn khởi động lại."
+
+msgid "Saved"
+msgstr "Đã lưu"
+
+msgid "Saving a preset does not run its commands."
+msgstr "Lưu cấu hình định sẵn không chạy các lệnh của nó."
+
+msgid "Saving…"
+msgstr "Đang lưu…"
+
+msgid "Scaffold a new project from a starter with fresh Git history. Setup commands will not run automatically."
+msgstr "Tạo khung dự án mới từ mẫu khởi đầu với lịch sử Git mới. Lệnh thiết lập sẽ không tự động chạy."
+
+#. placeholder {0}: data.scannedFiles
+#. placeholder {1}: data.pricingTableUpdated
+msgid "Scanned {0} log files. Pricing table: {1}."
+msgstr "Đã quét {0} tệp log. Bảng giá: {1}."
+
+msgid "Schedule"
+msgstr "Lịch"
+
+msgid "Scheduled"
+msgstr "Đã lên lịch"
+
+msgid "Screenshots"
+msgstr "Ảnh chụp màn hình"
+
+msgid "Scroll the active terminal to the bottom"
+msgstr "Cuộn terminal đang mở xuống cuối"
+
+msgid "Scroll to bottom"
+msgstr "Cuộn xuống cuối"
+
+msgid "Scroll to Bottom"
+msgstr "Cuộn xuống cuối"
+
+msgid "Search"
+msgstr "Tìm kiếm"
+
+msgid "Search active workspaces…"
+msgstr "Tìm không gian làm việc đang hoạt động…"
+
+msgid "Search and open files in the current workspace"
+msgstr "Tìm và mở tệp trong workspace hiện tại"
+
+msgid "Search automations"
+msgstr "Tìm tự động hóa"
+
+msgid "Search automations…"
+msgstr "Tìm automation…"
+
+msgid "Search branches..."
+msgstr "Tìm nhánh..."
+
+msgid "Search changed files"
+msgstr "Tìm tệp đã thay đổi"
+
+msgid "Search files"
+msgstr "Tìm tệp"
+
+msgid "Search Files"
+msgstr "Tìm kiếm tệp"
+
+msgid "Search files..."
+msgstr "Tìm tệp..."
+
+msgid "Search fonts..."
+msgstr "Tìm font..."
+
+msgid "Search projects"
+msgstr "Tìm dự án"
+
+msgid "Search pull requests"
+msgstr "Tìm pull request"
+
+msgid "Search pull requests or enter a PR number…"
+msgstr "Tìm pull request hoặc nhập số PR…"
+
+msgid "Search pull requests…"
+msgstr "Tìm pull request…"
+
+msgid "Search repositories..."
+msgstr "Tìm repository..."
+
+msgid "Search settings"
+msgstr "Tìm cài đặt"
+
+msgid "Search settings…"
+msgstr "Tìm cài đặt…"
+
+msgid "Search shortcuts"
+msgstr "Tìm phím tắt"
+
+msgid "Search shortcuts…"
+msgstr "Tìm phím tắt…"
+
+msgid "Search text in the active chat"
+msgstr "Tìm văn bản trong chat đang mở"
+
+msgid "Search text in the active page"
+msgstr "Tìm văn bản trong trang đang mở"
+
+msgid "Search text in the active terminal"
+msgstr "Tìm văn bản trong terminal đang mở"
+
+msgid "Search text in the changes diff"
+msgstr "Tìm văn bản trong diff thay đổi"
+
+msgid "Search text in the rendered file viewer"
+msgstr "Tìm văn bản trong khung xem tệp"
+
+msgid "Search workspaces"
+msgstr "Tìm workspace"
+
+msgid "Search workspaces…"
+msgstr "Tìm workspace…"
+
+msgid "Searching…"
+msgstr "Đang tìm…"
+
+msgid "See what changed in this version."
+msgstr "Xem những thay đổi trong phiên bản này."
+
+msgid "Select a file to preview or edit"
+msgstr "Chọn tệp để xem trước hoặc chỉnh sửa"
+
+msgid "Select a project"
+msgstr "Chọn một dự án"
+
+msgid "Select a shortcut and press the new keys. Escape cancels; Backspace clears the binding."
+msgstr "Chọn phím tắt và nhấn tổ hợp phím mới. Escape để hủy; Backspace để xóa gán phím."
+
+msgid "Select All"
+msgstr "Chọn tất cả"
+
+msgid "Select an agent terminal to inspect or control its current session."
+msgstr "Chọn terminal agent để kiểm tra hoặc điều khiển phiên hiện tại."
+
+msgid "Select an option"
+msgstr "Chọn một tùy chọn"
+
+msgid "Select base branch…"
+msgstr "Chọn nhánh gốc…"
+
+msgid "Select commit range"
+msgstr "Chọn khoảng commit"
+
+msgid "Select directory"
+msgstr "Chọn thư mục"
+
+msgid "Select Directory"
+msgstr "Chọn thư mục"
+
+msgid "Select existing worktrees to import. Files stay in place and setup commands will not run."
+msgstr "Chọn worktree hiện có để nhập. Tệp vẫn ở nguyên vị trí và lệnh thiết lập sẽ không chạy."
+
+msgid "Select new project location"
+msgstr "Chọn vị trí dự án mới"
+
+msgid "Select Notification Sound"
+msgstr "Chọn âm báo"
+
+msgid "Select only the workspaces you intend to remove. Each selected workspace receives its own current-state inspection and destructive confirmation. Cancelling one skips it."
+msgstr "Chỉ chọn không gian làm việc bạn định xóa. Mỗi không gian làm việc được chọn sẽ có bước kiểm tra trạng thái hiện tại và xác nhận thao tác phá hủy riêng. Hủy một mục sẽ bỏ qua mục đó."
+
+msgid "Select Organization Logo"
+msgstr "Chọn logo tổ chức"
+
+msgid "Select project location"
+msgstr "Chọn vị trí dự án"
+
+msgid "Select range..."
+msgstr "Chọn khoảng..."
+
+msgid "Select repositories"
+msgstr "Chọn repository"
+
+msgid "Select worktree…"
+msgstr "Chọn worktree…"
+
+msgid "Selected"
+msgstr "Đã chọn"
+
+msgid "Send"
+msgstr "Gửi"
+
+msgid "Send message"
+msgstr "Gửi tin nhắn"
+
+msgid "Sensitive values are hidden. This preview is incomplete."
+msgstr "Giá trị nhạy cảm đã được ẩn. Bản xem trước này chưa đầy đủ."
+
+msgid "Sequential commands in one terminal"
+msgstr "Các lệnh tuần tự trong một terminal"
+
+msgid "Session"
+msgstr "Phiên"
+
+msgid "Session ended"
+msgstr "Phiên đã kết thúc"
+
+msgid "Session ID"
+msgstr "ID phiên"
+
+msgid "Session name"
+msgstr "Tên phiên"
+
+msgid "Session status and notifications"
+msgstr "Trạng thái phiên và thông báo"
+
+msgid "Sessions"
+msgstr "Phiên"
+
+#. placeholder {0}: color.name
+msgid "Set color to {0}"
+msgstr "Đặt màu thành {0}"
+
+#. placeholder {0}: i18n._(glyph.label)
+msgid "Set icon to {0}"
+msgstr "Đặt biểu tượng thành {0}"
+
+msgid "Set Run"
+msgstr "Đặt lệnh chạy"
+
+msgid "Set up later"
+msgstr "Thiết lập sau"
+
+msgid "Settings"
+msgstr "Cài đặt"
+
+msgid "Settings section unavailable"
+msgstr "Phần cài đặt không khả dụng"
+
+msgid "Settings sections"
+msgstr "Phần cài đặt"
+
+msgid "Settings..."
+msgstr "Cài đặt..."
+
+msgid "settings.ts"
+msgstr "settings.ts"
+
+msgid "Setup completion is unavailable for this workspace. Review setup or turn off waiting in settings."
+msgstr "Không thể xác nhận hoàn tất thiết lập cho không gian làm việc này. Hãy xem lại thiết lập hoặc tắt chế độ chờ trong cài đặt."
+
+msgid "Shared"
+msgstr "Dùng chung"
+
+msgid "Shift+click"
+msgstr "Shift+nhấp"
+
+msgid "Show agent commands and pinned terminal presets above the workspace."
+msgstr "Hiển thị lệnh tác tử và cấu hình định sẵn terminal đã ghim phía trên không gian làm việc."
+
+msgid "Show Apple's installer"
+msgstr "Hiện trình cài đặt của Apple"
+
+msgid "Show deleted workspaces"
+msgstr "Hiển thị không gian làm việc đã xóa"
+
+msgid "Show details"
+msgstr "Hiện chi tiết"
+
+msgid "Show hidden directories"
+msgstr "Hiển thị thư mục ẩn"
+
+msgid "Show hidden files"
+msgstr "Hiển thị tệp ẩn"
+
+msgid "Show in folder"
+msgstr "Hiện trong thư mục"
+
+msgid "Show in workspace launcher"
+msgstr "Hiển thị trong trình khởi chạy không gian làm việc"
+
+msgid "Show Keyboard Shortcuts"
+msgstr "Hiện phím tắt"
+
+msgid "Show less"
+msgstr "Hiện ít hơn"
+
+msgid "Show local resource usage in the workspace."
+msgstr "Hiển thị mức sử dụng tài nguyên cục bộ trong workspace."
+
+msgid "Show more"
+msgstr "Hiện thêm"
+
+msgid "Show Scripts Bar"
+msgstr "Hiển thị thanh script"
+
+msgid "Show the next tab in the right sidebar without moving focus"
+msgstr "Hiển thị tab kế tiếp trong thanh bên phải mà không di chuyển tiêu điểm"
+
+msgid "Show the previous tab in the right sidebar without moving focus"
+msgstr "Hiển thị tab trước trong thanh bên phải mà không di chuyển tiêu điểm"
+
+msgid "Show the Usage entry in the main sidebar."
+msgstr "Hiển thị mục Mức sử dụng trên thanh bên chính."
+
+msgid "Show update"
+msgstr "Hiển thị bản cập nhật"
+
+msgid "Show workspace activity"
+msgstr "Hiển thị hoạt động không gian làm việc"
+
+msgid "Showing the first 100 results. Refine your search."
+msgstr "Đang hiển thị 100 kết quả đầu tiên. Hãy thu hẹp tìm kiếm."
+
+msgid "Side by side"
+msgstr "So sánh song song"
+
+msgid "Sidebar file rows"
+msgstr "Dòng tệp ở thanh bên"
+
+msgid "Sign in to GitHub on this host to reply"
+msgstr "Đăng nhập GitHub trên host này để phản hồi"
+
+msgid "Size"
+msgstr "Kích thước"
+
+msgid "Skipped"
+msgstr "Đã bỏ qua"
+
+msgid "Slate"
+msgstr "Xám đá"
+
+msgid "Some files are not an accepted type and were not added."
+msgstr "Một số tệp không thuộc loại được chấp nhận nên không được thêm."
+
+msgid "Some files could not be saved. Review their tabs before closing."
+msgstr "Không thể lưu một số tệp. Hãy xem lại các thẻ của tệp trước khi đóng."
+
+msgid "Some files exceed the maximum size and were not added."
+msgstr "Một số tệp vượt quá kích thước tối đa nên không được thêm."
+
+msgid "Some files may already have been copied. Check the workspace attachments folder before retrying."
+msgstr "Một số tệp có thể đã được sao chép. Hãy kiểm tra thư mục tệp đính kèm của không gian làm việc trước khi thử lại."
+
+msgid "Some project tree actions could not be loaded. Other actions remain available."
+msgstr "Không thể tải một số thao tác của cây dự án. Các thao tác khác vẫn khả dụng."
+
+msgid "Some session details could not be loaded. Refresh to check the current host state."
+msgstr "Không thể tải một số chi tiết phiên. Hãy làm mới để kiểm tra trạng thái máy chủ hiện tại."
+
+msgid "Some themes were skipped"
+msgstr "Một số theme đã bị bỏ qua"
+
+msgid "Something went wrong"
+msgstr "Đã xảy ra lỗi"
+
+msgid "Something went wrong. Please try again."
+msgstr "Đã xảy ra lỗi. Vui lòng thử lại."
+
+msgid "Source Code"
+msgstr "Mã nguồn"
+
+msgid "Sparse checkout"
+msgstr "Sparse checkout"
+
+msgid "Split Along Longer Side"
+msgstr "Chia theo cạnh dài hơn"
+
+msgid "Split diff"
+msgstr "Diff chia đôi"
+
+msgid "Split Down"
+msgstr "Chia xuống"
+
+msgid "Split Horizontally"
+msgstr "Chia theo chiều ngang"
+
+msgid "split pane"
+msgstr "khung chia"
+
+msgid "Split pane"
+msgstr "Chia khung"
+
+msgid "Split panes"
+msgstr "Chia khung"
+
+msgid "Split Right"
+msgstr "Chia sang phải"
+
+msgid "Split the current pane along its longer side"
+msgstr "Chia khung hiện tại theo cạnh dài hơn"
+
+msgid "Split the current pane and open a mobile simulator"
+msgstr "Chia khung hiện tại và mở một trình giả lập di động"
+
+msgid "Split the current pane and open the sandbox desktop"
+msgstr "Chia ngăn hiện tại và mở màn hình nền của sandbox"
+
+msgid "Split the current pane downward"
+msgstr "Chia khung hiện tại xuống dưới"
+
+msgid "Split the current pane to the right"
+msgstr "Chia khung hiện tại sang phải"
+
+msgid "Split Vertically"
+msgstr "Chia theo chiều dọc"
+
+msgid "Split with Mobile Simulator"
+msgstr "Chia với Trình giả lập di động"
+
+msgid "Split with Sandbox Desktop"
+msgstr "Chia với Màn hình nền sandbox"
+
+msgid "Squash"
+msgstr "Squash"
+
+msgid "Stage All"
+msgstr "Stage tất cả"
+
+msgid "Stage all changes"
+msgstr "Đưa tất cả thay đổi vào vùng chuẩn bị commit"
+
+msgid "Stage file"
+msgstr "Stage tệp"
+
+msgid "Staged"
+msgstr "Đã stage"
+
+msgid "Star"
+msgstr "Gắn sao"
+
+msgid "Start a new agent, or choose an existing session from Sessions."
+msgstr "Bắt đầu tác tử mới hoặc chọn phiên hiện có từ Phiên."
+
+msgid "Start from a template"
+msgstr "Bắt đầu từ mẫu"
+
+msgid "Start new session"
+msgstr "Bắt đầu phiên mới"
+
+msgid "Start or stop the workspace run command"
+msgstr "Bắt đầu hoặc dừng lệnh chạy của workspace"
+
+msgid "starting"
+msgstr "đang khởi động"
+
+msgid "Starting"
+msgstr "Đang khởi động"
+
+msgid "Starting the agent…"
+msgstr "Đang khởi động tác nhân…"
+
+msgid "Status"
+msgstr "Trạng thái"
+
+msgid "Status unavailable"
+msgstr "Trạng thái không khả dụng"
+
+msgid "Status unavailable. Review this permission in System Settings."
+msgstr "Trạng thái không khả dụng. Hãy xem lại quyền này trong System Settings."
+
+msgid "Stop"
+msgstr "Dừng"
+
+msgid "Stop {label}"
+msgstr "Dừng {label}"
+
+msgid "Stop dictation"
+msgstr "Dừng đọc chính tả"
+
+msgid "Stop forwarded ports?"
+msgstr "Dừng cổng được chuyển tiếp?"
+
+msgid "Stop forwarding"
+msgstr "Dừng chuyển tiếp"
+
+msgid "Stop listening processes?"
+msgstr "Dừng tiến trình đang lắng nghe?"
+
+msgid "Stop listening processes…"
+msgstr "Đang dừng tiến trình lắng nghe…"
+
+msgid "Stop local process"
+msgstr "Dừng tiến trình cục bộ"
+
+msgid "Stop local process?"
+msgstr "Dừng tiến trình cục bộ?"
+
+msgid "Stop response"
+msgstr "Dừng phản hồi"
+
+msgid "stopped"
+msgstr "đã dừng"
+
+msgid "Strict CLI resume is unavailable on this host. Active CLI and chat sessions remain selectable."
+msgstr "Không thể tiếp tục CLI nghiêm ngặt trên máy chủ này. Bạn vẫn có thể chọn phiên CLI và trò chuyện đang hoạt động."
+
+msgid "Strikethrough"
+msgstr "Gạch ngang"
+
+msgid "Submit"
+msgstr "Gửi"
+
+msgid "Submit response"
+msgstr "Gửi phản hồi"
+
+msgid "Summary"
+msgstr "Tóm tắt"
+
+msgid "Sunday"
+msgstr "Chủ Nhật"
+
+msgid "Switch branch"
+msgstr "Chuyển nhánh"
+
+msgid "Switch branch?"
+msgstr "Chuyển nhánh?"
+
+msgid "Switch to Active Workspace"
+msgstr "Chuyển sang workspace đang hoạt động"
+
+msgid "Switch to Local"
+msgstr "Chuyển sang Cục bộ"
+
+msgid "Switch to Tab 1"
+msgstr "Chuyển tới tab 1"
+
+msgid "Switch to Tab 2"
+msgstr "Chuyển tới tab 2"
+
+msgid "Switch to Tab 3"
+msgstr "Chuyển tới tab 3"
+
+msgid "Switch to Tab 4"
+msgstr "Chuyển tới tab 4"
+
+msgid "Switch to Tab 5"
+msgstr "Chuyển tới tab 5"
+
+msgid "Switch to Tab 6"
+msgstr "Chuyển tới tab 6"
+
+msgid "Switch to Tab 7"
+msgstr "Chuyển tới tab 7"
+
+msgid "Switch to Tab 8"
+msgstr "Chuyển tới tab 8"
+
+msgid "Switch to Tab 9"
+msgstr "Chuyển tới tab 9"
+
+msgid "Switch to this device to edit terminal presets and choose local projects."
+msgstr "Chuyển sang thiết bị này để chỉnh sửa cấu hình định sẵn terminal và chọn dự án cục bộ."
+
+msgid "Switch to Workspace 1"
+msgstr "Chuyển tới workspace 1"
+
+msgid "Switch to Workspace 2"
+msgstr "Chuyển tới workspace 2"
+
+msgid "Switch to Workspace 3"
+msgstr "Chuyển tới workspace 3"
+
+msgid "Switch to Workspace 4"
+msgstr "Chuyển tới workspace 4"
+
+msgid "Switch to Workspace 5"
+msgstr "Chuyển tới workspace 5"
+
+msgid "Switch to Workspace 6"
+msgstr "Chuyển tới workspace 6"
+
+msgid "Switch to Workspace 7"
+msgstr "Chuyển tới workspace 7"
+
+msgid "Switch to Workspace 8"
+msgstr "Chuyển tới workspace 8"
+
+msgid "Switch to Workspace 9"
+msgstr "Chuyển tới workspace 9"
+
+msgid "System"
+msgstr "Hệ thống"
+
+msgid "System permissions"
+msgstr "Quyền hệ thống"
+
+msgid "Take control"
+msgstr "Điều khiển"
+
+#. placeholder {0}: context.hostLabel
+#. placeholder {0}: session.context.hostLabel
+msgid "Target host: {0}"
+msgstr "Máy chủ đích: {0}"
+
+msgid "Teal"
+msgstr "Xanh mòng két"
+
+msgid "Teardown exited with code {exitCode}"
+msgstr "Teardown kết thúc với mã {exitCode}"
+
+msgid "Teardown failed to start"
+msgstr "Teardown không khởi động được"
+
+msgid "Teardown terminated by signal {signal}"
+msgstr "Teardown bị kết thúc bởi tín hiệu {signal}"
+
+msgid "Teardown timed out after {seconds}s"
+msgstr "Teardown quá thời gian sau {seconds}s"
+
+msgid "Terminal"
+msgstr "Terminal"
+
+msgid "Terminal daemon"
+msgstr "Daemon terminal"
+
+msgid "Terminal font"
+msgstr "Phông chữ terminal"
+
+msgid "Terminal font size when a terminal is focused, page zoom in a browser pane, otherwise the whole app"
+msgstr "Cỡ chữ terminal khi terminal đang được focus, thu phóng trang trong khung trình duyệt, nếu không thì toàn bộ ứng dụng"
+
+msgid "Terminal owns this session"
+msgstr "Terminal đang quản lý phiên này"
+
+msgid "Terminal presets"
+msgstr "Cấu hình định sẵn terminal"
+
+msgid "Terminal sessions"
+msgstr "Phiên terminal"
+
+msgid "Terminal typography"
+msgstr "Kiểu chữ terminal"
+
+msgid "Terminate"
+msgstr "Chấm dứt"
+
+msgid "Terminate session"
+msgstr "Chấm dứt phiên"
+
+msgid "Terminate this terminal session?"
+msgstr "Chấm dứt phiên terminal này?"
+
+msgid "Text"
+msgstr "Văn bản"
+
+msgid "Text style"
+msgstr "Kiểu chữ"
+
+msgid "That name isn't allowed."
+msgstr "Tên đó không được phép."
+
+msgid "the active organization"
+msgstr "tổ chức đang hoạt động"
+
+msgid "The active session changed. The prompt was not sent."
+msgstr "Phiên đang hoạt động đã thay đổi. Prompt chưa được gửi."
+
+msgid "The agent reports it is working."
+msgstr "Tác tử báo cáo rằng nó đang làm việc."
+
+msgid "The attachment copy result is incomplete. Check the workspace before retrying."
+msgstr "Kết quả sao chép tệp đính kèm chưa đầy đủ. Hãy kiểm tra không gian làm việc trước khi thử lại."
+
+msgid "The attachment could not be read."
+msgstr "Không thể đọc tệp đính kèm."
+
+msgid "The attachment path is outside this workspace."
+msgstr "Đường dẫn tệp đính kèm nằm ngoài không gian làm việc này."
+
+msgid "The branch changed. Review the current branch before trying again."
+msgstr "Nhánh đã thay đổi. Hãy xem lại nhánh hiện tại trước khi thử lại."
+
+msgid "The command used to start this agent."
+msgstr "Lệnh dùng để khởi động agent này."
+
+msgid "The default location for new worktrees on the connected host."
+msgstr "Vị trí mặc định cho worktree mới trên host đã kết nối."
+
+msgid "The definition and its run records will be deleted. Existing workspaces and sessions remain available."
+msgstr "Định nghĩa và các bản ghi lượt chạy sẽ bị xóa. Workspace và phiên hiện có vẫn khả dụng."
+
+msgid "The existing session identity could not be verified. Refresh before retrying."
+msgstr "Không thể xác minh danh tính phiên hiện có. Hãy làm mới trước khi thử lại."
+
+msgid "The file changed on disk. Review it before saving again."
+msgstr "Tệp đã thay đổi trên đĩa. Hãy xem lại trước khi lưu tiếp."
+
+msgid "The file changed. Review its diff before discarding."
+msgstr "Tệp đã thay đổi. Hãy xem diff trước khi hủy thay đổi."
+
+msgid "The file did not contain any importable themes."
+msgstr "Tệp không chứa theme nào có thể nhập."
+
+msgid "The file path is unavailable"
+msgstr "Đường dẫn tệp không khả dụng"
+
+msgid "The Jedv host service for {organization} stopped unexpectedly ({cause}) and could not be restarted automatically."
+msgstr "Dịch vụ host Jedv cho {organization} đã dừng bất ngờ ({cause}) và không tự khởi động lại được."
+
+msgid "The Jedv host service stopped unexpectedly ({cause}) and could not be restarted automatically."
+msgstr "Dịch vụ host Jedv đã dừng bất ngờ ({cause}) và không tự khởi động lại được."
+
+msgid "The linked local agent is unavailable on this host. Edit the preset or remove its agent link."
+msgstr "Tác tử cục bộ được liên kết không khả dụng trên máy chủ này. Hãy chỉnh sửa cấu hình định sẵn hoặc gỡ liên kết tác tử."
+
+msgid "The local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
+msgstr "Dịch vụ host cục bộ không khả dụng cho {organization} trên {device}. Trạng thái: {status}. {recovery}"
+
+msgid "The operation result is unknown. Check the branch history and remote before retrying."
+msgstr "Không rõ kết quả thao tác. Hãy kiểm tra lịch sử nhánh và remote trước khi thử lại."
+
+msgid "The page you're looking for doesn't exist."
+msgstr "Trang bạn tìm không tồn tại."
+
+msgid "The project is saved, but its workspace could not be opened. Continue opening to retry without creating another project."
+msgstr "Dự án đã được lưu nhưng không thể mở không gian làm việc. Hãy tiếp tục mở để thử lại mà không tạo dự án khác."
+
+msgid "The project was saved. Continue opening its workspace."
+msgstr "Dự án đã được lưu. Hãy tiếp tục mở không gian làm việc của dự án."
+
+msgid "The repository directory is missing on this host. Open the repository at its current path to set it up again."
+msgstr "Thư mục kho mã không tồn tại trên máy chủ này. Hãy mở kho mã ở đường dẫn hiện tại để thiết lập lại."
+
+msgid "The request ended before its result was confirmed. Check the target host for a completed project or partial directory before trying again."
+msgstr "Yêu cầu kết thúc trước khi kết quả được xác nhận. Hãy kiểm tra dự án đã hoàn tất hoặc thư mục một phần trên máy chủ đích trước khi thử lại."
+
+msgid "The resumed session identity could not be verified. Refresh before retrying."
+msgstr "Không thể xác minh danh tính phiên được tiếp tục. Hãy làm mới trước khi thử lại."
+
+msgid "The run command is still stopping. Wait, then restart."
+msgstr "Lệnh chạy vẫn đang dừng. Hãy đợi rồi khởi động lại."
+
+msgid "The screenshot is no longer available."
+msgstr "Ảnh chụp màn hình không còn khả dụng."
+
+msgid "The session changed. Select its current run in the workspace."
+msgstr "Phiên đã thay đổi. Chọn lượt chạy hiện tại của phiên trong workspace."
+
+msgid "The session identity changed. Select it again."
+msgstr "Danh tính phiên đã thay đổi. Hãy chọn lại."
+
+msgid "The session identity is unavailable."
+msgstr "Danh tính phiên không khả dụng."
+
+msgid "The staged files changed. Review them before committing."
+msgstr "Tệp đã stage đã thay đổi. Hãy xem lại trước khi commit."
+
+msgid "The symbolic link target is unavailable"
+msgstr "Đích của liên kết tượng trưng không khả dụng"
+
+msgid "The target directory is missing, but the operation result is unknown. This does not confirm cancellation. Check the operation status again."
+msgstr "Thư mục đích không tồn tại nhưng không rõ kết quả thao tác. Điều này không xác nhận việc hủy. Hãy kiểm tra lại trạng thái thao tác."
+
+msgid "The target host confirmed this operation has ended. You can retry; an existing directory will not be overwritten."
+msgstr "Máy chủ đích xác nhận thao tác này đã kết thúc. Bạn có thể thử lại; thư mục hiện có sẽ không bị ghi đè."
+
+msgid "The target host confirmed this operation has stopped. You can retry; if the target directory remains, choose another location."
+msgstr "Máy chủ đích xác nhận thao tác này đã dừng. Bạn có thể thử lại; nếu thư mục đích vẫn còn, hãy chọn vị trí khác."
+
+msgid "The target host is still processing this request. Check again before starting another operation here."
+msgstr "Máy chủ đích vẫn đang xử lý yêu cầu này. Hãy kiểm tra lại trước khi bắt đầu thao tác khác tại đây."
+
+msgid "The target pane area cannot receive this pane"
+msgstr "Vùng ngăn đích không thể nhận ngăn này"
+
+msgid "The target pane area did not receive this pane"
+msgstr "Vùng ngăn đích đã không nhận ngăn này"
+
+msgid "The target workspace changed. Return to the original workspace before continuing."
+msgstr "Không gian làm việc đích đã thay đổi. Hãy quay lại không gian làm việc ban đầu trước khi tiếp tục."
+
+msgid "The target workspace changed. The result belongs to the original workspace."
+msgstr "Không gian làm việc đích đã thay đổi. Kết quả thuộc về không gian làm việc ban đầu."
+
+msgid "The terminal session changed. Refresh before inserting the prompt."
+msgstr "Phiên terminal đã thay đổi. Hãy làm mới trước khi chèn prompt."
+
+msgid "The terminal session ended unexpectedly"
+msgstr "Phiên terminal kết thúc đột ngột"
+
+msgid "The workspace changed"
+msgstr "Không gian làm việc đã thay đổi"
+
+msgid "The workspace files will change to the selected branch."
+msgstr "Tệp trong không gian làm việc sẽ chuyển sang nhánh đã chọn."
+
+msgid "The workspace is saved. Continue opening it without creating another workspace."
+msgstr "Không gian làm việc đã được lưu. Hãy tiếp tục mở mà không tạo không gian làm việc khác."
+
+msgid "The workspace list changed on the host. Refresh it before reordering."
+msgstr "Danh sách không gian làm việc trên máy chủ đã thay đổi. Hãy làm mới trước khi sắp xếp lại."
+
+msgid "The workspace was deleted. Continue to refresh the target host."
+msgstr "Không gian làm việc đã bị xóa. Hãy tiếp tục làm mới máy chủ đích."
+
+msgid "Theme"
+msgstr "Theme"
+
+msgid "Theme default"
+msgstr "Mặc định của theme"
+
+msgid "Theme file too large"
+msgstr "Tệp theme quá lớn"
+
+msgid "These metrics belong to this device. Remote host processes are not included."
+msgstr "Các chỉ số này thuộc về thiết bị này. Tiến trình máy chủ từ xa không được bao gồm."
+
+msgid "These notes ship with the application. Published release details are available in the Jedv repository."
+msgstr "Các ghi chú này được cung cấp cùng ứng dụng. Chi tiết bản phát hành đã công bố có trong kho mã Jedv."
+
+msgid "This action is irreversible."
+msgstr "Không thể hoàn tác thao tác này."
+
+msgid "This API login does not expose subscription quota."
+msgstr "Thông tin đăng nhập API này không cung cấp hạn mức thuê bao."
+
+msgid "This automation is no longer available"
+msgstr "Automation này không còn khả dụng"
+
+msgid "This branch has conflicts"
+msgstr "Branch này có xung đột"
+
+msgid "This changes the pull request state on GitHub."
+msgstr "Thao tác này thay đổi trạng thái pull request trên GitHub."
+
+msgid "This chat is no longer live. The prompt was not sent."
+msgstr "Cuộc trò chuyện này không còn trực tiếp. Prompt chưa được gửi."
+
+msgid "This chat is read only. Use Start new session to begin another chat."
+msgstr "Cuộc trò chuyện này ở chế độ chỉ đọc. Hãy dùng Bắt đầu phiên mới để bắt đầu cuộc trò chuyện khác."
+
+msgid "This closes every terminal session on this host, including running agents and background processes. Restart does not preserve sessions."
+msgstr "Thao tác này đóng mọi phiên terminal trên máy chủ, bao gồm tác tử đang chạy và tiến trình nền. Khởi động lại không giữ các phiên."
+
+msgid "This closes the run terminal and its running processes."
+msgstr "Thao tác này đóng terminal chạy và các tiến trình đang chạy của nó."
+
+msgid "This closes the workspace and its terminals. The project's files, branches and other workspaces stay as they are."
+msgstr "Thao tác này đóng workspace và các terminal của nó. Tệp, nhánh và các workspace khác của dự án vẫn giữ nguyên."
+
+msgid "This comment will be visible on the remote pull request."
+msgstr "Bình luận này sẽ hiển thị trên pull request remote."
+
+msgid "This creates a remote pull request from the workspace branch."
+msgstr "Thao tác này tạo pull request remote từ branch workspace."
+
+msgid "This deletes the file from disk. Unsaved editor buffers are kept. This action cannot be undone."
+msgstr "Thao tác này xóa tệp khỏi ổ đĩa. Bộ đệm chưa lưu của trình chỉnh sửa được giữ lại. Không thể hoàn tác thao tác này."
+
+msgid "This deletes the folder and all its contents. Unsaved editor buffers are kept. This action cannot be undone."
+msgstr "Thao tác này xóa thư mục và toàn bộ nội dung. Bộ đệm chưa lưu của trình chỉnh sửa được giữ lại. Không thể hoàn tác thao tác này."
+
+msgid "This deletes the session's folder and everything in it from disk."
+msgstr "Thao tác này xóa thư mục của phiên và mọi thứ trong đó khỏi đĩa."
+
+msgid "this device"
+msgstr "thiết bị này"
+
+msgid "This device"
+msgstr "Thiết bị này"
+
+msgid "this device ({id})"
+msgstr "thiết bị này ({id})"
+
+msgid "This draft belongs to another session. Return to it or discard the draft before composing here."
+msgstr "Bản nháp này thuộc về phiên khác. Hãy quay lại phiên đó hoặc hủy bản nháp trước khi soạn tại đây."
+
+msgid "This file cannot be edited as text."
+msgstr "Không thể chỉnh sửa tệp này dưới dạng văn bản."
+
+msgid "This file is outside the workspace"
+msgstr "Tệp này nằm ngoài workspace"
+
+msgid "This file is outside the workspace or its symbolic link cannot be safely resolved"
+msgstr "Tệp này nằm ngoài không gian làm việc hoặc không thể xử lý an toàn liên kết tượng trưng của tệp"
+
+msgid "This folder is not a Git repository. Initialize Git here and import it as a project? Existing files will be kept."
+msgstr "Thư mục này không phải kho Git. Khởi tạo Git tại đây và nhập thành dự án? Tệp hiện có sẽ được giữ lại."
+
+msgid "This host did not provide a readable preview. Review the request in the agent CLI before approving."
+msgstr "Máy chủ này không cung cấp bản xem trước có thể đọc được. Hãy xem lại yêu cầu trong CLI tác tử trước khi phê duyệt."
+
+msgid "This is a large file. Opening it may slow down the editor."
+msgstr "Đây là tệp lớn. Mở tệp có thể làm trình chỉnh sửa chậm lại."
+
+msgid "This pane can't be shown"
+msgstr "Không thể hiển thị ngăn này"
+
+msgid "This pane hit an error"
+msgstr "Ngăn này gặp lỗi"
+
+msgid "This permanently deletes the removed project and workspace records and attempts to remove their clean worktree directories. Dirty worktree directories may remain untracked. The main repository directory is kept. This cannot be undone."
+msgstr "Thao tác này xóa vĩnh viễn bản ghi dự án và không gian làm việc đã xóa, đồng thời cố gắng xóa thư mục worktree sạch. Thư mục worktree có thay đổi có thể vẫn còn và không được theo dõi. Thư mục kho mã chính được giữ lại. Không thể hoàn tác thao tác này."
+
+msgid "This preview was shortened. Review the full request in the agent CLI."
+msgstr "Bản xem trước đã được rút ngắn. Hãy xem toàn bộ yêu cầu trong CLI tác tử."
+
+msgid "This project cannot be removed in its current state."
+msgstr "Không thể xóa dự án này ở trạng thái hiện tại."
+
+msgid "This project is not set up on the target host."
+msgstr "Dự án này chưa được thiết lập trên máy chủ đích."
+
+msgid "This project still uses the older config.json. It keeps working; convert it to config.toml to use the new sections."
+msgstr "Dự án này vẫn dùng config.json cũ. Nó vẫn hoạt động; hãy chuyển sang config.toml để dùng các phần mới."
+
+msgid "This project's host is offline"
+msgstr "Host của dự án này đang ngoại tuyến"
+
+msgid "This prompt is no longer active."
+msgstr "Prompt này không còn hoạt động."
+
+msgid "This removes all custom shortcut bindings, including actions outside this list."
+msgstr "Thao tác này xóa mọi gán phím tắt tùy chỉnh, kể cả thao tác ngoài danh sách này."
+
+msgid "This removes all saved screenshots listed here. Attachments already copied into a workspace are kept."
+msgstr "Thao tác này xóa tất cả ảnh chụp màn hình đã lưu được liệt kê tại đây. Tệp đính kèm đã sao chép vào không gian làm việc được giữ lại."
+
+msgid "This removes custom agents and replaces all launch configurations with the four bundled defaults. Existing sessions keep running. This cannot be undone."
+msgstr "Thao tác này xóa tác tử tùy chỉnh và thay tất cả cấu hình khởi chạy bằng bốn cấu hình mặc định đi kèm. Phiên hiện có vẫn tiếp tục chạy. Không thể hoàn tác thao tác này."
+
+msgid "This removes its launch configuration. Existing sessions keep running."
+msgstr "Thao tác này xóa cấu hình khởi chạy. Các phiên hiện có vẫn tiếp tục chạy."
+
+msgid "This removes the saved commands from this device. Running terminals are not affected."
+msgstr "Thao tác này xóa lệnh đã lưu khỏi thiết bị này. Terminal đang chạy không bị ảnh hưởng."
+
+msgid "This removes the worktree from disk and closes the workspace."
+msgstr "Thao tác này xóa worktree khỏi ổ đĩa và đóng workspace."
+
+msgid "This reply will be visible in the remote review thread."
+msgstr "Phản hồi này sẽ hiển thị trong luồng review remote."
+
+msgid "This repository is no longer available as a Git repository."
+msgstr "Kho mã này không còn tồn tại dưới dạng kho Git."
+
+msgid "This restores the file in the index and on disk to HEAD, or deletes an untracked file. Unsaved editor buffers are kept. This action cannot be undone."
+msgstr "Thao tác này khôi phục tệp trong index và trên ổ đĩa về HEAD, hoặc xóa tệp chưa được theo dõi. Bộ đệm chưa lưu của trình chỉnh sửa được giữ lại. Không thể hoàn tác thao tác này."
+
+msgid "This run has no agent session"
+msgstr "Lượt chạy này không có phiên agent"
+
+msgid "This session could not be resumed. No new session was started."
+msgstr "Không thể tiếp tục phiên này. Không có phiên mới nào được khởi chạy."
+
+msgid "This session is not active, or you are viewing earlier output. Refresh to check its current state."
+msgstr "Phiên này không hoạt động hoặc bạn đang xem output trước đó. Làm mới để kiểm tra trạng thái hiện tại."
+
+#. placeholder {0}: label(conflict.id)
+#. placeholder {1}: conflictsFor(conflict.id, conflict.binding) .map(label) .join(", ")
+msgid "This shortcut will be assigned to {0}. These actions will become unassigned: {1}."
+msgstr "Phím tắt này sẽ được gán cho {0}. Các thao tác sau sẽ không còn phím tắt: {1}."
+
+#. placeholder {0}: killing?.title
+msgid "This stops {0} and its child processes. Unsaved work in the terminal can be lost."
+msgstr "Thao tác này dừng {0} và các tiến trình con. Công việc chưa lưu trong terminal có thể bị mất."
+
+msgid "This stops only the listed forwarding tunnels. Processes on the target host keep running."
+msgstr "Thao tác này chỉ dừng đường hầm chuyển tiếp được liệt kê. Tiến trình trên máy chủ đích vẫn tiếp tục chạy."
+
+msgid "This stops the listed processes on the original host. Terminal work or servers using them can be interrupted. Forwarding tunnels are separate."
+msgstr "Thao tác này dừng tiến trình được liệt kê trên máy chủ ban đầu. Công việc terminal hoặc máy chủ sử dụng các tiến trình đó có thể bị gián đoạn. Đường hầm chuyển tiếp là riêng biệt."
+
+msgid "This stops the local process occupying the forwarded port."
+msgstr "Thao tác này dừng tiến trình cục bộ đang chiếm cổng được chuyển tiếp."
+
+msgid "This stops the process listening on this port."
+msgstr "Thao tác này dừng tiến trình đang lắng nghe trên cổng này."
+
+msgid "This stops the processes listening on the listed workspace ports."
+msgstr "Thao tác này dừng tiến trình đang lắng nghe trên các cổng không gian làm việc được liệt kê."
+
+msgid "This stops the shell and all processes running in this terminal. Workspace files are kept. Unsaved process state may be lost."
+msgstr "Điều này sẽ dừng shell và tất cả các tiến trình trong terminal. Các tệp workspace được giữ lại. Trạng thái tiến trình chưa lưu có thể bị mất."
+
+msgid "This terminal is also open on a smaller screen, so it's sized to fit"
+msgstr "Terminal này cũng đang mở trên một màn hình nhỏ hơn nên đã được thu nhỏ cho vừa"
+
+msgid "This terminal is no longer running. Refresh the session list."
+msgstr "Terminal này không còn chạy. Hãy làm mới danh sách phiên."
+
+msgid "This thread has no comment to reply to, or GitHub authentication is unavailable."
+msgstr "Luồng này không có bình luận để phản hồi hoặc xác thực GitHub không khả dụng."
+
+msgid "This thread has no comment to reply to."
+msgstr "Luồng này không có bình luận nào để trả lời."
+
+msgid "This updates the remote base branch on GitHub."
+msgstr "Thao tác này cập nhật branch gốc remote trên GitHub."
+
+msgid "This updates the review thread on GitHub."
+msgstr "Thao tác này cập nhật luồng review trên GitHub."
+
+msgid "This view hit an error"
+msgstr "Khung hiển thị này gặp lỗi"
+
+msgid "This workspace cannot be deleted in its current state."
+msgstr "Không thể xóa không gian làm việc này ở trạng thái hiện tại."
+
+msgid "This workspace shares the project's files, index, and current branch. It does not switch branches or run setup."
+msgstr "Không gian làm việc này dùng chung tệp, index và nhánh hiện tại của dự án. Nó không chuyển nhánh hoặc chạy thiết lập."
+
+msgid "Thursday"
+msgstr "Thứ Năm"
+
+msgid "Time unavailable"
+msgstr "Không có thông tin thời gian"
+
+msgid "Time zone"
+msgstr "Múi giờ"
+
+msgid "To"
+msgstr "Đến"
+
+msgid "Toggle agent controls"
+msgstr "Bật/tắt điều khiển agent"
+
+msgid "Toggle Right Pane Full Screen"
+msgstr "Bật/tắt toàn màn hình ngăn bên phải"
+
+msgid "Toggle right sidebar"
+msgstr "Bật/tắt thanh bên phải"
+
+msgid "Toggle Right Sidebar"
+msgstr "Bật/tắt thanh bên phải"
+
+msgid "Toggle Right Sidebar Focus"
+msgstr "Bật/tắt tiêu điểm thanh bên phải"
+
+msgid "Toggle Scripts Bar"
+msgstr "Bật/tắt thanh script"
+
+msgid "Toggle Sidebar"
+msgstr "Bật/tắt thanh bên"
+
+msgid "Toggle Terminal Rich Input"
+msgstr "Bật/tắt ô nhập nâng cao của terminal"
+
+msgid "Toggle Workspaces Sidebar"
+msgstr "Bật/tắt thanh bên workspace"
+
+msgid "Tokens"
+msgstr "Token"
+
+msgid "Too many background terminals. Reattach or end one before closing another view."
+msgstr "Quá nhiều terminal chạy nền. Hãy gắn lại hoặc kết thúc một terminal trước khi đóng chế độ xem khác."
+
+msgid "Too many dropped items. Add at most 5000 files and folders at a time."
+msgstr "Quá nhiều mục được thả. Mỗi lần chỉ thêm tối đa 5000 tệp và thư mục."
+
+msgid "Too many files. Some were not added."
+msgstr "Quá nhiều tệp. Một số tệp không được thêm."
+
+msgid "Too many untitled items here already."
+msgstr "Đã có quá nhiều mục chưa đặt tên ở đây."
+
+msgid "Tool output"
+msgstr "Output tool"
+
+msgid "Transcribing"
+msgstr "Đang chuyển thành văn bản"
+
+msgid "Transcribing…"
+msgstr "Đang chuyển thành văn bản…"
+
+msgid "Tree view"
+msgstr "Xem dạng cây"
+
+msgid "Triggers"
+msgstr "Trigger"
+
+msgid "Try again"
+msgstr "Thử lại"
+
+msgid "Try changing the search or status filter."
+msgstr "Thử thay đổi tìm kiếm hoặc bộ lọc trạng thái."
+
+msgid "Tuesday"
+msgstr "Thứ Ba"
+
+msgid "Tufte"
+msgstr "Tufte"
+
+msgid "Turn completed"
+msgstr "Lượt đã hoàn thành"
+
+msgid "Turn finished"
+msgstr "Lượt đã kết thúc"
+
+msgid "Type project name to confirm"
+msgstr "Nhập tên dự án để xác nhận"
+
+msgid "Type to search files..."
+msgstr "Gõ để tìm tệp..."
+
+msgid "TypeScript"
+msgstr "TypeScript"
+
+msgid "Typography"
+msgstr "Kiểu chữ"
+
+msgid "Typography and cursor behavior used in V2 terminal panels."
+msgstr "Kiểu chữ và hành vi con trỏ dùng trong khung terminal V2."
+
+msgid "Typography used in V2 editors and diff views."
+msgstr "Kiểu chữ dùng trong trình soạn thảo và khung diff V2."
+
+msgid "Unable to check for updates."
+msgstr "Không thể kiểm tra bản cập nhật."
+
+msgid "Unable to read file"
+msgstr "Không thể đọc tệp"
+
+msgid "Unable to start dictation"
+msgstr "Không thể bắt đầu đọc chính tả"
+
+msgid "Unable to transcribe audio"
+msgstr "Không thể chuyển âm thanh thành văn bản"
+
+msgid "Unassigned"
+msgstr "Chưa giao"
+
+msgid "Unavailable"
+msgstr "Không khả dụng"
+
+msgid "Uncommitted"
+msgstr "Chưa commit"
+
+msgid "Uncommitted changes"
+msgstr "Thay đổi chưa commit"
+
+msgid "Uncommitted changes and unpushed commits"
+msgstr "Thay đổi chưa commit và commit chưa push"
+
+msgid "Uncommitted or unpushed work"
+msgstr "Công việc chưa commit hoặc chưa push"
+
+msgid "Underline"
+msgstr "Gạch chân"
+
+msgid "Undo"
+msgstr "Hoàn tác"
+
+msgid "Undo last closed workspace"
+msgstr "Hoàn tác việc đóng không gian làm việc gần nhất"
+
+msgid "Undo the last archived workspace or closed chats"
+msgstr "Hoàn tác lần lưu trữ workspace hoặc đóng cuộc trò chuyện gần nhất"
+
+msgid "Ungrouped"
+msgstr "Chưa nhóm"
+
+msgid "Unified diff"
+msgstr "Diff thống nhất"
+
+msgid "unknown"
+msgstr "không rõ"
+
+msgid "Unknown"
+msgstr "Không rõ"
+
+msgid "Unknown error"
+msgstr "Lỗi không xác định"
+
+msgid "Unknown pane"
+msgstr "Ngăn không xác định"
+
+msgid "Unknown pane type: {paneKind}"
+msgstr "Loại ngăn không xác định: {paneKind}"
+
+msgid "Unpin workspace"
+msgstr "Bỏ ghim không gian làm việc"
+
+msgid "Unpushed commits"
+msgstr "Commit chưa push"
+
+msgid "Unreachable"
+msgstr "Không thể kết nối"
+
+msgid "Unread activity"
+msgstr "Hoạt động chưa đọc"
+
+msgid "Unresolve"
+msgstr "Bỏ giải quyết"
+
+msgid "Unresolve conversation?"
+msgstr "Mở lại cuộc trò chuyện?"
+
+msgid "Unsaved changes"
+msgstr "Thay đổi chưa lưu"
+
+msgid "Unsaved file protection is unavailable. Delete this workspace from the sidebar."
+msgstr "Không có tính năng bảo vệ tệp chưa lưu. Hãy xóa không gian làm việc này từ thanh bên."
+
+msgid "Unsaved files"
+msgstr "Tệp chưa lưu"
+
+msgid "Unstage All"
+msgstr "Bỏ stage tất cả"
+
+msgid "Unstage file"
+msgstr "Bỏ stage tệp"
+
+msgid "Unstaged"
+msgstr "Chưa stage"
+
+msgid "Untitled automation"
+msgstr "Automation chưa có tiêu đề"
+
+msgid "update"
+msgstr "cập nhật"
+
+msgid "Update available"
+msgstr "Có bản cập nhật"
+
+#. placeholder {0}: event.version ?? ""
+msgid "Update available · v{0}"
+msgstr "Có bản cập nhật · v{0}"
+
+msgid "Update daemon"
+msgstr "Cập nhật daemon"
+
+msgid "Update did not finish. Review status before retrying."
+msgstr "Bản cập nhật chưa hoàn tất. Hãy xem trạng thái trước khi thử lại."
+
+msgid "Update failed. Try again."
+msgstr "Cập nhật thất bại. Hãy thử lại."
+
+msgid "Update Jedv on this host to edit its workspace config."
+msgstr "Cập nhật Jedv trên máy chủ này để chỉnh sửa cấu hình không gian làm việc."
+
+msgid "Update status unavailable"
+msgstr "Trạng thái cập nhật không khả dụng"
+
+msgid "update the branch prefix"
+msgstr "cập nhật tiền tố nhánh"
+
+#. placeholder {0}: event.version ?? event.currentVersion
+msgid "Updated to v{0}"
+msgstr "Đã cập nhật lên v{0}"
+
+msgid "Updates"
+msgstr "Cập nhật"
+
+msgid "Updating…"
+msgstr "Đang cập nhật…"
+
+msgid "Upload files"
+msgstr "Tải tệp lên"
+
+msgid "Upload image…"
+msgstr "Tải ảnh lên…"
+
+msgid "URL copied"
+msgstr "Đã sao chép URL"
+
+msgid "URL links"
+msgstr "Liên kết URL"
+
+msgid "Usage"
+msgstr "Mức sử dụng"
+
+msgid "Usage history"
+msgstr "Lịch sử sử dụng"
+
+msgid "Usage in sidebar"
+msgstr "Mức sử dụng trên thanh bên"
+
+msgid "Usage period"
+msgstr "Giai đoạn sử dụng"
+
+#. placeholder {0}: search.trim()
+msgid "Use “{0}”"
+msgstr "Dùng “{0}”"
+
+msgid "Use an existing repository at this location. Jedv changes the registered path and local checkout workspaces; it does not move files. Existing worktrees under the old repository may need to be imported again."
+msgstr "Sử dụng kho mã hiện có tại vị trí này. Jedv thay đổi đường dẫn đã đăng ký và không gian làm việc checkout cục bộ; không di chuyển tệp. Worktree hiện có trong kho mã cũ có thể cần được nhập lại."
+
+msgid "Use another local port"
+msgstr "Dùng cổng cục bộ khác"
+
+msgid "Use for new sessions"
+msgstr "Dùng cho phiên mới"
+
+msgid "Use global default"
+msgstr "Dùng mặc định toàn cục"
+
+msgid "Use host default"
+msgstr "Dùng mặc định của máy chủ"
+
+msgid "Use Move to group to move workspaces between groups."
+msgstr "Dùng Di chuyển vào nhóm để di chuyển không gian làm việc giữa các nhóm."
+
+msgid "Use the Jedv tray menu > Host Service > Restart, then retry."
+msgstr "Dùng menu khay Jedv > Host Service > Restart, rồi thử lại."
+
+msgid "Use this device"
+msgstr "Dùng thiết bị này"
+
+msgid "Use this folder"
+msgstr "Dùng thư mục này"
+
+msgid "used"
+msgstr "đã dùng"
+
+msgid "Used when your system is in dark mode."
+msgstr "Dùng khi hệ thống ở chế độ tối."
+
+msgid "Used when your system is in light mode."
+msgstr "Dùng khi hệ thống ở chế độ sáng."
+
+msgid "Uses the connected host's global Git identity. GitHub mode may read your existing gh login."
+msgstr "Sử dụng danh tính Git toàn cục của máy chủ đã kết nối. Chế độ GitHub có thể đọc thông tin đăng nhập gh hiện có của bạn."
+
+msgid "Vercel's starter with Drizzle, NextAuth, and Postgres"
+msgstr "Mẫu khởi đầu của Vercel với Drizzle, NextAuth và Postgres"
+
+msgid "Version installed on this device."
+msgstr "Phiên bản đã cài đặt trên thiết bị này."
+
+msgctxt "menu"
+msgid "View"
+msgstr "Xem"
+
+msgid "View license"
+msgstr "Xem giấy phép"
+
+msgid "View source"
+msgstr "Xem mã nguồn"
+
+msgid "Volume"
+msgstr "Âm lượng"
+
+msgid "VS Code"
+msgstr "VS Code"
+
+msgid "Wait for workspace setup before starting an agent"
+msgstr "Chờ thiết lập không gian làm việc trước khi khởi chạy tác tử"
+
+msgid "Waiting for approval"
+msgstr "Đang chờ phê duyệt"
+
+msgid "We're rebuilding this feature. Check back soon."
+msgstr "Chúng tôi đang xây dựng lại tính năng này. Hãy quay lại sau."
+
+msgid "Wednesday"
+msgstr "Thứ Tư"
+
+msgid "Weekdays"
+msgstr "Ngày trong tuần"
+
+msgid "Weekdays at {time}"
+msgstr "Ngày trong tuần lúc {time}"
+
+msgid "Weekends"
+msgstr "Cuối tuần"
+
+msgid "Weekends at {time}"
+msgstr "Cuối tuần lúc {time}"
+
+msgid "Weekly"
+msgstr "Hằng tuần"
+
+msgid "Weekly at {time}"
+msgstr "Hằng tuần lúc {time}"
+
+msgid "Welcome to Jedv"
+msgstr "Chào mừng đến với Jedv"
+
+msgid "What would you like to know?"
+msgstr "Bạn muốn biết điều gì?"
+
+msgid "Window"
+msgstr "Cửa sổ"
+
+msgid "Working"
+msgstr "Đang làm"
+
+msgid "Working directory"
+msgstr "Thư mục làm việc"
+
+msgid "Working…"
+msgstr "Đang xử lý…"
+
+msgid "Workspace"
+msgstr "Workspace"
+
+msgid "Workspace activity"
+msgstr "Hoạt động của không gian làm việc"
+
+msgid "Workspace configuration"
+msgstr "Cấu hình không gian làm việc"
+
+msgid "Workspace deletion results"
+msgstr "Kết quả xóa không gian làm việc"
+
+msgid "Workspace files are unavailable"
+msgstr "Tệp workspace không khả dụng"
+
+msgid "Workspace launcher"
+msgstr "Trình khởi chạy không gian làm việc"
+
+msgid "Workspace name"
+msgstr "Tên không gian làm việc"
+
+msgid "Workspace navigation"
+msgstr "Điều hướng workspace"
+
+msgid "Workspace not found"
+msgstr "Không tìm thấy workspace"
+
+msgid "Workspace or running session state changed. Review the updated checks and confirm again."
+msgstr "Trạng thái không gian làm việc hoặc phiên đang chạy đã thay đổi. Hãy xem lại các bước kiểm tra đã cập nhật và xác nhận lại."
+
+msgid "Workspace order"
+msgstr "Thứ tự không gian làm việc"
+
+msgid "Workspace pinning and ordering are unavailable on this host."
+msgstr "Không thể ghim và sắp xếp không gian làm việc trên máy chủ này."
+
+msgid "Workspace read state could not be saved."
+msgstr "Không thể lưu trạng thái đã đọc của không gian làm việc."
+
+msgid "workspace root"
+msgstr "thư mục gốc workspace"
+
+msgid "Workspace setup failed. Review the setup terminal before starting an agent."
+msgstr "Thiết lập không gian làm việc thất bại. Hãy xem terminal thiết lập trước khi khởi chạy tác tử."
+
+msgid "Workspace setup is still running."
+msgstr "Thiết lập không gian làm việc vẫn đang chạy."
+
+msgid "Workspace state changed. Review the updated checks and confirm again."
+msgstr "Trạng thái không gian làm việc đã thay đổi. Hãy xem lại các bước kiểm tra đã cập nhật và xác nhận lại."
+
+msgid "Workspaces"
+msgstr "Workspace"
+
+msgid "worktree"
+msgstr "worktree"
+
+msgid "Worktree"
+msgstr "Worktree"
+
+msgid "Worktree base directory"
+msgstr "Thư mục gốc worktree"
+
+msgid "Worktree location"
+msgstr "Vị trí worktree"
+
+msgid "Write a reply…"
+msgstr "Viết trả lời…"
+
+msgid "Write access to this repository is required to create a pull request from this workspace."
+msgstr "Cần quyền ghi vào repository này để tạo pull request từ workspace này."
+
+msgid "Yellow"
+msgstr "Vàng"
+
+msgid "Yes"
+msgstr "Có"
+
+msgid "You"
+msgstr "Bạn"
+
+msgid "You do not have permission to resolve this thread"
+msgstr "Bạn không có quyền giải quyết luồng này"
+
+msgid "You're up to date"
+msgstr "Bạn đang dùng phiên bản mới nhất"
+
+msgid "You're up to date!"
+msgstr "Bạn đang dùng bản mới nhất!"
+
+msgid "Your automation changes have not been saved."
+msgstr "Thay đổi automation của bạn chưa được lưu."
+
+msgid "Your changes"
+msgstr "Các thay đổi của bạn"
+
+msgid "Your imports are saved. Could not refresh or open them. Try continuing again."
+msgstr "Các mục nhập của bạn đã được lưu. Không thể làm mới hoặc mở chúng. Hãy thử tiếp tục lại."
+
+msgid "Zap"
+msgstr "Tia chớp"
+
+msgid "Zoom"
+msgstr "Thu phóng"
+
+msgid "Zoom in"
+msgstr "Phóng to"
+
+msgid "Zoom In"
+msgstr "Phóng to"
+
+msgid "Zoom out"
+msgstr "Thu nhỏ"
+
+msgid "Zoom Out"
+msgstr "Thu nhỏ"
+
+msgid "zsh"
+msgstr "zsh"

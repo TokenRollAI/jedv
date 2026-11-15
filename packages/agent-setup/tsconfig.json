@@ -1,0 +1,9 @@
+{
+	"extends": "@jedv/typescript/internal-package.json",
+	"compilerOptions": {
+		"types": ["bun-types"],
+		"noUncheckedIndexedAccess": false
+	},
+	"include": ["src"],
+	"exclude": ["node_modules", "dist"]
+}

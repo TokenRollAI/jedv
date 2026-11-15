@@ -1,0 +1,41 @@
+---
+description: "Lingui English fallback、locale activation race 与 Bun macro compile：同步首屏、延迟 catalog、最后请求获胜和应急 provider 的语言契约。"
+kind: architecture
+code:
+  paths:
+    - "packages/i18n/src/index.ts"
+    - "packages/i18n/src/bun-plugin.ts"
+    - "packages/i18n/lingui.config.ts"
+    - "apps/desktop/src/renderer/components/RendererLayout/RendererLayout.tsx"
+    - "packages/i18n/src/locales.ts"
+    - "packages/cli/cli.config.ts"
+relations:
+  related:
+    - "desktop/failure-boundaries.mdx"
+    - "distribution/cli-contract.mdx"
+    - "distribution/release-integrity.mdx"
+---
+
+# 跨运行面的语言契约
+
+用户可见字符串以英文 message ID 为源，catalog 是译文和 fallback 的统一权威。新增或改变字符串要走现有提取、翻译和严格编译检查；不能用某一界面看似显示英文来证明全部 locale 完整。
+
+## 首屏与最后一次语言请求
+
+英文 catalog 同步内置，其他语言按需加载，避免每个运行面初始携带全部译文。需要同步 first paint 或模块初始化的调用先得到可用英文；目标语言加载后由 Lingui 事件驱动重绘。可等待的启动或切换路径用异步初始化，避免声称目标语言已准备好却先渲染缺失 catalog。
+
+并发切换 locale 是 authority race：异步加载先发后到并不代表仍应激活。activation request 序号只允许最后请求改变全局 locale；较旧请求即使后来成功也不能覆盖新选择。catalog 加载失败继续保留英文，不能因一次网络或 chunk 错误导致整个桌面失败。
+
+显式持久语言选择优先于系统偏好，未知 locale 回到支持集合内的默认语言。代码不能任意拼接动态 import 路径绕过打包器的静态 catalog 映射。
+
+## 宏编译跨越构建边界
+
+Lingui macros 是编译期语义。Bun.build 不自动提供 Vite/Babel 同等处理，因此 CLI、host 或共享模块进入 Bun bundle 时必须使用 i18n macro plugin；否则运行时 macro 入口会抛错。更换 bundler 或打包 external 策略需要同时核对经共享包间接到达的宏，不能只检查入口源码。
+
+renderer 的 baseline I18nProvider 位于 route layout 外，为错误恢复层提供语言支持。应急组件依赖的是这一最小 provider，而非业务 route provider；真实编译 fixture 才能验证这条链路。完整错误恢复策略由 failure-boundaries owner 承载。
+
+## 权威锚点
+
+- `packages/i18n/src/index.ts`：英文 fallback、lazy catalog 与 activationRequest。
+- `packages/i18n/src/bun-plugin.ts`、`packages/i18n/lingui.config.ts`：编译期转换与提取权威。
+- `apps/desktop/src/renderer/components/RendererLayout/RendererLayout.tsx`：首屏与应急语言 provider。

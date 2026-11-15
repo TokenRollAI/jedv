@@ -1,0 +1,57 @@
+---
+description: "pane remove/close 与 terminal 身份、布局恢复不覆盖用户编辑、工作区看板未读状态和 localStorage quota cleanup 的持久化边界。"
+kind: architecture
+code:
+  paths:
+    - "packages/panes/src/core/store/store.ts"
+    - "packages/panes/src/core/transfer/transfer.ts"
+    - "apps/desktop/src/lib/trpc/routers/ui-state/workspace-persistence.ts"
+    - "apps/desktop/src/shared/jedv-workspace-layout.ts"
+    - "apps/desktop/src/renderer/components/JedvShell/hooks/useJedvLayoutPersistence/adapter.ts"
+    - "apps/desktop/src/renderer/components/JedvShell/components/JedvWorkspacesBoard/utils/board-state.ts"
+    - "apps/desktop/src/renderer/lib/persisted-keys/persisted-keys.ts"
+    - "apps/desktop/src/shared/workspace-read-receipts.ts"
+    - "apps/desktop/src/renderer/components/JedvShell/components/JedvWorkspacesBoard/stores/read-receipts.ts"
+    - "apps/desktop/src/main/lib/main-events/window-access.ts"
+    - "apps/desktop/src/renderer/lib/persisted-keys/persisted-key-registry.test-data.ts"
+relations:
+  requires:
+    - "terminals/session-lifecycle.mdx"
+  related:
+    - "runtime/local-persistence.mdx"
+    - "desktop/failure-boundaries.mdx"
+    - "agents/native-control.mdx"
+    - "pull-requests/review-contract.mdx"
+---
+
+# 工作区视图状态与活资源
+
+pane 是视图容器，terminal 是活执行资源。布局所有者必须先理解终端的 detach 与 dispose 区别；不能因为 pane 被移走、恢复或重排，就销毁它指向的 shell。
+
+## close、remove 与恢复
+
+panes store 用 close 表示需要发出资源关闭回调的用户操作，用 remove 表示仅从当前容器拆下。transfer 保留 pane identity 和 split 子树，以 remove 从源容器移出，再放入目标。restore 清除失效引用也用 remove。把这些路径改成普通 close 会把纯布局变化升级为进程副作用。
+
+布局 adapter 等待 saved layout 和 live terminal 列表都 ready 才恢复。恢复前用户已经编辑的布局不能被旧 snapshot 覆盖；同样不能将尚未加载的空会话列表当作“全部终端死亡”。有意从布局移出的活 terminal 以 detached identity 记住，避免 reconcile 又自动加回。
+
+保存按顺序合并 pending snapshot；失败保留可重试的数据与显式错误，不能把本地内存已更新当作已持久化。主进程按注册 window key、host identity、workspace 分区；回环端口变化规范为同一本地 host，私网 origin 则保持独立身份。
+
+## 有界且受校验的持久层
+
+shared decoder 检查 envelope 大小、split 深度、tab/pane 引用、终端唯一性及左右区域一致性。旧 browser 形状只用于清除历史存档；解码后删除对应 pane，不能作为恢复旧功能的入口。
+
+main 串行写入，异步提交前再次验证窗口与连接身份；失败回滚内存状态。窗口数量、每窗口上下文和总字节预算都有限，达到上限应明确失败，不能静默丢弃用户布局后返回成功。
+
+renderer localStorage 是同步启动、共享配额且跨版本存活的小状态层。每个 writer 必须登记、给出界限和删除者；实体键不能无限增加。删除 feature 时同时登记 DEAD_KEYS，由启动 sweep 回收旧 profile 数据。仅移除 writer 会永久遗留用户数据，配额保护也不是扩大集合的许可。
+
+## 看板与读回执的事实来源
+
+工作区看板优先使用 archive 与 merged PR 状态，再根据未结束的 Agent binding、read receipt 和打开 PR 选择工作列。usage 日志和成本估算不是工作区执行状态的来源。
+
+读回执由 main 持久化后广播；正时间戳单调推进，null 表示删除。renderer 将未确认的本地 mutation 叠加到服务端 snapshot，ack 后才移除 pending，防旧订阅覆盖刚发生的阅读动作。跨 host 或跨 workspace 的回执不能共用键。
+
+## 权威锚点
+
+- `packages/panes/src/core/store/store.ts`、`core/transfer/transfer.ts`：视图移动与资源关闭的区别。
+- `apps/desktop/src/renderer/components/JedvShell/hooks/useJedvLayoutPersistence/adapter.ts`：restore、reconcile 与 pending save。
+- `apps/desktop/src/lib/trpc/routers/ui-state/workspace-persistence.ts`：窗口身份、写入回滚与广播顺序。

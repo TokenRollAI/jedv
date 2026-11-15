@@ -1,0 +1,36 @@
+---
+description: "用量费用是否真实账单、工作区 token 成本归属、usage worker failed scan；本地 transcript 估价、按 host 日历聚合与扫描失败恢复。"
+kind: architecture
+code:
+  paths:
+    - packages/host-service/src/trpc/router/usage/usage.ts
+    - packages/host-service/src/trpc/router/usage/history/aggregate.ts
+    - packages/host-service/src/workers/tasks/usage.ts
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvUsageView/JedvUsageView.tsx
+    - packages/host-service/src/workers/usage-worker-pool.ts
+relations:
+  related:
+    - usage/provider-accounts.mdx
+    - desktop/resource-metrics.mdx
+---
+# 本地用量历史与估价
+
+usage history 来自本机 Agent transcript logs，quota 来自 provider 接口，资源指标来自活进程快照。三者有不同权威和失败语义，不能互相填补缺失，也不能将历史费用估算展示成真实账单。
+
+## 归属与估价
+
+host 以本地日历日聚合日志，使总额与日行之和一致。工作区或项目归属优先使用 host.db 的真实 cwd prefix，按最长匹配选择；只有未知 cwd 才从目录结构猜测名称，不能让短项目路径抢走更具体 worktree 的用量。
+
+记录本身提供 harness cost 时使用其价格；需估价时按 API list pricing，fallback rate 标为 approximate。价格表、模型别名和 token 分类改变时要保持近似标记的传播，不能为了漂亮数字隐去不确定性。订阅额度与按 API 价格推算的成本不是同一账目。
+
+## 扫描故障不能变空历史
+
+大量日志的 I/O 和 JSON parsing 在独立 usage worker，不能搬回 host 主循环。相同 window 查询 coalesce，host 把工作区/项目映射传给 worker，避免 worker 自己猜另一套身份来源。
+
+worker crash 或暂停的 pool 返回可重试 TIMEOUT；缺 worker bundle 属于内部安装/构建错误，不应吞成空数据。没有日志、扫描失败与 provider 网络失败在 UI 上必须保持区别。
+
+桌面 JedvUsageView 分别查询当前 host 的 history、quota 和 logins，query key 包含 hostUrl。切换私网 host 不能短暂展示上一 host 的账号和历史作为新连接事实。
+
+工作区看板的列由 archive、PR、有效 Agent binding 与 read receipt 决定，不由 token 历史推断进度；该投影属于 desktop/workspace-state。
+
+源码锚点：`history/aggregate.ts`（日历、归属和估价）、`workers/tasks/usage.ts`（扫描隔离）、`usage.ts`（错误映射与合并）、`JedvUsageView.tsx`（来源隔离）。

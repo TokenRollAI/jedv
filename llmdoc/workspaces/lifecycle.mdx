@@ -1,0 +1,62 @@
+---
+description: "本地工作区和 worktree 区别、项目导入身份、删除工作区失败恢复；解释共享 checkout、managed path、archive tombstone 与 force/teardown 权限。"
+kind: architecture
+code:
+  paths:
+    - packages/host-service/src/trpc/router/project/project.ts
+    - packages/host-service/src/trpc/router/project/utils/create-local-workspace.ts
+    - packages/host-service/src/trpc/router/workspace-cleanup/workspace-cleanup.ts
+    - packages/host-service/src/projects/project-deletion.ts
+    - packages/cli/src/commands/workspaces/create/command.ts
+    - packages/cli/src/commands/workspaces/archive/archiveOnHost.ts
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvDeleteWorkspaceDialog/JedvDeleteWorkspaceDialog.tsx
+    - packages/host-service/src/trpc/router/project/handlers.ts
+    - packages/host-service/src/trpc/router/project/create-operations.ts
+    - packages/host-service/src/trpc/router/workspaces/workspaces.ts
+    - packages/host-service/src/trpc/router/workspace-creation/shared/add-branch-worktree.ts
+    - packages/host-service/src/trpc/router/workspace-creation/shared/worktree-paths.ts
+    - packages/host-service/src/trpc/router/workspace-creation/procedures/create-session.ts
+    - packages/host-service/src/workspaces/local-workspace-store.ts
+relations:
+  related:
+    - workspaces/setup-contract.mdx
+    - runtime/local-persistence.mdx
+    - terminals/session-lifecycle.mdx
+---
+# 工作区身份与生命周期
+
+host 数据库拥有项目与工作区身份；磁盘目录、Git checkout 和 UI 中的一张工作区卡片不是同一实体。CLI 与桌面都调用这个生命周期，不能分别实现另一套删除或恢复规则。
+
+## checkout 与工作区的关系
+
+| 类型 | 文件与分支权威 | 清理边界 |
+|---|---|---|
+| local | 复用项目 primary checkout；多个工作区共享文件与当前分支 | 停止本工作区会话，不删 checkout、分支或运行 teardown |
+| worktree | 独立 Git worktree 与分支 | 由 Git 注册和 managed-root 检查共同决定可清理路径 |
+| session | 管理根下独立 Git 仓库，不属于某个项目 worktree | 只能直接清理受管理 sessions root 内的目录 |
+
+创建 local 工作区不 clone、不新建 worktree、不切分支。创建前后核对 repoPath，防止并发移动项目后仍绑定旧目录；detached HEAD 不提供其需要的分支语义。新 worktree 分支不继承 base 的 upstream，首次 push 才建立自己的跟踪关系。
+
+Git hook 返回非零不一定意味着 checkout 未发生。重试前核对已注册 worktree、目标分支与可解析 HEAD，不能只凭 exit code 再创建或删除目录。独立 session 的命名也必须避开 archived tombstone，防旧清理任务删到新目录。
+
+## 导入与创建的回滚权限
+
+导入按 canonical repository path 复用或恢复身份，并保留用户已定制字段。项目可以没有工作区。导入用户已有目录后数据库失败，不授权删除该目录；只有本次 clone/init 独占分配的路径才属于创建操作的回滚写集。
+
+并发创建按 operationId 和请求内容绑定，同一请求共享操作；不能用同一个操作标识执行另一组参数。optimistic workspace id 重试返回既有身份，避免重复资源。
+
+## 删除是持久化 saga
+
+删除工作区先取消未完成的命名提交，再写 archive/tombstone 并广播删除意图，随后执行 preflight、teardown、会话和磁盘清理。失败会 unarchive，使工作区重新可见并可重试。destroy/restore 的互斥冲突携带 `DELETE_IN_PROGRESS`，不能把它当 dirty race 自动 force。
+
+拿不到 dirty 检查结果时 fail closed；worker timeout 不等于工作树干净。文件已不存在时仍可进行幂等元数据清理。主仓库缺失时直接删除 worktree 的退路也须通过 canonical managed-root guard，不能仅按字符串前缀放行。
+
+`force` 只承载 Git 破坏语义；`teardownMode` 独立控制阻塞、best-effort 或显式 skip。共享 checkout 工作区不执行 teardown，避免影响共享目录的其他会话。
+
+项目 soft delete 隐藏项目与同次删除的工作区而保留文件；restore 只恢复同一删除批次，并拒绝已被其他 live project 占用的 repoPath。消失的非 local worktree 不伪造为可用。purge 只尝试非 force worktree 清理，dirty 文件可留在磁盘，主 repository folder 永不属于项目删除写集。
+
+## 兼容形状与调用结果
+
+旧 `toCloudShape` 是消费者字段兼容，不代表托管同步。CLI archive 的 warning、not_found、failed 应保留给调用者；success 不能倒推出资源此前一定存在。修改生命周期需同时审查桌面确认入口与 host 权限，而非只修改卡片可见性。
+
+源码锚点：`workspace-cleanup.ts`（删除 saga）、`project-deletion.ts`（项目删除/恢复）、`create-local-workspace.ts`（共享 checkout）、`add-branch-worktree.ts`（Git 创建判定）。

@@ -1,0 +1,189 @@
+import { randomUUID } from "node:crypto";
+import { TEARDOWN_TIMEOUT_MS } from "@jedv/shared/constants";
+import type { HostDb } from "../../db";
+import {
+	createTerminalSessionInternal,
+	disposeSession,
+} from "../../terminal/terminal";
+import {
+	chainPhases,
+	loadProjectConfig,
+	shellSingleQuote,
+} from "../setup/config";
+
+export { TEARDOWN_TIMEOUT_MS };
+
+const OUTPUT_TAIL_BYTES = 4096;
+const KILL_GRACE_MS = 2_000;
+
+export type TeardownResult =
+	| { status: "ok"; output?: string }
+	| { status: "skipped" }
+	| {
+			status: "failed";
+			exitCode: number | null;
+			/** Unix signal number, or null on normal exit. */
+			signal: number | null;
+			timedOut: boolean;
+			/** Raw PTY bytes — shell output including ANSI. Renderer strips for display. */
+			outputTail: string;
+	  };
+
+interface RunTeardownOptions {
+	db: HostDb;
+	workspaceId: string;
+	worktreePath: string;
+	/** Main repo path — source of truth for the repo's config. */
+	repoPath: string;
+	projectId: string;
+	timeoutMs?: number;
+	appHomeDir?: string;
+}
+
+/**
+ * Runs the workspace's teardown, reusing the same terminal primitive v2 uses
+ * for interactive sessions. This gives it full environment parity with the
+ * user's terminals (login shell rcfiles, PATH, nvm/rbenv, etc.), matching how
+ * setup runs.
+ *
+ * The teardown to run is resolved by {@link resolveTeardownCommand}: the
+ * configured `teardown` commands from the repo's config take precedence,
+ * falling back to a `teardown.sh` script in the config dir (worktree first, then main
+ * repo). Skipped (as a success) when no source resolves to anything runnable.
+ *
+ * Silent by design — the PTY session is transient and not surfaced as a
+ * visible pane. The renderer only sees the output tail on failure.
+ */
+export async function runTeardown({
+	db,
+	workspaceId,
+	worktreePath,
+	repoPath,
+	projectId,
+	timeoutMs = TEARDOWN_TIMEOUT_MS,
+	appHomeDir,
+}: RunTeardownOptions): Promise<TeardownResult> {
+	const resolved = resolveTeardownCommand({
+		repoPath,
+		projectId,
+		worktreePath,
+		appHomeDir,
+	});
+	if (resolved === null) return { status: "skipped" };
+
+	const terminalId = randomUUID();
+
+	const session = await createTerminalSessionInternal({
+		terminalId,
+		workspaceId,
+		db,
+		initialCommand: resolved.initialCommand,
+		...(resolved.cwd && { cwd: resolved.cwd }),
+		listed: false,
+	});
+	if ("error" in session) {
+		return {
+			status: "failed",
+			exitCode: null,
+			signal: null,
+			timedOut: false,
+			outputTail: `Failed to start teardown session: ${session.error}`,
+		};
+	}
+
+	let tail = "";
+	const appendTail = (chunk: string) => {
+		tail += chunk;
+		if (tail.length > OUTPUT_TAIL_BYTES) {
+			tail = tail.slice(-OUTPUT_TAIL_BYTES);
+		}
+	};
+	const dataDisposer = session.pty.onData(appendTail);
+
+	return new Promise<TeardownResult>((resolve) => {
+		let settled = false;
+		let timedOut = false;
+
+		const settle = (result: TeardownResult) => {
+			if (settled) return;
+			settled = true;
+			clearTimeout(timer);
+			try {
+				dataDisposer.dispose();
+			} catch {
+				// already disposed
+			}
+			disposeSession(terminalId, db);
+			resolve(result);
+		};
+
+		session.pty.onExit(({ exitCode, signal }) => {
+			if (exitCode === 0 && !timedOut) {
+				settle({ status: "ok", output: tail || undefined });
+				return;
+			}
+			settle({
+				status: "failed",
+				exitCode: exitCode ?? null,
+				signal: signal ?? null,
+				timedOut,
+				outputTail: tail,
+			});
+		});
+
+		const timer = setTimeout(() => {
+			if (settled) return;
+			timedOut = true;
+			appendTail(`\n[teardown timed out after ${timeoutMs}ms]\n`);
+			try {
+				void session.pty.kill().catch(() => {});
+			} catch {
+				// PTY may already be dead
+			}
+			// Hard-stop: if onExit doesn't fire shortly after kill (zombie PTY),
+			// settle the promise directly so workspaceCleanup.destroy never hangs.
+			setTimeout(() => {
+				settle({
+					status: "failed",
+					exitCode: null,
+					signal: null,
+					timedOut: true,
+					outputTail: tail,
+				});
+			}, KILL_GRACE_MS).unref();
+		}, timeoutMs);
+		timer.unref();
+	});
+}
+
+/**
+ * The local `[archive]` command for a workspace, if any (a v1 project's
+ * `teardown`, or `teardown.sh`). Null means a skipped, successful archive; so
+ * does an invalid config, as archive must never block on a broken file.
+ *
+ * Exported for tests.
+ */
+export function resolveTeardownCommand(args: {
+	repoPath: string;
+	projectId: string;
+	worktreePath: string;
+	appHomeDir?: string;
+}): { initialCommand: string; cwd?: string } | null {
+	const config = loadProjectConfig(args);
+	if (config?.kind !== "ok") return null;
+	const archive = chainPhases([config.resolved.archive], args.worktreePath);
+	if (!archive) return null;
+	return {
+		initialCommand: buildTeardownCommandFromShell(archive.command),
+		...(archive.cwd && { cwd: archive.cwd }),
+	};
+}
+
+/**
+ * The teardown terminal's initial command. It runs via `bash -c` so `&&`
+ * chains work in any login shell, and `exec` replaces that shell so the
+ * hidden PTY exits with the teardown status (no fish `$?` breakage).
+ */
+export function buildTeardownCommandFromShell(shellCommand: string): string {
+	return `exec bash -c ${shellSingleQuote(shellCommand)}`;
+}

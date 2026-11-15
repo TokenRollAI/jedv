@@ -1,0 +1,2 @@
+[test]
+preload = ["../../scripts/test-preload.ts", "../i18n/test-setup.ts"]

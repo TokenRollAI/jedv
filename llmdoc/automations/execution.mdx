@@ -1,0 +1,50 @@
+---
+description: "host 重启自动化重放与定时任务等待审批：本地 scheduler/store、RRULE、单次 native prompt、interrupted 恢复和持久化失败关闭。"
+kind: architecture
+code:
+  paths:
+    - packages/host-service/src/trpc/router/automations/index.ts
+    - packages/host-service/src/automations/automations.ts
+    - packages/host-service/src/automations/store.ts
+    - packages/host-service/src/automations/execute.ts
+    - packages/shared/src/rrule.ts
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvAutomationsView/JedvAutomationsView.tsx
+    - packages/host-service/src/automations/schema.ts
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvAutomationsView/components/AutomationRuns/AutomationRuns.tsx
+relations:
+  requires:
+    - agents/chat-journal.mdx
+    - agents/native-control.mdx
+  related:
+    - workspaces/lifecycle.mdx
+    - runtime/local-persistence.mdx
+---
+# 本地自动化执行
+
+LocalAutomations 是 host-owned scheduler；定义和运行记录在应用数据目录的本地 store，桌面按 hostUrl 隔离查询缓存。schema、clock、executor 是显式边界，不应将定时行为转交给已删除的托管调度服务。
+
+## 记录先于外部动作
+
+AutomationStore 仅对文件不存在初始化空状态；parse/schema 失败直接报错并保留原文件，不能以“恢复”为由清空定义。写入先验证，再 restrictive temp file、fsync、rename、目录 fsync，成功后才发布新内存值。
+
+每次运行先持久化 starting 记录，再调用 executor。持久化失败使 scheduler fail closed，API 报 unavailable/error；不能在没有记录的情况下继续发 prompt。
+
+## 调度不补堆并发任务
+
+重复 RRULE 带 timezone，拒绝有限 COUNT/UNTIL 或没有未来 occurrence 的定义。同一 definition 同时只允许一个 active run；手动重入 conflict，schedule 到期遇到 active 则推进下一次时间，不积压补跑。
+
+重复规则先在 floating wall-clock 日历空间计算，再转换为定义时区中的真实 UTC instant，不能让 host 进程时区改变触发时间。DST 回拨造成同一本地时刻出现两次时选择较早一次；不能把两次折叠时间当作两个获授权运行。
+
+host 重启将未终结 active run 记录为 interrupted，绝不重放 prompt。dispose abort 也不推断 succeeded；观察不到完成就只能记录未完成。
+
+## 原生协议是执行证据
+
+executor 必须匹配 provider 配置与可用 native/ACP harness；不可用时明确失败，不 fallback 到终端打字。目标是现有工作区或按 run.id 幂等创建的 worktree；自动化创建路径不运行项目 setup，调用者不能假设依赖安装已完成。
+
+先创建空 native chat session、订阅 durable journal，再等待 harness session ready，以 run.id 为 commandId 发送一次 prompt。ready 超时表示 prompt 未发送，不把“会话已创建”当“任务已运行”。
+
+只以关联 turn 的 completed/interrupted/error 判断结束；pending approval_request 对应 awaiting-approval，必须等待该运行的后续事实。任意文本输出、其他 turn 完成或 WS 关闭都不是成功证明。journal reset、流关闭或会话死亡前未见完成应明确失败。
+
+记录 workspaceId、chatSessionId、nativeSessionId 以便继续查看证据。删除 definition/runs 不删除它创建的工作区和会话；active run 删除必须拒绝，不能顺便杀用户正在处理的审批。
+
+源码锚点：`automations.ts`（调度状态机）、`store.ts`（持久化权限）、`execute.ts`（单次 prompt 与 journal 观察）、`rrule.ts`（时间规则）。

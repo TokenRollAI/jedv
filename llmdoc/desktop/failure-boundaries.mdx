@@ -1,0 +1,56 @@
+---
+description: "route fallback provider crash 的桌面恢复边界、全窗口错误页及 deep link acknowledgement；注册窗口、有界导航队列与受认证 desktop bridge。"
+kind: architecture
+code:
+  paths:
+    - "apps/desktop/src/renderer/components/RendererRouter/RendererRouter.tsx"
+    - "apps/desktop/src/renderer/components/RendererLayout/RendererLayout.tsx"
+    - "apps/desktop/src/renderer/components/FailureLayout/FailureLayout.tsx"
+    - "apps/desktop/src/renderer/lib/boot-errors.ts"
+    - "apps/desktop/src/renderer/components/ContentBoundary/ContentBoundary.tsx"
+    - "apps/desktop/src/main/lib/main-events/core.ts"
+    - "apps/desktop/src/main/lib/desktop-bridge/server.ts"
+    - "packages/host-service/src/runtime/desktop-bridge/bridge-fetch.ts"
+    - "packages/shared/src/pane-layout-ops.ts"
+    - "apps/desktop/src/renderer/components/FailureLayout/styles.ts"
+    - "apps/desktop/src/renderer/components/RendererLayout/renderer-safety.test.ts"
+    - "apps/desktop/src/main/lib/main-events/window-access.ts"
+    - "apps/desktop/src/main/lib/desktop-bridge/index.ts"
+    - "apps/desktop/src/shared/main-events.ts"
+    - "packages/host-service/src/runtime/desktop-bridge/env.ts"
+relations:
+  related:
+    - "desktop/localization.mdx"
+    - "desktop/workspace-state.mdx"
+    - "execution-model.mdx"
+---
+
+# 桌面恢复与本地事件交付
+
+桌面恢复层必须在业务 provider、路由 fallback 或 IPC 依赖失效时仍能显示。main 到 renderer 的导航事件也必须在挂载、错误恢复和窗口切换期间保持有界、可确认的交付，不能依赖一次 fire-and-forget render。
+
+## provider 之外的故障边界
+
+生产 router 通过 RendererRouter 挂载，由 RendererLayout 在 route layout 之外提供统一 RendererErrorBoundary 与 baseline Lingui。RouterProvider 保持 `disableGlobalCatchBoundary`，使 route fallback 自身抛错时继续到桌面统一边界，而不是落入内建无样式屏幕。
+
+应急页面不能导入依赖 IPC、业务登录或遥测 provider 的组件。所有全窗口失败页使用 provider-free 的 FailureLayout；其 inline 样式保留 native titlebar 并独立滚动，React 挂载前的 boot error 也复用同一布局规则。
+
+ContentBoundary 只在导航提交的 loadedAt 改变后重试。用 pending URL 变化立即 reset 会再次渲染旧 outlet，把恢复动作变成重复错误。边界和 fallback 的新增须纳入 renderer safety 审计；真实 Lingui 编译 fixture 才能验证 provider contract，mock translation hook 不能证明应急层可用。
+
+## 有界导航与 acknowledgement
+
+main local event queue 为已注册窗口保存独立、有容量限制的消息，挂载后可重放未确认事件；只有收到 ack 才移除并推进待交付消息。窗口关闭释放队列与 listener，不能用重渲染或 subscription 重连当作处理成功。
+
+deep link 和命令行 open-path 是外部输入：严格解析允许的目标、origin、标识与绝对路径，拒绝重复 query、路径逃逸和内嵌凭证。可见终端判断还要求实际聚焦窗口及 host/workspace/terminal 全部匹配，不能只按 terminalId 抑制通知。
+
+## desktop bridge 的能力范围
+
+bridge 在回环动态端口上提供带独立 secret 的 `/pane-layout` 与 `/notify`，输入经共享 schema 验证。host 只有同时收到 URL 与 secret 才启用该能力；独立 host 没有桌面 bridge 是正常情况，不应阻止工作区服务启动。
+
+bridge 请求最终交由 main 的受限窗口与布局分发机制。它不能变成任意 renderer RPC、任意脚本执行或旧浏览器控制入口。停止 bridge 需清除已发布信息并关闭连接；不可让旧 endpoint 在 UI 退出后继续接收控制命令。
+
+## 权威锚点
+
+- `RendererRouter.tsx`、`RendererLayout.tsx`、`ContentBoundary.tsx`：错误传播与 reset 时机。
+- `apps/desktop/src/main/lib/main-events/core.ts`：解析、消息容量及 ack 生命周期。
+- `apps/desktop/src/main/lib/desktop-bridge/server.ts`、`packages/host-service/src/runtime/desktop-bridge/bridge-fetch.ts`：跨进程能力的输入和失败边界。

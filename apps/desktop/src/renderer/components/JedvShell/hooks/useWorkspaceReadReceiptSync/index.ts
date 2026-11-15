@@ -1,0 +1,1 @@
+export { useWorkspaceReadReceiptSync } from "./useWorkspaceReadReceiptSync";

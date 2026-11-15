@@ -1,0 +1,394 @@
+import { Button } from "@jedv/ui/button";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuTrigger,
+} from "@jedv/ui/dropdown-menu";
+import {
+	HEADER_ICON_BUTTON_CLASS,
+	HEADER_ICON_STROKE_WIDTH,
+} from "@jedv/ui/lib/header-controls";
+import { OverflowFadeContainer } from "@jedv/ui/overflow-fade-container";
+import { cn } from "@jedv/ui/utils";
+import { PlusIcon } from "lucide-react";
+import {
+	type ComponentProps,
+	type ReactNode,
+	useCallback,
+	useLayoutEffect,
+	useRef,
+	useState,
+} from "react";
+import { useDrop } from "react-dnd";
+import type { StoreApi } from "zustand/vanilla";
+import type { WorkspaceStore } from "../../../../../core/store";
+import {
+	transferPaneToNewTab,
+	transferTabToIndex,
+} from "../../../../../core/transfer";
+import type { Tab } from "../../../../../types";
+import { usePaneAppearance } from "../../../../hooks/usePaneAppearance";
+import type { AddTabMenuActions, PaneRegistry } from "../../../../types";
+import { PANE_DRAG_TYPE } from "../Tab/components/Pane/components/PaneHeader";
+import { TAB_DRAG_TYPE, TabItem } from "./components/TabItem";
+import {
+	computeInsertIndex,
+	scrollLeftToRevealTab,
+	TAB_BAR_FADE_WIDTH,
+	TAB_WIDTH,
+} from "./utils";
+
+interface TabBarProps<TData> {
+	/** Classes for the bar row, merged over its defaults. */
+	className?: string;
+	store: StoreApi<WorkspaceStore<TData>>;
+	tabs: Tab<TData>[];
+	registry: PaneRegistry<TData>;
+	activeTabId: string | null;
+	onSelectTab: (tabId: string) => void;
+	onCloseTab: (tabId: string) => void;
+	onCloseOtherTabs: (tabId: string) => void;
+	onCloseAllTabs: () => void;
+	onRenameTab?: (tabId: string, title: string | undefined) => void;
+	onTabClick?: (tab: Tab<TData>) => void;
+	isPreviewTab?: (tab: Tab<TData>) => boolean;
+	onReorderTab: (tabId: string, toIndex: number) => void;
+	onMovePaneToNewTab: (paneId: string, toIndex: number) => void;
+	renderTabIcon?: (tab: Tab<TData>) => ReactNode;
+	renderAddTabMenu?: (actions: AddTabMenuActions) => ReactNode;
+	onAddTab?: () => void;
+	renderTabBarLeading?: () => ReactNode;
+	renderTabBarTrailing?: () => ReactNode;
+	renderTabAccessory?: (tab: Tab<TData>) => ReactNode;
+}
+
+type TabDragItem = { tabId: string; store?: unknown };
+type PaneDragItem = { paneId: string; store?: unknown };
+
+function AddTabButton<_TData>({
+	renderAddTabMenu,
+	onAddTab,
+}: {
+	renderAddTabMenu?: (actions: AddTabMenuActions) => ReactNode;
+	onAddTab?: () => void;
+}) {
+	const pendingActionRef = useRef<(() => void) | null>(null);
+	const isCards = usePaneAppearance() === "cards";
+	const button = isCards ? (
+		<button
+			className={HEADER_ICON_BUTTON_CLASS}
+			type="button"
+			onClick={onAddTab}
+		>
+			<PlusIcon className="size-4" strokeWidth={HEADER_ICON_STROKE_WIDTH} />
+		</button>
+	) : (
+		<Button
+			className="ml-1.5 size-7 rounded-md border border-border/60 bg-muted/30 px-1 text-muted-foreground shadow-none hover:bg-accent/60 hover:text-foreground"
+			size="icon"
+			type="button"
+			variant="ghost"
+			onClick={onAddTab}
+		>
+			<PlusIcon className="size-3.5" />
+		</Button>
+	);
+
+	if (renderAddTabMenu) {
+		return (
+			<DropdownMenu>
+				<DropdownMenuTrigger asChild>{button}</DropdownMenuTrigger>
+				<DropdownMenuContent
+					align="end"
+					className="w-56"
+					onCloseAutoFocus={(event) => {
+						const action = pendingActionRef.current;
+						if (!action) return;
+						pendingActionRef.current = null;
+						event.preventDefault();
+						action();
+					}}
+				>
+					{renderAddTabMenu({
+						runAfterClose: (action) => {
+							pendingActionRef.current = action;
+						},
+					})}
+				</DropdownMenuContent>
+			</DropdownMenu>
+		);
+	}
+
+	return button;
+}
+
+export function TabBar<TData>({
+	className,
+	store,
+	tabs,
+	registry,
+	activeTabId,
+	onSelectTab,
+	onCloseTab,
+	onCloseOtherTabs,
+	onCloseAllTabs,
+	onRenameTab,
+	onTabClick,
+	isPreviewTab,
+	onReorderTab,
+	onMovePaneToNewTab,
+	renderTabIcon,
+	renderAddTabMenu,
+	onAddTab,
+	renderTabBarLeading,
+	renderTabBarTrailing,
+	renderTabAccessory,
+}: TabBarProps<TData>) {
+	const isCards = usePaneAppearance() === "cards";
+	const tabsTrackRef = useRef<HTMLDivElement>(null);
+	const [hasHorizontalOverflow, setHasHorizontalOverflow] = useState(false);
+	const activeTabIndex = tabs.findIndex((tab) => tab.id === activeTabId);
+	useLayoutEffect(() => {
+		const scroller = tabsTrackRef.current?.parentElement;
+		if (!scroller || !hasHorizontalOverflow || activeTabIndex < 0) return;
+		const reveal = (behavior: ScrollBehavior) => {
+			const next = scrollLeftToRevealTab(
+				activeTabIndex,
+				scroller.scrollLeft,
+				scroller.clientWidth,
+				TAB_BAR_FADE_WIDTH,
+			);
+			if (next !== null) scroller.scrollTo({ left: next, behavior });
+		};
+		reveal("smooth");
+		let revealedWidth = scroller.clientWidth;
+		const observer = new ResizeObserver(() => {
+			if (scroller.clientWidth === revealedWidth) return;
+			revealedWidth = scroller.clientWidth;
+			reveal("instant");
+		});
+		observer.observe(scroller);
+		return () => observer.disconnect();
+	}, [activeTabIndex, hasHorizontalOverflow]);
+
+	const insertIndexRef = useRef<number | null>(null);
+	const [insertIndex, setInsertIndex] = useState<number | null>(null);
+
+	const [{ isOver }, connectDrop] = useDrop(
+		() => ({
+			accept: [TAB_DRAG_TYPE, PANE_DRAG_TYPE],
+			hover: (_item: TabDragItem | PaneDragItem, monitor) => {
+				const track = tabsTrackRef.current;
+				const offset = monitor.getClientOffset();
+				if (!track || !offset) return;
+
+				const idx = computeInsertIndex(
+					offset.x,
+					track.getBoundingClientRect(),
+					tabs.length,
+				);
+				if (idx !== insertIndexRef.current) {
+					insertIndexRef.current = idx;
+					setInsertIndex(idx);
+				}
+			},
+			drop: (item: TabDragItem | PaneDragItem, monitor) => {
+				const idx = insertIndexRef.current;
+				if (idx === null) return;
+
+				insertIndexRef.current = null;
+				setInsertIndex(null);
+
+				const source = item.store as typeof store | undefined;
+				if (source && source !== store) {
+					if (monitor.getItemType() === PANE_DRAG_TYPE && "paneId" in item) {
+						transferPaneToNewTab({
+							source,
+							target: store,
+							paneId: item.paneId,
+							toIndex: idx,
+						});
+					} else if ("tabId" in item) {
+						transferTabToIndex({
+							source,
+							target: store,
+							tabId: item.tabId,
+							toIndex: idx,
+						});
+					}
+					return;
+				}
+
+				if (monitor.getItemType() === PANE_DRAG_TYPE && "paneId" in item) {
+					onMovePaneToNewTab(item.paneId, idx);
+					return;
+				}
+
+				if (monitor.getItemType() !== TAB_DRAG_TYPE || !("tabId" in item)) {
+					return;
+				}
+
+				const dragIndex = tabs.findIndex((t) => t.id === item.tabId);
+				if (dragIndex === -1) return;
+
+				// Adjust for removal of dragged tab
+				let toIndex = idx;
+				if (dragIndex < toIndex) toIndex--;
+
+				onReorderTab(item.tabId, toIndex);
+			},
+			collect: (monitor) => ({
+				isOver: monitor.isOver(),
+			}),
+		}),
+		[store, tabs, onReorderTab, onMovePaneToNewTab],
+	);
+
+	// Clear indicator when cursor leaves the tab bar
+	if (!isOver && insertIndexRef.current !== null) {
+		insertIndexRef.current = null;
+		if (insertIndex !== null) setInsertIndex(null);
+	}
+
+	const setRootRef = useCallback(
+		(node: HTMLDivElement | null) => {
+			connectDrop(node);
+		},
+		[connectDrop],
+	);
+
+	const handleOverflowChange = useCallback<
+		NonNullable<
+			ComponentProps<typeof OverflowFadeContainer>["onOverflowChange"]
+		>
+	>((state) => {
+		setHasHorizontalOverflow(state.hasOverflowX);
+	}, []);
+
+	const insertLineLeft = insertIndex !== null ? insertIndex * TAB_WIDTH : null;
+
+	return (
+		<div
+			ref={setRootRef}
+			// Only the empty filler right of the tabs is an
+			// Electron window-drag region — marking the whole bar `drag` and carving
+			// children out with `no-drag` loses the carve-outs once they sit inside
+			// the masked/scrollable OverflowFadeContainer, which made the entire bar
+			// swallow clicks.
+			className={cn(
+				isCards
+					? "group/root-tabs flex h-12 min-w-0 shrink-0 items-stretch shadow-[inset_0_-1px_0_var(--border)]"
+					: "group/root-tabs flex h-12 min-w-0 shrink-0 items-stretch bg-muted/45 shadow-[inset_0_-1px_0_var(--border)] dark:bg-muted/35",
+				className,
+			)}
+		>
+			{renderTabBarLeading && (
+				<div
+					className={cn(
+						"flex h-full shrink-0 items-stretch",
+						!isCards && "border-b border-border",
+					)}
+				>
+					{renderTabBarLeading()}
+				</div>
+			)}
+			<OverflowFadeContainer
+				observeChildren
+				onOverflowChange={handleOverflowChange}
+				className={cn(
+					"hide-scrollbar flex min-w-0 flex-1 items-stretch overflow-x-auto overflow-y-hidden",
+					isCards && "pl-1.5",
+				)}
+			>
+				<div
+					ref={tabsTrackRef}
+					className="no-drag relative flex h-full flex-1 items-stretch"
+				>
+					{tabs.map((tab, i) => (
+						<div
+							className={
+								isCards
+									? "flex h-full shrink-0 items-center px-0.5"
+									: "h-full shrink-0 pt-1"
+							}
+							key={tab.id}
+							style={{ width: TAB_WIDTH }}
+						>
+							<TabItem
+								tab={tab}
+								tabs={tabs}
+								store={store}
+								registry={registry}
+								index={i}
+								isActive={tab.id === activeTabId}
+								onSelect={() => onSelectTab(tab.id)}
+								onClose={() => onCloseTab(tab.id)}
+								onCloseOthers={() => onCloseOtherTabs(tab.id)}
+								onCloseAll={onCloseAllTabs}
+								onRename={
+									onRenameTab
+										? (title) => onRenameTab(tab.id, title)
+										: undefined
+								}
+								onClick={onTabClick ? () => onTabClick(tab) : undefined}
+								isPreview={isPreviewTab?.(tab) ?? false}
+								icon={renderTabIcon?.(tab)}
+								accessory={renderTabAccessory?.(tab)}
+							/>
+						</div>
+					))}
+					{insertLineLeft !== null && (
+						<div
+							className="pointer-events-none absolute top-0 z-10 h-full w-0.5 bg-primary opacity-85"
+							style={{ left: insertLineLeft }}
+						/>
+					)}
+					{!hasHorizontalOverflow && (
+						<div
+							className={cn(
+								"flex h-full w-10 shrink-0 items-center justify-center",
+								!isCards && "pt-1",
+							)}
+						>
+							<AddTabButton
+								renderAddTabMenu={renderAddTabMenu}
+								onAddTab={onAddTab}
+							/>
+						</div>
+					)}
+					{/* Empty space to the right of the tabs (collapses to 0 when the
+					    tabs overflow); the bar's only window-drag region. */}
+					<div
+						className={cn(
+							"drag h-full flex-1",
+							!isCards && "border-b border-border",
+						)}
+					/>
+				</div>
+			</OverflowFadeContainer>
+			{hasHorizontalOverflow && (
+				<div
+					className={cn(
+						"no-drag flex h-full w-10 shrink-0 items-center justify-center",
+						!isCards && "pt-1",
+					)}
+				>
+					<AddTabButton
+						renderAddTabMenu={renderAddTabMenu}
+						onAddTab={onAddTab}
+					/>
+				</div>
+			)}
+			{renderTabBarTrailing && (
+				<div
+					className={cn(
+						"no-drag flex h-full shrink-0 items-center px-1",
+						!isCards && "border-b border-border",
+					)}
+				>
+					{renderTabBarTrailing()}
+				</div>
+			)}
+		</div>
+	);
+}

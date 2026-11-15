@@ -1,0 +1,238 @@
+import { basename } from "node:path";
+import { workspaceTagsInputSchema } from "@jedv/shared/workspace-tags";
+import { TRPCError } from "@trpc/server";
+import { eq, isNotNull, isNull } from "drizzle-orm";
+import { z } from "zod";
+import { projects, workspaces } from "../../../db/schema";
+import { getProjectIncludingDeleted } from "../../../projects/local-project-store";
+import { isMissingPath } from "../../../runtime/path-state";
+import {
+	getWorkspaceTags,
+	getWorkspaceTagsByWorkspaceId,
+	toCloudShape,
+	updateLocalWorkspace,
+} from "../../../workspaces/local-workspace-store";
+import { cancelAndWaitWorkspaceTitleCommit } from "../../../workspaces/workspace-title-jobs";
+import { protectedProcedure, router } from "../../index";
+import { resolveWorktreePath } from "../git/utils/resolve-worktree";
+import { destroyWorkspace } from "../workspace-cleanup";
+
+export const workspaceRouter = router({
+	get: protectedProcedure
+		.input(z.object({ id: z.string() }))
+		.query(({ ctx, input }) => {
+			const localWorkspace = ctx.db.query.workspaces
+				.findFirst({ where: eq(workspaces.id, input.id) })
+				.sync();
+
+			if (!localWorkspace) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Workspace not found",
+				});
+			}
+
+			return {
+				...localWorkspace,
+				worktreeExists: !isMissingPath(localWorkspace.worktreePath),
+			};
+		}),
+
+	/**
+	 * The repositories a workspace holds, primary first. A workspace holds one
+	 * repository, at its root, until multi-repo workspaces land; the shape is
+	 * the one they will return.
+	 */
+	repositories: protectedProcedure
+		.input(z.object({ workspaceId: z.string() }))
+		.query(({ ctx, input }) => {
+			const workspace = ctx.db.query.workspaces
+				.findFirst({ where: eq(workspaces.id, input.workspaceId) })
+				.sync();
+			if (!workspace) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Workspace not found",
+				});
+			}
+			const project = workspace.projectId
+				? getProjectIncludingDeleted(ctx.db, workspace.projectId)
+				: undefined;
+			return [
+				{
+					id: workspace.id,
+					path: ".",
+					name: basename(project?.repoPath ?? workspace.worktreePath),
+					primary: true,
+				},
+			];
+		}),
+
+	/**
+	 * Authoritative list of this host's workspaces, served entirely from
+	 * host.db — works with zero cloud availability. Rows are shaped like
+	 * cloud rows (plus local extras) so consumers of either read path agree.
+	 * Archived (tombstoned) rows are excluded unless the caller opts in —
+	 * only the workspaces board does, for its Merged/Deleted columns.
+	 */
+	list: protectedProcedure
+		.input(z.object({ includeArchived: z.boolean().default(false) }).optional())
+		.query(({ ctx, input }) => {
+			const deletedProjectIds = new Set(
+				ctx.db
+					.select({ id: projects.id })
+					.from(projects)
+					.where(isNotNull(projects.deletedAt))
+					.all()
+					.map((project) => project.id),
+			);
+			const rows = input?.includeArchived
+				? ctx.db
+						.select()
+						.from(workspaces)
+						.all()
+						.filter(
+							(row) => !row.projectId || !deletedProjectIds.has(row.projectId),
+						)
+				: ctx.db
+						.select()
+						.from(workspaces)
+						.where(isNull(workspaces.archivedAt))
+						.all();
+			const projectNameById = new Map(
+				ctx.db
+					.select({
+						id: projects.id,
+						name: projects.name,
+						repoPath: projects.repoPath,
+					})
+					.from(projects)
+					.all()
+					.map((project) => [
+						project.id,
+						project.name || basename(project.repoPath),
+					]),
+			);
+			// Tags are the caller's own: on a shared host each user files the
+			// same workspaces into their own folders.
+			const tagsByWorkspaceId = getWorkspaceTagsByWorkspaceId(
+				ctx.db,
+				rows.map((row) => row.id),
+				ctx.userId,
+			);
+			return rows.map((row) => ({
+				...toCloudShape(row, ctx.organizationId),
+				tags: tagsByWorkspaceId.get(row.id) ?? [],
+				worktreePath: row.worktreePath,
+				// Tombstones' worktrees are gone by definition; stat-checking an
+				// unbounded, forever-growing archive on every poll adds up.
+				worktreeExists:
+					row.archivedAt == null ? !isMissingPath(row.worktreePath) : false,
+				projectName: row.projectId
+					? (projectNameById.get(row.projectId) ?? null)
+					: null,
+				// Host-only: the frozen cloud shape never had an activity signal.
+				lastActivityAt: row.lastActivityAt,
+				archivedAt: row.archivedAt,
+				archiveReason: row.archiveReason,
+			}));
+		}),
+
+	/**
+	 * Rename / branch-repoint / task-link update, local-first: the host.db
+	 * row commits and broadcasts immediately; the cloud mirror push is
+	 * best-effort (the reconciler retries when unreachable). `branch` only
+	 * re-points the record — callers rename the git branch themselves.
+	 */
+	update: protectedProcedure
+		.input(
+			z.object({
+				id: z.string().uuid(),
+				name: z.string().min(1).optional(),
+				branch: z.string().min(1).optional(),
+				taskId: z.string().uuid().nullable().optional(),
+				tags: workspaceTagsInputSchema.optional(),
+			}),
+		)
+		.mutation(async ({ ctx, input }) => {
+			const current = ctx.db.query.workspaces
+				.findFirst({ where: eq(workspaces.id, input.id) })
+				.sync();
+			if (!current) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Workspace not found",
+				});
+			}
+			const patch: {
+				name?: string;
+				branch?: string;
+				taskId?: string | null;
+				tags?: string[];
+			} = {};
+			if (input.name !== undefined) patch.name = input.name;
+			if (input.branch !== undefined) patch.branch = input.branch;
+			if (input.taskId !== undefined) patch.taskId = input.taskId;
+			if (input.tags !== undefined) patch.tags = input.tags;
+			if (Object.keys(patch).length === 0) {
+				return {
+					...toCloudShape(current, ctx.organizationId),
+					tags: getWorkspaceTags(ctx.db, current.id, ctx.userId),
+				};
+			}
+			if (patch.name !== undefined || patch.branch !== undefined)
+				await cancelAndWaitWorkspaceTitleCommit(ctx.db, input.id);
+			const updated = updateLocalWorkspace(
+				{ db: ctx.db, eventBus: ctx.eventBus, userId: ctx.userId },
+				input.id,
+				patch,
+			);
+			if (!updated) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Workspace not found",
+				});
+			}
+			return {
+				...toCloudShape(updated, ctx.organizationId),
+				tags: getWorkspaceTags(ctx.db, updated.id, ctx.userId),
+			};
+		}),
+
+	// Workspaces are host-owned now; the cloud list it proxied is gone. Kept as
+	// an empty read so released clients that still call it don't error.
+	gitStatus: protectedProcedure
+		.input(z.object({ id: z.string() }))
+		.query(async ({ ctx, input }) => {
+			const worktreePath = resolveWorktreePath(ctx, input.id);
+			const git = await ctx.git(worktreePath);
+			const status = await git.status();
+
+			return {
+				workspaceId: input.id,
+				branch: status.current,
+				files: status.files.map((f) => ({
+					path: f.path,
+					index: f.index,
+					workingDir: f.working_dir,
+				})),
+				isClean: status.isClean(),
+			};
+		}),
+
+	delete: protectedProcedure
+		.input(z.object({ id: z.string() }))
+		.mutation(async ({ ctx, input }) => {
+			// Legacy external surface used by CLI/SDK/MCP. Preserve its
+			// non-interactive contract while reusing the v2 cleanup path:
+			// force covers the git semantics (no dirty-worktree prompt), but
+			// teardown still runs — a failure lands in `warnings` since there
+			// is nobody to prompt for a force-retry (#6174).
+			return destroyWorkspace(ctx, {
+				workspaceId: input.id,
+				deleteBranch: false,
+				force: true,
+				teardownMode: "best-effort",
+			});
+		}),
+});

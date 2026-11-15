@@ -1,0 +1,42 @@
+---
+description: "确认 push 后远端配置变了如何处理、大仓库 Git status worker 与 reviewed push；绑定预览计划、执行 OID 和远端写入未知结果。"
+kind: architecture
+code:
+  paths:
+    - packages/host-service/src/trpc/router/git/git.ts
+    - packages/host-service/src/workers/tasks/git.ts
+    - packages/host-service/src/trpc/router/git/utils/reviewed-push.ts
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvChangesView/JedvChangesView.tsx
+    - packages/host-service/src/workers/host-worker-pool.ts
+    - packages/host-service/src/trpc/router/git/utils/resolve-worktree.ts
+    - packages/host-service/src/trpc/router/git/utils/git-status-refresh-limiter.ts
+relations:
+  related:
+    - workspaces/lifecycle.mdx
+    - pull-requests/review-contract.mdx
+---
+# Git 执行与 reviewed push
+
+host 从工作区持久身份解析 worktree，并通过 credentials provider 构建 Git 环境。renderer 发起意图，不能自己猜 cwd 或将凭证环境写入日志。阻塞的 status/diff/commit/push 在 worker 执行；数据库查询、事件和 cache invalidation 留在 host 协调层。
+
+## 调度与观察
+
+status admission limiter 与 diff front-door cap 保持不同资源公平性，突发 diff 不得挤满 status 的执行槽。同一 commit 查询应在 semaphore 外去重，避免重复请求耗尽并发。把 Git spawn 移回主事件循环会破坏这一故障隔离。
+
+workspace id、checkout path 和当前 branch 需要分别校验；已经移动或归档的工作区不能因客户端还持有旧路径继续执行。Git status 缓存是观察，不是破坏性操作的最终授权。
+
+## 预览确认绑定具体计划
+
+reviewed push 预览包含 source HEAD、目标 URL/remote/branch、关键 Git config 及 confirmation token。执行前重新构造计划并比对；确认 push 后远端配置变了，必须返回 changed/CONFLICT 并要求重新预览，不能把旧 token 用于新 destination。
+
+执行使用明确 OID 到目标 branch ref，关闭 force、mirror、follow-tags 和 submodule recursion。这样用户确认的源提交与目标不会因本地后续状态或默认 push 规则扩张。
+
+push 完成后设置 upstream/tracking 属于第二阶段。第二阶段失败返回 upstream-failed，表示远端可能已经完成；不能报成整个 push 未发生并盲目重试。预览只暴露脱敏 URL，不泄露用户名、密码、query 或 fragment。
+
+## 桌面确认与未知结果
+
+JedvChangesView 的确认调用 `pushReviewed`。CONFLICT 清旧确认并重新获取 preview；其他写入失败进入 unknown，要求刷新后才能再次执行，防止网络断开时重复 side effect。commit 也须重新核对已确认的分支、HEAD 和暂存范围。
+
+host 同时保留简单 push 与 reviewed endpoint，二者不具有相同确认语义。修改统一底层 Git helper 时须评审两个入口，不能因 GUI 使用 reviewed contract 就假定所有调用方都经过预览。
+
+源码锚点：`git/git.ts`（API 与调度）、`workers/tasks/git.ts`（执行）、`reviewed-push.ts`（计划和目标约束）、`JedvChangesView.tsx`（确认状态机）。

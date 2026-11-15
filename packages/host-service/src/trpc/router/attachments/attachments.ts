@@ -1,0 +1,230 @@
+import { randomUUID } from "node:crypto";
+import { closeSync, openSync } from "node:fs";
+import { copyFile, readFile } from "node:fs/promises";
+import { join } from "node:path";
+import {
+	MAX_ATTACHMENTS,
+	MAX_INLINE_ATTACHMENT_BYTES,
+} from "@jedv/shared/attachment-limits";
+import {
+	assignAttachmentFileName,
+	attachmentNameWithSuffix,
+	WORKSPACE_ATTACHMENTS_DIR,
+} from "@jedv/shared/workspace-attachments";
+import { ensureWorkspaceAttachmentsDir } from "@jedv/shared/workspace-attachments-dir";
+import { TRPCError } from "@trpc/server";
+import mimeTypes from "mime-types";
+import { z } from "zod";
+import { protectedProcedure, router } from "../../index";
+import { resolveWorktreePath } from "../git/utils/resolve-worktree";
+import {
+	type AttachmentMetadata,
+	deleteAttachment,
+	handOutAttachment,
+	writeAttachment,
+} from "./storage";
+
+const uploadInputSchema = z.object({
+	data: z.object({
+		kind: z.literal("base64"),
+		data: z.string().min(1),
+	}),
+	mediaType: z.string(),
+	originalFilename: z.string().optional(),
+});
+
+const FALLBACK_MEDIA_TYPE = "application/octet-stream";
+
+/**
+ * A media type the store can name a file with. `getAttachmentFilePath`
+ * derives the extension from it and throws on one it doesn't know, so a
+ * client's unrecognized type becomes the generic binary rather than a
+ * failed write.
+ */
+function mediaTypeOf(declared: string): string {
+	return mimeTypes.extension(declared) ? declared : FALLBACK_MEDIA_TYPE;
+}
+
+/**
+ * Takes a free filename in the worktree's attachment directory, creating it
+ * so nobody else can take the same one.
+ *
+ * `assignAttachmentFileName` only deduplicates within one batch — it cannot
+ * see what earlier sends already wrote. The directory is long-lived and a
+ * second photo named IMG_0006.jpg is ordinary, so the batch-local name is
+ * only a starting point and the real directory decides.
+ *
+ * The claim is the exclusive create rather than a existence check: two sends
+ * materializing at once would both find the same name free and the second
+ * download would truncate the first's file. `wx` makes the loser see EEXIST
+ * and move to the next suffix.
+ */
+export function claimFileName({
+	attachment,
+	index,
+	used,
+	directory,
+}: {
+	attachment: { name?: string };
+	index: number;
+	used: Set<string>;
+	directory: string;
+}): string {
+	const base = assignAttachmentFileName({
+		rawName: attachment.name,
+		index,
+		used,
+	});
+	for (let attempt = 0; ; attempt++) {
+		const candidate = attachmentNameWithSuffix(base, attempt);
+		try {
+			closeSync(openSync(join(directory, candidate), "wx", 0o600));
+		} catch (error) {
+			if ((error as NodeJS.ErrnoException).code === "EEXIST") continue;
+			throw error;
+		}
+		used.add(candidate.toLowerCase());
+		return candidate;
+	}
+}
+
+/**
+ * Cheap size estimate from a base64 string without allocating the
+ * decoded buffer. Used to reject oversized uploads before Buffer.from
+ * spikes memory.
+ */
+function estimateDecodedBase64Bytes(value: string): number {
+	const padding = value.endsWith("==") ? 2 : value.endsWith("=") ? 1 : 0;
+	return Math.floor((value.length * 3) / 4) - padding;
+}
+
+export const attachmentsRouter = router({
+	/**
+	 * Upload a single attachment to per-org host storage. Returns an
+	 * opaque `attachmentId` callers reference in agent prompts. The
+	 * renderer never sees the on-disk path.
+	 */
+	upload: protectedProcedure.input(uploadInputSchema).mutation(({ input }) => {
+		const mediaType = mediaTypeOf(input.mediaType);
+
+		// Reject before allocating the decoded buffer so a 1GB base64
+		// payload doesn't spike host memory only to be rejected at the end.
+		if (
+			estimateDecodedBase64Bytes(input.data.data) > MAX_INLINE_ATTACHMENT_BYTES
+		) {
+			throw new TRPCError({
+				code: "PAYLOAD_TOO_LARGE",
+				message: `Attachment exceeds ${MAX_INLINE_ATTACHMENT_BYTES} bytes`,
+			});
+		}
+
+		// Buffer.from(..., "base64") never throws on invalid input — it
+		// silently drops unrecognized characters. We rely on bytes.length
+		// (post-decode) to catch payloads that decode to nothing.
+		const bytes = Buffer.from(input.data.data, "base64");
+		if (bytes.length === 0) {
+			throw new TRPCError({
+				code: "BAD_REQUEST",
+				message: "Attachment is empty",
+			});
+		}
+
+		const now = Date.now();
+		const metadata: AttachmentMetadata = {
+			attachmentId: randomUUID(),
+			mediaType,
+			originalFilename: input.originalFilename,
+			sizeBytes: bytes.length,
+			createdAt: now,
+			lastUsedAt: now,
+		};
+
+		// Buffer already extends Uint8Array; no need to wrap.
+		writeAttachment(bytes, metadata);
+
+		return {
+			attachmentId: metadata.attachmentId,
+			originalFilename: metadata.originalFilename,
+			mediaType: metadata.mediaType,
+			sizeBytes: metadata.sizeBytes,
+		};
+	}),
+
+	materializeIntoWorkspace: protectedProcedure
+		.input(
+			z.object({
+				workspaceId: z.string(),
+				attachmentIds: z.array(z.string().uuid()).min(1).max(MAX_ATTACHMENTS),
+			}),
+		)
+		.mutation(async ({ ctx, input }) => {
+			const worktreePath = resolveWorktreePath(ctx, input.workspaceId);
+			const directory = ensureWorkspaceAttachmentsDir(worktreePath);
+
+			const used = new Set<string>();
+			const paths: string[] = [];
+			for (const [index, attachmentId] of input.attachmentIds.entries()) {
+				const attachment = handOutAttachment(attachmentId);
+				if (!attachment)
+					throw new TRPCError({
+						code: "NOT_FOUND",
+						message: "Attachment not found",
+					});
+				const fileName = claimFileName({
+					attachment: { name: attachment.metadata.originalFilename },
+					index,
+					used,
+					directory,
+				});
+				await copyFile(attachment.path, join(directory, fileName));
+				paths.push(`${WORKSPACE_ATTACHMENTS_DIR}/${fileName}`);
+			}
+			return { paths };
+		}),
+
+	/**
+	 * An attachment's bytes, so a client can show what was sent. Capped like
+	 * an upload: the bytes cross the relay as base64.
+	 */
+	read: protectedProcedure
+		.input(z.object({ attachmentId: z.string().uuid() }))
+		.query(async ({ input }) => {
+			const resolved = handOutAttachment(input.attachmentId);
+			if (!resolved) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Attachment not found",
+				});
+			}
+			const { path, metadata } = resolved;
+			if (metadata.sizeBytes > MAX_INLINE_ATTACHMENT_BYTES) {
+				throw new TRPCError({
+					code: "PAYLOAD_TOO_LARGE",
+					message: `Attachment exceeds ${MAX_INLINE_ATTACHMENT_BYTES} bytes`,
+				});
+			}
+			return {
+				mediaType: metadata.mediaType,
+				data: (await readFile(path)).toString("base64"),
+			};
+		}),
+
+	/**
+	 * Delete an attachment by id. Idempotent — succeeds whether or not
+	 * the directory still exists. Treat as cleanup; don't rely on it to
+	 * confirm the row was present.
+	 */
+	delete: protectedProcedure
+		.input(z.object({ attachmentId: z.string().uuid() }))
+		.mutation(({ input }) => {
+			deleteAttachment(input.attachmentId);
+			return { success: true as const };
+		}),
+});
+
+export type AttachmentUploadResult = {
+	attachmentId: string;
+	originalFilename?: string;
+	mediaType: string;
+	sizeBytes: number;
+};

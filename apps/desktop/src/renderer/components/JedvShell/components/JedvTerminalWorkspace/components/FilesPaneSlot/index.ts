@@ -1,0 +1,1 @@
+export { FilesPaneSlot } from "./FilesPaneSlot";

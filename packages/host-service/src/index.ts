@@ -1,0 +1,26 @@
+export { type CreateAppOptions, type CreateAppResult, createApp } from "./app";
+export type { HostDb } from "./db";
+export type {
+	ClientMessage as EventBusClientMessage,
+	ServerMessage as EventBusServerMessage,
+} from "./events";
+export { LocalGitCredentialProvider } from "./providers/git";
+export type { HostAuthProvider } from "./providers/host-auth";
+export { PskHostAuthProvider } from "./providers/host-auth";
+export { resolveDesktopBridgeFromEnv } from "./runtime/desktop-bridge/env";
+export type { GitCredentialProvider, GitFactory } from "./runtime/git";
+export { startVitalsLog } from "./runtime/vitals";
+export { detachFromLaunchDirectory } from "./runtime/working-directory";
+export { installProcessSafetyNet, installUpgradeSocketGuard } from "./safety";
+export { startTerminalReaper } from "./terminal/reaper";
+export type {
+	SubagentTranscript,
+	SubagentTranscriptEntry,
+} from "./terminal-agents";
+export type {
+	DeleteInProgressCause,
+	ProjectDirMissingCause,
+	TeardownFailureCause,
+} from "./trpc/error-types";
+export type { AppRouter } from "./trpc/router";
+export type { HostServiceContext } from "./types";

@@ -1,0 +1,5689 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-08-27 21:42-0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: ja\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+msgid "./"
+msgstr "./"
+
+msgid "\"{title}\" has finished its task"
+msgstr "「{title}」がタスクを完了しました"
+
+msgid "\"{title}\" is waiting for your reply"
+msgstr "「{title}」が返信を待っています"
+
+#. placeholder {0}: summary.updated
+msgid "{0, plural, one {# existing theme updated} other {# existing themes updated}}"
+msgstr "{0, plural, one {既存のテーマを#件更新しました} other {既存のテーマを#件更新しました}}"
+
+#. placeholder {0}: items.length
+msgid "{0} changed files"
+msgstr "{0} 個の変更されたファイル"
+
+#. placeholder {0}: collisions.length
+msgid "{0} files already exist in {where}. Do you want to replace them?"
+msgstr "{where}には{0}件のファイルがすでに存在します。置き換えますか?"
+
+#. placeholder {0}: failedSaves.length
+msgid "{0} files could not be saved."
+msgstr "{0} 個のファイルを保存できませんでした。"
+
+#. placeholder {0}: ports.length
+msgid "{0} live ports"
+msgstr "{0} 個のアクティブなポート"
+
+#. placeholder {0}: checks.data?.running
+msgid "{0} running terminal sessions will stop. Worktree deletion may run teardown commands."
+msgstr "{0} 個の実行中のターミナルセッションが停止します。ワークツリーの削除時にクリーンアップコマンドが実行される場合があります。"
+
+#. placeholder {0}: daemon.sessions.data?.length ?? 0
+msgid "{0} sessions"
+msgstr "{0} セッション"
+
+#. placeholder {0}: project.workspaceCount
+#. placeholder {1}: formatDate(project.purgeAt)
+msgid "{0} workspace records · retained until {1}"
+msgstr "{0} 件のワークスペースレコード · {1} まで保持"
+
+#. placeholder {0}: row.name
+#. placeholder {1}: row.runningTerminalCount
+#. placeholder {2}: row.runningAgentCount
+msgid "{0}: {1} running terminals, {2} running agents"
+msgstr "{0}：実行中のターミナル {1} 個、実行中のエージェント {2} 個"
+
+msgid "{approvals} approvals"
+msgstr "{approvals} 件の承認"
+
+msgid "{completed} finished"
+msgstr "{completed} 完了"
+
+msgid "{configTitle} font size"
+msgstr "{configTitle}のフォントサイズ"
+
+msgid "{count, plural, one {Every # day at {time}} other {Every # days at {time}}}"
+msgstr "{count, plural, one {#日ごと {time}} other {#日ごと {time}}}"
+
+msgid "{count, plural, one {Every # day} other {Every # days}}"
+msgstr "{count, plural, one {#日ごと} other {#日ごと}}"
+
+msgid "{count, plural, one {Every # hour} other {Every # hours}}"
+msgstr "{count, plural, one {#時間ごと} other {#時間ごと}}"
+
+msgid "{count, plural, one {Every # minute} other {Every # minutes}}"
+msgstr "{count, plural, one {#分ごと} other {#分ごと}}"
+
+msgid "{count, plural, one {Every # week on {day} at {time}} other {Every # weeks on {day} at {time}}}"
+msgstr "{count, plural, one {#週間ごとの{day} {time}} other {#週間ごとの{day} {time}}}"
+
+msgid "{count, plural, one {Every # week on {day}} other {Every # weeks on {day}}}"
+msgstr "{count, plural, one {#週間ごと {day}} other {#週間ごと {day}}}"
+
+msgid "{count} files are over {limit} and were not added"
+msgstr "{count} 件のファイルが {limit} を超えているため追加されませんでした"
+
+msgid "{currentPage} of {totalBranches}"
+msgstr "{currentPage}/{totalBranches}"
+
+msgid "{days} at {time}"
+msgstr "{days} {time}"
+
+msgid "{days}d"
+msgstr "{days}日"
+
+msgid "{days}d {hours}h"
+msgstr "{days}日{hours}時間"
+
+msgid "{focusShortcutText} to focus"
+msgstr "{focusShortcutText}でフォーカス"
+
+msgid "{hours}h"
+msgstr "{hours}時間"
+
+msgid "{hours}h {minutes}m"
+msgstr "{hours}時間{minutes}分"
+
+#. placeholder {0}: failed.length
+msgid "{imported} imported, {0} failed. Successful imports are kept."
+msgstr "{imported} 件をインポートし、{0} 件が失敗しました。成功したインポートは保持されます。"
+
+msgid "{lines, plural, one {# line} other {# lines}}"
+msgstr "{lines, plural, other {# 行}}"
+
+msgid "{minimumContrast}:1 contrast"
+msgstr "コントラスト {minimumContrast}:1"
+
+msgid "{minutes}m"
+msgstr "{minutes}分"
+
+#. placeholder {0}: Number(previewLineHeight.toFixed(2))
+msgid "{previewSize}px · {0} line height"
+msgstr "{previewSize}px · 行の高さ {0}"
+
+msgid "{projectName} icon"
+msgstr "{projectName} のアイコン"
+
+msgid "{running} working"
+msgstr "{running} 作業中"
+
+msgid "{stagedCount} staged files"
+msgstr "{stagedCount} 個のステージ済みファイル"
+
+msgid "{totalImported, plural, one {Imported # custom theme} other {Imported # custom themes}}"
+msgstr "{totalImported, plural, one {カスタムテーマを#件インポートしました} other {カスタムテーマを#件インポートしました}}"
+
+msgid "{uncommittedCount, plural, one {# file changed} other {# files changed}}"
+msgstr "{uncommittedCount, plural, one {#件のファイルが変更されました} other {#件のファイルが変更されました}}"
+
+msgid "⇧ click"
+msgstr "⇧クリック"
+
+msgid "<0>{primaryFont}</0> is not installed on this system. Falling back to the next available font."
+msgstr "<0>{primaryFont}</0>はこのシステムにインストールされていません。次に利用可能なフォントにフォールバックします。"
+
+msgid "<0>Nerd Fonts</0> are recommended."
+msgstr "<0>Nerd Fonts</0>を推奨します。"
+
+msgid "<0>vs</0> <1/>"
+msgstr "<0>vs</0> <1/>"
+
+msgid "~/agent $"
+msgstr "~/agent $"
+
+msgid "⌘ click"
+msgstr "⌘クリック"
+
+msgid "⌘⇧ click"
+msgstr "⌘⇧クリック"
+
+msgid "1 file is over {limit} and was not added"
+msgstr "1 件のファイルが {limit} を超えているため追加されませんでした"
+
+msgid "4.5:1 (AA)"
+msgstr "4.5:1 (AA)"
+
+msgid "7:1 (AAA)"
+msgstr "7:1 (AAA)"
+
+msgid "A daemon operation is already in progress"
+msgstr "デーモン操作はすでに実行中です"
+
+msgid "A file named '{firstName}' already exists in {where}. Do you want to replace it?"
+msgstr "{where}には「{firstName}」という名前のファイルがすでに存在します。置き換えますか?"
+
+msgid "A listening process changed. Cancel and review the current process list before trying again."
+msgstr "リスニングプロセスが変更されました。キャンセルして現在のプロセス一覧を確認してから、もう一度お試しください。"
+
+msgid "A pull request already exists for this branch. Refresh the pull request list."
+msgstr "このブランチにはすでに PR があります。PR 一覧を更新してください。"
+
+msgid "A tab can contain at most eight panes."
+msgstr "1 つのタブには最大 8 つのペインを配置できます。"
+
+msgid "A tab can contain at most eight terminal panes."
+msgstr "1つのタブに含められるターミナルペインは最大8つです。"
+
+msgid "A workspace is protected. Resolve its protection before removing this project."
+msgstr "ワークスペースが保護されています。このプロジェクトを削除する前に保護を解除してください。"
+
+msgid "Aa"
+msgstr "Aa"
+
+msgid "About {displayName}"
+msgstr "{displayName}について"
+
+msgid "Accept"
+msgstr "同意する"
+
+msgid "Accessibility"
+msgstr "アクセシビリティ"
+
+msgid "Actions"
+msgstr "アクション"
+
+msgid "Active"
+msgstr "有効"
+
+msgid "Active CLI sessions"
+msgstr "アクティブな CLI セッション"
+
+msgid "Active workspaces"
+msgstr "アクティブなワークスペース"
+
+msgid "Activity"
+msgstr "アクティビティ"
+
+msgid "Adaptive keyboard layout"
+msgstr "適応型キーボードレイアウト"
+
+msgid "Add"
+msgstr "追加"
+
+msgid "Add agent"
+msgstr "エージェントを追加"
+
+msgid "add an agent"
+msgstr "エージェントを追加する"
+
+msgid "Add Attachment"
+msgstr "添付ファイルを追加"
+
+msgid "Add command"
+msgstr "コマンドを追加"
+
+msgid "Add files, apps, and more"
+msgstr "ファイルやアプリなどを追加"
+
+msgid "Add files, apps, and more (@)"
+msgstr "ファイルやアプリなどを追加(@)"
+
+msgid "Add photos or files"
+msgstr "写真やファイルを追加"
+
+msgid "Add preset"
+msgstr "プリセットを追加"
+
+msgid "Add project"
+msgstr "プロジェクトを追加"
+
+msgid "Add Project from Folder"
+msgstr "フォルダからプロジェクトを追加"
+
+msgid "Add Project from Folder..."
+msgstr "フォルダからプロジェクトを追加..."
+
+msgid "Add to Dictionary"
+msgstr "辞書に追加"
+
+msgid "Added {added} files to {where}"
+msgstr "{added}件のファイルを{where}に追加しました"
+
+msgid "Added 1 file to {where}"
+msgstr "1件のファイルを{where}に追加しました"
+
+msgid "Added only when launching with a prompt."
+msgstr "プロンプト付きで起動する場合のみ追加されます。"
+
+msgid "Admin"
+msgstr "管理者"
+
+msgid "Advanced environment values override variables written before the command."
+msgstr "高度な環境値は、コマンドの前に書き込まれた変数を上書きします。"
+
+msgid "Affected paths"
+msgstr "影響を受けるパス"
+
+msgid "After delay"
+msgstr "遅延後"
+
+msgid "Agent"
+msgstr "エージェント"
+
+msgid "Agent activity"
+msgstr "エージェントのアクティビティ"
+
+msgid "Agent activity changed. Refresh before opening the session."
+msgstr "エージェントのアクティビティが変更されました。セッションを開く前に更新してください。"
+
+msgid "Agent activity is loading or unavailable"
+msgstr "エージェントのアクティビティを読み込み中か、利用できません"
+
+msgid "Agent commands"
+msgstr "エージェントコマンド"
+
+msgid "Agent Complete · {workspaceName}"
+msgstr "エージェント完了 · {workspaceName}"
+
+msgid "Agent configuration unavailable"
+msgstr "エージェント構成を利用できません"
+
+msgid "Agent control"
+msgstr "エージェントコントロール"
+
+msgid "Agent Control"
+msgstr "エージェント制御"
+
+msgid "Agent did not start a terminal"
+msgstr "エージェントがターミナルを起動しませんでした"
+
+msgid "Agent failed"
+msgstr "エージェントが失敗しました"
+
+msgid "Agent finished"
+msgstr "エージェントが完了しました"
+
+msgid "Agent Island"
+msgstr "エージェントアイランド"
+
+msgid "Agent launch is waiting for setup"
+msgstr "エージェントの起動はセットアップの完了を待っています"
+
+msgid "Agent saved, but linked presets could not be updated."
+msgstr "エージェントを保存しましたが、リンクされたプリセットを更新できませんでした。"
+
+msgid "Agent session has not been created yet"
+msgstr "エージェントセッションはまだ作成されていません"
+
+msgid "Agent session is no longer available"
+msgstr "エージェントセッションは利用できなくなりました"
+
+msgid "Agent sessions"
+msgstr "エージェントセッション"
+
+msgid "Agent status unavailable"
+msgstr "エージェントの状態を利用できません"
+
+msgid "Agents"
+msgstr "エージェント"
+
+msgid "AI chatbot built with Next.js and the AI SDK"
+msgstr "Next.js と AI SDK で構築された AI チャットボット"
+
+#. placeholder {0}: cmd.aliases.map((alias) => `/${alias}`).join(", ")
+msgid "aliases: {0}"
+msgstr "エイリアス: {0}"
+
+msgid "Alive"
+msgstr "稼働中"
+
+msgid "All"
+msgstr "すべて"
+
+msgid "All commits"
+msgstr "すべてのコミット"
+
+msgid "All files exceed the maximum size."
+msgstr "すべてのファイルが最大サイズを超えています。"
+
+msgid "All open terminal sessions will be killed and any running host-services will be stopped. Use “Close {displayName}” instead if you want services to keep running for the next launch."
+msgstr "開いているターミナルセッションはすべて終了し、実行中のhost-serviceも停止します。次回の起動までサービスを実行し続けたい場合は、「{displayName}を閉じる」を使用してください。"
+
+msgid "All projects"
+msgstr "すべてのプロジェクト"
+
+msgid "All releases"
+msgstr "すべてのリリース"
+
+msgid "All templates"
+msgstr "すべてのテンプレート"
+
+msgid "All themes used reserved IDs (built-in or system)."
+msgstr "すべてのテーマが予約済みID(組み込みまたはシステム)を使用していました。"
+
+msgid "Allow"
+msgstr "許可"
+
+msgid "Allow microphone access to use dictation"
+msgstr "音声入力を使うにはマイクへのアクセスを許可してください"
+
+msgid "Already open"
+msgstr "すでに開いています"
+
+msgid "Also delete local branch"
+msgstr "ローカルブランチも削除"
+
+msgid "An update is ready to install."
+msgstr "アップデートをインストールする準備ができました。"
+
+msgid "Animate the active terminal cursor."
+msgstr "アクティブなターミナルカーソルをアニメーションします。"
+
+msgid "Annually"
+msgstr "毎年"
+
+msgid "Annually at {time}"
+msgstr "毎年{time}"
+
+msgid "Annually on {date}"
+msgstr "毎年{date}"
+
+msgid "Annually on {date} at {time}"
+msgstr "毎年{date} {time}"
+
+msgid "Another deletion is already running for this workspace. Wait and check its status; do not force a second deletion."
+msgstr "このワークスペースでは別の削除がすでに実行中です。待機して状態を確認し、2 回目の削除を強制しないでください。"
+
+msgid "Answered"
+msgstr "回答済み"
+
+msgid "App display language. Auto follows your system language."
+msgstr "アプリの表示言語。自動ではシステムの言語に従います。"
+
+msgid "Appearance"
+msgstr "外観"
+
+msgid "Apple's installer closed before Git was installed."
+msgstr "Git がインストールされる前に Apple のインストーラが閉じられました。"
+
+#. placeholder {0}: phase.reason
+msgid "Apple's installer did not open: {0}"
+msgstr "Apple のインストーラを開けませんでした: {0}"
+
+msgid "Apple's time estimate is usually much longer than the real install."
+msgstr "Apple が表示する所要時間は、実際のインストールよりかなり長いことがよくあります。"
+
+msgid "Application menu"
+msgstr "アプリケーションメニュー"
+
+msgid "Applies to file paths in Markdown previews and terminal output."
+msgstr "Markdownプレビューとターミナル出力内のファイルパスに適用されます。"
+
+msgid "Applies to file rows in the workspace file tree."
+msgstr "ワークスペースのファイルツリー内のファイル行に適用します。"
+
+msgid "Applies to folder paths in Markdown previews, terminal output, and workspace file tree rows."
+msgstr "Markdownプレビュー、ターミナル出力、ワークスペースのファイルツリー行内のフォルダーパスに適用されます。"
+
+msgid "Applies to URLs in Markdown previews and terminal output."
+msgstr "Markdownプレビューとターミナル出力内のURLに適用されます。"
+
+msgid "Apply"
+msgstr "適用"
+
+msgid "Approval expired"
+msgstr "承認が期限切れです"
+
+msgid "Approval failed. Open the workspace to inspect its current state."
+msgstr "承認に失敗しました。ワークスペースを開いて現在の状態を確認してください。"
+
+msgid "Approval needed"
+msgstr "承認が必要です"
+
+msgid "Approval requested"
+msgstr "承認がリクエストされました"
+
+msgid "Approval required"
+msgstr "承認が必要です"
+
+msgid "Approval response sent"
+msgstr "承認の応答を送信しました"
+
+msgid "Approved"
+msgstr "承認"
+
+msgid "Are you sure you want to quit?"
+msgstr "終了してもよろしいですか?"
+
+msgid "Ask before quitting the app."
+msgstr "アプリを終了する前に確認します。"
+
+msgid "Ask before terminating a terminal with a running process. Closing a view keeps its session running."
+msgstr "実行中のプロセスがあるターミナルを終了する前に確認します。ビューを閉じてもセッションは実行されたままです。"
+
+msgid "Ask to make changes, @mention files"
+msgstr "変更を依頼し、@でファイルをメンション"
+
+msgid "Ask to make changes, @mention files, run /commands"
+msgstr "変更を依頼、@でファイルをメンション、/でコマンドを実行"
+
+msgid "Attach"
+msgstr "アタッチ"
+
+msgid "Attach files"
+msgstr "ファイルを添付"
+
+msgid "Attached"
+msgstr "接続中"
+
+msgid "attachment"
+msgstr "添付ファイル"
+
+msgid "Attachment"
+msgstr "添付ファイル"
+
+#. placeholder {0}: (cause.index ?? 0) + 1
+#. placeholder {1}: cause.problem
+msgid "Attachment {0} could not be copied: {1}"
+msgstr "添付ファイル {0} をコピーできませんでした：{1}"
+
+msgid "Attachment limits exceeded"
+msgstr "添付ファイルの上限を超えました"
+
+msgid "attachment preview"
+msgstr "添付ファイルのプレビュー"
+
+msgid "Attachments are available for local workspaces only."
+msgstr "添付ファイルはローカルワークスペースでのみ使用できます。"
+
+msgid "Audio"
+msgstr "オーディオ"
+
+msgid "Auto"
+msgstr "自動"
+
+msgid "Auto (system)"
+msgstr "自動(システム)"
+
+msgid "Auto save"
+msgstr "自動保存"
+
+msgid "Automatic branch"
+msgstr "ブランチ名を自動生成"
+
+msgid "Automatic name"
+msgstr "名前を自動生成"
+
+msgid "Automatic updates are unavailable for this build."
+msgstr "このビルドでは自動更新を利用できません。"
+
+msgid "Automation"
+msgstr "オートメーション"
+
+msgid "Automation (Apple Events)"
+msgstr "オートメーション（Apple Events）"
+
+msgid "Automation action failed"
+msgstr "自動化アクションに失敗しました"
+
+msgid "Automation actions"
+msgstr "自動化アクション"
+
+msgid "Automation deleted"
+msgstr "自動化を削除しました"
+
+msgid "Automation enabled"
+msgstr "自動化を有効にしました"
+
+msgid "Automation name"
+msgstr "自動化の名前"
+
+msgid "Automation paused"
+msgstr "自動化を一時停止しました"
+
+msgid "Automation saved"
+msgstr "オートメーションを保存しました"
+
+msgid "Automation started"
+msgstr "自動化を開始しました"
+
+msgid "Automations"
+msgstr "オートメーション"
+
+msgid "Awaiting approval"
+msgstr "承認待ち"
+
+msgid "Awaiting Response"
+msgstr "応答待ち"
+
+msgid "Awaiting Response · {workspaceName}"
+msgstr "返信待ち · {workspaceName}"
+
+msgid "Back"
+msgstr "戻る"
+
+msgid "Back to automations"
+msgstr "オートメーションに戻る"
+
+msgid "Background processes"
+msgstr "バックグラウンドプロセス"
+
+msgid "Bar"
+msgstr "バー"
+
+msgid "Base branch"
+msgstr "ベースブランチ"
+
+msgid "Base branch (repository default)"
+msgstr "ベースブランチ（リポジトリのデフォルト）"
+
+msgid "Binary file"
+msgstr "バイナリファイル"
+
+msgid "Block"
+msgstr "ブロック"
+
+msgid "Blockquote"
+msgstr "引用"
+
+msgid "Blue"
+msgstr "青"
+
+msgid "Bold"
+msgstr "太字"
+
+msgid "Branch"
+msgstr "ブランチ"
+
+#. placeholder {0}: params?.branch
+#. placeholder {1}: params?.remote
+msgid "Branch \"{0}\" is not on this device or on {1}. Only pushed commits can be restored."
+msgstr "ブランチ「{0}」はこのデバイスにも {1} にもありません。復元できるのはプッシュ済みのコミットだけです。"
+
+msgid "Branch name"
+msgstr "ブランチ名"
+
+msgid "Branch prefix"
+msgstr "ブランチプレフィックス"
+
+msgid "Branch preview"
+msgstr "ブランチプレビュー"
+
+msgid "Branch switched"
+msgstr "ブランチを切り替えました"
+
+msgid "Branches & naming"
+msgstr "ブランチと命名"
+
+msgid "Browse"
+msgstr "参照"
+
+msgid "Browse for directory"
+msgstr "ディレクトリを参照"
+
+msgid "Bug"
+msgstr "バグ"
+
+msgid "builtin"
+msgstr "ビルトイン"
+
+msgid "Bullet list"
+msgstr "箇条書きリスト"
+
+msgid "Bulleted list"
+msgstr "箇条書きリスト"
+
+msgid "Cached input"
+msgstr "キャッシュ入力"
+
+msgid "Cached terminal views"
+msgstr "キャッシュされたターミナルビュー"
+
+msgid "Cancel"
+msgstr "キャンセル"
+
+msgid "Cancellation requested. Checking the host before another clone…"
+msgstr "キャンセルを要求しました。別のクローンを開始する前にホストを確認しています…"
+
+msgid "Cancellation requests the target host to stop. Check the operation result before retrying at this location."
+msgstr "キャンセルはターゲットホストに停止を要求します。この場所で再試行する前に操作結果を確認してください。"
+
+msgid "Cancelled"
+msgstr "キャンセル済み"
+
+msgid "Cannot {action}: no active organization is selected. Select an organization or sign in again."
+msgstr "{action}ことができません: アクティブな組織が選択されていません。組織を選択するか、もう一度サインインしてください。"
+
+msgid "Cannot {action}: the local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
+msgstr "{action}ことができません: {device}の{organization}でローカルのホストサービスが利用できません。ステータス: {status}。{recovery}"
+
+msgid "Change location…"
+msgstr "場所を変更…"
+
+msgid "Change project icon and color"
+msgstr "プロジェクトのアイコンと色を変更"
+
+msgid "Change state"
+msgstr "状態を変更"
+
+msgid "Changed files"
+msgstr "変更されたファイル"
+
+msgid "Changes"
+msgstr "変更"
+
+msgid "Changes discarded"
+msgstr "変更を破棄しました"
+
+msgid "Changes requested"
+msgstr "変更リクエスト"
+
+msgid "Changing this location affects new worktrees. Existing folders are not moved."
+msgstr "この場所を変更すると新しいワークツリーに影響します。既存のフォルダーは移動されません。"
+
+msgid "Chat"
+msgstr "チャット"
+
+msgid "Chat is being reworked"
+msgstr "チャットは再構築中です"
+
+msgid "Check for updates"
+msgstr "更新を確認"
+
+msgid "Check for Updates..."
+msgstr "アップデートを確認..."
+
+msgid "Check resources"
+msgstr "リソースを確認"
+
+msgid "Check Resources"
+msgstr "リソースを確認"
+
+msgid "Check result"
+msgstr "結果を確認"
+
+msgid "Check status"
+msgstr "状態を確認"
+
+msgid "Check your connection and try again"
+msgstr "接続を確認してもう一度お試しください"
+
+msgid "Checking for updates…"
+msgstr "更新を確認しています…"
+
+msgid "Checking project…"
+msgstr "プロジェクトを確認しています…"
+
+msgid "Checking repository access…"
+msgstr "リポジトリへのアクセスを確認中…"
+
+msgid "Checking the target host for a completed project…"
+msgstr "ターゲットホストで完了したプロジェクトを確認しています…"
+
+msgid "Checking workspace state…"
+msgstr "ワークスペースの状態を確認しています…"
+
+msgid "Checking workspaces and running sessions…"
+msgstr "ワークスペースと実行中のセッションを確認しています…"
+
+msgid "Checklist"
+msgstr "チェックリスト"
+
+msgid "Checks"
+msgstr "チェック"
+
+msgid "Checks failed"
+msgstr "チェックが失敗しました"
+
+msgid "Checks passed"
+msgstr "チェックが成功しました"
+
+msgid "Checks running"
+msgstr "チェックを実行中"
+
+msgid "Choose a checkout, branch, pull request, or existing worktree on the target host."
+msgstr "ターゲットホストでチェックアウト、ブランチ、PR、または既存のワークツリーを選択してください。"
+
+msgid "Choose a folder on the connected host"
+msgstr "接続されたホストでフォルダーを選択"
+
+msgid "Choose a glyph, upload an image, or change the accent color."
+msgstr "グリフを選択するか、画像をアップロードするか、アクセントカラーを変更してください。"
+
+msgid "Choose a project"
+msgstr "プロジェクトを選択"
+
+msgid "Choose a project or workspace"
+msgstr "プロジェクトまたはワークスペースを選択"
+
+msgid "Choose a project to start working."
+msgstr "作業を開始するプロジェクトを選択してください。"
+
+msgid "Choose a saved screenshot to attach. Files are copied only when you submit the prompt."
+msgstr "添付する保存済みスクリーンショットを選択してください。ファイルはプロンプトを送信したときにのみコピーされます。"
+
+msgid "Choose a workspace"
+msgstr "ワークスペースを選択"
+
+msgid "Choose agent session"
+msgstr "エージェントセッションを選択"
+
+msgid "Choose an available project or workspace"
+msgstr "利用可能なプロジェクトまたはワークスペースを選択"
+
+msgid "Choose file and editor behavior on this device."
+msgstr "このデバイスでのファイルとエディターの動作を選択します。"
+
+msgid "Choose how Jedv behaves on this device."
+msgstr "このデバイスでのJedvの動作を選択します。"
+
+msgid "Choose notification sounds and volume."
+msgstr "通知音と音量を選択します。"
+
+msgid "Clear"
+msgstr "クリア"
+
+msgid "Clear saved screenshots?"
+msgstr "保存済みのスクリーンショットを消去しますか？"
+
+msgid "Clear screenshots"
+msgstr "スクリーンショットを消去"
+
+msgid "Clear search"
+msgstr "検索をクリア"
+
+msgid "Clear shortcut"
+msgstr "ショートカットをクリア"
+
+msgid "Clear Status"
+msgstr "ステータスをクリア"
+
+msgid "Clear Terminal"
+msgstr "ターミナルをクリア"
+
+msgid "CLI remains available. Structured control is unavailable for this session; check capabilities or continue in its terminal."
+msgstr "CLI は引き続き使用できます。このセッションでは構造化コントロールを利用できません。機能を確認するか、ターミナルで続行してください。"
+
+msgid "click"
+msgstr "クリック"
+
+msgid "Click two commits to define the range."
+msgstr "2つのコミットをクリックして範囲を指定してください。"
+
+msgid "Clone a repository"
+msgstr "リポジトリをクローン"
+
+msgid "Clone from URL"
+msgstr "URLからクローン"
+
+msgid "Clone repository"
+msgstr "リポジトリをクローン"
+
+msgid "clone the repository"
+msgstr "リポジトリをクローンする"
+
+msgid "Cloning repository…"
+msgstr "リポジトリをクローンしています…"
+
+msgid "Close"
+msgstr "閉じる"
+
+msgid "Close (Esc)"
+msgstr "閉じる (Esc)"
+
+msgid "Close {displayName}"
+msgstr "{displayName}を閉じる"
+
+msgid "Close a diff tab before opening another. At most eight diffs can be open."
+msgstr "別の diff タブを開く前に、diff タブを 1 つ閉じてください。開ける diff は最大 8 つです。"
+
+msgid "Close a tab before opening more tabs in this workspace."
+msgstr "このワークスペースでタブをさらに開く前に、タブを1つ閉じてください。"
+
+msgid "Close all"
+msgstr "すべて閉じる"
+
+msgid "Close All"
+msgstr "すべて閉じる"
+
+msgid "Close all ports?"
+msgstr "すべてのポートを閉じますか？"
+
+msgid "Close CLI terminal and take control"
+msgstr "CLIターミナルを閉じて制御を引き継ぐ"
+
+msgid "Close detail"
+msgstr "詳細を閉じる"
+
+msgid "Close details"
+msgstr "詳細を閉じる"
+
+msgid "Close file"
+msgstr "ファイルを閉じる"
+
+msgid "Close forwarded ports"
+msgstr "転送されたポートを閉じる"
+
+msgid "Close or delete the current workspace"
+msgstr "現在のワークスペースを閉じるか削除する"
+
+msgid "Close other apps using the microphone"
+msgstr "マイクを使用中の他のアプリを閉じてください"
+
+msgid "Close Others"
+msgstr "他を閉じる"
+
+msgid "Close pane"
+msgstr "ペインを閉じる"
+
+msgid "Close Pane"
+msgstr "ペインを閉じる"
+
+#. placeholder {0}: port.port
+msgid "Close port {0}"
+msgstr "ポート{0}を閉じる"
+
+msgid "Close port?"
+msgstr "ポートを閉じますか？"
+
+msgid "Close Saved"
+msgstr "保存済みを閉じる"
+
+msgid "Close tab"
+msgstr "タブを閉じる"
+
+msgid "Close Tab"
+msgstr "タブを閉じる"
+
+msgid "Close Terminal"
+msgstr "ターミナルを閉じる"
+
+msgid "Close the current pane"
+msgstr "現在のペインを閉じる"
+
+msgid "Close the current tab"
+msgstr "現在のタブを閉じる"
+
+msgid "Close this CLI terminal and take control of the same session? The terminal process will stop. Other terminal work may be lost."
+msgstr "この CLI ターミナルを閉じて、同じセッションのコントロールを引き継ぎますか？ターミナルプロセスは停止し、他のターミナルでの作業が失われる場合があります。"
+
+msgid "Close to the Right"
+msgstr "右側のタブを閉じる"
+
+msgid "Close View"
+msgstr "ビューを閉じる"
+
+msgid "Close Window"
+msgstr "ウィンドウを閉じる"
+
+msgid "Close Workspace"
+msgstr "ワークスペースを閉じる"
+
+msgid "Closed"
+msgstr "クローズ済み"
+
+msgid "Code"
+msgstr "コード"
+
+msgid "Code block"
+msgstr "コードブロック"
+
+msgid "Collapse"
+msgstr "折りたたむ"
+
+msgid "Collapse all"
+msgstr "すべて折りたたむ"
+
+msgid "Collapse All"
+msgstr "すべて折りたたむ"
+
+msgid "Color"
+msgstr "色"
+
+msgid "Color saved, but the icon could not be updated. Retry the icon update."
+msgstr "色を保存しましたが、アイコンを更新できませんでした。アイコンの更新を再試行してください。"
+
+msgid "Combine sequences such as => and !==."
+msgstr "=> や !== などの並びを合字にします。"
+
+msgid "Coming soon"
+msgstr "近日公開"
+
+msgid "Command"
+msgstr "コマンド"
+
+#. placeholder {0}: index + 1
+msgid "Command {0}"
+msgstr "コマンド {0}"
+
+msgid "Command needs approval"
+msgstr "コマンドには承認が必要です"
+
+msgid "Commands"
+msgstr "コマンド"
+
+msgid "Commands and arguments for the connected host."
+msgstr "接続されたホストのコマンドと引数。"
+
+msgid "Commands follow the linked agent."
+msgstr "コマンドはリンクされたエージェントに従います。"
+
+msgid "Comment"
+msgstr "コメント"
+
+msgid "Comment posted"
+msgstr "コメントを投稿しました"
+
+msgid "Commented"
+msgstr "コメント"
+
+msgid "Commit"
+msgstr "コミット"
+
+msgid "Commit message"
+msgstr "コミットメッセージ"
+
+msgid "Commit or discard changes before switching branches."
+msgstr "ブランチを切り替える前に、変更をコミットまたは破棄してください。"
+
+msgid "Commit staged changes"
+msgstr "ステージ済みの変更をコミット"
+
+msgid "Commits"
+msgstr "コミット"
+
+msgid "Committed with the repository and shared with everyone who works on it."
+msgstr "リポジトリにコミットされ、作業する全員で共有されます。"
+
+msgid "Compare"
+msgstr "比較"
+
+msgid "Completed"
+msgstr "完了"
+
+msgid "Config file contents"
+msgstr "設定ファイルの内容"
+
+msgid "config.json must be a JSON object"
+msgstr "config.json は JSON オブジェクトである必要があります"
+
+msgid "Configure"
+msgstr "設定"
+
+msgid "Configure agent commands for the connected host."
+msgstr "接続されたホストのエージェントコマンドを設定します。"
+
+msgid "Confirm"
+msgstr "確認"
+
+msgid "Confirm before closing a running terminal"
+msgstr "実行中のターミナルを閉じる前に確認"
+
+msgid "Confirm before quitting"
+msgstr "終了前に確認"
+
+msgid "Connect"
+msgstr "接続"
+
+msgid "Connect a microphone to use dictation"
+msgstr "音声入力を使うにはマイクを接続してください"
+
+msgid "Connect over Tailscale using the host's HTTPS address and PSK."
+msgstr "ホストのHTTPSアドレスとPSKを使用してTailscaleで接続します。"
+
+msgid "Connect to a host before changing workspace presentation."
+msgstr "ワークスペースの表示設定を変更する前に、ホストに接続してください。"
+
+msgid "Connect to host"
+msgstr "ホストに接続"
+
+msgid "Connected"
+msgstr "接続済み"
+
+msgid "Connected host"
+msgstr "接続されたホスト"
+
+msgid "Connecting…"
+msgstr "接続中…"
+
+msgid "Continue"
+msgstr "続行"
+
+msgid "Continue {title}"
+msgstr "{title}を続行"
+
+msgid "Continue opening"
+msgstr "開く処理を続行"
+
+msgid "Continue same session"
+msgstr "同じセッションを続行"
+
+msgid "Continue the same agent session"
+msgstr "同じエージェントセッションを続行"
+
+msgid "Continue this exact existing session. A new agent session will not be started."
+msgstr "この既存セッションそのものを続行します。新しいエージェントセッションは開始されません。"
+
+msgid "Continue with agent"
+msgstr "エージェントで続行"
+
+msgid "Continue with agent…"
+msgstr "エージェントで続行…"
+
+msgid "Continuing…"
+msgstr "続行しています…"
+
+msgid "Control mode"
+msgstr "コントロールモード"
+
+msgid "Control output only. Earlier CLI history is not included."
+msgstr "コントロール出力のみ。以前のCLI履歴は含まれません。"
+
+msgid "Control owns this session"
+msgstr "このセッションはコントロールが所有しています"
+
+msgid "Control shortcuts on macOS are reserved for terminal programs."
+msgstr "macOSではControlショートカットがターミナルプログラム用に予約されています。"
+
+msgid "Convert to config.toml"
+msgstr "config.toml に変換"
+
+msgid "Convert to draft?"
+msgstr "下書きに変換しますか？"
+
+msgid "Converting to draft…"
+msgstr "ドラフトに変換しています…"
+
+msgid "Copied"
+msgstr "コピーしました"
+
+msgid "Copied to clipboard"
+msgstr "クリップボードにコピーしました"
+
+msgid "Copy"
+msgstr "コピー"
+
+msgid "Copy agent session ID"
+msgstr "エージェントセッションIDをコピー"
+
+msgid "Copy as CSV"
+msgstr "CSVとしてコピー"
+
+msgid "Copy as Markdown"
+msgstr "Markdownとしてコピー"
+
+msgid "Copy Branch Name"
+msgstr "ブランチ名をコピー"
+
+msgid "Copy error details"
+msgstr "エラーの詳細をコピー"
+
+msgid "Copy failed"
+msgstr "コピーに失敗しました"
+
+msgid "Copy image"
+msgstr "画像をコピー"
+
+msgid "Copy Link"
+msgstr "リンクをコピー"
+
+msgid "Copy Link Address"
+msgstr "リンクアドレスをコピー"
+
+#. placeholder {0}: port.port
+msgid "Copy localhost:{0}"
+msgstr "localhost:{0}をコピー"
+
+msgid "Copy on select"
+msgstr "選択でコピー"
+
+msgid "Copy path"
+msgstr "パスをコピー"
+
+msgid "Copy Path"
+msgstr "パスをコピー"
+
+msgid "Copy Relative Path"
+msgstr "相対パスをコピー"
+
+msgid "Copy selected terminal text to the clipboard."
+msgstr "選択したターミナルのテキストをクリップボードにコピーします。"
+
+msgid "Copy terminal ID"
+msgstr "ターミナルIDをコピー"
+
+msgid "Copy the workspace path to the clipboard"
+msgstr "ワークスペースのパスをクリップボードにコピーする"
+
+msgid "Copy Workspace ID"
+msgstr "ワークスペースIDをコピー"
+
+msgid "Copy..."
+msgstr "コピー…"
+
+msgid "Costs are estimates based on API list rates, not a bill or actual subscription spending. Unknown models use approximate rates."
+msgstr "費用はAPIの定価に基づく推定であり、請求書や実際のサブスクリプション支出ではありません。不明なモデルには概算レートを使用します。"
+
+msgid "Could not change the project location. Your files have not been moved."
+msgstr "プロジェクトの場所を変更できませんでした。ファイルは移動されていません。"
+
+msgid "Could not check all workspaces. Check the host connection and try again before removing this project."
+msgstr "すべてのワークスペースを確認できませんでした。ホスト接続を確認して再試行してから、このプロジェクトを削除してください。"
+
+msgid "Could not check Git on this computer. You can retry or continue."
+msgstr "このコンピューターで Git を確認できませんでした。再試行するか、続行できます。"
+
+msgid "Could not confirm the operation on the target host. Check its connection and retry the result check."
+msgstr "ターゲットホストで操作を確認できませんでした。接続を確認して、結果の確認を再試行してください。"
+
+msgid "Could not confirm the result on the target host. Check its connection and permissions, then check the result again."
+msgstr "ターゲットホストで結果を確認できませんでした。接続と権限を確認してから、もう一度結果を確認してください。"
+
+msgid "Could not confirm this session. Refresh before retrying."
+msgstr "このセッションを確認できませんでした。再試行する前に更新してください。"
+
+msgid "Could not create workspace. Check the target host and retry."
+msgstr "ワークスペースを作成できませんでした。ターゲットホストを確認して再試行してください。"
+
+msgid "Could not delete workspace. Check its status before retrying."
+msgstr "ワークスペースを削除できませんでした。状態を確認してから再試行してください。"
+
+msgid "Could not detect workspaces"
+msgstr "ワークスペースを検出できませんでした"
+
+msgid "Could not finish importing. Successful imports are kept."
+msgstr "インポートを完了できませんでした。成功したインポートは保持されます。"
+
+msgid "Could not finish removing the project. Refresh its status before trying again."
+msgstr "プロジェクトの削除を完了できませんでした。状態を更新してから再試行してください。"
+
+msgid "Could not finish restoring the workspace. Check the target host; an occupied path or unavailable branch blocks restoration."
+msgstr "ワークスペースを復元できませんでした。ターゲットホストを確認してください。パスが使用中かブランチが利用できないため、復元がブロックされています。"
+
+msgid "Could not import workspace"
+msgstr "ワークスペースをインポートできませんでした"
+
+msgid "Could not inspect this workspace. Retry the checks before deleting it."
+msgstr "このワークスペースを検査できませんでした。削除する前に検査を再試行してください。"
+
+msgid "Could not list repositories. Check gh authentication on the target host, or enter a URL below."
+msgstr "リポジトリを一覧表示できませんでした。ターゲットホストでの gh 認証を確認するか、下に URL を入力してください。"
+
+msgid "Could not load branches from the target host."
+msgstr "ターゲットホストからブランチを読み込めませんでした。"
+
+msgid "Could not load GitHub permissions"
+msgstr "GitHubの権限を読み込めませんでした"
+
+msgid "Could not load image"
+msgstr "画像を読み込めませんでした"
+
+msgid "Could not load project settings from the target host."
+msgstr "ターゲットホストからプロジェクト設定を読み込めませんでした。"
+
+msgid "Could not load pull requests. Check gh access on the target host."
+msgstr "PR を読み込めませんでした。ターゲットホストでの gh アクセスを確認してください。"
+
+msgid "Could not load workspace status. Check the target host and try again."
+msgstr "ワークスペースの状態を読み込めませんでした。ターゲットホストを確認して再試行してください。"
+
+msgid "Could not open this workspace. Check the target host and try again."
+msgstr "このワークスペースを開けませんでした。ターゲットホストを確認して再試行してください。"
+
+#. placeholder {0}: params?.remote
+#. placeholder {1}: params?.branch
+#. placeholder {2}: params?.remote
+msgid "Could not reach {0} to look for branch \"{1}\". Check your connection and access to {2}, then try again."
+msgstr "ブランチ「{1}」を探すために {0} に接続できませんでした。接続と {2} へのアクセス権を確認してから、もう一度お試しください。"
+
+msgid "Could not read image"
+msgstr "画像を読み込めませんでした"
+
+msgid "Could not read removed projects from this host."
+msgstr "このホストから削除されたプロジェクトを読み込めませんでした。"
+
+msgid "Could not read selected file"
+msgstr "選択したファイルを読み取れませんでした"
+
+msgid "Could not read the dropped files"
+msgstr "ドロップされたファイルを読み取れませんでした"
+
+msgid "Could not read this directory. Check the path and permissions on the target host."
+msgstr "このディレクトリを読み込めませんでした。ターゲットホストのパスと権限を確認してください。"
+
+msgid "Could not read worktrees from the target host."
+msgstr "ターゲットホストからワークツリーを読み込めませんでした。"
+
+msgid "Could not rename project. Try again."
+msgstr "プロジェクト名を変更できませんでした。もう一度お試しください。"
+
+msgid "Could not rename project. Your draft is kept; try again."
+msgstr "プロジェクト名を変更できませんでした。下書きは保持されています。もう一度お試しください。"
+
+msgid "Could not rename this session. Your draft is kept."
+msgstr "このセッションの名前を変更できませんでした。下書きは保持されています。"
+
+msgid "Could not render icon"
+msgstr "アイコンを描画できませんでした"
+
+msgid "Could not render image"
+msgstr "画像を描画できませんでした"
+
+msgid "Could not save the group. Your draft is kept."
+msgstr "グループを保存できませんでした。下書きは保持されています。"
+
+msgid "Could not save the project. Check the project name and target location."
+msgstr "プロジェクトを保存できませんでした。プロジェクト名と保存先を確認してください。"
+
+msgid "Could not save the theme. Try again."
+msgstr "テーマを保存できませんでした。もう一度お試しください。"
+
+msgid "Could not save this setting. Try again."
+msgstr "この設定を保存できませんでした。もう一度お試しください。"
+
+msgid "Could not save workspace order. The list may have changed on the host; refresh and try again."
+msgstr "ワークスペースの順序を保存できませんでした。ホスト上の一覧が変更された可能性があります。更新して再試行してください。"
+
+msgid "Could not save worktree location. Your previous setting is unchanged unless the host already saved this request."
+msgstr "ワークツリーの場所を保存できませんでした。ホストがすでにこのリクエストを保存していない限り、以前の設定は変更されません。"
+
+msgid "Could not save your progress. Try again."
+msgstr "進行状況を保存できませんでした。もう一度お試しください。"
+
+msgid "Could not select a project directory."
+msgstr "プロジェクトディレクトリを選択できませんでした。"
+
+msgid "Could not set icon"
+msgstr "アイコンを設定できませんでした"
+
+msgid "Could not stop a listening process. Earlier successful stops are kept."
+msgstr "リスニングプロセスを停止できませんでした。以前に正常に停止したプロセスは停止したままです。"
+
+msgid "Could not stop it"
+msgstr "停止できませんでした"
+
+msgid "Could not update the project tree. Try again."
+msgstr "プロジェクトツリーを更新できませんでした。もう一度お試しください。"
+
+msgid "Could not update the removed project. Check its status before retrying."
+msgstr "削除されたプロジェクトを更新できませんでした。状態を確認してから再試行してください。"
+
+msgid "Could not update workspace. Try again."
+msgstr "ワークスペースを更新できませんでした。もう一度お試しください。"
+
+msgid "Couldn't save"
+msgstr "保存できませんでした"
+
+msgid "Couldn't save. Edit or click away to retry"
+msgstr "保存できませんでした。編集するかフォーカスを外して再試行してください"
+
+msgid "Couldn't save. Retrying…"
+msgstr "保存できませんでした。再試行中…"
+
+msgid "Create a blank folder and initialize it as a Git repository."
+msgstr "空のフォルダーを作成し、Git リポジトリとして初期化します。"
+
+msgid "Create a new project"
+msgstr "新しいプロジェクトを作成"
+
+msgid "Create a new project by cloning a repository or local path."
+msgstr "リポジトリまたはローカルパスをクローンして新しいプロジェクトを作成します。"
+
+msgid "Create a pull request from an existing workspace branch. Its configured base branch is used."
+msgstr "既存のワークスペースブランチからプルリクエストを作成します。設定されたベースブランチが使用されます。"
+
+msgid "Create a separate session from an existing one. Use the session ID placeholder for its position."
+msgstr "既存のセッションから個別のセッションを作成します。セッションIDプレースホルダーで位置を指定します。"
+
+msgid "Create new project"
+msgstr "新規プロジェクトを作成"
+
+msgid "Create PR"
+msgstr "PR を作成"
+
+msgid "Create project"
+msgstr "プロジェクトを作成"
+
+msgid "Create pull request"
+msgstr "プルリクエストを作成"
+
+msgid "Create pull request on GitHub?"
+msgstr "GitHubでプルリクエストを作成しますか？"
+
+msgid "create the project"
+msgstr "プロジェクトを作成する"
+
+msgid "create the workspace"
+msgstr "ワークスペースを作成する"
+
+msgid "Create workspace"
+msgstr "ワークスペースを作成"
+
+msgid "Created"
+msgstr "作成日"
+
+msgid "Created {createdDirs} folders in {where}"
+msgstr "{createdDirs}件のフォルダを{where}に作成しました"
+
+msgid "Created 1 folder in {where}"
+msgstr "1件のフォルダを{where}に作成しました"
+
+#. placeholder {0}: completed.hash
+msgid "Created commit {0}"
+msgstr "コミット {0} を作成しました"
+
+msgid "Creating directory and initializing Git…"
+msgstr "ディレクトリを作成し、Git を初期化しています…"
+
+msgid "Creating…"
+msgstr "作成中…"
+
+msgid "Cross-platform mobile app with Expo"
+msgstr "Expo を使用したクロスプラットフォームモバイルアプリ"
+
+msgid "Ctrl+click"
+msgstr "Ctrl+クリック"
+
+msgid "Ctrl+Shift+click"
+msgstr "Ctrl+Shift+クリック"
+
+msgid "Current"
+msgstr "現在"
+
+msgid "Cursor blinking"
+msgstr "カーソルの点滅"
+
+msgid "Cursor style"
+msgstr "カーソルスタイル"
+
+msgid "Custom"
+msgstr "カスタム"
+
+msgid "Custom branch prefix"
+msgstr "カスタムブランチプレフィックス"
+
+msgid "Custom notification sound"
+msgstr "カスタム通知音"
+
+msgid "Custom prefix"
+msgstr "カスタムプレフィックス"
+
+msgid "Custom sound"
+msgstr "カスタムサウンド"
+
+msgid "Custom themes"
+msgstr "カスタムテーマ"
+
+msgid "Customize how Jedv looks on your device"
+msgstr "デバイス上のJedvの外観をカスタマイズ"
+
+msgid "Customize shortcuts for your local workflow."
+msgstr "ローカルワークフローのショートカットをカスタマイズします。"
+
+msgid "Customize terminal behavior and typography."
+msgstr "ターミナルの動作とタイポグラフィをカスタマイズします。"
+
+msgid "Cyan"
+msgstr "シアン"
+
+msgid "Daemon restarted. All sessions were closed."
+msgstr "デーモンを再起動しました。すべてのセッションが閉じられました。"
+
+msgid "Daemon unavailable"
+msgstr "デーモンが利用できません"
+
+msgid "Daemon updated. Sessions preserved."
+msgstr "デーモンを更新しました。セッションは保持されました。"
+
+msgid "Daily"
+msgstr "毎日"
+
+msgid "Daily at {time}"
+msgstr "毎日{time}"
+
+msgid "Daily token history"
+msgstr "日別トークン履歴"
+
+msgid "Danger zone"
+msgstr "危険な操作"
+
+msgid "Dark"
+msgstr "ダーク"
+
+msgid "Dark theme"
+msgstr "ダークテーマ"
+
+msgid "Decline"
+msgstr "拒否"
+
+msgid "default"
+msgstr "デフォルト"
+
+msgid "Default"
+msgstr "デフォルト"
+
+msgid "Default external editor"
+msgstr "デフォルトの外部エディター"
+
+msgid "Defaults for new workspaces on the connected host."
+msgstr "接続されたホストでの新しいワークスペースのデフォルト。"
+
+msgid "Delete"
+msgstr "削除"
+
+msgid "Delete agent"
+msgstr "エージェントを削除"
+
+msgid "Delete anyway"
+msgstr "それでも削除"
+
+msgid "Delete anyway will skip the teardown script entirely."
+msgstr "「それでも削除」はティアダウンスクリプトを完全にスキップします。"
+
+msgid "Delete automation?"
+msgstr "自動化を削除しますか？"
+
+msgid "Delete multiple workspaces"
+msgstr "複数のワークスペースを削除"
+
+msgid "Delete permanently"
+msgstr "完全に削除"
+
+msgid "Delete permanently…"
+msgstr "完全に削除…"
+
+msgid "Delete project permanently?"
+msgstr "プロジェクトを完全に削除しますか？"
+
+msgid "Delete session \"{workspaceName}\"?"
+msgstr "セッション「{workspaceName}」を削除しますか?"
+
+msgid "Delete this custom agent?"
+msgstr "このカスタムエージェントを削除しますか？"
+
+msgid "Delete this preset?"
+msgstr "このプリセットを削除しますか？"
+
+msgid "Delete workspace \"{workspaceName}\"?"
+msgstr "ワークスペース「{workspaceName}」を削除しますか?"
+
+msgid "Delete Workspace…"
+msgstr "ワークスペースを削除…"
+
+msgid "Deleted"
+msgstr "削除済み"
+
+msgid "Deleted sessions cannot be restored."
+msgstr "削除されたセッションは復元できません。"
+
+msgid "Deleting…"
+msgstr "削除中…"
+
+msgid "Describe what the agent should do…"
+msgstr "エージェントに実行させる内容を説明してください…"
+
+msgid "Description"
+msgstr "説明"
+
+msgid "Description (optional)"
+msgstr "説明（任意）"
+
+msgid "Desktop resources"
+msgstr "デスクトップリソース"
+
+msgid "Destination path"
+msgstr "宛先パス"
+
+msgid "Detached"
+msgstr "切断中"
+
+msgid "Details"
+msgstr "詳細"
+
+msgid "Detect workspaces from other tools"
+msgstr "他のツールからワークスペースを検出"
+
+msgid "Diagnostics"
+msgstr "診断"
+
+msgid "Dictate"
+msgstr "音声入力"
+
+msgid "Dictation is not available on this device"
+msgstr "このデバイスでは音声入力を利用できません"
+
+msgid "diff"
+msgstr "差分"
+
+msgid "diff in new tab"
+msgstr "新しいタブで差分"
+
+msgid "Directory path"
+msgstr "ディレクトリパス"
+
+msgid "Discard"
+msgstr "破棄"
+
+msgid "Discard changes"
+msgstr "変更を破棄"
+
+msgid "Discard Changes"
+msgstr "変更を破棄"
+
+msgid "Discard draft"
+msgstr "下書きを破棄"
+
+msgid "Discard recording"
+msgstr "録音を破棄"
+
+msgid "Discard this unsent draft and its selected attachments?"
+msgstr "この未送信の下書きと選択された添付ファイルを破棄しますか？"
+
+msgid "Discard unsaved changes?"
+msgstr "保存していない変更を破棄しますか？"
+
+msgid "Discarding renamed or copied files is unavailable. Restore both paths with Git."
+msgstr "名前を変更またはコピーしたファイルの変更は破棄できません。Git を使用して両方のパスを復元してください。"
+
+msgid "Disconnected"
+msgstr "切断されました"
+
+#. placeholder {0}: formatNumber(logins.data.claude.length)
+#. placeholder {1}: formatNumber(logins.data.codex.length)
+msgid "Discovered {0} Claude Code and {1} Codex login profiles on this host."
+msgstr "このホストで {0} 個のClaude Codeと {1} 個のCodexログインプロファイルが見つかりました。"
+
+msgid "Disk version"
+msgstr "ディスク上のバージョン"
+
+msgid "Dismiss"
+msgstr "閉じる"
+
+msgid "Dismissed"
+msgstr "却下"
+
+msgid "Display"
+msgstr "表示"
+
+msgid "Do anything"
+msgstr "何でもどうぞ"
+
+msgid "Do not start a new agent until workspace setup has succeeded or is not required. If setup fails or its status cannot be confirmed, starting the agent is blocked."
+msgstr "ワークスペースのセットアップが成功するか、不要と確認されるまで、新しいエージェントを起動しないでください。セットアップが失敗したか状態を確認できない場合、エージェントの起動はブロックされます。"
+
+msgid "Do nothing"
+msgstr "何もしない"
+
+msgid "Documentation"
+msgstr "ドキュメント"
+
+msgid "Done"
+msgstr "完了"
+
+msgid "Download starter"
+msgstr "スターターをダウンロード"
+
+msgid "Downloading {version} · {percent}%"
+msgstr "{version} をダウンロードしています · {percent}%"
+
+msgid "Downloading {version}…"
+msgstr "{version} をダウンロードしています…"
+
+msgid "Downloading template and creating fresh Git history…"
+msgstr "テンプレートをダウンロードし、新しい Git 履歴を作成しています…"
+
+msgid "Downloading update…"
+msgstr "更新をダウンロードしています…"
+
+msgid "Draft"
+msgstr "ドラフト"
+
+msgid "Drop files to attach"
+msgstr "ファイルをドロップして添付"
+
+msgid "Drop into {label}"
+msgstr "{label}にドロップ"
+
+msgid "Drop to attach"
+msgstr "ドロップして添付"
+
+msgid "dropdown"
+msgstr "ドロップダウン"
+
+msgid "Each surface has its own typography. Changes appear immediately in the live previews."
+msgstr "サーフェスごとに独自のタイポグラフィがあります。変更はライブプレビューに即座に反映されます。"
+
+msgid "Earlier output"
+msgstr "以前の出力"
+
+msgid "Edit"
+msgstr "編集"
+
+msgid "Edit group"
+msgstr "グループを編集"
+
+msgid "Edit shared setup, run and teardown commands, or personal overrides. Saving does not execute commands."
+msgstr "共有のセットアップ、実行、クリーンアップコマンド、または個人の上書き設定を編集します。保存してもコマンドは実行されません。"
+
+msgid "Edit terminal preset"
+msgstr "ターミナルプリセットを編集"
+
+msgid "editor"
+msgstr "エディタ"
+
+msgid "Editor & workflow"
+msgstr "エディターとワークフロー"
+
+msgid "Editor typography"
+msgstr "エディタのタイポグラフィ"
+
+msgid "Enable"
+msgstr "有効"
+
+msgid "Endpoint"
+msgstr "エンドポイント"
+
+msgid "Enter a command."
+msgstr "コマンドを入力してください。"
+
+msgid "Enter a group name of 1 to 64 characters."
+msgstr "1～64 文字のグループ名を入力してください。"
+
+msgid "Enter a project name and location."
+msgstr "プロジェクト名と場所を入力してください。"
+
+msgid "Enter a project name."
+msgstr "プロジェクト名を入力してください。"
+
+msgid "Enter a valid repository URL, SSH address, or absolute path on the target host. Remove query strings and fragments from GitHub URLs."
+msgstr "有効なリポジトリ URL、SSH アドレス、またはターゲットホストの絶対パスを入力してください。GitHub URL からクエリ文字列とフラグメントを削除してください。"
+
+msgid "Enter a valid schedule and time zone"
+msgstr "有効なスケジュールとタイムゾーンを入力してください"
+
+msgid "Enter a valid value within the allowed range."
+msgstr "許可された範囲内の有効な値を入力してください。"
+
+msgid "Enter an absolute directory path on the target host."
+msgstr "ターゲットホストのディレクトリの絶対パスを入力してください。"
+
+msgid "Enter an agent name."
+msgstr "エージェント名を入力してください。"
+
+msgid "Enter URL..."
+msgstr "URLを入力..."
+
+msgid "Environment must be a JSON object with valid variable names and string values."
+msgstr "環境は、有効な変数名と文字列値を持つJSONオブジェクトである必要があります。"
+
+msgid "Environment variables"
+msgstr "環境変数"
+
+msgid "Equalize Pane Splits"
+msgstr "ペインの分割を均等化"
+
+msgid "Estimated cost"
+msgstr "推定コスト"
+
+msgid "Every {day}"
+msgstr "毎週{day}"
+
+msgid "Every {day} at {time}"
+msgstr "毎週{day} {time}"
+
+msgid "Every minute"
+msgstr "毎分"
+
+msgid "Execution mode"
+msgstr "実行モード"
+
+msgid "Existing branch"
+msgstr "既存のブランチ"
+
+msgid "Existing chat session. No CLI terminal is attached."
+msgstr "既存のチャットセッション。CLIターミナルは接続されていません。"
+
+msgid "Existing chat sessions"
+msgstr "既存のチャットセッション"
+
+msgid "Existing worktree"
+msgstr "既存のワークツリー"
+
+#. placeholder {0}: blocker.state.exitCode ?? "—"
+#. placeholder {1}: blocker.state.exitSignal ?? "—"
+msgid "Exit code: {0}; signal: {1}"
+msgstr "終了コード：{0}、シグナル：{1}"
+
+msgid "Exited"
+msgstr "終了済み"
+
+#. placeholder {0}: session.exitCode
+msgid "Exited ({0})"
+msgstr "終了しました（{0}）"
+
+msgid "Expand"
+msgstr "展開"
+
+msgid "Expand all"
+msgstr "すべて展開"
+
+msgid "Expand pane area"
+msgstr "ペイン領域を展開"
+
+msgid "Expand the right pane to fill the window, or restore it"
+msgstr "右ペインをウィンドウ全体に広げる、または元に戻す"
+
+msgid "Export theme"
+msgstr "テーマをエクスポート"
+
+msgid "external browser"
+msgstr "外部ブラウザ"
+
+msgid "External editors are available for local workspaces only."
+msgstr "外部エディターはローカルワークスペースでのみ利用できます。"
+
+msgid "External editors open files on this machine only"
+msgstr "外部エディターはこのマシン上のファイルのみを開きます"
+
+msgid "Failed"
+msgstr "失敗"
+
+msgid "Failed to add {failed} files"
+msgstr "{failed}件のファイルの追加に失敗しました"
+
+msgid "Failed to add 1 file"
+msgstr "1件のファイルの追加に失敗しました"
+
+msgid "Failed to check for updates. Please try again later."
+msgstr "アップデートを確認できませんでした。しばらくしてからもう一度お試しください。"
+
+msgid "Failed to close port"
+msgstr "ポートを閉じられませんでした"
+
+msgid "Failed to control run"
+msgstr "実行を制御できませんでした"
+
+msgid "Failed to copy path: {reason}"
+msgstr "パスのコピーに失敗しました: {reason}"
+
+msgid "Failed to create {failedDirs} folders"
+msgstr "{failedDirs}件のフォルダの作成に失敗しました"
+
+msgid "Failed to create 1 folder"
+msgstr "1件のフォルダの作成に失敗しました"
+
+msgid "Failed to create item"
+msgstr "アイテムの作成に失敗しました"
+
+msgid "Failed to create pull request"
+msgstr "プルリクエストを作成できませんでした"
+
+msgid "Failed to discard the new item"
+msgstr "新しいアイテムの破棄に失敗しました"
+
+msgid "Failed to find linked workspace"
+msgstr "リンクされたワークスペースが見つかりませんでした"
+
+msgid "Failed to import theme file"
+msgstr "テーマファイルのインポートに失敗しました"
+
+msgid "Failed to load automations"
+msgstr "自動化を読み込めませんでした"
+
+msgid "Failed to load changes"
+msgstr "変更を読み込めませんでした"
+
+msgid "Failed to load pull request"
+msgstr "プルリクエストを読み込めませんでした"
+
+msgid "Failed to load pull requests"
+msgstr "プルリクエストを読み込めませんでした"
+
+msgid "Failed to load run output"
+msgstr "実行出力を読み込めませんでした"
+
+msgid "Failed to load runs"
+msgstr "実行履歴を読み込めませんでした"
+
+msgid "Failed to load workspace status"
+msgstr "ワークスペースの状態を読み込めませんでした"
+
+msgid "Failed to open workspace"
+msgstr "ワークスペースを開けませんでした"
+
+msgid "Failed to parse pull request diff"
+msgstr "プルリクエストの差分を解析できませんでした"
+
+msgid "Failed to refresh pull requests"
+msgstr "プルリクエストを更新できませんでした"
+
+msgid "Failed to rename"
+msgstr "名前の変更に失敗しました"
+
+msgid "Failed to replace {replaceFailed} files"
+msgstr "{replaceFailed}件のファイルの置き換えに失敗しました"
+
+msgid "Failed to replace 1 file"
+msgstr "1件のファイルの置き換えに失敗しました"
+
+msgid "Failed to reveal in Finder: {reason}"
+msgstr "Finderでの表示に失敗しました: {reason}"
+
+msgid "Failed to save automation"
+msgstr "自動化を保存できませんでした"
+
+msgid "Failed to send the files to the remote workspace"
+msgstr "リモートワークスペースへのファイル送信に失敗しました"
+
+msgid "Failed to set color"
+msgstr "色の設定に失敗しました"
+
+msgid "Failed to set icon"
+msgstr "アイコンの設定に失敗しました"
+
+msgid "Failed to update branch prefix"
+msgstr "ブランチプレフィックスの更新に失敗しました"
+
+msgid "Failed to update pull request state"
+msgstr "プルリクエストの状態を更新できませんでした"
+
+msgid "Failed to update review thread"
+msgstr "レビュースレッドを更新できませんでした"
+
+msgid "Fetch completed"
+msgstr "フェッチが完了しました"
+
+msgid "Fetch current branch from origin"
+msgstr "origin から現在のブランチをフェッチ"
+
+msgid "File"
+msgstr "ファイル"
+
+msgid "File change needs approval"
+msgstr "ファイルの変更には承認が必要です"
+
+msgid "File changed on disk"
+msgstr "ディスク上のファイルが変更されました"
+
+msgid "File changed on disk. Reload before saving."
+msgstr "ディスク上のファイルが変更されました。保存する前に再読み込みしてください。"
+
+msgid "File is not in an open workspace"
+msgstr "ファイルは開いているワークスペース内にありません"
+
+msgid "File links"
+msgstr "ファイルリンク"
+
+msgid "File not found"
+msgstr "ファイルが見つかりません"
+
+msgid "File tree limit reached. Search files to open an unloaded path."
+msgstr "ファイルツリーの上限に達しました。ファイルを検索して、読み込まれていないパスを開いてください。"
+
+msgid "File updates may be out of date. Reload open files to check the disk."
+msgstr "ファイルの更新が古い可能性があります。開いているファイルを再読み込みしてディスクを確認してください。"
+
+msgid "File was deleted on disk."
+msgstr "ファイルはディスク上で削除されました。"
+
+msgid "File was deleted on disk. You still have unsaved changes."
+msgstr "ファイルはディスク上で削除されました。未保存の変更が残っています。"
+
+msgid "Files"
+msgstr "ファイル"
+
+msgid "Files & editor"
+msgstr "ファイルとエディター"
+
+msgid "Files larger than 32 MiB must be opened in an external editor."
+msgstr "32 MiB を超えるファイルは外部エディターで開く必要があります。"
+
+msgid "Files, Git changes, pull requests, project scripts, and port forwarding."
+msgstr "ファイル、Git の変更、プルリクエスト、プロジェクトスクリプト、ポート転送。"
+
+msgid "Filter"
+msgstr "フィルター"
+
+msgid "Filter agents"
+msgstr "エージェントを絞り込み"
+
+msgid "Filter agents…"
+msgstr "エージェントを絞り込む…"
+
+msgid "Find"
+msgstr "検索"
+
+msgid "Find in Changes"
+msgstr "変更内を検索"
+
+msgid "Find in Chat"
+msgstr "チャット内を検索"
+
+msgid "Find in File Viewer"
+msgstr "ファイルビューア内を検索"
+
+msgid "Find in Page"
+msgstr "ページ内検索"
+
+msgid "Find in Terminal"
+msgstr "ターミナル内を検索"
+
+msgid "Finish refreshing"
+msgstr "更新を完了"
+
+msgid "Finished"
+msgstr "完了"
+
+msgid "Finished · unread"
+msgstr "完了 · 未読"
+
+msgid "Fit"
+msgstr "全体表示"
+
+msgid "Flame"
+msgstr "炎"
+
+msgid "Focus Chat Input"
+msgstr "チャット入力にフォーカス"
+
+msgid "Focus Pane Down"
+msgstr "下のペインにフォーカス"
+
+msgid "Focus Pane Left"
+msgstr "左のペインにフォーカス"
+
+msgid "Focus Pane Right"
+msgstr "右のペインにフォーカス"
+
+msgid "Focus Pane Up"
+msgstr "上のペインにフォーカス"
+
+msgid "Focus Task Search"
+msgstr "タスク検索にフォーカス"
+
+msgid "Focus the next tab in the active workspace"
+msgstr "アクティブなワークスペースの次のタブにフォーカスする"
+
+msgid "Focus the pane above the active pane"
+msgstr "アクティブなペインの上のペインにフォーカスする"
+
+msgid "Focus the pane below the active pane"
+msgstr "アクティブなペインの下のペインにフォーカスする"
+
+msgid "Focus the pane to the left of the active pane"
+msgstr "アクティブなペインの左のペインにフォーカスする"
+
+msgid "Focus the pane to the right of the active pane"
+msgstr "アクティブなペインの右のペインにフォーカスする"
+
+msgid "Focus the previous tab in the active workspace"
+msgstr "アクティブなワークスペースの前のタブにフォーカスする"
+
+msgid "Focus the search input in the tasks view"
+msgstr "タスクビューの検索入力にフォーカスする"
+
+msgid "Folder"
+msgstr "フォルダ"
+
+msgid "Folder links"
+msgstr "フォルダリンク"
+
+msgid "Folder view"
+msgstr "フォルダ表示"
+
+msgid "Folders cannot be sent to the remote workspace"
+msgstr "フォルダーはリモートワークスペースに送信できません"
+
+msgid "Folders to check out into new worktrees, one per line, relative to the repo root. Root files are always included. Empty checks out everything."
+msgstr "新しいワークツリーにチェックアウトするフォルダーを 1 行に 1 つずつ、リポジトリルートからの相対パスで入力します。ルートのファイルは常に含まれます。空の場合はすべてチェックアウトします。"
+
+msgid "Follow the characters printed on your keyboard instead of physical key positions."
+msgstr "物理的なキー位置ではなく、キーボードに印刷されている文字に従います。"
+
+msgid "Font family"
+msgstr "フォントファミリー"
+
+msgid "Font size"
+msgstr "フォントサイズ"
+
+msgid "Font weight"
+msgstr "フォントウェイト"
+
+msgid "Force Reload"
+msgstr "強制再読み込み"
+
+msgid "Force restart"
+msgstr "強制再起動"
+
+msgid "Force restart terminal daemon?"
+msgstr "ターミナルデーモンを強制的に再起動しますか？"
+
+msgid "Force Stop"
+msgstr "強制停止"
+
+msgid "Fork arguments"
+msgstr "フォーク引数"
+
+msgid "Forward"
+msgstr "進む"
+
+msgid "Forward port…"
+msgstr "ポートを転送…"
+
+msgid "Friday"
+msgstr "金曜日"
+
+msgid "From"
+msgstr "移動元"
+
+msgid "Front matter hidden. Switch to the Markdown view to edit it"
+msgstr "フロントマターは非表示です。編集するにはMarkdownビューに切り替えてください"
+
+msgid "Full Disk Access"
+msgstr "フルディスクアクセス"
+
+msgid "Full-stack Turborepo with Next.js, Expo, and tRPC"
+msgstr "Next.js、Expo、tRPC を使用したフルスタック Turborepo"
+
+msgid "Fullstack template on Cloudflare Workers"
+msgstr "Cloudflare Workers を使用したフルスタックテンプレート"
+
+msgid "Garry Tan's role-based Claude Code workflow"
+msgstr "Garry Tan のロールベースの Claude Code ワークフロー"
+
+msgid "General"
+msgstr "全般"
+
+msgid "Get Git"
+msgstr "Gitを入手"
+
+msgid "Git & worktree"
+msgstr "Gitとワークツリー"
+
+msgid "Git author"
+msgstr "Git作成者"
+
+msgid "Git author name"
+msgstr "Gitの作成者名"
+
+msgid "GitHub authentication failed. Sign in with gh on this host, then refresh."
+msgstr "GitHub認証に失敗しました。このホストでghにサインインしてから更新してください。"
+
+msgid "GitHub enforces branch protection and required checks."
+msgstr "GitHubはブランチ保護と必須チェックを適用します。"
+
+msgid "GitHub is unreachable. PR links may be out of date."
+msgstr "GitHubにアクセスできません。PRリンクが古い場合があります。"
+
+msgid "GitHub rate limit reached. PR links may be out of date."
+msgstr "GitHubのレート制限に達しました。PRリンクが古い場合があります。"
+
+msgid "GitHub username"
+msgstr "GitHubのユーザー名"
+
+msgid "Globe"
+msgstr "地球"
+
+msgid "Go"
+msgstr "移動"
+
+msgid "Go Back"
+msgstr "戻る"
+
+msgid "Go back home"
+msgstr "ホームに戻る"
+
+msgid "Go back to the previous page in history"
+msgstr "履歴の前のページに戻る"
+
+msgid "Go Forward"
+msgstr "進む"
+
+msgid "Go forward to the next page in history"
+msgstr "履歴の次のページに進む"
+
+msgid "Go home"
+msgstr "ホームへ"
+
+msgid "Got it"
+msgstr "了解"
+
+msgid "Granted"
+msgstr "許可済み"
+
+msgid "Green"
+msgstr "緑"
+
+msgid "Group name"
+msgstr "グループ名"
+
+msgid "Groups use workspace tags on the target host."
+msgstr "グループにはターゲットホストのワークスペースタグを使用します。"
+
+msgid "Guides AI-generated workspace and branch names for this project. Empty uses the default naming."
+msgstr "このプロジェクトのAI生成のワークスペース名とブランチ名を導きます。空欄でデフォルトの命名になります。"
+
+msgid "Handle in terminal"
+msgstr "ターミナルで処理"
+
+msgid "Has uncommitted changes"
+msgstr "未コミットの変更があります"
+
+msgid "Has uncommitted changes and unpushed commits"
+msgstr "未コミットの変更と未プッシュのコミットがあります"
+
+msgid "Has unpushed commits"
+msgstr "未プッシュのコミットがあります"
+
+msgid "Heading 1"
+msgstr "見出し1"
+
+msgid "Heading 2"
+msgstr "見出し2"
+
+msgid "Heading 3"
+msgstr "見出し3"
+
+msgid "Heart"
+msgstr "ハート"
+
+msgid "Help"
+msgstr "ヘルプ"
+
+msgid "Hide {displayName}"
+msgstr "{displayName}を非表示"
+
+msgid "Hide details"
+msgstr "詳細を隠す"
+
+msgid "Hide workspace activity"
+msgstr "ワークスペースアクティビティを非表示"
+
+msgid "History"
+msgstr "履歴"
+
+msgid "Home"
+msgstr "ホーム"
+
+msgid "Host changed. Review the current daemon before restarting."
+msgstr "ホストが変更されました。再起動する前に現在のデーモンを確認してください。"
+
+msgid "Host connection is unavailable"
+msgstr "ホストに接続できません"
+
+msgid "Host is offline"
+msgstr "ホストはオフラインです"
+
+msgid "Host Service"
+msgstr "ホストサービス"
+
+msgid "Host Service ({count})"
+msgstr "ホストサービス ({count})"
+
+msgid "Host service crashed"
+msgstr "ホストサービスがクラッシュしました"
+
+msgid "Host service unavailable"
+msgstr "ホストサービスが利用できません"
+
+msgid "Hourly"
+msgstr "毎時"
+
+msgid "https://github.com/owner/repo.git or /path/to/repo"
+msgstr "https://github.com/owner/repo.git または /path/to/repo"
+
+msgid "I checked the attachments"
+msgstr "添付ファイルを確認しました"
+
+msgid "I checked the result"
+msgstr "結果を確認しました"
+
+msgid "I understand that running sessions will stop and teardown commands may affect files with unsaved work."
+msgstr "実行中のセッションが停止し、クリーンアップコマンドが未保存の作業を含むファイルに影響する可能性があることを理解しています。"
+
+msgid "Icon"
+msgstr "アイコン"
+
+msgid "IDE"
+msgstr "IDE"
+
+msgid "Idle"
+msgstr "アイドル"
+
+msgid "Image"
+msgstr "画像"
+
+msgid "Image blocked"
+msgstr "画像がブロックされました"
+
+#. placeholder {0}: src ?? "(empty)"
+msgid "Image blocked: {0}"
+msgstr "画像がブロックされました: {0}"
+
+msgid "Image is too large (max 10MB)"
+msgstr "画像が大きすぎます(最大10MB)"
+
+msgid "Images"
+msgstr "画像"
+
+msgid "Import"
+msgstr "インポート"
+
+msgid "import a folder"
+msgstr "フォルダをインポートする"
+
+msgid "Import a project with a GitHub remote to view its pull requests."
+msgstr "GitHubリモートを持つプロジェクトをインポートして、そのプルリクエストを表示します。"
+
+msgid "Import a theme file or grab a starter to edit."
+msgstr "テーマファイルをインポートするか、スターターを入手して編集します。"
+
+msgid "Import an audio file or preview the selected sound."
+msgstr "音声ファイルをインポートするか、選択したサウンドをプレビューします。"
+
+msgid "Import from other tools"
+msgstr "他のツールからインポート"
+
+msgid "Import results"
+msgstr "インポート結果"
+
+msgid "Import selected"
+msgstr "選択項目をインポート"
+
+msgid "Import sound"
+msgstr "サウンドをインポート"
+
+msgid "import the project"
+msgstr "プロジェクトをインポートする"
+
+msgid "Import untracked worktrees"
+msgstr "未追跡のワークツリーをインポート"
+
+msgid "Import worktree"
+msgstr "ワークツリーをインポート"
+
+msgid "Importing project…"
+msgstr "プロジェクトをインポートしています…"
+
+msgid "Importing selected workspaces…"
+msgstr "選択したワークスペースをインポートしています…"
+
+msgid "Importing..."
+msgstr "インポート中..."
+
+msgid "In"
+msgstr "場所"
+
+msgid "In Apple's window, click Install. It takes a few minutes, and this page updates when it's done."
+msgstr "Apple のウインドウで「インストール」をクリックしてください。数分かかります。完了するとこのページが更新されます。"
+
+msgid "In review"
+msgstr "レビュー中"
+
+msgid "Include the Linear ticket id from the prompt in the branch name (e.g. bin-344-fix-login). Prefix branches with fix/ or feat/ based on the task."
+msgstr "プロンプトのLinearチケットIDをブランチ名に含める(例: bin-344-fix-login)。タスクに応じてブランチにfix/またはfeat/を付ける。"
+
+msgid "Included in this build"
+msgstr "このビルドに含まれるもの"
+
+msgid "Indigo"
+msgstr "インディゴ"
+
+msgid "Initialize and open"
+msgstr "初期化して開く"
+
+msgid "Initialize Git repository?"
+msgstr "Git リポジトリを初期化しますか？"
+
+msgid "Inline"
+msgstr "インライン"
+
+msgid "Inline code"
+msgstr "インラインコード"
+
+msgid "Insert into CLI"
+msgstr "CLI に挿入"
+
+msgid "Insert into the existing CLI, then submit in the terminal."
+msgstr "既存の CLI に挿入してから、ターミナルで送信します。"
+
+msgid "Install Command Line Tools"
+msgstr "Command Line Toolsをインストール"
+
+msgid "Install Git, then come back."
+msgstr "Gitをインストールしてから、ここに戻ってきてください。"
+
+msgid "Install lifecycle hooks for this agent on this device."
+msgstr "このデバイスでこのエージェントのライフサイクルフックをインストールします。"
+
+msgid "Installing update…"
+msgstr "更新をインストールしています…"
+
+msgid "Instructions"
+msgstr "指示"
+
+msgid "Interrupt"
+msgstr "中断"
+
+msgid "Interrupt requested"
+msgstr "中断をリクエストしました"
+
+msgid "Interrupted"
+msgstr "中断されました"
+
+msgid "Italic"
+msgstr "斜体"
+
+msgid "Its workspaces and terminals are unavailable until it restarts. Use the Jedv tray menu > Host Service > Restart."
+msgstr "再起動するまで、そのワークスペースとターミナルは利用できません。Jedvのトレイメニューから「ホストサービス」>「再起動」を実行してください。"
+
+msgid "Jedv"
+msgstr "Jedv"
+
+msgid "Jedv hit an unexpected error. Reload to try again."
+msgstr "Jedvで予期しないエラーが発生しました。再読み込みしてお試しください。"
+
+msgid "Jedv needs Git to add a project."
+msgstr "Jedv でプロジェクトを追加するには Git が必要です。"
+
+msgid "JetBrains"
+msgstr "JetBrains"
+
+msgid "Jump to a workspace that needs attention or is running."
+msgstr "注意が必要な、または実行中のワークスペースに移動します。"
+
+msgid "Keep editing"
+msgstr "編集を続ける"
+
+msgid "Keep notifications silent on this device."
+msgstr "このデバイスでは通知を静音にします。"
+
+msgid "Kept the new file because it changed after it was created"
+msgstr "新しいファイルを保持しました、作成後に変更されています"
+
+msgid "Kept the new folder because it is no longer empty"
+msgstr "新しいフォルダを保持しました、空ではなくなっています"
+
+msgid "Keyboard"
+msgstr "キーボード"
+
+msgid "Keyboard Shortcuts"
+msgstr "キーボードショートカット"
+
+msgid "Kill {title}"
+msgstr "{title}を強制終了"
+
+msgid "Kill Terminal Session"
+msgstr "ターミナルセッションを終了"
+
+msgid "Language"
+msgstr "言語"
+
+msgid "Last {n} days"
+msgstr "過去 {n} 日間"
+
+msgid "Last activity"
+msgstr "最終アクティビティ"
+
+msgid "Last check completed"
+msgstr "最終確認の完了日時"
+
+msgid "Last day of each month"
+msgstr "毎月末日"
+
+msgid "Last day of each month at {time}"
+msgstr "毎月末日 {time}"
+
+msgid "Later"
+msgstr "後で"
+
+msgid "Latest output"
+msgstr "最新の出力"
+
+msgid "Launch Agent"
+msgstr "エージェントを起動"
+
+msgid "Launch result unknown. Refresh and inspect the terminal before restarting."
+msgstr "起動結果は不明です。再起動する前に、更新してターミナルを確認してください。"
+
+msgid "Layout"
+msgstr "レイアウト"
+
+msgid "Leaf"
+msgstr "葉"
+
+msgid "Leave a comment…"
+msgstr "コメントを入力…"
+
+msgid "Leave empty to use the workspace directory. Relative paths are resolved inside the workspace."
+msgstr "ワークスペースディレクトリを使用する場合は空のままにします。相対パスはワークスペース内で解決されます。"
+
+msgid "Leave it empty to go back to the name the terminal reports."
+msgstr "空欄にすると、ターミナルが報告する名前に戻ります。"
+
+msgid "Letter spacing (px)"
+msgstr "字間 (px)"
+
+msgid "Ligatures"
+msgstr "リガチャ"
+
+msgid "Ligatures off"
+msgstr "リガチャ オフ"
+
+msgid "Ligatures on"
+msgstr "リガチャ オン"
+
+msgid "Light"
+msgstr "ライト"
+
+msgid "Light theme"
+msgstr "ライトテーマ"
+
+msgid "Lime"
+msgstr "ライム"
+
+#. placeholder {0}: problem.line
+#. placeholder {1}: problem.message
+msgid "Line {0}: {1}"
+msgstr "{0} 行目: {1}"
+
+msgid "Line height"
+msgstr "行の高さ"
+
+msgid "Link"
+msgstr "リンク"
+
+msgid "Linked agent"
+msgstr "リンクされたエージェント"
+
+msgid "Linked agent is unavailable."
+msgstr "リンクされたエージェントを利用できません。"
+
+msgid "Linked presets cannot run on remote hosts."
+msgstr "リンクされたプリセットはリモートホストでは実行できません。"
+
+msgid "List"
+msgstr "リスト"
+
+msgid "Live"
+msgstr "ライブ"
+
+msgid "Live preview"
+msgstr "ライブプレビュー"
+
+msgid "Live terminal"
+msgstr "アクティブなターミナル"
+
+msgid "load agent settings"
+msgstr "エージェント設定を読み込む"
+
+msgid "Load more"
+msgstr "もっと見る"
+
+msgid "Loading"
+msgstr "読み込み中"
+
+msgid "Loading agents…"
+msgstr "エージェントを読み込み中…"
+
+msgid "Loading automations…"
+msgstr "自動化を読み込み中…"
+
+msgid "Loading changes…"
+msgstr "変更を読み込み中…"
+
+msgid "Loading directories…"
+msgstr "ディレクトリを読み込んでいます…"
+
+msgid "Loading file…"
+msgstr "ファイルを読み込み中…"
+
+msgid "Loading files…"
+msgstr "ファイルを読み込み中…"
+
+msgid "Loading fonts..."
+msgstr "フォントを読み込み中..."
+
+msgid "Loading identity…"
+msgstr "ID 情報を読み込んでいます…"
+
+msgid "Loading more..."
+msgstr "さらに読み込み中..."
+
+msgid "Loading output…"
+msgstr "出力を読み込み中…"
+
+msgid "Loading project settings…"
+msgstr "プロジェクト設定を読み込んでいます…"
+
+msgid "Loading pull request…"
+msgstr "プルリクエストを読み込み中…"
+
+msgid "Loading pull requests…"
+msgstr "プルリクエストを読み込み中…"
+
+msgid "Loading quota…"
+msgstr "クォータを読み込み中…"
+
+msgid "Loading removed projects…"
+msgstr "削除されたプロジェクトを読み込んでいます…"
+
+msgid "Loading repositories..."
+msgstr "リポジトリを読み込み中..."
+
+msgid "Loading runs…"
+msgstr "実行履歴を読み込み中…"
+
+msgid "Loading sessions…"
+msgstr "セッションを読み込んでいます…"
+
+msgid "Loading workspace status…"
+msgstr "ワークスペースの状態を読み込み中…"
+
+msgid "Loading worktrees…"
+msgstr "ワークツリーを読み込んでいます…"
+
+msgid "Loading..."
+msgstr "読み込み中..."
+
+msgid "Loading…"
+msgstr "読み込み中…"
+
+msgid "Local"
+msgstr "ローカル"
+
+msgid "Local checkout"
+msgstr "ローカルチェックアウト"
+
+msgid "Local CLI history and provider quota for the connected host."
+msgstr "接続されたホストのローカルCLI履歴とプロバイダークォータ。"
+
+msgid "Local CLI history and provider quota."
+msgstr "ローカルCLI履歴とプロバイダークォータ。"
+
+msgid "Local desktop and terminal process usage. Closing a view keeps its process running; terminating a session stops its processes."
+msgstr "ローカルのデスクトップおよびターミナルプロセスの使用量です。ビューを閉じてもプロセスは実行されたままです。セッションを終了すると、そのプロセスは停止します。"
+
+msgid "Local network"
+msgstr "ローカルネットワーク"
+
+msgid "Local projects, Git worktrees, grouped workspaces, and terminal tabs with split panes."
+msgstr "ローカルプロジェクト、Git ワークツリー、グループ化されたワークスペース、分割ペインを含むターミナルタブ。"
+
+msgid "Location"
+msgstr "場所"
+
+msgid "Location & checkout"
+msgstr "場所とチェックアウト"
+
+msgid "Make all panes equal size"
+msgstr "すべてのペインを同じサイズにする"
+
+msgid "Manage local projects and recently deleted projects."
+msgstr "ローカルプロジェクトと最近削除したプロジェクトを管理します。"
+
+msgid "Manage Terminal Scripts"
+msgstr "ターミナルスクリプトを管理"
+
+msgid "Manage the host used by your workspaces."
+msgstr "ワークスペースで使用するホストを管理します。"
+
+msgid "Manual"
+msgstr "手作業"
+
+msgid "Manual only"
+msgstr "手動のみ"
+
+msgid "Manually"
+msgstr "手動"
+
+msgid "Mark as read"
+msgstr "既読にする"
+
+msgid "Mark as unread"
+msgstr "未読にする"
+
+msgid "Mark ready for review?"
+msgstr "レビュー可能としてマークしますか？"
+
+msgid "Markdown style"
+msgstr "Markdownスタイル"
+
+msgid "Marking ready…"
+msgstr "準備完了にしています…"
+
+msgid "Match case"
+msgstr "大文字と小文字を区別"
+
+msgid "Maximum hidden terminal renderers kept in memory. Evicting a view keeps its PTY session running."
+msgstr "メモリ内に保持する非表示ターミナルレンダラーの最大数です。ビューを破棄しても、その PTY セッションは実行されたままです。"
+
+msgid "Maximum size is 256 KB."
+msgstr "最大サイズは256 KBです。"
+
+msgid "Member"
+msgstr "メンバー"
+
+msgid "Menu bar activity"
+msgstr "メニューバーのアクティビティ"
+
+msgid "Merge"
+msgstr "マージ"
+
+msgid "Merge method"
+msgstr "マージ方法"
+
+msgid "Merge pull request"
+msgstr "プルリクエストをマージ"
+
+msgid "Merge pull request?"
+msgstr "プルリクエストをマージしますか？"
+
+msgid "Mergeability is being checked"
+msgstr "マージ可否を確認中"
+
+msgid "Merged"
+msgstr "マージ済み"
+
+msgid "Minimum contrast"
+msgstr "最小コントラスト"
+
+msgid "Model"
+msgstr "モデル"
+
+msgid "Models"
+msgstr "モデル"
+
+msgid "Monday"
+msgstr "月曜日"
+
+msgid "Monospace"
+msgstr "等幅"
+
+msgid "Monthly"
+msgstr "月払い"
+
+msgid "Monthly at {time}"
+msgstr "毎月 {time}"
+
+msgid "Monthly on {day}"
+msgstr "毎月{day}"
+
+msgid "Monthly on {day} at {time}"
+msgstr "毎月{day} {time}"
+
+msgid "Monthly on the {day, selectordinal, one {#st} two {#nd} few {#rd} other {#th}}"
+msgstr "毎月{day, selectordinal, one {#日} two {#日} few {#日} other {#日}}"
+
+msgid "Monthly on the {day, selectordinal, one {#st} two {#nd} few {#rd} other {#th}} at {time}"
+msgstr "毎月{day, selectordinal, one {#日} two {#日} few {#日} other {#日}} {time}"
+
+msgid "More actions"
+msgstr "その他の操作"
+
+msgid "More options"
+msgstr "その他のオプション"
+
+msgid "More than one agent matches this preset."
+msgstr "このプリセットに一致するエージェントが複数あります。"
+
+msgid "Move"
+msgstr "移動"
+
+msgid "Move agent down"
+msgstr "エージェントを下に移動"
+
+msgid "Move agent up"
+msgstr "エージェントを上に移動"
+
+msgid "Move focus between the main tabs and the right sidebar, and open the sidebar if it is closed"
+msgstr "メインのタブと右サイドバーの間でフォーカスを移動し、サイドバーが閉じている場合は開きます"
+
+msgid "Move group down"
+msgstr "グループを下に移動"
+
+msgid "Move group up"
+msgstr "グループを上に移動"
+
+msgid "Move preset down"
+msgstr "プリセットを下に移動"
+
+msgid "Move preset up"
+msgstr "プリセットを上に移動"
+
+msgid "Move to group"
+msgstr "グループへ移動"
+
+msgid "Move to Left Side"
+msgstr "左側に移動"
+
+msgid "Move to Right Side"
+msgstr "右側に移動"
+
+msgid "Move to Tab"
+msgstr "タブに移動"
+
+msgid "Move..."
+msgstr "移動…"
+
+msgid "Multiple projects match this repository. Open the project first and import its worktrees."
+msgstr "このリポジトリに一致するプロジェクトが複数あります。先にプロジェクトを開いてから、そのワークツリーをインポートしてください。"
+
+msgid "Multiple projects use this directory. Choose the project in the sidebar."
+msgstr "このディレクトリは複数のプロジェクトで使用されています。サイドバーでプロジェクトを選択してください。"
+
+msgid "Mute notification sounds"
+msgstr "通知音をミュート"
+
+msgid "Name"
+msgstr "名前"
+
+msgid "Naming instructions"
+msgstr "命名指示"
+
+msgid "Native agent sessions and local attachments."
+msgstr "ネイティブ Agent セッションとローカルの添付ファイル。"
+
+msgid "Navigate Back"
+msgstr "戻る"
+
+msgid "Navigate Forward"
+msgstr "進む"
+
+msgid "Navigate to the next workspace in the sidebar"
+msgstr "サイドバーの次のワークスペースに移動する"
+
+msgid "Navigate to the previous workspace in the sidebar"
+msgstr "サイドバーの前のワークスペースに移動する"
+
+msgid "Navigation"
+msgstr "ナビゲーション"
+
+msgid "Needs attention"
+msgstr "要対応"
+
+msgid "Needs me"
+msgstr "自分の対応が必要"
+
+msgid "Nerd Fonts"
+msgstr "Nerd Fonts"
+
+msgid "New automation"
+msgstr "新規オートメーション"
+
+msgid "New branch"
+msgstr "新しいブランチ"
+
+msgid "New Chat"
+msgstr "新規チャット"
+
+msgid "New File"
+msgstr "新規ファイル"
+
+msgid "New File..."
+msgstr "新規ファイル..."
+
+msgid "New Folder"
+msgstr "新規フォルダ"
+
+msgid "New Folder..."
+msgstr "新規フォルダ..."
+
+msgid "New group"
+msgstr "新規グループ"
+
+msgid "New shell"
+msgstr "新しいシェル"
+
+msgid "new tab"
+msgstr "新しいタブ"
+
+msgid "New tab"
+msgstr "新しいタブ"
+
+msgid "New Tab"
+msgstr "新しいタブ"
+
+msgid "New tab with split panes"
+msgstr "分割ペインを含む新しいタブ"
+
+msgid "New tabs"
+msgstr "新しいタブ"
+
+msgid "New Terminal"
+msgstr "新規ターミナル"
+
+msgid "New Window"
+msgstr "新規ウィンドウ"
+
+msgid "New workspace"
+msgstr "新規ワークスペース"
+
+msgid "New Workspace"
+msgstr "新規ワークスペース"
+
+msgid "New worktree each run"
+msgstr "実行ごとに新しいワークツリー"
+
+#. placeholder {0}: location.data.defaultWorktreeBaseDir
+msgid "New worktrees are stored here. Leave empty to use {0}."
+msgstr "新しいワークツリーはここに保存されます。空のままにすると {0} を使用します。"
+
+msgid "Next (Enter)"
+msgstr "次へ (Enter)"
+
+msgid "Next branch"
+msgstr "次のブランチ"
+
+msgid "Next Right Sidebar Tab"
+msgstr "右サイドバーの次のタブ"
+
+#. placeholder {0}: formatDateTime(next, { dateStyle: "medium", timeStyle: "short", timeZone: timezone, })
+msgid "Next scheduled time: {0}"
+msgstr "次の予定時刻：{0}"
+
+msgid "Next Tab"
+msgstr "次のタブ"
+
+msgid "Next Tab (Second Shortcut)"
+msgstr "次のタブ (2つ目のショートカット)"
+
+msgid "Next Workspace"
+msgstr "次のワークスペース"
+
+msgid "No"
+msgstr "いいえ"
+
+msgid "No active agents"
+msgstr "アクティブなエージェントがありません"
+
+msgid "No active organization is selected. Select an organization or sign in again."
+msgstr "アクティブな組織が選択されていません。組織を選択するか、もう一度サインインしてください。"
+
+msgid "No active services"
+msgstr "アクティブなサービスはありません"
+
+msgid "No active workspaces"
+msgstr "アクティブなワークスペースはありません"
+
+msgid "No active writer"
+msgstr "アクティブなライターがありません"
+
+msgid "No activity yet"
+msgstr "まだアクティビティがありません"
+
+msgid "No agent was started. After setup completes, start the agent again."
+msgstr "エージェントは起動されませんでした。セットアップが完了したら、エージェントを再度起動してください。"
+
+msgid "No automations match your filters"
+msgstr "フィルターに一致する自動化がありません"
+
+msgid "No automations yet"
+msgstr "まだ自動化がありません"
+
+msgid "No available workspace with a GitHub remote"
+msgstr "GitHubリモートを持つ利用可能なワークスペースがありません"
+
+msgid "No background terminals"
+msgstr "バックグラウンドターミナルはありません"
+
+msgid "No branches found"
+msgstr "ブランチが見つかりません"
+
+msgid "No changes"
+msgstr "変更なし"
+
+msgid "No checks"
+msgstr "チェックなし"
+
+msgid "No checks reported"
+msgstr "チェックの報告はありません"
+
+msgid "No completed project was found yet. The host may still be stopping or finishing the operation. Check again before retrying at this location."
+msgstr "完了したプロジェクトはまだ見つかりません。ホストが停止中か、操作を完了している可能性があります。この場所で再試行する前に、もう一度確認してください。"
+
+msgid "No description provided"
+msgstr "説明が提供されていません"
+
+msgid "No existing worktrees found."
+msgstr "既存のワークツリーが見つかりません。"
+
+msgid "No file changes"
+msgstr "ファイルの変更がありません"
+
+msgid "No files found"
+msgstr "ファイルが見つかりません"
+
+msgid "No files match the accepted types."
+msgstr "対応している形式のファイルがありません。"
+
+msgid "No fonts found."
+msgstr "フォントが見つかりません。"
+
+msgid "No git remote detected"
+msgstr "gitリモートが検出されませんでした"
+
+msgid "No GitHub repositories available"
+msgstr "利用可能なGitHubリポジトリがありません"
+
+msgid "No importable worktrees found on this host. You can open a project and import its worktrees instead."
+msgstr "このホストにはインポート可能なワークツリーがありません。代わりにプロジェクトを開いて、そのワークツリーをインポートできます。"
+
+msgid "No linked pull requests"
+msgstr "リンクされた PR はありません"
+
+msgid "No local terminal process metrics are available."
+msgstr "ローカルターミナルプロセスのメトリクスはありません。"
+
+msgid "No local usage or quota data is available."
+msgstr "利用可能なローカルの使用量またはクォータデータがありません。"
+
+msgid "No match"
+msgstr "一致なし"
+
+msgid "No matches"
+msgstr "一致なし"
+
+msgid "No matching settings."
+msgstr "一致する設定がありません。"
+
+msgid "No matching shortcuts."
+msgstr "一致するショートカットはありません。"
+
+msgid "No messages in this page"
+msgstr "このページにはメッセージがありません"
+
+msgid "No output yet"
+msgstr "まだ出力がありません"
+
+msgid "No pending responses or unread completions"
+msgstr "保留中の応答や未読の完了通知はありません"
+
+msgid "No ports yet. Start a dev server in a terminal and it shows up here."
+msgstr "まだポートはありません。ターミナルで開発サーバーを起動するとここに表示されます。"
+
+msgid "No prefix"
+msgstr "プレフィックスなし"
+
+msgid "No prefix could be resolved from this host's identity."
+msgstr "このホストの ID からプレフィックスを解決できませんでした。"
+
+msgid "No projects match your filters"
+msgstr "フィルターに一致するプロジェクトはありません"
+
+msgid "No projects on this host."
+msgstr "このホストにはプロジェクトがありません。"
+
+msgid "No projects yet"
+msgstr "プロジェクトはまだありません"
+
+msgid "No provider quota is available. Sign in with an agent CLI, then refresh."
+msgstr "利用可能なプロバイダークォータがありません。エージェントCLIでサインインしてから更新してください。"
+
+msgid "No pull requests found"
+msgstr "PR が見つかりません"
+
+msgid "No pull requests match your filters"
+msgstr "フィルターに一致するプルリクエストがありません"
+
+msgid "No removed projects"
+msgstr "削除されたプロジェクトはありません"
+
+msgid "No results"
+msgstr "結果がありません"
+
+msgid "No results found."
+msgstr "結果が見つかりません。"
+
+msgid "No runs yet"
+msgstr "実行はまだありません"
+
+msgid "No screenshots yet"
+msgstr "スクリーンショットはまだありません"
+
+msgid "No subdirectories"
+msgstr "サブディレクトリはありません"
+
+msgid "No terminal presets yet."
+msgstr "ターミナルプリセットはまだありません。"
+
+msgid "No terminal sessions"
+msgstr "ターミナルセッションはありません"
+
+msgid "No themes were imported"
+msgstr "インポートされたテーマはありません"
+
+msgid "No usage logs were found for this period."
+msgstr "この期間の使用ログが見つかりませんでした。"
+
+msgid "No workspaces in this group"
+msgstr "このグループにはワークスペースがありません"
+
+msgid "No workspaces match your filters"
+msgstr "フィルターに一致するワークスペースがありません"
+
+msgid "No workspaces yet"
+msgstr "ワークスペースはまだありません"
+
+msgid "No workspaces yet. Create a workspace to get started."
+msgstr "まだワークスペースがありません。ワークスペースを作成して開始します。"
+
+msgid "None"
+msgstr "なし"
+
+msgid "Not bound · configure in Settings → Links"
+msgstr "未割り当て · 設定 → リンクで設定"
+
+msgid "Not checked yet"
+msgstr "まだ確認していません"
+
+msgid "Not detected in the workspace right now"
+msgstr "現在ワークスペースで検出されていません"
+
+msgid "Not forwarded"
+msgstr "転送されていません"
+
+msgid "Not granted"
+msgstr "未許可"
+
+msgid "Notification sound"
+msgstr "通知サウンド"
+
+msgid "Notification sound volume from 0 to 100."
+msgstr "通知音量は0から100です。"
+
+msgid "Notifications"
+msgstr "通知"
+
+msgid "now"
+msgstr "今"
+
+msgid "Numbered list"
+msgstr "番号付きリスト"
+
+msgid "Off"
+msgstr "オフ"
+
+msgid "On a Mac, Git comes with Apple's Command Line Tools."
+msgstr "Macでは、GitはAppleのCommand Line Toolsに含まれています。"
+
+msgid "On focus change"
+msgstr "フォーカス変更時"
+
+msgid "On window change"
+msgstr "ウィンドウ変更時"
+
+msgid "Only agents on this device can be linked."
+msgstr "このデバイス上のエージェントのみをリンクできます。"
+
+msgid "Only new worktrees use this location. Existing worktrees are not moved."
+msgstr "新しいワークツリーのみがこの場所を使用します。既存のワークツリーは移動されません。"
+
+msgid "Only on this machine: gitignored, and applied to every worktree of this repository. Any key set here replaces the shared one."
+msgstr "このマシンのみ: git で無視され、このリポジトリのすべてのワークツリーに適用されます。ここで設定したキーは共有の値を置き換えます。"
+
+msgid "Only the listed staged files will be committed. Hooks may modify files or reject the commit."
+msgstr "一覧にあるステージ済みファイルのみがコミットされます。フックがファイルを変更したり、コミットを拒否したりする場合があります。"
+
+msgid "Only the thread author or a user with pull request write access can resolve this conversation."
+msgstr "スレッドの作成者またはプルリクエストへの書き込み権限を持つユーザーのみがこの会話を解決できます。"
+
+msgid "open"
+msgstr "開く"
+
+msgid "Open"
+msgstr "開く"
+
+#. placeholder {0}: binding.agentId
+msgid "Open {0} session"
+msgstr "{0} セッションを開く"
+
+msgid "Open {displayName}"
+msgstr "{displayName}を開く"
+
+msgid "Open {path} in file pane"
+msgstr "{path}をファイルペインで開く"
+
+msgid "Open a multiline prompt composer for the active terminal"
+msgstr "アクティブなターミナル用の複数行プロンプト入力を開く"
+
+msgid "Open a workspace for this project first"
+msgstr "まずこのプロジェクトのワークスペースを開いてください"
+
+msgid "Open agent activity from the menu bar. The panel closes when it loses focus or when you press Escape."
+msgstr "メニューバーからエージェントのアクティビティを開きます。パネルは、フォーカスを失うかEscapeキーを押すと閉じます。"
+
+msgid "Open an existing repository, or initialize a folder after confirmation."
+msgstr "既存のリポジトリを開くか、確認してフォルダーを初期化します。"
+
+msgid "Open Changes"
+msgstr "変更を開く"
+
+msgid "Open Changes in"
+msgstr "変更を開く場所"
+
+msgid "Open check on GitHub"
+msgstr "GitHubでチェックを開く"
+
+msgid "Open CLI"
+msgstr "CLIを開く"
+
+msgid "Open Command Palette"
+msgstr "コマンドパレットを開く"
+
+msgid "Open Diff"
+msgstr "差分を開く"
+
+msgid "Open Diff in New Tab"
+msgstr "新しいタブで差分を開く"
+
+msgid "Open existing PR or create a new one on GitHub"
+msgstr "既存のPRを開く、またはGitHubで新規作成する"
+
+msgid "open file"
+msgstr "ファイルを開く"
+
+msgid "Open File"
+msgstr "ファイルを開く"
+
+msgid "Open File in New Tab"
+msgstr "新しいタブでファイルを開く"
+
+msgid "Open files"
+msgstr "ファイルを開く"
+
+msgid "Open files in"
+msgstr "ファイルを開く場所"
+
+msgid "Open in"
+msgstr "開く"
+
+#. placeholder {0}: currentApp.displayLabel ?? currentApp.label
+msgid "Open in {0}"
+msgstr "{0} で開く"
+
+msgid "Open in editor"
+msgstr "エディタで開く"
+
+msgid "Open in Editor"
+msgstr "エディタで開く"
+
+msgid "Open in external browser"
+msgstr "外部ブラウザで開く"
+
+msgid "Open in external editor"
+msgstr "外部エディターで開く"
+
+msgid "Open in Finder"
+msgstr "Finderで開く"
+
+msgid "Open in GitHub"
+msgstr "GitHubで開く"
+
+msgid "Open in new tab"
+msgstr "新しいタブで開く"
+
+msgid "Open in New Tab"
+msgstr "新しいタブで開く"
+
+msgid "Open in right pane"
+msgstr "右ペインで開く"
+
+msgid "Open in split pane"
+msgstr "分割ペインで開く"
+
+msgid "Open in tab"
+msgstr "タブで開く"
+
+msgid "Open large file"
+msgstr "大きなファイルを開く"
+
+msgid "Open local checkout"
+msgstr "ローカルチェックアウトを開く"
+
+#. placeholder {0}: port.port
+msgid "Open localhost:{0} in external browser"
+msgstr "localhost:{0}を外部ブラウザで開く"
+
+msgid "Open project"
+msgstr "プロジェクトを開く"
+
+msgid "Open Pull Request"
+msgstr "プルリクエストを開く"
+
+#. placeholder {0}: pr.number
+msgid "Open pull request #{0}"
+msgstr "プルリクエスト #{0} を開く"
+
+msgid "Open remote localhost links from Ports after forwarding the port."
+msgstr "ポートを転送してから、Ports でリモートの localhost リンクを開いてください。"
+
+msgid "Open session"
+msgstr "セッションを開く"
+
+msgid "Open settings"
+msgstr "設定を開く"
+
+msgid "Open Settings"
+msgstr "設定を開く"
+
+msgid "Open setup terminal"
+msgstr "セットアップターミナルを開く"
+
+msgid "Open source acknowledgements"
+msgstr "オープンソースの謝辞"
+
+msgid "Open System Settings"
+msgstr "システム設定を開く"
+
+msgid "Open terminal"
+msgstr "ターミナルを開く"
+
+msgid "Open Terminal"
+msgstr "ターミナルを開く"
+
+msgid "Open Terminal Script 1"
+msgstr "ターミナルスクリプト1を開く"
+
+msgid "Open Terminal Script 2"
+msgstr "ターミナルスクリプト2を開く"
+
+msgid "Open Terminal Script 3"
+msgstr "ターミナルスクリプト3を開く"
+
+msgid "Open Terminal Script 4"
+msgstr "ターミナルスクリプト4を開く"
+
+msgid "Open Terminal Script 5"
+msgstr "ターミナルスクリプト5を開く"
+
+msgid "Open Terminal Script 6"
+msgstr "ターミナルスクリプト6を開く"
+
+msgid "Open Terminal Script 7"
+msgstr "ターミナルスクリプト7を開く"
+
+msgid "Open Terminal Script 8"
+msgstr "ターミナルスクリプト8を開く"
+
+msgid "Open Terminal Script 9"
+msgstr "ターミナルスクリプト9を開く"
+
+msgid "Open the Changes pane in a new tab, or focus the existing one"
+msgstr "変更ペインを新しいタブで開くか、既存のペインにフォーカスします"
+
+msgid "Open the global command palette"
+msgstr "グローバルコマンドパレットを開く"
+
+msgid "Open the main window to select this workspace"
+msgstr "メインウィンドウを開いてこのワークスペースを選択"
+
+msgid "Open the new workspace modal"
+msgstr "新規ワークスペースのモーダルを開く"
+
+msgid "Open the resource usage view in the command palette"
+msgstr "コマンドパレットでリソース使用状況ビューを開く"
+
+msgid "open the task in a workspace"
+msgstr "タスクをワークスペースで開く"
+
+msgid "Open the workspace in the app picked in the Open In menu (VS Code, Cursor, etc.)"
+msgstr "「開く」メニューで選んだアプリ (VS Code、Cursorなど) でワークスペースを開く"
+
+msgid "Open workspace"
+msgstr "ワークスペースを開く"
+
+msgid "Opening the CLI is unavailable in this dialog."
+msgstr "このダイアログではCLIを開けません。"
+
+msgid "Opening workspace…"
+msgstr "ワークスペースを開いています…"
+
+msgid "Opening…"
+msgstr "開いています…"
+
+msgid "Option shortcuts may prevent typing special characters"
+msgstr "Optionのショートカットは特殊文字の入力を妨げる場合があります"
+
+msgid "Orange"
+msgstr "オレンジ"
+
+msgid "Order by"
+msgstr "並べ替え"
+
+msgid "organization {id}"
+msgstr "組織 {id}"
+
+msgid "Other"
+msgstr "その他"
+
+msgid "Other ways to get Git"
+msgstr "Git を入手するほかの方法"
+
+msgid "Outdated"
+msgstr "古いコメント"
+
+msgid "Output"
+msgstr "出力"
+
+msgid "Overwrite file"
+msgstr "ファイルを上書き"
+
+msgid "Owner"
+msgstr "オーナー"
+
+msgid "Owns every PTY session and survives app restarts."
+msgstr "すべてのPTYセッションを保持し、アプリの再起動後も動き続けます。"
+
+msgid "Package"
+msgstr "パッケージ"
+
+msgid "Page Not Found"
+msgstr "ページが見つかりません"
+
+msgid "Pane areas must belong to the same active workspace"
+msgstr "ペイン領域は同じアクティブなワークスペースに属している必要があります"
+
+msgid "Pane attachment state is unavailable."
+msgstr "ペインのアタッチ状態を利用できません。"
+
+msgid "Paragraph"
+msgstr "段落"
+
+msgid "Parent directory"
+msgstr "親ディレクトリ"
+
+msgid "Parent folder"
+msgstr "親フォルダー"
+
+msgid "Passed"
+msgstr "成功"
+
+msgid "Paste"
+msgstr "貼り付け"
+
+msgid "Paste a link"
+msgstr "リンクを貼り付け"
+
+msgid "Path copied"
+msgstr "パスをコピーしました"
+
+msgid "Pause"
+msgstr "一時停止"
+
+msgid "Paused"
+msgstr "一時停止中"
+
+msgid "Pending"
+msgstr "保留中"
+
+msgid "Permissions"
+msgstr "権限"
+
+msgid "Personal"
+msgstr "個人"
+
+msgid "Pick a folder on disk and add it as a project"
+msgstr "ディスク上のフォルダを選んでプロジェクトとして追加する"
+
+msgid "Pick a theme or follow your system appearance."
+msgstr "テーマを選択するか、システムの外観に従います。"
+
+msgid "Pick a workspace whose agent is waiting for your input, has finished since you last looked, or is still running"
+msgstr "エージェントがあなたの入力を待っている、前回確認してから完了した、またはまだ実行中のワークスペースを選択します"
+
+msgid "PID"
+msgstr "PID"
+
+msgid "Pin workspace"
+msgstr "ワークスペースをピン留め"
+
+msgid "Pink"
+msgstr "ピンク"
+
+msgid "Pinned"
+msgstr "ピン留め済み"
+
+msgid "Please select a project directory."
+msgstr "プロジェクトディレクトリを選択してください。"
+
+msgid "Port forwarding is not active"
+msgstr "ポート転送は有効ではありません"
+
+msgid "Ports"
+msgstr "ポート"
+
+msgid "Post comment to GitHub?"
+msgstr "GitHubにコメントを投稿しますか？"
+
+msgid "Post reply to GitHub?"
+msgstr "GitHubに返信を投稿しますか？"
+
+msgid "Prefix"
+msgstr "プレフィックス"
+
+msgid "Prefix new workspace branches on the connected host. Project overrides take priority."
+msgstr "接続されたホストで新しいワークスペースブランチにプレフィックスを付けます。プロジェクトの上書き設定が優先されます。"
+
+msgid "Preparing workspace on the target host…"
+msgstr "ターゲットホストでワークスペースを準備しています…"
+
+msgid "Preset association could not be confirmed. Refresh and try again."
+msgstr "プリセットの関連付けを確認できませんでした。更新して再試行してください。"
+
+msgid "Presets are stored on this device. Run them explicitly from the workspace launcher."
+msgstr "プリセットはこのデバイスに保存されます。ワークスペースランチャーから明示的に実行してください。"
+
+msgid "Press shortcut…"
+msgstr "ショートカットを押してください…"
+
+msgid "Preview"
+msgstr "プレビュー"
+
+msgid "Previous (Shift+Enter)"
+msgstr "前へ (Shift+Enter)"
+
+msgid "Previous branch"
+msgstr "前のブランチ"
+
+msgid "Previous Right Sidebar Tab"
+msgstr "右サイドバーの前のタブ"
+
+msgid "Previous Tab"
+msgstr "前のタブ"
+
+msgid "Previous Tab (Second Shortcut)"
+msgstr "前のタブ (2つ目のショートカット)"
+
+msgid "Previous Workspace"
+msgstr "前のワークスペース"
+
+msgid "Private connection"
+msgstr "プライベート接続"
+
+msgid "Private host"
+msgstr "プライベートホスト"
+
+msgid "Private host connections and application settings without a Jedv account."
+msgstr "Jedv アカウントなしで、プライベートホスト接続とアプリケーション設定を使用できます。"
+
+msgid "Processed tokens"
+msgstr "処理トークン"
+
+msgid "Project"
+msgstr "プロジェクト"
+
+msgid "Project directory"
+msgstr "プロジェクトディレクトリ"
+
+msgid "Project icon and color"
+msgstr "プロジェクトのアイコンと色"
+
+msgid "Project name"
+msgstr "プロジェクト名"
+
+msgid "Project name must produce a valid directory name. Use letters, numbers, dots, dashes, or underscores."
+msgstr "プロジェクト名から有効なディレクトリ名を生成する必要があります。文字、数字、ドット、ハイフン、アンダースコアを使用してください。"
+
+msgid "Project options"
+msgstr "プロジェクトオプション"
+
+msgid "Project scripts"
+msgstr "プロジェクトスクリプト"
+
+msgid "Project settings"
+msgstr "プロジェクト設定"
+
+msgid "Project Settings"
+msgstr "プロジェクト設定"
+
+msgid "Projects"
+msgstr "プロジェクト"
+
+msgid "Projects and workspaces"
+msgstr "プロジェクトとワークスペース"
+
+msgid "Prompt arguments"
+msgstr "プロンプト引数"
+
+msgid "Prompt preview"
+msgstr "プロンプトプレビュー"
+
+msgid "Prompt transport"
+msgstr "プロンプトの受け渡し"
+
+msgid "Provider quota"
+msgstr "プロバイダークォータ"
+
+msgid "Pull request"
+msgstr "プルリクエスト"
+
+msgid "Pull request created"
+msgstr "プルリクエストを作成しました"
+
+msgid "Pull request merged"
+msgstr "プルリクエストをマージしました"
+
+msgid "Pull request number"
+msgstr "PR 番号"
+
+msgid "Pull request title"
+msgstr "プルリクエストのタイトル"
+
+msgid "Pull requests"
+msgstr "プルリクエスト"
+
+msgid "Pull Requests"
+msgstr "プルリクエスト"
+
+msgid "Purple"
+msgstr "紫"
+
+msgid "Push"
+msgstr "プッシュ"
+
+msgid "Push changes?"
+msgstr "変更をプッシュしますか？"
+
+msgid "Push completed"
+msgstr "プッシュが完了しました"
+
+msgid "Push this commit to the reviewed remote branch. A changed target requires a new confirmation."
+msgstr "このコミットを確認済みのリモートブランチにプッシュします。ターゲットが変更された場合は、再度確認が必要です。"
+
+msgid "px"
+msgstr "px"
+
+msgid "Queue message"
+msgstr "メッセージをキューに追加"
+
+msgid "Queue; ⌘↩ to steer the running turn"
+msgstr "キューに追加。⌘↩で実行中のターンを軌道修正"
+
+msgid "Quick Create Workspace"
+msgstr "ワークスペースをクイック作成"
+
+msgid "Quick Open File"
+msgstr "ファイルをクイックオープン"
+
+msgid "Quickly create a workspace in the current project"
+msgstr "現在のプロジェクトにワークスペースをすばやく作成する"
+
+msgid "Quit"
+msgstr "終了"
+
+msgid "Quit {displayName}"
+msgstr "{displayName}を終了"
+
+msgctxt "quit confirmation dialog title"
+msgid "Quit {displayName}"
+msgstr "{displayName}を終了"
+
+msgid "Quit {displayName} and stop all background services?"
+msgstr "{displayName}を終了して、すべてのバックグラウンドサービスを停止しますか?"
+
+msgid "Quit {displayName} Completely"
+msgstr "{displayName}を完全に終了"
+
+msgid "Quit Completely"
+msgstr "完全に終了"
+
+msgid "Quota is read from your provider. Refreshing may contact the provider using your existing CLI login."
+msgstr "クォータはプロバイダーから読み取られます。更新すると、既存のCLIログインを使用してプロバイダーに接続する場合があります。"
+
+msgid "Quote"
+msgstr "引用"
+
+msgid "Reachable"
+msgstr "接続可能"
+
+msgid "Read only"
+msgstr "読み取り専用"
+
+msgid "Reading local CLI logs…"
+msgstr "ローカルCLIログを読み取り中…"
+
+msgid "Ready for review"
+msgstr "レビュー可能"
+
+msgid "Reasoning"
+msgstr "推論"
+
+msgid "Reassign shortcut"
+msgstr "ショートカットを再割り当て"
+
+msgid "Reassign this shortcut?"
+msgstr "このショートカットを再割り当てしますか？"
+
+msgid "Rebase"
+msgstr "リベース"
+
+msgid "Recent"
+msgstr "最近"
+
+msgid "Recent files"
+msgstr "最近使用したファイル"
+
+msgid "Recent projects"
+msgstr "最近のプロジェクト"
+
+msgid "Recently removed projects"
+msgstr "最近削除されたプロジェクト"
+
+msgid "Recording"
+msgstr "録音中"
+
+msgid "Recreate the worktree from committed branch history, then run the project's setup script if configured. Deleted uncommitted files and terminated sessions cannot be recovered."
+msgstr "コミット済みのブランチ履歴からワークツリーを再作成してから、設定されている場合はプロジェクトのセットアップスクリプトを実行します。削除された未コミットのファイルと終了したセッションは復元できません。"
+
+msgid "Recurrence rule"
+msgstr "繰り返しルール"
+
+msgid "Red"
+msgstr "赤"
+
+msgid "Refresh"
+msgstr "更新"
+
+msgid "Refresh capabilities"
+msgstr "機能を更新"
+
+msgid "Refresh failed"
+msgstr "更新に失敗しました"
+
+msgid "Refresh history"
+msgstr "履歴を更新"
+
+msgid "Refresh pull request"
+msgstr "プルリクエストを更新"
+
+msgid "Refresh pull requests"
+msgstr "プルリクエストを更新"
+
+msgid "Refresh sessions"
+msgstr "セッションを更新"
+
+msgid "Refresh status"
+msgstr "状態を更新"
+
+msgid "Reject"
+msgstr "拒否"
+
+msgid "Rejected"
+msgstr "拒否されました"
+
+msgid "Relative path copied"
+msgstr "相対パスをコピーしました"
+
+msgid "Release notes"
+msgstr "リリースノート"
+
+msgid "Release Notes"
+msgstr "リリースノート"
+
+msgid "Reload"
+msgstr "再読み込み"
+
+msgid "Reload app"
+msgstr "アプリを再読み込み"
+
+msgid "Reload from disk"
+msgstr "ディスクから再読み込み"
+
+msgid "Reloading discards your edits. Overwriting replaces the file on disk."
+msgstr "再読み込みすると編集内容が破棄されます。上書きするとディスク上のファイルが置き換えられます。"
+
+msgid "Relocate"
+msgstr "移動"
+
+msgid "Relocate project?"
+msgstr "プロジェクトを移動しますか?"
+
+msgid "Relocating…"
+msgstr "移動中…"
+
+msgid "remote"
+msgstr "リモート"
+
+msgid "Remote"
+msgstr "リモート"
+
+msgid "Remote port"
+msgstr "リモートポート"
+
+msgid "Remove"
+msgstr "削除"
+
+msgid "Remove agent link"
+msgstr "エージェントのリンクを解除"
+
+msgid "Remove attachment"
+msgstr "添付ファイルを削除"
+
+msgid "Remove from Jedv…"
+msgstr "Jedvから削除…"
+
+msgid "Remove icon"
+msgstr "アイコンを削除"
+
+msgid "Remove link"
+msgstr "リンクを削除"
+
+msgid "Remove pasted text"
+msgstr "貼り付けたテキストを削除"
+
+msgid "Remove project"
+msgstr "プロジェクトを削除"
+
+msgid "Remove pull request link"
+msgstr "PR のリンクを解除"
+
+msgid "remove the agent"
+msgstr "エージェントを削除する"
+
+msgid "remove the PR link"
+msgstr "PRリンクを削除する"
+
+msgid "Remove this project and its workspaces from Jedv and stop their terminals. Repository files stay on disk. Teardown commands may run."
+msgstr "このプロジェクトとそのワークスペースを Jedv から削除し、ターミナルを停止します。リポジトリのファイルはディスクに残ります。クリーンアップコマンドが実行される場合があります。"
+
+msgid "Removing…"
+msgstr "削除しています…"
+
+msgid "Rename"
+msgstr "名前を変更"
+
+msgid "Rename {title}"
+msgstr "{title} の名前を変更"
+
+msgid "Rename branch"
+msgstr "ブランチ名を変更"
+
+msgid "Rename session"
+msgstr "セッションの名前を変更"
+
+msgid "rename the branch"
+msgstr "ブランチ名を変更する"
+
+msgid "Rename workspace"
+msgstr "ワークスペースの名前を変更"
+
+msgid "Rename..."
+msgstr "名前を変更..."
+
+msgid "Rendering style for markdown files. Tufte uses elegant serif typography inspired by Edward Tufte's books."
+msgstr "Markdownファイルの表示スタイル。TufteはEdward Tufteの著書に着想を得た上品なセリフ体を使います。"
+
+msgid "Reopen Closed Tab"
+msgstr "閉じたタブを再度開く"
+
+msgid "reorder agents"
+msgstr "エージェントを並べ替える"
+
+msgid "Reorder workspace"
+msgstr "ワークスペースを並べ替え"
+
+msgid "Replace"
+msgstr "置き換える"
+
+msgid "Replace All"
+msgstr "すべて置き換える"
+
+msgid "Replaced {replaced} files in {where}"
+msgstr "{replaced}件のファイルを{where}で置き換えました"
+
+msgid "Replaced 1 file in {where}"
+msgstr "1件のファイルを{where}で置き換えました"
+
+msgid "Reply"
+msgstr "返信"
+
+msgid "Report Issue"
+msgstr "問題を報告"
+
+msgid "Repositories"
+msgstr "リポジトリ"
+
+msgid "Repository"
+msgstr "リポジトリ"
+
+msgid "Repository URL or path"
+msgstr "リポジトリのURLまたはパス"
+
+msgid "Request cancellation"
+msgstr "キャンセルを要求"
+
+msgid "Requested permissions"
+msgstr "要求された権限"
+
+msgid "Reserved by OS"
+msgstr "OSが予約済み"
+
+msgid "Reserved by terminal"
+msgstr "ターミナルが予約済み"
+
+msgid "Reset"
+msgstr "リセット"
+
+msgid "reset agents"
+msgstr "エージェントをリセットする"
+
+msgid "Reset all"
+msgstr "すべてリセット"
+
+msgid "Reset all agent commands?"
+msgstr "すべてのエージェントコマンドをリセットしますか？"
+
+msgid "Reset all shortcuts?"
+msgstr "すべてのショートカットをリセットしますか？"
+
+msgid "Reset editor"
+msgstr "エディタをリセット"
+
+msgid "Reset group appearance"
+msgstr "グループの外観をリセット"
+
+msgid "Reset terminal"
+msgstr "ターミナルをリセット"
+
+msgid "Reset to default"
+msgstr "デフォルトに戻す"
+
+msgid "Reset zoom"
+msgstr "ズームをリセット"
+
+msgid "Reset Zoom"
+msgstr "ズームをリセット"
+
+msgid "resets"
+msgstr "リセット"
+
+msgid "Resets in {countdown} · {absolute}"
+msgstr "{countdown}後にリセット · {absolute}"
+
+msgid "Resets now"
+msgstr "今すぐリセット"
+
+msgid "Resolve conversation"
+msgstr "会話を解決"
+
+msgid "Resolve conversation?"
+msgstr "会話を解決しますか？"
+
+msgid "resolve the workspace path"
+msgstr "ワークスペースのパスを解決する"
+
+msgid "Resolve these conflicts before committing."
+msgstr "コミットする前に、これらの競合を解決してください。"
+
+msgid "Resolved"
+msgstr "解決済み"
+
+msgid "Resource monitor"
+msgstr "リソースモニター"
+
+msgid "Resources"
+msgstr "リソース"
+
+msgid "Restart"
+msgstr "再起動"
+
+msgid "Restart Local Host"
+msgstr "ローカルホストを再起動"
+
+msgid "Restart to Install"
+msgstr "再起動してインストール"
+
+#. placeholder {0}: event.version ?? ""
+msgid "Restart to install v{0}"
+msgstr "再起動して v{0} をインストール"
+
+msgid "Restart to update"
+msgstr "再起動して更新"
+
+msgid "Restore"
+msgstr "復元"
+
+msgid "Restore default"
+msgstr "デフォルトを復元"
+
+msgid "Restore pane area"
+msgstr "ペイン領域を復元"
+
+msgid "restore the agent defaults"
+msgstr "エージェントの既定値を復元する"
+
+msgid "Restore this workspace record on the shared repository checkout. Terminated terminal sessions are not restarted."
+msgstr "共有リポジトリのチェックアウトで、このワークスペースレコードを復元します。終了したターミナルセッションは再起動されません。"
+
+msgid "Restore workspace"
+msgstr "ワークスペースを復元"
+
+msgid "Restore workspace?"
+msgstr "ワークスペースを復元しますか？"
+
+msgid "Restore workspace…"
+msgstr "ワークスペースを復元しています…"
+
+msgid "Restoring brings back available workspace records and existing directories. It does not restart terminated sessions or recover files changed by teardown."
+msgstr "復元すると、利用可能なワークスペースレコードと既存のディレクトリが戻ります。終了したセッションは再起動されず、クリーンアップによって変更されたファイルも復元されません。"
+
+msgid "Restoring workspace layout…"
+msgstr "ワークスペースのレイアウトを復元しています…"
+
+msgid "Restoring…"
+msgstr "復元中…"
+
+msgid "Result unknown"
+msgstr "結果は不明です"
+
+msgid "Result unknown. Refresh before retrying."
+msgstr "結果は不明です。更新してから再試行してください。"
+
+msgid "Resume a native session. The session ID is appended after these arguments."
+msgstr "ネイティブセッションを再開します。セッションIDはこれらの引数の後に追加されます。"
+
+msgid "Resume arguments"
+msgstr "再開引数"
+
+msgid "Resume same CLI session"
+msgstr "同じ CLI セッションを再開"
+
+msgid "Resume same session"
+msgstr "同じセッションを再開"
+
+msgid "Retry"
+msgstr "再試行"
+
+msgid "Retry after the connection refreshes."
+msgstr "接続が更新されてから再試行してください。"
+
+msgid "Retry checks"
+msgstr "確認を再試行"
+
+msgid "Retry dictation"
+msgstr "音声入力を再試行"
+
+msgid "Retry failed imports"
+msgstr "失敗したインポートを再試行"
+
+msgid "Retry icon update"
+msgstr "アイコンの更新を再試行"
+
+msgid "Retry in a few seconds; if it persists, restart Jedv."
+msgstr "数秒後に再試行してください。解消しない場合はJedvを再起動してください。"
+
+msgid "Retry in a few seconds."
+msgstr "数秒後に再試行してください。"
+
+msgid "Return to Save"
+msgstr "保存に戻る"
+
+msgid "Reveal in Finder"
+msgstr "Finderに表示"
+
+msgid "Reveal in sidebar"
+msgstr "サイドバーに表示"
+
+msgid "Review"
+msgstr "レビュー"
+
+msgid "Review selected workspaces"
+msgstr "選択したワークスペースを確認"
+
+msgid "Review system permissions on this device."
+msgstr "このデバイスのシステム権限を確認します。"
+
+msgid "Review thread"
+msgstr "レビュースレッド"
+
+msgid "Review thread updated"
+msgstr "レビュースレッドを更新しました"
+
+msgid "Review threads could not be loaded"
+msgstr "レビュースレッドを読み込めませんでした"
+
+msgid "right pane"
+msgstr "右ペイン"
+
+msgid "Rocket"
+msgstr "ロケット"
+
+msgid "Run"
+msgstr "実行"
+
+msgid "Run agent"
+msgstr "エージェントを実行"
+
+msgid "Run agent…"
+msgstr "エージェントを実行…"
+
+msgid "Run configuration is not available"
+msgstr "実行構成を利用できません"
+
+msgid "Run History"
+msgstr "実行履歴"
+
+msgid "Run history is unavailable. Refresh to try again."
+msgstr "実行履歴を利用できません。更新して再試行してください。"
+
+msgid "Run in new terminal"
+msgstr "新しいターミナルで実行"
+
+msgid "run issues in workspaces"
+msgstr "issueをワークスペースで実行する"
+
+msgid "Run now"
+msgstr "今すぐ実行"
+
+msgid "Run output"
+msgstr "実行出力"
+
+msgid "Run repeatable work with your local agents, on a schedule or when you need it."
+msgstr "ローカルエージェントで、スケジュールまたは必要に応じて反復作業を実行します。"
+
+msgid "Run setup script"
+msgstr "セットアップスクリプトを実行"
+
+msgid "Run target"
+msgstr "実行ターゲット"
+
+msgid "run tasks in workspaces"
+msgstr "タスクをワークスペースで実行する"
+
+msgid "Run time"
+msgstr "実行時間"
+
+msgid "Run workspace command"
+msgstr "ワークスペースのコマンドを実行"
+
+msgid "Run Workspace Command"
+msgstr "ワークスペースのコマンドを実行"
+
+msgid "running"
+msgstr "実行中"
+
+msgid "Running"
+msgstr "実行中"
+
+msgid "Same-session CLI control is unavailable. No new session was started."
+msgstr "同じセッションの CLI コントロールを利用できません。新しいセッションは開始されませんでした。"
+
+msgid "Same-session control is unavailable. No new agent session was started."
+msgstr "同じセッションのコントロールは利用できません。新しいエージェントセッションは開始されませんでした。"
+
+msgid "Saturday"
+msgstr "土曜日"
+
+msgid "Save"
+msgstr "保存"
+
+msgid "Save All"
+msgstr "すべて保存"
+
+msgid "Save changes"
+msgstr "変更を保存"
+
+msgid "Save changes before closing?"
+msgstr "閉じる前に変更を保存しますか？"
+
+msgid "Save failed: {message}"
+msgstr "保存に失敗しました: {message}"
+
+msgid "Save file"
+msgstr "ファイルを保存"
+
+msgid "Save group"
+msgstr "グループを保存"
+
+msgid "Save or close all unsaved files in this project before removing it."
+msgstr "このプロジェクトを削除する前に、未保存のファイルをすべて保存または閉じてください。"
+
+msgid "Save or close every unsaved file in this workspace before deleting it."
+msgstr "このワークスペースを削除する前に、未保存のファイルをすべて保存または閉じてください。"
+
+msgid "Save or close the unsaved files before opening another workspace"
+msgstr "別のワークスペースを開く前に未保存のファイルを保存または閉じる"
+
+msgid "Save or close the unsaved files before removing this project"
+msgstr "このプロジェクトを削除する前に未保存のファイルを保存または閉じる"
+
+msgid "Save or close the unsaved files before switching hosts"
+msgstr "ホストを切り替える前に未保存のファイルを保存または閉じる"
+
+msgid "Save or close unsaved files and commit or discard changes before switching branches."
+msgstr "ブランチを切り替える前に、未保存のファイルを保存または閉じて、変更をコミットまたは破棄してください。"
+
+msgid "Save preset"
+msgstr "プリセットを保存"
+
+msgid "save the agent"
+msgstr "エージェントを保存する"
+
+msgid "save the agent command"
+msgstr "エージェントコマンドを保存する"
+
+msgid "Save to apply your changes. Drafts are kept if saving fails."
+msgstr "保存して変更を適用します。保存に失敗した場合、下書きは保持されます。"
+
+msgid "Save your changes before closing?"
+msgstr "閉じる前に変更を保存しますか？"
+
+msgid "Save your work before restarting. Unsaved changes can still prevent the restart."
+msgstr "再起動する前に作業内容を保存してください。未保存の変更が原因で再起動がブロックされる場合があります。"
+
+msgid "Saved"
+msgstr "保存済み"
+
+msgid "Saving a preset does not run its commands."
+msgstr "プリセットを保存しても、そのコマンドは実行されません。"
+
+msgid "Saving…"
+msgstr "保存中…"
+
+msgid "Scaffold a new project from a starter with fresh Git history. Setup commands will not run automatically."
+msgstr "スターターを使用して新しいプロジェクトを作成し、新しい Git 履歴を生成します。セットアップコマンドは自動的には実行されません。"
+
+#. placeholder {0}: data.scannedFiles
+#. placeholder {1}: data.pricingTableUpdated
+msgid "Scanned {0} log files. Pricing table: {1}."
+msgstr "{0} 個のログファイルをスキャンしました。料金表：{1}。"
+
+msgid "Schedule"
+msgstr "スケジュール"
+
+msgid "Scheduled"
+msgstr "スケジュール済み"
+
+msgid "Screenshots"
+msgstr "スクリーンショット"
+
+msgid "Scroll the active terminal to the bottom"
+msgstr "アクティブなターミナルを一番下までスクロールする"
+
+msgid "Scroll to bottom"
+msgstr "一番下へスクロール"
+
+msgid "Scroll to Bottom"
+msgstr "一番下までスクロール"
+
+msgid "Search"
+msgstr "検索"
+
+msgid "Search active workspaces…"
+msgstr "アクティブなワークスペースを検索…"
+
+msgid "Search and open files in the current workspace"
+msgstr "現在のワークスペース内のファイルを検索して開く"
+
+msgid "Search automations"
+msgstr "オートメーションを検索"
+
+msgid "Search automations…"
+msgstr "自動化を検索…"
+
+msgid "Search branches..."
+msgstr "ブランチを検索..."
+
+msgid "Search changed files"
+msgstr "変更されたファイルを検索"
+
+msgid "Search files"
+msgstr "ファイルを検索"
+
+msgid "Search Files"
+msgstr "ファイルを検索"
+
+msgid "Search files..."
+msgstr "ファイルを検索..."
+
+msgid "Search fonts..."
+msgstr "フォントを検索..."
+
+msgid "Search projects"
+msgstr "プロジェクトを検索"
+
+msgid "Search pull requests"
+msgstr "プルリクエストを検索"
+
+msgid "Search pull requests or enter a PR number…"
+msgstr "PR を検索するか、PR 番号を入力…"
+
+msgid "Search pull requests…"
+msgstr "プルリクエストを検索…"
+
+msgid "Search repositories..."
+msgstr "リポジトリを検索..."
+
+msgid "Search settings"
+msgstr "設定を検索"
+
+msgid "Search settings…"
+msgstr "設定を検索…"
+
+msgid "Search shortcuts"
+msgstr "ショートカットを検索"
+
+msgid "Search shortcuts…"
+msgstr "ショートカットを検索…"
+
+msgid "Search text in the active chat"
+msgstr "アクティブなチャット内でテキストを検索する"
+
+msgid "Search text in the active page"
+msgstr "アクティブなページ内でテキストを検索する"
+
+msgid "Search text in the active terminal"
+msgstr "アクティブなターミナル内でテキストを検索する"
+
+msgid "Search text in the changes diff"
+msgstr "変更の差分内でテキストを検索する"
+
+msgid "Search text in the rendered file viewer"
+msgstr "レンダリングされたファイルビューア内でテキストを検索する"
+
+msgid "Search workspaces"
+msgstr "ワークスペースを検索"
+
+msgid "Search workspaces…"
+msgstr "ワークスペースを検索…"
+
+msgid "Searching…"
+msgstr "検索しています…"
+
+msgid "See what changed in this version."
+msgstr "このバージョンの変更内容を確認します。"
+
+msgid "Select a file to preview or edit"
+msgstr "プレビューまたは編集するファイルを選択"
+
+msgid "Select a project"
+msgstr "プロジェクトを選択してください"
+
+msgid "Select a shortcut and press the new keys. Escape cancels; Backspace clears the binding."
+msgstr "ショートカットを選択して新しいキーを押します。Escapeでキャンセル、Backspaceで割り当てを解除します。"
+
+msgid "Select All"
+msgstr "すべて選択"
+
+msgid "Select an agent terminal to inspect or control its current session."
+msgstr "エージェントターミナルを選択して、現在のセッションを検査または制御します。"
+
+msgid "Select an option"
+msgstr "オプションを選択"
+
+msgid "Select base branch…"
+msgstr "ベースブランチを選択…"
+
+msgid "Select commit range"
+msgstr "コミット範囲を選択"
+
+msgid "Select directory"
+msgstr "ディレクトリを選択"
+
+msgid "Select Directory"
+msgstr "ディレクトリを選択"
+
+msgid "Select existing worktrees to import. Files stay in place and setup commands will not run."
+msgstr "インポートする既存のワークツリーを選択してください。ファイルはそのまま残り、セットアップコマンドは実行されません。"
+
+msgid "Select new project location"
+msgstr "新しいプロジェクトの場所を選択"
+
+msgid "Select Notification Sound"
+msgstr "通知音を選択"
+
+msgid "Select only the workspaces you intend to remove. Each selected workspace receives its own current-state inspection and destructive confirmation. Cancelling one skips it."
+msgstr "削除するワークスペースのみを選択してください。選択した各ワークスペースで、個別に現在の状態の検査と削除の確認が行われます。キャンセルしたワークスペースはスキップされます。"
+
+msgid "Select Organization Logo"
+msgstr "組織のロゴを選択"
+
+msgid "Select project location"
+msgstr "プロジェクトの場所を選択"
+
+msgid "Select range..."
+msgstr "範囲を選択..."
+
+msgid "Select repositories"
+msgstr "リポジトリを選択"
+
+msgid "Select worktree…"
+msgstr "ワークツリーを選択…"
+
+msgid "Selected"
+msgstr "選択済み"
+
+msgid "Send"
+msgstr "送信"
+
+msgid "Send message"
+msgstr "メッセージを送信"
+
+msgid "Sensitive values are hidden. This preview is incomplete."
+msgstr "機密情報は非表示になっています。このプレビューは不完全です。"
+
+msgid "Sequential commands in one terminal"
+msgstr "1 つのターミナルでコマンドを順次実行"
+
+msgid "Session"
+msgstr "セッション"
+
+msgid "Session ended"
+msgstr "セッション終了"
+
+msgid "Session ID"
+msgstr "セッション ID"
+
+msgid "Session name"
+msgstr "セッション名"
+
+msgid "Session status and notifications"
+msgstr "セッションの状態と通知"
+
+msgid "Sessions"
+msgstr "セッション"
+
+#. placeholder {0}: color.name
+msgid "Set color to {0}"
+msgstr "色を{0}に設定"
+
+#. placeholder {0}: i18n._(glyph.label)
+msgid "Set icon to {0}"
+msgstr "アイコンを{0}に設定"
+
+msgid "Set Run"
+msgstr "実行を設定"
+
+msgid "Set up later"
+msgstr "後で設定"
+
+msgid "Settings"
+msgstr "設定"
+
+msgid "Settings section unavailable"
+msgstr "設定セクションを利用できません"
+
+msgid "Settings sections"
+msgstr "設定セクション"
+
+msgid "Settings..."
+msgstr "設定..."
+
+msgid "settings.ts"
+msgstr "settings.ts"
+
+msgid "Setup completion is unavailable for this workspace. Review setup or turn off waiting in settings."
+msgstr "このワークスペースのセットアップ完了状態を利用できません。セットアップを確認するか、設定で待機を無効にしてください。"
+
+msgid "Shared"
+msgstr "共有"
+
+msgid "Shift+click"
+msgstr "Shift+クリック"
+
+msgid "Show agent commands and pinned terminal presets above the workspace."
+msgstr "ワークスペースの上にエージェントコマンドとピン留めされたターミナルプリセットを表示します。"
+
+msgid "Show Apple's installer"
+msgstr "Apple のインストーラを表示"
+
+msgid "Show deleted workspaces"
+msgstr "削除されたワークスペースを表示"
+
+msgid "Show details"
+msgstr "詳細を表示"
+
+msgid "Show hidden directories"
+msgstr "隠しディレクトリを表示"
+
+msgid "Show hidden files"
+msgstr "隠しファイルを表示"
+
+msgid "Show in folder"
+msgstr "フォルダに表示"
+
+msgid "Show in workspace launcher"
+msgstr "ワークスペースランチャーに表示"
+
+msgid "Show Keyboard Shortcuts"
+msgstr "キーボードショートカットを表示"
+
+msgid "Show less"
+msgstr "表示を減らす"
+
+msgid "Show local resource usage in the workspace."
+msgstr "ワークスペースにローカルリソースの使用量を表示します。"
+
+msgid "Show more"
+msgstr "もっと見る"
+
+msgid "Show Scripts Bar"
+msgstr "スクリプトバーを表示"
+
+msgid "Show the next tab in the right sidebar without moving focus"
+msgstr "フォーカスを移動せずに右サイドバーの次のタブを表示"
+
+msgid "Show the previous tab in the right sidebar without moving focus"
+msgstr "フォーカスを移動せずに右サイドバーの前のタブを表示"
+
+msgid "Show the Usage entry in the main sidebar."
+msgstr "メインサイドバーに「使用量」エントリーを表示します。"
+
+msgid "Show update"
+msgstr "更新を表示"
+
+msgid "Show workspace activity"
+msgstr "ワークスペースアクティビティを表示"
+
+msgid "Showing the first 100 results. Refine your search."
+msgstr "最初の 100 件を表示しています。検索条件を絞り込んでください。"
+
+msgid "Side by side"
+msgstr "並べて比較"
+
+msgid "Sidebar file rows"
+msgstr "サイドバーのファイル行"
+
+msgid "Sign in to GitHub on this host to reply"
+msgstr "このホストでGitHubにサインインして返信"
+
+msgid "Size"
+msgstr "サイズ"
+
+msgid "Skipped"
+msgstr "スキップ"
+
+msgid "Slate"
+msgstr "スレート"
+
+msgid "Some files are not an accepted type and were not added."
+msgstr "一部のファイルは対応していない形式のため追加されませんでした。"
+
+msgid "Some files could not be saved. Review their tabs before closing."
+msgstr "一部のファイルを保存できませんでした。閉じる前に、それらのタブを確認してください。"
+
+msgid "Some files exceed the maximum size and were not added."
+msgstr "一部のファイルは最大サイズを超えているため追加されませんでした。"
+
+msgid "Some files may already have been copied. Check the workspace attachments folder before retrying."
+msgstr "一部のファイルはすでにコピーされている可能性があります。再試行する前に、ワークスペースの添付ファイルフォルダーを確認してください。"
+
+msgid "Some project tree actions could not be loaded. Other actions remain available."
+msgstr "一部のプロジェクトツリー操作を読み込めませんでした。他の操作は引き続き使用できます。"
+
+msgid "Some session details could not be loaded. Refresh to check the current host state."
+msgstr "一部のセッション詳細を読み込めませんでした。更新して現在のホスト状態を確認してください。"
+
+msgid "Some themes were skipped"
+msgstr "一部のテーマはスキップされました"
+
+msgid "Something went wrong"
+msgstr "問題が発生しました"
+
+msgid "Something went wrong. Please try again."
+msgstr "問題が発生しました。もう一度お試しください。"
+
+msgid "Source Code"
+msgstr "ソースコード"
+
+msgid "Sparse checkout"
+msgstr "スパースチェックアウト"
+
+msgid "Split Along Longer Side"
+msgstr "長い辺に沿って分割"
+
+msgid "Split diff"
+msgstr "分割差分"
+
+msgid "Split Down"
+msgstr "下に分割"
+
+msgid "Split Horizontally"
+msgstr "水平に分割"
+
+msgid "split pane"
+msgstr "分割ペイン"
+
+msgid "Split pane"
+msgstr "分割ペイン"
+
+msgid "Split panes"
+msgstr "ペインを分割"
+
+msgid "Split Right"
+msgstr "右に分割"
+
+msgid "Split the current pane along its longer side"
+msgstr "現在のペインを長い辺に沿って分割する"
+
+msgid "Split the current pane and open a mobile simulator"
+msgstr "現在のペインを分割してモバイルシミュレーターを開く"
+
+msgid "Split the current pane and open the sandbox desktop"
+msgstr "現在のペインを分割してサンドボックスのデスクトップを開きます"
+
+msgid "Split the current pane downward"
+msgstr "現在のペインを下方向に分割する"
+
+msgid "Split the current pane to the right"
+msgstr "現在のペインを右方向に分割する"
+
+msgid "Split Vertically"
+msgstr "垂直に分割"
+
+msgid "Split with Mobile Simulator"
+msgstr "モバイルシミュレーターで分割"
+
+msgid "Split with Sandbox Desktop"
+msgstr "サンドボックスのデスクトップで分割"
+
+msgid "Squash"
+msgstr "スカッシュ"
+
+msgid "Stage All"
+msgstr "すべてステージ"
+
+msgid "Stage all changes"
+msgstr "すべての変更をステージ"
+
+msgid "Stage file"
+msgstr "ファイルをステージ"
+
+msgid "Staged"
+msgstr "ステージ済み"
+
+msgid "Star"
+msgstr "スター"
+
+msgid "Start a new agent, or choose an existing session from Sessions."
+msgstr "新しいエージェントを開始するか、「セッション」から既存のセッションを選択してください。"
+
+msgid "Start from a template"
+msgstr "テンプレートから開始"
+
+msgid "Start new session"
+msgstr "新しいセッションを開始"
+
+msgid "Start or stop the workspace run command"
+msgstr "ワークスペースの実行コマンドを開始または停止する"
+
+msgid "starting"
+msgstr "起動中"
+
+msgid "Starting"
+msgstr "起動中"
+
+msgid "Starting the agent…"
+msgstr "エージェントを起動しています…"
+
+msgid "Status"
+msgstr "ステータス"
+
+msgid "Status unavailable"
+msgstr "状態を利用できません"
+
+msgid "Status unavailable. Review this permission in System Settings."
+msgstr "状態を利用できません。システム設定でこの権限を確認してください。"
+
+msgid "Stop"
+msgstr "停止"
+
+msgid "Stop {label}"
+msgstr "{label} を停止"
+
+msgid "Stop dictation"
+msgstr "音声入力を停止"
+
+msgid "Stop forwarded ports?"
+msgstr "転送されたポートを停止しますか？"
+
+msgid "Stop forwarding"
+msgstr "転送を停止"
+
+msgid "Stop listening processes?"
+msgstr "リスニングプロセスを停止しますか？"
+
+msgid "Stop listening processes…"
+msgstr "リスニングプロセスを停止しています…"
+
+msgid "Stop local process"
+msgstr "ローカルプロセスを停止"
+
+msgid "Stop local process?"
+msgstr "ローカルプロセスを停止しますか？"
+
+msgid "Stop response"
+msgstr "応答を停止"
+
+msgid "stopped"
+msgstr "停止"
+
+msgid "Strict CLI resume is unavailable on this host. Active CLI and chat sessions remain selectable."
+msgstr "このホストでは厳密な CLI 再開を利用できません。アクティブな CLI セッションとチャットセッションは引き続き選択できます。"
+
+msgid "Strikethrough"
+msgstr "取り消し線"
+
+msgid "Submit"
+msgstr "送信"
+
+msgid "Submit response"
+msgstr "応答を送信"
+
+msgid "Summary"
+msgstr "概要"
+
+msgid "Sunday"
+msgstr "日曜日"
+
+msgid "Switch branch"
+msgstr "ブランチを切り替え"
+
+msgid "Switch branch?"
+msgstr "ブランチを切り替えますか？"
+
+msgid "Switch to Active Workspace"
+msgstr "アクティブなワークスペースに切り替え"
+
+msgid "Switch to Local"
+msgstr "ローカルに切り替える"
+
+msgid "Switch to Tab 1"
+msgstr "タブ1に切り替え"
+
+msgid "Switch to Tab 2"
+msgstr "タブ2に切り替え"
+
+msgid "Switch to Tab 3"
+msgstr "タブ3に切り替え"
+
+msgid "Switch to Tab 4"
+msgstr "タブ4に切り替え"
+
+msgid "Switch to Tab 5"
+msgstr "タブ5に切り替え"
+
+msgid "Switch to Tab 6"
+msgstr "タブ6に切り替え"
+
+msgid "Switch to Tab 7"
+msgstr "タブ7に切り替え"
+
+msgid "Switch to Tab 8"
+msgstr "タブ8に切り替え"
+
+msgid "Switch to Tab 9"
+msgstr "タブ9に切り替え"
+
+msgid "Switch to this device to edit terminal presets and choose local projects."
+msgstr "このデバイスに切り替えて、ターミナルプリセットを編集し、ローカルプロジェクトを選択してください。"
+
+msgid "Switch to Workspace 1"
+msgstr "ワークスペース1に切り替え"
+
+msgid "Switch to Workspace 2"
+msgstr "ワークスペース2に切り替え"
+
+msgid "Switch to Workspace 3"
+msgstr "ワークスペース3に切り替え"
+
+msgid "Switch to Workspace 4"
+msgstr "ワークスペース4に切り替え"
+
+msgid "Switch to Workspace 5"
+msgstr "ワークスペース5に切り替え"
+
+msgid "Switch to Workspace 6"
+msgstr "ワークスペース6に切り替え"
+
+msgid "Switch to Workspace 7"
+msgstr "ワークスペース7に切り替え"
+
+msgid "Switch to Workspace 8"
+msgstr "ワークスペース8に切り替え"
+
+msgid "Switch to Workspace 9"
+msgstr "ワークスペース9に切り替え"
+
+msgid "System"
+msgstr "システム"
+
+msgid "System permissions"
+msgstr "システム権限"
+
+msgid "Take control"
+msgstr "操作を開始"
+
+#. placeholder {0}: context.hostLabel
+#. placeholder {0}: session.context.hostLabel
+msgid "Target host: {0}"
+msgstr "ターゲットホスト：{0}"
+
+msgid "Teal"
+msgstr "ティール"
+
+msgid "Teardown exited with code {exitCode}"
+msgstr "ティアダウンがコード{exitCode}で終了しました"
+
+msgid "Teardown failed to start"
+msgstr "ティアダウンを開始できませんでした"
+
+msgid "Teardown terminated by signal {signal}"
+msgstr "ティアダウンがシグナル{signal}で終了しました"
+
+msgid "Teardown timed out after {seconds}s"
+msgstr "ティアダウンが{seconds}秒でタイムアウトしました"
+
+msgid "Terminal"
+msgstr "ターミナル"
+
+msgid "Terminal daemon"
+msgstr "ターミナルデーモン"
+
+msgid "Terminal font"
+msgstr "ターミナルフォント"
+
+msgid "Terminal font size when a terminal is focused, page zoom in a browser pane, otherwise the whole app"
+msgstr "ターミナルにフォーカスがあるときはターミナルのフォントサイズ、ブラウザペインではページのズーム、それ以外はアプリ全体"
+
+msgid "Terminal owns this session"
+msgstr "このセッションはターミナルが所有しています"
+
+msgid "Terminal presets"
+msgstr "ターミナルプリセット"
+
+msgid "Terminal sessions"
+msgstr "ターミナルセッション"
+
+msgid "Terminal typography"
+msgstr "ターミナルのタイポグラフィ"
+
+msgid "Terminate"
+msgstr "終了"
+
+msgid "Terminate session"
+msgstr "セッションを終了"
+
+msgid "Terminate this terminal session?"
+msgstr "このターミナルセッションを終了しますか？"
+
+msgid "Text"
+msgstr "テキスト"
+
+msgid "Text style"
+msgstr "テキストスタイル"
+
+msgid "That name isn't allowed."
+msgstr "その名前は使用できません。"
+
+msgid "the active organization"
+msgstr "アクティブな組織"
+
+msgid "The active session changed. The prompt was not sent."
+msgstr "アクティブなセッションが変更されました。プロンプトは送信されませんでした。"
+
+msgid "The agent reports it is working."
+msgstr "エージェントは作業中と報告しています。"
+
+msgid "The attachment copy result is incomplete. Check the workspace before retrying."
+msgstr "添付ファイルのコピー結果が不完全です。再試行する前にワークスペースを確認してください。"
+
+msgid "The attachment could not be read."
+msgstr "添付ファイルを読み込めませんでした。"
+
+msgid "The attachment path is outside this workspace."
+msgstr "添付ファイルのパスはこのワークスペースの外にあります。"
+
+msgid "The branch changed. Review the current branch before trying again."
+msgstr "ブランチが変更されました。再試行する前に現在のブランチを確認してください。"
+
+msgid "The command used to start this agent."
+msgstr "このエージェントを起動するために使用されるコマンド。"
+
+msgid "The default location for new worktrees on the connected host."
+msgstr "接続されたホストでの新しいワークツリーのデフォルトの場所。"
+
+msgid "The definition and its run records will be deleted. Existing workspaces and sessions remain available."
+msgstr "定義とその実行記録が削除されます。既存のワークスペースとセッションは引き続き利用できます。"
+
+msgid "The existing session identity could not be verified. Refresh before retrying."
+msgstr "既存セッションの同一性を確認できませんでした。再試行する前に更新してください。"
+
+msgid "The file changed on disk. Review it before saving again."
+msgstr "ファイルがディスク上で変更されました。確認してから保存し直してください。"
+
+msgid "The file changed. Review its diff before discarding."
+msgstr "ファイルが変更されました。破棄する前に、その diff を確認してください。"
+
+msgid "The file did not contain any importable themes."
+msgstr "ファイルにインポート可能なテーマが含まれていませんでした。"
+
+msgid "The file path is unavailable"
+msgstr "ファイルパスを利用できません"
+
+msgid "The Jedv host service for {organization} stopped unexpectedly ({cause}) and could not be restarted automatically."
+msgstr "{organization}のJedvホストサービスが予期せず停止し ({cause})、自動的に再起動できませんでした。"
+
+msgid "The Jedv host service stopped unexpectedly ({cause}) and could not be restarted automatically."
+msgstr "Jedvのホストサービスが予期せず停止し ({cause})、自動的に再起動できませんでした。"
+
+msgid "The linked local agent is unavailable on this host. Edit the preset or remove its agent link."
+msgstr "リンクされたローカルエージェントはこのホストでは利用できません。プリセットを編集するか、エージェントのリンクを解除してください。"
+
+msgid "The local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
+msgstr "{device}の{organization}でローカルのホストサービスが利用できません。ステータス: {status}。{recovery}"
+
+msgid "The operation result is unknown. Check the branch history and remote before retrying."
+msgstr "操作結果は不明です。再試行する前に、ブランチ履歴とリモートを確認してください。"
+
+msgid "The page you're looking for doesn't exist."
+msgstr "お探しのページは存在しません。"
+
+msgid "The project is saved, but its workspace could not be opened. Continue opening to retry without creating another project."
+msgstr "プロジェクトは保存されましたが、そのワークスペースを開けませんでした。別のプロジェクトを作成せずに、開く処理を続行して再試行してください。"
+
+msgid "The project was saved. Continue opening its workspace."
+msgstr "プロジェクトを保存しました。そのワークスペースを開く処理を続行してください。"
+
+msgid "The repository directory is missing on this host. Open the repository at its current path to set it up again."
+msgstr "このホストにはリポジトリディレクトリがありません。現在のパスでリポジトリを開いて、再度セットアップしてください。"
+
+msgid "The request ended before its result was confirmed. Check the target host for a completed project or partial directory before trying again."
+msgstr "結果が確認される前にリクエストが終了しました。再試行する前に、ターゲットホストに完了したプロジェクトまたは部分的なディレクトリがあるか確認してください。"
+
+msgid "The resumed session identity could not be verified. Refresh before retrying."
+msgstr "再開したセッションの ID を検証できませんでした。更新してから再試行してください。"
+
+msgid "The run command is still stopping. Wait, then restart."
+msgstr "実行コマンドはまだ停止中です。待機してから再起動してください。"
+
+msgid "The screenshot is no longer available."
+msgstr "このスクリーンショットは利用できなくなりました。"
+
+msgid "The session changed. Select its current run in the workspace."
+msgstr "セッションが変更されました。ワークスペースで現在の実行を選択してください。"
+
+msgid "The session identity changed. Select it again."
+msgstr "セッションの ID が変更されました。もう一度選択してください。"
+
+msgid "The session identity is unavailable."
+msgstr "セッションの ID を利用できません。"
+
+msgid "The staged files changed. Review them before committing."
+msgstr "ステージ済みのファイルが変更されました。コミットする前に確認してください。"
+
+msgid "The symbolic link target is unavailable"
+msgstr "シンボリックリンクのターゲットを利用できません"
+
+msgid "The target directory is missing, but the operation result is unknown. This does not confirm cancellation. Check the operation status again."
+msgstr "ターゲットディレクトリはありませんが、操作結果は不明です。これはキャンセルを確認するものではありません。もう一度操作状態を確認してください。"
+
+msgid "The target host confirmed this operation has ended. You can retry; an existing directory will not be overwritten."
+msgstr "ターゲットホストがこの操作の終了を確認しました。再試行できます。既存のディレクトリは上書きされません。"
+
+msgid "The target host confirmed this operation has stopped. You can retry; if the target directory remains, choose another location."
+msgstr "ターゲットホストがこの操作の停止を確認しました。再試行できます。ターゲットディレクトリが残っている場合は、別の場所を選択してください。"
+
+msgid "The target host is still processing this request. Check again before starting another operation here."
+msgstr "ターゲットホストはまだこのリクエストを処理しています。ここで別の操作を開始する前に、もう一度確認してください。"
+
+msgid "The target pane area cannot receive this pane"
+msgstr "移動先のペイン領域ではこのペインを受け入れられません"
+
+msgid "The target pane area did not receive this pane"
+msgstr "移動先のペイン領域はこのペインを受け入れませんでした"
+
+msgid "The target workspace changed. Return to the original workspace before continuing."
+msgstr "対象ワークスペースが変わりました。続行する前に元のワークスペースに戻ってください。"
+
+msgid "The target workspace changed. The result belongs to the original workspace."
+msgstr "対象ワークスペースが変わりました。結果は元のワークスペースに属します。"
+
+msgid "The terminal session changed. Refresh before inserting the prompt."
+msgstr "ターミナルセッションが変更されました。プロンプトを挿入する前に更新してください。"
+
+msgid "The terminal session ended unexpectedly"
+msgstr "ターミナルセッションが予期せず終了しました"
+
+msgid "The workspace changed"
+msgstr "ワークスペースが変更されました"
+
+msgid "The workspace files will change to the selected branch."
+msgstr "ワークスペースのファイルは選択したブランチに切り替わります。"
+
+msgid "The workspace is saved. Continue opening it without creating another workspace."
+msgstr "ワークスペースを保存しました。別のワークスペースを作成せずに、開く処理を続行してください。"
+
+msgid "The workspace list changed on the host. Refresh it before reordering."
+msgstr "ホスト上のワークスペース一覧が変更されました。並べ替える前に更新してください。"
+
+msgid "The workspace was deleted. Continue to refresh the target host."
+msgstr "ワークスペースを削除しました。ターゲットホストの更新を続行してください。"
+
+msgid "Theme"
+msgstr "テーマ"
+
+msgid "Theme default"
+msgstr "テーマのデフォルト"
+
+msgid "Theme file too large"
+msgstr "テーマファイルが大きすぎます"
+
+msgid "These metrics belong to this device. Remote host processes are not included."
+msgstr "これらのメトリクスはこのデバイスのものです。リモートホストのプロセスは含まれません。"
+
+msgid "These notes ship with the application. Published release details are available in the Jedv repository."
+msgstr "これらのノートはアプリケーションに同梱されています。公開されたリリースの詳細は Jedv リポジトリで確認できます。"
+
+msgid "This action is irreversible."
+msgstr "この操作は元に戻せません。"
+
+msgid "This API login does not expose subscription quota."
+msgstr "このAPIログインではサブスクリプションクォータは公開されません。"
+
+msgid "This automation is no longer available"
+msgstr "この自動化は利用できなくなりました"
+
+msgid "This branch has conflicts"
+msgstr "このブランチには競合があります"
+
+msgid "This changes the pull request state on GitHub."
+msgstr "GitHubでプルリクエストの状態を変更します。"
+
+msgid "This chat is no longer live. The prompt was not sent."
+msgstr "このチャットはライブではなくなりました。プロンプトは送信されませんでした。"
+
+msgid "This chat is read only. Use Start new session to begin another chat."
+msgstr "このチャットは読み取り専用です。「新しいセッションを開始」を使用して別のチャットを開始してください。"
+
+msgid "This closes every terminal session on this host, including running agents and background processes. Restart does not preserve sessions."
+msgstr "このホストのすべてのターミナルセッションを閉じます。実行中のエージェントとバックグラウンドプロセスも含まれます。再起動してもセッションは保持されません。"
+
+msgid "This closes the run terminal and its running processes."
+msgstr "実行中のターミナルとその実行中のプロセスを閉じます。"
+
+msgid "This closes the workspace and its terminals. The project's files, branches and other workspaces stay as they are."
+msgstr "ワークスペースとそのターミナルを閉じます。プロジェクトのファイル、ブランチ、他のワークスペースはそのまま残ります。"
+
+msgid "This comment will be visible on the remote pull request."
+msgstr "このコメントはリモートのプルリクエストに表示されます。"
+
+msgid "This creates a remote pull request from the workspace branch."
+msgstr "ワークスペースブランチからリモートプルリクエストを作成します。"
+
+msgid "This deletes the file from disk. Unsaved editor buffers are kept. This action cannot be undone."
+msgstr "ファイルをディスクから削除します。未保存のエディターバッファーは保持されます。この操作は元に戻せません。"
+
+msgid "This deletes the folder and all its contents. Unsaved editor buffers are kept. This action cannot be undone."
+msgstr "フォルダーとそのすべての内容を削除します。未保存のエディターバッファーは保持されます。この操作は元に戻せません。"
+
+msgid "This deletes the session's folder and everything in it from disk."
+msgstr "セッションのフォルダとその中身すべてをディスクから削除します。"
+
+msgid "this device"
+msgstr "このデバイス"
+
+msgid "This device"
+msgstr "このデバイス"
+
+msgid "this device ({id})"
+msgstr "このデバイス ({id})"
+
+msgid "This draft belongs to another session. Return to it or discard the draft before composing here."
+msgstr "この下書きは別のセッションのものです。ここで作成する前に、そのセッションに戻るか、下書きを破棄してください。"
+
+msgid "This file cannot be edited as text."
+msgstr "このファイルはテキストとして編集できません。"
+
+msgid "This file is outside the workspace"
+msgstr "このファイルはワークスペース外です"
+
+msgid "This file is outside the workspace or its symbolic link cannot be safely resolved"
+msgstr "このファイルはワークスペースの外にあるか、そのシンボリックリンクを安全に解決できません"
+
+msgid "This folder is not a Git repository. Initialize Git here and import it as a project? Existing files will be kept."
+msgstr "このフォルダーは Git リポジトリではありません。ここで Git を初期化してプロジェクトとしてインポートしますか？既存のファイルは保持されます。"
+
+msgid "This host did not provide a readable preview. Review the request in the agent CLI before approving."
+msgstr "このホストは読み取り可能なプレビューを提供していません。承認する前に、エージェント CLI でリクエストを確認してください。"
+
+msgid "This is a large file. Opening it may slow down the editor."
+msgstr "これは大きなファイルです。開くとエディターの動作が遅くなる場合があります。"
+
+msgid "This pane can't be shown"
+msgstr "このペインは表示できません"
+
+msgid "This pane hit an error"
+msgstr "このペインでエラーが発生しました"
+
+msgid "This permanently deletes the removed project and workspace records and attempts to remove their clean worktree directories. Dirty worktree directories may remain untracked. The main repository directory is kept. This cannot be undone."
+msgstr "削除されたプロジェクトとワークスペースのレコードを完全に削除し、クリーンなワークツリーディレクトリの削除を試みます。変更を含むワークツリーディレクトリは追跡されないまま残る場合があります。メインのリポジトリディレクトリは保持されます。この操作は元に戻せません。"
+
+msgid "This preview was shortened. Review the full request in the agent CLI."
+msgstr "このプレビューは短縮されています。エージェント CLI で完全なリクエストを確認してください。"
+
+msgid "This project cannot be removed in its current state."
+msgstr "このプロジェクトは現在の状態では削除できません。"
+
+msgid "This project is not set up on the target host."
+msgstr "このプロジェクトはターゲットホストでセットアップされていません。"
+
+msgid "This project still uses the older config.json. It keeps working; convert it to config.toml to use the new sections."
+msgstr "このプロジェクトはまだ以前の config.json を使っています。引き続き動作しますが、新しいセクションを使うには config.toml に変換してください。"
+
+msgid "This project's host is offline"
+msgstr "このプロジェクトのホストはオフラインです"
+
+msgid "This prompt is no longer active."
+msgstr "このプロンプトは有効ではなくなりました。"
+
+msgid "This removes all custom shortcut bindings, including actions outside this list."
+msgstr "この一覧以外のアクションを含め、すべてのカスタムショートカット割り当てを削除します。"
+
+msgid "This removes all saved screenshots listed here. Attachments already copied into a workspace are kept."
+msgstr "ここに一覧表示されているすべての保存済みスクリーンショットを削除します。ワークスペースにコピー済みの添付ファイルは保持されます。"
+
+msgid "This removes custom agents and replaces all launch configurations with the four bundled defaults. Existing sessions keep running. This cannot be undone."
+msgstr "カスタムエージェントを削除し、すべての起動構成を 4 つの組み込みデフォルトに置き換えます。既存のセッションは実行されたままです。この操作は元に戻せません。"
+
+msgid "This removes its launch configuration. Existing sessions keep running."
+msgstr "起動構成を削除します。既存のセッションは実行を継続します。"
+
+msgid "This removes the saved commands from this device. Running terminals are not affected."
+msgstr "このデバイスに保存されたコマンドを削除します。実行中のターミナルには影響しません。"
+
+msgid "This removes the worktree from disk and closes the workspace."
+msgstr "ワークツリーをディスクから削除し、ワークスペースを閉じます。"
+
+msgid "This reply will be visible in the remote review thread."
+msgstr "この返信はリモートのレビュースレッドに表示されます。"
+
+msgid "This repository is no longer available as a Git repository."
+msgstr "このリポジトリは Git リポジトリとして利用できなくなりました。"
+
+msgid "This restores the file in the index and on disk to HEAD, or deletes an untracked file. Unsaved editor buffers are kept. This action cannot be undone."
+msgstr "インデックスとディスク上のファイルを HEAD に復元するか、追跡されていないファイルを削除します。未保存のエディターバッファーは保持されます。この操作は元に戻せません。"
+
+msgid "This run has no agent session"
+msgstr "この実行にはエージェントセッションがありません"
+
+msgid "This session could not be resumed. No new session was started."
+msgstr "このセッションを再開できませんでした。新しいセッションは開始されませんでした。"
+
+msgid "This session is not active, or you are viewing earlier output. Refresh to check its current state."
+msgstr "このセッションはアクティブではないか、以前の出力を表示しています。更新して現在の状態を確認してください。"
+
+#. placeholder {0}: label(conflict.id)
+#. placeholder {1}: conflictsFor(conflict.id, conflict.binding) .map(label) .join(", ")
+msgid "This shortcut will be assigned to {0}. These actions will become unassigned: {1}."
+msgstr "このショートカットは {0} に割り当てられます。次のアクションの割り当ては解除されます：{1}。"
+
+#. placeholder {0}: killing?.title
+msgid "This stops {0} and its child processes. Unsaved work in the terminal can be lost."
+msgstr "{0} とその子プロセスを停止します。ターミナルで未保存の作業が失われる場合があります。"
+
+msgid "This stops only the listed forwarding tunnels. Processes on the target host keep running."
+msgstr "一覧にある転送トンネルのみを停止します。ターゲットホストのプロセスは実行されたままです。"
+
+msgid "This stops the listed processes on the original host. Terminal work or servers using them can be interrupted. Forwarding tunnels are separate."
+msgstr "元のホストで一覧にあるプロセスを停止します。それらを使用しているターミナルでの作業やサーバーが中断される場合があります。転送トンネルは別のものです。"
+
+msgid "This stops the local process occupying the forwarded port."
+msgstr "転送されたポートを使用しているローカルプロセスを停止します。"
+
+msgid "This stops the process listening on this port."
+msgstr "このポートでリスニングしているプロセスを停止します。"
+
+msgid "This stops the processes listening on the listed workspace ports."
+msgstr "一覧にあるワークスペースポートでリスニングしているプロセスを停止します。"
+
+msgid "This stops the shell and all processes running in this terminal. Workspace files are kept. Unsaved process state may be lost."
+msgstr "これにより、シェルとこのターミナルで実行中のすべてのプロセスが停止します。ワークスペースのファイルは保持されます。保存されていないプロセスの状態は失われる場合があります。"
+
+msgid "This terminal is also open on a smaller screen, so it's sized to fit"
+msgstr "このターミナルは小さい画面でも開かれているため、その画面に合わせたサイズになっています"
+
+msgid "This terminal is no longer running. Refresh the session list."
+msgstr "このターミナルは実行されていません。セッション一覧を更新してください。"
+
+msgid "This thread has no comment to reply to, or GitHub authentication is unavailable."
+msgstr "このスレッドには返信するコメントがないか、GitHub認証を利用できません。"
+
+msgid "This thread has no comment to reply to."
+msgstr "このスレッドには返信できるコメントがありません。"
+
+msgid "This updates the remote base branch on GitHub."
+msgstr "GitHubでリモートのベースブランチを更新します。"
+
+msgid "This updates the review thread on GitHub."
+msgstr "GitHubでレビュースレッドを更新します。"
+
+msgid "This view hit an error"
+msgstr "このビューでエラーが発生しました"
+
+msgid "This workspace cannot be deleted in its current state."
+msgstr "このワークスペースは現在の状態では削除できません。"
+
+msgid "This workspace shares the project's files, index, and current branch. It does not switch branches or run setup."
+msgstr "このワークスペースはプロジェクトのファイル、インデックス、現在のブランチを共有します。ブランチの切り替えやセットアップは実行されません。"
+
+msgid "Thursday"
+msgstr "木曜日"
+
+msgid "Time unavailable"
+msgstr "時刻を利用できません"
+
+msgid "Time zone"
+msgstr "タイムゾーン"
+
+msgid "To"
+msgstr "移動先"
+
+msgid "Toggle agent controls"
+msgstr "エージェントコントロールを切り替える"
+
+msgid "Toggle Right Pane Full Screen"
+msgstr "右ペインの全画面表示を切り替え"
+
+msgid "Toggle right sidebar"
+msgstr "右サイドバーを切り替え"
+
+msgid "Toggle Right Sidebar"
+msgstr "右サイドバーを切り替え"
+
+msgid "Toggle Right Sidebar Focus"
+msgstr "右サイドバーのフォーカスを切り替え"
+
+msgid "Toggle Scripts Bar"
+msgstr "スクリプトバーを切り替え"
+
+msgid "Toggle Sidebar"
+msgstr "サイドバーを切り替え"
+
+msgid "Toggle Terminal Rich Input"
+msgstr "ターミナルのリッチ入力を切り替え"
+
+msgid "Toggle Workspaces Sidebar"
+msgstr "ワークスペースサイドバーを切り替え"
+
+msgid "Tokens"
+msgstr "トークン"
+
+msgid "Too many background terminals. Reattach or end one before closing another view."
+msgstr "バックグラウンドターミナルが多すぎます。別のビューを閉じる前に、1 つを再アタッチするか終了してください。"
+
+msgid "Too many dropped items. Add at most 5000 files and folders at a time."
+msgstr "ドロップされた項目が多すぎます。一度に追加できるファイルとフォルダーは最大 5000 個です。"
+
+msgid "Too many files. Some were not added."
+msgstr "ファイルが多すぎます。一部は追加されませんでした。"
+
+msgid "Too many untitled items here already."
+msgstr "ここには無題のアイテムが多すぎます。"
+
+msgid "Tool output"
+msgstr "ツール出力"
+
+msgid "Transcribing"
+msgstr "文字起こし中"
+
+msgid "Transcribing…"
+msgstr "文字起こし中…"
+
+msgid "Tree view"
+msgstr "ツリー表示"
+
+msgid "Triggers"
+msgstr "トリガー"
+
+msgid "Try again"
+msgstr "再試行"
+
+msgid "Try changing the search or status filter."
+msgstr "検索またはステータスフィルターを変更してみてください。"
+
+msgid "Tuesday"
+msgstr "火曜日"
+
+msgid "Tufte"
+msgstr "Tufte"
+
+msgid "Turn completed"
+msgstr "ターンが完了しました"
+
+msgid "Turn finished"
+msgstr "ターンが終了しました"
+
+msgid "Type project name to confirm"
+msgstr "確認のためプロジェクト名を入力"
+
+msgid "Type to search files..."
+msgstr "入力してファイルを検索..."
+
+msgid "TypeScript"
+msgstr "TypeScript"
+
+msgid "Typography"
+msgstr "タイポグラフィ"
+
+msgid "Typography and cursor behavior used in V2 terminal panels."
+msgstr "V2ターミナルパネルで使用するタイポグラフィとカーソルの動作。"
+
+msgid "Typography used in V2 editors and diff views."
+msgstr "V2エディタと差分ビューで使用するタイポグラフィ。"
+
+msgid "Unable to check for updates."
+msgstr "更新を確認できません。"
+
+msgid "Unable to read file"
+msgstr "ファイルを読み取れません"
+
+msgid "Unable to start dictation"
+msgstr "音声入力を開始できません"
+
+msgid "Unable to transcribe audio"
+msgstr "音声を文字起こしできません"
+
+msgid "Unassigned"
+msgstr "未割り当て"
+
+msgid "Unavailable"
+msgstr "利用不可"
+
+msgid "Uncommitted"
+msgstr "未コミット"
+
+msgid "Uncommitted changes"
+msgstr "未コミットの変更"
+
+msgid "Uncommitted changes and unpushed commits"
+msgstr "未コミットの変更と未プッシュのコミット"
+
+msgid "Uncommitted or unpushed work"
+msgstr "未コミットまたは未プッシュの作業"
+
+msgid "Underline"
+msgstr "下線"
+
+msgid "Undo"
+msgstr "取り消す"
+
+msgid "Undo last closed workspace"
+msgstr "最後に閉じたワークスペースを元に戻す"
+
+msgid "Undo the last archived workspace or closed chats"
+msgstr "直前のワークスペースのアーカイブまたはチャットのクローズを元に戻す"
+
+msgid "Ungrouped"
+msgstr "グループなし"
+
+msgid "Unified diff"
+msgstr "統一差分"
+
+msgid "unknown"
+msgstr "不明"
+
+msgid "Unknown"
+msgstr "不明"
+
+msgid "Unknown error"
+msgstr "不明なエラー"
+
+msgid "Unknown pane"
+msgstr "不明なペイン"
+
+msgid "Unknown pane type: {paneKind}"
+msgstr "不明なペインの種類: {paneKind}"
+
+msgid "Unpin workspace"
+msgstr "ワークスペースのピン留めを解除"
+
+msgid "Unpushed commits"
+msgstr "未プッシュのコミット"
+
+msgid "Unreachable"
+msgstr "接続できません"
+
+msgid "Unread activity"
+msgstr "未読のアクティビティ"
+
+msgid "Unresolve"
+msgstr "解決を取り消す"
+
+msgid "Unresolve conversation?"
+msgstr "会話を未解決に戻しますか？"
+
+msgid "Unsaved changes"
+msgstr "未保存の変更"
+
+msgid "Unsaved file protection is unavailable. Delete this workspace from the sidebar."
+msgstr "未保存ファイルの保護を利用できません。サイドバーからこのワークスペースを削除してください。"
+
+msgid "Unsaved files"
+msgstr "未保存のファイル"
+
+msgid "Unstage All"
+msgstr "すべてステージ解除"
+
+msgid "Unstage file"
+msgstr "ファイルをステージ解除"
+
+msgid "Unstaged"
+msgstr "未ステージ"
+
+msgid "Untitled automation"
+msgstr "無題の自動化"
+
+msgid "update"
+msgstr "更新"
+
+msgid "Update available"
+msgstr "アップデートがあります"
+
+#. placeholder {0}: event.version ?? ""
+msgid "Update available · v{0}"
+msgstr "更新があります · v{0}"
+
+msgid "Update daemon"
+msgstr "デーモンを更新"
+
+msgid "Update did not finish. Review status before retrying."
+msgstr "更新が完了しませんでした。再試行する前に状態を確認してください。"
+
+msgid "Update failed. Try again."
+msgstr "更新に失敗しました。もう一度お試しください。"
+
+msgid "Update Jedv on this host to edit its workspace config."
+msgstr "このホストで Jedv を更新して、ワークスペース構成を編集してください。"
+
+msgid "Update status unavailable"
+msgstr "更新状態を利用できません"
+
+msgid "update the branch prefix"
+msgstr "ブランチのプレフィックスを更新する"
+
+#. placeholder {0}: event.version ?? event.currentVersion
+msgid "Updated to v{0}"
+msgstr "v{0} に更新しました"
+
+msgid "Updates"
+msgstr "アップデート"
+
+msgid "Updating…"
+msgstr "更新中…"
+
+msgid "Upload files"
+msgstr "ファイルをアップロード"
+
+msgid "Upload image…"
+msgstr "画像をアップロード…"
+
+msgid "URL copied"
+msgstr "URL をコピーしました"
+
+msgid "URL links"
+msgstr "URLリンク"
+
+msgid "Usage"
+msgstr "使用量"
+
+msgid "Usage history"
+msgstr "使用履歴"
+
+msgid "Usage in sidebar"
+msgstr "サイドバーの使用量"
+
+msgid "Usage period"
+msgstr "使用期間"
+
+#. placeholder {0}: search.trim()
+msgid "Use “{0}”"
+msgstr "「{0}」を使用"
+
+msgid "Use an existing repository at this location. Jedv changes the registered path and local checkout workspaces; it does not move files. Existing worktrees under the old repository may need to be imported again."
+msgstr "この場所にある既存のリポジトリを使用します。Jedv は登録されたパスとローカルチェックアウトのワークスペースを変更しますが、ファイルは移動しません。古いリポジトリの既存のワークツリーは、再インポートが必要になる場合があります。"
+
+msgid "Use another local port"
+msgstr "別のローカルポートを使用"
+
+msgid "Use for new sessions"
+msgstr "新しいセッションに使用"
+
+msgid "Use global default"
+msgstr "グローバルのデフォルトを使用"
+
+msgid "Use host default"
+msgstr "ホストのデフォルトを使用"
+
+msgid "Use Move to group to move workspaces between groups."
+msgstr "「グループに移動」を使用して、ワークスペースをグループ間で移動します。"
+
+msgid "Use the Jedv tray menu > Host Service > Restart, then retry."
+msgstr "Jedvのトレイメニューから「ホストサービス」>「再起動」を実行してから、再試行してください。"
+
+msgid "Use this device"
+msgstr "このデバイスを使用"
+
+msgid "Use this folder"
+msgstr "このフォルダを使用"
+
+msgid "used"
+msgstr "使用済み"
+
+msgid "Used when your system is in dark mode."
+msgstr "システムがダークモードのときに使用します。"
+
+msgid "Used when your system is in light mode."
+msgstr "システムがライトモードのときに使用します。"
+
+msgid "Uses the connected host's global Git identity. GitHub mode may read your existing gh login."
+msgstr "接続されたホストのグローバル Git ID を使用します。GitHub モードでは、既存の gh ログインが読み取られる場合があります。"
+
+msgid "Vercel's starter with Drizzle, NextAuth, and Postgres"
+msgstr "Drizzle、NextAuth、Postgres を使用した Vercel のスターター"
+
+msgid "Version installed on this device."
+msgstr "このデバイスにインストールされているバージョン。"
+
+msgctxt "menu"
+msgid "View"
+msgstr "表示"
+
+msgid "View license"
+msgstr "ライセンスを表示"
+
+msgid "View source"
+msgstr "ソースを表示"
+
+msgid "Volume"
+msgstr "音量"
+
+msgid "VS Code"
+msgstr "VS Code"
+
+msgid "Wait for workspace setup before starting an agent"
+msgstr "エージェントを起動する前にワークスペースのセットアップを待機"
+
+msgid "Waiting for approval"
+msgstr "承認待ち"
+
+msgid "We're rebuilding this feature. Check back soon."
+msgstr "この機能は作り直し中です。しばらくお待ちください。"
+
+msgid "Wednesday"
+msgstr "水曜日"
+
+msgid "Weekdays"
+msgstr "平日"
+
+msgid "Weekdays at {time}"
+msgstr "平日 {time}"
+
+msgid "Weekends"
+msgstr "土日"
+
+msgid "Weekends at {time}"
+msgstr "土日 {time}"
+
+msgid "Weekly"
+msgstr "毎週"
+
+msgid "Weekly at {time}"
+msgstr "毎週 {time}"
+
+msgid "Welcome to Jedv"
+msgstr "Jedv へようこそ"
+
+msgid "What would you like to know?"
+msgstr "何を知りたいですか?"
+
+msgid "Window"
+msgstr "ウィンドウ"
+
+msgid "Working"
+msgstr "作業中"
+
+msgid "Working directory"
+msgstr "作業ディレクトリ"
+
+msgid "Working…"
+msgstr "処理中…"
+
+msgid "Workspace"
+msgstr "ワークスペース"
+
+msgid "Workspace activity"
+msgstr "ワークスペースのアクティビティ"
+
+msgid "Workspace configuration"
+msgstr "ワークスペース構成"
+
+msgid "Workspace deletion results"
+msgstr "ワークスペースの削除結果"
+
+msgid "Workspace files are unavailable"
+msgstr "ワークスペースのファイルを利用できません"
+
+msgid "Workspace launcher"
+msgstr "ワークスペースランチャー"
+
+msgid "Workspace name"
+msgstr "ワークスペース名"
+
+msgid "Workspace navigation"
+msgstr "ワークスペースナビゲーション"
+
+msgid "Workspace not found"
+msgstr "ワークスペースが見つかりません"
+
+msgid "Workspace or running session state changed. Review the updated checks and confirm again."
+msgstr "ワークスペースまたは実行中のセッションの状態が変更されました。更新された検査結果を確認して、再度承認してください。"
+
+msgid "Workspace order"
+msgstr "ワークスペースの順序"
+
+msgid "Workspace pinning and ordering are unavailable on this host."
+msgstr "このホストではワークスペースのピン留めと並べ替えを利用できません。"
+
+msgid "Workspace read state could not be saved."
+msgstr "ワークスペースの既読状態を保存できませんでした。"
+
+msgid "workspace root"
+msgstr "ワークスペースルート"
+
+msgid "Workspace setup failed. Review the setup terminal before starting an agent."
+msgstr "ワークスペースのセットアップに失敗しました。エージェントを起動する前に、セットアップターミナルを確認してください。"
+
+msgid "Workspace setup is still running."
+msgstr "ワークスペースのセットアップはまだ実行中です。"
+
+msgid "Workspace state changed. Review the updated checks and confirm again."
+msgstr "ワークスペースの状態が変更されました。更新された検査結果を確認して、再度承認してください。"
+
+msgid "Workspaces"
+msgstr "ワークスペース"
+
+msgid "worktree"
+msgstr "ワークツリー"
+
+msgid "Worktree"
+msgstr "ワークツリー"
+
+msgid "Worktree base directory"
+msgstr "ワークツリーのベースディレクトリ"
+
+msgid "Worktree location"
+msgstr "ワークツリーの場所"
+
+msgid "Write a reply…"
+msgstr "返信を入力…"
+
+msgid "Write access to this repository is required to create a pull request from this workspace."
+msgstr "このワークスペースからプルリクエストを作成するには、このリポジトリへの書き込み権限が必要です。"
+
+msgid "Yellow"
+msgstr "黄"
+
+msgid "Yes"
+msgstr "はい"
+
+msgid "You"
+msgstr "あなた"
+
+msgid "You do not have permission to resolve this thread"
+msgstr "このスレッドを解決する権限がありません"
+
+msgid "You're up to date"
+msgstr "最新の状態です"
+
+msgid "You're up to date!"
+msgstr "最新の状態です!"
+
+msgid "Your automation changes have not been saved."
+msgstr "自動化の変更は保存されていません。"
+
+msgid "Your changes"
+msgstr "編集中の内容"
+
+msgid "Your imports are saved. Could not refresh or open them. Try continuing again."
+msgstr "インポートは保存されましたが、更新または開くことができませんでした。もう一度続行してみてください。"
+
+msgid "Zap"
+msgstr "稲妻"
+
+msgid "Zoom"
+msgstr "ズーム"
+
+msgid "Zoom in"
+msgstr "拡大"
+
+msgid "Zoom In"
+msgstr "拡大"
+
+msgid "Zoom out"
+msgstr "縮小"
+
+msgid "Zoom Out"
+msgstr "縮小"
+
+msgid "zsh"
+msgstr "zsh"

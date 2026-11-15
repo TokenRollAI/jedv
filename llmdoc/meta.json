@@ -1,0 +1,87 @@
+{
+  "schema": "llmdoc.meta/v3",
+  "baseline": {
+    "revision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d",
+    "verifiedAt": "2026-11-15T17:06:05.291Z"
+  },
+  "documents": {
+    "agents/chat-journal.mdx": {
+      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+    },
+    "agents/native-control.mdx": {
+      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+    },
+    "agents/provider-environment.mdx": {
+      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+    },
+    "automations/execution.mdx": {
+      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+    },
+    "desktop/failure-boundaries.mdx": {
+      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+    },
+    "desktop/localization.mdx": {
+      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+    },
+    "desktop/resource-metrics.mdx": {
+      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+    },
+    "desktop/workspace-state.mdx": {
+      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+    },
+    "distribution/cli-contract.mdx": {
+      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+    },
+    "distribution/release-integrity.mdx": {
+      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+    },
+    "execution-model.mdx": {
+      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+    },
+    "files-git/filesystem.mdx": {
+      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+    },
+    "files-git/git-execution.mdx": {
+      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+    },
+    "pull-requests/review-contract.mdx": {
+      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+    },
+    "runtime/local-host.mdx": {
+      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+    },
+    "runtime/local-persistence.mdx": {
+      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+    },
+    "runtime/outbound-content.mdx": {
+      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+    },
+    "runtime/private-connections.mdx": {
+      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+    },
+    "terminals/session-lifecycle.mdx": {
+      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+    },
+    "usage/local-history.mdx": {
+      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+    },
+    "usage/provider-accounts.mdx": {
+      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+    },
+    "workspaces/lifecycle.mdx": {
+      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+    },
+    "workspaces/setup-contract.mdx": {
+      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+    },
+    "runtime/attachments.mdx": {
+      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+    }
+  },
+  "convergence": {
+    "capturedAt": "2026-11-15T16:18:35Z",
+    "source": "init",
+    "documentCount": 23,
+    "totalEstimatedTokens": 8306
+  }
+}

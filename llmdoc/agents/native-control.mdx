@@ -1,0 +1,59 @@
+---
+description: "原生 Agent 控制权、恢复原生会话不能偷偷新建、多个窗口同时 resume、stale lease approval conflict；区分 broker 四元身份、strict 同会话恢复与 legacy fallback。"
+kind: architecture
+code:
+  paths:
+    - packages/host-service/src/chat-v3/sessionControlBroker.ts
+    - packages/host-service/src/chat-v3/codexDaemon.ts
+    - packages/host-service/src/trpc/router/terminal-agents/nativeControl.ts
+    - packages/host-service/src/trpc/router/agents/agents.ts
+    - packages/host-service/src/trpc/router/terminal-agents/terminal-agents.ts
+    - apps/desktop/src/renderer/components/JedvShell/components/NativeAgentControls/NativeAgentControls.tsx
+    - packages/host-service/src/chat-v3/approval-detail.ts
+    - apps/desktop/src/renderer/components/JedvShell/components/NativeAgentControls/components/ChatSessionControl/ChatSessionControl.tsx
+relations:
+  requires:
+    - agents/chat-journal.mdx
+  related:
+    - terminals/session-lifecycle.mdx
+    - agents/provider-environment.mdx
+---
+# 原生 Agent 控制权
+
+SessionControlBroker 管理对原生会话的写权限，而不是 UI 焦点。完整身份由 workspace、provider、profileHash 与 nativeSessionId 组成；仅凭原生 id 或 terminalId 合并，会把不同账号或工作区的会话错误连在一起。
+
+## 单 writer 与 lease
+
+activeWriter 为 cli、control 或 none。每次 writer 变化递增 leaseEpoch，所有控制命令携带 expected epoch；同一身份切换互斥。stale lease 返回 CONFLICT，不能把旧 UI 请求自动重试为对新 owner 的操作。
+
+claim Control 要求 turn idle，且原生 CLI 已退出或终端被明确关闭。running、awaiting-approval、unknown 都不是安全接管状态。CLI 仍为 writer 时，harness proxy 拦截 prompt、steer、配置、审批与取消等变更。
+
+同一原生身份的 launch configuration 也是权限边界。若新配置与现有绑定冲突，拒绝并保留原 writer，而不是悄悄重新启动到另一个 profile。
+
+原生 CLI launch 封装含该次启动环境。封装读入后先清理临时目录再 spawn，清理失败拒绝启动；不能将它改成可复用的长期明文配置缓存。
+
+## provider 的控制方式
+
+Codex 使用同 workspace/profile 的 shared daemon，broker 观察 native notifications 与 server requests；非 Codex 采用 quiesced resume，在原生 CLI 释放后加载同一会话。daemon 退出时 writer→none、turn→unknown 并更换 epoch，不能伪报 idle。
+
+能力来自 controlCapabilities 与协议协商，不应把 protocol-negotiated 升级为已验证所有认证场景。新增 provider 必须说明能否加载同一 native identity，以及何时可以确认原 writer 已经停止。
+
+## 审批与 Chat 区分
+
+审批只能响应当前会话的 pending request；重复、过时 request 或不匹配身份必须拒绝。审批详情是原生 request 的安全预览，不能由 UI 文案另造一个授权命令。
+
+已有 Chat session 没有可 attach 的原生 CLI PTY。其读取、审批与中断走 sessions API；synthetic terminal 绑定只用于展示关联，不授予 PTY 控制。native session id、Chat journal id 与 UI terminal id 不可混用。
+
+## 启动绑定与同会话恢复
+
+`runAgentInWorkspace` 先要求工作区存在且未归档，优先继续当前工作区内、配置身份匹配的 live Chat 或 terminal。发送只 adopt 既有 PTY，不 respawn，防止查询后进程死亡把 prompt 打入新 shell。普通 continuation hint 失效可以回落到新 launch；它不是 strict resume 的原会话保证。
+
+新启动在创建 PTY 前校验配置、model/effort/mode、resume/fork 互斥、参数支持与附件。transcript 可用性必须用实际 launch environment 调查；未知 store 不等于不存在。resume 的 native id 在启动时立即绑定新 terminal，不等待首条 hook；idle 恢复会话可能没有 hook。fork 会生成新 id，不能预绑旧身份。
+
+恢复先原子 claim 候选，再按 workspace+旧 terminal 合并并发调用，避免多个窗口同时 resume 导致重复 launch。失败 unclaim，允许后续明确重试；成功记录 resumedInto，清理旧 terminal，并广播 resumed，使所有窗口/pane 跟随新 terminal，不能只改发起窗口。
+
+`requireSameSession` 要求原 binding 有 native id；expected id 不符立即 CONFLICT，不能复用进行中的非 strict 或另一会话恢复结果。claim 后及 launch 后都核对 workspace、agent 与 native id。此处 strict 匹配不含 profileHash，不能将它夸大为 broker 的完整四元身份校验。
+
+strict 确定找不到原 transcript 时返回 PRECONDITION_FAILED，要求显式新建。legacy resume 仅对 Attached 且确定没有 transcript 的候选允许 fresh；store 不可读仍尝试恢复，避免调查失败抹去历史。改变 fallback 条件必须分别评审这两种授权语义。
+
+源码锚点：`sessionControlBroker.ts`（身份与 lease）、`agents/agents.ts`（启动绑定）、`terminal-agents/terminal-agents.ts`（strict/coalesce 恢复）、`nativeControl.ts`（控制 API）。

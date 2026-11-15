@@ -1,0 +1,41 @@
+---
+description: "链接预览 private address 与系统浏览器 unsafe scheme 的网络边界：公共 DNS/逐跳验证、预算限制、外部 URL 调度及可预期空预览。"
+kind: architecture
+code:
+  paths:
+    - "packages/host-service/src/trpc/router/link-preview/link-preview.ts"
+    - "packages/host-service/src/trpc/router/link-preview/public-url.ts"
+    - "packages/host-service/src/trpc/router/link-preview/fetch-link-preview.ts"
+    - "apps/desktop/src/main/lib/safe-url/safe-url.ts"
+    - "apps/desktop/src/main/lib/safe-url/scheme.ts"
+relations:
+  related:
+    - "runtime/private-connections.mdx"
+    - "files-git/filesystem.mdx"
+---
+
+# 外链内容与系统 URL 调度
+
+host 代替受 renderer CSP 限制的客户端读取链接元数据；Electron main 负责将外链交给系统 URL handler。这两处都跨越应用到外部内容的边界，不能因删除嵌入式浏览器而移除输入限制。
+
+## host 链接预览
+
+预览只接受无内嵌凭证的 HTTP(S) URL。直接 IP 与 DNS 解析结果必须通过公共地址检查，localhost、本地命名及 private address 不可用于预览。域名返回多个地址时，全部地址均须符合规则；不能只挑一个公开地址就放行。
+
+每个手动 redirect hop 都重新验证目标；图标和可选预览图同样走受限 loader。页面、图标和图片各有有限超时和体积预算，图片还需媒体类型与尺寸检查。读取页面只需 head 元数据，不能为了一个标题无界消费响应 body。缓存也分别限界，包含图片的结果占用预算更高。
+
+这些检查是请求策略，不应被描述成一个完全隔离任意网络活动的通用 sandbox；新 fetch 或重定向分支必须继续经过同一校验路径。客户端提供的 host 凭证和用户浏览器 cookies 不应被追加给外部预览目标。
+
+无效 URL、私有目标、解析失败、超时或被预算拒绝属于可预期 unavailable。API 对该类错误返回空预览，不能将空 title 当作确认目标不存在。程序错误仍需抛出，不能把所有异常都吞成空结果。
+
+## 系统浏览器与 OS handler
+
+外链经过 `safeOpenExternal`，只允许 http、https 与 mailto scheme。file、javascript 和任意自定义 scheme 可能调用脚本或程序，不能直接交给 OS handler。打开失败返回 false 并捕获 rejection，避免 fire-and-forget 造成 main 未处理异常。
+
+日志只标识 scheme 或 malformed 状态，不回显完整 URL 中可能携带的敏感参数。旧 HTML preview URL 结构仅用于存档布局清理，不能据此恢复或宣称存在嵌入式浏览器执行能力。
+
+## 权威锚点
+
+- `packages/host-service/src/trpc/router/link-preview/public-url.ts`、`fetch-link-preview.ts`：公共目标检查、重定向与资源预算。
+- `packages/host-service/src/trpc/router/link-preview/link-preview.ts`：unavailable 到空结果的失败映射。
+- `apps/desktop/src/main/lib/safe-url/scheme.ts`、`safe-url.ts`：系统 handler allowlist 与日志边界。

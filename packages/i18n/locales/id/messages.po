@@ -1,0 +1,5689 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-08-26 16:05-0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: id\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+msgid "./"
+msgstr "./"
+
+msgid "\"{title}\" has finished its task"
+msgstr "\"{title}\" telah menyelesaikan tugasnya"
+
+msgid "\"{title}\" is waiting for your reply"
+msgstr "\"{title}\" sedang menunggu balasan Anda"
+
+#. placeholder {0}: summary.updated
+msgid "{0, plural, one {# existing theme updated} other {# existing themes updated}}"
+msgstr "{0, plural, one {# tema yang ada diperbarui} other {# tema yang ada diperbarui}}"
+
+#. placeholder {0}: items.length
+msgid "{0} changed files"
+msgstr "{0} file berubah"
+
+#. placeholder {0}: collisions.length
+msgid "{0} files already exist in {where}. Do you want to replace them?"
+msgstr "{0} file sudah ada di {where}. Ingin menggantinya?"
+
+#. placeholder {0}: failedSaves.length
+msgid "{0} files could not be saved."
+msgstr "{0} file tidak dapat disimpan."
+
+#. placeholder {0}: ports.length
+msgid "{0} live ports"
+msgstr "{0} port aktif"
+
+#. placeholder {0}: checks.data?.running
+msgid "{0} running terminal sessions will stop. Worktree deletion may run teardown commands."
+msgstr "{0} sesi terminal yang berjalan akan dihentikan. Penghapusan pohon kerja dapat menjalankan perintah pembersihan."
+
+#. placeholder {0}: daemon.sessions.data?.length ?? 0
+msgid "{0} sessions"
+msgstr "{0} sesi"
+
+#. placeholder {0}: project.workspaceCount
+#. placeholder {1}: formatDate(project.purgeAt)
+msgid "{0} workspace records · retained until {1}"
+msgstr "{0} catatan ruang kerja · disimpan hingga {1}"
+
+#. placeholder {0}: row.name
+#. placeholder {1}: row.runningTerminalCount
+#. placeholder {2}: row.runningAgentCount
+msgid "{0}: {1} running terminals, {2} running agents"
+msgstr "{0}: {1} terminal berjalan, {2} agen berjalan"
+
+msgid "{approvals} approvals"
+msgstr "{approvals} persetujuan"
+
+msgid "{completed} finished"
+msgstr "{completed} selesai"
+
+msgid "{configTitle} font size"
+msgstr "Ukuran font {configTitle}"
+
+msgid "{count, plural, one {Every # day at {time}} other {Every # days at {time}}}"
+msgstr "{count, plural, one {Tiap # hari pukul {time}} other {Tiap # hari pukul {time}}}"
+
+msgid "{count, plural, one {Every # day} other {Every # days}}"
+msgstr "{count, plural, one {Tiap # hari} other {Tiap # hari}}"
+
+msgid "{count, plural, one {Every # hour} other {Every # hours}}"
+msgstr "{count, plural, one {Tiap # jam} other {Tiap # jam}}"
+
+msgid "{count, plural, one {Every # minute} other {Every # minutes}}"
+msgstr "{count, plural, one {Tiap # menit} other {Tiap # menit}}"
+
+msgid "{count, plural, one {Every # week on {day} at {time}} other {Every # weeks on {day} at {time}}}"
+msgstr "{count, plural, one {Tiap # minggu pada {day} pukul {time}} other {Tiap # minggu pada {day} pukul {time}}}"
+
+msgid "{count, plural, one {Every # week on {day}} other {Every # weeks on {day}}}"
+msgstr "{count, plural, one {Tiap # minggu pada {day}} other {Tiap # minggu pada {day}}}"
+
+msgid "{count} files are over {limit} and were not added"
+msgstr "{count} file melebihi {limit} dan tidak ditambahkan"
+
+msgid "{currentPage} of {totalBranches}"
+msgstr "{currentPage} dari {totalBranches}"
+
+msgid "{days} at {time}"
+msgstr "{days} pukul {time}"
+
+msgid "{days}d"
+msgstr "{days}h"
+
+msgid "{days}d {hours}h"
+msgstr "{days}h {hours}j"
+
+msgid "{focusShortcutText} to focus"
+msgstr "{focusShortcutText} untuk fokus"
+
+msgid "{hours}h"
+msgstr "{hours}j"
+
+msgid "{hours}h {minutes}m"
+msgstr "{hours}j {minutes}m"
+
+#. placeholder {0}: failed.length
+msgid "{imported} imported, {0} failed. Successful imports are kept."
+msgstr "{imported} item diimpor, {0} gagal. Impor yang berhasil dipertahankan."
+
+msgid "{lines, plural, one {# line} other {# lines}}"
+msgstr "{lines, plural, other {# baris}}"
+
+msgid "{minimumContrast}:1 contrast"
+msgstr "kontras {minimumContrast}:1"
+
+msgid "{minutes}m"
+msgstr "{minutes}m"
+
+#. placeholder {0}: Number(previewLineHeight.toFixed(2))
+msgid "{previewSize}px · {0} line height"
+msgstr "{previewSize}px · tinggi baris {0}"
+
+msgid "{projectName} icon"
+msgstr "Ikon {projectName}"
+
+msgid "{running} working"
+msgstr "{running} bekerja"
+
+msgid "{stagedCount} staged files"
+msgstr "{stagedCount} file bertahap"
+
+msgid "{totalImported, plural, one {Imported # custom theme} other {Imported # custom themes}}"
+msgstr "{totalImported, plural, one {Mengimpor # tema kustom} other {Mengimpor # tema kustom}}"
+
+msgid "{uncommittedCount, plural, one {# file changed} other {# files changed}}"
+msgstr "{uncommittedCount, plural, one {# file berubah} other {# file berubah}}"
+
+msgid "⇧ click"
+msgstr "⇧ klik"
+
+msgid "<0>{primaryFont}</0> is not installed on this system. Falling back to the next available font."
+msgstr "<0>{primaryFont}</0> tidak terpasang di sistem ini. Beralih ke font berikutnya yang tersedia."
+
+msgid "<0>Nerd Fonts</0> are recommended."
+msgstr "<0>Nerd Fonts</0> disarankan."
+
+msgid "<0>vs</0> <1/>"
+msgstr "<0>vs</0> <1/>"
+
+msgid "~/agent $"
+msgstr "~/agent $"
+
+msgid "⌘ click"
+msgstr "⌘ klik"
+
+msgid "⌘⇧ click"
+msgstr "⌘⇧ klik"
+
+msgid "1 file is over {limit} and was not added"
+msgstr "1 file melebihi {limit} dan tidak ditambahkan"
+
+msgid "4.5:1 (AA)"
+msgstr "4.5:1 (AA)"
+
+msgid "7:1 (AAA)"
+msgstr "7:1 (AAA)"
+
+msgid "A daemon operation is already in progress"
+msgstr "Operasi daemon sedang berlangsung"
+
+msgid "A file named '{firstName}' already exists in {where}. Do you want to replace it?"
+msgstr "File bernama '{firstName}' sudah ada di {where}. Ingin menggantinya?"
+
+msgid "A listening process changed. Cancel and review the current process list before trying again."
+msgstr "Proses pendengar berubah. Batalkan dan tinjau daftar proses saat ini sebelum mencoba lagi."
+
+msgid "A pull request already exists for this branch. Refresh the pull request list."
+msgstr "PR sudah ada untuk cabang ini. Segarkan daftar PR."
+
+msgid "A tab can contain at most eight panes."
+msgstr "Satu tab dapat berisi maksimal delapan panel."
+
+msgid "A tab can contain at most eight terminal panes."
+msgstr "Satu tab dapat berisi maksimal delapan panel terminal."
+
+msgid "A workspace is protected. Resolve its protection before removing this project."
+msgstr "Ruang kerja dilindungi. Hapus perlindungan sebelum menghapus proyek ini."
+
+msgid "Aa"
+msgstr "Aa"
+
+msgid "About {displayName}"
+msgstr "Tentang {displayName}"
+
+msgid "Accept"
+msgstr "Terima"
+
+msgid "Accessibility"
+msgstr "Accessibility"
+
+msgid "Actions"
+msgstr "Aksi"
+
+msgid "Active"
+msgstr "Aktif"
+
+msgid "Active CLI sessions"
+msgstr "Sesi CLI aktif"
+
+msgid "Active workspaces"
+msgstr "Ruang kerja aktif"
+
+msgid "Activity"
+msgstr "Aktivitas"
+
+msgid "Adaptive keyboard layout"
+msgstr "Tata letak papan ketik adaptif"
+
+msgid "Add"
+msgstr "Tambah"
+
+msgid "Add agent"
+msgstr "Tambah agen"
+
+msgid "add an agent"
+msgstr "menambah agen"
+
+msgid "Add Attachment"
+msgstr "Tambah Lampiran"
+
+msgid "Add command"
+msgstr "Tambah perintah"
+
+msgid "Add files, apps, and more"
+msgstr "Tambah file, aplikasi, dan lainnya"
+
+msgid "Add files, apps, and more (@)"
+msgstr "Tambah file, aplikasi, dan lainnya (@)"
+
+msgid "Add photos or files"
+msgstr "Tambah foto atau file"
+
+msgid "Add preset"
+msgstr "Tambah prasetel"
+
+msgid "Add project"
+msgstr "Tambah proyek"
+
+msgid "Add Project from Folder"
+msgstr "Tambah Proyek dari Folder"
+
+msgid "Add Project from Folder..."
+msgstr "Tambah Proyek dari Folder..."
+
+msgid "Add to Dictionary"
+msgstr "Tambahkan ke Kamus"
+
+msgid "Added {added} files to {where}"
+msgstr "Menambahkan {added} file ke {where}"
+
+msgid "Added 1 file to {where}"
+msgstr "Menambahkan 1 file ke {where}"
+
+msgid "Added only when launching with a prompt."
+msgstr "Ditambahkan hanya saat meluncurkan dengan prompt."
+
+msgid "Admin"
+msgstr "Admin"
+
+msgid "Advanced environment values override variables written before the command."
+msgstr "Nilai lingkungan lanjutan menimpa variabel yang ditulis sebelum perintah."
+
+msgid "Affected paths"
+msgstr "Jalur yang terpengaruh"
+
+msgid "After delay"
+msgstr "Setelah penundaan"
+
+msgid "Agent"
+msgstr "Agen"
+
+msgid "Agent activity"
+msgstr "Aktivitas agen"
+
+msgid "Agent activity changed. Refresh before opening the session."
+msgstr "Aktivitas agen berubah. Segarkan sebelum membuka sesi."
+
+msgid "Agent activity is loading or unavailable"
+msgstr "Aktivitas agen sedang dimuat atau tidak tersedia"
+
+msgid "Agent commands"
+msgstr "Perintah agen"
+
+msgid "Agent Complete · {workspaceName}"
+msgstr "Agen Selesai · {workspaceName}"
+
+msgid "Agent configuration unavailable"
+msgstr "Konfigurasi agen tidak tersedia"
+
+msgid "Agent control"
+msgstr "Kontrol agen"
+
+msgid "Agent Control"
+msgstr "Kontrol Agen"
+
+msgid "Agent did not start a terminal"
+msgstr "Agen tidak memulai terminal"
+
+msgid "Agent failed"
+msgstr "Agen gagal"
+
+msgid "Agent finished"
+msgstr "Agen selesai"
+
+msgid "Agent Island"
+msgstr "Pulau Agen"
+
+msgid "Agent launch is waiting for setup"
+msgstr "Peluncuran agen menunggu konfigurasi selesai"
+
+msgid "Agent saved, but linked presets could not be updated."
+msgstr "Agen disimpan, tetapi prasetel tertaut tidak dapat diperbarui."
+
+msgid "Agent session has not been created yet"
+msgstr "Sesi agen belum dibuat"
+
+msgid "Agent session is no longer available"
+msgstr "Sesi agen tidak lagi tersedia"
+
+msgid "Agent sessions"
+msgstr "Sesi agen"
+
+msgid "Agent status unavailable"
+msgstr "Status agen tidak tersedia"
+
+msgid "Agents"
+msgstr "Agen"
+
+msgid "AI chatbot built with Next.js and the AI SDK"
+msgstr "Chatbot AI yang dibuat dengan Next.js dan AI SDK"
+
+#. placeholder {0}: cmd.aliases.map((alias) => `/${alias}`).join(", ")
+msgid "aliases: {0}"
+msgstr "alias: {0}"
+
+msgid "Alive"
+msgstr "Aktif"
+
+msgid "All"
+msgstr "Semua"
+
+msgid "All commits"
+msgstr "Semua commit"
+
+msgid "All files exceed the maximum size."
+msgstr "Semua file melebihi ukuran maksimum."
+
+msgid "All open terminal sessions will be killed and any running host-services will be stopped. Use “Close {displayName}” instead if you want services to keep running for the next launch."
+msgstr "Semua sesi terminal yang terbuka akan dimatikan dan host-service yang berjalan akan dihentikan. Pakai “Close {displayName}” kalau Anda ingin layanannya tetap berjalan untuk peluncuran berikutnya."
+
+msgid "All projects"
+msgstr "Semua proyek"
+
+msgid "All releases"
+msgstr "Semua rilis"
+
+msgid "All templates"
+msgstr "Semua templat"
+
+msgid "All themes used reserved IDs (built-in or system)."
+msgstr "Semua tema memakai ID yang dicadangkan (bawaan atau sistem)."
+
+msgid "Allow"
+msgstr "Izinkan"
+
+msgid "Allow microphone access to use dictation"
+msgstr "Izinkan akses mikrofon untuk memakai dikte"
+
+msgid "Already open"
+msgstr "Sudah terbuka"
+
+msgid "Also delete local branch"
+msgstr "Hapus juga branch lokal"
+
+msgid "An update is ready to install."
+msgstr "Pembaruan siap dipasang."
+
+msgid "Animate the active terminal cursor."
+msgstr "Animasikan kursor terminal yang aktif."
+
+msgid "Annually"
+msgstr "Tahunan"
+
+msgid "Annually at {time}"
+msgstr "Tahunan pukul {time}"
+
+msgid "Annually on {date}"
+msgstr "Tahunan pada {date}"
+
+msgid "Annually on {date} at {time}"
+msgstr "Tahunan pada {date} pukul {time}"
+
+msgid "Another deletion is already running for this workspace. Wait and check its status; do not force a second deletion."
+msgstr "Penghapusan lain untuk ruang kerja ini sedang berlangsung. Tunggu dan periksa statusnya; jangan paksa penghapusan kedua."
+
+msgid "Answered"
+msgstr "Dijawab"
+
+msgid "App display language. Auto follows your system language."
+msgstr "Bahasa tampilan aplikasi. Otomatis mengikuti bahasa sistem Anda."
+
+msgid "Appearance"
+msgstr "Tampilan"
+
+msgid "Apple's installer closed before Git was installed."
+msgstr "Penginstal Apple tertutup sebelum Git terpasang."
+
+#. placeholder {0}: phase.reason
+msgid "Apple's installer did not open: {0}"
+msgstr "Penginstal Apple tidak terbuka: {0}"
+
+msgid "Apple's time estimate is usually much longer than the real install."
+msgstr "Perkiraan waktu dari Apple biasanya jauh lebih lama daripada instalasi sebenarnya."
+
+msgid "Application menu"
+msgstr "Menu aplikasi"
+
+msgid "Applies to file paths in Markdown previews and terminal output."
+msgstr "Berlaku untuk path file di pratinjau Markdown dan output terminal."
+
+msgid "Applies to file rows in the workspace file tree."
+msgstr "Berlaku untuk baris file dalam pohon file ruang kerja."
+
+msgid "Applies to folder paths in Markdown previews, terminal output, and workspace file tree rows."
+msgstr "Berlaku untuk path folder di pratinjau Markdown, output terminal, dan baris pohon file ruang kerja."
+
+msgid "Applies to URLs in Markdown previews and terminal output."
+msgstr "Berlaku untuk URL di pratinjau Markdown dan output terminal."
+
+msgid "Apply"
+msgstr "Terapkan"
+
+msgid "Approval expired"
+msgstr "Persetujuan kedaluwarsa"
+
+msgid "Approval failed. Open the workspace to inspect its current state."
+msgstr "Persetujuan gagal. Buka workspace untuk memeriksa statusnya saat ini."
+
+msgid "Approval needed"
+msgstr "Persetujuan diperlukan"
+
+msgid "Approval requested"
+msgstr "Persetujuan diminta"
+
+msgid "Approval required"
+msgstr "Persetujuan diperlukan"
+
+msgid "Approval response sent"
+msgstr "Respons persetujuan terkirim"
+
+msgid "Approved"
+msgstr "Disetujui"
+
+msgid "Are you sure you want to quit?"
+msgstr "Yakin ingin keluar?"
+
+msgid "Ask before quitting the app."
+msgstr "Tanya sebelum keluar dari aplikasi."
+
+msgid "Ask before terminating a terminal with a running process. Closing a view keeps its session running."
+msgstr "Tanyakan sebelum mengakhiri terminal dengan proses yang berjalan. Menutup tampilan mempertahankan sesi tetap berjalan."
+
+msgid "Ask to make changes, @mention files"
+msgstr "Minta perubahan, @sebut file"
+
+msgid "Ask to make changes, @mention files, run /commands"
+msgstr "Minta perubahan, @mention file, jalankan /command"
+
+msgid "Attach"
+msgstr "Lampirkan"
+
+msgid "Attach files"
+msgstr "Lampirkan file"
+
+msgid "Attached"
+msgstr "Terhubung"
+
+msgid "attachment"
+msgstr "lampiran"
+
+msgid "Attachment"
+msgstr "Lampiran"
+
+#. placeholder {0}: (cause.index ?? 0) + 1
+#. placeholder {1}: cause.problem
+msgid "Attachment {0} could not be copied: {1}"
+msgstr "Lampiran {0} tidak dapat disalin: {1}"
+
+msgid "Attachment limits exceeded"
+msgstr "Batas lampiran terlampaui"
+
+msgid "attachment preview"
+msgstr "pratinjau lampiran"
+
+msgid "Attachments are available for local workspaces only."
+msgstr "Lampiran hanya tersedia untuk ruang kerja lokal."
+
+msgid "Audio"
+msgstr "Audio"
+
+msgid "Auto"
+msgstr "Otomatis"
+
+msgid "Auto (system)"
+msgstr "Otomatis (sistem)"
+
+msgid "Auto save"
+msgstr "Simpan otomatis"
+
+msgid "Automatic branch"
+msgstr "Nama cabang otomatis"
+
+msgid "Automatic name"
+msgstr "Nama otomatis"
+
+msgid "Automatic updates are unavailable for this build."
+msgstr "Pembaruan otomatis tidak tersedia untuk build ini."
+
+msgid "Automation"
+msgstr "Otomatisasi"
+
+msgid "Automation (Apple Events)"
+msgstr "Otomatisasi (Apple Events)"
+
+msgid "Automation action failed"
+msgstr "Tindakan otomasi gagal"
+
+msgid "Automation actions"
+msgstr "Tindakan otomasi"
+
+msgid "Automation deleted"
+msgstr "Otomasi dihapus"
+
+msgid "Automation enabled"
+msgstr "Otomasi diaktifkan"
+
+msgid "Automation name"
+msgstr "Nama otomasi"
+
+msgid "Automation paused"
+msgstr "Otomasi dijeda"
+
+msgid "Automation saved"
+msgstr "Otomatisasi disimpan"
+
+msgid "Automation started"
+msgstr "Otomasi dimulai"
+
+msgid "Automations"
+msgstr "Otomatisasi"
+
+msgid "Awaiting approval"
+msgstr "Menunggu persetujuan"
+
+msgid "Awaiting Response"
+msgstr "Menunggu Respons"
+
+msgid "Awaiting Response · {workspaceName}"
+msgstr "Menunggu Balasan · {workspaceName}"
+
+msgid "Back"
+msgstr "Kembali"
+
+msgid "Back to automations"
+msgstr "Kembali ke otomatisasi"
+
+msgid "Background processes"
+msgstr "Proses latar belakang"
+
+msgid "Bar"
+msgstr "Batang"
+
+msgid "Base branch"
+msgstr "Branch dasar"
+
+msgid "Base branch (repository default)"
+msgstr "Branch dasar (default repositori)"
+
+msgid "Binary file"
+msgstr "Berkas biner"
+
+msgid "Block"
+msgstr "Blok"
+
+msgid "Blockquote"
+msgstr "Kutipan blok"
+
+msgid "Blue"
+msgstr "Biru"
+
+msgid "Bold"
+msgstr "Tebal"
+
+msgid "Branch"
+msgstr "Branch"
+
+#. placeholder {0}: params?.branch
+#. placeholder {1}: params?.remote
+msgid "Branch \"{0}\" is not on this device or on {1}. Only pushed commits can be restored."
+msgstr "Branch \"{0}\" tidak ada di perangkat ini maupun di {1}. Hanya commit yang sudah di-push yang bisa dipulihkan."
+
+msgid "Branch name"
+msgstr "Nama cabang"
+
+msgid "Branch prefix"
+msgstr "Prefix branch"
+
+msgid "Branch preview"
+msgstr "Pratinjau cabang"
+
+msgid "Branch switched"
+msgstr "Cabang diganti"
+
+msgid "Branches & naming"
+msgstr "Branch & penamaan"
+
+msgid "Browse"
+msgstr "Telusuri"
+
+msgid "Browse for directory"
+msgstr "Telusuri direktori"
+
+msgid "Bug"
+msgstr "Bug"
+
+msgid "builtin"
+msgstr "bawaan"
+
+msgid "Bullet list"
+msgstr "Daftar berpoin"
+
+msgid "Bulleted list"
+msgstr "Daftar berpoin"
+
+msgid "Cached input"
+msgstr "Input ter-cache"
+
+msgid "Cached terminal views"
+msgstr "Tampilan terminal dalam cache"
+
+msgid "Cancel"
+msgstr "Batal"
+
+msgid "Cancellation requested. Checking the host before another clone…"
+msgstr "Pembatalan diminta. Memeriksa host sebelum kloning lainnya…"
+
+msgid "Cancellation requests the target host to stop. Check the operation result before retrying at this location."
+msgstr "Pembatalan meminta host tujuan berhenti. Periksa hasil operasi sebelum mencoba lagi di lokasi ini."
+
+msgid "Cancelled"
+msgstr "Dibatalkan"
+
+msgid "Cannot {action}: no active organization is selected. Select an organization or sign in again."
+msgstr "Tidak bisa {action}: tidak ada organisasi aktif yang dipilih. Pilih organisasi atau masuk lagi."
+
+msgid "Cannot {action}: the local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
+msgstr "Tidak bisa {action}: layanan host lokal tidak tersedia untuk {organization} di {device}. Status: {status}. {recovery}"
+
+msgid "Change location…"
+msgstr "Ubah lokasi…"
+
+msgid "Change project icon and color"
+msgstr "Ganti ikon dan warna proyek"
+
+msgid "Change state"
+msgstr "Ubah status"
+
+msgid "Changed files"
+msgstr "File berubah"
+
+msgid "Changes"
+msgstr "Perubahan"
+
+msgid "Changes discarded"
+msgstr "Perubahan dibatalkan"
+
+msgid "Changes requested"
+msgstr "Perubahan diminta"
+
+msgid "Changing this location affects new worktrees. Existing folders are not moved."
+msgstr "Mengubah lokasi ini memengaruhi pohon kerja baru. Folder yang ada tidak dipindahkan."
+
+msgid "Chat"
+msgstr "Chat"
+
+msgid "Chat is being reworked"
+msgstr "Chat sedang dirombak"
+
+msgid "Check for updates"
+msgstr "Periksa pembaruan"
+
+msgid "Check for Updates..."
+msgstr "Periksa Pembaruan..."
+
+msgid "Check resources"
+msgstr "Periksa sumber daya"
+
+msgid "Check Resources"
+msgstr "Periksa Sumber Daya"
+
+msgid "Check result"
+msgstr "Periksa hasil"
+
+msgid "Check status"
+msgstr "Periksa status"
+
+msgid "Check your connection and try again"
+msgstr "Periksa koneksi Anda dan coba lagi"
+
+msgid "Checking for updates…"
+msgstr "Memeriksa pembaruan…"
+
+msgid "Checking project…"
+msgstr "Memeriksa proyek…"
+
+msgid "Checking repository access…"
+msgstr "Memeriksa akses repositori…"
+
+msgid "Checking the target host for a completed project…"
+msgstr "Memeriksa proyek yang selesai di host tujuan…"
+
+msgid "Checking workspace state…"
+msgstr "Memeriksa status ruang kerja…"
+
+msgid "Checking workspaces and running sessions…"
+msgstr "Memeriksa ruang kerja dan sesi yang berjalan…"
+
+msgid "Checklist"
+msgstr "Daftar centang"
+
+msgid "Checks"
+msgstr "Check"
+
+msgid "Checks failed"
+msgstr "Check gagal"
+
+msgid "Checks passed"
+msgstr "Check lulus"
+
+msgid "Checks running"
+msgstr "Pemeriksaan berjalan"
+
+msgid "Choose a checkout, branch, pull request, or existing worktree on the target host."
+msgstr "Pilih checkout, cabang, PR, atau pohon kerja yang ada di host tujuan."
+
+msgid "Choose a folder on the connected host"
+msgstr "Pilih folder di host yang terhubung"
+
+msgid "Choose a glyph, upload an image, or change the accent color."
+msgstr "Pilih glif, unggah gambar, atau ubah warna aksen."
+
+msgid "Choose a project"
+msgstr "Pilih proyek"
+
+msgid "Choose a project or workspace"
+msgstr "Pilih proyek atau workspace"
+
+msgid "Choose a project to start working."
+msgstr "Pilih proyek untuk mulai bekerja."
+
+msgid "Choose a saved screenshot to attach. Files are copied only when you submit the prompt."
+msgstr "Pilih tangkapan layar tersimpan untuk dilampirkan. File hanya disalin saat Anda mengirimkan prompt."
+
+msgid "Choose a workspace"
+msgstr "Pilih workspace"
+
+msgid "Choose agent session"
+msgstr "Pilih sesi agen"
+
+msgid "Choose an available project or workspace"
+msgstr "Pilih proyek atau workspace yang tersedia"
+
+msgid "Choose file and editor behavior on this device."
+msgstr "Pilih perilaku file dan editor di perangkat ini."
+
+msgid "Choose how Jedv behaves on this device."
+msgstr "Pilih perilaku Jedv di perangkat ini."
+
+msgid "Choose notification sounds and volume."
+msgstr "Pilih suara dan volume notifikasi."
+
+msgid "Clear"
+msgstr "Bening"
+
+msgid "Clear saved screenshots?"
+msgstr "Hapus tangkapan layar tersimpan?"
+
+msgid "Clear screenshots"
+msgstr "Hapus tangkapan layar"
+
+msgid "Clear search"
+msgstr "Bersihkan pencarian"
+
+msgid "Clear shortcut"
+msgstr "Hapus pintasan"
+
+msgid "Clear Status"
+msgstr "Bersihkan Status"
+
+msgid "Clear Terminal"
+msgstr "Bersihkan Terminal"
+
+msgid "CLI remains available. Structured control is unavailable for this session; check capabilities or continue in its terminal."
+msgstr "CLI tetap tersedia. Kontrol terstruktur tidak tersedia untuk sesi ini; periksa kemampuan atau lanjutkan di terminalnya."
+
+msgid "click"
+msgstr "klik"
+
+msgid "Click two commits to define the range."
+msgstr "Klik dua commit untuk menentukan rentangnya."
+
+msgid "Clone a repository"
+msgstr "Clone sebuah repositori"
+
+msgid "Clone from URL"
+msgstr "Clone dari URL"
+
+msgid "Clone repository"
+msgstr "Kloning repositori"
+
+msgid "clone the repository"
+msgstr "meng-clone repositori"
+
+msgid "Cloning repository…"
+msgstr "Mengkloning repositori…"
+
+msgid "Close"
+msgstr "Tutup"
+
+msgid "Close (Esc)"
+msgstr "Tutup (Esc)"
+
+msgid "Close {displayName}"
+msgstr "Tutup {displayName}"
+
+msgid "Close a diff tab before opening another. At most eight diffs can be open."
+msgstr "Tutup tab diff sebelum membuka yang lain. Maksimal delapan diff dapat dibuka."
+
+msgid "Close a tab before opening more tabs in this workspace."
+msgstr "Tutup satu tab sebelum membuka lebih banyak tab di workspace ini."
+
+msgid "Close all"
+msgstr "Tutup semua"
+
+msgid "Close All"
+msgstr "Tutup semua"
+
+msgid "Close all ports?"
+msgstr "Tutup semua port?"
+
+msgid "Close CLI terminal and take control"
+msgstr "Tutup terminal CLI dan ambil alih kendali"
+
+msgid "Close detail"
+msgstr "Tutup detail"
+
+msgid "Close details"
+msgstr "Tutup detail"
+
+msgid "Close file"
+msgstr "Tutup file"
+
+msgid "Close forwarded ports"
+msgstr "Tutup port yang diteruskan"
+
+msgid "Close or delete the current workspace"
+msgstr "Tutup atau hapus workspace saat ini"
+
+msgid "Close other apps using the microphone"
+msgstr "Tutup aplikasi lain yang memakai mikrofon"
+
+msgid "Close Others"
+msgstr "Tutup lainnya"
+
+msgid "Close pane"
+msgstr "Tutup panel"
+
+msgid "Close Pane"
+msgstr "Tutup Panel"
+
+#. placeholder {0}: port.port
+msgid "Close port {0}"
+msgstr "Tutup port {0}"
+
+msgid "Close port?"
+msgstr "Tutup port?"
+
+msgid "Close Saved"
+msgstr "Tutup dokumen tersimpan"
+
+msgid "Close tab"
+msgstr "Tutup tab"
+
+msgid "Close Tab"
+msgstr "Tutup Tab"
+
+msgid "Close Terminal"
+msgstr "Tutup Terminal"
+
+msgid "Close the current pane"
+msgstr "Tutup panel saat ini"
+
+msgid "Close the current tab"
+msgstr "Tutup tab saat ini"
+
+msgid "Close this CLI terminal and take control of the same session? The terminal process will stop. Other terminal work may be lost."
+msgstr "Tutup terminal CLI ini dan ambil alih kontrol sesi yang sama? Proses terminal akan berhenti. Pekerjaan terminal lainnya mungkin hilang."
+
+msgid "Close to the Right"
+msgstr "Tutup tab di sebelah kanan"
+
+msgid "Close View"
+msgstr "Tutup Tampilan"
+
+msgid "Close Window"
+msgstr "Tutup Jendela"
+
+msgid "Close Workspace"
+msgstr "Tutup Workspace"
+
+msgid "Closed"
+msgstr "Ditutup"
+
+msgid "Code"
+msgstr "Kode"
+
+msgid "Code block"
+msgstr "Blok kode"
+
+msgid "Collapse"
+msgstr "Ciutkan"
+
+msgid "Collapse all"
+msgstr "Ciutkan semua"
+
+msgid "Collapse All"
+msgstr "Ciutkan Semua"
+
+msgid "Color"
+msgstr "Warna"
+
+msgid "Color saved, but the icon could not be updated. Retry the icon update."
+msgstr "Warna disimpan, tetapi ikon tidak dapat diperbarui. Coba perbarui ikon lagi."
+
+msgid "Combine sequences such as => and !==."
+msgstr "Gabungkan urutan seperti => dan !==."
+
+msgid "Coming soon"
+msgstr "Segera hadir"
+
+msgid "Command"
+msgstr "Perintah"
+
+#. placeholder {0}: index + 1
+msgid "Command {0}"
+msgstr "Perintah {0}"
+
+msgid "Command needs approval"
+msgstr "Perintah memerlukan persetujuan"
+
+msgid "Commands"
+msgstr "Perintah"
+
+msgid "Commands and arguments for the connected host."
+msgstr "Perintah dan argumen untuk host yang terhubung."
+
+msgid "Commands follow the linked agent."
+msgstr "Perintah mengikuti agen tertaut."
+
+msgid "Comment"
+msgstr "Komentar"
+
+msgid "Comment posted"
+msgstr "Komentar diposting"
+
+msgid "Commented"
+msgstr "Dikomentari"
+
+msgid "Commit"
+msgstr "Commit"
+
+msgid "Commit message"
+msgstr "Pesan commit"
+
+msgid "Commit or discard changes before switching branches."
+msgstr "Commit atau abaikan perubahan sebelum berpindah cabang."
+
+msgid "Commit staged changes"
+msgstr "Commit perubahan bertahap"
+
+msgid "Commits"
+msgstr "Commit"
+
+msgid "Committed with the repository and shared with everyone who works on it."
+msgstr "Di-commit bersama repositori dan dibagikan ke semua orang yang mengerjakannya."
+
+msgid "Compare"
+msgstr "Bandingkan"
+
+msgid "Completed"
+msgstr "Selesai"
+
+msgid "Config file contents"
+msgstr "Isi file konfigurasi"
+
+msgid "config.json must be a JSON object"
+msgstr "config.json harus berupa objek JSON"
+
+msgid "Configure"
+msgstr "Atur"
+
+msgid "Configure agent commands for the connected host."
+msgstr "Konfigurasikan perintah agen untuk host yang terhubung."
+
+msgid "Confirm"
+msgstr "Konfirmasi"
+
+msgid "Confirm before closing a running terminal"
+msgstr "Konfirmasi sebelum menutup terminal yang berjalan"
+
+msgid "Confirm before quitting"
+msgstr "Konfirmasi sebelum keluar"
+
+msgid "Connect"
+msgstr "Hubungkan"
+
+msgid "Connect a microphone to use dictation"
+msgstr "Hubungkan mikrofon untuk memakai dikte"
+
+msgid "Connect over Tailscale using the host's HTTPS address and PSK."
+msgstr "Hubungkan melalui Tailscale menggunakan alamat HTTPS dan PSK host."
+
+msgid "Connect to a host before changing workspace presentation."
+msgstr "Hubungkan ke host sebelum mengubah presentasi ruang kerja."
+
+msgid "Connect to host"
+msgstr "Hubungkan ke host"
+
+msgid "Connected"
+msgstr "Terhubung"
+
+msgid "Connected host"
+msgstr "Host terhubung"
+
+msgid "Connecting…"
+msgstr "Menghubungkan…"
+
+msgid "Continue"
+msgstr "Lanjutkan"
+
+msgid "Continue {title}"
+msgstr "Lanjutkan {title}"
+
+msgid "Continue opening"
+msgstr "Lanjutkan membuka"
+
+msgid "Continue same session"
+msgstr "Lanjutkan sesi yang sama"
+
+msgid "Continue the same agent session"
+msgstr "Lanjutkan sesi agen yang sama"
+
+msgid "Continue this exact existing session. A new agent session will not be started."
+msgstr "Lanjutkan tepat sesi yang ada ini. Sesi agen baru tidak akan dimulai."
+
+msgid "Continue with agent"
+msgstr "Lanjutkan dengan agen"
+
+msgid "Continue with agent…"
+msgstr "Lanjutkan dengan agen…"
+
+msgid "Continuing…"
+msgstr "Melanjutkan…"
+
+msgid "Control mode"
+msgstr "Mode kontrol"
+
+msgid "Control output only. Earlier CLI history is not included."
+msgstr "Hanya output kontrol. Riwayat CLI sebelumnya tidak disertakan."
+
+msgid "Control owns this session"
+msgstr "Kontrol memiliki sesi ini"
+
+msgid "Control shortcuts on macOS are reserved for terminal programs."
+msgstr "Pintasan Control di macOS dicadangkan untuk program terminal."
+
+msgid "Convert to config.toml"
+msgstr "Konversi ke config.toml"
+
+msgid "Convert to draft?"
+msgstr "Ubah menjadi draf?"
+
+msgid "Converting to draft…"
+msgstr "Mengubah menjadi draf…"
+
+msgid "Copied"
+msgstr "Tersalin"
+
+msgid "Copied to clipboard"
+msgstr "Disalin ke papan klip"
+
+msgid "Copy"
+msgstr "Salin"
+
+msgid "Copy agent session ID"
+msgstr "Salin ID sesi agen"
+
+msgid "Copy as CSV"
+msgstr "Salin sebagai CSV"
+
+msgid "Copy as Markdown"
+msgstr "Salin sebagai Markdown"
+
+msgid "Copy Branch Name"
+msgstr "Salin Nama Branch"
+
+msgid "Copy error details"
+msgstr "Salin detail kesalahan"
+
+msgid "Copy failed"
+msgstr "Gagal menyalin"
+
+msgid "Copy image"
+msgstr "Salin gambar"
+
+msgid "Copy Link"
+msgstr "Salin tautan"
+
+msgid "Copy Link Address"
+msgstr "Salin Alamat Tautan"
+
+#. placeholder {0}: port.port
+msgid "Copy localhost:{0}"
+msgstr "Salin localhost:{0}"
+
+msgid "Copy on select"
+msgstr "Salin saat memilih"
+
+msgid "Copy path"
+msgstr "Salin path"
+
+msgid "Copy Path"
+msgstr "Salin Path"
+
+msgid "Copy Relative Path"
+msgstr "Salin Path Relatif"
+
+msgid "Copy selected terminal text to the clipboard."
+msgstr "Salin teks terminal yang dipilih ke papan klip."
+
+msgid "Copy terminal ID"
+msgstr "Salin ID terminal"
+
+msgid "Copy the workspace path to the clipboard"
+msgstr "Salin path workspace ke clipboard"
+
+msgid "Copy Workspace ID"
+msgstr "Salin ID Workspace"
+
+msgid "Copy..."
+msgstr "Salin…"
+
+msgid "Costs are estimates based on API list rates, not a bill or actual subscription spending. Unknown models use approximate rates."
+msgstr "Biaya adalah perkiraan berdasarkan tarif daftar API, bukan tagihan atau pengeluaran langganan aktual. Model yang tidak dikenal memakai tarif perkiraan."
+
+msgid "Could not change the project location. Your files have not been moved."
+msgstr "Tidak dapat mengubah lokasi proyek. File Anda tidak dipindahkan."
+
+msgid "Could not check all workspaces. Check the host connection and try again before removing this project."
+msgstr "Tidak dapat memeriksa semua ruang kerja. Periksa koneksi host dan coba lagi sebelum menghapus proyek ini."
+
+msgid "Could not check Git on this computer. You can retry or continue."
+msgstr "Tidak dapat memeriksa Git di komputer ini. Anda dapat mencoba lagi atau melanjutkan."
+
+msgid "Could not confirm the operation on the target host. Check its connection and retry the result check."
+msgstr "Tidak dapat mengonfirmasi operasi di host tujuan. Periksa koneksinya dan coba periksa hasilnya lagi."
+
+msgid "Could not confirm the result on the target host. Check its connection and permissions, then check the result again."
+msgstr "Tidak dapat mengonfirmasi hasil di host tujuan. Periksa koneksi dan izin, lalu periksa hasilnya lagi."
+
+msgid "Could not confirm this session. Refresh before retrying."
+msgstr "Tidak dapat mengonfirmasi sesi ini. Muat ulang sebelum mencoba lagi."
+
+msgid "Could not create workspace. Check the target host and retry."
+msgstr "Tidak dapat membuat ruang kerja. Periksa host tujuan dan coba lagi."
+
+msgid "Could not delete workspace. Check its status before retrying."
+msgstr "Tidak dapat menghapus ruang kerja. Periksa statusnya sebelum mencoba lagi."
+
+msgid "Could not detect workspaces"
+msgstr "Tidak dapat mendeteksi ruang kerja"
+
+msgid "Could not finish importing. Successful imports are kept."
+msgstr "Tidak dapat menyelesaikan impor. Impor yang berhasil dipertahankan."
+
+msgid "Could not finish removing the project. Refresh its status before trying again."
+msgstr "Tidak dapat menyelesaikan penghapusan proyek. Segarkan statusnya sebelum mencoba lagi."
+
+msgid "Could not finish restoring the workspace. Check the target host; an occupied path or unavailable branch blocks restoration."
+msgstr "Tidak dapat menyelesaikan pemulihan ruang kerja. Periksa host tujuan; jalur yang digunakan atau cabang yang tidak tersedia menghalangi pemulihan."
+
+msgid "Could not import workspace"
+msgstr "Tidak dapat mengimpor ruang kerja"
+
+msgid "Could not inspect this workspace. Retry the checks before deleting it."
+msgstr "Tidak dapat memeriksa ruang kerja ini. Coba periksa lagi sebelum menghapusnya."
+
+msgid "Could not list repositories. Check gh authentication on the target host, or enter a URL below."
+msgstr "Tidak dapat mencantumkan repositori. Periksa autentikasi gh di host tujuan atau masukkan URL di bawah."
+
+msgid "Could not load branches from the target host."
+msgstr "Tidak dapat memuat cabang dari host tujuan."
+
+msgid "Could not load GitHub permissions"
+msgstr "Tidak dapat memuat izin GitHub"
+
+msgid "Could not load image"
+msgstr "Gambar tidak dapat dimuat"
+
+msgid "Could not load project settings from the target host."
+msgstr "Tidak dapat memuat pengaturan proyek dari host tujuan."
+
+msgid "Could not load pull requests. Check gh access on the target host."
+msgstr "Tidak dapat memuat PR. Periksa akses gh di host tujuan."
+
+msgid "Could not load workspace status. Check the target host and try again."
+msgstr "Tidak dapat memuat status ruang kerja. Periksa host tujuan dan coba lagi."
+
+msgid "Could not open this workspace. Check the target host and try again."
+msgstr "Tidak dapat membuka ruang kerja ini. Periksa host tujuan dan coba lagi."
+
+#. placeholder {0}: params?.remote
+#. placeholder {1}: params?.branch
+#. placeholder {2}: params?.remote
+msgid "Could not reach {0} to look for branch \"{1}\". Check your connection and access to {2}, then try again."
+msgstr "Tidak dapat menjangkau {0} untuk mencari branch \"{1}\". Periksa koneksi dan akses Anda ke {2}, lalu coba lagi."
+
+msgid "Could not read image"
+msgstr "Tidak dapat membaca gambar"
+
+msgid "Could not read removed projects from this host."
+msgstr "Tidak dapat membaca proyek yang dihapus dari host ini."
+
+msgid "Could not read selected file"
+msgstr "Tidak bisa membaca file yang dipilih"
+
+msgid "Could not read the dropped files"
+msgstr "Tidak bisa membaca file yang dilepas"
+
+msgid "Could not read this directory. Check the path and permissions on the target host."
+msgstr "Tidak dapat membaca direktori ini. Periksa jalur dan izin di host tujuan."
+
+msgid "Could not read worktrees from the target host."
+msgstr "Tidak dapat membaca pohon kerja dari host tujuan."
+
+msgid "Could not rename project. Try again."
+msgstr "Tidak dapat mengganti nama proyek. Coba lagi."
+
+msgid "Could not rename project. Your draft is kept; try again."
+msgstr "Tidak dapat mengganti nama proyek. Draf Anda dipertahankan; coba lagi."
+
+msgid "Could not rename this session. Your draft is kept."
+msgstr "Tidak dapat mengganti nama sesi ini. Draf Anda disimpan."
+
+msgid "Could not render icon"
+msgstr "Tidak dapat menampilkan ikon"
+
+msgid "Could not render image"
+msgstr "Tidak dapat menampilkan gambar"
+
+msgid "Could not save the group. Your draft is kept."
+msgstr "Tidak dapat menyimpan grup. Draf Anda dipertahankan."
+
+msgid "Could not save the project. Check the project name and target location."
+msgstr "Tidak dapat menyimpan proyek. Periksa nama proyek dan lokasi tujuan."
+
+msgid "Could not save the theme. Try again."
+msgstr "Tidak dapat menyimpan tema. Coba lagi."
+
+msgid "Could not save this setting. Try again."
+msgstr "Tidak dapat menyimpan pengaturan ini. Coba lagi."
+
+msgid "Could not save workspace order. The list may have changed on the host; refresh and try again."
+msgstr "Tidak dapat menyimpan urutan ruang kerja. Daftar mungkin telah berubah di host; segarkan dan coba lagi."
+
+msgid "Could not save worktree location. Your previous setting is unchanged unless the host already saved this request."
+msgstr "Tidak dapat menyimpan lokasi pohon kerja. Pengaturan sebelumnya tidak berubah kecuali host telah menyimpan permintaan ini."
+
+msgid "Could not save your progress. Try again."
+msgstr "Tidak dapat menyimpan kemajuan Anda. Coba lagi."
+
+msgid "Could not select a project directory."
+msgstr "Tidak dapat memilih direktori proyek."
+
+msgid "Could not set icon"
+msgstr "Tidak bisa menyetel ikon"
+
+msgid "Could not stop a listening process. Earlier successful stops are kept."
+msgstr "Tidak dapat menghentikan proses pendengar. Penghentian sebelumnya yang berhasil dipertahankan."
+
+msgid "Could not stop it"
+msgstr "Tidak bisa dihentikan"
+
+msgid "Could not update the project tree. Try again."
+msgstr "Tidak dapat memperbarui pohon proyek. Coba lagi."
+
+msgid "Could not update the removed project. Check its status before retrying."
+msgstr "Tidak dapat memperbarui proyek yang dihapus. Periksa statusnya sebelum mencoba lagi."
+
+msgid "Could not update workspace. Try again."
+msgstr "Tidak dapat memperbarui ruang kerja. Coba lagi."
+
+msgid "Couldn't save"
+msgstr "Tidak bisa menyimpan"
+
+msgid "Couldn't save. Edit or click away to retry"
+msgstr "Tidak bisa menyimpan. Edit atau klik di luar untuk mencoba lagi"
+
+msgid "Couldn't save. Retrying…"
+msgstr "Tidak bisa menyimpan. Mencoba lagi…"
+
+msgid "Create a blank folder and initialize it as a Git repository."
+msgstr "Buat folder kosong dan inisialisasi sebagai repositori Git."
+
+msgid "Create a new project"
+msgstr "Buat proyek baru"
+
+msgid "Create a new project by cloning a repository or local path."
+msgstr "Buat proyek baru dengan meng-clone repositori atau path lokal."
+
+msgid "Create a pull request from an existing workspace branch. Its configured base branch is used."
+msgstr "Buat pull request dari branch workspace yang ada. Branch dasar yang dikonfigurasi akan digunakan."
+
+msgid "Create a separate session from an existing one. Use the session ID placeholder for its position."
+msgstr "Buat sesi terpisah dari sesi yang ada. Gunakan placeholder ID sesi untuk menentukan posisinya."
+
+msgid "Create new project"
+msgstr "Buat proyek baru"
+
+msgid "Create PR"
+msgstr "Buat PR"
+
+msgid "Create project"
+msgstr "Buat proyek"
+
+msgid "Create pull request"
+msgstr "Buat pull request"
+
+msgid "Create pull request on GitHub?"
+msgstr "Buat pull request di GitHub?"
+
+msgid "create the project"
+msgstr "membuat proyek"
+
+msgid "create the workspace"
+msgstr "membuat workspace"
+
+msgid "Create workspace"
+msgstr "Buat workspace"
+
+msgid "Created"
+msgstr "Dibuat"
+
+msgid "Created {createdDirs} folders in {where}"
+msgstr "Membuat {createdDirs} folder di {where}"
+
+msgid "Created 1 folder in {where}"
+msgstr "Membuat 1 folder di {where}"
+
+#. placeholder {0}: completed.hash
+msgid "Created commit {0}"
+msgstr "Commit {0} dibuat"
+
+msgid "Creating directory and initializing Git…"
+msgstr "Membuat direktori dan menginisialisasi Git…"
+
+msgid "Creating…"
+msgstr "Membuat…"
+
+msgid "Cross-platform mobile app with Expo"
+msgstr "Aplikasi seluler lintas platform dengan Expo"
+
+msgid "Ctrl+click"
+msgstr "Ctrl+klik"
+
+msgid "Ctrl+Shift+click"
+msgstr "Ctrl+Shift+klik"
+
+msgid "Current"
+msgstr "Saat ini"
+
+msgid "Cursor blinking"
+msgstr "Kursor berkedip"
+
+msgid "Cursor style"
+msgstr "Gaya kursor"
+
+msgid "Custom"
+msgstr "Kustom"
+
+msgid "Custom branch prefix"
+msgstr "Prefiks branch kustom"
+
+msgid "Custom notification sound"
+msgstr "Suara notifikasi kustom"
+
+msgid "Custom prefix"
+msgstr "Prefix kustom"
+
+msgid "Custom sound"
+msgstr "Suara kustom"
+
+msgid "Custom themes"
+msgstr "Tema kustom"
+
+msgid "Customize how Jedv looks on your device"
+msgstr "Sesuaikan tampilan Jedv di perangkat Anda"
+
+msgid "Customize shortcuts for your local workflow."
+msgstr "Sesuaikan shortcut untuk alur kerja lokal Anda."
+
+msgid "Customize terminal behavior and typography."
+msgstr "Sesuaikan perilaku dan tipografi terminal."
+
+msgid "Cyan"
+msgstr "Sian"
+
+msgid "Daemon restarted. All sessions were closed."
+msgstr "Daemon dimulai ulang. Semua sesi telah ditutup."
+
+msgid "Daemon unavailable"
+msgstr "Daemon tidak tersedia"
+
+msgid "Daemon updated. Sessions preserved."
+msgstr "Daemon diperbarui. Sesi dipertahankan."
+
+msgid "Daily"
+msgstr "Harian"
+
+msgid "Daily at {time}"
+msgstr "Harian pukul {time}"
+
+msgid "Daily token history"
+msgstr "Riwayat token harian"
+
+msgid "Danger zone"
+msgstr "Zona berbahaya"
+
+msgid "Dark"
+msgstr "Gelap"
+
+msgid "Dark theme"
+msgstr "Tema gelap"
+
+msgid "Decline"
+msgstr "Tolak"
+
+msgid "default"
+msgstr "bawaan"
+
+msgid "Default"
+msgstr "Bawaan"
+
+msgid "Default external editor"
+msgstr "Editor eksternal default"
+
+msgid "Defaults for new workspaces on the connected host."
+msgstr "Default untuk workspace baru di host yang terhubung."
+
+msgid "Delete"
+msgstr "Hapus"
+
+msgid "Delete agent"
+msgstr "Hapus agen"
+
+msgid "Delete anyway"
+msgstr "Tetap hapus"
+
+msgid "Delete anyway will skip the teardown script entirely."
+msgstr "Tetap hapus akan melewati skrip teardown sepenuhnya."
+
+msgid "Delete automation?"
+msgstr "Hapus otomatisasi?"
+
+msgid "Delete multiple workspaces"
+msgstr "Hapus beberapa ruang kerja"
+
+msgid "Delete permanently"
+msgstr "Hapus permanen"
+
+msgid "Delete permanently…"
+msgstr "Hapus permanen…"
+
+msgid "Delete project permanently?"
+msgstr "Hapus proyek secara permanen?"
+
+msgid "Delete session \"{workspaceName}\"?"
+msgstr "Hapus sesi \"{workspaceName}\"?"
+
+msgid "Delete this custom agent?"
+msgstr "Hapus agen kustom ini?"
+
+msgid "Delete this preset?"
+msgstr "Hapus prasetel ini?"
+
+msgid "Delete workspace \"{workspaceName}\"?"
+msgstr "Hapus workspace \"{workspaceName}\"?"
+
+msgid "Delete Workspace…"
+msgstr "Hapus Workspace…"
+
+msgid "Deleted"
+msgstr "Dihapus"
+
+msgid "Deleted sessions cannot be restored."
+msgstr "Sesi yang dihapus tidak dapat dipulihkan."
+
+msgid "Deleting…"
+msgstr "Menghapus…"
+
+msgid "Describe what the agent should do…"
+msgstr "Jelaskan apa yang harus dilakukan agen…"
+
+msgid "Description"
+msgstr "Deskripsi"
+
+msgid "Description (optional)"
+msgstr "Deskripsi (opsional)"
+
+msgid "Desktop resources"
+msgstr "Sumber daya desktop"
+
+msgid "Destination path"
+msgstr "Jalur tujuan"
+
+msgid "Detached"
+msgstr "Terlepas"
+
+msgid "Details"
+msgstr "Detail"
+
+msgid "Detect workspaces from other tools"
+msgstr "Deteksi ruang kerja dari alat lain"
+
+msgid "Diagnostics"
+msgstr "Diagnostik"
+
+msgid "Dictate"
+msgstr "Dikte"
+
+msgid "Dictation is not available on this device"
+msgstr "Dikte tidak tersedia di perangkat ini"
+
+msgid "diff"
+msgstr "diff"
+
+msgid "diff in new tab"
+msgstr "diff di tab baru"
+
+msgid "Directory path"
+msgstr "Jalur direktori"
+
+msgid "Discard"
+msgstr "Buang"
+
+msgid "Discard changes"
+msgstr "Buang perubahan"
+
+msgid "Discard Changes"
+msgstr "Abaikan Perubahan"
+
+msgid "Discard draft"
+msgstr "Abaikan draf"
+
+msgid "Discard recording"
+msgstr "Buang rekaman"
+
+msgid "Discard this unsent draft and its selected attachments?"
+msgstr "Abaikan draf yang belum dikirim dan lampiran terpilih ini?"
+
+msgid "Discard unsaved changes?"
+msgstr "Buang perubahan yang belum disimpan?"
+
+msgid "Discarding renamed or copied files is unavailable. Restore both paths with Git."
+msgstr "Tidak dapat mengabaikan file yang diganti nama atau disalin. Pulihkan kedua jalur dengan Git."
+
+msgid "Disconnected"
+msgstr "Terputus"
+
+#. placeholder {0}: formatNumber(logins.data.claude.length)
+#. placeholder {1}: formatNumber(logins.data.codex.length)
+msgid "Discovered {0} Claude Code and {1} Codex login profiles on this host."
+msgstr "Ditemukan {0} profil login Claude Code dan {1} Codex di host ini."
+
+msgid "Disk version"
+msgstr "Versi di disk"
+
+msgid "Dismiss"
+msgstr "Tutup"
+
+msgid "Dismissed"
+msgstr "Diabaikan"
+
+msgid "Display"
+msgstr "Tampilan"
+
+msgid "Do anything"
+msgstr "Lakukan apa saja"
+
+msgid "Do not start a new agent until workspace setup has succeeded or is not required. If setup fails or its status cannot be confirmed, starting the agent is blocked."
+msgstr "Jangan mulai agen baru hingga konfigurasi ruang kerja berhasil atau tidak diperlukan. Jika konfigurasi gagal atau statusnya tidak dapat dikonfirmasi, memulai agen akan diblokir."
+
+msgid "Do nothing"
+msgstr "Tidak melakukan apa pun"
+
+msgid "Documentation"
+msgstr "Dokumentasi"
+
+msgid "Done"
+msgstr "Selesai"
+
+msgid "Download starter"
+msgstr "Unduh starter"
+
+msgid "Downloading {version} · {percent}%"
+msgstr "Mengunduh {version} · {percent}%"
+
+msgid "Downloading {version}…"
+msgstr "Mengunduh {version}…"
+
+msgid "Downloading template and creating fresh Git history…"
+msgstr "Mengunduh templat dan membuat riwayat Git baru…"
+
+msgid "Downloading update…"
+msgstr "Mengunduh pembaruan…"
+
+msgid "Draft"
+msgstr "Draf"
+
+msgid "Drop files to attach"
+msgstr "Lepas file untuk melampirkan"
+
+msgid "Drop into {label}"
+msgstr "Lepas ke {label}"
+
+msgid "Drop to attach"
+msgstr "Lepas untuk melampirkan"
+
+msgid "dropdown"
+msgstr "dropdown"
+
+msgid "Each surface has its own typography. Changes appear immediately in the live previews."
+msgstr "Tiap permukaan punya tipografinya sendiri. Perubahan langsung terlihat di pratinjau."
+
+msgid "Earlier output"
+msgstr "Output sebelumnya"
+
+msgid "Edit"
+msgstr "Edit"
+
+msgid "Edit group"
+msgstr "Edit grup"
+
+msgid "Edit shared setup, run and teardown commands, or personal overrides. Saving does not execute commands."
+msgstr "Edit perintah konfigurasi, eksekusi, dan pembersihan bersama atau penimpaan pribadi. Menyimpan tidak menjalankan perintah."
+
+msgid "Edit terminal preset"
+msgstr "Edit prasetel terminal"
+
+msgid "editor"
+msgstr "editor"
+
+msgid "Editor & workflow"
+msgstr "Editor & alur kerja"
+
+msgid "Editor typography"
+msgstr "Tipografi editor"
+
+msgid "Enable"
+msgstr "Aktifkan"
+
+msgid "Endpoint"
+msgstr "Endpoint"
+
+msgid "Enter a command."
+msgstr "Masukkan perintah."
+
+msgid "Enter a group name of 1 to 64 characters."
+msgstr "Masukkan nama grup dengan 1 hingga 64 karakter."
+
+msgid "Enter a project name and location."
+msgstr "Masukkan nama dan lokasi proyek."
+
+msgid "Enter a project name."
+msgstr "Masukkan nama proyek."
+
+msgid "Enter a valid repository URL, SSH address, or absolute path on the target host. Remove query strings and fragments from GitHub URLs."
+msgstr "Masukkan URL repositori, alamat SSH, atau jalur absolut yang valid di host tujuan. Hapus string kueri dan fragmen dari URL GitHub."
+
+msgid "Enter a valid schedule and time zone"
+msgstr "Masukkan jadwal dan zona waktu yang valid"
+
+msgid "Enter a valid value within the allowed range."
+msgstr "Masukkan nilai valid dalam rentang yang diizinkan."
+
+msgid "Enter an absolute directory path on the target host."
+msgstr "Masukkan jalur direktori absolut di host tujuan."
+
+msgid "Enter an agent name."
+msgstr "Masukkan nama agen."
+
+msgid "Enter URL..."
+msgstr "Masukkan URL..."
+
+msgid "Environment must be a JSON object with valid variable names and string values."
+msgstr "Environment harus berupa objek JSON dengan nama variabel yang valid dan nilai string."
+
+msgid "Environment variables"
+msgstr "Variabel environment"
+
+msgid "Equalize Pane Splits"
+msgstr "Samakan Pembagian Panel"
+
+msgid "Estimated cost"
+msgstr "Perkiraan biaya"
+
+msgid "Every {day}"
+msgstr "Setiap {day}"
+
+msgid "Every {day} at {time}"
+msgstr "Setiap {day} pukul {time}"
+
+msgid "Every minute"
+msgstr "Tiap menit"
+
+msgid "Execution mode"
+msgstr "Mode eksekusi"
+
+msgid "Existing branch"
+msgstr "Cabang yang ada"
+
+msgid "Existing chat session. No CLI terminal is attached."
+msgstr "Sesi chat yang ada. Tidak ada terminal CLI yang terpasang."
+
+msgid "Existing chat sessions"
+msgstr "Sesi chat yang ada"
+
+msgid "Existing worktree"
+msgstr "Pohon kerja yang ada"
+
+#. placeholder {0}: blocker.state.exitCode ?? "—"
+#. placeholder {1}: blocker.state.exitSignal ?? "—"
+msgid "Exit code: {0}; signal: {1}"
+msgstr "Kode keluar: {0}; sinyal: {1}"
+
+msgid "Exited"
+msgstr "Keluar"
+
+#. placeholder {0}: session.exitCode
+msgid "Exited ({0})"
+msgstr "Keluar ({0})"
+
+msgid "Expand"
+msgstr "Bentangkan"
+
+msgid "Expand all"
+msgstr "Bentangkan semua"
+
+msgid "Expand pane area"
+msgstr "Perluas area panel"
+
+msgid "Expand the right pane to fill the window, or restore it"
+msgstr "Perluas panel kanan hingga memenuhi jendela, atau pulihkan"
+
+msgid "Export theme"
+msgstr "Ekspor tema"
+
+msgid "external browser"
+msgstr "browser eksternal"
+
+msgid "External editors are available for local workspaces only."
+msgstr "Editor eksternal hanya tersedia untuk ruang kerja lokal."
+
+msgid "External editors open files on this machine only"
+msgstr "Editor eksternal hanya membuka file di mesin ini"
+
+msgid "Failed"
+msgstr "Gagal"
+
+msgid "Failed to add {failed} files"
+msgstr "Gagal menambahkan {failed} file"
+
+msgid "Failed to add 1 file"
+msgstr "Gagal menambahkan 1 file"
+
+msgid "Failed to check for updates. Please try again later."
+msgstr "Gagal memeriksa pembaruan. Silakan coba lagi nanti."
+
+msgid "Failed to close port"
+msgstr "Gagal menutup port"
+
+msgid "Failed to control run"
+msgstr "Gagal mengendalikan run"
+
+msgid "Failed to copy path: {reason}"
+msgstr "Gagal menyalin path: {reason}"
+
+msgid "Failed to create {failedDirs} folders"
+msgstr "Gagal membuat {failedDirs} folder"
+
+msgid "Failed to create 1 folder"
+msgstr "Gagal membuat 1 folder"
+
+msgid "Failed to create item"
+msgstr "Gagal membuat item"
+
+msgid "Failed to create pull request"
+msgstr "Gagal membuat pull request"
+
+msgid "Failed to discard the new item"
+msgstr "Gagal membuang item baru"
+
+msgid "Failed to find linked workspace"
+msgstr "Gagal menemukan workspace tertaut"
+
+msgid "Failed to import theme file"
+msgstr "Gagal mengimpor file tema"
+
+msgid "Failed to load automations"
+msgstr "Gagal memuat otomatisasi"
+
+msgid "Failed to load changes"
+msgstr "Gagal memuat perubahan"
+
+msgid "Failed to load pull request"
+msgstr "Gagal memuat pull request"
+
+msgid "Failed to load pull requests"
+msgstr "Gagal memuat pull request"
+
+msgid "Failed to load run output"
+msgstr "Gagal memuat output run"
+
+msgid "Failed to load runs"
+msgstr "Gagal memuat run"
+
+msgid "Failed to load workspace status"
+msgstr "Gagal memuat status workspace"
+
+msgid "Failed to open workspace"
+msgstr "Gagal membuka workspace"
+
+msgid "Failed to parse pull request diff"
+msgstr "Gagal mengurai diff pull request"
+
+msgid "Failed to refresh pull requests"
+msgstr "Gagal memuat ulang pull request"
+
+msgid "Failed to rename"
+msgstr "Gagal mengganti nama"
+
+msgid "Failed to replace {replaceFailed} files"
+msgstr "Gagal mengganti {replaceFailed} file"
+
+msgid "Failed to replace 1 file"
+msgstr "Gagal mengganti 1 file"
+
+msgid "Failed to reveal in Finder: {reason}"
+msgstr "Gagal menampilkan di Finder: {reason}"
+
+msgid "Failed to save automation"
+msgstr "Gagal menyimpan otomatisasi"
+
+msgid "Failed to send the files to the remote workspace"
+msgstr "Gagal mengirim file ke workspace jarak jauh"
+
+msgid "Failed to set color"
+msgstr "Gagal menyetel warna"
+
+msgid "Failed to set icon"
+msgstr "Gagal menyetel ikon"
+
+msgid "Failed to update branch prefix"
+msgstr "Gagal memperbarui prefix branch"
+
+msgid "Failed to update pull request state"
+msgstr "Gagal memperbarui status pull request"
+
+msgid "Failed to update review thread"
+msgstr "Gagal memperbarui thread review"
+
+msgid "Fetch completed"
+msgstr "Pengambilan selesai"
+
+msgid "Fetch current branch from origin"
+msgstr "Ambil cabang saat ini dari origin"
+
+msgid "File"
+msgstr "File"
+
+msgid "File change needs approval"
+msgstr "Perubahan file memerlukan persetujuan"
+
+msgid "File changed on disk"
+msgstr "File di disk telah berubah"
+
+msgid "File changed on disk. Reload before saving."
+msgstr "Berkas berubah di disk. Muat ulang sebelum menyimpan."
+
+msgid "File is not in an open workspace"
+msgstr "File tidak berada di ruang kerja yang terbuka"
+
+msgid "File links"
+msgstr "Tautan file"
+
+msgid "File not found"
+msgstr "File tidak ditemukan"
+
+msgid "File tree limit reached. Search files to open an unloaded path."
+msgstr "Batas pohon file tercapai. Cari file untuk membuka jalur yang belum dimuat."
+
+msgid "File updates may be out of date. Reload open files to check the disk."
+msgstr "Pembaruan file mungkin kedaluwarsa. Muat ulang file yang terbuka untuk memeriksa disk."
+
+msgid "File was deleted on disk."
+msgstr "File dihapus di disk."
+
+msgid "File was deleted on disk. You still have unsaved changes."
+msgstr "File dihapus di disk. Anda masih punya perubahan yang belum disimpan."
+
+msgid "Files"
+msgstr "File"
+
+msgid "Files & editor"
+msgstr "File & editor"
+
+msgid "Files larger than 32 MiB must be opened in an external editor."
+msgstr "File yang lebih besar dari 32 MiB harus dibuka di editor eksternal."
+
+msgid "Files, Git changes, pull requests, project scripts, and port forwarding."
+msgstr "File, perubahan Git, pull request, skrip proyek, dan penerusan port."
+
+msgid "Filter"
+msgstr "Filter"
+
+msgid "Filter agents"
+msgstr "Filter agen"
+
+msgid "Filter agents…"
+msgstr "Filter agen…"
+
+msgid "Find"
+msgstr "Cari"
+
+msgid "Find in Changes"
+msgstr "Cari di Perubahan"
+
+msgid "Find in Chat"
+msgstr "Cari di Chat"
+
+msgid "Find in File Viewer"
+msgstr "Cari di Penampil File"
+
+msgid "Find in Page"
+msgstr "Cari di halaman"
+
+msgid "Find in Terminal"
+msgstr "Cari di Terminal"
+
+msgid "Finish refreshing"
+msgstr "Selesaikan penyegaran"
+
+msgid "Finished"
+msgstr "Selesai"
+
+msgid "Finished · unread"
+msgstr "Selesai · belum dibaca"
+
+msgid "Fit"
+msgstr "Sesuaikan"
+
+msgid "Flame"
+msgstr "Api"
+
+msgid "Focus Chat Input"
+msgstr "Fokus ke Input Chat"
+
+msgid "Focus Pane Down"
+msgstr "Fokus Panel Bawah"
+
+msgid "Focus Pane Left"
+msgstr "Fokus Panel Kiri"
+
+msgid "Focus Pane Right"
+msgstr "Fokus Panel Kanan"
+
+msgid "Focus Pane Up"
+msgstr "Fokus Panel Atas"
+
+msgid "Focus Task Search"
+msgstr "Fokus Pencarian Tugas"
+
+msgid "Focus the next tab in the active workspace"
+msgstr "Fokus ke tab berikutnya di workspace aktif"
+
+msgid "Focus the pane above the active pane"
+msgstr "Fokus ke panel di atas panel aktif"
+
+msgid "Focus the pane below the active pane"
+msgstr "Fokus ke panel di bawah panel aktif"
+
+msgid "Focus the pane to the left of the active pane"
+msgstr "Fokus ke panel di kiri panel aktif"
+
+msgid "Focus the pane to the right of the active pane"
+msgstr "Fokus ke panel di kanan panel aktif"
+
+msgid "Focus the previous tab in the active workspace"
+msgstr "Fokus ke tab sebelumnya di workspace aktif"
+
+msgid "Focus the search input in the tasks view"
+msgstr "Fokus ke kolom pencarian di tampilan tugas"
+
+msgid "Folder"
+msgstr "Folder"
+
+msgid "Folder links"
+msgstr "Tautan folder"
+
+msgid "Folder view"
+msgstr "Tampilan folder"
+
+msgid "Folders cannot be sent to the remote workspace"
+msgstr "Folder tidak dapat dikirim ke ruang kerja jarak jauh"
+
+msgid "Folders to check out into new worktrees, one per line, relative to the repo root. Root files are always included. Empty checks out everything."
+msgstr "Folder untuk checkout ke pohon kerja baru, satu per baris, relatif terhadap akar repositori. File akar selalu disertakan. Kosongkan untuk checkout semuanya."
+
+msgid "Follow the characters printed on your keyboard instead of physical key positions."
+msgstr "Ikuti karakter yang tercetak pada keyboard Anda, bukan posisi fisik tombolnya."
+
+msgid "Font family"
+msgstr "Keluarga font"
+
+msgid "Font size"
+msgstr "Ukuran font"
+
+msgid "Font weight"
+msgstr "Ketebalan font"
+
+msgid "Force Reload"
+msgstr "Paksa Muat Ulang"
+
+msgid "Force restart"
+msgstr "Paksa mulai ulang"
+
+msgid "Force restart terminal daemon?"
+msgstr "Paksa mulai ulang daemon terminal?"
+
+msgid "Force Stop"
+msgstr "Paksa Berhenti"
+
+msgid "Fork arguments"
+msgstr "Argumen fork"
+
+msgid "Forward"
+msgstr "Maju"
+
+msgid "Forward port…"
+msgstr "Teruskan port…"
+
+msgid "Friday"
+msgstr "Jumat"
+
+msgid "From"
+msgstr "Dari"
+
+msgid "Front matter hidden. Switch to the Markdown view to edit it"
+msgstr "Front matter disembunyikan. Beralih ke tampilan Markdown untuk mengeditnya"
+
+msgid "Full Disk Access"
+msgstr "Full Disk Access"
+
+msgid "Full-stack Turborepo with Next.js, Expo, and tRPC"
+msgstr "Turborepo full-stack dengan Next.js, Expo, dan tRPC"
+
+msgid "Fullstack template on Cloudflare Workers"
+msgstr "Templat full-stack di Cloudflare Workers"
+
+msgid "Garry Tan's role-based Claude Code workflow"
+msgstr "Alur kerja Claude Code berbasis peran Garry Tan"
+
+msgid "General"
+msgstr "Umum"
+
+msgid "Get Git"
+msgstr "Dapatkan Git"
+
+msgid "Git & worktree"
+msgstr "Git dan worktree"
+
+msgid "Git author"
+msgstr "Penulis Git"
+
+msgid "Git author name"
+msgstr "Nama author Git"
+
+msgid "GitHub authentication failed. Sign in with gh on this host, then refresh."
+msgstr "Autentikasi GitHub gagal. Masuk dengan gh di host ini, lalu muat ulang."
+
+msgid "GitHub enforces branch protection and required checks."
+msgstr "GitHub menerapkan perlindungan branch dan pemeriksaan wajib."
+
+msgid "GitHub is unreachable. PR links may be out of date."
+msgstr "GitHub tidak dapat dijangkau. Tautan PR mungkin sudah kedaluwarsa."
+
+msgid "GitHub rate limit reached. PR links may be out of date."
+msgstr "Batas laju GitHub tercapai. Tautan PR mungkin sudah kedaluwarsa."
+
+msgid "GitHub username"
+msgstr "Username GitHub"
+
+msgid "Globe"
+msgstr "Globe"
+
+msgid "Go"
+msgstr "Buka"
+
+msgid "Go Back"
+msgstr "Kembali"
+
+msgid "Go back home"
+msgstr "Kembali ke beranda"
+
+msgid "Go back to the previous page in history"
+msgstr "Kembali ke halaman sebelumnya di riwayat"
+
+msgid "Go Forward"
+msgstr "Maju"
+
+msgid "Go forward to the next page in history"
+msgstr "Maju ke halaman berikutnya di riwayat"
+
+msgid "Go home"
+msgstr "Ke beranda"
+
+msgid "Got it"
+msgstr "Mengerti"
+
+msgid "Granted"
+msgstr "Diberikan"
+
+msgid "Green"
+msgstr "Hijau"
+
+msgid "Group name"
+msgstr "Nama grup"
+
+msgid "Groups use workspace tags on the target host."
+msgstr "Grup menggunakan tag ruang kerja di host tujuan."
+
+msgid "Guides AI-generated workspace and branch names for this project. Empty uses the default naming."
+msgstr "Mengarahkan nama workspace dan branch yang dibuat AI untuk proyek ini. Kosong berarti memakai penamaan bawaan."
+
+msgid "Handle in terminal"
+msgstr "Tangani di terminal"
+
+msgid "Has uncommitted changes"
+msgstr "Ada perubahan yang belum di-commit"
+
+msgid "Has uncommitted changes and unpushed commits"
+msgstr "Ada perubahan yang belum di-commit dan commit yang belum di-push"
+
+msgid "Has unpushed commits"
+msgstr "Ada commit yang belum di-push"
+
+msgid "Heading 1"
+msgstr "Judul 1"
+
+msgid "Heading 2"
+msgstr "Judul 2"
+
+msgid "Heading 3"
+msgstr "Judul 3"
+
+msgid "Heart"
+msgstr "Hati"
+
+msgid "Help"
+msgstr "Bantuan"
+
+msgid "Hide {displayName}"
+msgstr "Sembunyikan {displayName}"
+
+msgid "Hide details"
+msgstr "Sembunyikan detail"
+
+msgid "Hide workspace activity"
+msgstr "Sembunyikan aktivitas workspace"
+
+msgid "History"
+msgstr "Riwayat"
+
+msgid "Home"
+msgstr "Beranda"
+
+msgid "Host changed. Review the current daemon before restarting."
+msgstr "Host berubah. Tinjau daemon saat ini sebelum memulai ulang."
+
+msgid "Host connection is unavailable"
+msgstr "Koneksi host tidak tersedia"
+
+msgid "Host is offline"
+msgstr "Host sedang offline"
+
+msgid "Host Service"
+msgstr "Host Service"
+
+msgid "Host Service ({count})"
+msgstr "Host Service ({count})"
+
+msgid "Host service crashed"
+msgstr "Layanan host crash"
+
+msgid "Host service unavailable"
+msgstr "Layanan host tidak tersedia"
+
+msgid "Hourly"
+msgstr "Tiap jam"
+
+msgid "https://github.com/owner/repo.git or /path/to/repo"
+msgstr "https://github.com/owner/repo.git atau /path/to/repo"
+
+msgid "I checked the attachments"
+msgstr "Saya telah memeriksa lampiran"
+
+msgid "I checked the result"
+msgstr "Saya telah memeriksa hasilnya"
+
+msgid "I understand that running sessions will stop and teardown commands may affect files with unsaved work."
+msgstr "Saya memahami bahwa sesi yang berjalan akan berhenti dan perintah pembersihan dapat memengaruhi file dengan pekerjaan yang belum disimpan."
+
+msgid "Icon"
+msgstr "Ikon"
+
+msgid "IDE"
+msgstr "IDE"
+
+msgid "Idle"
+msgstr "Idle"
+
+msgid "Image"
+msgstr "Gambar"
+
+msgid "Image blocked"
+msgstr "Gambar diblokir"
+
+#. placeholder {0}: src ?? "(empty)"
+msgid "Image blocked: {0}"
+msgstr "Gambar diblokir: {0}"
+
+msgid "Image is too large (max 10MB)"
+msgstr "Gambar terlalu besar (maks 10MB)"
+
+msgid "Images"
+msgstr "Gambar"
+
+msgid "Import"
+msgstr "Impor"
+
+msgid "import a folder"
+msgstr "mengimpor folder"
+
+msgid "Import a project with a GitHub remote to view its pull requests."
+msgstr "Impor proyek dengan remote GitHub untuk melihat pull request-nya."
+
+msgid "Import a theme file or grab a starter to edit."
+msgstr "Impor file tema atau ambil starter untuk diedit."
+
+msgid "Import an audio file or preview the selected sound."
+msgstr "Impor file audio atau pratinjau suara yang dipilih."
+
+msgid "Import from other tools"
+msgstr "Impor dari alat lain"
+
+msgid "Import results"
+msgstr "Hasil impor"
+
+msgid "Import selected"
+msgstr "Impor yang dipilih"
+
+msgid "Import sound"
+msgstr "Impor suara"
+
+msgid "import the project"
+msgstr "mengimpor proyek"
+
+msgid "Import untracked worktrees"
+msgstr "Impor worktree yang belum terlacak"
+
+msgid "Import worktree"
+msgstr "Impor pohon kerja"
+
+msgid "Importing project…"
+msgstr "Mengimpor proyek…"
+
+msgid "Importing selected workspaces…"
+msgstr "Mengimpor ruang kerja terpilih…"
+
+msgid "Importing..."
+msgstr "Mengimpor..."
+
+msgid "In"
+msgstr "Di"
+
+msgid "In Apple's window, click Install. It takes a few minutes, and this page updates when it's done."
+msgstr "Di jendela Apple, klik Instal. Prosesnya beberapa menit, dan halaman ini diperbarui setelah selesai."
+
+msgid "In review"
+msgstr "Dalam review"
+
+msgid "Include the Linear ticket id from the prompt in the branch name (e.g. bin-344-fix-login). Prefix branches with fix/ or feat/ based on the task."
+msgstr "Sertakan id tiket Linear dari prompt di nama branch (mis. bin-344-fix-login). Beri prefix fix/ atau feat/ sesuai tugasnya."
+
+msgid "Included in this build"
+msgstr "Termasuk dalam build ini"
+
+msgid "Indigo"
+msgstr "Indigo"
+
+msgid "Initialize and open"
+msgstr "Inisialisasi dan buka"
+
+msgid "Initialize Git repository?"
+msgstr "Inisialisasi repositori Git?"
+
+msgid "Inline"
+msgstr "Sebaris"
+
+msgid "Inline code"
+msgstr "Kode sebaris"
+
+msgid "Insert into CLI"
+msgstr "Sisipkan ke CLI"
+
+msgid "Insert into the existing CLI, then submit in the terminal."
+msgstr "Sisipkan ke CLI yang ada, lalu kirim di terminal."
+
+msgid "Install Command Line Tools"
+msgstr "Instal Command Line Tools"
+
+msgid "Install Git, then come back."
+msgstr "Instal Git, lalu kembali ke sini."
+
+msgid "Install lifecycle hooks for this agent on this device."
+msgstr "Pasang hook siklus hidup untuk agen ini di perangkat ini."
+
+msgid "Installing update…"
+msgstr "Menginstal pembaruan…"
+
+msgid "Instructions"
+msgstr "Instruksi"
+
+msgid "Interrupt"
+msgstr "Sela"
+
+msgid "Interrupt requested"
+msgstr "Penyelaan diminta"
+
+msgid "Interrupted"
+msgstr "Disela"
+
+msgid "Italic"
+msgstr "Miring"
+
+msgid "Its workspaces and terminals are unavailable until it restarts. Use the Jedv tray menu > Host Service > Restart."
+msgstr "Workspace dan terminalnya tidak tersedia sampai layanan ini dimulai ulang. Pakai menu tray Jedv > Host Service > Restart."
+
+msgid "Jedv"
+msgstr "Jedv"
+
+msgid "Jedv hit an unexpected error. Reload to try again."
+msgstr "Jedv mengalami kesalahan tak terduga. Muat ulang untuk mencoba lagi."
+
+msgid "Jedv needs Git to add a project."
+msgstr "Jedv memerlukan Git untuk menambahkan proyek."
+
+msgid "JetBrains"
+msgstr "JetBrains"
+
+msgid "Jump to a workspace that needs attention or is running."
+msgstr "Buka ruang kerja yang memerlukan perhatian atau sedang berjalan."
+
+msgid "Keep editing"
+msgstr "Lanjutkan mengedit"
+
+msgid "Keep notifications silent on this device."
+msgstr "Jaga notifikasi tetap senyap di perangkat ini."
+
+msgid "Kept the new file because it changed after it was created"
+msgstr "File baru dipertahankan, isinya berubah setelah dibuat"
+
+msgid "Kept the new folder because it is no longer empty"
+msgstr "Folder baru dipertahankan, sudah tidak kosong"
+
+msgid "Keyboard"
+msgstr "Keyboard"
+
+msgid "Keyboard Shortcuts"
+msgstr "Pintasan Keyboard"
+
+msgid "Kill {title}"
+msgstr "Paksa hentikan {title}"
+
+msgid "Kill Terminal Session"
+msgstr "Matikan Sesi Terminal"
+
+msgid "Language"
+msgstr "Bahasa"
+
+msgid "Last {n} days"
+msgstr "{n} hari terakhir"
+
+msgid "Last activity"
+msgstr "Aktivitas terakhir"
+
+msgid "Last check completed"
+msgstr "Pemeriksaan terakhir selesai"
+
+msgid "Last day of each month"
+msgstr "Hari terakhir tiap bulan"
+
+msgid "Last day of each month at {time}"
+msgstr "Hari terakhir tiap bulan pukul {time}"
+
+msgid "Later"
+msgstr "Nanti"
+
+msgid "Latest output"
+msgstr "Output terbaru"
+
+msgid "Launch Agent"
+msgstr "Jalankan Agen"
+
+msgid "Launch result unknown. Refresh and inspect the terminal before restarting."
+msgstr "Hasil peluncuran tidak diketahui. Segarkan dan periksa terminal sebelum memulai ulang."
+
+msgid "Layout"
+msgstr "Tata letak"
+
+msgid "Leaf"
+msgstr "Daun"
+
+msgid "Leave a comment…"
+msgstr "Tinggalkan komentar…"
+
+msgid "Leave empty to use the workspace directory. Relative paths are resolved inside the workspace."
+msgstr "Kosongkan untuk menggunakan direktori ruang kerja. Jalur relatif diselesaikan di dalam ruang kerja."
+
+msgid "Leave it empty to go back to the name the terminal reports."
+msgstr "Kosongkan untuk kembali ke nama yang dilaporkan terminal."
+
+msgid "Letter spacing (px)"
+msgstr "Jarak huruf (px)"
+
+msgid "Ligatures"
+msgstr "Ligatur"
+
+msgid "Ligatures off"
+msgstr "Ligatur mati"
+
+msgid "Ligatures on"
+msgstr "Ligatur nyala"
+
+msgid "Light"
+msgstr "Terang"
+
+msgid "Light theme"
+msgstr "Tema terang"
+
+msgid "Lime"
+msgstr "Limau"
+
+#. placeholder {0}: problem.line
+#. placeholder {1}: problem.message
+msgid "Line {0}: {1}"
+msgstr "Baris {0}: {1}"
+
+msgid "Line height"
+msgstr "Tinggi baris"
+
+msgid "Link"
+msgstr "Tautan"
+
+msgid "Linked agent"
+msgstr "Agen tertaut"
+
+msgid "Linked agent is unavailable."
+msgstr "Agen tertaut tidak tersedia."
+
+msgid "Linked presets cannot run on remote hosts."
+msgstr "Prasetel tertaut tidak dapat dijalankan di host jarak jauh."
+
+msgid "List"
+msgstr "Daftar"
+
+msgid "Live"
+msgstr "Live"
+
+msgid "Live preview"
+msgstr "Pratinjau langsung"
+
+msgid "Live terminal"
+msgstr "Terminal aktif"
+
+msgid "load agent settings"
+msgstr "memuat pengaturan agen"
+
+msgid "Load more"
+msgstr "Muat lagi"
+
+msgid "Loading"
+msgstr "Memuat"
+
+msgid "Loading agents…"
+msgstr "Memuat agen…"
+
+msgid "Loading automations…"
+msgstr "Memuat otomatisasi…"
+
+msgid "Loading changes…"
+msgstr "Memuat perubahan…"
+
+msgid "Loading directories…"
+msgstr "Memuat direktori…"
+
+msgid "Loading file…"
+msgstr "Memuat file…"
+
+msgid "Loading files…"
+msgstr "Memuat file…"
+
+msgid "Loading fonts..."
+msgstr "Memuat font..."
+
+msgid "Loading identity…"
+msgstr "Memuat identitas…"
+
+msgid "Loading more..."
+msgstr "Memuat lagi..."
+
+msgid "Loading output…"
+msgstr "Memuat output…"
+
+msgid "Loading project settings…"
+msgstr "Memuat pengaturan proyek…"
+
+msgid "Loading pull request…"
+msgstr "Memuat pull request…"
+
+msgid "Loading pull requests…"
+msgstr "Memuat pull request…"
+
+msgid "Loading quota…"
+msgstr "Memuat kuota…"
+
+msgid "Loading removed projects…"
+msgstr "Memuat proyek yang dihapus…"
+
+msgid "Loading repositories..."
+msgstr "Memuat repositori..."
+
+msgid "Loading runs…"
+msgstr "Memuat run…"
+
+msgid "Loading sessions…"
+msgstr "Memuat sesi…"
+
+msgid "Loading workspace status…"
+msgstr "Memuat status workspace…"
+
+msgid "Loading worktrees…"
+msgstr "Memuat pohon kerja…"
+
+msgid "Loading..."
+msgstr "Memuat..."
+
+msgid "Loading…"
+msgstr "Memuat…"
+
+msgid "Local"
+msgstr "Lokal"
+
+msgid "Local checkout"
+msgstr "Checkout lokal"
+
+msgid "Local CLI history and provider quota for the connected host."
+msgstr "Riwayat CLI lokal dan kuota provider untuk host yang terhubung."
+
+msgid "Local CLI history and provider quota."
+msgstr "Riwayat CLI lokal dan kuota provider."
+
+msgid "Local desktop and terminal process usage. Closing a view keeps its process running; terminating a session stops its processes."
+msgstr "Penggunaan proses desktop dan terminal lokal. Menutup tampilan mempertahankan prosesnya tetap berjalan; mengakhiri sesi menghentikan prosesnya."
+
+msgid "Local network"
+msgstr "Jaringan lokal"
+
+msgid "Local projects, Git worktrees, grouped workspaces, and terminal tabs with split panes."
+msgstr "Proyek lokal, pohon kerja Git, ruang kerja berkelompok, dan tab terminal dengan panel terpisah."
+
+msgid "Location"
+msgstr "Lokasi"
+
+msgid "Location & checkout"
+msgstr "Lokasi & checkout"
+
+msgid "Make all panes equal size"
+msgstr "Samakan ukuran semua panel"
+
+msgid "Manage local projects and recently deleted projects."
+msgstr "Kelola proyek lokal dan proyek yang baru dihapus."
+
+msgid "Manage Terminal Scripts"
+msgstr "Kelola Skrip Terminal"
+
+msgid "Manage the host used by your workspaces."
+msgstr "Kelola host yang digunakan workspace Anda."
+
+msgid "Manual"
+msgstr "Manual"
+
+msgid "Manual only"
+msgstr "Manual saja"
+
+msgid "Manually"
+msgstr "Secara manual"
+
+msgid "Mark as read"
+msgstr "Tandai sudah dibaca"
+
+msgid "Mark as unread"
+msgstr "Tandai belum dibaca"
+
+msgid "Mark ready for review?"
+msgstr "Tandai siap direview?"
+
+msgid "Markdown style"
+msgstr "Gaya markdown"
+
+msgid "Marking ready…"
+msgstr "Menandai siap…"
+
+msgid "Match case"
+msgstr "Cocokkan huruf besar-kecil"
+
+msgid "Maximum hidden terminal renderers kept in memory. Evicting a view keeps its PTY session running."
+msgstr "Jumlah maksimum perender terminal tersembunyi yang disimpan di memori. Menghapus tampilan mempertahankan sesi PTY-nya berjalan."
+
+msgid "Maximum size is 256 KB."
+msgstr "Ukuran maksimum 256 KB."
+
+msgid "Member"
+msgstr "Anggota"
+
+msgid "Menu bar activity"
+msgstr "Aktivitas bar menu"
+
+msgid "Merge"
+msgstr "Merge"
+
+msgid "Merge method"
+msgstr "Metode merge"
+
+msgid "Merge pull request"
+msgstr "Merge pull request"
+
+msgid "Merge pull request?"
+msgstr "Lakukan merge pull request?"
+
+msgid "Mergeability is being checked"
+msgstr "Kelayakan merge sedang diperiksa"
+
+msgid "Merged"
+msgstr "Di-merge"
+
+msgid "Minimum contrast"
+msgstr "Kontras minimum"
+
+msgid "Model"
+msgstr "Model"
+
+msgid "Models"
+msgstr "Model"
+
+msgid "Monday"
+msgstr "Senin"
+
+msgid "Monospace"
+msgstr "Monospace"
+
+msgid "Monthly"
+msgstr "Bulanan"
+
+msgid "Monthly at {time}"
+msgstr "Bulanan pukul {time}"
+
+msgid "Monthly on {day}"
+msgstr "Bulanan pada tanggal {day}"
+
+msgid "Monthly on {day} at {time}"
+msgstr "Bulanan pada tanggal {day} pukul {time}"
+
+msgid "Monthly on the {day, selectordinal, one {#st} two {#nd} few {#rd} other {#th}}"
+msgstr "Bulanan pada tanggal {day, selectordinal, one {#} two {#} few {#} other {#}}"
+
+msgid "Monthly on the {day, selectordinal, one {#st} two {#nd} few {#rd} other {#th}} at {time}"
+msgstr "Bulanan pada tanggal {day, selectordinal, one {#} two {#} few {#} other {#}} pukul {time}"
+
+msgid "More actions"
+msgstr "Aksi lainnya"
+
+msgid "More options"
+msgstr "Opsi lainnya"
+
+msgid "More than one agent matches this preset."
+msgstr "Lebih dari satu agen cocok dengan prasetel ini."
+
+msgid "Move"
+msgstr "Pindahkan"
+
+msgid "Move agent down"
+msgstr "Pindahkan agen ke bawah"
+
+msgid "Move agent up"
+msgstr "Pindahkan agen ke atas"
+
+msgid "Move focus between the main tabs and the right sidebar, and open the sidebar if it is closed"
+msgstr "Pindahkan fokus antara tab utama dan sidebar kanan, lalu buka sidebar jika tertutup"
+
+msgid "Move group down"
+msgstr "Pindahkan grup ke bawah"
+
+msgid "Move group up"
+msgstr "Pindahkan grup ke atas"
+
+msgid "Move preset down"
+msgstr "Pindahkan prasetel ke bawah"
+
+msgid "Move preset up"
+msgstr "Pindahkan prasetel ke atas"
+
+msgid "Move to group"
+msgstr "Pindahkan ke grup"
+
+msgid "Move to Left Side"
+msgstr "Pindahkan ke sisi kiri"
+
+msgid "Move to Right Side"
+msgstr "Pindahkan ke sisi kanan"
+
+msgid "Move to Tab"
+msgstr "Pindahkan ke Tab"
+
+msgid "Move..."
+msgstr "Pindahkan…"
+
+msgid "Multiple projects match this repository. Open the project first and import its worktrees."
+msgstr "Beberapa proyek cocok dengan repositori ini. Buka proyek terlebih dahulu lalu impor pohon kerjanya."
+
+msgid "Multiple projects use this directory. Choose the project in the sidebar."
+msgstr "Beberapa proyek menggunakan direktori ini. Pilih proyek di bilah samping."
+
+msgid "Mute notification sounds"
+msgstr "Bisukan suara notifikasi"
+
+msgid "Name"
+msgstr "Nama"
+
+msgid "Naming instructions"
+msgstr "Instruksi penamaan"
+
+msgid "Native agent sessions and local attachments."
+msgstr "Sesi Agent native dan lampiran lokal."
+
+msgid "Navigate Back"
+msgstr "Navigasi Mundur"
+
+msgid "Navigate Forward"
+msgstr "Navigasi Maju"
+
+msgid "Navigate to the next workspace in the sidebar"
+msgstr "Pindah ke workspace berikutnya di sidebar"
+
+msgid "Navigate to the previous workspace in the sidebar"
+msgstr "Pindah ke workspace sebelumnya di sidebar"
+
+msgid "Navigation"
+msgstr "Navigasi"
+
+msgid "Needs attention"
+msgstr "Perlu perhatian"
+
+msgid "Needs me"
+msgstr "Butuh saya"
+
+msgid "Nerd Fonts"
+msgstr "Nerd Fonts"
+
+msgid "New automation"
+msgstr "Otomatisasi baru"
+
+msgid "New branch"
+msgstr "Cabang baru"
+
+msgid "New Chat"
+msgstr "Chat Baru"
+
+msgid "New File"
+msgstr "File Baru"
+
+msgid "New File..."
+msgstr "File Baru..."
+
+msgid "New Folder"
+msgstr "Folder Baru"
+
+msgid "New Folder..."
+msgstr "Folder Baru..."
+
+msgid "New group"
+msgstr "Grup baru"
+
+msgid "New shell"
+msgstr "Shell baru"
+
+msgid "new tab"
+msgstr "tab baru"
+
+msgid "New tab"
+msgstr "Tab baru"
+
+msgid "New Tab"
+msgstr "Tab Baru"
+
+msgid "New tab with split panes"
+msgstr "Tab baru dengan panel terpisah"
+
+msgid "New tabs"
+msgstr "Tab baru"
+
+msgid "New Terminal"
+msgstr "Terminal Baru"
+
+msgid "New Window"
+msgstr "Jendela Baru"
+
+msgid "New workspace"
+msgstr "Workspace baru"
+
+msgid "New Workspace"
+msgstr "Workspace Baru"
+
+msgid "New worktree each run"
+msgstr "Worktree baru setiap run"
+
+#. placeholder {0}: location.data.defaultWorktreeBaseDir
+msgid "New worktrees are stored here. Leave empty to use {0}."
+msgstr "Worktree baru disimpan di sini. Biarkan kosong untuk menggunakan {0}."
+
+msgid "Next (Enter)"
+msgstr "Berikutnya (Enter)"
+
+msgid "Next branch"
+msgstr "Branch berikutnya"
+
+msgid "Next Right Sidebar Tab"
+msgstr "Tab Sidebar Kanan Berikutnya"
+
+#. placeholder {0}: formatDateTime(next, { dateStyle: "medium", timeStyle: "short", timeZone: timezone, })
+msgid "Next scheduled time: {0}"
+msgstr "Waktu terjadwal berikutnya: {0}"
+
+msgid "Next Tab"
+msgstr "Tab Berikutnya"
+
+msgid "Next Tab (Second Shortcut)"
+msgstr "Tab Berikutnya (Pintasan Kedua)"
+
+msgid "Next Workspace"
+msgstr "Workspace Berikutnya"
+
+msgid "No"
+msgstr "Tidak"
+
+msgid "No active agents"
+msgstr "Tidak ada agen aktif"
+
+msgid "No active organization is selected. Select an organization or sign in again."
+msgstr "Tidak ada organisasi aktif yang dipilih. Pilih organisasi atau masuk lagi."
+
+msgid "No active services"
+msgstr "Tidak ada layanan aktif"
+
+msgid "No active workspaces"
+msgstr "Tidak ada workspace aktif"
+
+msgid "No active writer"
+msgstr "Tidak ada penulis aktif"
+
+msgid "No activity yet"
+msgstr "Belum ada aktivitas"
+
+msgid "No agent was started. After setup completes, start the agent again."
+msgstr "Tidak ada agen yang dimulai. Setelah konfigurasi selesai, mulai agen lagi."
+
+msgid "No automations match your filters"
+msgstr "Tidak ada otomatisasi yang cocok dengan filter Anda"
+
+msgid "No automations yet"
+msgstr "Belum ada otomatisasi"
+
+msgid "No available workspace with a GitHub remote"
+msgstr "Tidak ada workspace tersedia dengan remote GitHub"
+
+msgid "No background terminals"
+msgstr "Tidak ada terminal latar belakang"
+
+msgid "No branches found"
+msgstr "Tidak ada branch ditemukan"
+
+msgid "No changes"
+msgstr "Tidak ada perubahan"
+
+msgid "No checks"
+msgstr "Tidak ada check"
+
+msgid "No checks reported"
+msgstr "Tidak ada check yang dilaporkan"
+
+msgid "No completed project was found yet. The host may still be stopping or finishing the operation. Check again before retrying at this location."
+msgstr "Belum ada proyek selesai yang ditemukan. Host mungkin masih menghentikan atau menyelesaikan operasi. Periksa lagi sebelum mencoba lagi di lokasi ini."
+
+msgid "No description provided"
+msgstr "Tidak ada deskripsi"
+
+msgid "No existing worktrees found."
+msgstr "Tidak ada pohon kerja yang ditemukan."
+
+msgid "No file changes"
+msgstr "Tidak ada perubahan file"
+
+msgid "No files found"
+msgstr "File tidak ditemukan"
+
+msgid "No files match the accepted types."
+msgstr "Tidak ada file yang cocok dengan tipe yang diterima."
+
+msgid "No fonts found."
+msgstr "Font tidak ditemukan."
+
+msgid "No git remote detected"
+msgstr "Tidak ada remote git yang terdeteksi"
+
+msgid "No GitHub repositories available"
+msgstr "Tidak ada repositori GitHub tersedia"
+
+msgid "No importable worktrees found on this host. You can open a project and import its worktrees instead."
+msgstr "Tidak ada pohon kerja yang dapat diimpor di host ini. Sebagai gantinya, Anda dapat membuka proyek dan mengimpor pohon kerjanya."
+
+msgid "No linked pull requests"
+msgstr "Tidak ada PR tertaut"
+
+msgid "No local terminal process metrics are available."
+msgstr "Tidak ada metrik proses terminal lokal yang tersedia."
+
+msgid "No local usage or quota data is available."
+msgstr "Tidak ada data penggunaan atau kuota lokal yang tersedia."
+
+msgid "No match"
+msgstr "Tidak ada yang cocok"
+
+msgid "No matches"
+msgstr "Tidak ada yang cocok"
+
+msgid "No matching settings."
+msgstr "Tidak ada pengaturan yang cocok."
+
+msgid "No matching shortcuts."
+msgstr "Tidak ada pintasan yang cocok."
+
+msgid "No messages in this page"
+msgstr "Tidak ada pesan di halaman ini"
+
+msgid "No output yet"
+msgstr "Belum ada output"
+
+msgid "No pending responses or unread completions"
+msgstr "Tidak ada respons tertunda atau penyelesaian yang belum dibaca"
+
+msgid "No ports yet. Start a dev server in a terminal and it shows up here."
+msgstr "Belum ada port. Jalankan server pengembangan di terminal dan port akan muncul di sini."
+
+msgid "No prefix"
+msgstr "Tanpa prefix"
+
+msgid "No prefix could be resolved from this host's identity."
+msgstr "Tidak ada prefiks yang dapat diselesaikan dari identitas host ini."
+
+msgid "No projects match your filters"
+msgstr "Tidak ada proyek yang cocok dengan filter Anda"
+
+msgid "No projects on this host."
+msgstr "Tidak ada proyek di host ini."
+
+msgid "No projects yet"
+msgstr "Belum ada proyek"
+
+msgid "No provider quota is available. Sign in with an agent CLI, then refresh."
+msgstr "Kuota provider tidak tersedia. Masuk dengan CLI agen, lalu muat ulang."
+
+msgid "No pull requests found"
+msgstr "Tidak ada PR yang ditemukan"
+
+msgid "No pull requests match your filters"
+msgstr "Tidak ada pull request yang cocok dengan filter Anda"
+
+msgid "No removed projects"
+msgstr "Tidak ada proyek yang dihapus"
+
+msgid "No results"
+msgstr "Tidak ada hasil"
+
+msgid "No results found."
+msgstr "Tidak ada hasil ditemukan."
+
+msgid "No runs yet"
+msgstr "Belum ada run"
+
+msgid "No screenshots yet"
+msgstr "Belum ada tangkapan layar"
+
+msgid "No subdirectories"
+msgstr "Tidak ada subdirektori"
+
+msgid "No terminal presets yet."
+msgstr "Belum ada prasetel terminal."
+
+msgid "No terminal sessions"
+msgstr "Tidak ada sesi terminal"
+
+msgid "No themes were imported"
+msgstr "Tidak ada tema yang diimpor"
+
+msgid "No usage logs were found for this period."
+msgstr "Tidak ada log penggunaan yang ditemukan untuk periode ini."
+
+msgid "No workspaces in this group"
+msgstr "Tidak ada ruang kerja dalam grup ini"
+
+msgid "No workspaces match your filters"
+msgstr "Tidak ada workspace yang cocok dengan filter Anda"
+
+msgid "No workspaces yet"
+msgstr "Belum ada workspace"
+
+msgid "No workspaces yet. Create a workspace to get started."
+msgstr "Belum ada workspace. Buat workspace untuk memulai."
+
+msgid "None"
+msgstr "Tidak ada"
+
+msgid "Not bound · configure in Settings → Links"
+msgstr "Tidak terikat · atur di Pengaturan → Tautan"
+
+msgid "Not checked yet"
+msgstr "Belum diperiksa"
+
+msgid "Not detected in the workspace right now"
+msgstr "Saat ini tidak terdeteksi di workspace"
+
+msgid "Not forwarded"
+msgstr "Tidak diteruskan"
+
+msgid "Not granted"
+msgstr "Belum diberikan"
+
+msgid "Notification sound"
+msgstr "Suara notifikasi"
+
+msgid "Notification sound volume from 0 to 100."
+msgstr "Volume suara notifikasi dari 0 hingga 100."
+
+msgid "Notifications"
+msgstr "Notifikasi"
+
+msgid "now"
+msgstr "sekarang"
+
+msgid "Numbered list"
+msgstr "Daftar bernomor"
+
+msgid "Off"
+msgstr "Mati"
+
+msgid "On a Mac, Git comes with Apple's Command Line Tools."
+msgstr "Di Mac, Git disertakan dalam Command Line Tools dari Apple."
+
+msgid "On focus change"
+msgstr "Saat fokus berubah"
+
+msgid "On window change"
+msgstr "Saat jendela berubah"
+
+msgid "Only agents on this device can be linked."
+msgstr "Hanya agen di perangkat ini yang dapat ditautkan."
+
+msgid "Only new worktrees use this location. Existing worktrees are not moved."
+msgstr "Hanya pohon kerja baru yang menggunakan lokasi ini. Pohon kerja yang ada tidak dipindahkan."
+
+msgid "Only on this machine: gitignored, and applied to every worktree of this repository. Any key set here replaces the shared one."
+msgstr "Hanya di mesin ini: diabaikan git dan diterapkan ke setiap worktree repositori ini. Setiap kunci yang diatur di sini menggantikan yang dibagikan."
+
+msgid "Only the listed staged files will be committed. Hooks may modify files or reject the commit."
+msgstr "Hanya file bertahap yang tercantum yang akan di-commit. Hook dapat memodifikasi file atau menolak commit."
+
+msgid "Only the thread author or a user with pull request write access can resolve this conversation."
+msgstr "Hanya penulis thread atau pengguna dengan akses tulis pull request yang dapat menyelesaikan percakapan ini."
+
+msgid "open"
+msgstr "buka"
+
+msgid "Open"
+msgstr "Buka"
+
+#. placeholder {0}: binding.agentId
+msgid "Open {0} session"
+msgstr "Buka sesi {0}"
+
+msgid "Open {displayName}"
+msgstr "Buka {displayName}"
+
+msgid "Open {path} in file pane"
+msgstr "Buka {path} di panel file"
+
+msgid "Open a multiline prompt composer for the active terminal"
+msgstr "Buka komposer prompt multibaris untuk terminal aktif"
+
+msgid "Open a workspace for this project first"
+msgstr "Buka ruang kerja untuk proyek ini terlebih dahulu"
+
+msgid "Open agent activity from the menu bar. The panel closes when it loses focus or when you press Escape."
+msgstr "Buka aktivitas agen dari bar menu. Panel akan tertutup saat kehilangan fokus atau saat Anda menekan Escape."
+
+msgid "Open an existing repository, or initialize a folder after confirmation."
+msgstr "Buka repositori yang ada atau inisialisasi folder setelah konfirmasi."
+
+msgid "Open Changes"
+msgstr "Buka Perubahan"
+
+msgid "Open Changes in"
+msgstr "Buka Perubahan di"
+
+msgid "Open check on GitHub"
+msgstr "Buka pemeriksaan di GitHub"
+
+msgid "Open CLI"
+msgstr "Buka CLI"
+
+msgid "Open Command Palette"
+msgstr "Buka Command Palette"
+
+msgid "Open Diff"
+msgstr "Buka Diff"
+
+msgid "Open Diff in New Tab"
+msgstr "Buka Diff di Tab Baru"
+
+msgid "Open existing PR or create a new one on GitHub"
+msgstr "Buka PR yang ada atau buat yang baru di GitHub"
+
+msgid "open file"
+msgstr "buka file"
+
+msgid "Open File"
+msgstr "Buka File"
+
+msgid "Open File in New Tab"
+msgstr "Buka File di Tab Baru"
+
+msgid "Open files"
+msgstr "Buka file"
+
+msgid "Open files in"
+msgstr "Buka file di"
+
+msgid "Open in"
+msgstr "Buka di"
+
+#. placeholder {0}: currentApp.displayLabel ?? currentApp.label
+msgid "Open in {0}"
+msgstr "Buka di {0}"
+
+msgid "Open in editor"
+msgstr "Buka di editor"
+
+msgid "Open in Editor"
+msgstr "Buka di Editor"
+
+msgid "Open in external browser"
+msgstr "Buka di browser eksternal"
+
+msgid "Open in external editor"
+msgstr "Buka di editor eksternal"
+
+msgid "Open in Finder"
+msgstr "Buka di Finder"
+
+msgid "Open in GitHub"
+msgstr "Buka di GitHub"
+
+msgid "Open in new tab"
+msgstr "Buka di tab baru"
+
+msgid "Open in New Tab"
+msgstr "Buka di Tab Baru"
+
+msgid "Open in right pane"
+msgstr "Buka di panel kanan"
+
+msgid "Open in split pane"
+msgstr "Buka di panel terbagi"
+
+msgid "Open in tab"
+msgstr "Buka di tab"
+
+msgid "Open large file"
+msgstr "Buka file besar"
+
+msgid "Open local checkout"
+msgstr "Buka checkout lokal"
+
+#. placeholder {0}: port.port
+msgid "Open localhost:{0} in external browser"
+msgstr "Buka localhost:{0} di browser eksternal"
+
+msgid "Open project"
+msgstr "Buka proyek"
+
+msgid "Open Pull Request"
+msgstr "Buka Pull Request"
+
+#. placeholder {0}: pr.number
+msgid "Open pull request #{0}"
+msgstr "Buka pull request #{0}"
+
+msgid "Open remote localhost links from Ports after forwarding the port."
+msgstr "Setelah meneruskan port, buka tautan localhost jarak jauh dari Port."
+
+msgid "Open session"
+msgstr "Buka sesi"
+
+msgid "Open settings"
+msgstr "Buka pengaturan"
+
+msgid "Open Settings"
+msgstr "Buka Pengaturan"
+
+msgid "Open setup terminal"
+msgstr "Buka terminal konfigurasi"
+
+msgid "Open source acknowledgements"
+msgstr "Pengakuan sumber terbuka"
+
+msgid "Open System Settings"
+msgstr "Buka System Settings"
+
+msgid "Open terminal"
+msgstr "Buka terminal"
+
+msgid "Open Terminal"
+msgstr "Buka Terminal"
+
+msgid "Open Terminal Script 1"
+msgstr "Buka Skrip Terminal 1"
+
+msgid "Open Terminal Script 2"
+msgstr "Buka Skrip Terminal 2"
+
+msgid "Open Terminal Script 3"
+msgstr "Buka Skrip Terminal 3"
+
+msgid "Open Terminal Script 4"
+msgstr "Buka Skrip Terminal 4"
+
+msgid "Open Terminal Script 5"
+msgstr "Buka Skrip Terminal 5"
+
+msgid "Open Terminal Script 6"
+msgstr "Buka Skrip Terminal 6"
+
+msgid "Open Terminal Script 7"
+msgstr "Buka Skrip Terminal 7"
+
+msgid "Open Terminal Script 8"
+msgstr "Buka Skrip Terminal 8"
+
+msgid "Open Terminal Script 9"
+msgstr "Buka Skrip Terminal 9"
+
+msgid "Open the Changes pane in a new tab, or focus the existing one"
+msgstr "Buka panel Perubahan di tab baru, atau fokuskan yang sudah ada"
+
+msgid "Open the global command palette"
+msgstr "Buka command palette global"
+
+msgid "Open the main window to select this workspace"
+msgstr "Buka jendela utama untuk memilih workspace ini"
+
+msgid "Open the new workspace modal"
+msgstr "Buka modal workspace baru"
+
+msgid "Open the resource usage view in the command palette"
+msgstr "Buka tampilan penggunaan sumber daya di command palette"
+
+msgid "open the task in a workspace"
+msgstr "membuka tugas di workspace"
+
+msgid "Open the workspace in the app picked in the Open In menu (VS Code, Cursor, etc.)"
+msgstr "Buka workspace di aplikasi yang dipilih di menu \"Buka di\" (VS Code, Cursor, dll.)"
+
+msgid "Open workspace"
+msgstr "Buka workspace"
+
+msgid "Opening the CLI is unavailable in this dialog."
+msgstr "CLI tidak dapat dibuka dalam dialog ini."
+
+msgid "Opening workspace…"
+msgstr "Membuka ruang kerja…"
+
+msgid "Opening…"
+msgstr "Membuka…"
+
+msgid "Option shortcuts may prevent typing special characters"
+msgstr "Pintasan Option bisa menghalangi pengetikan karakter khusus"
+
+msgid "Orange"
+msgstr "Oranye"
+
+msgid "Order by"
+msgstr "Urutkan berdasarkan"
+
+msgid "organization {id}"
+msgstr "organisasi {id}"
+
+msgid "Other"
+msgstr "Lainnya"
+
+msgid "Other ways to get Git"
+msgstr "Cara lain mendapatkan Git"
+
+msgid "Outdated"
+msgstr "Usang"
+
+msgid "Output"
+msgstr "Output"
+
+msgid "Overwrite file"
+msgstr "Timpa file"
+
+msgid "Owner"
+msgstr "Pemilik"
+
+msgid "Owns every PTY session and survives app restarts."
+msgstr "Memiliki setiap sesi PTY dan bertahan saat aplikasi dimulai ulang."
+
+msgid "Package"
+msgstr "Paket"
+
+msgid "Page Not Found"
+msgstr "Halaman Tidak Ditemukan"
+
+msgid "Pane areas must belong to the same active workspace"
+msgstr "Area panel harus berada dalam workspace aktif yang sama"
+
+msgid "Pane attachment state is unavailable."
+msgstr "Status lampiran panel tidak tersedia."
+
+msgid "Paragraph"
+msgstr "Paragraf"
+
+msgid "Parent directory"
+msgstr "Direktori induk"
+
+msgid "Parent folder"
+msgstr "Folder induk"
+
+msgid "Passed"
+msgstr "Lulus"
+
+msgid "Paste"
+msgstr "Tempel"
+
+msgid "Paste a link"
+msgstr "Tempel tautan"
+
+msgid "Path copied"
+msgstr "Path disalin"
+
+msgid "Pause"
+msgstr "Jeda"
+
+msgid "Paused"
+msgstr "Dijeda"
+
+msgid "Pending"
+msgstr "Menunggu"
+
+msgid "Permissions"
+msgstr "Izin"
+
+msgid "Personal"
+msgstr "Pribadi"
+
+msgid "Pick a folder on disk and add it as a project"
+msgstr "Pilih folder di disk dan tambahkan sebagai proyek"
+
+msgid "Pick a theme or follow your system appearance."
+msgstr "Pilih tema atau ikuti tampilan sistem Anda."
+
+msgid "Pick a workspace whose agent is waiting for your input, has finished since you last looked, or is still running"
+msgstr "Pilih workspace yang agennya menunggu input Anda, sudah selesai sejak terakhir Anda melihatnya, atau masih berjalan"
+
+msgid "PID"
+msgstr "PID"
+
+msgid "Pin workspace"
+msgstr "Sematkan ruang kerja"
+
+msgid "Pink"
+msgstr "Merah muda"
+
+msgid "Pinned"
+msgstr "Tersemat"
+
+msgid "Please select a project directory."
+msgstr "Pilih direktori proyek."
+
+msgid "Port forwarding is not active"
+msgstr "Penerusan port tidak aktif"
+
+msgid "Ports"
+msgstr "Port"
+
+msgid "Post comment to GitHub?"
+msgstr "Posting komentar ke GitHub?"
+
+msgid "Post reply to GitHub?"
+msgstr "Posting balasan ke GitHub?"
+
+msgid "Prefix"
+msgstr "Prefix"
+
+msgid "Prefix new workspace branches on the connected host. Project overrides take priority."
+msgstr "Tambahkan prefiks pada cabang ruang kerja baru di host yang terhubung. Penimpaan proyek didahulukan."
+
+msgid "Preparing workspace on the target host…"
+msgstr "Menyiapkan ruang kerja di host tujuan…"
+
+msgid "Preset association could not be confirmed. Refresh and try again."
+msgstr "Asosiasi prasetel tidak dapat dikonfirmasi. Segarkan dan coba lagi."
+
+msgid "Presets are stored on this device. Run them explicitly from the workspace launcher."
+msgstr "Prasetel disimpan di perangkat ini. Jalankan secara eksplisit dari peluncur ruang kerja."
+
+msgid "Press shortcut…"
+msgstr "Tekan shortcut…"
+
+msgid "Preview"
+msgstr "Pratinjau"
+
+msgid "Previous (Shift+Enter)"
+msgstr "Sebelumnya (Shift+Enter)"
+
+msgid "Previous branch"
+msgstr "Branch sebelumnya"
+
+msgid "Previous Right Sidebar Tab"
+msgstr "Tab Sidebar Kanan Sebelumnya"
+
+msgid "Previous Tab"
+msgstr "Tab Sebelumnya"
+
+msgid "Previous Tab (Second Shortcut)"
+msgstr "Tab Sebelumnya (Pintasan Kedua)"
+
+msgid "Previous Workspace"
+msgstr "Workspace Sebelumnya"
+
+msgid "Private connection"
+msgstr "Koneksi pribadi"
+
+msgid "Private host"
+msgstr "Host pribadi"
+
+msgid "Private host connections and application settings without a Jedv account."
+msgstr "Koneksi host pribadi dan pengaturan aplikasi tanpa akun Jedv."
+
+msgid "Processed tokens"
+msgstr "Token yang diproses"
+
+msgid "Project"
+msgstr "Proyek"
+
+msgid "Project directory"
+msgstr "Direktori proyek"
+
+msgid "Project icon and color"
+msgstr "Ikon dan warna proyek"
+
+msgid "Project name"
+msgstr "Nama proyek"
+
+msgid "Project name must produce a valid directory name. Use letters, numbers, dots, dashes, or underscores."
+msgstr "Nama proyek harus menghasilkan nama direktori yang valid. Gunakan huruf, angka, titik, tanda hubung, atau garis bawah."
+
+msgid "Project options"
+msgstr "Opsi proyek"
+
+msgid "Project scripts"
+msgstr "Skrip proyek"
+
+msgid "Project settings"
+msgstr "Pengaturan proyek"
+
+msgid "Project Settings"
+msgstr "Pengaturan Proyek"
+
+msgid "Projects"
+msgstr "Proyek"
+
+msgid "Projects and workspaces"
+msgstr "Proyek dan workspace"
+
+msgid "Prompt arguments"
+msgstr "Argumen prompt"
+
+msgid "Prompt preview"
+msgstr "Pratinjau prompt"
+
+msgid "Prompt transport"
+msgstr "Transport prompt"
+
+msgid "Provider quota"
+msgstr "Kuota provider"
+
+msgid "Pull request"
+msgstr "Pull request"
+
+msgid "Pull request created"
+msgstr "Pull request dibuat"
+
+msgid "Pull request merged"
+msgstr "Pull request di-merge"
+
+msgid "Pull request number"
+msgstr "Nomor PR"
+
+msgid "Pull request title"
+msgstr "Judul pull request"
+
+msgid "Pull requests"
+msgstr "Pull request"
+
+msgid "Pull Requests"
+msgstr "Pull Request"
+
+msgid "Purple"
+msgstr "Ungu"
+
+msgid "Push"
+msgstr "Push"
+
+msgid "Push changes?"
+msgstr "Kirim perubahan?"
+
+msgid "Push completed"
+msgstr "Pengiriman selesai"
+
+msgid "Push this commit to the reviewed remote branch. A changed target requires a new confirmation."
+msgstr "Kirim commit ini ke cabang jarak jauh yang telah ditinjau. Tujuan yang berubah memerlukan konfirmasi baru."
+
+msgid "px"
+msgstr "px"
+
+msgid "Queue message"
+msgstr "Antrekan pesan"
+
+msgid "Queue; ⌘↩ to steer the running turn"
+msgstr "Antrekan; ⌘↩ untuk mengarahkan giliran yang berjalan"
+
+msgid "Quick Create Workspace"
+msgstr "Buat Workspace Cepat"
+
+msgid "Quick Open File"
+msgstr "Buka File Cepat"
+
+msgid "Quickly create a workspace in the current project"
+msgstr "Buat workspace dengan cepat di proyek saat ini"
+
+msgid "Quit"
+msgstr "Keluar"
+
+msgid "Quit {displayName}"
+msgstr "Keluar dari {displayName}"
+
+msgctxt "quit confirmation dialog title"
+msgid "Quit {displayName}"
+msgstr "Keluar dari {displayName}"
+
+msgid "Quit {displayName} and stop all background services?"
+msgstr "Keluar dari {displayName} dan hentikan semua layanan latar belakang?"
+
+msgid "Quit {displayName} Completely"
+msgstr "Keluar dari {displayName} Sepenuhnya"
+
+msgid "Quit Completely"
+msgstr "Keluar Sepenuhnya"
+
+msgid "Quota is read from your provider. Refreshing may contact the provider using your existing CLI login."
+msgstr "Kuota dibaca dari provider Anda. Memuat ulang dapat menghubungi provider menggunakan login CLI Anda yang ada."
+
+msgid "Quote"
+msgstr "Kutipan"
+
+msgid "Reachable"
+msgstr "Dapat dijangkau"
+
+msgid "Read only"
+msgstr "Hanya baca"
+
+msgid "Reading local CLI logs…"
+msgstr "Membaca log CLI lokal…"
+
+msgid "Ready for review"
+msgstr "Siap direview"
+
+msgid "Reasoning"
+msgstr "Penalaran"
+
+msgid "Reassign shortcut"
+msgstr "Tetapkan ulang pintasan"
+
+msgid "Reassign this shortcut?"
+msgstr "Tetapkan ulang pintasan ini?"
+
+msgid "Rebase"
+msgstr "Rebase"
+
+msgid "Recent"
+msgstr "Terbaru"
+
+msgid "Recent files"
+msgstr "File terbaru"
+
+msgid "Recent projects"
+msgstr "Proyek terbaru"
+
+msgid "Recently removed projects"
+msgstr "Proyek yang baru dihapus"
+
+msgid "Recording"
+msgstr "Merekam"
+
+msgid "Recreate the worktree from committed branch history, then run the project's setup script if configured. Deleted uncommitted files and terminated sessions cannot be recovered."
+msgstr "Buat ulang pohon kerja dari riwayat cabang yang telah di-commit, lalu jalankan skrip konfigurasi proyek jika dikonfigurasi. File yang belum di-commit dan sesi yang diakhiri tidak dapat dipulihkan."
+
+msgid "Recurrence rule"
+msgstr "Aturan pengulangan"
+
+msgid "Red"
+msgstr "Merah"
+
+msgid "Refresh"
+msgstr "Segarkan"
+
+msgid "Refresh capabilities"
+msgstr "Segarkan kemampuan"
+
+msgid "Refresh failed"
+msgstr "Penyegaran gagal"
+
+msgid "Refresh history"
+msgstr "Muat ulang riwayat"
+
+msgid "Refresh pull request"
+msgstr "Segarkan pull request"
+
+msgid "Refresh pull requests"
+msgstr "Segarkan pull request"
+
+msgid "Refresh sessions"
+msgstr "Muat ulang sesi"
+
+msgid "Refresh status"
+msgstr "Segarkan status"
+
+msgid "Reject"
+msgstr "Tolak"
+
+msgid "Rejected"
+msgstr "Ditolak"
+
+msgid "Relative path copied"
+msgstr "Path relatif disalin"
+
+msgid "Release notes"
+msgstr "Catatan rilis"
+
+msgid "Release Notes"
+msgstr "Catatan Rilis"
+
+msgid "Reload"
+msgstr "Muat ulang"
+
+msgid "Reload app"
+msgstr "Muat ulang aplikasi"
+
+msgid "Reload from disk"
+msgstr "Muat ulang dari disk"
+
+msgid "Reloading discards your edits. Overwriting replaces the file on disk."
+msgstr "Memuat ulang akan membuang editan Anda. Menimpa akan mengganti file di disk."
+
+msgid "Relocate"
+msgstr "Pindahkan"
+
+msgid "Relocate project?"
+msgstr "Pindahkan proyek?"
+
+msgid "Relocating…"
+msgstr "Memindahkan…"
+
+msgid "remote"
+msgstr "remote"
+
+msgid "Remote"
+msgstr "Jarak jauh"
+
+msgid "Remote port"
+msgstr "Port jarak jauh"
+
+msgid "Remove"
+msgstr "Hapus"
+
+msgid "Remove agent link"
+msgstr "Hapus tautan agen"
+
+msgid "Remove attachment"
+msgstr "Hapus lampiran"
+
+msgid "Remove from Jedv…"
+msgstr "Hapus dari Jedv…"
+
+msgid "Remove icon"
+msgstr "Hapus ikon"
+
+msgid "Remove link"
+msgstr "Hapus tautan"
+
+msgid "Remove pasted text"
+msgstr "Hapus teks yang ditempel"
+
+msgid "Remove project"
+msgstr "Hapus proyek"
+
+msgid "Remove pull request link"
+msgstr "Hapus tautan PR"
+
+msgid "remove the agent"
+msgstr "menghapus agen"
+
+msgid "remove the PR link"
+msgstr "menghapus tautan PR"
+
+msgid "Remove this project and its workspaces from Jedv and stop their terminals. Repository files stay on disk. Teardown commands may run."
+msgstr "Hapus proyek ini dan ruang kerjanya dari Jedv dan hentikan terminalnya. File repositori tetap di disk. Perintah pembersihan dapat dijalankan."
+
+msgid "Removing…"
+msgstr "Menghapus…"
+
+msgid "Rename"
+msgstr "Ganti nama"
+
+msgid "Rename {title}"
+msgstr "Ganti nama {title}"
+
+msgid "Rename branch"
+msgstr "Ganti nama branch"
+
+msgid "Rename session"
+msgstr "Ganti nama sesi"
+
+msgid "rename the branch"
+msgstr "mengganti nama branch"
+
+msgid "Rename workspace"
+msgstr "Ganti nama workspace"
+
+msgid "Rename..."
+msgstr "Ganti nama..."
+
+msgid "Rendering style for markdown files. Tufte uses elegant serif typography inspired by Edward Tufte's books."
+msgstr "Gaya render untuk file markdown. Tufte memakai tipografi serif elegan yang terinspirasi buku-buku Edward Tufte."
+
+msgid "Reopen Closed Tab"
+msgstr "Buka Lagi Tab yang Ditutup"
+
+msgid "reorder agents"
+msgstr "mengurutkan ulang agen"
+
+msgid "Reorder workspace"
+msgstr "Ubah urutan ruang kerja"
+
+msgid "Replace"
+msgstr "Ganti"
+
+msgid "Replace All"
+msgstr "Ganti Semua"
+
+msgid "Replaced {replaced} files in {where}"
+msgstr "Mengganti {replaced} file di {where}"
+
+msgid "Replaced 1 file in {where}"
+msgstr "Mengganti 1 file di {where}"
+
+msgid "Reply"
+msgstr "Balas"
+
+msgid "Report Issue"
+msgstr "Laporkan Masalah"
+
+msgid "Repositories"
+msgstr "Repositori"
+
+msgid "Repository"
+msgstr "Repositori"
+
+msgid "Repository URL or path"
+msgstr "URL atau path repositori"
+
+msgid "Request cancellation"
+msgstr "Minta pembatalan"
+
+msgid "Requested permissions"
+msgstr "Izin yang diminta"
+
+msgid "Reserved by OS"
+msgstr "Dipakai OS"
+
+msgid "Reserved by terminal"
+msgstr "Dipakai terminal"
+
+msgid "Reset"
+msgstr "Reset"
+
+msgid "reset agents"
+msgstr "mereset agen"
+
+msgid "Reset all"
+msgstr "Reset semua"
+
+msgid "Reset all agent commands?"
+msgstr "Reset semua perintah agen?"
+
+msgid "Reset all shortcuts?"
+msgstr "Reset semua pintasan?"
+
+msgid "Reset editor"
+msgstr "Reset editor"
+
+msgid "Reset group appearance"
+msgstr "Reset tampilan grup"
+
+msgid "Reset terminal"
+msgstr "Reset terminal"
+
+msgid "Reset to default"
+msgstr "Reset ke bawaan"
+
+msgid "Reset zoom"
+msgstr "Reset zoom"
+
+msgid "Reset Zoom"
+msgstr "Reset zoom"
+
+msgid "resets"
+msgstr "direset"
+
+msgid "Resets in {countdown} · {absolute}"
+msgstr "Reset dalam {countdown} · {absolute}"
+
+msgid "Resets now"
+msgstr "Reset sekarang"
+
+msgid "Resolve conversation"
+msgstr "Selesaikan percakapan"
+
+msgid "Resolve conversation?"
+msgstr "Selesaikan percakapan?"
+
+msgid "resolve the workspace path"
+msgstr "menentukan path workspace"
+
+msgid "Resolve these conflicts before committing."
+msgstr "Selesaikan konflik ini sebelum commit."
+
+msgid "Resolved"
+msgstr "Terselesaikan"
+
+msgid "Resource monitor"
+msgstr "Monitor sumber daya"
+
+msgid "Resources"
+msgstr "Sumber daya"
+
+msgid "Restart"
+msgstr "Restart"
+
+msgid "Restart Local Host"
+msgstr "Mulai ulang Host Lokal"
+
+msgid "Restart to Install"
+msgstr "Mulai Ulang untuk Menginstal"
+
+#. placeholder {0}: event.version ?? ""
+msgid "Restart to install v{0}"
+msgstr "Mulai ulang untuk menginstal v{0}"
+
+msgid "Restart to update"
+msgstr "Mulai ulang untuk memperbarui"
+
+msgid "Restore"
+msgstr "Pulihkan"
+
+msgid "Restore default"
+msgstr "Pulihkan setelan bawaan"
+
+msgid "Restore pane area"
+msgstr "Pulihkan area panel"
+
+msgid "restore the agent defaults"
+msgstr "memulihkan setelan bawaan agen"
+
+msgid "Restore this workspace record on the shared repository checkout. Terminated terminal sessions are not restarted."
+msgstr "Pulihkan catatan ruang kerja ini di checkout repositori bersama. Sesi terminal yang diakhiri tidak dimulai ulang."
+
+msgid "Restore workspace"
+msgstr "Pulihkan workspace"
+
+msgid "Restore workspace?"
+msgstr "Pulihkan ruang kerja?"
+
+msgid "Restore workspace…"
+msgstr "Memulihkan ruang kerja…"
+
+msgid "Restoring brings back available workspace records and existing directories. It does not restart terminated sessions or recover files changed by teardown."
+msgstr "Pemulihan mengembalikan catatan ruang kerja yang tersedia dan direktori yang ada. Pemulihan tidak memulai ulang sesi yang diakhiri atau memulihkan file yang diubah oleh pembersihan."
+
+msgid "Restoring workspace layout…"
+msgstr "Memulihkan tata letak ruang kerja…"
+
+msgid "Restoring…"
+msgstr "Memulihkan…"
+
+msgid "Result unknown"
+msgstr "Hasil tidak diketahui"
+
+msgid "Result unknown. Refresh before retrying."
+msgstr "Hasil tidak diketahui. Segarkan sebelum mencoba lagi."
+
+msgid "Resume a native session. The session ID is appended after these arguments."
+msgstr "Lanjutkan sesi native. ID sesi ditambahkan setelah argumen ini."
+
+msgid "Resume arguments"
+msgstr "Argumen lanjutan"
+
+msgid "Resume same CLI session"
+msgstr "Lanjutkan sesi CLI yang sama"
+
+msgid "Resume same session"
+msgstr "Lanjutkan sesi yang sama"
+
+msgid "Retry"
+msgstr "Coba lagi"
+
+msgid "Retry after the connection refreshes."
+msgstr "Coba lagi setelah koneksi disegarkan."
+
+msgid "Retry checks"
+msgstr "Coba periksa lagi"
+
+msgid "Retry dictation"
+msgstr "Coba dikte lagi"
+
+msgid "Retry failed imports"
+msgstr "Coba impor yang gagal lagi"
+
+msgid "Retry icon update"
+msgstr "Coba perbarui ikon lagi"
+
+msgid "Retry in a few seconds; if it persists, restart Jedv."
+msgstr "Coba lagi dalam beberapa detik; kalau terus terjadi, mulai ulang Jedv."
+
+msgid "Retry in a few seconds."
+msgstr "Coba lagi dalam beberapa detik."
+
+msgid "Return to Save"
+msgstr "Kembali untuk menyimpan"
+
+msgid "Reveal in Finder"
+msgstr "Tampilkan di Finder"
+
+msgid "Reveal in sidebar"
+msgstr "Tampilkan di sidebar"
+
+msgid "Review"
+msgstr "Review"
+
+msgid "Review selected workspaces"
+msgstr "Tinjau ruang kerja terpilih"
+
+msgid "Review system permissions on this device."
+msgstr "Tinjau izin sistem di perangkat ini."
+
+msgid "Review thread"
+msgstr "Thread review"
+
+msgid "Review thread updated"
+msgstr "Thread review diperbarui"
+
+msgid "Review threads could not be loaded"
+msgstr "Thread review tidak dapat dimuat"
+
+msgid "right pane"
+msgstr "panel kanan"
+
+msgid "Rocket"
+msgstr "Roket"
+
+msgid "Run"
+msgstr "Jalankan"
+
+msgid "Run agent"
+msgstr "Jalankan agen"
+
+msgid "Run agent…"
+msgstr "Jalankan agen…"
+
+msgid "Run configuration is not available"
+msgstr "Konfigurasi eksekusi tidak tersedia"
+
+msgid "Run History"
+msgstr "Riwayat Run"
+
+msgid "Run history is unavailable. Refresh to try again."
+msgstr "Riwayat run tidak tersedia. Muat ulang untuk mencoba lagi."
+
+msgid "Run in new terminal"
+msgstr "Jalankan di terminal baru"
+
+msgid "run issues in workspaces"
+msgstr "menjalankan issue di workspace"
+
+msgid "Run now"
+msgstr "Jalankan sekarang"
+
+msgid "Run output"
+msgstr "Output run"
+
+msgid "Run repeatable work with your local agents, on a schedule or when you need it."
+msgstr "Jalankan pekerjaan berulang dengan agen lokal Anda, sesuai jadwal atau saat Anda membutuhkannya."
+
+msgid "Run setup script"
+msgstr "Jalankan skrip konfigurasi"
+
+msgid "Run target"
+msgstr "Target run"
+
+msgid "run tasks in workspaces"
+msgstr "menjalankan tugas di workspace"
+
+msgid "Run time"
+msgstr "Waktu run"
+
+msgid "Run workspace command"
+msgstr "Jalankan perintah workspace"
+
+msgid "Run Workspace Command"
+msgstr "Jalankan Perintah Workspace"
+
+msgid "running"
+msgstr "berjalan"
+
+msgid "Running"
+msgstr "Berjalan"
+
+msgid "Same-session CLI control is unavailable. No new session was started."
+msgstr "Kontrol CLI sesi yang sama tidak tersedia. Tidak ada sesi baru yang dimulai."
+
+msgid "Same-session control is unavailable. No new agent session was started."
+msgstr "Kontrol sesi yang sama tidak tersedia. Tidak ada sesi agen baru yang dimulai."
+
+msgid "Saturday"
+msgstr "Sabtu"
+
+msgid "Save"
+msgstr "Simpan"
+
+msgid "Save All"
+msgstr "Simpan Semua"
+
+msgid "Save changes"
+msgstr "Simpan perubahan"
+
+msgid "Save changes before closing?"
+msgstr "Simpan perubahan sebelum menutup?"
+
+msgid "Save failed: {message}"
+msgstr "Gagal menyimpan: {message}"
+
+msgid "Save file"
+msgstr "Simpan file"
+
+msgid "Save group"
+msgstr "Simpan grup"
+
+msgid "Save or close all unsaved files in this project before removing it."
+msgstr "Simpan atau tutup semua file yang belum disimpan dalam proyek ini sebelum menghapusnya."
+
+msgid "Save or close every unsaved file in this workspace before deleting it."
+msgstr "Simpan atau tutup setiap file yang belum disimpan dalam ruang kerja ini sebelum menghapusnya."
+
+msgid "Save or close the unsaved files before opening another workspace"
+msgstr "Simpan atau tutup file yang belum disimpan sebelum membuka workspace lain"
+
+msgid "Save or close the unsaved files before removing this project"
+msgstr "Simpan atau tutup file yang belum disimpan sebelum menghapus proyek ini"
+
+msgid "Save or close the unsaved files before switching hosts"
+msgstr "Simpan atau tutup file yang belum disimpan sebelum beralih host"
+
+msgid "Save or close unsaved files and commit or discard changes before switching branches."
+msgstr "Simpan atau tutup file yang belum disimpan dan commit atau abaikan perubahan sebelum berpindah cabang."
+
+msgid "Save preset"
+msgstr "Simpan prasetel"
+
+msgid "save the agent"
+msgstr "menyimpan agen"
+
+msgid "save the agent command"
+msgstr "menyimpan perintah agen"
+
+msgid "Save to apply your changes. Drafts are kept if saving fails."
+msgstr "Simpan untuk menerapkan perubahan Anda. Draf dipertahankan jika penyimpanan gagal."
+
+msgid "Save your changes before closing?"
+msgstr "Simpan perubahan Anda sebelum menutup?"
+
+msgid "Save your work before restarting. Unsaved changes can still prevent the restart."
+msgstr "Simpan pekerjaan Anda sebelum memulai ulang. Perubahan yang belum disimpan masih dapat mencegah memulai ulang."
+
+msgid "Saved"
+msgstr "Tersimpan"
+
+msgid "Saving a preset does not run its commands."
+msgstr "Menyimpan prasetel tidak menjalankan perintahnya."
+
+msgid "Saving…"
+msgstr "Menyimpan…"
+
+msgid "Scaffold a new project from a starter with fresh Git history. Setup commands will not run automatically."
+msgstr "Buat proyek baru dari pemula dengan riwayat Git baru. Perintah konfigurasi tidak akan berjalan otomatis."
+
+#. placeholder {0}: data.scannedFiles
+#. placeholder {1}: data.pricingTableUpdated
+msgid "Scanned {0} log files. Pricing table: {1}."
+msgstr "Memindai {0} file log. Tabel harga: {1}."
+
+msgid "Schedule"
+msgstr "Jadwal"
+
+msgid "Scheduled"
+msgstr "Terjadwal"
+
+msgid "Screenshots"
+msgstr "Tangkapan layar"
+
+msgid "Scroll the active terminal to the bottom"
+msgstr "Gulir terminal aktif ke bawah"
+
+msgid "Scroll to bottom"
+msgstr "Gulir ke bawah"
+
+msgid "Scroll to Bottom"
+msgstr "Gulir ke Bawah"
+
+msgid "Search"
+msgstr "Cari"
+
+msgid "Search active workspaces…"
+msgstr "Cari ruang kerja aktif…"
+
+msgid "Search and open files in the current workspace"
+msgstr "Cari dan buka file di workspace saat ini"
+
+msgid "Search automations"
+msgstr "Cari otomatisasi"
+
+msgid "Search automations…"
+msgstr "Cari otomatisasi…"
+
+msgid "Search branches..."
+msgstr "Cari branch..."
+
+msgid "Search changed files"
+msgstr "Cari file yang berubah"
+
+msgid "Search files"
+msgstr "Cari file"
+
+msgid "Search Files"
+msgstr "Cari File"
+
+msgid "Search files..."
+msgstr "Cari file..."
+
+msgid "Search fonts..."
+msgstr "Cari font..."
+
+msgid "Search projects"
+msgstr "Cari proyek"
+
+msgid "Search pull requests"
+msgstr "Cari pull request"
+
+msgid "Search pull requests or enter a PR number…"
+msgstr "Cari PR atau masukkan nomor PR…"
+
+msgid "Search pull requests…"
+msgstr "Cari pull request…"
+
+msgid "Search repositories..."
+msgstr "Cari repositori..."
+
+msgid "Search settings"
+msgstr "Cari pengaturan"
+
+msgid "Search settings…"
+msgstr "Cari pengaturan…"
+
+msgid "Search shortcuts"
+msgstr "Cari pintasan"
+
+msgid "Search shortcuts…"
+msgstr "Cari pintasan…"
+
+msgid "Search text in the active chat"
+msgstr "Cari teks di chat aktif"
+
+msgid "Search text in the active page"
+msgstr "Cari teks di halaman aktif"
+
+msgid "Search text in the active terminal"
+msgstr "Cari teks di terminal aktif"
+
+msgid "Search text in the changes diff"
+msgstr "Cari teks di diff perubahan"
+
+msgid "Search text in the rendered file viewer"
+msgstr "Cari teks di penampil file"
+
+msgid "Search workspaces"
+msgstr "Cari workspace"
+
+msgid "Search workspaces…"
+msgstr "Cari workspace…"
+
+msgid "Searching…"
+msgstr "Mencari…"
+
+msgid "See what changed in this version."
+msgstr "Lihat perubahan dalam versi ini."
+
+msgid "Select a file to preview or edit"
+msgstr "Pilih file untuk dipratinjau atau diedit"
+
+msgid "Select a project"
+msgstr "Pilih sebuah proyek"
+
+msgid "Select a shortcut and press the new keys. Escape cancels; Backspace clears the binding."
+msgstr "Pilih shortcut dan tekan tombol baru. Escape membatalkan; Backspace menghapus binding."
+
+msgid "Select All"
+msgstr "Pilih Semua"
+
+msgid "Select an agent terminal to inspect or control its current session."
+msgstr "Pilih terminal agen untuk memeriksa atau mengendalikan sesinya saat ini."
+
+msgid "Select an option"
+msgstr "Pilih opsi"
+
+msgid "Select base branch…"
+msgstr "Pilih branch dasar…"
+
+msgid "Select commit range"
+msgstr "Pilih rentang commit"
+
+msgid "Select directory"
+msgstr "Pilih direktori"
+
+msgid "Select Directory"
+msgstr "Pilih Direktori"
+
+msgid "Select existing worktrees to import. Files stay in place and setup commands will not run."
+msgstr "Pilih pohon kerja yang ada untuk diimpor. File tetap di tempat dan perintah konfigurasi tidak akan berjalan."
+
+msgid "Select new project location"
+msgstr "Pilih lokasi proyek yang baru"
+
+msgid "Select Notification Sound"
+msgstr "Pilih Suara Notifikasi"
+
+msgid "Select only the workspaces you intend to remove. Each selected workspace receives its own current-state inspection and destructive confirmation. Cancelling one skips it."
+msgstr "Pilih hanya ruang kerja yang ingin Anda hapus. Setiap ruang kerja terpilih mendapat pemeriksaan status saat ini dan konfirmasi penghapusan masing-masing. Membatalkan salah satunya akan melewatinya."
+
+msgid "Select Organization Logo"
+msgstr "Pilih Logo Organisasi"
+
+msgid "Select project location"
+msgstr "Pilih lokasi proyek"
+
+msgid "Select range..."
+msgstr "Pilih rentang..."
+
+msgid "Select repositories"
+msgstr "Pilih repositori"
+
+msgid "Select worktree…"
+msgstr "Pilih pohon kerja…"
+
+msgid "Selected"
+msgstr "Dipilih"
+
+msgid "Send"
+msgstr "Kirim"
+
+msgid "Send message"
+msgstr "Kirim pesan"
+
+msgid "Sensitive values are hidden. This preview is incomplete."
+msgstr "Nilai sensitif disembunyikan. Pratinjau ini tidak lengkap."
+
+msgid "Sequential commands in one terminal"
+msgstr "Perintah berurutan dalam satu terminal"
+
+msgid "Session"
+msgstr "Sesi"
+
+msgid "Session ended"
+msgstr "Sesi berakhir"
+
+msgid "Session ID"
+msgstr "ID Sesi"
+
+msgid "Session name"
+msgstr "Nama sesi"
+
+msgid "Session status and notifications"
+msgstr "Status sesi dan notifikasi"
+
+msgid "Sessions"
+msgstr "Sesi"
+
+#. placeholder {0}: color.name
+msgid "Set color to {0}"
+msgstr "Setel warna ke {0}"
+
+#. placeholder {0}: i18n._(glyph.label)
+msgid "Set icon to {0}"
+msgstr "Setel ikon menjadi {0}"
+
+msgid "Set Run"
+msgstr "Setel Run"
+
+msgid "Set up later"
+msgstr "Siapkan nanti"
+
+msgid "Settings"
+msgstr "Pengaturan"
+
+msgid "Settings section unavailable"
+msgstr "Bagian pengaturan tidak tersedia"
+
+msgid "Settings sections"
+msgstr "Bagian pengaturan"
+
+msgid "Settings..."
+msgstr "Pengaturan..."
+
+msgid "settings.ts"
+msgstr "settings.ts"
+
+msgid "Setup completion is unavailable for this workspace. Review setup or turn off waiting in settings."
+msgstr "Status penyelesaian konfigurasi tidak tersedia untuk ruang kerja ini. Tinjau konfigurasi atau nonaktifkan penantian di pengaturan."
+
+msgid "Shared"
+msgstr "Dibagikan"
+
+msgid "Shift+click"
+msgstr "Shift+klik"
+
+msgid "Show agent commands and pinned terminal presets above the workspace."
+msgstr "Tampilkan perintah agen dan prasetel terminal yang disematkan di atas ruang kerja."
+
+msgid "Show Apple's installer"
+msgstr "Tampilkan penginstal Apple"
+
+msgid "Show deleted workspaces"
+msgstr "Tampilkan ruang kerja yang dihapus"
+
+msgid "Show details"
+msgstr "Tampilkan detail"
+
+msgid "Show hidden directories"
+msgstr "Tampilkan direktori tersembunyi"
+
+msgid "Show hidden files"
+msgstr "Tampilkan file tersembunyi"
+
+msgid "Show in folder"
+msgstr "Tampilkan di folder"
+
+msgid "Show in workspace launcher"
+msgstr "Tampilkan di peluncur ruang kerja"
+
+msgid "Show Keyboard Shortcuts"
+msgstr "Tampilkan Pintasan Keyboard"
+
+msgid "Show less"
+msgstr "Tampilkan lebih sedikit"
+
+msgid "Show local resource usage in the workspace."
+msgstr "Tampilkan penggunaan sumber daya lokal di workspace."
+
+msgid "Show more"
+msgstr "Tampilkan selengkapnya"
+
+msgid "Show Scripts Bar"
+msgstr "Tampilkan Bilah Skrip"
+
+msgid "Show the next tab in the right sidebar without moving focus"
+msgstr "Tampilkan tab berikutnya di sidebar kanan tanpa memindahkan fokus"
+
+msgid "Show the previous tab in the right sidebar without moving focus"
+msgstr "Tampilkan tab sebelumnya di sidebar kanan tanpa memindahkan fokus"
+
+msgid "Show the Usage entry in the main sidebar."
+msgstr "Tampilkan entri Penggunaan di sidebar utama."
+
+msgid "Show update"
+msgstr "Tampilkan pembaruan"
+
+msgid "Show workspace activity"
+msgstr "Tampilkan aktivitas workspace"
+
+msgid "Showing the first 100 results. Refine your search."
+msgstr "Menampilkan 100 hasil pertama. Persempit pencarian Anda."
+
+msgid "Side by side"
+msgstr "Berdampingan"
+
+msgid "Sidebar file rows"
+msgstr "Baris file di sidebar"
+
+msgid "Sign in to GitHub on this host to reply"
+msgstr "Masuk ke GitHub di host ini untuk membalas"
+
+msgid "Size"
+msgstr "Ukuran"
+
+msgid "Skipped"
+msgstr "Dilewati"
+
+msgid "Slate"
+msgstr "Batu tulis"
+
+msgid "Some files are not an accepted type and were not added."
+msgstr "Sebagian file bukan tipe yang diterima dan tidak ditambahkan."
+
+msgid "Some files could not be saved. Review their tabs before closing."
+msgstr "Beberapa file tidak dapat disimpan. Tinjau tabnya sebelum menutup."
+
+msgid "Some files exceed the maximum size and were not added."
+msgstr "Sebagian file melebihi ukuran maksimum dan tidak ditambahkan."
+
+msgid "Some files may already have been copied. Check the workspace attachments folder before retrying."
+msgstr "Beberapa file mungkin sudah disalin. Periksa folder lampiran ruang kerja sebelum mencoba lagi."
+
+msgid "Some project tree actions could not be loaded. Other actions remain available."
+msgstr "Beberapa tindakan pohon proyek tidak dapat dimuat. Tindakan lain tetap tersedia."
+
+msgid "Some session details could not be loaded. Refresh to check the current host state."
+msgstr "Beberapa detail sesi tidak dapat dimuat. Muat ulang untuk memeriksa status host saat ini."
+
+msgid "Some themes were skipped"
+msgstr "Sebagian tema dilewati"
+
+msgid "Something went wrong"
+msgstr "Terjadi kesalahan"
+
+msgid "Something went wrong. Please try again."
+msgstr "Terjadi kesalahan. Silakan coba lagi."
+
+msgid "Source Code"
+msgstr "Kode Sumber"
+
+msgid "Sparse checkout"
+msgstr "Sparse checkout"
+
+msgid "Split Along Longer Side"
+msgstr "Bagi Sepanjang Sisi Terpanjang"
+
+msgid "Split diff"
+msgstr "Diff terpisah"
+
+msgid "Split Down"
+msgstr "Bagi ke Bawah"
+
+msgid "Split Horizontally"
+msgstr "Bagi Horizontal"
+
+msgid "split pane"
+msgstr "panel terpisah"
+
+msgid "Split pane"
+msgstr "Panel terbagi"
+
+msgid "Split panes"
+msgstr "Pisahkan panel"
+
+msgid "Split Right"
+msgstr "Bagi ke Kanan"
+
+msgid "Split the current pane along its longer side"
+msgstr "Bagi panel saat ini di sisi yang lebih panjang"
+
+msgid "Split the current pane and open a mobile simulator"
+msgstr "Bagi panel saat ini dan buka simulator seluler"
+
+msgid "Split the current pane and open the sandbox desktop"
+msgstr "Bagi panel saat ini dan buka desktop sandbox"
+
+msgid "Split the current pane downward"
+msgstr "Bagi panel saat ini ke bawah"
+
+msgid "Split the current pane to the right"
+msgstr "Bagi panel saat ini ke kanan"
+
+msgid "Split Vertically"
+msgstr "Bagi Vertikal"
+
+msgid "Split with Mobile Simulator"
+msgstr "Bagi dengan Simulator Seluler"
+
+msgid "Split with Sandbox Desktop"
+msgstr "Bagi dengan Desktop Sandbox"
+
+msgid "Squash"
+msgstr "Squash"
+
+msgid "Stage All"
+msgstr "Tahapkan Semua"
+
+msgid "Stage all changes"
+msgstr "Siapkan semua perubahan"
+
+msgid "Stage file"
+msgstr "Stage file"
+
+msgid "Staged"
+msgstr "Sudah di-stage"
+
+msgid "Star"
+msgstr "Star"
+
+msgid "Start a new agent, or choose an existing session from Sessions."
+msgstr "Mulai agen baru atau pilih sesi yang ada dari Sesi."
+
+msgid "Start from a template"
+msgstr "Mulai dari templat"
+
+msgid "Start new session"
+msgstr "Mulai sesi baru"
+
+msgid "Start or stop the workspace run command"
+msgstr "Mulai atau hentikan perintah run workspace"
+
+msgid "starting"
+msgstr "memulai"
+
+msgid "Starting"
+msgstr "Memulai"
+
+msgid "Starting the agent…"
+msgstr "Memulai agen…"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Status unavailable"
+msgstr "Status tidak tersedia"
+
+msgid "Status unavailable. Review this permission in System Settings."
+msgstr "Status tidak tersedia. Tinjau izin ini di Pengaturan Sistem."
+
+msgid "Stop"
+msgstr "Hentikan"
+
+msgid "Stop {label}"
+msgstr "Hentikan {label}"
+
+msgid "Stop dictation"
+msgstr "Hentikan dikte"
+
+msgid "Stop forwarded ports?"
+msgstr "Hentikan port yang diteruskan?"
+
+msgid "Stop forwarding"
+msgstr "Hentikan penerusan"
+
+msgid "Stop listening processes?"
+msgstr "Hentikan proses pendengar?"
+
+msgid "Stop listening processes…"
+msgstr "Menghentikan proses pendengar…"
+
+msgid "Stop local process"
+msgstr "Hentikan proses lokal"
+
+msgid "Stop local process?"
+msgstr "Hentikan proses lokal?"
+
+msgid "Stop response"
+msgstr "Hentikan respons"
+
+msgid "stopped"
+msgstr "berhenti"
+
+msgid "Strict CLI resume is unavailable on this host. Active CLI and chat sessions remain selectable."
+msgstr "Kelanjutan CLI ketat tidak tersedia di host ini. Sesi CLI dan chat aktif tetap dapat dipilih."
+
+msgid "Strikethrough"
+msgstr "Coret"
+
+msgid "Submit"
+msgstr "Kirim"
+
+msgid "Submit response"
+msgstr "Kirim respons"
+
+msgid "Summary"
+msgstr "Ringkasan"
+
+msgid "Sunday"
+msgstr "Minggu"
+
+msgid "Switch branch"
+msgstr "Ganti cabang"
+
+msgid "Switch branch?"
+msgstr "Ganti cabang?"
+
+msgid "Switch to Active Workspace"
+msgstr "Beralih ke workspace aktif"
+
+msgid "Switch to Local"
+msgstr "Beralih ke Lokal"
+
+msgid "Switch to Tab 1"
+msgstr "Beralih ke Tab 1"
+
+msgid "Switch to Tab 2"
+msgstr "Beralih ke Tab 2"
+
+msgid "Switch to Tab 3"
+msgstr "Beralih ke Tab 3"
+
+msgid "Switch to Tab 4"
+msgstr "Beralih ke Tab 4"
+
+msgid "Switch to Tab 5"
+msgstr "Beralih ke Tab 5"
+
+msgid "Switch to Tab 6"
+msgstr "Beralih ke Tab 6"
+
+msgid "Switch to Tab 7"
+msgstr "Beralih ke Tab 7"
+
+msgid "Switch to Tab 8"
+msgstr "Beralih ke Tab 8"
+
+msgid "Switch to Tab 9"
+msgstr "Beralih ke Tab 9"
+
+msgid "Switch to this device to edit terminal presets and choose local projects."
+msgstr "Beralih ke perangkat ini untuk mengedit prasetel terminal dan memilih proyek lokal."
+
+msgid "Switch to Workspace 1"
+msgstr "Beralih ke Workspace 1"
+
+msgid "Switch to Workspace 2"
+msgstr "Beralih ke Workspace 2"
+
+msgid "Switch to Workspace 3"
+msgstr "Beralih ke Workspace 3"
+
+msgid "Switch to Workspace 4"
+msgstr "Beralih ke Workspace 4"
+
+msgid "Switch to Workspace 5"
+msgstr "Beralih ke Workspace 5"
+
+msgid "Switch to Workspace 6"
+msgstr "Beralih ke Workspace 6"
+
+msgid "Switch to Workspace 7"
+msgstr "Beralih ke Workspace 7"
+
+msgid "Switch to Workspace 8"
+msgstr "Beralih ke Workspace 8"
+
+msgid "Switch to Workspace 9"
+msgstr "Beralih ke Workspace 9"
+
+msgid "System"
+msgstr "Sistem"
+
+msgid "System permissions"
+msgstr "Izin sistem"
+
+msgid "Take control"
+msgstr "Ambil kendali"
+
+#. placeholder {0}: context.hostLabel
+#. placeholder {0}: session.context.hostLabel
+msgid "Target host: {0}"
+msgstr "Host tujuan: {0}"
+
+msgid "Teal"
+msgstr "Tosca"
+
+msgid "Teardown exited with code {exitCode}"
+msgstr "Teardown keluar dengan kode {exitCode}"
+
+msgid "Teardown failed to start"
+msgstr "Teardown gagal dimulai"
+
+msgid "Teardown terminated by signal {signal}"
+msgstr "Teardown dihentikan oleh sinyal {signal}"
+
+msgid "Teardown timed out after {seconds}s"
+msgstr "Teardown kehabisan waktu setelah {seconds}d"
+
+msgid "Terminal"
+msgstr "Terminal"
+
+msgid "Terminal daemon"
+msgstr "Daemon terminal"
+
+msgid "Terminal font"
+msgstr "Fonta terminal"
+
+msgid "Terminal font size when a terminal is focused, page zoom in a browser pane, otherwise the whole app"
+msgstr "Ukuran font terminal saat terminal difokuskan, zoom halaman di panel browser, selain itu seluruh aplikasi"
+
+msgid "Terminal owns this session"
+msgstr "Terminal memiliki sesi ini"
+
+msgid "Terminal presets"
+msgstr "Prasetel terminal"
+
+msgid "Terminal sessions"
+msgstr "Sesi terminal"
+
+msgid "Terminal typography"
+msgstr "Tipografi terminal"
+
+msgid "Terminate"
+msgstr "Akhiri"
+
+msgid "Terminate session"
+msgstr "Akhiri sesi"
+
+msgid "Terminate this terminal session?"
+msgstr "Akhiri sesi terminal ini?"
+
+msgid "Text"
+msgstr "Teks"
+
+msgid "Text style"
+msgstr "Gaya teks"
+
+msgid "That name isn't allowed."
+msgstr "Nama itu tidak diizinkan."
+
+msgid "the active organization"
+msgstr "organisasi aktif"
+
+msgid "The active session changed. The prompt was not sent."
+msgstr "Sesi aktif berubah. Prompt tidak dikirim."
+
+msgid "The agent reports it is working."
+msgstr "Agen melaporkan bahwa ia sedang bekerja."
+
+msgid "The attachment copy result is incomplete. Check the workspace before retrying."
+msgstr "Hasil penyalinan lampiran tidak lengkap. Periksa ruang kerja sebelum mencoba lagi."
+
+msgid "The attachment could not be read."
+msgstr "Lampiran tidak dapat dibaca."
+
+msgid "The attachment path is outside this workspace."
+msgstr "Jalur lampiran berada di luar ruang kerja ini."
+
+msgid "The branch changed. Review the current branch before trying again."
+msgstr "Cabang berubah. Tinjau cabang saat ini sebelum mencoba lagi."
+
+msgid "The command used to start this agent."
+msgstr "Perintah yang digunakan untuk memulai agen ini."
+
+msgid "The default location for new worktrees on the connected host."
+msgstr "Lokasi default untuk worktree baru di host yang terhubung."
+
+msgid "The definition and its run records will be deleted. Existing workspaces and sessions remain available."
+msgstr "Definisi dan catatan run-nya akan dihapus. Workspace dan sesi yang ada tetap tersedia."
+
+msgid "The existing session identity could not be verified. Refresh before retrying."
+msgstr "Identitas sesi yang ada tidak dapat diverifikasi. Muat ulang sebelum mencoba lagi."
+
+msgid "The file changed on disk. Review it before saving again."
+msgstr "File berubah di disk. Tinjau dulu sebelum menyimpan lagi."
+
+msgid "The file changed. Review its diff before discarding."
+msgstr "File berubah. Tinjau diff-nya sebelum mengabaikan."
+
+msgid "The file did not contain any importable themes."
+msgstr "File itu tidak berisi tema yang bisa diimpor."
+
+msgid "The file path is unavailable"
+msgstr "Jalur file tidak tersedia"
+
+msgid "The Jedv host service for {organization} stopped unexpectedly ({cause}) and could not be restarted automatically."
+msgstr "Layanan host Jedv untuk {organization} berhenti tak terduga ({cause}) dan tidak bisa dimulai ulang otomatis."
+
+msgid "The Jedv host service stopped unexpectedly ({cause}) and could not be restarted automatically."
+msgstr "Layanan host Jedv berhenti tak terduga ({cause}) dan tidak bisa dimulai ulang otomatis."
+
+msgid "The linked local agent is unavailable on this host. Edit the preset or remove its agent link."
+msgstr "Agen lokal tertaut tidak tersedia di host ini. Edit prasetel atau hapus tautan agennya."
+
+msgid "The local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
+msgstr "Layanan host lokal tidak tersedia untuk {organization} di {device}. Status: {status}. {recovery}"
+
+msgid "The operation result is unknown. Check the branch history and remote before retrying."
+msgstr "Hasil operasi tidak diketahui. Periksa riwayat cabang dan repositori jarak jauh sebelum mencoba lagi."
+
+msgid "The page you're looking for doesn't exist."
+msgstr "Halaman yang Anda cari tidak ada."
+
+msgid "The project is saved, but its workspace could not be opened. Continue opening to retry without creating another project."
+msgstr "Proyek disimpan, tetapi ruang kerjanya tidak dapat dibuka. Lanjutkan membuka untuk mencoba lagi tanpa membuat proyek lain."
+
+msgid "The project was saved. Continue opening its workspace."
+msgstr "Proyek telah disimpan. Lanjutkan membuka ruang kerjanya."
+
+msgid "The repository directory is missing on this host. Open the repository at its current path to set it up again."
+msgstr "Direktori repositori tidak ada di host ini. Buka repositori di jalur saat ini untuk mengaturnya kembali."
+
+msgid "The request ended before its result was confirmed. Check the target host for a completed project or partial directory before trying again."
+msgstr "Permintaan berakhir sebelum hasilnya dikonfirmasi. Periksa host tujuan untuk proyek yang selesai atau direktori parsial sebelum mencoba lagi."
+
+msgid "The resumed session identity could not be verified. Refresh before retrying."
+msgstr "Identitas sesi yang dilanjutkan tidak dapat diverifikasi. Segarkan sebelum mencoba lagi."
+
+msgid "The run command is still stopping. Wait, then restart."
+msgstr "Perintah eksekusi masih dalam proses berhenti. Tunggu, lalu mulai ulang."
+
+msgid "The screenshot is no longer available."
+msgstr "Tangkapan layar tidak lagi tersedia."
+
+msgid "The session changed. Select its current run in the workspace."
+msgstr "Sesi berubah. Pilih run saat ini di workspace."
+
+msgid "The session identity changed. Select it again."
+msgstr "Identitas sesi berubah. Pilih lagi."
+
+msgid "The session identity is unavailable."
+msgstr "Identitas sesi tidak tersedia."
+
+msgid "The staged files changed. Review them before committing."
+msgstr "File bertahap berubah. Tinjau sebelum commit."
+
+msgid "The symbolic link target is unavailable"
+msgstr "Target tautan simbolis tidak tersedia"
+
+msgid "The target directory is missing, but the operation result is unknown. This does not confirm cancellation. Check the operation status again."
+msgstr "Direktori tujuan tidak ada, tetapi hasil operasi tidak diketahui. Ini tidak mengonfirmasi pembatalan. Periksa status operasi lagi."
+
+msgid "The target host confirmed this operation has ended. You can retry; an existing directory will not be overwritten."
+msgstr "Host tujuan mengonfirmasi operasi ini telah berakhir. Anda dapat mencoba lagi; direktori yang ada tidak akan ditimpa."
+
+msgid "The target host confirmed this operation has stopped. You can retry; if the target directory remains, choose another location."
+msgstr "Host tujuan mengonfirmasi operasi ini telah berhenti. Anda dapat mencoba lagi; jika direktori tujuan masih ada, pilih lokasi lain."
+
+msgid "The target host is still processing this request. Check again before starting another operation here."
+msgstr "Host tujuan masih memproses permintaan ini. Periksa lagi sebelum memulai operasi lain di sini."
+
+msgid "The target pane area cannot receive this pane"
+msgstr "Area panel tujuan tidak dapat menerima panel ini"
+
+msgid "The target pane area did not receive this pane"
+msgstr "Area panel tujuan tidak menerima panel ini"
+
+msgid "The target workspace changed. Return to the original workspace before continuing."
+msgstr "Ruang kerja target berubah. Kembali ke ruang kerja asli sebelum melanjutkan."
+
+msgid "The target workspace changed. The result belongs to the original workspace."
+msgstr "Ruang kerja target berubah. Hasilnya milik ruang kerja asli."
+
+msgid "The terminal session changed. Refresh before inserting the prompt."
+msgstr "Sesi terminal berubah. Segarkan sebelum menyisipkan prompt."
+
+msgid "The terminal session ended unexpectedly"
+msgstr "Sesi terminal berakhir secara tak terduga"
+
+msgid "The workspace changed"
+msgstr "Ruang kerja berubah"
+
+msgid "The workspace files will change to the selected branch."
+msgstr "File ruang kerja akan berubah ke cabang yang dipilih."
+
+msgid "The workspace is saved. Continue opening it without creating another workspace."
+msgstr "Ruang kerja disimpan. Lanjutkan membukanya tanpa membuat ruang kerja lain."
+
+msgid "The workspace list changed on the host. Refresh it before reordering."
+msgstr "Daftar ruang kerja di host berubah. Segarkan sebelum mengurutkan ulang."
+
+msgid "The workspace was deleted. Continue to refresh the target host."
+msgstr "Ruang kerja telah dihapus. Lanjutkan menyegarkan host tujuan."
+
+msgid "Theme"
+msgstr "Tema"
+
+msgid "Theme default"
+msgstr "Bawaan tema"
+
+msgid "Theme file too large"
+msgstr "File tema terlalu besar"
+
+msgid "These metrics belong to this device. Remote host processes are not included."
+msgstr "Metrik ini milik perangkat ini. Proses host jarak jauh tidak disertakan."
+
+msgid "These notes ship with the application. Published release details are available in the Jedv repository."
+msgstr "Catatan ini disertakan dengan aplikasi. Detail rilis yang dipublikasikan tersedia di repositori Jedv."
+
+msgid "This action is irreversible."
+msgstr "Tindakan ini tidak bisa dibatalkan."
+
+msgid "This API login does not expose subscription quota."
+msgstr "Login API ini tidak menyediakan kuota langganan."
+
+msgid "This automation is no longer available"
+msgstr "Otomatisasi ini tidak lagi tersedia"
+
+msgid "This branch has conflicts"
+msgstr "Branch ini memiliki konflik"
+
+msgid "This changes the pull request state on GitHub."
+msgstr "Ini mengubah status pull request di GitHub."
+
+msgid "This chat is no longer live. The prompt was not sent."
+msgstr "Chat ini tidak lagi aktif. Prompt tidak dikirim."
+
+msgid "This chat is read only. Use Start new session to begin another chat."
+msgstr "Chat ini hanya baca. Gunakan Mulai sesi baru untuk memulai chat lain."
+
+msgid "This closes every terminal session on this host, including running agents and background processes. Restart does not preserve sessions."
+msgstr "Ini menutup setiap sesi terminal di host ini, termasuk agen yang berjalan dan proses latar belakang. Mulai ulang tidak mempertahankan sesi."
+
+msgid "This closes the run terminal and its running processes."
+msgstr "Ini menutup terminal eksekusi dan proses yang berjalan."
+
+msgid "This closes the workspace and its terminals. The project's files, branches and other workspaces stay as they are."
+msgstr "Ini menutup workspace beserta terminalnya. File, branch, dan workspace lain dari proyek tetap seperti semula."
+
+msgid "This comment will be visible on the remote pull request."
+msgstr "Komentar ini akan terlihat di pull request remote."
+
+msgid "This creates a remote pull request from the workspace branch."
+msgstr "Ini membuat pull request remote dari branch workspace."
+
+msgid "This deletes the file from disk. Unsaved editor buffers are kept. This action cannot be undone."
+msgstr "Ini menghapus file dari disk. Buffer editor yang belum disimpan dipertahankan. Tindakan ini tidak dapat dibatalkan."
+
+msgid "This deletes the folder and all its contents. Unsaved editor buffers are kept. This action cannot be undone."
+msgstr "Ini menghapus folder dan seluruh isinya. Buffer editor yang belum disimpan dipertahankan. Tindakan ini tidak dapat dibatalkan."
+
+msgid "This deletes the session's folder and everything in it from disk."
+msgstr "Ini menghapus folder sesi beserta seluruh isinya dari disk."
+
+msgid "this device"
+msgstr "perangkat ini"
+
+msgid "This device"
+msgstr "Perangkat ini"
+
+msgid "this device ({id})"
+msgstr "perangkat ini ({id})"
+
+msgid "This draft belongs to another session. Return to it or discard the draft before composing here."
+msgstr "Draf ini milik sesi lain. Kembali ke sesi tersebut atau abaikan draf sebelum menulis di sini."
+
+msgid "This file cannot be edited as text."
+msgstr "File ini tidak dapat diedit sebagai teks."
+
+msgid "This file is outside the workspace"
+msgstr "File ini berada di luar workspace"
+
+msgid "This file is outside the workspace or its symbolic link cannot be safely resolved"
+msgstr "File ini berada di luar ruang kerja atau tautan simbolisnya tidak dapat diselesaikan dengan aman"
+
+msgid "This folder is not a Git repository. Initialize Git here and import it as a project? Existing files will be kept."
+msgstr "Folder ini bukan repositori Git. Inisialisasi Git di sini dan impor sebagai proyek? File yang ada akan dipertahankan."
+
+msgid "This host did not provide a readable preview. Review the request in the agent CLI before approving."
+msgstr "Host ini tidak menyediakan pratinjau yang dapat dibaca. Tinjau permintaan di CLI agen sebelum menyetujui."
+
+msgid "This is a large file. Opening it may slow down the editor."
+msgstr "Ini adalah file besar. Membukanya dapat memperlambat editor."
+
+msgid "This pane can't be shown"
+msgstr "Panel ini tidak dapat ditampilkan"
+
+msgid "This pane hit an error"
+msgstr "Panel ini mengalami kesalahan"
+
+msgid "This permanently deletes the removed project and workspace records and attempts to remove their clean worktree directories. Dirty worktree directories may remain untracked. The main repository directory is kept. This cannot be undone."
+msgstr "Ini menghapus catatan proyek dan ruang kerja yang dihapus secara permanen dan mencoba menghapus direktori pohon kerja yang bersih. Direktori pohon kerja dengan perubahan mungkin tetap tidak terlacak. Direktori repositori utama dipertahankan. Ini tidak dapat dibatalkan."
+
+msgid "This preview was shortened. Review the full request in the agent CLI."
+msgstr "Pratinjau ini dipersingkat. Tinjau permintaan lengkap di CLI agen."
+
+msgid "This project cannot be removed in its current state."
+msgstr "Proyek ini tidak dapat dihapus dalam keadaan saat ini."
+
+msgid "This project is not set up on the target host."
+msgstr "Proyek ini belum dikonfigurasi di host tujuan."
+
+msgid "This project still uses the older config.json. It keeps working; convert it to config.toml to use the new sections."
+msgstr "Proyek ini masih memakai config.json lama. File itu tetap berfungsi; konversikan ke config.toml untuk memakai bagian-bagian baru."
+
+msgid "This project's host is offline"
+msgstr "Host proyek ini sedang offline"
+
+msgid "This prompt is no longer active."
+msgstr "Prompt ini tidak lagi aktif."
+
+msgid "This removes all custom shortcut bindings, including actions outside this list."
+msgstr "Ini menghapus semua pengikatan pintasan kustom, termasuk tindakan di luar daftar ini."
+
+msgid "This removes all saved screenshots listed here. Attachments already copied into a workspace are kept."
+msgstr "Ini menghapus semua tangkapan layar tersimpan yang tercantum di sini. Lampiran yang sudah disalin ke ruang kerja dipertahankan."
+
+msgid "This removes custom agents and replaces all launch configurations with the four bundled defaults. Existing sessions keep running. This cannot be undone."
+msgstr "Ini menghapus agen kustom dan mengganti semua konfigurasi peluncuran dengan empat konfigurasi default bawaan. Sesi yang ada tetap berjalan. Ini tidak dapat dibatalkan."
+
+msgid "This removes its launch configuration. Existing sessions keep running."
+msgstr "Ini menghapus konfigurasi peluncurannya. Sesi yang ada tetap berjalan."
+
+msgid "This removes the saved commands from this device. Running terminals are not affected."
+msgstr "Ini menghapus perintah tersimpan dari perangkat ini. Terminal yang berjalan tidak terpengaruh."
+
+msgid "This removes the worktree from disk and closes the workspace."
+msgstr "Ini menghapus worktree dari disk dan menutup workspace."
+
+msgid "This reply will be visible in the remote review thread."
+msgstr "Balasan ini akan terlihat di thread review remote."
+
+msgid "This repository is no longer available as a Git repository."
+msgstr "Repositori ini tidak lagi tersedia sebagai repositori Git."
+
+msgid "This restores the file in the index and on disk to HEAD, or deletes an untracked file. Unsaved editor buffers are kept. This action cannot be undone."
+msgstr "Ini memulihkan file di indeks dan disk ke HEAD, atau menghapus file yang tidak terlacak. Buffer editor yang belum disimpan dipertahankan. Tindakan ini tidak dapat dibatalkan."
+
+msgid "This run has no agent session"
+msgstr "Run ini tidak memiliki sesi agen"
+
+msgid "This session could not be resumed. No new session was started."
+msgstr "Sesi ini tidak dapat dilanjutkan. Tidak ada sesi baru yang dimulai."
+
+msgid "This session is not active, or you are viewing earlier output. Refresh to check its current state."
+msgstr "Sesi ini tidak aktif, atau Anda sedang melihat output sebelumnya. Muat ulang untuk memeriksa statusnya saat ini."
+
+#. placeholder {0}: label(conflict.id)
+#. placeholder {1}: conflictsFor(conflict.id, conflict.binding) .map(label) .join(", ")
+msgid "This shortcut will be assigned to {0}. These actions will become unassigned: {1}."
+msgstr "Pintasan ini akan ditetapkan ke {0}. Tindakan berikut akan menjadi tidak ditetapkan: {1}."
+
+#. placeholder {0}: killing?.title
+msgid "This stops {0} and its child processes. Unsaved work in the terminal can be lost."
+msgstr "Ini menghentikan {0} dan proses turunannya. Pekerjaan yang belum disimpan di terminal dapat hilang."
+
+msgid "This stops only the listed forwarding tunnels. Processes on the target host keep running."
+msgstr "Ini hanya menghentikan tunnel penerusan yang tercantum. Proses di host tujuan tetap berjalan."
+
+msgid "This stops the listed processes on the original host. Terminal work or servers using them can be interrupted. Forwarding tunnels are separate."
+msgstr "Ini menghentikan proses yang tercantum di host asal. Pekerjaan terminal atau server yang menggunakannya dapat terganggu. Tunnel penerusan terpisah."
+
+msgid "This stops the local process occupying the forwarded port."
+msgstr "Ini menghentikan proses lokal yang menggunakan port yang diteruskan."
+
+msgid "This stops the process listening on this port."
+msgstr "Ini menghentikan proses yang mendengarkan di port ini."
+
+msgid "This stops the processes listening on the listed workspace ports."
+msgstr "Ini menghentikan proses yang mendengarkan di port ruang kerja yang tercantum."
+
+msgid "This stops the shell and all processes running in this terminal. Workspace files are kept. Unsaved process state may be lost."
+msgstr "Ini menghentikan shell dan semua proses di terminal ini. File workspace tetap dipertahankan. Status proses yang belum disimpan dapat hilang."
+
+msgid "This terminal is also open on a smaller screen, so it's sized to fit"
+msgstr "Terminal ini juga terbuka di layar yang lebih kecil, jadi ukurannya disesuaikan"
+
+msgid "This terminal is no longer running. Refresh the session list."
+msgstr "Terminal ini tidak lagi berjalan. Segarkan daftar sesi."
+
+msgid "This thread has no comment to reply to, or GitHub authentication is unavailable."
+msgstr "Thread ini tidak memiliki komentar untuk dibalas, atau autentikasi GitHub tidak tersedia."
+
+msgid "This thread has no comment to reply to."
+msgstr "Thread ini tidak punya komentar untuk dibalas."
+
+msgid "This updates the remote base branch on GitHub."
+msgstr "Ini memperbarui branch dasar remote di GitHub."
+
+msgid "This updates the review thread on GitHub."
+msgstr "Ini memperbarui thread review di GitHub."
+
+msgid "This view hit an error"
+msgstr "Tampilan ini mengalami kesalahan"
+
+msgid "This workspace cannot be deleted in its current state."
+msgstr "Ruang kerja ini tidak dapat dihapus dalam keadaan saat ini."
+
+msgid "This workspace shares the project's files, index, and current branch. It does not switch branches or run setup."
+msgstr "Ruang kerja ini berbagi file, indeks, dan cabang proyek saat ini. Tidak berpindah cabang atau menjalankan konfigurasi."
+
+msgid "Thursday"
+msgstr "Kamis"
+
+msgid "Time unavailable"
+msgstr "Waktu tidak tersedia"
+
+msgid "Time zone"
+msgstr "Zona waktu"
+
+msgid "To"
+msgstr "Ke"
+
+msgid "Toggle agent controls"
+msgstr "Alihkan kontrol agen"
+
+msgid "Toggle Right Pane Full Screen"
+msgstr "Alihkan layar penuh panel kanan"
+
+msgid "Toggle right sidebar"
+msgstr "Alihkan bilah sisi kanan"
+
+msgid "Toggle Right Sidebar"
+msgstr "Alihkan Sidebar Kanan"
+
+msgid "Toggle Right Sidebar Focus"
+msgstr "Alihkan Fokus Sidebar Kanan"
+
+msgid "Toggle Scripts Bar"
+msgstr "Alihkan Bilah Skrip"
+
+msgid "Toggle Sidebar"
+msgstr "Alihkan sidebar"
+
+msgid "Toggle Terminal Rich Input"
+msgstr "Alihkan Input Kaya Terminal"
+
+msgid "Toggle Workspaces Sidebar"
+msgstr "Alihkan Sidebar Workspace"
+
+msgid "Tokens"
+msgstr "Token"
+
+msgid "Too many background terminals. Reattach or end one before closing another view."
+msgstr "Terlalu banyak terminal latar belakang. Lampirkan kembali atau akhiri satu sebelum menutup tampilan lain."
+
+msgid "Too many dropped items. Add at most 5000 files and folders at a time."
+msgstr "Terlalu banyak item yang dilepas. Tambahkan maksimal 5000 file dan folder sekaligus."
+
+msgid "Too many files. Some were not added."
+msgstr "Terlalu banyak file. Sebagian tidak ditambahkan."
+
+msgid "Too many untitled items here already."
+msgstr "Sudah terlalu banyak item tanpa judul di sini."
+
+msgid "Tool output"
+msgstr "Output alat"
+
+msgid "Transcribing"
+msgstr "Mentranskripsi"
+
+msgid "Transcribing…"
+msgstr "Mentranskripsi…"
+
+msgid "Tree view"
+msgstr "Tampilan pohon"
+
+msgid "Triggers"
+msgstr "Pemicu"
+
+msgid "Try again"
+msgstr "Coba lagi"
+
+msgid "Try changing the search or status filter."
+msgstr "Coba ubah pencarian atau filter status."
+
+msgid "Tuesday"
+msgstr "Selasa"
+
+msgid "Tufte"
+msgstr "Tufte"
+
+msgid "Turn completed"
+msgstr "Giliran selesai"
+
+msgid "Turn finished"
+msgstr "Giliran berakhir"
+
+msgid "Type project name to confirm"
+msgstr "Ketik nama proyek untuk konfirmasi"
+
+msgid "Type to search files..."
+msgstr "Ketik untuk mencari file..."
+
+msgid "TypeScript"
+msgstr "TypeScript"
+
+msgid "Typography"
+msgstr "Tipografi"
+
+msgid "Typography and cursor behavior used in V2 terminal panels."
+msgstr "Tipografi dan perilaku kursor yang dipakai di panel terminal V2."
+
+msgid "Typography used in V2 editors and diff views."
+msgstr "Tipografi yang dipakai di editor dan tampilan diff V2."
+
+msgid "Unable to check for updates."
+msgstr "Tidak dapat memeriksa pembaruan."
+
+msgid "Unable to read file"
+msgstr "Tidak bisa membaca file"
+
+msgid "Unable to start dictation"
+msgstr "Tidak bisa memulai dikte"
+
+msgid "Unable to transcribe audio"
+msgstr "Tidak bisa mentranskripsi audio"
+
+msgid "Unassigned"
+msgstr "Belum ditugaskan"
+
+msgid "Unavailable"
+msgstr "Tidak tersedia"
+
+msgid "Uncommitted"
+msgstr "Belum di-commit"
+
+msgid "Uncommitted changes"
+msgstr "Perubahan yang belum di-commit"
+
+msgid "Uncommitted changes and unpushed commits"
+msgstr "Perubahan yang belum di-commit dan commit yang belum dikirim"
+
+msgid "Uncommitted or unpushed work"
+msgstr "Pekerjaan yang belum di-commit atau belum dikirim"
+
+msgid "Underline"
+msgstr "Garis bawah"
+
+msgid "Undo"
+msgstr "Undo"
+
+msgid "Undo last closed workspace"
+msgstr "Batalkan penutupan workspace terakhir"
+
+msgid "Undo the last archived workspace or closed chats"
+msgstr "Batalkan workspace terakhir yang diarsipkan atau chat yang ditutup"
+
+msgid "Ungrouped"
+msgstr "Tidak dikelompokkan"
+
+msgid "Unified diff"
+msgstr "Diff terpadu"
+
+msgid "unknown"
+msgstr "tidak diketahui"
+
+msgid "Unknown"
+msgstr "Tidak diketahui"
+
+msgid "Unknown error"
+msgstr "Kesalahan tidak diketahui"
+
+msgid "Unknown pane"
+msgstr "Panel tidak dikenal"
+
+msgid "Unknown pane type: {paneKind}"
+msgstr "Jenis panel tidak dikenal: {paneKind}"
+
+msgid "Unpin workspace"
+msgstr "Lepaskan sematan ruang kerja"
+
+msgid "Unpushed commits"
+msgstr "Commit yang belum dikirim"
+
+msgid "Unreachable"
+msgstr "Tidak dapat dijangkau"
+
+msgid "Unread activity"
+msgstr "Aktivitas belum dibaca"
+
+msgid "Unresolve"
+msgstr "Buka lagi"
+
+msgid "Unresolve conversation?"
+msgstr "Buka kembali percakapan?"
+
+msgid "Unsaved changes"
+msgstr "Perubahan belum disimpan"
+
+msgid "Unsaved file protection is unavailable. Delete this workspace from the sidebar."
+msgstr "Perlindungan file yang belum disimpan tidak tersedia. Hapus ruang kerja ini dari bilah samping."
+
+msgid "Unsaved files"
+msgstr "File yang belum disimpan"
+
+msgid "Unstage All"
+msgstr "Hapus Tahap Semua"
+
+msgid "Unstage file"
+msgstr "Unstage file"
+
+msgid "Unstaged"
+msgstr "Belum di-stage"
+
+msgid "Untitled automation"
+msgstr "Otomatisasi tanpa judul"
+
+msgid "update"
+msgstr "perbarui"
+
+msgid "Update available"
+msgstr "Pembaruan tersedia"
+
+#. placeholder {0}: event.version ?? ""
+msgid "Update available · v{0}"
+msgstr "Pembaruan tersedia · v{0}"
+
+msgid "Update daemon"
+msgstr "Perbarui daemon"
+
+msgid "Update did not finish. Review status before retrying."
+msgstr "Pembaruan tidak selesai. Tinjau status sebelum mencoba lagi."
+
+msgid "Update failed. Try again."
+msgstr "Pembaruan gagal. Coba lagi."
+
+msgid "Update Jedv on this host to edit its workspace config."
+msgstr "Perbarui Jedv di host ini untuk mengedit konfigurasi ruang kerjanya."
+
+msgid "Update status unavailable"
+msgstr "Status pembaruan tidak tersedia"
+
+msgid "update the branch prefix"
+msgstr "memperbarui prefix branch"
+
+#. placeholder {0}: event.version ?? event.currentVersion
+msgid "Updated to v{0}"
+msgstr "Diperbarui ke v{0}"
+
+msgid "Updates"
+msgstr "Pembaruan"
+
+msgid "Updating…"
+msgstr "Memperbarui…"
+
+msgid "Upload files"
+msgstr "Unggah file"
+
+msgid "Upload image…"
+msgstr "Unggah gambar…"
+
+msgid "URL copied"
+msgstr "URL disalin"
+
+msgid "URL links"
+msgstr "Tautan URL"
+
+msgid "Usage"
+msgstr "Penggunaan"
+
+msgid "Usage history"
+msgstr "Riwayat penggunaan"
+
+msgid "Usage in sidebar"
+msgstr "Penggunaan di sidebar"
+
+msgid "Usage period"
+msgstr "Periode penggunaan"
+
+#. placeholder {0}: search.trim()
+msgid "Use “{0}”"
+msgstr "Pakai “{0}”"
+
+msgid "Use an existing repository at this location. Jedv changes the registered path and local checkout workspaces; it does not move files. Existing worktrees under the old repository may need to be imported again."
+msgstr "Gunakan repositori yang ada di lokasi ini. Jedv mengubah jalur terdaftar dan ruang kerja checkout lokal; tidak memindahkan file. Pohon kerja yang ada di repositori lama mungkin perlu diimpor kembali."
+
+msgid "Use another local port"
+msgstr "Gunakan port lokal lain"
+
+msgid "Use for new sessions"
+msgstr "Gunakan untuk sesi baru"
+
+msgid "Use global default"
+msgstr "Pakai bawaan global"
+
+msgid "Use host default"
+msgstr "Gunakan default host"
+
+msgid "Use Move to group to move workspaces between groups."
+msgstr "Gunakan Pindahkan ke grup untuk memindahkan ruang kerja antargrup."
+
+msgid "Use the Jedv tray menu > Host Service > Restart, then retry."
+msgstr "Pakai menu tray Jedv > Host Service > Restart, lalu coba lagi."
+
+msgid "Use this device"
+msgstr "Gunakan perangkat ini"
+
+msgid "Use this folder"
+msgstr "Pakai folder ini"
+
+msgid "used"
+msgstr "terpakai"
+
+msgid "Used when your system is in dark mode."
+msgstr "Dipakai saat sistem Anda dalam mode gelap."
+
+msgid "Used when your system is in light mode."
+msgstr "Dipakai saat sistem Anda dalam mode terang."
+
+msgid "Uses the connected host's global Git identity. GitHub mode may read your existing gh login."
+msgstr "Menggunakan identitas Git global host yang terhubung. Mode GitHub dapat membaca login gh Anda yang ada."
+
+msgid "Vercel's starter with Drizzle, NextAuth, and Postgres"
+msgstr "Pemula Vercel dengan Drizzle, NextAuth, dan Postgres"
+
+msgid "Version installed on this device."
+msgstr "Versi yang terinstal di perangkat ini."
+
+msgctxt "menu"
+msgid "View"
+msgstr "Tampilan"
+
+msgid "View license"
+msgstr "Lihat lisensi"
+
+msgid "View source"
+msgstr "Lihat sumber"
+
+msgid "Volume"
+msgstr "Volume"
+
+msgid "VS Code"
+msgstr "VS Code"
+
+msgid "Wait for workspace setup before starting an agent"
+msgstr "Tunggu konfigurasi ruang kerja selesai sebelum memulai agen"
+
+msgid "Waiting for approval"
+msgstr "Menunggu persetujuan"
+
+msgid "We're rebuilding this feature. Check back soon."
+msgstr "Kami sedang membangun ulang fitur ini. Cek lagi nanti."
+
+msgid "Wednesday"
+msgstr "Rabu"
+
+msgid "Weekdays"
+msgstr "Hari kerja"
+
+msgid "Weekdays at {time}"
+msgstr "Hari kerja pukul {time}"
+
+msgid "Weekends"
+msgstr "Akhir pekan"
+
+msgid "Weekends at {time}"
+msgstr "Akhir pekan pukul {time}"
+
+msgid "Weekly"
+msgstr "Mingguan"
+
+msgid "Weekly at {time}"
+msgstr "Mingguan pukul {time}"
+
+msgid "Welcome to Jedv"
+msgstr "Selamat datang di Jedv"
+
+msgid "What would you like to know?"
+msgstr "Apa yang ingin Anda ketahui?"
+
+msgid "Window"
+msgstr "Jendela"
+
+msgid "Working"
+msgstr "Bekerja"
+
+msgid "Working directory"
+msgstr "Direktori kerja"
+
+msgid "Working…"
+msgstr "Sedang bekerja…"
+
+msgid "Workspace"
+msgstr "Workspace"
+
+msgid "Workspace activity"
+msgstr "Aktivitas workspace"
+
+msgid "Workspace configuration"
+msgstr "Konfigurasi ruang kerja"
+
+msgid "Workspace deletion results"
+msgstr "Hasil penghapusan ruang kerja"
+
+msgid "Workspace files are unavailable"
+msgstr "File workspace tidak tersedia"
+
+msgid "Workspace launcher"
+msgstr "Peluncur ruang kerja"
+
+msgid "Workspace name"
+msgstr "Nama workspace"
+
+msgid "Workspace navigation"
+msgstr "Navigasi workspace"
+
+msgid "Workspace not found"
+msgstr "Workspace tidak ditemukan"
+
+msgid "Workspace or running session state changed. Review the updated checks and confirm again."
+msgstr "Status ruang kerja atau sesi yang berjalan berubah. Tinjau pemeriksaan yang diperbarui dan konfirmasi kembali."
+
+msgid "Workspace order"
+msgstr "Urutan ruang kerja"
+
+msgid "Workspace pinning and ordering are unavailable on this host."
+msgstr "Penyematan dan pengurutan ruang kerja tidak tersedia di host ini."
+
+msgid "Workspace read state could not be saved."
+msgstr "Tidak dapat menyimpan status baca ruang kerja."
+
+msgid "workspace root"
+msgstr "root workspace"
+
+msgid "Workspace setup failed. Review the setup terminal before starting an agent."
+msgstr "Konfigurasi ruang kerja gagal. Tinjau terminal konfigurasi sebelum memulai agen."
+
+msgid "Workspace setup is still running."
+msgstr "Konfigurasi ruang kerja masih berjalan."
+
+msgid "Workspace state changed. Review the updated checks and confirm again."
+msgstr "Status ruang kerja berubah. Tinjau pemeriksaan yang diperbarui dan konfirmasi kembali."
+
+msgid "Workspaces"
+msgstr "Workspace"
+
+msgid "worktree"
+msgstr "worktree"
+
+msgid "Worktree"
+msgstr "Worktree"
+
+msgid "Worktree base directory"
+msgstr "Direktori dasar pohon kerja"
+
+msgid "Worktree location"
+msgstr "Lokasi worktree"
+
+msgid "Write a reply…"
+msgstr "Tulis balasan…"
+
+msgid "Write access to this repository is required to create a pull request from this workspace."
+msgstr "Akses tulis ke repositori ini diperlukan untuk membuat pull request dari workspace ini."
+
+msgid "Yellow"
+msgstr "Kuning"
+
+msgid "Yes"
+msgstr "Ya"
+
+msgid "You"
+msgstr "Anda"
+
+msgid "You do not have permission to resolve this thread"
+msgstr "Anda tidak memiliki izin untuk menyelesaikan thread ini"
+
+msgid "You're up to date"
+msgstr "Anda sudah menggunakan versi terbaru"
+
+msgid "You're up to date!"
+msgstr "Anda sudah memakai versi terbaru!"
+
+msgid "Your automation changes have not been saved."
+msgstr "Perubahan otomatisasi Anda belum disimpan."
+
+msgid "Your changes"
+msgstr "Perubahan Anda"
+
+msgid "Your imports are saved. Could not refresh or open them. Try continuing again."
+msgstr "Impor Anda disimpan. Tidak dapat menyegarkan atau membukanya. Coba lanjutkan lagi."
+
+msgid "Zap"
+msgstr "Petir"
+
+msgid "Zoom"
+msgstr "Zoom"
+
+msgid "Zoom in"
+msgstr "Perbesar"
+
+msgid "Zoom In"
+msgstr "Perbesar"
+
+msgid "Zoom out"
+msgstr "Perkecil"
+
+msgid "Zoom Out"
+msgstr "Perkecil"
+
+msgid "zsh"
+msgstr "zsh"

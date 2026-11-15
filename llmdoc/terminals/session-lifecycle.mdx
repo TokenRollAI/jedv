@@ -1,0 +1,72 @@
+---
+description: "关闭窗口后终端继续运行、尚无输出不等于 shell 就绪、terminal reanchor replay detach、端口 PID 复用误杀；PTY 所有权、启动 echo 验证与直连恢复。"
+kind: architecture
+code:
+  paths:
+    - packages/pty-daemon/src/protocol/messages.ts
+    - packages/pty-daemon/src/Server/Server.ts
+    - packages/pty-daemon/src/SessionStore/SessionStore.ts
+    - packages/host-service/src/terminal/terminal.ts
+    - packages/host-service/src/terminal/DaemonClient/DaemonClient.ts
+    - packages/host-service/src/terminal/reaper/reaper.ts
+    - packages/port-scanner/src/port-manager.ts
+    - packages/port-scanner/src/detached.ts
+    - packages/workspace-client/src/lib/relaySocket/relaySocket.ts
+    - apps/desktop/src/renderer/lib/terminal/terminal-ws-transport.ts
+    - packages/cli/src/commands/terminals/attach/command.ts
+    - packages/cli/src/lib/terminal-attach.ts
+    - packages/pty-daemon/src/handlers/handlers.ts
+    - packages/pty-daemon/src/protocol/framing.ts
+    - packages/pty-daemon/src/protocol/version.ts
+    - packages/host-service/src/terminal/lifecycle/lifecycle.ts
+    - packages/port-scanner/src/scanner.ts
+    - packages/host-service/src/ports/port-manager.ts
+    - packages/workspace-client/src/lib/probeRelayHost.ts
+    - packages/workspace-client/src/lib/eventBus.ts
+relations:
+  related:
+    - runtime/local-host.mdx
+    - runtime/private-connections.mdx
+    - agents/native-control.mdx
+---
+# PTY 会话、重连与端口归属
+
+PTY daemon 持有 shell 和 master fd；host 持工作区会话元数据、attachments 与事件；renderer 持显示状态和较长 scrollback。关闭窗口或 host transport 不等于关闭 shell，活跃列表需将 daemon truth 与 host DB 的 active workspace 身份相连，不能只看本进程 attachment map。
+
+## daemon 与 dispose 权限
+
+daemon 保存有界内存 replay ring，不负责完整持久 scrollback。DaemonClient dispose 只关客户端 socket；pending request timeout/断开必须明确失败，不能 resolve 成成功。
+
+Unix socket 协议分开 JSON header 与 binary PTY payload，并有版本协商、socket 权限与受信 supervisor。FD handoff 成功后 predecessor 必须以 killSessions=false 退出，避免杀死已经转移的用户 shell；普通 daemon shutdown 才清理自身 PTY。
+
+显式 dispose 先持久化 disposeRequestedAt 再尝试 kill；失败保留可重试意图，未知 session 可幂等视作已清理。reaper 区分 exited（Agent 可能恢复）与用户 disposed（不得复活），以 grace 与重复 missing 观察防止把 spawn/adoption 竞态当退出。
+
+默认 shell close 使用 SIGHUP；交互 shell 可 trap SIGTERM。关闭须同时处理进程与 master fd；部分 open 失败也不能仅删除 store 而留下进程或 fd。
+
+## 尚无输出不等于就绪
+
+无 ready marker 的 shell 启动不能把尚未输出当作 prompt 已经可读。输出静默计时仅在已经观察到输出时启动；此前没有输出，则由首个输出开始计 quiet。独立 cap 始终有效，防止持续输出或永不输出把启动无限挂起；cap 到达只进入有界的后续 fallback，不证明 prompt ready。
+
+ungated initial command 先等 quiescence，再输入并验证完整 echo；启动脚本的 stdin reader 可能吞掉字符，line editor 也可能在 kernel 已回显后清空 typeahead。必须识别缺失、损坏及命令自身无法解释的 echo 后输出，失败先重新等待静默，再 Ctrl-U 重输。重试耗尽后仍有有界的 blind Enter fallback；命令太短或非 ASCII 开头而无法构造 probe 时跳过 echo 验证，但仍执行静默等待，不能宣称所有命令都获得 echo 保证。
+
+quiescence 与 command echo verification 共用 single-slot echoProbe，同一会话不得并发运行，否则一个等待器会覆盖另一个。延迟输入与 Enter 前须复核取消、退出和 session registry 身份；defunct 或写入失败后停止注入并清理尚未消费的 staged 文件，不能让 teardown 后的定时回调继续发命令。
+
+取消必须通过 cancelLaunchWait 主动结算等待，并释放 callback、echoProbe 与 timers，使从未输出的已 dispose 会话立即进入 defunct 检查和 staged 清理，而非等到 cap 才继续。即使 ready marker 阶段已经结束，也必须先取消 launch waiter，不能因 shellReadyState 不再 pending 而跳过。
+
+## detach 与画面恢复
+
+WS detach 只移除该 client 的 focus/size 约束。多个可见 client 取最小尺寸，全部 hidden 保持已有 PTY 尺寸。CLI Ctrl+] 只 detach 并恢复本地 TTY/raw mode；unexpected transport close 不能显示为远端 shell 已退出。
+
+seq catchup 需要同 epoch、仍在 retained range 且不跨 resize。不可信 anchor 必须 reanchor 并请求运行程序重绘；不能向已有 screen 注入猜测快照或重复旧字节。
+
+历史名 createRelaySocket 是直连终端和 eventBus 共用的重连实现。每次拨号重新构造 URL 和 PSK，默认不缓存断线 send，防止重连后重放旧输入。probeRelayHost 对非 `/hosts/<id>/` 直连路径立即返回 null，不发云请求。watch interest 可在重连后重新订阅，这不授权重放终端输入。
+
+## 端口观察不授权任意杀进程
+
+port-scanner 以 PTY 进程树归属 listener；脱离树的后台进程通过继承的 JEDV_TERMINAL_ID 归属。每轮重新读环境，PID/PPID 不能证明进程实例，缓存会把复用 PID 误归给旧终端。异步扫描回写需确认 session 实例未更换；inspection 失败不表示所有进程退出。
+
+killPort 必须重新读当前进程表、listener 和 terminal/workspace 归属，不杀 terminal 根 shell。无法 inspection 或归属不符则拒绝；OS inspection 与基于 PID 发信号仍非原子，只能收窄窗口，不能宣称绝无 PID race。
+
+host 重启后 reaper 仍登记无人 attach 的活 daemon 终端，退出后 unregister 端口归属，避免 dev server 遗漏或泄漏。Chat 进程共享的端口登记不能因 synthetic terminal 消失就误删。
+
+源码锚点：`SessionStore.ts`（PTY/replay）、`terminal.ts`（detach/resize/catchup）、`reaper.ts`（恢复与结束）、`port-manager.ts` 和 `detached.ts`（端口归属与重新验证）。

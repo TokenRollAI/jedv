@@ -1,0 +1,3265 @@
+import {
+	afterAll,
+	afterEach,
+	beforeAll,
+	beforeEach,
+	describe,
+	expect,
+	it,
+	mock,
+} from "bun:test";
+import { execFileSync, spawnSync } from "node:child_process";
+import {
+	chmodSync,
+	existsSync,
+	mkdirSync,
+	readFileSync,
+	rmSync,
+	writeFileSync,
+} from "node:fs";
+import { tmpdir } from "node:os";
+import path from "node:path";
+import { pathToFileURL } from "node:url";
+
+const TEST_ROOT = path.join(
+	tmpdir(),
+	`jedv-agent-wrappers-${process.pid}-${Date.now()}`,
+);
+const TEST_JEDV_HOME_DIR = path.join(TEST_ROOT, "jedv");
+const TEST_BIN_DIR = path.join(TEST_JEDV_HOME_DIR, "bin");
+const TEST_HOOKS_DIR = path.join(TEST_JEDV_HOME_DIR, "hooks");
+const TEST_HOME_DIR = path.join(TEST_ROOT, "home");
+
+const originalJedvHomeDir = process.env.JEDV_HOME_DIR;
+const originalHome = process.env.HOME;
+
+let managedClaudeHookCommand: string;
+let managedArtifactGuardCommand: string;
+let managedDroidHookCommand: string;
+let managedCodexHookCommand: string;
+let managedMastraHookCommand: string;
+
+beforeAll(() => {
+	process.env.JEDV_HOME_DIR = TEST_JEDV_HOME_DIR;
+	process.env.HOME = TEST_HOME_DIR;
+	managedClaudeHookCommand = getClaudeManagedHookCommand();
+	managedArtifactGuardCommand = getManagedArtifactGuardHookCommand();
+	managedDroidHookCommand = getManagedNotifyHookCommand("droid");
+	managedCodexHookCommand = getManagedNotifyHookCommand("codex");
+	managedMastraHookCommand = getManagedNotifyHookCommand("mastracode");
+});
+
+afterAll(() => {
+	if (originalJedvHomeDir === undefined) {
+		delete process.env.JEDV_HOME_DIR;
+	} else {
+		process.env.JEDV_HOME_DIR = originalJedvHomeDir;
+	}
+	if (originalHome === undefined) {
+		delete process.env.HOME;
+	} else {
+		process.env.HOME = originalHome;
+	}
+});
+
+const {
+	AMP_PLUGIN_MARKER,
+	createAmpPlugin,
+	createAmpWrapper,
+	buildCodexWrapperExecLine,
+	buildCopilotWrapperExecLine,
+	buildWrapperScript,
+	createClaudeSettingsJson,
+	createCodexHooksJson,
+	createCodexWrapper,
+	COPILOT_HOOK_MARKER,
+	CURSOR_HOOK_MARKER,
+	createDroidSettingsJson,
+	createDroidWrapper,
+	createMastraWrapper,
+	createOmpExtension,
+	createPiExtension,
+	createUfoWrapper,
+	getClaudeGlobalSettingsJsonContent,
+	getClaudeManagedHookCommand,
+	getCodexGlobalHooksJsonContent,
+	getCursorHooksJsonContent,
+	getCopilotHookScriptPath,
+	getDevinConfigJsonContent,
+	getMuseManagedHooksContent,
+	getMuseSettingsJsonContent,
+	getMuseSettingsJsonWithoutManagedHooks,
+	MUSE_HOOK_ENV_VARS,
+	getDroidSettingsJsonContent,
+	GEMINI_HOOK_MARKER,
+	getAmpGlobalPluginPath,
+	getAmpPluginContent,
+	getGeminiSettingsJsonContent,
+	getMastraHooksJsonContent,
+	getOpenCodePluginContent,
+	getOpenCodeTuiPluginContent,
+	getOpenCodeTuiPluginPath,
+	createOpenCodeTuiPlugin,
+	removeOpenCodeTuiPlugin,
+	getOmpExtensionContent,
+	getOmpExtensionPath,
+	OMP_EXTENSION_MARKER,
+	removeOmpExtension,
+	getPiExtensionContent,
+	getPiExtensionPath,
+	PI_EXTENSION_MARKER,
+	removeClaudeManagedHooks,
+} = await import("./agent-wrappers");
+const { getManagedArtifactGuardHookCommand, getManagedNotifyHookCommand } =
+	await import("./agent-wrappers-common");
+
+function requireContent(content: string | null): string {
+	if (content === null) throw new Error("Expected merged hook content");
+	return content;
+}
+
+describe("agent-wrappers opencode", () => {
+	const originalTerminalId = process.env.JEDV_TERMINAL_ID;
+	// Written and imported once. A fresh file per test used to be the way to get
+	// a fresh module, but only the first dynamic import out of this directory
+	// ever resolved — the rest died on "Cannot find module" for a file that was
+	// definitely on disk. Nothing here needs a fresh module anyway: the plugin's
+	// re-entry guard lives on `globalThis`, not in module scope, and `beforeEach`
+	// clears it, so one cached import gives every test its own hooks.
+	/** The plugin hands back a map of OpenCode hooks, keyed by event name. */
+	type OpenCodeHooks = Record<
+		string,
+		(...args: unknown[]) => Promise<unknown> | unknown
+	>;
+	let pluginModule: Promise<{
+		JedvNotifyPlugin: (input: unknown) => Promise<OpenCodeHooks>;
+	}>;
+
+	const loadOpenCodePlugin = async () => {
+		if (!pluginModule) {
+			mkdirSync(TEST_ROOT, { recursive: true });
+			const pluginPath = path.join(TEST_ROOT, "opencode-notify.mjs");
+			writeFileSync(pluginPath, getOpenCodePluginContent("/tmp/notify.sh"));
+			pluginModule = import(pathToFileURL(pluginPath).href);
+		}
+		return pluginModule;
+	};
+
+	beforeEach(() => {
+		delete (
+			globalThis as typeof globalThis & {
+				__jedvOpencodeNotifyPluginV11?: boolean;
+			}
+		).__jedvOpencodeNotifyPluginV11;
+	});
+
+	afterEach(() => {
+		if (originalTerminalId === undefined) {
+			delete process.env.JEDV_TERMINAL_ID;
+		} else {
+			process.env.JEDV_TERMINAL_ID = originalTerminalId;
+		}
+	});
+
+	it("reports a session error as Failed with its error message", async () => {
+		process.env.JEDV_TERMINAL_ID = "terminal-1";
+		const { JedvNotifyPlugin } = await loadOpenCodePlugin();
+		const notifications: unknown[] = [];
+		const hooks = await JedvNotifyPlugin({
+			$: (
+				_parts: TemplateStringsArray,
+				_notifyPath: string,
+				payload: string,
+			) => {
+				notifications.push(JSON.parse(payload));
+			},
+			client: { session: { list: async () => ({ data: [{ id: "root" }] }) } },
+		});
+		await hooks.event({
+			event: {
+				type: "session.status",
+				properties: { sessionID: "root", status: { type: "busy" } },
+			},
+		});
+		await hooks.event({
+			event: {
+				type: "session.error",
+				properties: {
+					sessionID: "root",
+					error: { data: { message: "Provider unavailable" } },
+				},
+			},
+		});
+		await hooks.event({
+			event: { type: "session.idle", properties: { sessionID: "root" } },
+		});
+		expect(notifications).toEqual([
+			{ hook_event_name: "Start", session_id: "root" },
+			{
+				hook_event_name: "Failed",
+				session_id: "root",
+				message: "Provider unavailable",
+			},
+		]);
+	});
+
+	it.each([
+		"permission.asked",
+		"question.asked",
+	])("notifies for the current %s event", async (eventType) => {
+		process.env.JEDV_TERMINAL_ID = "terminal-1";
+		const { JedvNotifyPlugin } = await loadOpenCodePlugin();
+		const notifications: string[] = [];
+		const hooks = await JedvNotifyPlugin({
+			$: (
+				_parts: TemplateStringsArray,
+				_notifyPath: string,
+				payload: string,
+			) => {
+				notifications.push(JSON.parse(payload).hook_event_name);
+			},
+			client: {
+				session: {
+					list: async () => ({
+						data: [{ id: "root-session" }],
+					}),
+				},
+			},
+		});
+
+		await hooks.event({
+			event: {
+				type: eventType,
+				properties: { sessionID: "root-session" },
+			},
+		});
+
+		expect(notifications).toEqual(["PermissionRequest"]);
+	});
+
+	it("retains legacy permission.ask using the tracked root when the input omits its ID", async () => {
+		process.env.JEDV_TERMINAL_ID = "terminal-1";
+		const { JedvNotifyPlugin } = await loadOpenCodePlugin();
+		const notifications: unknown[] = [];
+		const hooks = await JedvNotifyPlugin({
+			$: (
+				_parts: TemplateStringsArray,
+				_notifyPath: string,
+				payload: string,
+			) => {
+				notifications.push(JSON.parse(payload));
+			},
+		});
+
+		await hooks.event({
+			event: { type: "session.created", properties: { info: { id: "root" } } },
+		});
+		notifications.length = 0;
+		await hooks["permission.ask"]({}, { status: "ask" });
+
+		expect(notifications).toEqual([
+			{ hook_event_name: "PermissionRequest", session_id: "root" },
+		]);
+	});
+
+	it("carries the root session through lifecycle events without accepting child or competing sessions", async () => {
+		process.env.JEDV_TERMINAL_ID = "terminal-1";
+		const { JedvNotifyPlugin } = await loadOpenCodePlugin();
+		const notifications: unknown[] = [];
+		const commands: string[] = [];
+		const hooks = await JedvNotifyPlugin({
+			$: (
+				parts: TemplateStringsArray,
+				_notifyPath: string,
+				payload: string,
+			) => {
+				commands.push(parts.join(""));
+				notifications.push(JSON.parse(payload));
+			},
+			client: {
+				session: {
+					list: async () => ({ data: [{ id: "root" }, { id: "other" }] }),
+				},
+			},
+		});
+		const event = (type: string, properties: Record<string, unknown>) =>
+			hooks.event({ event: { type, properties } });
+
+		await event("session.created", { info: { id: "root" } });
+		await event("session.created", { info: { id: "other-before-busy" } });
+		await event("session.status", {
+			sessionID: "root",
+			status: { type: "busy" },
+		});
+		await event("session.created", { info: { id: "child", parentID: "root" } });
+		await event("session.status", {
+			sessionID: "child",
+			status: { type: "busy" },
+		});
+		await event("permission.asked", { sessionID: "child" });
+		await event("session.created", { info: { id: "other" } });
+		await event("permission.asked", { sessionID: "other" });
+		await event("session.deleted", { info: { id: "other" } });
+		await event("permission.asked", { sessionID: "root" });
+		await event("session.idle", { sessionID: "root" });
+		await event("session.idle", { sessionID: "root" });
+		// Idle is still the same resumable conversation. Unrelated session
+		// creation/deletion must not replace or end its host binding.
+		await event("session.created", { info: { id: "other-after-stop" } });
+		await event("permission.asked", { sessionID: "other-after-stop" });
+		await event("session.deleted", { info: { id: "other-after-stop" } });
+		await event("session.deleted", { info: { id: "child", parentID: "root" } });
+		await event("session.deleted", { info: { id: "root" } });
+
+		expect(notifications).toEqual(
+			["SessionStart", "Start", "PermissionRequest", "Stop", "SessionEnd"].map(
+				(hook_event_name) => ({ hook_event_name, session_id: "root" }),
+			),
+		);
+		expect(
+			commands.every((command) =>
+				command.includes("JEDV_HOOK_HARNESS=opencode"),
+			),
+		).toBe(true);
+	});
+
+	it("orders root replacement and legacy permissions behind an in-flight deletion", async () => {
+		process.env.JEDV_TERMINAL_ID = "terminal-1";
+		const { JedvNotifyPlugin } = await loadOpenCodePlugin();
+		const notifications: unknown[] = [];
+		const deleting = Promise.withResolvers<void>();
+		const release = Promise.withResolvers<void>();
+		const hooks = await JedvNotifyPlugin({
+			$: async (
+				_parts: TemplateStringsArray,
+				_notifyPath: string,
+				payload: string,
+			) => {
+				const notification = JSON.parse(payload);
+				if (notification.hook_event_name === "SessionEnd") {
+					deleting.resolve();
+					await release.promise;
+				}
+				notifications.push(notification);
+			},
+		});
+		const event = (type: string, id: string) =>
+			hooks.event({ event: { type, properties: { info: { id } } } });
+		await event("session.created", "old");
+		notifications.length = 0;
+		const deletion = event("session.deleted", "old");
+		await deleting.promise;
+		const creation = event("session.created", "new");
+		const permission = hooks["permission.ask"]({}, { status: "ask" });
+		release.resolve();
+		await Promise.all([deletion, creation, permission]);
+
+		expect(notifications).toEqual([
+			{ hook_event_name: "SessionEnd", session_id: "old" },
+			{ hook_event_name: "SessionStart", session_id: "new" },
+			{ hook_event_name: "PermissionRequest", session_id: "new" },
+		]);
+	});
+
+	it("captures resumed and subsequent root sessions without a session.created event", async () => {
+		process.env.JEDV_TERMINAL_ID = "terminal-1";
+		const { JedvNotifyPlugin } = await loadOpenCodePlugin();
+		const notifications: unknown[] = [];
+		const hooks = await JedvNotifyPlugin({
+			$: (
+				_parts: TemplateStringsArray,
+				_notifyPath: string,
+				payload: string,
+			) => {
+				notifications.push(JSON.parse(payload));
+			},
+			client: {
+				session: {
+					list: async () => ({ data: [{ id: "resumed" }, { id: "next" }] }),
+				},
+			},
+		});
+		for (const sessionID of ["resumed", "next"]) {
+			await hooks.event({
+				event: {
+					type: "session.status",
+					properties: { sessionID, status: { type: "busy" } },
+				},
+			});
+			await hooks["permission.ask"]({ sessionID }, { status: "ask" });
+			await hooks.event({
+				event: { type: "session.idle", properties: { sessionID } },
+			});
+		}
+		expect(notifications).toEqual(
+			["resumed", "next"].flatMap((session_id) =>
+				["Start", "PermissionRequest", "Stop"].map((hook_event_name) => ({
+					hook_event_name,
+					session_id,
+				})),
+			),
+		);
+	});
+
+	it("does not bind missing or unverified sessions", async () => {
+		process.env.JEDV_TERMINAL_ID = "terminal-1";
+		const { JedvNotifyPlugin } = await loadOpenCodePlugin();
+		const notify = mock(() => {});
+		const hooks = await JedvNotifyPlugin({
+			$: notify,
+			client: { session: { list: async () => ({ data: [] }) } },
+		});
+		await hooks.event({ event: { type: "session.created", properties: {} } });
+		await hooks["permission.ask"]({}, { status: "ask" });
+		await hooks.event({
+			event: {
+				type: "session.status",
+				properties: { sessionID: "unknown", status: { type: "busy" } },
+			},
+		});
+		await hooks.event({
+			event: {
+				type: "session.deleted",
+				properties: { info: { id: "unknown" } },
+			},
+		});
+		expect(notify).not.toHaveBeenCalled();
+	});
+});
+
+describe("agent-wrappers opencode tui plugin", () => {
+	const originalTerminalId = process.env.JEDV_TERMINAL_ID;
+	const tuiRoot = path.join(TEST_ROOT, "opencode-tui");
+	type Handler = (event: { data: Record<string, unknown> }) => void;
+	type Notification = {
+		harness: string;
+		hook_event_name: string;
+		session_id?: string;
+		message?: string;
+	};
+	let renders = 0;
+
+	const renderPlugin = async (notifyDir: string, delaySeconds = 0) => {
+		mkdirSync(notifyDir, { recursive: true });
+		const notifyPath = path.join(notifyDir, "notify.sh");
+		const log = path.join(notifyDir, "notify.log");
+		writeFileSync(
+			notifyPath,
+			`#!/bin/bash\nsleep ${delaySeconds}\necho "$JEDV_HOOK_HARNESS $1" >> "$(dirname "$0")/notify.log"\n`,
+		);
+		chmodSync(notifyPath, 0o755);
+		const pluginPath = path.join(tuiRoot, `tui-${++renders}.mjs`);
+		writeFileSync(pluginPath, getOpenCodeTuiPluginContent(notifyPath));
+		const plugin = (await import(pathToFileURL(pluginPath).href)).default as {
+			setup: (ctx: unknown) => unknown;
+		};
+		return { plugin, log };
+	};
+
+	const startPlugin = async (
+		options: {
+			sessions?: Record<
+				string,
+				{ parentID?: string; status?: "idle" | "running" }
+			>;
+			notifyDir?: string;
+			delaySeconds?: number;
+		} = {},
+	) => {
+		const notifyDir =
+			options.notifyDir ?? path.join(tuiRoot, `notify-${renders + 1}`);
+		const { plugin, log } = await renderPlugin(notifyDir, options.delaySeconds);
+		const sessions = options.sessions ?? {
+			shown: {},
+			"shown-child": { parentID: "shown" },
+			other: {},
+		};
+		const handlers = new Map<string, Handler>();
+		const route = {
+			current: { type: "session", sessionID: "shown" } as {
+				type: string;
+				sessionID?: string;
+			},
+		};
+		const cleanup = (await plugin.setup({
+			options: { routePollMs: 5 },
+			data: {
+				on: (type: string, handler: Handler) => {
+					handlers.set(type, handler);
+					return () => handlers.delete(type);
+				},
+				session: {
+					get: (id: string) => sessions[id],
+					root: (id: string) => sessions[id]?.parentID ?? id,
+					status: (id: string) => sessions[id]?.status ?? "idle",
+				},
+			},
+			ui: { router: { current: () => route.current } },
+		})) as (() => Promise<void>) | undefined;
+		const emit = (type: string, data: Record<string, unknown>) =>
+			handlers.get(type)?.({ data });
+		const show = (sessionID: string) => {
+			route.current = { type: "session", sessionID };
+		};
+		const read = (): Notification[] =>
+			existsSync(log)
+				? readFileSync(log, "utf-8")
+						.trim()
+						.split("\n")
+						.map((line) => {
+							const separator = line.indexOf(" ");
+							return {
+								harness: line.slice(0, separator),
+								...JSON.parse(line.slice(separator + 1)),
+							};
+						})
+				: [];
+		const waitFor = async (count: number) => {
+			for (let attempt = 0; attempt < 200 && read().length < count; attempt++) {
+				await new Promise((resolve) => setTimeout(resolve, 10));
+			}
+			return read().map(({ hook_event_name, session_id, message }) =>
+				message
+					? `${hook_event_name}:${session_id}:${message}`
+					: `${hook_event_name}:${session_id}`,
+			);
+		};
+		return { handlers, emit, show, waitFor, read, cleanup, sessions };
+	};
+
+	beforeAll(() => mkdirSync(tuiRoot, { recursive: true }));
+
+	beforeEach(() => {
+		process.env.JEDV_TERMINAL_ID = "terminal-1";
+	});
+
+	afterEach(() => {
+		if (originalTerminalId === undefined) {
+			delete process.env.JEDV_TERMINAL_ID;
+		} else {
+			process.env.JEDV_TERMINAL_ID = originalTerminalId;
+		}
+	});
+
+	it("reports only the shown root session's turns", async () => {
+		const t = await startPlugin();
+		t.emit("session.execution.started", { sessionID: "other" });
+		t.emit("session.execution.succeeded", { sessionID: "other" });
+		t.emit("session.execution.started", { sessionID: "shown" });
+		t.emit("session.execution.started", { sessionID: "shown-child" });
+		t.emit("session.execution.succeeded", { sessionID: "shown-child" });
+		t.emit("session.execution.succeeded", { sessionID: "shown" });
+		t.emit("session.execution.started", { sessionID: "shown" });
+		t.emit("session.execution.interrupted", { sessionID: "shown" });
+
+		expect(await t.waitFor(4)).toEqual([
+			"Start:shown",
+			"Stop:shown",
+			"Start:shown",
+			"Stop:shown",
+		]);
+		expect(t.read()[0]?.harness).toBe("opencode");
+		await t.cleanup?.();
+	});
+
+	it("stays working while a second shown session runs after the first ends", async () => {
+		const t = await startPlugin({ sessions: { a: {}, b: {} } });
+		t.show("a");
+		t.emit("session.execution.started", { sessionID: "a" });
+		t.show("b");
+		t.emit("session.execution.started", { sessionID: "b" });
+		t.emit("session.execution.succeeded", { sessionID: "a" });
+		t.emit("session.execution.succeeded", { sessionID: "b" });
+
+		expect(await t.waitFor(3)).toEqual(["Start:a", "Start:b", "Stop:b"]);
+		await t.cleanup?.();
+	});
+
+	it("does not report a finished session that runs again elsewhere", async () => {
+		const t = await startPlugin({ sessions: { a: {}, b: {} } });
+		t.show("a");
+		t.emit("session.execution.started", { sessionID: "a" });
+		t.emit("session.execution.succeeded", { sessionID: "a" });
+		t.show("b");
+		t.emit("session.execution.started", { sessionID: "a" });
+		t.emit("session.execution.succeeded", { sessionID: "a" });
+		t.emit("permission.asked", { sessionID: "a", id: "perm-1" });
+		t.emit("session.execution.started", { sessionID: "b" });
+
+		expect(await t.waitFor(3)).toEqual(["Start:a", "Stop:a", "Start:b"]);
+		await t.cleanup?.();
+	});
+
+	it("takes over a running session when the terminal navigates to it", async () => {
+		const t = await startPlugin({
+			sessions: { idle: {}, busy: { status: "running" } },
+		});
+		t.show("idle");
+		t.emit("session.execution.started", { sessionID: "busy" });
+		t.show("busy");
+		await t.waitFor(1);
+		t.emit("session.execution.succeeded", { sessionID: "busy" });
+
+		expect(await t.waitFor(2)).toEqual(["Start:busy", "Stop:busy"]);
+		await new Promise((resolve) => setTimeout(resolve, 30));
+		await t.cleanup?.();
+		expect(t.read()).toHaveLength(2);
+	});
+
+	it("returns to working when a permission prompt or question is answered", async () => {
+		const t = await startPlugin();
+		t.emit("session.execution.started", { sessionID: "shown" });
+		t.emit("permission.asked", { sessionID: "shown-child", id: "perm-1" });
+		t.emit("permission.replied", {
+			sessionID: "shown-child",
+			requestID: "perm-1",
+			reply: "once",
+		});
+		t.emit("form.created", { form: { id: "form-1", sessionID: "shown" } });
+		t.emit("form.cancelled", { sessionID: "shown", id: "form-1" });
+		t.emit("permission.asked", { sessionID: "other", id: "perm-2" });
+		t.emit("session.execution.succeeded", { sessionID: "shown" });
+
+		expect(await t.waitFor(6)).toEqual([
+			"Start:shown",
+			"PermissionRequest:shown",
+			"Start:shown",
+			"PermissionRequest:shown",
+			"Start:shown",
+			"Stop:shown",
+		]);
+		await t.cleanup?.();
+	});
+
+	it("reports a failed turn with its error message", async () => {
+		const t = await startPlugin();
+		t.emit("session.execution.started", { sessionID: "shown" });
+		t.emit("session.execution.failed", {
+			sessionID: "shown",
+			error: { message: "Provider unavailable" },
+		});
+
+		expect(await t.waitFor(2)).toEqual([
+			"Start:shown",
+			"Failed:shown:Provider unavailable",
+		]);
+		await t.cleanup?.();
+	});
+
+	it("stops when the running session is deleted", async () => {
+		const t = await startPlugin();
+		t.emit("session.execution.started", { sessionID: "shown" });
+		t.emit("session.deleted", { sessionID: "shown" });
+
+		expect(await t.waitFor(2)).toEqual(["Start:shown", "Stop:shown"]);
+		await t.cleanup?.();
+	});
+
+	it("delivers queued notifications before cleanup resolves", async () => {
+		const t = await startPlugin({ delaySeconds: 0.05 });
+		t.emit("session.execution.started", { sessionID: "shown" });
+		t.emit("session.execution.succeeded", { sessionID: "shown" });
+		await t.cleanup?.();
+
+		expect(t.read().map((n) => n.hook_event_name)).toEqual(["Start", "Stop"]);
+	});
+
+	it("runs a notify script whose path needs escaping", async () => {
+		const t = await startPlugin({
+			notifyDir: path.join(tuiRoot, 'odd "dir" \\ name'),
+		});
+		t.emit("session.execution.started", { sessionID: "shown" });
+
+		expect(await t.waitFor(1)).toEqual(["Start:shown"]);
+		await t.cleanup?.();
+	});
+
+	it("does nothing outside a Jedv terminal", async () => {
+		delete process.env.JEDV_TERMINAL_ID;
+		const t = await startPlugin();
+		expect(t.handlers.size).toBe(0);
+	});
+
+	it("removes only a Jedv-written plugin on teardown", () => {
+		const pluginPath = getOpenCodeTuiPluginPath();
+		mkdirSync(path.dirname(pluginPath), { recursive: true });
+		writeFileSync(pluginPath, "export default {};\n");
+		removeOpenCodeTuiPlugin();
+		expect(existsSync(pluginPath)).toBe(true);
+
+		createOpenCodeTuiPlugin();
+		removeOpenCodeTuiPlugin();
+		expect(existsSync(pluginPath)).toBe(false);
+	});
+});
+
+describe("agent-wrappers copilot", () => {
+	beforeEach(() => {
+		mkdirSync(TEST_BIN_DIR, { recursive: true });
+		mkdirSync(TEST_HOOKS_DIR, { recursive: true });
+	});
+
+	afterEach(() => {
+		rmSync(TEST_ROOT, { recursive: true, force: true });
+	});
+
+	it("rewrites stale jedv-notify.json with current hook path", () => {
+		const projectDir = path.join(TEST_ROOT, "project");
+		const hooksDir = path.join(projectDir, ".github", "hooks");
+		const hookFile = path.join(hooksDir, "jedv-notify.json");
+		const gitInfoDir = path.join(projectDir, ".git", "info");
+		const realBinDir = path.join(TEST_ROOT, "real-bin");
+		const realCopilot = path.join(realBinDir, "copilot");
+		const wrapperPath = path.join(TEST_BIN_DIR, "copilot");
+		const hookScriptPath = getCopilotHookScriptPath();
+
+		mkdirSync(hooksDir, { recursive: true });
+		mkdirSync(gitInfoDir, { recursive: true });
+		mkdirSync(realBinDir, { recursive: true });
+
+		writeFileSync(hookScriptPath, "#!/bin/bash\nexit 0\n", { mode: 0o755 });
+		writeFileSync(hookFile, '{"jedv":"old","bash":"/tmp/old-hook.sh"}');
+
+		writeFileSync(realCopilot, "#!/bin/bash\necho real-copilot\n", {
+			mode: 0o755,
+		});
+		chmodSync(realCopilot, 0o755);
+
+		const wrapperScript = buildWrapperScript(
+			"copilot",
+			buildCopilotWrapperExecLine(),
+		);
+		writeFileSync(wrapperPath, wrapperScript, { mode: 0o755 });
+		chmodSync(wrapperPath, 0o755);
+
+		execFileSync(wrapperPath, [], {
+			cwd: projectDir,
+			env: {
+				...process.env,
+				PATH: `${TEST_BIN_DIR}:${realBinDir}:${process.env.PATH || ""}`,
+				JEDV_TERMINAL_ID: "terminal-1",
+			},
+			encoding: "utf-8",
+		});
+
+		const updated = readFileSync(hookFile, "utf-8");
+		expect(updated).toContain(hookScriptPath);
+		expect(updated).not.toContain("/tmp/old-hook.sh");
+	});
+
+	it("tails codex's process-scoped TUI session log to drive Start events", () => {
+		createCodexWrapper();
+
+		const wrapperPath = path.join(TEST_BIN_DIR, "codex");
+		const wrapper = readFileSync(wrapperPath, "utf-8");
+
+		expect(wrapper).toContain(
+			`"$REAL_BIN" "\${_jedv_codex_args[@]}" --enable hooks \${_jedv_bypass_hook_trust:+"$_jedv_bypass_hook_trust"} "$@"`,
+		);
+		expect(wrapper).not.toContain("-c 'notify=");
+		expect(wrapper).toContain('export JEDV_AGENT_ID="codex"');
+
+		expect(wrapper).toContain("# Jedv agent-wrapper v5");
+
+		// Native hooks remain enabled, but the process-scoped TUI session log is
+		// the reliable Start signal for installed Codex TUI builds.
+		expect(wrapper).toContain("JEDV_CODEX_SESSION_WATCHER_PID");
+		expect(wrapper).toContain("CODEX_TUI_RECORD_SESSION");
+		expect(wrapper).toContain("CODEX_TUI_SESSION_LOG_PATH");
+		expect(wrapper).toContain("JEDV_TERMINAL_ID$JEDV_TAB_ID");
+		expect(wrapper).toContain("_jedv_configure_project_trust");
+		expect(wrapper).toContain("JEDV_WORKSPACE_PATH/.codex");
+		expect(wrapper).toContain(
+			'projects={\\"$_jedv_workspace_path_toml\\"={trust_level=\\"trusted\\"}}',
+		);
+		// The Usage-tab default resolver may export CODEX_HOME dynamically from
+		// the pointer file, but the wrapper must never hardcode a home.
+		expect(wrapper).toContain("state/default-codex-home");
+		expect(wrapper).toContain('export CODEX_HOME="$jedv_default_account"');
+		expect(wrapper).not.toContain('export CODEX_HOME="$HOME');
+		expect(wrapper).not.toContain("rollout-*.jsonl");
+		expect(wrapper).not.toContain("_jedv_sessions_dir");
+		expect(wrapper).not.toContain("$" + "{CODEX_HOME:-$HOME/.codex}");
+		expect(wrapper).toContain("JEDV_HOOK_DEBUG_LOG");
+		expect(wrapper).toContain("tail -n +1 -F");
+		expect(wrapper).toContain("_jedv_cleanup_session_watcher");
+		expect(wrapper).toContain("_jedv_child_pids_for");
+		expect(wrapper).toContain('kill -TERM "$_jedv_child_pid"');
+		expect(wrapper).toContain('kill -KILL "$_jedv_watcher_pid"');
+		expect(wrapper).not.toContain("mkfifo");
+		expect(wrapper).not.toContain("JEDV_CODEX_SESSION_WATCHER_TAIL_PID_PATH");
+		expect(wrapper).toContain('"UserTurn"');
+		expect(wrapper).toContain("_approval_request");
+
+		const execLine = buildCodexWrapperExecLine(
+			path.join(TEST_HOOKS_DIR, "notify.sh"),
+		);
+		expect(execLine).not.toContain("{{NOTIFY_PATH}}");
+		expect(wrapper).toContain(execLine);
+	});
+
+	it("trusts the Jedv workspace codex project config without replacing CODEX_HOME", () => {
+		const realBinDir = path.join(TEST_ROOT, "real-bin");
+		const realCodex = path.join(realBinDir, "codex");
+		const wrapperPath = path.join(TEST_BIN_DIR, "codex");
+		const workspacePath = path.join(TEST_ROOT, "workspace");
+		const workspaceCodexHome = path.join(workspacePath, ".codex");
+		const explicitCodexHome = path.join(TEST_ROOT, "custom-codex-home");
+		const codexHomeFile = path.join(TEST_ROOT, "codex-home.txt");
+		const argsFile = path.join(TEST_ROOT, "codex-trust-args.txt");
+
+		mkdirSync(realBinDir, { recursive: true });
+		mkdirSync(workspaceCodexHome, { recursive: true });
+		writeFileSync(path.join(workspaceCodexHome, "config.toml"), "\n");
+		writeFileSync(
+			realCodex,
+			`#!/bin/bash
+printf '%s\n' "\${CODEX_HOME:-}" > "${codexHomeFile}"
+printf '%s\n' "$@" > "${argsFile}"
+exit 0
+`,
+			{ mode: 0o755 },
+		);
+		chmodSync(realCodex, 0o755);
+
+		createCodexWrapper();
+
+		execFileSync(wrapperPath, [], {
+			env: {
+				...process.env,
+				CODEX_HOME: explicitCodexHome,
+				PATH: `${TEST_BIN_DIR}:${realBinDir}:${process.env.PATH || ""}`,
+				JEDV_WORKSPACE_PATH: workspacePath,
+			},
+			encoding: "utf-8",
+		});
+
+		expect(readFileSync(codexHomeFile, "utf-8")).toBe(`${explicitCodexHome}\n`);
+		expect(readFileSync(argsFile, "utf-8")).toBe(
+			`${[
+				"-c",
+				`projects={"${workspacePath}"={trust_level="trusted"}}`,
+				"--enable",
+				"hooks",
+				"--dangerously-bypass-hook-trust",
+			].join("\n")}\n`,
+		);
+	});
+
+	it("enables native hooks without overriding the user's codex notify config", () => {
+		const realBinDir = path.join(TEST_ROOT, "real-bin");
+		const realCodex = path.join(realBinDir, "codex");
+		const wrapperPath = path.join(TEST_BIN_DIR, "codex");
+		const argsFile = path.join(TEST_ROOT, "codex-args.txt");
+
+		mkdirSync(realBinDir, { recursive: true });
+		writeFileSync(
+			realCodex,
+			`#!/bin/bash
+printf '%s\n' "$@" > "${argsFile}"
+exit 0
+`,
+			{ mode: 0o755 },
+		);
+		chmodSync(realCodex, 0o755);
+
+		createCodexWrapper();
+
+		execFileSync(wrapperPath, ["exec", "Reply with exactly OK."], {
+			env: {
+				...process.env,
+				PATH: `${TEST_BIN_DIR}:${realBinDir}:${process.env.PATH || ""}`,
+				JEDV_WORKSPACE_PATH: "",
+				JEDV_TERMINAL_ID: "terminal-1",
+			},
+			encoding: "utf-8",
+		});
+
+		expect(readFileSync(argsFile, "utf-8")).toBe(
+			`${[
+				"--enable",
+				"hooks",
+				"--dangerously-bypass-hook-trust",
+				"exec",
+				"Reply with exactly OK.",
+			].join("\n")}\n`,
+		);
+	});
+
+	it("does not duplicate the hook-trust bypass when the launch command already passes it", () => {
+		const realBinDir = path.join(TEST_ROOT, "real-bin");
+		const realCodex = path.join(realBinDir, "codex");
+		const wrapperPath = path.join(TEST_BIN_DIR, "codex");
+		const argsFile = path.join(TEST_ROOT, "codex-bypass-args.txt");
+
+		mkdirSync(realBinDir, { recursive: true });
+		writeFileSync(
+			realCodex,
+			`#!/bin/bash
+printf '%s\n' "$@" > "${argsFile}"
+exit 0
+`,
+			{ mode: 0o755 },
+		);
+		chmodSync(realCodex, 0o755);
+
+		createCodexWrapper();
+
+		// The builtin preset command already carries the flag; codex errors on a
+		// repeated boolean flag, so the wrapper must not append a second one.
+		execFileSync(
+			wrapperPath,
+			[
+				"--dangerously-bypass-approvals-and-sandbox",
+				"--dangerously-bypass-hook-trust",
+			],
+			{
+				env: {
+					...process.env,
+					PATH: `${TEST_BIN_DIR}:${realBinDir}:${process.env.PATH || ""}`,
+					JEDV_WORKSPACE_PATH: "",
+					JEDV_TERMINAL_ID: "terminal-1",
+				},
+				encoding: "utf-8",
+			},
+		);
+
+		expect(readFileSync(argsFile, "utf-8")).toBe(
+			`${[
+				"--enable",
+				"hooks",
+				"--dangerously-bypass-approvals-and-sandbox",
+				"--dangerously-bypass-hook-trust",
+			].join("\n")}\n`,
+		);
+
+		// A prompt that merely mentions the flag after `--` is text, not a flag —
+		// the real bypass must still be appended.
+		execFileSync(
+			wrapperPath,
+			["--", "explain what --dangerously-bypass-hook-trust does"],
+			{
+				env: {
+					...process.env,
+					PATH: `${TEST_BIN_DIR}:${realBinDir}:${process.env.PATH || ""}`,
+					JEDV_WORKSPACE_PATH: "",
+					JEDV_TERMINAL_ID: "terminal-1",
+				},
+				encoding: "utf-8",
+			},
+		);
+
+		expect(readFileSync(argsFile, "utf-8")).toBe(
+			`${[
+				"--enable",
+				"hooks",
+				"--dangerously-bypass-hook-trust",
+				"--",
+				"explain what --dangerously-bypass-hook-trust does",
+			].join("\n")}\n`,
+		);
+	});
+
+	it("emits codex Start from the wrapper-owned TUI session log", () => {
+		const realBinDir = path.join(TEST_ROOT, "real-bin");
+		const realCodex = path.join(realBinDir, "codex");
+		const wrapperPath = path.join(TEST_BIN_DIR, "codex");
+		const notifyPath = path.join(TEST_HOOKS_DIR, "notify.sh");
+		const notifyCapturePath = path.join(TEST_ROOT, "codex-notify-events.txt");
+		const debugLogPath = path.join(TEST_ROOT, "codex-debug.log");
+
+		mkdirSync(realBinDir, { recursive: true });
+		mkdirSync(TEST_HOOKS_DIR, { recursive: true });
+		writeFileSync(
+			notifyPath,
+			`#!/bin/bash
+printf '%s\n' "$1" >> "$NOTIFY_CAPTURE_PATH"
+exit 0
+`,
+			{ mode: 0o755 },
+		);
+		chmodSync(notifyPath, 0o755);
+		writeFileSync(
+			realCodex,
+			`#!/bin/bash
+set -eu
+: > "$CODEX_TUI_SESSION_LOG_PATH"
+sleep 0.3
+printf '{"dir":"from_tui","kind":"op","payload":{"UserTurn":{"items":[]}}}\n' >> "$CODEX_TUI_SESSION_LOG_PATH"
+sleep 0.3
+exit 0
+`,
+			{ mode: 0o755 },
+		);
+		chmodSync(realCodex, 0o755);
+
+		createCodexWrapper();
+
+		execFileSync(wrapperPath, [], {
+			env: {
+				...process.env,
+				NOTIFY_CAPTURE_PATH: notifyCapturePath,
+				PATH: `${TEST_BIN_DIR}:${realBinDir}:${process.env.PATH || ""}`,
+				JEDV_DEBUG_HOOKS: "1",
+				JEDV_HOOK_DEBUG_LOG: debugLogPath,
+				JEDV_TERMINAL_ID: "terminal-1",
+			},
+			encoding: "utf-8",
+		});
+
+		const notifications = readFileSync(notifyCapturePath, "utf-8");
+		expect(notifications).toContain('{"hook_event_name":"Start"}');
+		expect(notifications).not.toContain('{"hook_event_name":"Stop"}');
+
+		const debugLog = readFileSync(debugLogPath, "utf-8");
+		expect(debugLog).toContain("watching session=");
+		expect(debugLog).toContain("emitting Start");
+	});
+
+	it("emits codex Start from legacy TUI session logs with v1 tab context", () => {
+		const realBinDir = path.join(TEST_ROOT, "real-bin");
+		const realCodex = path.join(realBinDir, "codex");
+		const wrapperPath = path.join(TEST_BIN_DIR, "codex");
+		const notifyPath = path.join(TEST_HOOKS_DIR, "notify.sh");
+		const notifyCapturePath = path.join(
+			TEST_ROOT,
+			"codex-legacy-notify-events.txt",
+		);
+		const debugLogPath = path.join(TEST_ROOT, "codex-legacy-debug.log");
+
+		mkdirSync(realBinDir, { recursive: true });
+		mkdirSync(TEST_HOOKS_DIR, { recursive: true });
+		writeFileSync(
+			notifyPath,
+			`#!/bin/bash
+printf '%s\n' "$1" >> "$NOTIFY_CAPTURE_PATH"
+exit 0
+`,
+			{ mode: 0o755 },
+		);
+		chmodSync(notifyPath, 0o755);
+		writeFileSync(
+			realCodex,
+			`#!/bin/bash
+set -eu
+: > "$CODEX_TUI_SESSION_LOG_PATH"
+sleep 0.3
+printf '{"dir":"from_tui","kind":"op","payload":{"UserTurn":{"items":[]}}}\n' >> "$CODEX_TUI_SESSION_LOG_PATH"
+sleep 0.3
+exit 0
+`,
+			{ mode: 0o755 },
+		);
+		chmodSync(realCodex, 0o755);
+
+		createCodexWrapper();
+
+		execFileSync(wrapperPath, [], {
+			env: {
+				...process.env,
+				NOTIFY_CAPTURE_PATH: notifyCapturePath,
+				PATH: `${TEST_BIN_DIR}:${realBinDir}:${process.env.PATH || ""}`,
+				JEDV_DEBUG_HOOKS: "1",
+				JEDV_HOOK_DEBUG_LOG: debugLogPath,
+				JEDV_TAB_ID: "tab-1",
+			},
+			encoding: "utf-8",
+		});
+
+		const notifications = readFileSync(notifyCapturePath, "utf-8");
+		expect(notifications).toContain('{"hook_event_name":"Start"}');
+		expect(notifications).not.toContain('{"hook_event_name":"Stop"}');
+
+		const debugLog = readFileSync(debugLogPath, "utf-8");
+		expect(debugLog).toContain("watching session=");
+		expect(debugLog).toContain("emitting Start");
+		expect(debugLog).toContain("tabId=tab-1");
+	});
+
+	it("does not emit codex events from unrelated rollout files", () => {
+		const realBinDir = path.join(TEST_ROOT, "real-bin");
+		const realCodex = path.join(realBinDir, "codex");
+		const wrapperPath = path.join(TEST_BIN_DIR, "codex");
+		const notifyPath = path.join(TEST_HOOKS_DIR, "notify.sh");
+		const notifyCapturePath = path.join(
+			TEST_ROOT,
+			"codex-rollout-notify-events.txt",
+		);
+		const debugLogPath = path.join(TEST_ROOT, "codex-rollout-debug.log");
+		const codexHome = path.join(TEST_ROOT, "custom-codex-home");
+
+		mkdirSync(realBinDir, { recursive: true });
+		mkdirSync(TEST_HOOKS_DIR, { recursive: true });
+		writeFileSync(
+			notifyPath,
+			`#!/bin/bash
+printf '%s\n' "$1" >> "$NOTIFY_CAPTURE_PATH"
+exit 0
+`,
+			{ mode: 0o755 },
+		);
+		chmodSync(notifyPath, 0o755);
+		writeFileSync(
+			realCodex,
+			`#!/bin/bash
+set -eu
+rollout_dir="$CODEX_HOME/sessions/2026/05/09"
+mkdir -p "$rollout_dir"
+: > "$CODEX_TUI_SESSION_LOG_PATH"
+printf '{"type":"event_msg","payload":{"type":"task_started"}}\n' >> "$rollout_dir/rollout-other.jsonl"
+sleep 0.3
+exit 0
+`,
+			{ mode: 0o755 },
+		);
+		chmodSync(realCodex, 0o755);
+
+		createCodexWrapper();
+
+		execFileSync(wrapperPath, [], {
+			env: {
+				...process.env,
+				CODEX_HOME: codexHome,
+				NOTIFY_CAPTURE_PATH: notifyCapturePath,
+				PATH: `${TEST_BIN_DIR}:${realBinDir}:${process.env.PATH || ""}`,
+				JEDV_DEBUG_HOOKS: "1",
+				JEDV_HOOK_DEBUG_LOG: debugLogPath,
+				JEDV_TERMINAL_ID: "terminal-1",
+			},
+			encoding: "utf-8",
+		});
+
+		// Only the clean-exit SessionEnd report — nothing from the unrelated
+		// rollout file.
+		const notifications = readFileSync(notifyCapturePath, "utf-8");
+		expect(notifications.trim()).toBe('{"hook_event_name":"SessionEnd"}');
+		expect(readFileSync(debugLogPath, "utf-8")).toContain("watching session=");
+	});
+
+	it("reports SessionEnd on clean codex exit but not on signal death", () => {
+		const realBinDir = path.join(TEST_ROOT, "real-bin");
+		const realCodex = path.join(realBinDir, "codex");
+		const wrapperPath = path.join(TEST_BIN_DIR, "codex");
+		const notifyPath = path.join(TEST_HOOKS_DIR, "notify.sh");
+		const notifyCapturePath = path.join(
+			TEST_ROOT,
+			"codex-session-end-events.txt",
+		);
+
+		mkdirSync(realBinDir, { recursive: true });
+		mkdirSync(TEST_HOOKS_DIR, { recursive: true });
+		writeFileSync(
+			notifyPath,
+			`#!/bin/bash
+printf '%s\n' "$1" >> "$NOTIFY_CAPTURE_PATH"
+exit 0
+`,
+			{ mode: 0o755 },
+		);
+		chmodSync(notifyPath, 0o755);
+		createCodexWrapper();
+
+		const runWrapper = () =>
+			spawnSync(wrapperPath, [], {
+				env: {
+					...process.env,
+					NOTIFY_CAPTURE_PATH: notifyCapturePath,
+					PATH: `${TEST_BIN_DIR}:${realBinDir}:${process.env.PATH || ""}`,
+					JEDV_TERMINAL_ID: "terminal-1",
+				},
+				encoding: "utf-8",
+			});
+
+		writeFileSync(realCodex, "#!/bin/bash\nexit 0\n", { mode: 0o755 });
+		chmodSync(realCodex, 0o755);
+		runWrapper();
+		expect(readFileSync(notifyCapturePath, "utf-8").trim()).toBe(
+			'{"hook_event_name":"SessionEnd"}',
+		);
+
+		// A signal death (pty/daemon kill) must stay unreported so the session
+		// remains a resume candidate.
+		rmSync(notifyCapturePath);
+		writeFileSync(realCodex, '#!/bin/bash\nkill -HUP "$$"\nsleep 1\n', {
+			mode: 0o755,
+		});
+		chmodSync(realCodex, 0o755);
+		const signalRun = runWrapper();
+		expect(signalRun.status).toBe(129);
+		expect(existsSync(notifyCapturePath)).toBe(false);
+	});
+
+	it("creates mastracode wrapper passthrough", () => {
+		createMastraWrapper();
+
+		const wrapperPath = path.join(TEST_BIN_DIR, "mastracode");
+		const wrapper = readFileSync(wrapperPath, "utf-8");
+
+		expect(wrapper).toContain("# Jedv wrapper for mastracode");
+		expect(wrapper).toContain('REAL_BIN="$(find_real_binary "mastracode")"');
+		expect(wrapper).toContain('exec "$REAL_BIN" "$@"');
+	});
+
+	it("runs UFO with its identity, original arguments, and exit status", () => {
+		createUfoWrapper();
+		const realBinDir = path.join(TEST_ROOT, "real-bin");
+		mkdirSync(realBinDir, { recursive: true });
+		writeFileSync(
+			path.join(realBinDir, "ufo"),
+			'#!/bin/bash\nprintf "%s\\0" "$JEDV_AGENT_ID" "$@"\nexit 23\n',
+			{ mode: 0o755 },
+		);
+		const result = spawnSync(
+			path.join(TEST_BIN_DIR, "ufo"),
+			["--resume", "conversation-id", "Keep $variables\nand 'quotes'"],
+			{
+				encoding: "utf8",
+				env: {
+					...process.env,
+					PATH: `${TEST_BIN_DIR}:${realBinDir}:/usr/bin:/bin`,
+					JEDV_AGENT_ID: "",
+					JEDV_TERMINAL_ID: "",
+				},
+			},
+		);
+		expect(result.status).toBe(23);
+		expect(result.stdout.split("\0")).toEqual([
+			"ufo",
+			"--resume",
+			"conversation-id",
+			"Keep $variables\nand 'quotes'",
+			"",
+		]);
+	});
+
+	it("creates amp wrapper passthrough", () => {
+		createAmpWrapper();
+
+		const wrapperPath = path.join(TEST_BIN_DIR, "amp");
+		const wrapper = readFileSync(wrapperPath, "utf-8");
+
+		expect(wrapper).toContain("# Jedv wrapper for amp");
+		expect(wrapper).toContain('REAL_BIN="$(find_real_binary "amp")"');
+		expect(wrapper).toContain('export JEDV_AGENT_ID="amp"');
+		expect(wrapper).toContain('exec "$REAL_BIN" "$@"');
+	});
+
+	it("creates Amp lifecycle plugin", () => {
+		createAmpPlugin();
+
+		const pluginPath = getAmpGlobalPluginPath();
+		const plugin = readFileSync(pluginPath, "utf-8");
+
+		expect(pluginPath).toBe(
+			path.join(
+				TEST_HOME_DIR,
+				".config",
+				"amp",
+				"plugins",
+				"jedv-lifecycle.ts",
+			),
+		);
+		expect(plugin).toBe(getAmpPluginContent());
+		expect(plugin).toContain(AMP_PLUGIN_MARKER);
+		expect(plugin).toContain(
+			"// @i-know-the-amp-plugin-api-is-wip-and-very-experimental-right-now",
+		);
+		expect(plugin).toContain('amp.on("session.start"');
+		expect(plugin).toContain('notify("SessionStart", event)');
+		expect(plugin).toContain('amp.on("agent.start"');
+		expect(plugin).toContain('notify("Start", event)');
+		expect(plugin).toContain('amp.on("agent.end"');
+		expect(plugin).toContain('notify("Stop", event)');
+		expect(plugin).toContain('import { spawn } from "node:child_process"');
+		expect(plugin).toContain('JEDV_HOOK_HARNESS: "amp"');
+		expect(plugin).toContain("[jedv-amp-plugin]");
+		expect(plugin).toContain("JEDV_HOME_DIR");
+	});
+
+	it("creates droid wrapper passthrough", () => {
+		createDroidWrapper();
+
+		const wrapperPath = path.join(TEST_BIN_DIR, "droid");
+		const wrapper = readFileSync(wrapperPath, "utf-8");
+
+		expect(wrapper).toContain("# Jedv wrapper for droid");
+		expect(wrapper).toContain('REAL_BIN="$(find_real_binary "droid")"');
+		expect(wrapper).toContain('export JEDV_AGENT_ID="droid"');
+		expect(wrapper).toContain('exec "$REAL_BIN" "$@"');
+	});
+
+	it("replaces stale Cursor hook commands from old jedv paths", () => {
+		const cursorHooksPath = path.join(TEST_HOME_DIR, ".cursor", "hooks.json");
+		const staleHookPath = "/tmp/worktree/jedv-dev-data/hooks/cursor-hook.sh";
+		const jedvHookPath = "/Users/u/.jedv/hooks/cursor-hook.sh";
+		const currentHookPath = "/tmp/.jedv-new/hooks/cursor-hook.sh";
+
+		mkdirSync(path.dirname(cursorHooksPath), { recursive: true });
+		writeFileSync(
+			cursorHooksPath,
+			JSON.stringify(
+				{
+					version: 1,
+					hooks: {
+						beforeSubmitPrompt: [
+							{ command: `${staleHookPath} Start` },
+							{ command: `${jedvHookPath} Start` },
+							{ command: "/usr/local/bin/custom-hook Start" },
+						],
+					},
+				},
+				null,
+				2,
+			),
+		);
+
+		const content = requireContent(getCursorHooksJsonContent(currentHookPath));
+		writeFileSync(cursorHooksPath, content);
+		const content2 = requireContent(getCursorHooksJsonContent(currentHookPath));
+
+		const parsed = JSON.parse(content) as {
+			hooks: Record<string, Array<{ command: string; matcher?: string }>>;
+		};
+		const beforeSubmitPrompt = parsed.hooks.beforeSubmitPrompt;
+
+		expect(
+			beforeSubmitPrompt.some(
+				(entry) => entry.command === `${currentHookPath} Start`,
+			),
+		).toBe(true);
+		expect(
+			beforeSubmitPrompt.some((entry) => entry.command.includes(staleHookPath)),
+		).toBe(false);
+		expect(
+			beforeSubmitPrompt.some((entry) => entry.command.includes(jedvHookPath)),
+		).toBe(false);
+		expect(
+			beforeSubmitPrompt.some(
+				(entry) => entry.command === "/usr/local/bin/custom-hook Start",
+			),
+		).toBe(true);
+		expect(Array.isArray(parsed.hooks.stop)).toBe(true);
+		expect(
+			parsed.hooks.sessionStart.some(
+				(entry) => entry.command === `${currentHookPath} SessionStart`,
+			),
+		).toBe(true);
+		expect(
+			parsed.hooks.sessionEnd.some(
+				(entry) => entry.command === `${currentHookPath} SessionEnd`,
+			),
+		).toBe(true);
+		expect(Array.isArray(parsed.hooks.beforeShellExecution)).toBe(true);
+		expect(Array.isArray(parsed.hooks.beforeMCPExecution)).toBe(true);
+		for (const event of ["postToolUse", "postToolUseFailure"]) {
+			expect(parsed.hooks[event]).toEqual([
+				{ command: `${currentHookPath} Start`, matcher: "^(Shell|MCP:.+)$" },
+			]);
+			const matcher = new RegExp(
+				requireContent(parsed.hooks[event][0]?.matcher ?? null),
+			);
+			for (const tool of ["Shell", "MCP:audit_echo"]) {
+				expect(matcher.test(tool)).toBe(true);
+			}
+			for (const tool of ["Read", "Edit", "Task", "ShellOther", "OtherMCP:x"]) {
+				expect(matcher.test(tool)).toBe(false);
+			}
+		}
+		expect(JSON.parse(content2)).toEqual(JSON.parse(content));
+	});
+
+	it("replaces stale Gemini hook commands from old jedv paths", () => {
+		const geminiSettingsPath = path.join(
+			TEST_HOME_DIR,
+			".gemini",
+			"settings.json",
+		);
+		const staleHookPath = "/tmp/worktree/jedv-dev-data/hooks/gemini-hook.sh";
+		const currentHookPath = "/tmp/.jedv-new/hooks/gemini-hook.sh";
+
+		mkdirSync(path.dirname(geminiSettingsPath), { recursive: true });
+		writeFileSync(
+			geminiSettingsPath,
+			JSON.stringify(
+				{
+					hooks: {
+						BeforeAgent: [
+							{
+								command: staleHookPath,
+							},
+							{
+								hooks: [{ type: "command", command: staleHookPath }],
+							},
+							{
+								hooks: [{ type: "command", command: "/opt/custom-hook.sh" }],
+							},
+						],
+						AfterAgent: [
+							{
+								hooks: [{ type: "command", command: staleHookPath }],
+							},
+						],
+						AfterTool: [
+							{
+								hooks: [{ type: "command", command: staleHookPath }],
+							},
+						],
+					},
+				},
+				null,
+				2,
+			),
+		);
+
+		const content = requireContent(
+			getGeminiSettingsJsonContent(currentHookPath),
+		);
+		writeFileSync(geminiSettingsPath, content);
+		const content2 = requireContent(
+			getGeminiSettingsJsonContent(currentHookPath),
+		);
+
+		const parsed = JSON.parse(content) as {
+			hooks: Record<
+				string,
+				Array<{
+					command?: string;
+					hooks?: Array<{ type: string; command: string }>;
+				}>
+			>;
+		};
+		const parsed2 = JSON.parse(content2) as {
+			hooks: Record<
+				string,
+				Array<{
+					command?: string;
+					hooks?: Array<{ type: string; command: string }>;
+				}>
+			>;
+		};
+
+		const eventNames = ["BeforeAgent", "AfterAgent", "AfterTool"] as const;
+
+		for (const eventName of eventNames) {
+			const hooks = parsed.hooks[eventName];
+			expect(Array.isArray(hooks)).toBe(true);
+			expect(
+				hooks.some(
+					(def) =>
+						def.hooks?.length === 1 &&
+						def.hooks[0]?.command === currentHookPath,
+				),
+			).toBe(true);
+			expect(
+				hooks.some(
+					(def) =>
+						def.command?.includes(staleHookPath) ||
+						def.hooks?.some((hook) => hook.command.includes(staleHookPath)),
+				),
+			).toBe(false);
+		}
+
+		const beforeAgent = parsed.hooks.BeforeAgent;
+		expect(
+			beforeAgent.some((def) =>
+				def.hooks?.some((hook) => hook.command === "/opt/custom-hook.sh"),
+			),
+		).toBe(true);
+
+		for (const eventName of eventNames) {
+			const hooks = parsed2.hooks[eventName];
+			expect(Array.isArray(hooks)).toBe(true);
+			expect(
+				hooks.some(
+					(def) =>
+						def.hooks?.length === 1 &&
+						def.hooks[0]?.command === currentHookPath,
+				),
+			).toBe(true);
+			expect(
+				hooks.some(
+					(def) =>
+						def.command?.includes(staleHookPath) ||
+						def.hooks?.some((hook) => hook.command.includes(staleHookPath)),
+				),
+			).toBe(false);
+		}
+		expect(
+			parsed2.hooks.BeforeAgent.some((def) =>
+				def.hooks?.some((hook) => hook.command === "/opt/custom-hook.sh"),
+			),
+		).toBe(true);
+		expect(JSON.parse(content2)).toEqual(JSON.parse(content));
+	});
+
+	it("bumps hook script markers when hook semantics change", () => {
+		expect(COPILOT_HOOK_MARKER).toBe("# Jedv copilot hook v6");
+		expect(CURSOR_HOOK_MARKER).toBe("# Jedv cursor hook v8");
+		expect(GEMINI_HOOK_MARKER).toBe("# Jedv gemini hook v7");
+	});
+
+	it("replaces stale Mastra hook commands from old jedv paths", () => {
+		const mastraHooksPath = path.join(
+			TEST_HOME_DIR,
+			".mastracode",
+			"hooks.json",
+		);
+		const staleHookPath = "/tmp/.jedv-old/hooks/notify.sh";
+		const currentHookPath = "/tmp/.jedv-new/hooks/notify.sh";
+
+		mkdirSync(path.dirname(mastraHooksPath), { recursive: true });
+		writeFileSync(
+			mastraHooksPath,
+			JSON.stringify(
+				{
+					UserPromptSubmit: [
+						{ type: "command", command: `bash '${staleHookPath}'` },
+						{ type: "command", command: "/usr/local/bin/custom-hook" },
+					],
+					Stop: [{ type: "command", command: `bash '${staleHookPath}'` }],
+					PostToolUse: [
+						{ type: "command", command: `bash '${staleHookPath}'` },
+					],
+				},
+				null,
+				2,
+			),
+		);
+
+		const content = requireContent(getMastraHooksJsonContent(currentHookPath));
+		writeFileSync(mastraHooksPath, content);
+		const content2 = requireContent(getMastraHooksJsonContent(currentHookPath));
+
+		const parsed = JSON.parse(content) as Record<
+			string,
+			Array<{ type: string; command: string }>
+		>;
+		const managedEvents = [
+			"SessionStart",
+			"SessionEnd",
+			"UserPromptSubmit",
+			"Stop",
+			"PostToolUse",
+		] as const;
+
+		for (const eventName of managedEvents) {
+			const hooks = parsed[eventName];
+			expect(Array.isArray(hooks)).toBe(true);
+			expect(
+				hooks.some(
+					(entry) =>
+						entry.type === "command" &&
+						entry.command === managedMastraHookCommand,
+				),
+			).toBe(true);
+			expect(hooks.some((entry) => entry.command.includes(staleHookPath))).toBe(
+				false,
+			);
+		}
+
+		expect(
+			parsed.UserPromptSubmit.some(
+				(entry) => entry.command === "/usr/local/bin/custom-hook",
+			),
+		).toBe(true);
+		expect(JSON.parse(content2)).toEqual(JSON.parse(content));
+	});
+
+	it("replaces stale Droid hook commands from old jedv paths", () => {
+		const droidSettingsPath = path.join(
+			TEST_HOME_DIR,
+			".factory",
+			"settings.json",
+		);
+		const staleHookPath = "/tmp/.jedv-old/hooks/notify.sh";
+		const currentHookPath = "/tmp/.jedv-new/hooks/notify.sh";
+
+		mkdirSync(path.dirname(droidSettingsPath), { recursive: true });
+		writeFileSync(
+			droidSettingsPath,
+			JSON.stringify(
+				{
+					hooks: {
+						UserPromptSubmit: [
+							{
+								hooks: [
+									{ type: "command", command: staleHookPath },
+									{ type: "command", command: "/opt/custom-prompt.sh" },
+								],
+							},
+						],
+						Notification: [
+							{
+								hooks: [{ type: "command", command: staleHookPath }],
+							},
+						],
+						Stop: [
+							{
+								hooks: [{ type: "command", command: staleHookPath }],
+							},
+						],
+						PostToolUse: [
+							{
+								matcher: "*",
+								hooks: [{ type: "command", command: staleHookPath }],
+							},
+						],
+					},
+				},
+				null,
+				2,
+			),
+		);
+
+		const content = getDroidSettingsJsonContent(currentHookPath);
+		expect(content).not.toBeNull();
+		if (content === null) {
+			throw new Error("Expected Droid settings content for valid JSON object");
+		}
+		writeFileSync(droidSettingsPath, content);
+
+		const content2 = getDroidSettingsJsonContent(currentHookPath);
+		expect(content2).not.toBeNull();
+		if (content2 === null) {
+			throw new Error("Expected Droid settings content after rewrite");
+		}
+
+		const parsed = JSON.parse(content) as {
+			hooks: Record<
+				string,
+				Array<{
+					matcher?: string;
+					hooks: Array<{ type: string; command: string }>;
+				}>
+			>;
+		};
+
+		const managedEvents = [
+			"UserPromptSubmit",
+			"Notification",
+			"Stop",
+			"PostToolUse",
+		] as const;
+
+		for (const eventName of managedEvents) {
+			const hooks = parsed.hooks[eventName];
+			expect(Array.isArray(hooks)).toBe(true);
+			expect(
+				hooks.some((def) =>
+					def.hooks.some((hook) => hook.command === managedDroidHookCommand),
+				),
+			).toBe(true);
+			expect(
+				hooks.some((def) =>
+					def.hooks.some((hook) => hook.command.includes(staleHookPath)),
+				),
+			).toBe(false);
+		}
+
+		expect(
+			parsed.hooks.UserPromptSubmit.some((def) =>
+				def.hooks.some((hook) => hook.command === "/opt/custom-prompt.sh"),
+			),
+		).toBe(true);
+		expect(parsed.hooks.PostToolUse.some((def) => def.matcher === "*")).toBe(
+			true,
+		);
+		expect(JSON.parse(content2)).toEqual(JSON.parse(content));
+	});
+
+	it("skips Droid settings writes when the existing JSON is invalid", () => {
+		const droidSettingsPath = path.join(
+			TEST_HOME_DIR,
+			".factory",
+			"settings.json",
+		);
+		const invalidJson = "{not-json";
+
+		mkdirSync(path.dirname(droidSettingsPath), { recursive: true });
+		writeFileSync(droidSettingsPath, invalidJson);
+
+		expect(
+			getDroidSettingsJsonContent("/tmp/.jedv-new/hooks/notify.sh"),
+		).toBeNull();
+
+		createDroidSettingsJson();
+
+		expect(readFileSync(droidSettingsPath, "utf-8")).toBe(invalidJson);
+	});
+
+	it("skips Droid settings writes when the existing JSON is not an object", () => {
+		const droidSettingsPath = path.join(
+			TEST_HOME_DIR,
+			".factory",
+			"settings.json",
+		);
+
+		mkdirSync(path.dirname(droidSettingsPath), { recursive: true });
+		writeFileSync(droidSettingsPath, JSON.stringify("not-an-object"));
+
+		expect(
+			getDroidSettingsJsonContent("/tmp/.jedv-new/hooks/notify.sh"),
+		).toBeNull();
+	});
+});
+
+describe("agent-wrappers claude settings.json", () => {
+	beforeEach(() => {
+		mkdirSync(TEST_BIN_DIR, { recursive: true });
+		mkdirSync(TEST_HOOKS_DIR, { recursive: true });
+	});
+
+	afterEach(() => {
+		rmSync(TEST_ROOT, { recursive: true, force: true });
+	});
+
+	it("writes Muse hooks as a managed file with Claude-shaped events", () => {
+		const parsed = JSON.parse(getMuseManagedHooksContent()) as {
+			hooks: Record<string, Array<{ hooks: Array<{ command: string }> }>>;
+		};
+		expect(Object.keys(parsed.hooks).sort()).toEqual(
+			[
+				"PermissionRequest",
+				"PostToolUse",
+				"SessionEnd",
+				"SessionStart",
+				"Stop",
+				"StopFailure",
+				"UserPromptSubmit",
+			].sort(),
+		);
+		for (const entries of Object.values(parsed.hooks)) {
+			expect(entries).toHaveLength(1);
+			expect(entries[0]?.hooks[0]?.command).toBe(
+				getManagedNotifyHookCommand("muse"),
+			);
+		}
+	});
+
+	it("points Muse settings.json at the managed hooks file and allowlists Jedv's env", () => {
+		const managed = "/Users/me/.jedv/hooks/muse/hooks.json";
+		const content = getMuseSettingsJsonContent(
+			JSON.stringify({
+				schema_version: 1,
+				tui: { theme: "dark" },
+				managed_hooks_env_vars: ["MY_VAR"],
+			}),
+			managed,
+		);
+		const parsed = JSON.parse(requireContent(content)) as Record<
+			string,
+			unknown
+		>;
+		expect(parsed.tui).toEqual({ theme: "dark" });
+		expect(parsed.managed_hooks_path).toBe(managed);
+		expect(parsed.managed_hooks_env_vars).toEqual([
+			"MY_VAR",
+			...MUSE_HOOK_ENV_VARS,
+		]);
+		// A missing file becomes a fresh document Muse will accept.
+		const fresh = JSON.parse(
+			requireContent(getMuseSettingsJsonContent(null, managed)),
+		) as Record<string, unknown>;
+		expect(fresh.schema_version).toBe(1);
+	});
+
+	it("never replaces a managed_hooks_path Jedv does not own", () => {
+		expect(
+			getMuseSettingsJsonContent(
+				JSON.stringify({
+					schema_version: 1,
+					managed_hooks_path: "/etc/muse/hooks.json",
+				}),
+				"/Users/me/.jedv/hooks/muse/hooks.json",
+			),
+		).toBeNull();
+		// A previous app home (dev data, another install) is ours to replace.
+		for (const previous of [
+			"/tmp/w/jedv-dev-data/hooks/muse/hooks.json",
+			"/tmp/w/jedv-dev-data/hooks/muse/hooks.json",
+			"/Users/me/.jedv/hooks/muse/hooks.json",
+		]) {
+			expect(
+				getMuseSettingsJsonContent(
+					JSON.stringify({ managed_hooks_path: previous }),
+					"/tmp/w2/jedv-dev-data/hooks/muse/hooks.json",
+				),
+			).not.toBeNull();
+		}
+	});
+
+	it("removes only Jedv's pointer and env names from Muse settings.json", () => {
+		const after = getMuseSettingsJsonWithoutManagedHooks(
+			JSON.stringify({
+				schema_version: 1,
+				tui: { theme: "dark" },
+				managed_hooks_path: "/Users/me/.jedv/hooks/muse/hooks.json",
+				managed_hooks_env_vars: ["MY_VAR", ...MUSE_HOOK_ENV_VARS],
+			}),
+		);
+		expect(JSON.parse(requireContent(after))).toEqual({
+			schema_version: 1,
+			tui: { theme: "dark" },
+			managed_hooks_env_vars: ["MY_VAR"],
+		});
+		expect(
+			getMuseSettingsJsonWithoutManagedHooks(
+				JSON.stringify({
+					schema_version: 1,
+					managed_hooks_path: "/etc/muse/hooks.json",
+				}),
+			),
+		).toBeNull();
+	});
+
+	it("creates Devin config.json with its schema version and Claude-shaped hooks", () => {
+		const notifyPath = "/tmp/.jedv/hooks/notify.sh";
+		const content = requireContent(getDevinConfigJsonContent(notifyPath));
+		const parsed = JSON.parse(content) as {
+			version?: number;
+			hooks: Record<string, Array<{ hooks: Array<{ command: string }> }>>;
+		};
+		expect(parsed.version).toBe(1);
+		for (const eventName of [
+			"SessionStart",
+			"SessionEnd",
+			"UserPromptSubmit",
+			"Stop",
+			"PostToolUse",
+			"PermissionRequest",
+		]) {
+			const entries = parsed.hooks[eventName];
+			expect(entries).toHaveLength(1);
+			expect(entries?.[0]?.hooks[0]?.command).toBe(
+				getManagedNotifyHookCommand("devin"),
+			);
+		}
+		// Devin drops the whole hooks block on an unknown event name, so only
+		// names it accepts may appear.
+		expect(Object.keys(parsed.hooks).sort()).toEqual(
+			[
+				"PermissionRequest",
+				"PostToolUse",
+				"SessionEnd",
+				"SessionStart",
+				"Stop",
+				"UserPromptSubmit",
+			].sort(),
+		);
+	});
+
+	it("creates Claude settings.json with hooks when no file exists", () => {
+		const notifyPath = "/tmp/.jedv/hooks/notify.sh";
+		const content = getClaudeGlobalSettingsJsonContent(notifyPath);
+		expect(content).not.toBeNull();
+		if (content === null) throw new Error("Expected content");
+
+		const parsed = JSON.parse(content) as {
+			hooks: Record<
+				string,
+				Array<{
+					matcher?: string;
+					hooks: Array<{ type: string; command: string }>;
+				}>
+			>;
+		};
+
+		const managedEvents = [
+			"UserPromptSubmit",
+			"Stop",
+			"PostToolUse",
+			"PostToolUseFailure",
+			"PermissionRequest",
+		] as const;
+
+		for (const eventName of managedEvents) {
+			const hooks = parsed.hooks[eventName];
+			expect(Array.isArray(hooks)).toBe(true);
+			expect(
+				hooks.some((def) =>
+					def.hooks.some((hook) => hook.command === managedClaudeHookCommand),
+				),
+			).toBe(true);
+		}
+
+		expect(parsed.hooks.PostToolUse.some((def) => def.matcher === "*")).toBe(
+			true,
+		);
+	});
+
+	it("registers the Artifact guard as a PreToolUse hook", () => {
+		const content = requireContent(
+			getClaudeGlobalSettingsJsonContent("/tmp/.jedv/hooks/notify.sh"),
+		);
+		const parsed = JSON.parse(content) as {
+			hooks: Record<
+				string,
+				Array<{
+					matcher?: string;
+					hooks: Array<{ type: string; command: string }>;
+				}>
+			>;
+		};
+
+		const guards = parsed.hooks.PreToolUse.filter(
+			(def) => def.matcher === "Artifact",
+		);
+		expect(guards).toHaveLength(1);
+		expect(guards[0]?.hooks[0]?.command).toBe(managedArtifactGuardCommand);
+		expect(managedArtifactGuardCommand).toContain(
+			"$JEDV_HOME_DIR/hooks/artifact-guard.sh",
+		);
+		expect(managedArtifactGuardCommand).not.toContain("notify.sh");
+	});
+
+	it("does not duplicate the Artifact guard when merging over its own output", () => {
+		const claudeSettingsPath = path.join(
+			TEST_HOME_DIR,
+			".claude",
+			"settings.json",
+		);
+		mkdirSync(path.dirname(claudeSettingsPath), { recursive: true });
+
+		const notifyPath = "/tmp/.jedv/hooks/notify.sh";
+		const first = requireContent(
+			getClaudeGlobalSettingsJsonContent(notifyPath),
+		);
+		writeFileSync(claudeSettingsPath, first);
+		const second = requireContent(
+			getClaudeGlobalSettingsJsonContent(notifyPath),
+		);
+
+		expect(JSON.parse(second)).toEqual(JSON.parse(first));
+		const parsed = JSON.parse(second) as {
+			hooks: Record<string, Array<{ matcher?: string }>>;
+		};
+		expect(
+			parsed.hooks.PreToolUse.filter((def) => def.matcher === "Artifact"),
+		).toHaveLength(1);
+	});
+
+	it("removes the Artifact guard on teardown and keeps user PreToolUse hooks", () => {
+		const claudeSettingsPath = path.join(
+			TEST_HOME_DIR,
+			".claude",
+			"settings.json",
+		);
+		mkdirSync(path.dirname(claudeSettingsPath), { recursive: true });
+		writeFileSync(
+			claudeSettingsPath,
+			requireContent(
+				getClaudeGlobalSettingsJsonContent("/tmp/.jedv/hooks/notify.sh"),
+			),
+		);
+		const withUserHook = JSON.parse(
+			readFileSync(claudeSettingsPath, "utf-8"),
+		) as {
+			hooks: Record<
+				string,
+				Array<{
+					matcher?: string;
+					hooks: Array<{ type: string; command: string }>;
+				}>
+			>;
+		};
+		withUserHook.hooks.PreToolUse.push({
+			matcher: "Bash",
+			hooks: [{ type: "command", command: "/opt/my-pretooluse.sh" }],
+		});
+		writeFileSync(claudeSettingsPath, JSON.stringify(withUserHook, null, 2));
+
+		removeClaudeManagedHooks();
+
+		const parsed = JSON.parse(readFileSync(claudeSettingsPath, "utf-8")) as {
+			hooks?: Record<string, Array<{ hooks: Array<{ command: string }> }>>;
+		};
+		const remaining = parsed.hooks?.PreToolUse ?? [];
+		expect(
+			remaining.some((def) =>
+				def.hooks.some((hook) => hook.command.includes("artifact-guard.sh")),
+			),
+		).toBe(false);
+		expect(
+			remaining.some((def) =>
+				def.hooks.some((hook) => hook.command === "/opt/my-pretooluse.sh"),
+			),
+		).toBe(true);
+	});
+
+	it("preserves user hooks and non-hook settings when merging", () => {
+		const claudeSettingsPath = path.join(
+			TEST_HOME_DIR,
+			".claude",
+			"settings.json",
+		);
+		mkdirSync(path.dirname(claudeSettingsPath), { recursive: true });
+		writeFileSync(
+			claudeSettingsPath,
+			JSON.stringify(
+				{
+					permissions: { allow: ["Bash(*)", "Read"] },
+					hooks: {
+						UserPromptSubmit: [
+							{
+								hooks: [{ type: "command", command: "/opt/my-custom-hook.sh" }],
+							},
+						],
+					},
+				},
+				null,
+				2,
+			),
+		);
+
+		const notifyPath = "/tmp/.jedv/hooks/notify.sh";
+		const content = getClaudeGlobalSettingsJsonContent(notifyPath);
+		expect(content).not.toBeNull();
+		if (content === null) throw new Error("Expected content");
+
+		const parsed = JSON.parse(content);
+
+		// Preserves non-hook settings
+		expect(parsed.permissions).toEqual({ allow: ["Bash(*)", "Read"] });
+
+		// Preserves user hook
+		expect(
+			parsed.hooks.UserPromptSubmit.some(
+				(def: { hooks: Array<{ command: string }> }) =>
+					def.hooks.some(
+						(hook: { command: string }) =>
+							hook.command === "/opt/my-custom-hook.sh",
+					),
+			),
+		).toBe(true);
+
+		// Adds managed hook
+		expect(
+			parsed.hooks.UserPromptSubmit.some(
+				(def: { hooks: Array<{ command: string }> }) =>
+					def.hooks.some(
+						(hook: { command: string }) =>
+							hook.command === managedClaudeHookCommand,
+					),
+			),
+		).toBe(true);
+	});
+
+	it("replaces stale Claude hook commands from old jedv paths", () => {
+		const claudeSettingsPath = path.join(
+			TEST_HOME_DIR,
+			".claude",
+			"settings.json",
+		);
+		const staleHookPath = "/tmp/.jedv-old/hooks/notify.sh";
+		const currentHookPath = "/tmp/.jedv-new/hooks/notify.sh";
+
+		mkdirSync(path.dirname(claudeSettingsPath), { recursive: true });
+		writeFileSync(
+			claudeSettingsPath,
+			JSON.stringify(
+				{
+					hooks: {
+						UserPromptSubmit: [
+							{
+								hooks: [
+									{ type: "command", command: staleHookPath },
+									{ type: "command", command: "/opt/custom-prompt.sh" },
+								],
+							},
+						],
+						Stop: [
+							{
+								hooks: [{ type: "command", command: staleHookPath }],
+							},
+						],
+						PostToolUse: [
+							{
+								matcher: "*",
+								hooks: [{ type: "command", command: staleHookPath }],
+							},
+						],
+					},
+				},
+				null,
+				2,
+			),
+		);
+
+		const content = getClaudeGlobalSettingsJsonContent(currentHookPath);
+		expect(content).not.toBeNull();
+		if (content === null) throw new Error("Expected content");
+
+		// Second run should be idempotent
+		writeFileSync(claudeSettingsPath, content);
+		const content2 = getClaudeGlobalSettingsJsonContent(currentHookPath);
+		expect(content2).not.toBeNull();
+
+		const parsed = JSON.parse(content) as {
+			hooks: Record<
+				string,
+				Array<{
+					matcher?: string;
+					hooks: Array<{ type: string; command: string }>;
+				}>
+			>;
+		};
+
+		// Stale hooks removed, current hooks present
+		for (const eventName of [
+			"UserPromptSubmit",
+			"Stop",
+			"PostToolUse",
+		] as const) {
+			const hooks = parsed.hooks[eventName];
+			expect(Array.isArray(hooks)).toBe(true);
+			expect(
+				hooks.some((def) =>
+					def.hooks.some((hook) => hook.command === managedClaudeHookCommand),
+				),
+			).toBe(true);
+			expect(
+				hooks.some((def) =>
+					def.hooks.some((hook) => hook.command.includes(staleHookPath)),
+				),
+			).toBe(false);
+		}
+
+		// Custom hook preserved
+		expect(
+			parsed.hooks.UserPromptSubmit.some((def) =>
+				def.hooks.some((hook) => hook.command === "/opt/custom-prompt.sh"),
+			),
+		).toBe(true);
+
+		// Idempotent
+		expect(content2).not.toBeNull();
+		expect(JSON.parse(content2 as string)).toEqual(JSON.parse(content));
+	});
+
+	it("skips Claude settings writes when existing JSON is invalid", () => {
+		const claudeSettingsPath = path.join(
+			TEST_HOME_DIR,
+			".claude",
+			"settings.json",
+		);
+		const invalidJson = "{not-json";
+
+		mkdirSync(path.dirname(claudeSettingsPath), { recursive: true });
+		writeFileSync(claudeSettingsPath, invalidJson);
+
+		expect(
+			getClaudeGlobalSettingsJsonContent("/tmp/.jedv/hooks/notify.sh"),
+		).toBeNull();
+
+		createClaudeSettingsJson();
+
+		// Should not have overwritten the file
+		expect(readFileSync(claudeSettingsPath, "utf-8")).toBe(invalidJson);
+	});
+
+	it("skips Claude settings writes when existing JSON is not an object", () => {
+		const claudeSettingsPath = path.join(
+			TEST_HOME_DIR,
+			".claude",
+			"settings.json",
+		);
+
+		mkdirSync(path.dirname(claudeSettingsPath), { recursive: true });
+		writeFileSync(claudeSettingsPath, JSON.stringify("not-an-object"));
+
+		expect(
+			getClaudeGlobalSettingsJsonContent("/tmp/.jedv/hooks/notify.sh"),
+		).toBeNull();
+	});
+});
+
+describe("agent-wrappers codex hooks.json", () => {
+	beforeEach(() => {
+		mkdirSync(TEST_BIN_DIR, { recursive: true });
+		mkdirSync(TEST_HOOKS_DIR, { recursive: true });
+	});
+
+	afterEach(() => {
+		rmSync(TEST_ROOT, { recursive: true, force: true });
+	});
+
+	it("creates Codex hooks.json with prompt and lifecycle hooks when no file exists", () => {
+		const notifyPath = "/tmp/.jedv/hooks/notify.sh";
+		const content = getCodexGlobalHooksJsonContent(notifyPath);
+		expect(content).not.toBeNull();
+		if (content === null) throw new Error("Expected content");
+
+		const parsed = JSON.parse(content) as {
+			hooks: Record<
+				string,
+				Array<{
+					matcher?: string;
+					hooks: Array<{ type: string; command: string }>;
+				}>
+			>;
+		};
+
+		const expectedCommand = managedCodexHookCommand;
+		for (const eventName of [
+			"SessionStart",
+			"SessionEnd",
+			"UserPromptSubmit",
+			"Stop",
+			"Interrupt",
+			"SubagentStart",
+			"SubagentStop",
+		] as const) {
+			const hooks = parsed.hooks[eventName];
+			expect(Array.isArray(hooks)).toBe(true);
+			expect(
+				hooks.some((def) =>
+					def.hooks.some((hook) => hook.command === expectedCommand),
+				),
+			).toBe(true);
+		}
+
+		expect(parsed.hooks.PreToolUse).toEqual([
+			{
+				matcher: "^request_user_input$",
+				hooks: [{ type: "command", command: expectedCommand }],
+			},
+		]);
+		expect(parsed.hooks.PostToolUse).toEqual([
+			{
+				matcher: "*",
+				hooks: [{ type: "command", command: expectedCommand }],
+			},
+		]);
+	});
+
+	it("preserves user hooks when merging", () => {
+		const codexHooksPath = path.join(TEST_HOME_DIR, ".codex", "hooks.json");
+		mkdirSync(path.dirname(codexHooksPath), { recursive: true });
+		writeFileSync(
+			codexHooksPath,
+			JSON.stringify(
+				{
+					hooks: {
+						UserPromptSubmit: [
+							{
+								hooks: [
+									{
+										type: "command",
+										command: "/opt/my-custom-prompt-hook.sh",
+									},
+								],
+							},
+						],
+						PreToolUse: [
+							{
+								matcher: "*",
+								hooks: [
+									{
+										type: "command",
+										command: "/opt/my-custom-pre-tool-hook.sh",
+									},
+								],
+							},
+						],
+						PostToolUse: [
+							{
+								matcher: "*",
+								hooks: [
+									{
+										type: "command",
+										command: "/opt/my-custom-post-tool-hook.sh",
+									},
+								],
+							},
+						],
+						Stop: [
+							{
+								hooks: [{ type: "command", command: "/opt/my-custom-hook.sh" }],
+							},
+						],
+					},
+				},
+				null,
+				2,
+			),
+		);
+
+		const notifyPath = "/tmp/.jedv/hooks/notify.sh";
+		const content = getCodexGlobalHooksJsonContent(notifyPath);
+		expect(content).not.toBeNull();
+		if (content === null) throw new Error("Expected content");
+
+		const parsed = JSON.parse(content);
+
+		// Preserves user hooks, including tool hooks alongside our scoped entries.
+		expect(
+			parsed.hooks.Stop.some((def: { hooks: Array<{ command: string }> }) =>
+				def.hooks.some(
+					(hook: { command: string }) =>
+						hook.command === "/opt/my-custom-hook.sh",
+				),
+			),
+		).toBe(true);
+		expect(
+			parsed.hooks.UserPromptSubmit.some(
+				(def: { hooks: Array<{ command: string }> }) =>
+					def.hooks.some(
+						(hook: { command: string }) =>
+							hook.command === "/opt/my-custom-prompt-hook.sh",
+					),
+			),
+		).toBe(true);
+		expect(
+			parsed.hooks.PreToolUse.some(
+				(def: { hooks: Array<{ command: string }> }) =>
+					def.hooks.some(
+						(hook: { command: string }) =>
+							hook.command === "/opt/my-custom-pre-tool-hook.sh",
+					),
+			),
+		).toBe(true);
+		expect(
+			parsed.hooks.PostToolUse.some(
+				(def: { hooks: Array<{ command: string }> }) =>
+					def.hooks.some(
+						(hook: { command: string }) =>
+							hook.command === "/opt/my-custom-post-tool-hook.sh",
+					),
+			),
+		).toBe(true);
+
+		const expectedManagedCommand = managedCodexHookCommand;
+		// Adds managed hooks for session, prompt, completion, and interruption lifecycle events.
+		for (const eventName of [
+			"SessionStart",
+			"SessionEnd",
+			"UserPromptSubmit",
+			"Stop",
+			"Interrupt",
+		]) {
+			expect(
+				parsed.hooks[eventName].some(
+					(def: { hooks: Array<{ command: string }> }) =>
+						def.hooks.some(
+							(hook: { command: string }) =>
+								hook.command === expectedManagedCommand,
+						),
+				),
+			).toBe(true);
+		}
+
+		for (const [eventName, matcher] of [
+			["PreToolUse", "^request_user_input$"],
+			["PostToolUse", "*"],
+		] as const) {
+			expect(parsed.hooks[eventName]).toHaveLength(2);
+			expect(parsed.hooks[eventName]).toContainEqual({
+				matcher,
+				hooks: [{ type: "command", command: expectedManagedCommand }],
+			});
+		}
+	});
+
+	it("replaces stale Codex hook commands from old jedv paths", () => {
+		const codexHooksPath = path.join(TEST_HOME_DIR, ".codex", "hooks.json");
+		const staleHookPath = "/tmp/.jedv-old/hooks/notify.sh";
+		const currentHookPath = "/tmp/.jedv-new/hooks/notify.sh";
+
+		mkdirSync(path.dirname(codexHooksPath), { recursive: true });
+		writeFileSync(
+			codexHooksPath,
+			JSON.stringify(
+				{
+					hooks: {
+						SessionStart: [
+							{
+								hooks: [{ type: "command", command: staleHookPath }],
+							},
+						],
+						Stop: [
+							{
+								hooks: [
+									{ type: "command", command: staleHookPath },
+									{ type: "command", command: "/opt/custom-stop.sh" },
+								],
+							},
+						],
+					},
+				},
+				null,
+				2,
+			),
+		);
+
+		const content = getCodexGlobalHooksJsonContent(currentHookPath);
+		expect(content).not.toBeNull();
+		if (content === null) throw new Error("Expected content");
+
+		// Second run should be idempotent
+		writeFileSync(codexHooksPath, content);
+		const content2 = getCodexGlobalHooksJsonContent(currentHookPath);
+
+		const parsed = JSON.parse(content) as {
+			hooks: Record<
+				string,
+				Array<{
+					matcher?: string;
+					hooks: Array<{ type: string; command: string }>;
+				}>
+			>;
+		};
+
+		const expectedManagedCommand = managedCodexHookCommand;
+		for (const eventName of [
+			"SessionStart",
+			"SessionEnd",
+			"UserPromptSubmit",
+			"Stop",
+			"Interrupt",
+			"SubagentStart",
+			"SubagentStop",
+		] as const) {
+			const hooks = parsed.hooks[eventName];
+			expect(Array.isArray(hooks)).toBe(true);
+			expect(
+				hooks.some((def) =>
+					def.hooks.some((hook) => hook.command === expectedManagedCommand),
+				),
+			).toBe(true);
+			expect(
+				hooks.some((def) =>
+					def.hooks.some((hook) => hook.command.includes(staleHookPath)),
+				),
+			).toBe(false);
+		}
+
+		// Custom hook preserved
+		expect(
+			parsed.hooks.Stop.some((def) =>
+				def.hooks.some((hook) => hook.command === "/opt/custom-stop.sh"),
+			),
+		).toBe(true);
+
+		// Idempotent
+		expect(content2).not.toBeNull();
+		expect(JSON.parse(content2 as string)).toEqual(JSON.parse(content));
+	});
+
+	it("removes stale Jedv-managed UserPromptSubmit hooks without touching user hooks", () => {
+		const codexHooksPath = path.join(TEST_HOME_DIR, ".codex", "hooks.json");
+		const staleHookPath =
+			"/Users/test/.jedv/worktrees/repo/jedv-dev-data/hooks/notify.sh";
+		const currentHookPath = "/tmp/.jedv-new/hooks/notify.sh";
+
+		mkdirSync(path.dirname(codexHooksPath), { recursive: true });
+		writeFileSync(
+			codexHooksPath,
+			JSON.stringify(
+				{
+					hooks: {
+						UserPromptSubmit: [
+							{
+								hooks: [
+									{ type: "command", command: staleHookPath },
+									{
+										type: "command",
+										command: "/opt/my-custom-prompt-hook.sh",
+									},
+								],
+							},
+						],
+					},
+				},
+				null,
+				2,
+			),
+		);
+
+		const content = getCodexGlobalHooksJsonContent(currentHookPath);
+		expect(content).not.toBeNull();
+		if (content === null) throw new Error("Expected content");
+
+		const parsed = JSON.parse(content) as {
+			hooks: Record<
+				string,
+				Array<{
+					matcher?: string;
+					hooks: Array<{ type: string; command: string }>;
+				}>
+			>;
+		};
+
+		const expectedManagedCommand = managedCodexHookCommand;
+		expect(parsed.hooks.UserPromptSubmit).toBeDefined();
+		expect(
+			parsed.hooks.UserPromptSubmit?.some((def) =>
+				def.hooks.some(
+					(hook) => hook.command === "/opt/my-custom-prompt-hook.sh",
+				),
+			),
+		).toBe(true);
+		expect(
+			parsed.hooks.UserPromptSubmit?.some((def) =>
+				def.hooks.some((hook) => hook.command.includes(staleHookPath)),
+			),
+		).toBe(false);
+		expect(
+			parsed.hooks.UserPromptSubmit?.some((def) =>
+				def.hooks.some((hook) => hook.command === expectedManagedCommand),
+			),
+		).toBe(true);
+	});
+
+	it("reaps stale notify.sh paths from in-repo dev worktrees", () => {
+		const codexHooksPath = path.join(TEST_HOME_DIR, ".codex", "hooks.json");
+		// Real-world layout: a dev worktree lives under <repo>/.worktrees/<name>
+		// and its dev setup writes JEDV_HOME_DIR=<worktree>/jedv-dev-data.
+		// There is no /.jedv/ segment anywhere in the path.
+		const staleHookPath =
+			"/Users/test/code/jedv/.worktrees/old-branch/jedv-dev-data/hooks/notify.sh";
+		const currentHookPath = "/tmp/.jedv-new/hooks/notify.sh";
+
+		mkdirSync(path.dirname(codexHooksPath), { recursive: true });
+		writeFileSync(
+			codexHooksPath,
+			JSON.stringify(
+				{
+					hooks: {
+						SessionStart: [
+							{ hooks: [{ type: "command", command: staleHookPath }] },
+						],
+						UserPromptSubmit: [
+							{ hooks: [{ type: "command", command: staleHookPath }] },
+						],
+						Stop: [{ hooks: [{ type: "command", command: staleHookPath }] }],
+					},
+				},
+				null,
+				2,
+			),
+		);
+
+		const content = getCodexGlobalHooksJsonContent(currentHookPath);
+		expect(content).not.toBeNull();
+		if (content === null) throw new Error("Expected content");
+
+		const parsed = JSON.parse(content) as {
+			hooks: Record<
+				string,
+				Array<{
+					matcher?: string;
+					hooks: Array<{ type: string; command: string }>;
+				}>
+			>;
+		};
+
+		const expectedManagedCommand = managedCodexHookCommand;
+		for (const eventName of [
+			"SessionStart",
+			"UserPromptSubmit",
+			"Stop",
+		] as const) {
+			const hooks = parsed.hooks[eventName];
+			expect(Array.isArray(hooks)).toBe(true);
+			expect(
+				hooks.some((def) =>
+					def.hooks.some((hook) => hook.command === expectedManagedCommand),
+				),
+			).toBe(true);
+			expect(
+				hooks.some((def) =>
+					def.hooks.some((hook) => hook.command === staleHookPath),
+				),
+			).toBe(false);
+		}
+	});
+
+	it("skips Codex hooks writes when existing JSON is invalid", () => {
+		const codexHooksPath = path.join(TEST_HOME_DIR, ".codex", "hooks.json");
+		const invalidJson = "{not-json";
+
+		mkdirSync(path.dirname(codexHooksPath), { recursive: true });
+		writeFileSync(codexHooksPath, invalidJson);
+
+		expect(
+			getCodexGlobalHooksJsonContent("/tmp/.jedv/hooks/notify.sh"),
+		).toBeNull();
+
+		createCodexHooksJson();
+
+		expect(readFileSync(codexHooksPath, "utf-8")).toBe(invalidJson);
+	});
+
+	it("skips Codex hooks writes when existing JSON is not an object", () => {
+		const codexHooksPath = path.join(TEST_HOME_DIR, ".codex", "hooks.json");
+
+		mkdirSync(path.dirname(codexHooksPath), { recursive: true });
+		writeFileSync(codexHooksPath, JSON.stringify("not-an-object"));
+
+		expect(
+			getCodexGlobalHooksJsonContent("/tmp/.jedv/hooks/notify.sh"),
+		).toBeNull();
+	});
+});
+
+import {
+	getVibeHooksTomlContent,
+	getVibeWrapperScript,
+	VIBE_HOOKS_MARKER_END,
+	VIBE_HOOKS_MARKER_START,
+} from "./agent-wrappers-vibe";
+
+describe("vibe wrapper", () => {
+	it("enables experimental hooks and stamps the agent id", () => {
+		const script = getVibeWrapperScript();
+		expect(script).toContain('export JEDV_AGENT_ID="vibe"');
+		expect(script).toContain("export VIBE_ENABLE_EXPERIMENTAL_HOOKS=true");
+		expect(script).toContain('exec "$REAL_BIN" "$@"');
+	});
+});
+
+describe("vibe hooks.toml", () => {
+	it("writes both managed hooks inside markers on an empty file", () => {
+		const out = getVibeHooksTomlContent("");
+		expect(out).toContain(VIBE_HOOKS_MARKER_START);
+		expect(out).toContain(VIBE_HOOKS_MARKER_END);
+		expect(out).toContain('type = "pre_tool"');
+		expect(out).toContain('type = "post_agent"');
+		expect(out).toContain("JEDV_HOOK_HARNESS=vibe");
+	});
+	it("preserves user hooks and is idempotent", () => {
+		const user =
+			'[[hooks]]\nname = "mine"\ntype = "after_tool"\ncommand = "echo hi"\n';
+		const once = getVibeHooksTomlContent(user);
+		expect(once).toContain('name = "mine"');
+		// Re-running does not duplicate the managed block.
+		const twice = getVibeHooksTomlContent(once);
+		// Count by splitting: the marker contains regex metachars ("(do not edit)"),
+		// so `new RegExp(marker)` would not match the literal text.
+		expect(twice.split(VIBE_HOOKS_MARKER_START).length - 1).toBe(1);
+		expect(twice).toContain('name = "mine"');
+	});
+	it("cleans up an orphaned start marker left by a partial write", () => {
+		// Simulate a prior interrupted write: a user hook, then a start marker and
+		// a half-written managed block with NO end marker.
+		const partial = [
+			"[[hooks]]",
+			'name = "mine"',
+			'type = "after_tool"',
+			'command = "echo hi"',
+			"",
+			VIBE_HOOKS_MARKER_START,
+			"[[hooks]]",
+			'name = "jedv-notify-before-tool"',
+			'type = "before_tool"',
+			"",
+		].join("\n");
+		const out = getVibeHooksTomlContent(partial);
+		// User hook survives, and exactly one complete managed block is emitted —
+		// no duplicate hook entries and no dangling marker.
+		expect(out).toContain('name = "mine"');
+		expect(out.split(VIBE_HOOKS_MARKER_START).length - 1).toBe(1);
+		expect(out.split(VIBE_HOOKS_MARKER_END).length - 1).toBe(1);
+		expect(out.split('type = "pre_tool"').length - 1).toBe(1);
+		expect(out.split('type = "post_agent"').length - 1).toBe(1);
+	});
+	it("preserves user hooks that follow an orphaned start marker", () => {
+		// End marker lost to a hand-edit/crash, with a user hook AFTER our block.
+		const partial = [
+			VIBE_HOOKS_MARKER_START,
+			"[[hooks]]",
+			'name = "jedv-notify-before-tool"',
+			'type = "before_tool"',
+			"command = 'true'",
+			// NO end marker
+			"",
+			"# my own hook",
+			"[[hooks]]",
+			'name = "my-lint-on-save"',
+			'type = "before_tool"',
+			'command = "run-my-linter.sh"',
+		].join("\n");
+		const out = getVibeHooksTomlContent(partial);
+		expect(out).toContain('name = "my-lint-on-save"');
+		expect(out).toContain("# my own hook");
+		// Exactly one complete managed block, no dangling/duplicate markers.
+		expect(out.split(VIBE_HOOKS_MARKER_START).length - 1).toBe(1);
+		expect(out.split(VIBE_HOOKS_MARKER_END).length - 1).toBe(1);
+		expect(out.split('name = "jedv-notify-before-tool"').length - 1).toBe(1);
+	});
+});
+
+import {
+	getKimiConfigTomlContent,
+	getKimiWrapperScript,
+	KIMI_HOOKS_MARKER_END,
+	KIMI_HOOKS_MARKER_START,
+} from "./agent-wrappers-kimi";
+
+describe("kimi wrapper", () => {
+	it("stamps the agent id and forwards arguments to the real binary", () => {
+		const script = getKimiWrapperScript();
+		expect(script).toContain('export JEDV_AGENT_ID="kimi"');
+		expect(script).toContain('exec "$REAL_BIN" "$@"');
+	});
+});
+
+describe("kimi config.toml", () => {
+	it("registers the lifecycle hooks Kimi exposes", () => {
+		const out = getKimiConfigTomlContent("");
+		expect(out).toContain(KIMI_HOOKS_MARKER_START);
+		expect(out).toContain(KIMI_HOOKS_MARKER_END);
+		for (const event of [
+			"SessionStart",
+			"UserPromptSubmit",
+			"PostToolUse",
+			"PostToolUseFailure",
+			"PermissionRequest",
+			"PermissionResult",
+			"StopFailure",
+			"Interrupt",
+			"Stop",
+			"SessionEnd",
+		]) {
+			expect(out).toContain(`event = "${event}"`);
+		}
+		expect(out).toContain("JEDV_HOOK_HARNESS=kimi");
+	});
+
+	it("preserves user config and replaces the managed block idempotently", () => {
+		const user = [
+			'default_model = "my-model"',
+			"",
+			"[[hooks]]",
+			'event = "Notification"',
+			'command = "show-my-notification"',
+			"",
+		].join("\n");
+		const once = getKimiConfigTomlContent(user);
+		const twice = getKimiConfigTomlContent(once);
+
+		expect(twice).toContain('default_model = "my-model"');
+		expect(twice).toContain('command = "show-my-notification"');
+		expect(twice.split(KIMI_HOOKS_MARKER_START).length - 1).toBe(1);
+		expect(twice.split(KIMI_HOOKS_MARKER_END).length - 1).toBe(1);
+	});
+
+	it("preserves user hooks after an orphaned managed block", () => {
+		const partial = [
+			KIMI_HOOKS_MARKER_START,
+			"[[hooks]]",
+			'event = "SessionStart"',
+			"command = 'JEDV_AGENT_ID=kimi true'",
+			"",
+			"# user hook",
+			"[[hooks]]",
+			'event = "Notification"',
+			'command = "show-my-notification"',
+		].join("\n");
+		const out = getKimiConfigTomlContent(partial);
+
+		expect(out).toContain("# user hook");
+		expect(out).toContain('command = "show-my-notification"');
+		expect(out.split(KIMI_HOOKS_MARKER_START).length - 1).toBe(1);
+		expect(out.split(KIMI_HOOKS_MARKER_END).length - 1).toBe(1);
+	});
+});
+
+import {
+	GROK_BLOCKING_NOTIFICATION_TYPES,
+	GROK_COMPAT_MARKER_END,
+	GROK_COMPAT_MARKER_START,
+	getGrokConfigTomlContent,
+	getGrokHooksJsonContent,
+	getGrokWrapperScript,
+} from "./agent-wrappers-grok";
+
+describe("grok wrapper", () => {
+	it("stamps the agent id and forwards arguments to the real binary", () => {
+		const script = getGrokWrapperScript();
+		expect(script).toContain('export JEDV_AGENT_ID="grok"');
+		expect(script).toContain('exec "$REAL_BIN" "$@"');
+	});
+});
+
+describe("grok hooks json", () => {
+	it("registers passive lifecycle hooks and skips blocking PreToolUse", () => {
+		const parsed = JSON.parse(getGrokHooksJsonContent());
+		const events = Object.keys(parsed.hooks);
+		expect(events).toEqual([
+			"SessionStart",
+			"SessionEnd",
+			"UserPromptSubmit",
+			"PostToolUse",
+			"PostToolUseFailure",
+			"Stop",
+			"StopFailure",
+			"Notification",
+		]);
+		expect(events).not.toContain("PreToolUse");
+		for (const definitions of Object.values(parsed.hooks)) {
+			const [definition] = definitions as Array<{
+				matcher?: string;
+				hooks: Array<{ type: string; command: string }>;
+			}>;
+			expect(definition.hooks[0].type).toBe("command");
+			expect(definition.hooks[0].command).toContain("JEDV_HOOK_HARNESS=grok");
+		}
+		expect(parsed.hooks.Notification[0].matcher).toBe(
+			`^(${GROK_BLOCKING_NOTIFICATION_TYPES.join("|")})$`,
+		);
+	});
+
+	it("keeps the notify template's subtype filter in sync with the matcher", () => {
+		const template = readFileSync(
+			path.join(import.meta.dir, "..", "templates", "notify-hook.template.sh"),
+			"utf-8",
+		);
+		expect(template).toContain(
+			`${GROK_BLOCKING_NOTIFICATION_TYPES.join("|")}) EVENT_TYPE="PermissionRequest"`,
+		);
+	});
+});
+
+describe("grok config.toml", () => {
+	it("disables Claude/Cursor hook compat inside the managed block", () => {
+		const out = getGrokConfigTomlContent("");
+		expect(out).toContain(GROK_COMPAT_MARKER_START);
+		expect(out).toContain(GROK_COMPAT_MARKER_END);
+		expect(out).toContain("[compat.claude]");
+		expect(out).toContain("[compat.cursor]");
+		expect(out).toContain("hooks = false");
+	});
+
+	it("preserves user config and replaces the managed block idempotently", () => {
+		const user = ['[models]\ndefault = "grok-4"', ""].join("\n");
+		const once = getGrokConfigTomlContent(user);
+		const twice = getGrokConfigTomlContent(once);
+
+		expect(twice).toContain('default = "grok-4"');
+		expect(twice.split(GROK_COMPAT_MARKER_START).length - 1).toBe(1);
+		expect(twice.split(GROK_COMPAT_MARKER_END).length - 1).toBe(1);
+	});
+
+	it("skips a compat table the user already defines", () => {
+		const user = "[compat.claude]\nhooks = true\n";
+		const out = getGrokConfigTomlContent(user);
+
+		expect(out).toContain("hooks = true");
+		expect(out.split("[compat.claude]").length - 1).toBe(1);
+		expect(out).toContain("[compat.cursor]");
+	});
+
+	it("preserves user tables after an orphaned managed block", () => {
+		const partial = [
+			GROK_COMPAT_MARKER_START,
+			"[compat.claude]",
+			"hooks = false",
+			"",
+			"# user table",
+			"[models]",
+			'default = "grok-4"',
+		].join("\n");
+		const out = getGrokConfigTomlContent(partial);
+
+		expect(out).toContain("# user table");
+		expect(out).toContain('default = "grok-4"');
+		expect(out.split(GROK_COMPAT_MARKER_START).length - 1).toBe(1);
+		expect(out.split(GROK_COMPAT_MARKER_END).length - 1).toBe(1);
+	});
+});
+
+describe("agent-wrappers pi", () => {
+	beforeEach(() => {
+		mkdirSync(TEST_BIN_DIR, { recursive: true });
+		mkdirSync(TEST_HOOKS_DIR, { recursive: true });
+	});
+
+	afterEach(() => {
+		rmSync(TEST_ROOT, { recursive: true, force: true });
+	});
+
+	it("renders pi extension content with the marker substituted", () => {
+		const content = getPiExtensionContent();
+		expect(content).toContain(PI_EXTENSION_MARKER);
+		expect(content).not.toContain("{{MARKER}}");
+	});
+
+	it("installs the pi extension into the global ~/.pi/agent/extensions directory", () => {
+		const extensionPath = getPiExtensionPath();
+		expect(extensionPath).toBe(
+			path.join(TEST_HOME_DIR, ".pi", "agent", "extensions", "jedv-hooks.ts"),
+		);
+
+		createPiExtension();
+
+		const installed = readFileSync(extensionPath, "utf-8");
+		expect(installed).toContain(PI_EXTENSION_MARKER);
+		expect(installed).toContain("export default function");
+	});
+});
+
+const {
+	getKimiConfigTomlPath,
+	removeCursorManagedHooks,
+	removeDroidManagedHooks,
+	removeKimiManagedHooks,
+	removeMastraManagedHooks,
+} = await import("./agent-wrappers");
+
+describe("managed hooks teardown", () => {
+	beforeEach(() => {
+		mkdirSync(TEST_BIN_DIR, { recursive: true });
+		mkdirSync(TEST_HOOKS_DIR, { recursive: true });
+	});
+
+	afterEach(() => {
+		rmSync(TEST_ROOT, { recursive: true, force: true });
+	});
+
+	it("removes managed droid hooks, preserving user hooks and settings", () => {
+		const settingsPath = path.join(TEST_HOME_DIR, ".factory", "settings.json");
+		mkdirSync(path.dirname(settingsPath), { recursive: true });
+		writeFileSync(
+			settingsPath,
+			JSON.stringify(
+				{
+					model: "custom",
+					hooks: {
+						Stop: [
+							{ hooks: [{ type: "command", command: "/opt/user-hook.sh" }] },
+							{
+								hooks: [{ type: "command", command: managedDroidHookCommand }],
+							},
+							{
+								hooks: [
+									{
+										type: "command",
+										command: "JEDV_AGENT_ID=droid '/tmp/.jedv/hooks/notify.sh'",
+									},
+								],
+							},
+						],
+						SessionStart: [
+							{
+								hooks: [{ type: "command", command: managedDroidHookCommand }],
+							},
+						],
+					},
+				},
+				null,
+				2,
+			),
+		);
+
+		removeDroidManagedHooks();
+
+		const parsed = JSON.parse(readFileSync(settingsPath, "utf-8"));
+		expect(parsed.model).toBe("custom");
+		expect(parsed.hooks.Stop).toEqual([
+			{ hooks: [{ type: "command", command: "/opt/user-hook.sh" }] },
+		]);
+		// Managed-only events are dropped entirely.
+		expect(parsed.hooks.SessionStart).toBeUndefined();
+
+		// Second run is a no-op on already-clean config.
+		const cleaned = readFileSync(settingsPath, "utf-8");
+		removeDroidManagedHooks();
+		expect(readFileSync(settingsPath, "utf-8")).toBe(cleaned);
+	});
+
+	it("drops the droid hooks key when every event was managed and never creates a missing file", () => {
+		const settingsPath = path.join(TEST_HOME_DIR, ".factory", "settings.json");
+
+		removeDroidManagedHooks();
+		expect(existsSync(settingsPath)).toBe(false);
+
+		mkdirSync(path.dirname(settingsPath), { recursive: true });
+		writeFileSync(
+			settingsPath,
+			JSON.stringify({
+				hooks: {
+					Stop: [
+						{ hooks: [{ type: "command", command: managedDroidHookCommand }] },
+					],
+				},
+			}),
+		);
+
+		removeDroidManagedHooks();
+
+		expect(JSON.parse(readFileSync(settingsPath, "utf-8"))).toEqual({});
+	});
+
+	it("leaves a droid settings file untouched when its JSON is invalid", () => {
+		const settingsPath = path.join(TEST_HOME_DIR, ".factory", "settings.json");
+		mkdirSync(path.dirname(settingsPath), { recursive: true });
+		writeFileSync(settingsPath, "{not-json");
+
+		removeDroidManagedHooks();
+
+		expect(readFileSync(settingsPath, "utf-8")).toBe("{not-json");
+	});
+
+	it("removes managed cursor hooks but keeps the hooks container and version", () => {
+		const hooksPath = path.join(TEST_HOME_DIR, ".cursor", "hooks.json");
+		mkdirSync(path.dirname(hooksPath), { recursive: true });
+		const scriptPath = path.join(TEST_HOOKS_DIR, "cursor-hook.sh");
+		writeFileSync(
+			hooksPath,
+			JSON.stringify({
+				version: 1,
+				hooks: {
+					stop: [
+						{ command: "/opt/user-cursor-hook.sh" },
+						{ command: `${scriptPath} Stop` },
+					],
+					sessionStart: [{ command: `${scriptPath} SessionStart` }],
+				},
+			}),
+		);
+
+		removeCursorManagedHooks();
+
+		const parsed = JSON.parse(readFileSync(hooksPath, "utf-8"));
+		expect(parsed.version).toBe(1);
+		expect(parsed.hooks.stop).toEqual([
+			{ command: "/opt/user-cursor-hook.sh" },
+		]);
+		expect(parsed.hooks.sessionStart).toBeUndefined();
+		expect(parsed.hooks).toBeDefined();
+	});
+
+	it("removes managed mastra hooks from the root-level event map", () => {
+		const hooksPath = path.join(TEST_HOME_DIR, ".mastracode", "hooks.json");
+		mkdirSync(path.dirname(hooksPath), { recursive: true });
+		writeFileSync(
+			hooksPath,
+			JSON.stringify({
+				Stop: [
+					{ type: "command", command: "/opt/user-mastra-hook.sh" },
+					{ type: "command", command: managedMastraHookCommand },
+				],
+				SessionStart: [{ type: "command", command: managedMastraHookCommand }],
+			}),
+		);
+
+		removeMastraManagedHooks();
+
+		const parsed = JSON.parse(readFileSync(hooksPath, "utf-8"));
+		expect(parsed.Stop).toEqual([
+			{ type: "command", command: "/opt/user-mastra-hook.sh" },
+		]);
+		expect(parsed.SessionStart).toBeUndefined();
+	});
+
+	it("skips mastra merge instead of clobbering an unparseable file", () => {
+		const hooksPath = path.join(TEST_HOME_DIR, ".mastracode", "hooks.json");
+		mkdirSync(path.dirname(hooksPath), { recursive: true });
+		writeFileSync(hooksPath, "{not-json");
+
+		expect(getMastraHooksJsonContent("/tmp/.jedv/hooks/notify.sh")).toBe(null);
+	});
+
+	it("removes the kimi managed block, deleting the file only when nothing else remains", () => {
+		const configPath = getKimiConfigTomlPath();
+		mkdirSync(path.dirname(configPath), { recursive: true });
+
+		const userConfig = '[user]\nkey = "value"';
+		writeFileSync(
+			configPath,
+			`${userConfig}\n\n${KIMI_HOOKS_MARKER_START}\n[[hooks]]\nevent = "Stop"\ncommand = 'JEDV_AGENT_ID=kimi x'\n${KIMI_HOOKS_MARKER_END}\n`,
+		);
+		removeKimiManagedHooks();
+		expect(readFileSync(configPath, "utf-8")).toBe(`${userConfig}\n`);
+
+		writeFileSync(
+			configPath,
+			`${KIMI_HOOKS_MARKER_START}\n[[hooks]]\nevent = "Stop"\ncommand = 'JEDV_AGENT_ID=kimi x'\n${KIMI_HOOKS_MARKER_END}\n`,
+		);
+		removeKimiManagedHooks();
+		expect(existsSync(configPath)).toBe(false);
+	});
+});
+
+describe("managed hooks junk tolerance", () => {
+	beforeEach(() => {
+		mkdirSync(TEST_BIN_DIR, { recursive: true });
+		mkdirSync(TEST_HOOKS_DIR, { recursive: true });
+	});
+
+	afterEach(() => {
+		rmSync(TEST_ROOT, { recursive: true, force: true });
+	});
+
+	it("preserves null and primitive entries instead of aborting the merge", () => {
+		const settingsPath = path.join(TEST_HOME_DIR, ".factory", "settings.json");
+		mkdirSync(path.dirname(settingsPath), { recursive: true });
+		writeFileSync(
+			settingsPath,
+			JSON.stringify({
+				hooks: {
+					Stop: [
+						null,
+						"junk-string",
+						{ hooks: [{ type: "command", command: "/opt/user-hook.sh" }] },
+					],
+				},
+			}),
+		);
+
+		const content = getDroidSettingsJsonContent("/tmp/.jedv/hooks/notify.sh");
+		expect(content).not.toBeNull();
+		const parsed = JSON.parse(content as string);
+		expect(parsed.hooks.Stop[0]).toBe(null);
+		expect(parsed.hooks.Stop[1]).toBe("junk-string");
+		expect(
+			parsed.hooks.Stop.some(
+				(d: { hooks?: Array<{ command: string }> }) =>
+					Array.isArray(d?.hooks) &&
+					d.hooks.some((h) => h.command === managedDroidHookCommand),
+			),
+		).toBe(true);
+
+		removeDroidManagedHooks();
+		const afterRemove = JSON.parse(readFileSync(settingsPath, "utf-8"));
+		expect(afterRemove.hooks.Stop).toEqual([
+			null,
+			"junk-string",
+			{ hooks: [{ type: "command", command: "/opt/user-hook.sh" }] },
+		]);
+	});
+});
+
+describe("agent-wrappers omp", () => {
+	let originalOmpCodingAgentDir: string | undefined;
+	let originalPiCodingAgentDir: string | undefined;
+
+	beforeEach(() => {
+		originalOmpCodingAgentDir = process.env.OMP_CODING_AGENT_DIR;
+		originalPiCodingAgentDir = process.env.PI_CODING_AGENT_DIR;
+		mkdirSync(TEST_BIN_DIR, { recursive: true });
+		mkdirSync(TEST_HOOKS_DIR, { recursive: true });
+		delete process.env.OMP_CODING_AGENT_DIR;
+		delete process.env.PI_CODING_AGENT_DIR;
+	});
+
+	afterEach(() => {
+		if (originalOmpCodingAgentDir === undefined) {
+			delete process.env.OMP_CODING_AGENT_DIR;
+		} else {
+			process.env.OMP_CODING_AGENT_DIR = originalOmpCodingAgentDir;
+		}
+		if (originalPiCodingAgentDir === undefined) {
+			delete process.env.PI_CODING_AGENT_DIR;
+		} else {
+			process.env.PI_CODING_AGENT_DIR = originalPiCodingAgentDir;
+		}
+		rmSync(TEST_ROOT, { recursive: true, force: true });
+	});
+
+	it("renders Oh My Pi extension content with the marker substituted", () => {
+		const content = getOmpExtensionContent();
+		expect(content).toContain(OMP_EXTENSION_MARKER);
+		expect(content).not.toContain("{{MARKER}}");
+	});
+
+	it("renders Oh My Pi extension content as a valid extension default-export shape", () => {
+		const content = getOmpExtensionContent();
+		expect(content).toContain("export default function");
+	});
+
+	it("maps OMP lifecycle events to Jedv lifecycle hooks", () => {
+		const content = getOmpExtensionContent();
+		expect(content).toContain('["session_start", "SessionStart"]');
+		expect(content).toContain('["agent_start", "UserPromptSubmit"]');
+		expect(content).toContain('["before_agent_start", "UserPromptSubmit"]');
+		expect(content).toContain('["tool_execution_end", "PostToolUse"]');
+		expect(content).toContain('["agent_end", "Stop"]');
+		expect(content).toContain('["session_end", "SessionEnd"]');
+		expect(content).toContain('["session_shutdown", "Stop"]');
+		expect(content).toContain(
+			"for (const [eventName, hookEventName] of lifecycleMappings)",
+		);
+		expect(content).toContain("pi.on(eventName");
+		expect(content).toContain("fire(hookEventName)");
+		expect(content).toContain('JEDV_HOOK_HARNESS: "omp"');
+	});
+
+	it("installs the Oh My Pi extension into the global ~/.omp/agent/extensions directory", () => {
+		const extensionPath = getOmpExtensionPath();
+		expect(extensionPath).toBe(
+			path.join(TEST_HOME_DIR, ".omp", "agent", "extensions", "jedv-hooks.ts"),
+		);
+
+		createOmpExtension();
+
+		const installed = readFileSync(extensionPath, "utf-8");
+		expect(installed).toContain(OMP_EXTENSION_MARKER);
+		expect(installed).toContain("export default function");
+	});
+
+	it("honors OMP_CODING_AGENT_DIR when locating the Oh My Pi extension", () => {
+		const customAgentDir = path.join(TEST_HOME_DIR, "custom-omp-agent");
+		process.env.OMP_CODING_AGENT_DIR = customAgentDir;
+
+		expect(getOmpExtensionPath()).toBe(
+			path.join(customAgentDir, "extensions", "jedv-hooks.ts"),
+		);
+	});
+
+	it("expands leading tildes in OMP_CODING_AGENT_DIR", () => {
+		process.env.OMP_CODING_AGENT_DIR = "~/custom-omp-agent";
+		expect(getOmpExtensionPath()).toBe(
+			path.join(
+				TEST_HOME_DIR,
+				"custom-omp-agent",
+				"extensions",
+				"jedv-hooks.ts",
+			),
+		);
+
+		process.env.OMP_CODING_AGENT_DIR = "~\\custom-omp-agent";
+		expect(getOmpExtensionPath()).toBe(
+			path.join(
+				`${TEST_HOME_DIR}\\custom-omp-agent`,
+				"extensions",
+				"jedv-hooks.ts",
+			),
+		);
+	});
+
+	it("ignores PI_CODING_AGENT_DIR so pi and omp resolve to distinct extension trees", () => {
+		process.env.PI_CODING_AGENT_DIR = path.join(TEST_HOME_DIR, ".pi", "agent");
+
+		expect(getOmpExtensionPath()).toBe(
+			path.join(TEST_HOME_DIR, ".omp", "agent", "extensions", "jedv-hooks.ts"),
+		);
+		expect(getOmpExtensionPath()).not.toBe(getPiExtensionPath());
+	});
+
+	it("removes the Jedv-owned Oh My Pi extension on teardown", () => {
+		createOmpExtension();
+		const extensionPath = getOmpExtensionPath();
+		expect(existsSync(extensionPath)).toBe(true);
+
+		removeOmpExtension();
+		expect(existsSync(extensionPath)).toBe(false);
+
+		// Second run is a no-op when nothing is installed.
+		removeOmpExtension();
+		expect(existsSync(extensionPath)).toBe(false);
+	});
+
+	it("leaves a user-authored extension file in place on teardown", () => {
+		const extensionPath = getOmpExtensionPath();
+		mkdirSync(path.dirname(extensionPath), { recursive: true });
+		writeFileSync(extensionPath, "export default function userExtension() {}");
+
+		removeOmpExtension();
+
+		expect(readFileSync(extensionPath, "utf-8")).toBe(
+			"export default function userExtension() {}",
+		);
+	});
+});

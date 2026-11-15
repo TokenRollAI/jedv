@@ -1,0 +1,915 @@
+import { acpStartModes, presetForAcpHarness } from "@jedv/chat/core";
+import { attachedFilesBlock } from "@jedv/chat-runtime";
+import { isBuiltinAgentId } from "@jedv/shared/agent-catalog";
+import { FORK_SESSION_ID_TOKEN } from "@jedv/shared/agent-definition";
+import {
+	buildAgentEffortArgs,
+	buildAgentModeArgs,
+	buildAgentModelArgs,
+	buildAgentModelEnv,
+	getAgentEffortSupport,
+	getAgentEfforts,
+	getAgentModelSupport,
+	getAgentModeSupport,
+	isCuratedAgentModel,
+	resolveAgentLaunchPresetId,
+} from "@jedv/shared/agent-models";
+import {
+	agentCommandText,
+	buildArgvCommand,
+	buildPromptCommandString,
+	envOverlayPrefix,
+	sanitizePromptForPty,
+} from "@jedv/shared/agent-prompt-launch";
+import {
+	type TerminalColors,
+	terminalColorsSchema,
+} from "@jedv/shared/terminal-colors";
+import { TRPCError } from "@trpc/server";
+import { and, eq, isNull } from "drizzle-orm";
+import { z } from "zod";
+import { acpHarnessForPreset } from "../../../chat-v3/acpCatalogue";
+import type { HostDb } from "../../../db";
+import { workspaces } from "../../../db/schema";
+import {
+	createTerminalSessionInternal,
+	sendAgentMessage,
+} from "../../../terminal/terminal";
+import type {
+	TerminalAgentBinding,
+	TerminalAgentStore,
+} from "../../../terminal-agents";
+import {
+	agentLaunchEnv,
+	type ResolvedHostAgentConfig,
+	resolveHostAgentConfig,
+} from "../../../terminal-agents/agent-config";
+import { hasHarnessSession } from "../../../terminal-agents/harness-sessions";
+import type { HostServiceContext } from "../../../types";
+import { protectedProcedure, router } from "../../index";
+import {
+	handOutAttachment,
+	resolveAttachmentPath,
+} from "../attachments/storage";
+import { createChatSession } from "../sessions/create-chat-session";
+import { toTerminalSessionError } from "../terminal/errors";
+import { seedAgentFolderTrust } from "../workspace-creation/shared/seed-agent-trust";
+
+/**
+ * Build a shell command string that runs the resolved agent config with the
+ * given prompt. argv transport appends the prompt as a quoted positional;
+ * stdin transport delegates heredoc assembly and delimiter collision handling
+ * to the shared prompt-launch pipeline.
+ *
+ * Prompts that sanitize to empty drop `promptArgs` and the prompt payload so
+ * codex/opencode/copilot don't get stray prompt-mode flags during promptless
+ * launches — emptiness is only knowable after sanitization, so the check
+ * lives here rather than in the router's zod schema.
+ *
+ * `resumeSessionId` splices the config's `resumeArgs` plus the session id
+ * after the base args (e.g. "claude … --resume <id>"), restoring a previous
+ * session instead of starting a fresh one. A prompt may still follow it.
+ */
+export function buildAgentCommandString(
+	config: ResolvedHostAgentConfig,
+	rawPrompt: string,
+	modelArgs: string[] = [],
+	options: {
+		resumeSessionId?: string;
+		forkSessionId?: string;
+		randomId?: string;
+	} = {},
+): string {
+	const randomId = options.randomId ?? crypto.randomUUID();
+	const prompt = sanitizePromptForPty(rawPrompt);
+	const resumeArgv = options.resumeSessionId
+		? [...config.resumeArgs, sanitizePromptForPty(options.resumeSessionId)]
+		: [];
+	const forkArgv = options.forkSessionId
+		? buildForkArgv(config.forkArgs, options.forkSessionId)
+		: [];
+	const baseArgv = [...modelArgs, ...resumeArgv, ...forkArgv];
+	const withCommand = (argv: string[]) =>
+		[agentCommandText(config.command, config.args), buildArgvCommand(argv)]
+			.filter(Boolean)
+			.join(" ");
+
+	if (prompt === "") {
+		return withCommand(baseArgv);
+	}
+
+	if (config.promptTransport === "argv") {
+		// Plain quoted positional, not the shared "$(cat <<…)" form: the command
+		// is typed into the user's configured shell, and fish has no heredocs.
+		return withCommand([...baseArgv, ...config.promptArgs, prompt]);
+	}
+
+	return buildPromptCommandString({
+		command: withCommand([...baseArgv, ...config.promptArgs]),
+		transport: "stdin",
+		prompt,
+		randomId,
+	});
+}
+
+function buildForkArgv(forkArgs: string[], rawSessionId: string): string[] {
+	const sessionId = sanitizePromptForPty(rawSessionId);
+	let replaced = false;
+	const argv = forkArgs.map((arg) => {
+		if (!arg.includes(FORK_SESSION_ID_TOKEN)) return arg;
+		replaced = true;
+		// Substituted within the argument, since the settings hint invites
+		// forms like `--session-id={sessionId}`; whole-arg matching passed the
+		// literal token through and appended the id as a stray extra.
+		return arg.replaceAll(FORK_SESSION_ID_TOKEN, sessionId);
+	});
+	return replaced ? argv : [...argv, sessionId];
+}
+
+function buildAttachmentBlock(
+	prompt: string,
+	resolved: Array<{ name: string; path: string }>,
+): string {
+	if (resolved.length === 0) return prompt;
+	return `${prompt}\n\n${attachedFilesBlock(resolved)}`;
+}
+
+export interface AgentRunInput {
+	colors?: TerminalColors;
+	workspaceId: string;
+	agent: string;
+	prompt: string;
+	attachmentIds?: string[];
+	model?: string;
+	effort?: string;
+	mode?: string;
+	/** Session id of a previous run of this agent to restore (e.g. a killed
+	 * session's `agentSessionId`). The prompt may be empty when resuming. */
+	resumeSessionId?: string;
+	/** Session id to clone into a new provider-owned session. */
+	forkSessionId?: string;
+	/**
+	 * A terminal an earlier call from this same caller left behind. When it is
+	 * still running this agent, the prompt is delivered into that session
+	 * instead of starting a second one beside it. Every other case — terminal
+	 * gone, agent exited, a different agent now bound to it — launches as
+	 * usual, so a caller may always name a terminal it is unsure about.
+	 */
+	continueTerminalId?: string;
+	surface?: "terminal" | "chat";
+}
+
+export type AgentRunResult = {
+	kind: "terminal";
+	sessionId: string;
+	label: string;
+	chatSessionId?: string;
+	chatAgentId?: string;
+};
+
+/**
+ * Validate an explicit model override before launch. Omitting model always
+ * delegates to the underlying agent's own default.
+ *
+ * Without this the launch builder silently drops an id outside the curated
+ * list, so a stale or mistyped model reads as "Jedv ignored my choice":
+ * the agent starts on its own default with no flag, no warning, and a
+ * success exit code.
+ */
+export function validateAgentModelSelection(
+	presetId: string,
+	label: string,
+	model: string | undefined,
+): void {
+	if (!model) return;
+
+	const support = getAgentModelSupport(presetId);
+	if (!support) {
+		throw new TRPCError({
+			code: "BAD_REQUEST",
+			message: `${label} does not support a model override. Omit model to use the agent default.`,
+		});
+	}
+
+	if (!isCuratedAgentModel(presetId, model)) {
+		throw new TRPCError({
+			code: "BAD_REQUEST",
+			message: `Unsupported model "${model}" for ${label}. Choose one of: ${support.models.map((option) => option.id).join(", ")}.`,
+		});
+	}
+}
+
+/**
+ * Validate an explicit effort override before launch. Omitting effort always
+ * delegates to the underlying agent's own default.
+ */
+export function validateAgentEffortSelection(
+	presetId: string,
+	label: string,
+	effort: string | undefined,
+	model?: string,
+): void {
+	if (!effort) return;
+
+	const support = getAgentEffortSupport(presetId);
+	if (!support) {
+		throw new TRPCError({
+			code: "BAD_REQUEST",
+			message: `${label} does not support a reasoning effort override. Omit effort to use the agent default.`,
+		});
+	}
+
+	// Some efforts only exist on some of the agent's models (Codex's Luna
+	// models stop at max; cursor-agent only has a ladder for some models),
+	// so the accepted set follows the selected model.
+	const efforts = getAgentEfforts(presetId, model);
+	if (efforts.length === 0) {
+		throw new TRPCError({
+			code: "BAD_REQUEST",
+			message: `${label} does not support a reasoning effort override${model ? ` with model ${model}` : " without a model"}. Omit effort to use the agent default.`,
+		});
+	}
+	if (!efforts.some((option) => option.id === effort)) {
+		throw new TRPCError({
+			code: "BAD_REQUEST",
+			message: `Unsupported reasoning effort "${effort}" for ${label}${model ? ` with model ${model}` : ""}. Choose one of: ${efforts.map((option) => option.id).join(", ")}.`,
+		});
+	}
+}
+
+/**
+ * Validate an explicit launch mode before launch. Omitting mode delegates to
+ * the underlying agent's default behaviour. A chat launch carries a chat
+ * permission mode, not a terminal launch mode.
+ */
+export function validateAgentModeSelection(
+	presetId: string,
+	label: string,
+	mode: string | undefined,
+	surface?: AgentRunInput["surface"],
+): void {
+	if (!mode) return;
+
+	const support =
+		(surface === "chat" ? acpStartModes(presetId) : undefined) ??
+		getAgentModeSupport(presetId);
+	if (!support) {
+		throw new TRPCError({
+			code: "BAD_REQUEST",
+			message: `${label} does not support a launch mode override. Omit mode to use the agent default.`,
+		});
+	}
+
+	if (!support.modes.some((option) => option.id === mode)) {
+		throw new TRPCError({
+			code: "BAD_REQUEST",
+			message: `Unsupported launch mode "${mode}" for ${label}. Choose one of: ${support.modes.map((option) => option.id).join(", ")}.`,
+		});
+	}
+}
+
+/**
+ * Validate an explicit resume request before launch. Resumability is a
+ * per-config capability: configs without `resumeArgs` have no id-based
+ * resume form to splice the session id into.
+ */
+export function validateAgentResumeSelection(
+	config: Pick<ResolvedHostAgentConfig, "label" | "resumeArgs">,
+	resumeSessionId: string | undefined,
+): void {
+	if (resumeSessionId === undefined) return;
+
+	if (config.resumeArgs.length === 0) {
+		throw new TRPCError({
+			code: "BAD_REQUEST",
+			message: `${config.label} does not support resuming a session by id. Omit resumeSessionId to start a new session.`,
+		});
+	}
+
+	if (sanitizePromptForPty(resumeSessionId).trim() === "") {
+		throw new TRPCError({
+			code: "BAD_REQUEST",
+			message: `Invalid resume session id for ${config.label}.`,
+		});
+	}
+}
+
+export function validateAgentForkSelection(
+	config: Pick<ResolvedHostAgentConfig, "label" | "forkArgs">,
+	forkSessionId: string | undefined,
+): void {
+	if (forkSessionId === undefined) return;
+
+	if (config.forkArgs.length === 0) {
+		throw new TRPCError({
+			code: "BAD_REQUEST",
+			message: `${config.label} does not support forking a session by id. Omit forkSessionId to start a new session.`,
+		});
+	}
+
+	if (sanitizePromptForPty(forkSessionId).trim() === "") {
+		throw new TRPCError({
+			code: "BAD_REQUEST",
+			message: `Invalid fork session id for ${config.label}.`,
+		});
+	}
+}
+
+/**
+ * Refuse a fork the harness can no longer resolve.
+ *
+ * Providers prune their session stores, and a `codex exec` session leaves no
+ * rollout at all. Without this the launch succeeds, the pane opens, and the
+ * harness reports "no rollout found for thread id" inside it — an error about
+ * a click the user made somewhere else entirely.
+ *
+ * Only a confident `false` refuses. A harness that keeps sessions server-side
+ * (grok) or in a layout we do not read answers `null`, and those launch as
+ * before rather than being blocked on our ignorance.
+ */
+function validateForkSessionIsResolvable(
+	db: HostDb,
+	config: ResolvedHostAgentConfig,
+	input: AgentRunInput,
+): void {
+	if (!input.forkSessionId) return;
+	const worktreePath = db
+		.select({ path: workspaces.worktreePath })
+		.from(workspaces)
+		.where(eq(workspaces.id, input.workspaceId))
+		.get()?.path;
+	// The same env the launch will run under: an agent pinned to its own
+	// provider account keeps its sessions in that account's directory, and
+	// looking in the default one would refuse a fork that would have worked.
+	const resolvable = hasHarnessSession({
+		agentId: config.presetId,
+		sessionId: input.forkSessionId,
+		worktreePath,
+		env: agentLaunchEnv(db, config),
+	});
+	if (resolvable === false) {
+		throw new TRPCError({
+			code: "BAD_REQUEST",
+			message: `${config.label} no longer has session ${input.forkSessionId}, so there is nothing to fork. Start a new session instead.`,
+		});
+	}
+}
+
+/**
+ * Preflight a host-scoped launch before any larger workflow (such as
+ * workspace creation) performs side effects.
+ */
+export function validateAgentLaunchOptions(
+	db: HostDb,
+	input: Pick<AgentRunInput, "agent" | "model" | "effort" | "mode" | "surface">,
+): void {
+	if (!input.model && !input.effort && !input.mode) return;
+
+	const config = resolveHostAgentConfig(db, input.agent);
+	if (!config) {
+		throw new TRPCError({
+			code: "NOT_FOUND",
+			message: `No host agent config matching '${input.agent}' (tried instance id then preset id).`,
+		});
+	}
+	const launchPresetId = resolveAgentLaunchPresetId(
+		config.presetId,
+		config.command,
+	);
+	validateAgentModelSelection(launchPresetId, config.label, input.model);
+	validateAgentEffortSelection(
+		launchPresetId,
+		config.label,
+		input.effort,
+		input.model,
+	);
+	validateAgentModeSelection(
+		launchPresetId,
+		config.label,
+		input.mode,
+		input.surface,
+	);
+}
+
+/**
+ * Resolve a terminal agent launch to the shell command that runs it, without
+ * creating a terminal. Used by `runTerminalAgent` and by the workspace-create
+ * wait-for-setup gate, which chains this command behind the setup commands in
+ * the setup terminal. Throws NOT_FOUND for unknown agents or attachments.
+ */
+export function buildTerminalAgentLaunch(
+	db: HostDb,
+	input: AgentRunInput,
+): { fullCommand: string; label: string } {
+	const config = resolveHostAgentConfig(db, input.agent);
+	if (!config) {
+		// Worded for end users (automation run errors show this verbatim), but
+		// keep "No host agent config matching" — the desktop matches on it to
+		// attach re-select guidance.
+		throw new TRPCError({
+			code: "NOT_FOUND",
+			message: `No host agent config matching '${input.agent}' — the agent may have been removed or this host's agents were reset. Re-select an agent (or use a preset id like "claude").`,
+		});
+	}
+	const launchPresetId = resolveAgentLaunchPresetId(
+		config.presetId,
+		config.command,
+	);
+	validateAgentModelSelection(launchPresetId, config.label, input.model);
+	validateAgentEffortSelection(
+		launchPresetId,
+		config.label,
+		input.effort,
+		input.model,
+	);
+	validateAgentModeSelection(launchPresetId, config.label, input.mode);
+	// Ahead of the per-field validators: passing both is its own mistake, and
+	// "this agent cannot fork" would send the caller after the wrong one.
+	if (input.resumeSessionId && input.forkSessionId) {
+		throw new TRPCError({
+			code: "BAD_REQUEST",
+			message: "Choose either resumeSessionId or forkSessionId, not both.",
+		});
+	}
+	validateAgentResumeSelection(config, input.resumeSessionId);
+	validateAgentForkSelection(config, input.forkSessionId);
+	validateForkSessionIsResolvable(db, config, input);
+
+	const resolvedAttachments: Array<{ name: string; path: string }> = [];
+	for (const attachmentId of input.attachmentIds ?? []) {
+		const resolved = handOutAttachment(attachmentId);
+		if (!resolved) {
+			throw new TRPCError({
+				code: "NOT_FOUND",
+				message: `Attachment not found: ${attachmentId}`,
+			});
+		}
+		resolvedAttachments.push({
+			name: resolved.metadata.originalFilename ?? attachmentId,
+			path: resolved.path,
+		});
+	}
+
+	const prompt = buildAttachmentBlock(input.prompt, resolvedAttachments);
+	const modelArgs = buildAgentModelArgs(
+		launchPresetId,
+		input.model,
+		input.effort,
+	);
+	const effortArgs = buildAgentEffortArgs(
+		launchPresetId,
+		input.effort,
+		input.model,
+	);
+	const modeArgs = buildAgentModeArgs(launchPresetId, input.mode);
+	const command = buildAgentCommandString(
+		config,
+		prompt,
+		[...modelArgs, ...effortArgs, ...modeArgs],
+		{
+			resumeSessionId: input.resumeSessionId,
+			forkSessionId: input.forkSessionId,
+		},
+	);
+	const modelEnv = buildAgentModelEnv(launchPresetId, input.model);
+	return {
+		fullCommand: `${envOverlayPrefix({ ...agentLaunchEnv(db, config), ...modelEnv })}${command}`,
+		label: config.label,
+	};
+}
+
+/**
+ * Bind a resumed session's id to its fresh terminal at launch instead of
+ * waiting for a hook. Harnesses differ on when they first report a session
+ * id: Claude's SessionStart fires at launch, but Codex's TUI fires nothing
+ * until the first turn (verified on codex-cli 0.151), so a resumed pane the
+ * user has not prompted yet would carry no id — and dying again would leave
+ * its restored conversation with no resume candidate. `codex resume <id>`
+ * keeps the same rollout id, so the id we launched with is the id to bind.
+ * Forks are excluded: they mint a new session id we cannot know here.
+ */
+export function bindResumedSession(
+	ctx: Pick<HostServiceContext, "db" | "terminalAgentStore">,
+	input: AgentRunInput,
+	terminalId: string,
+): void {
+	if (!input.resumeSessionId) return;
+	const presetId = resolveHostAgentConfig(ctx.db, input.agent)?.presetId;
+	if (!presetId || !isBuiltinAgentId(presetId)) return;
+
+	ctx.terminalAgentStore.recordEvent({
+		terminalId,
+		workspaceId: input.workspaceId,
+		eventType: "Attached",
+		agentId: presetId,
+		agentSessionId: input.resumeSessionId,
+		occurredAt: Date.now(),
+	});
+}
+
+async function runTerminalAgent(
+	ctx: Pick<HostServiceContext, "db" | "eventBus" | "terminalAgentStore">,
+	input: AgentRunInput,
+	terminalId: string = crypto.randomUUID(),
+): Promise<AgentRunResult> {
+	const { fullCommand, label } = buildTerminalAgentLaunch(ctx.db, input);
+
+	const result = await createTerminalSessionInternal({
+		terminalId,
+		workspaceId: input.workspaceId,
+		db: ctx.db,
+		eventBus: ctx.eventBus,
+		initialCommand: fullCommand,
+		colors: input.colors,
+	});
+
+	if ("error" in result) {
+		throw toTerminalSessionError(result);
+	}
+
+	bindResumedSession(ctx, input, result.terminalId);
+
+	return {
+		kind: "terminal",
+		sessionId: result.terminalId,
+		label,
+	};
+}
+
+/**
+ * The agent identity a terminal reports once this config launches in it.
+ *
+ * A binding recorded by the lifecycle hook carries no instance: the wrapper
+ * Jedv installs for a binary exports that binary's builtin id as
+ * `JEDV_AGENT_ID` and the session hook never reports a definition, so a
+ * custom agent running `claude` arrives looking exactly like a preset one.
+ * That is the granularity such a binding has, which is what this returns.
+ */
+function launchIdentity(config: ResolvedHostAgentConfig): string {
+	if (isBuiltinAgentId(config.presetId)) return config.presetId;
+	const [command = ""] = config.command.trim().split(/\s+/);
+	const executable = command.split(/[\\/]/).pop() ?? "";
+	return executable.toLowerCase() || config.presetId;
+}
+
+/**
+ * Whether `continueTerminalId` names a session this call may be delivered
+ * into, and the label to report when it does.
+ *
+ * Split from the send so the policy is testable on its own: with no pty behind
+ * the terminal the send fails anyway, which would make every rejection look
+ * alike and prove nothing.
+ */
+export function continuationTarget(
+	db: HostDb,
+	store: Pick<TerminalAgentStore, "listByWorkspace">,
+	input: AgentRunInput,
+): { terminalId: string; label: string } | null {
+	const config = continuationConfig(db, input);
+	const terminalId = input.continueTerminalId;
+	if (!config || !terminalId) return null;
+
+	// Live bindings only, and scoped to this workspace: a binding whose
+	// terminal died or whose agent detached is not a continuation target.
+	const binding = store
+		.listByWorkspace(input.workspaceId)
+		.find((candidate) => candidate.terminalId === terminalId);
+	if (!binding || !bindingRunsConfig(db, binding, config)) return null;
+
+	return { terminalId, label: config.label };
+}
+
+export function chatContinuationTarget(
+	db: HostDb,
+	store: Pick<TerminalAgentStore, "getChat">,
+	live: { get(sessionId: string): { state: { status: string } } | null },
+	input: AgentRunInput,
+): { terminalId: string; chatSessionId: string; label: string } | null {
+	const config = continuationConfig(db, input);
+	const terminalId = input.continueTerminalId;
+	if (!config || !terminalId) return null;
+
+	const binding = store.getChat(terminalId);
+	const chatSessionId = binding?.chatSessionId;
+	if (!binding || !chatSessionId || binding.workspaceId !== input.workspaceId) {
+		return null;
+	}
+	const session = live.get(chatSessionId);
+	if (!session || session.state.status === "dead") return null;
+	if (!bindingRunsConfig(db, binding, config)) return null;
+
+	return { terminalId, chatSessionId, label: config.label };
+}
+
+function continuationConfig(
+	db: HostDb,
+	input: AgentRunInput,
+): ResolvedHostAgentConfig | null {
+	// An empty prompt means "just launch the agent", which a running session
+	// cannot honour.
+	if (
+		!input.continueTerminalId ||
+		sanitizePromptForPty(input.prompt).trim() === ""
+	) {
+		return null;
+	}
+	// These all pick something about how the process starts, and the process is
+	// already started. Launching is the only way to honour them.
+	if (
+		input.model ||
+		input.effort ||
+		input.mode ||
+		input.resumeSessionId ||
+		input.forkSessionId ||
+		(input.attachmentIds?.length ?? 0) > 0
+	) {
+		return null;
+	}
+	return resolveHostAgentConfig(db, input.agent);
+}
+
+// Resolve both sides before comparing: the caller may name a preset while
+// the binding carries the instance that preset resolved to, or the reverse.
+// This is what stops a prompt landing in whatever agent holds the terminal
+// now rather than the one the caller means.
+function bindingRunsConfig(
+	db: HostDb,
+	binding: Pick<TerminalAgentBinding, "definitionId" | "agentId">,
+	config: ResolvedHostAgentConfig,
+): boolean {
+	if (binding.definitionId) {
+		// The binding knows which instance it runs.
+		return resolveHostAgentConfig(db, binding.definitionId)?.id === config.id;
+	}
+	// The binding knows only the binary. A caller that names an instance of it
+	// - an automation pinned to a second agent of one preset, or to a custom
+	// agent that runs the same binary - is still the agent this terminal
+	// holds; the candidate is that automation's own last session, so the
+	// instance it names is the instance that is running. Compared as is: a
+	// host may have no preset row left for the binary to resolve to.
+	return binding.agentId === launchIdentity(config);
+}
+
+/**
+ * An imported copy keeps its `fileId` next to the host id: the adapters read
+ * `attachmentId` today, and `fileId` is what renders the part without this box.
+ */
+export interface ChatLaunchAttachment {
+	attachmentId: string;
+	fileId?: string;
+	name: string;
+	mimeType: string;
+	sizeBytes: number;
+}
+
+export function chatLaunchTarget(
+	db: HostDb,
+	input: AgentRunInput,
+): {
+	harness: string;
+	label: string;
+	agentConfigId: string;
+	attachments: ChatLaunchAttachment[];
+} | null {
+	if (
+		input.surface !== "chat" ||
+		input.resumeSessionId ||
+		input.forkSessionId
+	) {
+		return null;
+	}
+	const attachments: ChatLaunchAttachment[] = [];
+	for (const attachmentId of input.attachmentIds ?? []) {
+		const resolved = resolveAttachmentPath(attachmentId);
+		if (!resolved) return null;
+		attachments.push({
+			attachmentId,
+			...(resolved.metadata.fileId ? { fileId: resolved.metadata.fileId } : {}),
+			name: resolved.metadata.originalFilename ?? attachmentId,
+			mimeType: resolved.metadata.mediaType,
+			sizeBytes: resolved.metadata.sizeBytes,
+		});
+	}
+	const config = resolveHostAgentConfig(db, input.agent);
+	if (!config) return null;
+	const launchPresetId = chatLaunchPresetId(config);
+	const harness = acpHarnessForPreset(launchPresetId);
+	if (!harness) return null;
+	validateAgentModelSelection(launchPresetId, config.label, input.model);
+	validateAgentModeSelection(launchPresetId, config.label, input.mode, "chat");
+	return {
+		harness,
+		label: config.label,
+		agentConfigId: config.id,
+		attachments,
+	};
+}
+
+/**
+ * A custom agent that runs the `claude` or `codex` CLI, typically with its own
+ * account env, can chat as that agent. Terminal launches keep its preset.
+ * A chat takes only the config's env: its args and executable path apply to
+ * terminal launches, and the chat runs the CLI the ACP harness resolves.
+ */
+export function chatLaunchPresetId(
+	config: Pick<ResolvedHostAgentConfig, "presetId" | "command">,
+): string {
+	const launchPresetId = resolveAgentLaunchPresetId(
+		config.presetId,
+		config.command,
+	);
+	if (!config.presetId.startsWith("custom")) return launchPresetId;
+	const [commandToken = ""] = config.command.trim().split(/\s+/);
+	const executable = (commandToken.split(/[\\/]/).pop() ?? "")
+		.toLowerCase()
+		.replace(/\.exe$/, "");
+	return executable === "claude" || executable === "codex"
+		? executable
+		: launchPresetId;
+}
+
+/**
+ * The agent config a stored chat ran under, and whether it still runs that
+ * chat's CLI. A deleted config, or one moved to another CLI, cannot carry the
+ * chat on, and the chat falls back to the default account.
+ */
+export function storedChatConfig(
+	db: HostDb,
+	session: { harness: string; agentConfigId: string | null },
+): { stored: ResolvedHostAgentConfig | null; keeps: boolean } {
+	const stored = session.agentConfigId
+		? resolveHostAgentConfig(db, session.agentConfigId)
+		: null;
+	const keeps =
+		stored !== null &&
+		acpHarnessForPreset(chatLaunchPresetId(stored)) === session.harness;
+	return { stored, keeps };
+}
+
+function continueChatAgent(
+	ctx: Pick<HostServiceContext, "db" | "runtime" | "terminalAgentStore">,
+	input: AgentRunInput,
+): AgentRunResult | null {
+	const terminalId = input.continueTerminalId;
+	if (!terminalId || !ctx.terminalAgentStore.getChat(terminalId)) return null;
+	const chat = ctx.runtime.chat?.();
+	if (!chat) return null;
+	const target = chatContinuationTarget(
+		ctx.db,
+		ctx.terminalAgentStore,
+		chat.live,
+		input,
+	);
+	if (!target) return null;
+
+	try {
+		chat.commands.prompt({
+			commandId: crypto.randomUUID(),
+			sessionId: target.chatSessionId,
+			clientId: crypto.randomUUID(),
+			content: [{ type: "text", text: input.prompt }],
+		});
+	} catch {
+		return null;
+	}
+
+	return {
+		kind: "terminal",
+		sessionId: target.terminalId,
+		label: target.label,
+		chatSessionId: target.chatSessionId,
+	};
+}
+
+function launchChatAgent(
+	ctx: Pick<HostServiceContext, "db" | "runtime">,
+	input: AgentRunInput,
+	cwd: string,
+	terminalId?: string,
+): AgentRunResult | null {
+	const target = chatLaunchTarget(ctx.db, input);
+	if (!target) return null;
+	const chat = ctx.runtime.chat?.();
+	if (!chat?.live.supports(target.harness)) return null;
+
+	const created = createChatSession(chat, target, input, cwd, terminalId);
+	const chatAgentId = presetForAcpHarness(target.harness);
+	return {
+		kind: "terminal",
+		sessionId: created.terminalId,
+		label: created.label,
+		chatSessionId: created.sessionId,
+		...(chatAgentId ? { chatAgentId } : {}),
+	};
+}
+
+/**
+ * Deliver the prompt into the agent already running in `continueTerminalId`,
+ * or return null to let the caller launch as normal.
+ *
+ * A TUI agent never exits — it sits at its prompt after a turn — so a caller
+ * that runs the same agent in the same workspace on a schedule leaves a live
+ * agent behind on every tick. Naming the previous terminal turns that pile
+ * into one session that keeps receiving prompts.
+ *
+ * Every rejection falls through to a launch rather than failing: the caller's
+ * candidate is a hint, and a stale one must cost nothing.
+ */
+async function continueTerminalAgent(
+	ctx: Pick<HostServiceContext, "db" | "eventBus" | "terminalAgentStore">,
+	input: AgentRunInput,
+): Promise<AgentRunResult | null> {
+	const target = continuationTarget(ctx.db, ctx.terminalAgentStore, input);
+	if (!target) return null;
+
+	const sent = await sendAgentMessage({
+		terminalId: target.terminalId,
+		workspaceId: input.workspaceId,
+		text: input.prompt,
+		terminalAgentStore: ctx.terminalAgentStore,
+		submit: true,
+		db: ctx.db,
+		eventBus: ctx.eventBus,
+	});
+	// The session died between the binding read and the write. The send adopts
+	// but never respawns, so this cannot have typed the prompt into a fresh
+	// shell — it simply did not land.
+	if ("error" in sent) return null;
+
+	return {
+		kind: "terminal",
+		sessionId: target.terminalId,
+		label: target.label,
+	};
+}
+
+/** `launch.terminalId` is host-internal: the id a cloud launch was promised. */
+export async function runAgentInWorkspace(
+	ctx: HostServiceContext,
+	input: AgentRunInput,
+	launch: { terminalId?: string } = {},
+): Promise<AgentRunResult> {
+	const workspace = ctx.db.query.workspaces
+		.findFirst({
+			// A tombstoned (archived) row is gone for agent launches: without
+			// the filter an archived workspace still resolves, and the failure
+			// surfaces one layer deeper as a worktree-path error that carries
+			// no workspace id (#6521).
+			where: and(
+				eq(workspaces.id, input.workspaceId),
+				isNull(workspaces.archivedAt),
+			),
+		})
+		.sync();
+	if (!workspace) {
+		// NOT_FOUND (not a 500) so callers like automation dispatch can tell a
+		// dead workspace pin apart from a host-side failure.
+		throw new TRPCError({
+			code: "NOT_FOUND",
+			message: `Workspace ${input.workspaceId} not found on this host — it may have been deleted.`,
+		});
+	}
+	// Ahead of the launch path: continuing costs no pty and no trust seeding.
+	const continued =
+		continueChatAgent(ctx, input) ?? (await continueTerminalAgent(ctx, input));
+	if (continued) return continued;
+
+	// Session workspaces are standalone repos the host itself scaffolded, so
+	// agent CLIs can't inherit folder trust from anywhere — pre-trust the
+	// folder in the launching agent's own trust store so its first
+	// interactive boot skips the trust dialog. Worktree workspaces inherit
+	// trust from the main checkout and need nothing.
+	if (workspace.projectId === null) {
+		const config = resolveHostAgentConfig(ctx.db, input.agent);
+		if (config) {
+			await seedAgentFolderTrust(ctx.db, workspace.worktreePath, config);
+		}
+	}
+	return (
+		launchChatAgent(ctx, input, workspace.worktreePath, launch.terminalId) ??
+		runTerminalAgent(ctx, input, launch.terminalId)
+	);
+}
+
+export const agentsRouter = router({
+	run: protectedProcedure
+		.input(
+			z.object({
+				workspaceId: z.string().uuid(),
+				colors: terminalColorsSchema.optional(),
+				agent: z.string().min(1),
+				// Optional: an empty prompt launches the bare agent (the builder
+				// drops promptArgs).
+				prompt: z.string().default(""),
+				attachmentIds: z.array(z.string().uuid()).optional(),
+				model: z.string().min(1).optional(),
+				effort: z.string().min(1).optional(),
+				mode: z.string().min(1).optional(),
+				resumeSessionId: z.string().min(1).optional(),
+				forkSessionId: z.string().min(1).optional(),
+				continueTerminalId: z.string().min(1).optional(),
+				surface: z.enum(["terminal", "chat"]).optional(),
+			}),
+		)
+		.mutation(async ({ ctx, input }) => runAgentInWorkspace(ctx, input)),
+});

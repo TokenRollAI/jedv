@@ -1,0 +1,549 @@
+import { afterEach, beforeEach, describe, expect, it } from "bun:test";
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { getDefaultTerminal } from "@jedv/shared/project-config";
+import {
+	getProjectConfigPath,
+	hasConfiguredScripts,
+	loadProjectConfig,
+	loadSetupConfig,
+	shellSingleQuote,
+} from "./config";
+
+interface Sandbox {
+	repoPath: string;
+	appHomeDir: string;
+	cleanup: () => void;
+}
+
+function createSandbox(): Sandbox {
+	const root = mkdtempSync(join(tmpdir(), "setup-config-test-"));
+	const repoPath = join(root, "repo");
+	const appHomeDir = join(root, "home");
+	mkdirSync(repoPath, { recursive: true });
+	mkdirSync(appHomeDir, { recursive: true });
+	return {
+		repoPath,
+		appHomeDir,
+		cleanup: () => rmSync(root, { recursive: true, force: true }),
+	};
+}
+
+function writeRepoConfig(repoPath: string, content: string | object) {
+	const dir = join(repoPath, ".jedv");
+	mkdirSync(dir, { recursive: true });
+	writeFileSync(
+		join(dir, "config.json"),
+		typeof content === "string" ? content : JSON.stringify(content),
+		"utf-8",
+	);
+}
+
+function writeRepoLocalConfig(repoPath: string, content: string | object) {
+	const dir = join(repoPath, ".jedv");
+	mkdirSync(dir, { recursive: true });
+	writeFileSync(
+		join(dir, "config.local.json"),
+		typeof content === "string" ? content : JSON.stringify(content),
+		"utf-8",
+	);
+}
+
+function writeUserOverride(
+	appHomeDir: string,
+	projectId: string,
+	content: object,
+) {
+	const dir = join(appHomeDir, "projects", projectId);
+	mkdirSync(dir, { recursive: true });
+	writeFileSync(join(dir, "config.json"), JSON.stringify(content), "utf-8");
+}
+
+function writeUserOverrideByPath(
+	appHomeDir: string,
+	repoPath: string,
+	content: object,
+) {
+	const dir = join(appHomeDir, "projects", repoPath);
+	mkdirSync(dir, { recursive: true });
+	writeFileSync(join(dir, "config.json"), JSON.stringify(content), "utf-8");
+}
+
+const PROJECT_ID = "11111111-1111-1111-1111-111111111111";
+
+describe("loadSetupConfig", () => {
+	let sandbox: Sandbox;
+
+	beforeEach(() => {
+		sandbox = createSandbox();
+	});
+
+	afterEach(() => {
+		sandbox.cleanup();
+	});
+
+	function load(args: { projectId?: string } = {}) {
+		return loadSetupConfig({
+			repoPath: sandbox.repoPath,
+			projectId: args.projectId ?? PROJECT_ID,
+			appHomeDir: sandbox.appHomeDir,
+		});
+	}
+
+	it("returns null when no config sources exist", () => {
+		const result = load();
+		expect(result).toBeNull();
+	});
+
+	it("returns repo config.json when only that source exists", () => {
+		writeRepoConfig(sandbox.repoPath, {
+			setup: ["bun install"],
+			teardown: ["docker compose down"],
+		});
+
+		const result = load();
+
+		expect(result).toEqual({
+			setup: ["bun install"],
+			teardown: ["docker compose down"],
+		});
+	});
+
+	it("returns null when repo config.json is malformed JSON", () => {
+		writeRepoConfig(sandbox.repoPath, "{not valid json,,,");
+		const result = load();
+		expect(result).toBeNull();
+	});
+
+	it("rejects mixed-type arrays and treats config as missing", () => {
+		writeRepoConfig(sandbox.repoPath, {
+			setup: [123, "bun install"],
+			teardown: [],
+		});
+
+		const result = load();
+		expect(result).toBeNull();
+	});
+
+	it("rejects when config root is an array (not an object)", () => {
+		writeRepoConfig(sandbox.repoPath, ["bun install"]);
+		const result = load();
+		expect(result).toBeNull();
+	});
+
+	it("rejects blank cwd values", () => {
+		writeRepoConfig(sandbox.repoPath, {
+			cwd: "   ",
+			run: ["bun dev"],
+		});
+
+		const result = load();
+		expect(result).toBeNull();
+	});
+
+	it("normalizes configured cwd", () => {
+		writeRepoConfig(sandbox.repoPath, {
+			cwd: " packages/web ",
+			run: ["bun dev"],
+		});
+
+		const result = load();
+		expect(result?.cwd).toBe("packages/web");
+	});
+
+	it("worktree config overrides the repo config per key", () => {
+		writeRepoConfig(sandbox.repoPath, {
+			setup: ["from-repo"],
+			teardown: ["repo-teardown"],
+		});
+		const worktreePath = join(sandbox.repoPath, ".worktrees", "feature");
+		writeRepoConfig(worktreePath, { setup: ["from-worktree"] });
+
+		const result = loadSetupConfig({
+			repoPath: sandbox.repoPath,
+			projectId: PROJECT_ID,
+			worktreePath,
+			appHomeDir: sandbox.appHomeDir,
+		});
+
+		// Keys the worktree doesn't define fall through to the repo config.
+		expect(result).toEqual({
+			setup: ["from-worktree"],
+			teardown: ["repo-teardown"],
+		});
+	});
+
+	it("user override still beats the worktree config", () => {
+		writeRepoConfig(sandbox.repoPath, { setup: ["from-repo"] });
+		const worktreePath = join(sandbox.repoPath, ".worktrees", "feature");
+		writeRepoConfig(worktreePath, { setup: ["from-worktree"] });
+		writeUserOverride(sandbox.appHomeDir, PROJECT_ID, {
+			setup: ["from-user"],
+		});
+
+		const result = loadSetupConfig({
+			repoPath: sandbox.repoPath,
+			projectId: PROJECT_ID,
+			worktreePath,
+			appHomeDir: sandbox.appHomeDir,
+		});
+
+		expect(result?.setup).toEqual(["from-user"]);
+	});
+
+	it("prefers the worktree's config.local.json overlay when present", () => {
+		writeRepoConfig(sandbox.repoPath, { setup: ["base"] });
+		writeRepoLocalConfig(sandbox.repoPath, {
+			setup: { before: ["repo-local"] },
+		});
+		const worktreePath = join(sandbox.repoPath, ".worktrees", "feature");
+		writeRepoLocalConfig(worktreePath, {
+			setup: { before: ["worktree-local"] },
+		});
+
+		const result = loadSetupConfig({
+			repoPath: sandbox.repoPath,
+			projectId: PROJECT_ID,
+			worktreePath,
+			appHomeDir: sandbox.appHomeDir,
+		});
+
+		expect(result?.setup).toEqual(["worktree-local", "base"]);
+	});
+
+	it("resolves the user override by repo path", () => {
+		writeRepoConfig(sandbox.repoPath, { setup: ["from-repo"] });
+		writeUserOverrideByPath(sandbox.appHomeDir, sandbox.repoPath, {
+			setup: ["from-path-override"],
+		});
+
+		const result = load();
+		expect(result?.setup).toEqual(["from-path-override"]);
+	});
+
+	it("path-keyed user override wins over the legacy id-keyed one", () => {
+		writeRepoConfig(sandbox.repoPath, { setup: ["from-repo"] });
+		writeUserOverrideByPath(sandbox.appHomeDir, sandbox.repoPath, {
+			setup: ["from-path-override"],
+		});
+		writeUserOverride(sandbox.appHomeDir, PROJECT_ID, {
+			setup: ["from-id-override"],
+		});
+
+		const result = load();
+		expect(result?.setup).toEqual(["from-path-override"]);
+	});
+
+	it("user override only sets keys it explicitly defines", () => {
+		writeRepoConfig(sandbox.repoPath, {
+			setup: ["bun install"],
+			teardown: ["docker compose down"],
+		});
+		writeUserOverride(sandbox.appHomeDir, PROJECT_ID, {
+			setup: ["bun install --frozen-lockfile"],
+		});
+
+		const result = load();
+
+		expect(result).toEqual({
+			setup: ["bun install --frozen-lockfile"],
+			teardown: ["docker compose down"],
+		});
+	});
+
+	it("ignores user override path when projectId contains a slash", () => {
+		// Path-traversal guard: the loader should refuse to expand the override
+		// path for a projectId that looks like a relative path.
+		writeRepoConfig(sandbox.repoPath, { setup: ["from-repo"] });
+		writeUserOverride(sandbox.appHomeDir, "../escapee", {
+			setup: ["from-override"],
+		});
+		const result = load({ projectId: "../escapee" });
+		expect(result?.setup).toEqual(["from-repo"]);
+	});
+
+	it("local overlay 'before' prepends to base", () => {
+		writeRepoConfig(sandbox.repoPath, {
+			setup: ["bun install"],
+		});
+		writeRepoLocalConfig(sandbox.repoPath, {
+			setup: { before: ["echo before"] },
+		});
+
+		const result = load();
+		expect(result?.setup).toEqual(["echo before", "bun install"]);
+	});
+
+	it("local overlay 'after' appends to base", () => {
+		writeRepoConfig(sandbox.repoPath, { setup: ["bun install"] });
+		writeRepoLocalConfig(sandbox.repoPath, {
+			setup: { after: ["echo after"] },
+		});
+
+		const result = load();
+		expect(result?.setup).toEqual(["bun install", "echo after"]);
+	});
+
+	it("local overlay before+after wraps the base", () => {
+		writeRepoConfig(sandbox.repoPath, { setup: ["mid"] });
+		writeRepoLocalConfig(sandbox.repoPath, {
+			setup: { before: ["pre"], after: ["post"] },
+		});
+
+		const result = load();
+		expect(result?.setup).toEqual(["pre", "mid", "post"]);
+	});
+
+	it("local overlay as a plain array replaces the base entirely", () => {
+		writeRepoConfig(sandbox.repoPath, {
+			setup: ["bun install"],
+			teardown: ["docker compose down"],
+		});
+		writeRepoLocalConfig(sandbox.repoPath, {
+			setup: ["only this"],
+		});
+
+		const result = load();
+		expect(result?.setup).toEqual(["only this"]);
+		expect(result?.teardown).toEqual(["docker compose down"]);
+	});
+
+	it("local overlay only takes effect when there is a base config", () => {
+		// loadSetupConfig returns null when no base exists, even if a local
+		// overlay is present — the overlay needs something to overlay onto.
+		writeRepoLocalConfig(sandbox.repoPath, {
+			setup: { before: ["echo x"] },
+		});
+
+		const result = load();
+		expect(result).toBeNull();
+	});
+
+	it("local overlay with invalid before type is rejected silently", () => {
+		writeRepoConfig(sandbox.repoPath, { setup: ["bun install"] });
+		writeRepoLocalConfig(sandbox.repoPath, {
+			setup: { before: ["ok", 42] },
+		});
+
+		const result = load();
+		// Invalid local overlay parses to null, so base is returned untouched.
+		expect(result?.setup).toEqual(["bun install"]);
+	});
+
+	it("stacks repo + user override + local overlay in the right order", () => {
+		// repo provides base; user override replaces setup (per-key); local
+		// overlay's `before` then prepends to that merged result.
+		writeRepoConfig(sandbox.repoPath, { setup: ["a"] });
+		writeUserOverride(sandbox.appHomeDir, PROJECT_ID, { setup: ["b"] });
+		writeRepoLocalConfig(sandbox.repoPath, {
+			setup: { before: ["pre"] },
+		});
+
+		const result = load();
+		expect(result?.setup).toEqual(["pre", "b"]);
+	});
+
+	it("user override with explicit empty array clears base setup", () => {
+		// Load-bearing semantic: mergeBaseConfigs uses `??`, so an empty array
+		// in the override wins over the base. Switching to `||` would silently
+		// let the base fall through.
+		writeRepoConfig(sandbox.repoPath, {
+			setup: ["from-repo"],
+			teardown: ["keep-me"],
+		});
+		writeUserOverride(sandbox.appHomeDir, PROJECT_ID, { setup: [] });
+
+		const result = load();
+		expect(result?.setup).toEqual([]);
+		expect(result?.teardown).toEqual(["keep-me"]);
+	});
+
+	it("returns the config when only some keys are defined", () => {
+		// Config with no `setup` key at all should still load, with teardown
+		// alone. `setup` stays undefined rather than being defaulted to [].
+		writeRepoConfig(sandbox.repoPath, { teardown: ["docker compose down"] });
+
+		const result = load();
+		expect(result).toEqual({ teardown: ["docker compose down"] });
+		expect(result?.setup).toBeUndefined();
+	});
+
+	it("does not consult any worktree-level config", () => {
+		// The plan promises the worktree is not consulted. Even if a sibling
+		// worktree has its own config.json, loadSetupConfig only reads the
+		// main repoPath.
+		writeRepoConfig(sandbox.repoPath, { setup: ["from-main"] });
+		const fakeWorktree = join(sandbox.repoPath, "..", "fake-worktree");
+		writeRepoConfig(fakeWorktree, { setup: ["from-worktree"] });
+
+		const result = load();
+		expect(result?.setup).toEqual(["from-main"]);
+	});
+});
+
+describe("hasConfiguredScripts", () => {
+	it("returns false for null", () => {
+		expect(hasConfiguredScripts(null)).toBe(false);
+	});
+
+	it("returns false when all arrays are empty", () => {
+		expect(hasConfiguredScripts({ setup: [], teardown: [], run: [] })).toBe(
+			false,
+		);
+	});
+
+	it("returns false when arrays contain only whitespace strings", () => {
+		expect(hasConfiguredScripts({ setup: ["", "   "], teardown: ["\n"] })).toBe(
+			false,
+		);
+	});
+
+	it("returns true when setup has any non-empty command", () => {
+		expect(hasConfiguredScripts({ setup: ["bun install"] })).toBe(true);
+	});
+
+	it("returns true when only teardown is set", () => {
+		expect(hasConfiguredScripts({ teardown: ["docker compose down"] })).toBe(
+			true,
+		);
+	});
+
+	it("returns true when only run is set (so the card hides for run-only)", () => {
+		// The setup CTA should still hide when a project only configured the
+		// workspace Run button.
+		expect(hasConfiguredScripts({ run: ["bun dev"] })).toBe(true);
+	});
+});
+
+describe("loadProjectConfig with v1 sources", () => {
+	let sandbox: Sandbox;
+
+	beforeEach(() => {
+		sandbox = createSandbox();
+	});
+
+	afterEach(() => {
+		sandbox.cleanup();
+	});
+
+	function load(worktreePath?: string) {
+		const config = loadProjectConfig({
+			repoPath: sandbox.repoPath,
+			projectId: PROJECT_ID,
+			appHomeDir: sandbox.appHomeDir,
+			...(worktreePath && { worktreePath }),
+		});
+		if (config?.kind !== "ok") return null;
+		const terminal = getDefaultTerminal(config.resolved);
+		return {
+			setup: config.resolved.setup,
+			archive: config.resolved.archive,
+			run: terminal
+				? { commands: terminal.commands, cwd: terminal.cwd }
+				: { commands: [] },
+		};
+	}
+
+	const bash = (scriptPath: string) => `bash ${shellSingleQuote(scriptPath)}`;
+
+	function writeFallbackScript(key: string, root = sandbox.repoPath) {
+		const dir = join(root, ".jedv");
+		mkdirSync(dir, { recursive: true });
+		const scriptPath = join(dir, `${key}.sh`);
+		writeFileSync(scriptPath, "#!/usr/bin/env bash\n", "utf-8");
+		return scriptPath;
+	}
+
+	it("returns null when no config and no fallback script exist", () => {
+		expect(load()).toBeNull();
+	});
+
+	it("returns configured commands, filtering empty entries", () => {
+		writeRepoConfig(sandbox.repoPath, {
+			teardown: ["docker compose down", "", "   ", "rm -rf .cache"],
+		});
+		expect(load()?.archive.commands).toEqual([
+			"docker compose down",
+			"rm -rf .cache",
+		]);
+	});
+
+	it("maps each key to its own section", () => {
+		writeRepoConfig(sandbox.repoPath, { setup: ["bun install"] });
+		expect(load()).toEqual({
+			setup: { commands: ["bun install"] },
+			archive: { commands: [] },
+			run: { commands: [] },
+		});
+	});
+
+	it("falls back to <repoPath>/.jedv/<key>.sh per key", () => {
+		const setupScript = writeFallbackScript("setup");
+		const teardownScript = writeFallbackScript("teardown");
+		expect(load()).toEqual({
+			setup: { commands: [bash(setupScript)] },
+			archive: { commands: [bash(teardownScript)] },
+			run: { commands: [] },
+		});
+	});
+
+	it("prefers the worktree script when worktreePath is in scope", () => {
+		writeFallbackScript("teardown");
+		const worktreePath = join(sandbox.repoPath, ".worktrees", "feature");
+		const worktreeScript = writeFallbackScript("teardown", worktreePath);
+		expect(load(worktreePath)?.archive.commands).toEqual([
+			bash(worktreeScript),
+		]);
+	});
+
+	it("falls back to the main repo script when the worktree has none", () => {
+		const teardownScript = writeFallbackScript("teardown");
+		const worktreePath = join(sandbox.repoPath, ".worktrees", "feature");
+		expect(load(worktreePath)?.archive.commands).toEqual([
+			bash(teardownScript),
+		]);
+	});
+
+	it("worktree config commands override the main repo's", () => {
+		writeRepoConfig(sandbox.repoPath, { setup: ["from-repo"] });
+		const worktreePath = join(sandbox.repoPath, ".worktrees", "feature");
+		writeRepoConfig(worktreePath, { setup: ["from-worktree"] });
+		expect(load(worktreePath)?.setup.commands).toEqual(["from-worktree"]);
+	});
+
+	it("configured commands win over the fallback script", () => {
+		writeRepoConfig(sandbox.repoPath, { setup: ["bun install"] });
+		writeFallbackScript("setup");
+		expect(load()?.setup.commands).toEqual(["bun install"]);
+	});
+
+	it("carries cwd on both command and script sections", () => {
+		writeRepoConfig(sandbox.repoPath, { cwd: "apps/web", run: ["bun dev"] });
+		const teardownScript = writeFallbackScript("teardown");
+		expect(load()?.run).toEqual({ commands: ["bun dev"], cwd: "apps/web" });
+		expect(load()?.archive).toEqual({
+			commands: [bash(teardownScript)],
+			cwd: "apps/web",
+		});
+	});
+});
+
+describe("shellSingleQuote", () => {
+	it("escapes embedded single quotes", () => {
+		expect(shellSingleQuote("it's a path")).toBe("'it'\\''s a path'");
+	});
+});
+
+describe("getProjectConfigPath", () => {
+	it("puts config.json in .jedv for a repo with no config", () => {
+		const repo = mkdtempSync(join(tmpdir(), "config-path-"));
+		try {
+			expect(getProjectConfigPath(repo)).toBe(
+				join(repo, ".jedv", "config.json"),
+			);
+		} finally {
+			rmSync(repo, { recursive: true, force: true });
+		}
+	});
+});

@@ -1,0 +1,49 @@
+---
+description: "切换本地 Claude Codex 账号、quota token stale 只读、已有终端如何读取新默认 profile；凭证由 provider CLI 拥有，Jedv 仅发布账号指针。"
+kind: architecture
+code:
+  paths:
+    - packages/host-service/src/trpc/router/usage/usage.ts
+    - packages/host-service/src/trpc/router/usage/profiles.ts
+    - packages/host-service/src/trpc/router/usage/claude.ts
+    - packages/host-service/src/trpc/router/usage/default-account.ts
+    - packages/host-service/src/trpc/router/usage/session-account/session-account.ts
+    - packages/agent-setup/src/provider-profiles.ts
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvUsageView/components/QuotaAccountRow/QuotaAccountRow.tsx
+    - packages/host-service/src/trpc/router/usage/codex.ts
+    - packages/host-service/src/trpc/router/usage/profile-remove.ts
+    - packages/host-service/src/trpc/router/usage/account-provisioning.ts
+relations:
+  requires:
+    - agents/provider-environment.mdx
+  related:
+    - usage/local-history.mdx
+    - agents/native-control.mdx
+---
+# 本地模型账号与 quota
+
+这些账号是本机模型 provider 的 CLI 登录，不是产品云账号或套餐。provider CLI 拥有登录、刷新与 credential store；Jedv 发现 profile、展示 quota，并选择后续启动使用的 config root。
+
+## 凭证只读
+
+Claude/Codex quota 读取既有 OAuth token 并请求 provider 接口，绝不主动 refresh。第二个客户端 refresh 可触发 token-reuse 保护，使用户 CLI 掉登录；token_stale/token_expired 应引导 provider CLI 登录或刷新，不能以后台“修复”改写凭证。
+
+API-billed profile 通过 marker 识别，没有可查询订阅 quota 时不打开原始密钥文件。profile 发现仅扫描 home dotdirs 与 `.config` 子目录，并受时间、文件大小限制，不递归项目树。不能为了展示账号而扩大密钥读取范围。
+
+quota 短时 promise cache 合并相同请求，拒绝清缓存；isDefault 每次按当前选择求值，切账号不要求重打 provider。quota、登录状态与本地历史是独立来源，任何一个为空都不能代替另一个的失败状态。
+
+## 默认账号是启动指针
+
+切换只发布 host-wide pointer/environment，不更改登录。wrapper 每次 Agent launch 重新读取 pointer，因此已有 PTY 的下一次启动也能看见新默认 profile；单靠 spawn 时的 PTY env 无法实现这个语义。
+
+pointer 发布失败必须传回 UI，不能仅更新数据库就宣称切换成功。嵌套 host 需区分用户原始 CODEX_HOME 与 Jedv 注入值，避免把上次选择误当系统默认。profile 的能力共享与身份隔离规则由 provider-environment 定义。
+
+setDefault、prepare、remove 只接受已发现的 profile。删除禁止 home、默认 Agent home 和 home 外目录；移除当前 default 时同时清 pointer 和 quota cache。这个窄权限工作流不能泛化成任意目录删除。
+
+## 会话账号不随重登录改写
+
+terminal binding 保存 launch 时的 account snapshot，展示前再核对 identity。事后重新登录不能把旧 session 归给新账号；API identity 的显示也不应读取原始 key。
+
+桌面账号行操作当前连接 host；跨 host 查询缓存与 credential 不能混合。修改 profile path、marker 或 account fingerprint 时需同时评审启动、配额、会话归属和删除权限。
+
+源码锚点：`profiles.ts`（有界发现）、`claude.ts`/`codex.ts`（只读 quota）、`default-account.ts`（启动指针）、`session-account.ts`（历史身份）。

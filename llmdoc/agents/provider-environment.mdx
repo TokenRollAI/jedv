@@ -1,0 +1,44 @@
+---
+description: "Agent hooks bootstrap、symlink config atomic write、切换 profile 后共享 MCP/skills 设置；管理能力共享、凭证隔离与用户配置保护。"
+kind: architecture
+code:
+  paths:
+    - packages/agent-setup/src/agent-setup.ts
+    - packages/agent-setup/src/write-file-if-changed.ts
+    - packages/agent-setup/src/provider-profiles.ts
+    - packages/agent-setup/src/profile-sharing.ts
+    - packages/host-service/src/runtime/agent-provisioning.ts
+    - packages/host-service/src/chat-v3/agentEnv.ts
+    - packages/host-service/src/trpc/router/agents/agents.ts
+    - packages/agent-setup/src/local-agent-bootstrap.test.ts
+    - packages/agent-setup/src/empty-plugin-product.test.ts
+relations:
+  related:
+    - usage/provider-accounts.mdx
+    - runtime/local-persistence.mdx
+---
+# Agent 环境与用户配置保护
+
+agent-setup 是 desktop 和 standalone host 共用的机器级 bootstrap。它管理 Jedv hooks、wrappers 与 profile 能力共享，不拥有 provider 登录；账号选择和 quota 由 provider-accounts owner 解释。
+
+## 幂等与局部失败
+
+共享 disable mirror/environment 让同一机器上的多个 host 收敛。禁用只撤下 Jedv 管理的全局 hook 项，不删除用户 Agent 配置；自有目录内 inert scripts 可以保留。
+
+每个 setup action 隔离失败，坏配置、只读 home 或缺少某一模板不应阻断其他 Agent 和应用 boot。缺 template 应报告不可 provisioning，而非伪造已完成。
+
+用户配置写入必须内容幂等、原子且遵循 symlink 的真实 target。tmp+rename 若直接替换链接本身，会让 dotfiles silently fork；临时文件应位于真实目标同目录。内容未变不刷新 mtime，避免多 host 收敛时反复扰动。只读 target 失败时保留原链接和原内容并报告。
+
+## profile 共享能力，隔离身份
+
+切换 CLI config root 不应让额外账号变成空白安装。因此目录类能力可链接到默认账号，文件类能力用 copy/key merge；CLI 自己的原子写会替换文件 symlink，不能用同一种同步方式处理所有项。
+
+per-profile ledger 记录自己写过的值，后续只更新仍由 Jedv 管理的部分，用户覆盖保留为 user-owned。credential helpers、OAuth/API 环境、登录组织约束、Codex auth.json 和原生会话身份不得随能力共享复制。
+
+Chat native process 使用与终端相同 launch environment，并补足无 shell bootstrap 的 PATH。只有保存的 agent config 仍匹配 provider 才叠加配置，不能因后来改名或换账号而改变旧会话的身份。
+
+自定义配置用于 Chat 时只提供匹配 provider 的环境；配置中的 terminal command 路径和 args 不成为 Chat executable authority，实际进程仍由所选 harness 解析。调查 profile 下 transcript 是否存在也必须使用本次真实 launch env，不能从默认账号目录得出 pinned profile 无历史的结论。
+
+本地 bootstrap 不安装默认 marketplace 或产品插件。源码中存在通用本地插件管理导出，不意味着恢复插件发布运行链；启用新的消费路径时须重新评审其权限与用户配置合并规则。
+
+源码锚点：`agent-setup.ts`（幂等 bootstrap）、`write-file-if-changed.ts`（symlink 原子写）、`profile-sharing.ts`（ledger 合并）、`provider-profiles.ts`（身份排除）、`chat-v3/agentEnv.ts`（进程环境）。

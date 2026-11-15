@@ -1,0 +1,36 @@
+{
+	"name": "@jedv/panes",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./src/index.ts",
+			"default": "./src/index.ts"
+		}
+	},
+	"scripts": {
+		"clean": "git clean -xdf .cache .turbo dist node_modules",
+		"typecheck": "tsc --noEmit --emitDeclarationOnly false",
+		"test": "bun test"
+	},
+	"dependencies": {
+		"@jedv/ui": "workspace:*",
+		"@lingui/react": "6.12.0",
+		"lucide-react": "0.563.0",
+		"react-dnd": "16.0.1",
+		"zustand": "5.0.12"
+	},
+	"devDependencies": {
+		"@jedv/typescript": "workspace:*",
+		"@types/bun": "1.4.3",
+		"@types/react": "19.3.0",
+		"@types/react-dom": "19.2.3",
+		"react": "19.3.0",
+		"react-dom": "19.3.0",
+		"typescript": "7.0.2"
+	},
+	"peerDependencies": {
+		"react": "19.3.0"
+	}
+}

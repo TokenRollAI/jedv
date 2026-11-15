@@ -1,0 +1,42 @@
+---
+description: "无云账号运行的本地执行模型：renderer、Electron main、host-service 与 local CLI 的权威边界、调用方向和独立身份。"
+kind: architecture
+code:
+  paths:
+    - "package.json"
+    - "apps/desktop/src/main/index.ts"
+    - "packages/host-service/src/app.ts"
+    - "packages/cli/src/commands/middleware.ts"
+    - "apps/desktop/src/renderer/components/JedvShell/local-client.ts"
+    - "packages/cli/src/lib/host-target/resolveHostTarget.ts"
+relations:
+  related:
+    - "runtime/local-host.mdx"
+    - "runtime/private-connections.mdx"
+    - "runtime/local-persistence.mdx"
+    - "workspaces/lifecycle.mdx"
+---
+
+# 本地执行与权威边界
+
+Jedv 的桌面和 CLI 可以无云账号运行。产品本地身份、模型提供方登录和 GitHub 凭证是三个边界；让 Agent 使用某个 provider，或让 PR 操作访问 GitHub，不应变成本地工作区启动的产品账号前置条件。
+
+## renderer、main 与 host
+
+renderer 是交互和投影层。设备本地窗口、设置、导航与通知经 Electron main 的 IPC 边界；仓库、工作区、进程和会话能力通过 host-service 的 AppRouter 访问。host 的持久记录和实际进程是执行事实来源，renderer 的 pane、查询缓存和看板状态不能授权删除仓库或推断进程已经退出。
+
+Electron 与独立 CLI 都可启动同一个 host 执行模型。host 将 SQLite、工作区文件系统、Git、PTY 和原生 Agent 组装在一起，默认监听回环地址，以 PSK 认证本地控制请求。私网入口由外部网络配置提供；默认本地服务并不向网络公开监听。
+
+桌面工作区客户端可以使用已验证的私网 origin；普通 local CLI 的 host resolver 只接受本机标识或 local，并要求 manifest 指向回环 HTTP。不能因为共享 AppRouter 类型，就推断两个调用方拥有同样的远程连接功能。
+
+## 不把共享类型当共享权限
+
+桌面到 host 的调用携带 Bearer PSK 与机器标识，并拒绝跟随 HTTP redirect；凭证不能因为目标跳转而送往另一 origin。main 的 UI 操作还受注册窗口、已连接 host 和输入 schema 的约束。host 的 HTTP/WS 凭证、desktop bridge 的凭证及模型 provider 凭证不互换。
+
+跨层变更首先确认谁拥有实体与副作用，再修改投影。关闭窗口、移走 pane、丢失订阅或请求超时，都不足以证明远端资源被销毁；终端、Agent 与外部 GitHub 写入分别有自己的确认与恢复模型。
+
+## 权威锚点
+
+- `apps/desktop/src/main/index.ts` 与 `packages/host-service/src/app.ts`：设备进程与工作区执行能力的装配边界。
+- `packages/cli/src/commands/middleware.ts`、`packages/cli/src/lib/host-target/resolveHostTarget.ts`：本地命令上下文和目标限制。
+- `apps/desktop/src/renderer/components/JedvShell/local-client.ts`：桌面工作区客户端的凭证与 redirect 策略。

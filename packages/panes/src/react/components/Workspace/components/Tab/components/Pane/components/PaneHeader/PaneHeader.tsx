@@ -1,0 +1,102 @@
+import { cn } from "@jedv/ui/utils";
+import { type ReactNode, useCallback, useRef } from "react";
+import { useDrag } from "react-dnd";
+import { usePaneAppearance } from "../../../../../../../../hooks/usePaneAppearance";
+import { usePaneAreaFocused } from "../../../../../../../../hooks/usePaneAreaFocused";
+import { DefaultHeaderContent } from "./components/DefaultHeaderContent";
+
+interface PaneHeaderProps {
+	title: ReactNode;
+	icon?: ReactNode;
+	isActive: boolean;
+	titleContent?: ReactNode;
+	headerExtras?: ReactNode;
+	actionsContent: ReactNode;
+	toolbar?: ReactNode;
+	paneId?: string;
+	store?: unknown;
+	onClick?: () => void;
+	onMiddleClick?: () => void;
+}
+
+export const PANE_DRAG_TYPE = "pane";
+
+export function PaneHeader({
+	title,
+	icon,
+	isActive,
+	titleContent,
+	headerExtras,
+	actionsContent,
+	toolbar,
+	paneId,
+	store,
+	onClick,
+	onMiddleClick,
+}: PaneHeaderProps) {
+	const isCards = usePaneAppearance() === "cards";
+	const isAreaFocused = usePaneAreaFocused();
+	const looksActive = isActive && isAreaFocused;
+	const [{ isDragging }, connectDrag] = useDrag(
+		() => ({
+			type: PANE_DRAG_TYPE,
+			item: { paneId, store },
+			canDrag: !!paneId,
+			collect: (monitor) => ({
+				isDragging: monitor.isDragging(),
+			}),
+		}),
+		[paneId, store],
+	);
+
+	const nodeRef = useRef<HTMLDivElement>(null);
+	const setRef = useCallback(
+		(node: HTMLDivElement | null) => {
+			(nodeRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
+			connectDrag(node);
+		},
+		[connectDrag],
+	);
+
+	return (
+		// biome-ignore lint/a11y/useKeyWithClickEvents: pane header click-to-pin doesn't need keyboard equivalent
+		// biome-ignore lint/a11y/noStaticElementInteractions: click to pin, middle-click to close
+		<div
+			ref={setRef}
+			className={cn(
+				// Not the @container/pane-header itself: containment would make
+				// this a stacking context, trapping the URL-bar suggestions
+				// (an absolute z-50 box inside the header) under later siblings
+				// like the import banner. The pane root carries the container.
+				isCards
+					? "flex h-8 shrink-0 cursor-grab items-center transition-opacity duration-150"
+					: "flex h-7 shrink-0 cursor-grab items-center border-b border-border/20 bg-muted/30 transition-opacity duration-150",
+				!looksActive &&
+					!isDragging &&
+					cn(
+						isCards ? "opacity-70" : "opacity-60",
+						"hover:opacity-100 focus-within:opacity-100",
+					),
+				isDragging && "opacity-30",
+			)}
+			onClick={onClick}
+			onAuxClick={(e) => {
+				if (e.button === 1 && onMiddleClick) {
+					e.preventDefault();
+					onMiddleClick();
+				}
+			}}
+		>
+			{toolbar ?? (
+				<DefaultHeaderContent
+					title={title}
+					icon={icon}
+					isActive={looksActive}
+					titleContent={titleContent}
+					headerExtras={headerExtras}
+					actionsContent={actionsContent}
+				/>
+			)}
+		</div>
+	);
+}

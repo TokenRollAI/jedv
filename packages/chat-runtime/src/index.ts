@@ -1,0 +1,114 @@
+import type { ChatCheckpoints } from "./checkpoints";
+import type { ChatCommands } from "./commands";
+import { CommandDedupe, createCommands } from "./commands";
+import type { ChatDb, OpenChatDb } from "./db";
+import { createChatDb } from "./db";
+import type { ChatJournalOptions } from "./journal";
+import { ChatJournal } from "./journal";
+import { ChatSessionStore } from "./projection";
+import { SelectionMemory } from "./selections";
+import type { HarnessRegistry, LiveSessionObserver } from "./sessions";
+import { LiveSessionRegistry } from "./sessions";
+import type { Schedule, Sink, SubscribeOptions, Subscription } from "./stream";
+import { SubagentItems, SubscriptionHub } from "./stream";
+
+export * from "./checkpoints";
+export * from "./commands";
+export * from "./db";
+export * from "./harness";
+export * from "./journal";
+export * from "./projection";
+export * from "./replay";
+export * from "./router";
+export * from "./selections";
+export * from "./sessions";
+export * from "./stream";
+
+export type ChatRuntimeOptions = {
+	dataDir: string;
+	migrationsFolder?: string;
+	openDatabase?: OpenChatDb;
+	harnesses?: HarnessRegistry;
+	observer?: LiveSessionObserver;
+	checkpoints?: ChatCheckpoints;
+	schedule?: Schedule;
+	bootstrapLimit?: number;
+	dedupeCapacity?: number;
+	onSessionChanged?: ChatJournalOptions["onSessionChanged"];
+	onAppend?: ChatJournalOptions["onAppend"];
+	usageLimitGraceMs?: number;
+};
+
+export type ChatRuntime = {
+	journal: ChatJournal;
+	sessions: ChatSessionStore;
+	db: ChatDb;
+	live: LiveSessionRegistry;
+	subscriptions: SubscriptionHub;
+	commands: ChatCommands;
+	subscribe(
+		sessionId: string,
+		options: SubscribeOptions,
+		sink: Sink,
+	): Subscription;
+	dispose(): Promise<void>;
+};
+
+export function createChatRuntime(options: ChatRuntimeOptions): ChatRuntime {
+	const db = (options.openDatabase ?? createChatDb)({
+		dataDir: options.dataDir,
+		migrationsFolder: options.migrationsFolder,
+	});
+	const journal = new ChatJournal(db, {
+		onSessionChanged: options.onSessionChanged,
+		onAppend: options.onAppend,
+	});
+	journal.settleAllStranded(Date.now());
+	const sessions = new ChatSessionStore(db);
+	const subagentItems = new SubagentItems(db);
+	const subscriptions = new SubscriptionHub(db, {
+		schedule: options.schedule,
+		bootstrapLimit: options.bootstrapLimit,
+		subagentItems,
+	});
+	const live = new LiveSessionRegistry({
+		journal,
+		publish: (envelope) => subscriptions.publish(envelope),
+		harnesses: options.harnesses ?? new Map(),
+		observer: options.observer,
+		usageLimitGraceMs: options.usageLimitGraceMs,
+		checkpoints: options.checkpoints,
+	});
+	const commands = createCommands({
+		journal,
+		db,
+		sessions,
+		live,
+		checkpoints: options.checkpoints,
+		dedupe: new CommandDedupe(options.dedupeCapacity),
+		subagentItems,
+		selections: new SelectionMemory(db),
+	});
+
+	return {
+		journal,
+		sessions,
+		db,
+		live,
+		subscriptions,
+		commands,
+		subscribe: (sessionId, subscribeOptions, sink) =>
+			subscriptions.subscribe(sessionId, subscribeOptions, sink),
+		dispose: async () => {
+			try {
+				await live.disposeAll();
+			} finally {
+				try {
+					subscriptions.dispose();
+				} finally {
+					db.$client.close();
+				}
+			}
+		},
+	};
+}

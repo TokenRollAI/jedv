@@ -1,0 +1,52 @@
+---
+description: "PR 关联断网后会消失吗、远端写入结果未知刷新；完整 GitHub PR review/thread/checks/diff/create/merge 的本地缓存、标识和失败契约。"
+kind: architecture
+code:
+  paths:
+    - packages/host-service/src/runtime/pull-requests/pull-requests.ts
+    - packages/host-service/src/runtime/pull-requests/utils/github-availability/github-availability.ts
+    - packages/host-service/src/trpc/router/pull-requests/pull-requests.ts
+    - packages/host-service/src/trpc/router/github/github.ts
+    - packages/host-service/src/trpc/router/git/git.ts
+    - packages/shared/src/pull-request-diff/pull-request-diff.ts
+    - packages/shared/src/pull-request-checks/pull-request-checks.ts
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvPullRequestsView/JedvPullRequestsView.tsx
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvPullRequestsView/hooks/useRemoteWrite/useRemoteWrite.ts
+    - packages/host-service/src/trpc/router/pull-requests/procedures/merge.ts
+    - packages/host-service/src/trpc/router/pull-requests/shared/sync-after-write.ts
+    - packages/host-service/src/trpc/router/workspace-creation/shared/project-helpers.ts
+    - packages/shared/src/pull-request-threads/pull-request-threads.ts
+relations:
+  related:
+    - files-git/git-execution.mdx
+    - workspaces/lifecycle.mdx
+---
+# PR 管理与外部写入结果
+
+host 的 GitHub、pull-requests 与 workspace-scoped Git 方法共同提供完整 PR 读取、diff、checks、review、回复、线程解决、草稿切换、创建与 merge。实际外部写入由本机凭证的 Octokit/GraphQL 执行，部分查询使用 gh 与本地缓存；该能力不依赖产品云账号。
+
+`git/git.ts` 同时承载工作区关联 PR 的 review/thread/reply 实际入口，其变更必须直接触发本 owner 评审。旧 deprecated 注释不改变这些已挂载方法的本地执行权威。
+
+## 仓库与关联身份
+
+project-scoped 操作从当前真实 Git remote 解析 owner/repo，不信任导入时的缓存。remote 选择和未找到项目或 GitHub remote 的错误必须保留，不可按 UI 显示名称发外部写入。
+
+PR 关联由 GitWatcher 的 branch/HEAD/upstream 变化驱动，周期 sweep 是兜底。repo owner/name 比较忽略大小写，branch 大小写敏感；当前 link 与历史关联是不同契约，移除当前关联不能顺便删除历史。
+
+## 断网不等于没有 PR
+
+网络不可达、rate limit 与 credential rejection 触发 host 级 availability gate，避免每仓库重复 gh/HTTP 风暴。此时保留已有 PR link 并展示可见失败状态，暂不能发现新的 link；不能因为查询失败而清掉已有 chip 或推断远端无 PR。
+
+普通 repo 404/5xx 使用仓库级 cache/backoff，不能一概升级为整台 host outage。PR 关联缓存与 details/content TTL 各有用途，修改失效策略应同时考虑工作区侧栏与完整评审面。
+
+## 已知远端成功与未知结果
+
+GitHub 已接受状态变更后，host 先记录可推导的新状态并失效旧 content，再 best-effort 刷新关联工作区。后续本地刷新失败只能 warning，不能把已成功的 merge、draft 或 close 反报为 failed。
+
+桌面 `useRemoteWrite` 单飞；写入抛错意味着结果 unknown，阻止下一次写入，只有成功 refresh 才解锁。网络超时后的评论、review 或 merge 不允许自动重试，否则外部动作可能重复。
+
+创建 PR 使用 live branch/base，拒绝 detached HEAD 和 base=head。GitHub create 成功后 link refresh 失败不授权重建。回复评论使用 REST database commentId，解决线程使用 GraphQL global threadId；二者不是可互换的字符串。
+
+shared diff、checks 与 thread 合约连接 host 解析和桌面渲染。修改这些形状需评审两端的语义，不能仅修一个组件使类型通过。
+
+源码锚点：`runtime/pull-requests/pull-requests.ts`（关联协调）、`github-availability.ts`（断网 gate）、`sync-after-write.ts`（成功后同步）、`useRemoteWrite.ts`（未知写入 gate）。

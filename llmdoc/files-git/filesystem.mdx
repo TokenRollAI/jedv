@@ -1,0 +1,50 @@
+---
+description: "Files 防止覆盖外部修改、workspace symlink 边界与 watch overflow 文件树恢复；区分 host 全机文件能力、GUI scoped client 和 revision 冲突。"
+kind: architecture
+code:
+  paths:
+    - packages/host-service/src/trpc/router/filesystem/filesystem.ts
+    - packages/host-service/src/runtime/filesystem/filesystem.ts
+    - packages/workspace-fs/src/core/service.ts
+    - packages/workspace-fs/src/host/service.ts
+    - packages/workspace-fs/src/fs.ts
+    - packages/workspace-fs/src/watch.ts
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvFilesView/utils/workspace-file-client/workspace-file-client.ts
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvFilesView/state/fileDocumentStore/fileDocumentStore.ts
+    - packages/host-service/src/runtime/filesystem/watch-attach-guard.ts
+    - packages/workspace-fs/src/search.ts
+relations:
+  related:
+    - workspaces/lifecycle.mdx
+    - runtime/private-connections.mdx
+    - files-git/git-execution.mdx
+---
+# 文件权威、冲突与监听恢复
+
+workspace-fs 定义文件操作合约；host 根据持久工作区身份解析 root、共享服务与 watcher；桌面 fileDocumentStore 管理编辑 buffer。三者的路径信任范围和数据权威不能互换。
+
+## 访问边界
+
+host 的 list/read/metadata/write 允许本机任意绝对路径，信任范围相当于已认证调用者可以运行终端。不能把整个 host Files API 描述成 workspace sandbox。
+
+create/delete/move/copy 等结构操作检查 workspace root 及 symlink realpath ancestry，防止删除或创建越出管理目录。lexical prefix 不足以证明安全；dangling symlink 和不可核实的父链也不能默认放行。
+
+桌面 `createWorkspaceFileClient` 另行核对工作区身份、路径范围与符号链接链，将 GUI Files 限制到当前工作区。删掉这个 scoped adapter 后仍调用同一 host API，并不保留 GUI 的原信任边界。
+
+## revision 与 buffer 不丢失
+
+写入的 revision/ifMatch 检查和替换必须在 path lock 中完成；使用同目录临时文件加 rename，保留原 mode。conflict、exists、not-found 是调用者应处理的结果，不可自动转成 unconditional overwrite。
+
+provisional file 取消只有在 revision 未变化时才允许删除；provisional folder 取消永不递归清理。创建过程中的临时身份不能获得删除用户后续内容的权限。
+
+renderer 按 workspace+path 共享 buffer。外部磁盘变化不得覆盖 dirty buffer；保存带读取时的 revision，冲突保留用户内容，直到明确 reload、overwrite 或 keep。异步 load 的 generation 防止旧读取覆盖新状态；keep 仍是对旧 revision 的 dirty buffer，不是假装保存完成。
+
+## watch 是失效信号，不是完整日志
+
+recursive watch 只能从 workspace root 注册，不能在 ignored subtree 或 symlink 下新建 root 绕过忽略规则。Git ignored 与 nested repository prune 必须反映到 native watcher；反忽略后需要刷新 ignores。
+
+open file 若在 prune 区域、root 外或无树 watcher 覆盖，需要 targeted file watch。树监听正常不证明所有正在编辑文件都有覆盖。
+
+watch overflow 可能丢事件，客户端要通过合并、退避和 rescan 恢复 settled state。长期 churn 下不能每次 overflow 都无界同步全盘扫描。close/AbortSignal 必须释放订阅；重新连接重新表达 watch interest，不重放文件写入。
+
+源码锚点：`workspace-fs/src/fs.ts`（结构权限与原子写）、`watch.ts`（监听语义）、`workspace-file-client.ts`（GUI 范围）、`fileDocumentStore.ts`（编辑冲突）。

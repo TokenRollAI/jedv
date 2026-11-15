@@ -1,0 +1,55 @@
+---
+description: "聊天历史和活跃进程、journal epoch delta replay、重启后恢复未完成 Agent；定义 durable envelope、projection、live session 与恢复账号一致性。"
+kind: architecture
+code:
+  paths:
+    - packages/chat/src/protocol/envelope.ts
+    - packages/chat/src/protocol/cursor.ts
+    - packages/chat/src/core/timeline/deriveTimeline.ts
+    - packages/chat-runtime/src/index.ts
+    - packages/chat-runtime/src/journal/journal/journal.ts
+    - packages/chat-runtime/src/sessions/liveSession/liveSession.ts
+    - packages/host-service/src/chat-v3/mount.ts
+    - packages/host-service/src/chat-v3/resumeAfterUpdate.ts
+    - packages/host-service/src/trpc/router/sessions/session-service.ts
+    - packages/host-service/src/trpc/router/agents/agents.ts
+    - packages/cli/src/commands/sessions/read/command.ts
+    - packages/cli/src/commands/sessions/resume/command.ts
+    - packages/chat-runtime/src/journal/strandedEvents/strandedEvents.ts
+    - packages/chat/src/client/subscribeToSession/subscribeToSession.ts
+    - apps/desktop/src/renderer/components/JedvShell/components/NativeAgentControls/components/ChatSessionControl/ChatSessionControl.tsx
+relations:
+  related:
+    - agents/native-control.mdx
+    - agents/provider-environment.mdx
+    - runtime/local-persistence.mdx
+---
+# Chat journal 与恢复
+
+packages/chat 拥有 envelope、cursor、item 与纯归约语义，不持有数据库或原生进程。chat-runtime 持有 journal、projection、live registry、命令和订阅；host 注入工作区 cwd、provider binary/environment、原生 ownership、附件与 Git checkpoint。
+
+## 历史与活跃进程是不同真相
+
+数据库先打开并结算 stranded events，再建立运行时。journal 可在进程结束后继续读取，不能把 transcript 行或 synthetic terminal 当作活进程。启动时未完成的 running/pending 事件应结算，避免读者永久等待；停止某 turn 也不能顺手取消独立 background task。
+
+append durable event 要先过 schema；journal append 与 projection 更新必须在同一事务。projection 是可读视图，不是绕过 journal 直接修改会话事实的入口。
+
+## epoch、seq 与 delta
+
+cursor 是 epoch+seq；seq 仅在同一 epoch 内单调，不同 epoch 不能比较大小。durable item/turn/session 带 cursor，可用于恢复；delta 是瞬时通道，没有 durable cursor，不承担 replay 或最终状态证明。
+
+invalid cursor、epoch changed 或 journal missing 进入 reset 路径。客户端只推进 durable cursor，reset 清掉旧 cursor，关闭订阅撤销重连；不得从零散文本 delta 猜“已经完成”。
+
+## 队列与恢复授权
+
+live session 共同拥有 prompt queue、steering、取消、审批和 usage-limit 暂停。provider 的 usage/spend limit 与普通 rate limit 不同，queue 可能因 shutdown 或额度暂停；不能只看展示状态就自动发送下一条。
+
+host 的 lazy runtime 需要独立 Chat migrations 与 native adapter 装配。sessions API 先核对未归档 workspace、session scope 与支持的 harness，防止一个工作区控制另一个工作区的 journal。
+
+统一 Agent launch 入口可以继续匹配的 live Chat，或创建支持的 harness 会话，再回退 terminal。surface=chat 只是选择条件之一；native resume/fork 等请求不走新 Chat 路径，不能把显式 surface 当作无条件 adapter 保证。调用者应按返回的实际 kind/session identity 管理后续操作。
+
+更新重启 marker 与普通关闭的待恢复队列具有不同授权含义。marker 需有效且账号配置保持一致才自动恢复；过期、harness 不支持或账号变化则保留恢复选择，不偷偷换账号继续。普通中断保持暂停，等待用户恢复。
+
+桌面当前控制面可轮询 host sessions projection；协议包的 WS subscriber 是可复用适配器，不能据此推断所有 UI 都使用同一订阅路径。chat-ui 负责内容展示，不拥有 session authority。
+
+源码锚点：`protocol/envelope.ts` 与 `cursor.ts`（持久协议）、`journal/journal.ts`（事务）、`liveSession.ts`（队列）、`chat-v3/mount.ts` 与 `resumeAfterUpdate.ts`（host 恢复边界）。

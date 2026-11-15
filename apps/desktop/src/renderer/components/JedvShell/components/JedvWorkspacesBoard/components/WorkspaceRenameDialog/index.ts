@@ -1,0 +1,1 @@
+export { WorkspaceRenameDialog } from "./WorkspaceRenameDialog";

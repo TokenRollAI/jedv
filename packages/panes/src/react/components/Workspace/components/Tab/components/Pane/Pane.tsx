@@ -1,0 +1,383 @@
+import { Button } from "@jedv/ui/button";
+import { Trans, useLingui } from "@lingui/react/macro";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useDrop } from "react-dnd";
+import { useStore } from "zustand";
+import type { StoreApi } from "zustand/vanilla";
+import type { WorkspaceStore } from "../../../../../../../core/store";
+import {
+	transferPaneToSplit,
+	transferTabToSplit,
+} from "../../../../../../../core/transfer";
+import type {
+	Pane as PaneType,
+	SplitPosition,
+	Tab,
+} from "../../../../../../../types";
+import { usePaneAppearance } from "../../../../../../hooks/usePaneAppearance";
+import { usePaneAside } from "../../../../../../hooks/usePaneAside";
+import { PaneFocusContext } from "../../../../../../hooks/usePaneFocus";
+import type {
+	ContextMenuActionConfig,
+	PaneActionConfig,
+	PaneErrorHandler,
+	PaneRegistry,
+	RendererContext,
+} from "../../../../../../types";
+import { PaneHeaderActions } from "../../../../../PaneHeaderActions";
+import { TAB_DRAG_TYPE } from "../../../TabBar/components/TabItem";
+import { PANE_MIN_SIZE_CLASS_NAME } from "../../constants";
+import { DropZoneOverlay } from "./components/DropZoneOverlay";
+import { PaneContent } from "./components/PaneContent";
+import { PaneContextMenu } from "./components/PaneContextMenu";
+import { PaneErrorBoundary } from "./components/PaneErrorBoundary";
+import { PaneFallback } from "./components/PaneFallback";
+import { PANE_DRAG_TYPE, PaneHeader } from "./components/PaneHeader";
+
+type PaneDropItem =
+	| { paneId: string; store?: unknown }
+	| { tabId: string; index: number; store?: unknown };
+
+interface PaneComponentProps<TData> {
+	store: StoreApi<WorkspaceStore<TData>>;
+	tab: Tab<TData>;
+	pane: PaneType<TData>;
+	isActive: boolean;
+	registry: PaneRegistry<TData>;
+	// null only for a solo pane (the layout root)
+	parentDirection?: "horizontal" | "vertical" | null;
+	paneActions?:
+		| PaneActionConfig<TData>[]
+		| ((context: RendererContext<TData>) => PaneActionConfig<TData>[]);
+	contextMenuActions?:
+		| ContextMenuActionConfig<TData>[]
+		| ((context: RendererContext<TData>) => ContextMenuActionConfig<TData>[]);
+	onPaneError?: PaneErrorHandler;
+}
+
+function resolveActions<TData, TAction>(
+	config:
+		| TAction[]
+		| ((context: RendererContext<TData>, defaults: TAction[]) => TAction[])
+		| undefined,
+	context: RendererContext<TData>,
+	defaults: TAction[],
+): TAction[] {
+	if (!config) return defaults;
+	if (typeof config === "function") return config(context, defaults);
+	return config;
+}
+
+function getDropPosition(
+	clientX: number,
+	clientY: number,
+	rect: DOMRect,
+): SplitPosition {
+	const cx = rect.left + rect.width / 2;
+	const cy = rect.top + rect.height / 2;
+	const dx = clientX - cx;
+	const dy = clientY - cy;
+	if (Math.abs(dx) > Math.abs(dy)) {
+		return dx > 0 ? "right" : "left";
+	}
+	return dy > 0 ? "bottom" : "top";
+}
+
+export function Pane<TData>({
+	store,
+	tab,
+	pane,
+	isActive,
+	registry,
+	parentDirection = null,
+	paneActions,
+	contextMenuActions,
+	onPaneError,
+}: PaneComponentProps<TData>) {
+	const { t } = useLingui();
+	const isCards = usePaneAppearance() === "cards";
+	const definition = registry[pane.kind];
+
+	const tabs = store.getState().tabs;
+	const tabPosition = tabs.findIndex((t) => t.id === tab.id);
+
+	const context: RendererContext<TData> = useMemo(() => {
+		const ctx: RendererContext<TData> = {
+			pane: { ...pane, parentDirection },
+			tab: { ...tab, position: tabPosition },
+			isActive,
+			store,
+			actions: {
+				close: async () => {
+					if (definition?.onBeforeClose) {
+						const allowed = await definition.onBeforeClose(pane);
+						if (!allowed) return;
+					}
+					store.getState().closePane({ tabId: tab.id, paneId: pane.id });
+				},
+				focus: () =>
+					store.getState().setActivePane({ tabId: tab.id, paneId: pane.id }),
+				setTitle: (title: string) =>
+					store.getState().setPaneTitleOverride({
+						tabId: tab.id,
+						paneId: pane.id,
+						titleOverride: title,
+					}),
+				pin: () =>
+					store.getState().setPanePinned({
+						paneId: pane.id,
+						pinned: true,
+					}),
+				updateData: (data: TData) =>
+					store.getState().setPaneData({ paneId: pane.id, data }),
+				split: (position, newPane) =>
+					store.getState().splitPane({
+						tabId: tab.id,
+						paneId: pane.id,
+						position: position === "down" ? "bottom" : "right",
+						newPane,
+					}),
+			},
+			headerActions: null,
+		};
+
+		// Resolve workspace-level actions (or empty if not provided)
+		const workspaceResolved =
+			typeof paneActions === "function"
+				? paneActions(ctx)
+				: (paneActions ?? []);
+
+		// Definition can override or modify workspace actions
+		const finalActions = resolveActions(
+			definition?.paneActions,
+			ctx,
+			workspaceResolved,
+		);
+
+		ctx.headerActions = (
+			<PaneHeaderActions actions={finalActions} context={ctx} />
+		);
+
+		return ctx;
+	}, [
+		pane,
+		tab,
+		isActive,
+		store,
+		definition,
+		paneActions,
+		parentDirection,
+		tabPosition,
+	]);
+
+	const resolvedContextMenuActions = useMemo(() => {
+		const workspaceResolved =
+			typeof contextMenuActions === "function"
+				? contextMenuActions(context)
+				: (contextMenuActions ?? []);
+
+		return resolveActions(
+			definition?.contextMenuActions,
+			context,
+			workspaceResolved,
+		);
+	}, [context, contextMenuActions, definition]);
+
+	const dropPositionRef = useRef<SplitPosition | null>(null);
+	const [dropPosition, setDropPosition] = useState<SplitPosition | null>(null);
+	const dropRef = useRef<HTMLDivElement>(null);
+
+	const [{ isOver, canDrop }, connectDrop] = useDrop(
+		() => ({
+			accept: [PANE_DRAG_TYPE, TAB_DRAG_TYPE],
+			canDrop: (item: PaneDropItem, monitor) => {
+				// Can't drop a tab onto a pane it already owns, or a pane onto itself.
+				if (monitor.getItemType() === TAB_DRAG_TYPE) {
+					return "tabId" in item && item.tabId !== tab.id;
+				}
+				return "paneId" in item && item.paneId !== pane.id;
+			},
+			hover: (_item, monitor) => {
+				const offset = monitor.getClientOffset();
+				const el = dropRef.current;
+				if (!offset || !el) return;
+				const rect = el.getBoundingClientRect();
+				const pos = getDropPosition(offset.x, offset.y, rect);
+				if (pos !== dropPositionRef.current) {
+					dropPositionRef.current = pos;
+					setDropPosition(pos);
+				}
+			},
+			drop: (item: PaneDropItem, monitor) => {
+				const pos = dropPositionRef.current;
+				if (!pos) return;
+				const source = item.store as typeof store | undefined;
+				if (source && source !== store) {
+					if (monitor.getItemType() === TAB_DRAG_TYPE && "tabId" in item) {
+						transferTabToSplit({
+							source,
+							target: store,
+							tabId: item.tabId,
+							targetPaneId: pane.id,
+							position: pos,
+						});
+					} else if ("paneId" in item) {
+						transferPaneToSplit({
+							source,
+							target: store,
+							paneId: item.paneId,
+							targetPaneId: pane.id,
+							position: pos,
+						});
+					}
+					return;
+				}
+				if (monitor.getItemType() === TAB_DRAG_TYPE && "tabId" in item) {
+					store.getState().moveTabToSplit({
+						sourceTabId: item.tabId,
+						targetPaneId: pane.id,
+						position: pos,
+					});
+					return;
+				}
+				if ("paneId" in item) {
+					store.getState().movePaneToSplit({
+						sourcePaneId: item.paneId,
+						targetPaneId: pane.id,
+						position: pos,
+					});
+				}
+			},
+			collect: (monitor) => ({
+				isOver: monitor.isOver(),
+				canDrop: monitor.canDrop(),
+			}),
+		}),
+		[pane.id, tab.id, store],
+	);
+
+	const focusHandlerRef = useRef<(() => void) | null>(null);
+	const registerFocus = useCallback((focus: () => void) => {
+		focusHandlerRef.current = focus;
+		return () => {
+			if (focusHandlerRef.current === focus) focusHandlerRef.current = null;
+		};
+	}, []);
+	const focusRequestSeq = useStore(store, (s) =>
+		s.focusRequest?.paneId === pane.id ? s.focusRequest.seq : null,
+	);
+	useEffect(() => {
+		if (focusRequestSeq === null) return;
+		// After paint, so a pane that only just mounted can take focus.
+		const frame = requestAnimationFrame(() => {
+			store.getState().clearFocusRequest(focusRequestSeq);
+			const root = dropRef.current;
+			if (!root || root.contains(document.activeElement)) return;
+			if (focusHandlerRef.current) focusHandlerRef.current();
+			else root.focus({ preventScroll: true });
+		});
+		return () => cancelAnimationFrame(frame);
+	}, [focusRequestSeq, store]);
+
+	// Merge refs: connectDrop needs a node, and we need dropRef for rect calculations
+	const setRefs = useCallback(
+		(node: HTMLDivElement | null) => {
+			(dropRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
+			connectDrop(node);
+		},
+		[connectDrop],
+	);
+
+	// Clear drop position when not hovering
+	if (!isOver && dropPositionRef.current !== null) {
+		dropPositionRef.current = null;
+		if (dropPosition !== null) setDropPosition(null);
+	}
+
+	const title = definition
+		? (pane.titleOverride ?? definition.getTitle?.(pane) ?? pane.id)
+		: t({ message: "Unknown pane" });
+	const paneKind = pane.kind;
+	const icon = definition?.getIcon?.(context);
+	const titleContent = definition?.renderTitle?.(context);
+	const headerExtras = definition?.renderHeaderExtras?.(context);
+	const aside = usePaneAside(pane.id);
+	const toolbar = definition?.renderToolbar?.(context);
+
+	const isDropTarget = isOver && canDrop;
+
+	return (
+		<PaneFocusContext.Provider value={registerFocus}>
+			<PaneContextMenu actions={resolvedContextMenuActions} context={context}>
+				<div
+					ref={setRefs}
+					tabIndex={-1}
+					// @container/pane-header: header pieces collapse by the pane's own
+					// width (panes resize independently of the viewport). Lives here,
+					// not on the header, so the containment's stacking context still
+					// holds both the header's absolute popovers and the pane's banners.
+					className={
+						isCards
+							? `@container/pane-header relative flex h-full w-full ${PANE_MIN_SIZE_CLASS_NAME} flex-col overflow-hidden rounded-[10px] border border-border bg-background outline-none`
+							: `@container/pane-header relative flex h-full w-full ${PANE_MIN_SIZE_CLASS_NAME} flex-col overflow-hidden border-2 outline-none transition-colors duration-150 ${
+									isActive && parentDirection !== null
+										? "border-primary/15"
+										: "border-transparent"
+								}`
+					}
+					onPointerDownCapture={context.actions.focus}
+				>
+					{!definition?.hideHeader?.(context) && (
+						<PaneHeader
+							title={title}
+							icon={icon}
+							isActive={isActive}
+							titleContent={titleContent}
+							headerExtras={headerExtras}
+							toolbar={toolbar}
+							actionsContent={context.headerActions}
+							paneId={pane.id}
+							store={store}
+							onClick={
+								definition?.onHeaderClick
+									? () => definition.onHeaderClick?.(context)
+									: context.actions.pin
+							}
+							onMiddleClick={context.actions.close}
+						/>
+					)}
+					<PaneErrorBoundary
+						resetKey={pane.data}
+						onClose={context.actions.close}
+						onError={onPaneError}
+					>
+						<PaneContent
+							aside={aside}
+							insetsAside={definition?.insetsAside === true}
+							dimmed={isCards && !isActive && parentDirection !== null}
+							render={() =>
+								definition ? (
+									definition.renderPane(context)
+								) : (
+									<PaneFallback
+										title={<Trans>This pane can't be shown</Trans>}
+										detail={<Trans>Unknown pane type: {paneKind}</Trans>}
+									>
+										<Button
+											variant="outline"
+											size="sm"
+											onClick={context.actions.close}
+										>
+											<Trans>Close pane</Trans>
+										</Button>
+									</PaneFallback>
+								)
+							}
+						/>
+					</PaneErrorBoundary>
+					{isDropTarget && <DropZoneOverlay position={dropPosition} />}
+				</div>
+			</PaneContextMenu>
+		</PaneFocusContext.Provider>
+	);
+}

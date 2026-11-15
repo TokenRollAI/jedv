@@ -1,0 +1,47 @@
+---
+description: "config.local.toml 覆盖顺序、host 重启会重跑 setup 吗、安装脚本退出证据；定义 TOML/旧配置兼容及 teardown 的不同失败策略。"
+kind: architecture
+code:
+  paths:
+    - packages/shared/src/project-config/resolve.ts
+    - packages/shared/src/project-config/dir.ts
+    - packages/host-service/src/trpc/router/config/config.ts
+    - packages/host-service/src/runtime/setup/config.ts
+    - packages/host-service/src/trpc/router/workspace-creation/shared/workspace-setup.ts
+    - packages/host-service/src/runtime/teardown/teardown.ts
+    - packages/host-service/src/runtime/setup/project-config-toml.ts
+    - packages/host-service/src/trpc/router/workspace-creation/shared/setup-terminal.ts
+relations:
+  requires:
+    - terminals/session-lifecycle.mdx
+  related:
+    - workspaces/lifecycle.mdx
+    - agents/provider-environment.mdx
+---
+# 配置解析与 setup 退出证据
+
+shared/project-config 拥有统一配置模型，host 负责解析与执行；桌面和 CLI 仅发起操作。`.jedv` 及历史 `.paradev`、`.superset` 目录须走同一 resolver，不能在调用方另写优先级。
+
+## TOML 与兼容路径
+
+shared TOML 优先使用 worktree 配置，再回退 main checkout；personal `config.local.toml` 只从 main checkout 读取。存在但无效的 TOML 是明确 invalid，不能悄悄退回旧 JSON 或 shell 文件运行另一组脚本。
+
+旧 JSON/v1 通过兼容转换进入统一模型。历史 user override、before/after/replace overlay 和 shell-file fallback 由该模型解释，不应创建第二套执行器。personal 编辑保存原文以保留注释；本机 personal TOML 只进入 `.git/info/exclude`，格式转换保留旧配置。
+
+## setup 成功必须有退出证据
+
+install 与 setup 用成功链连接，各 phase 的 cwd 在独立 subshell 切换，避免前一阶段改变后一阶段工作目录。没有 runnable 配置为 not-required；invalid 配置生成报告错误并失败的命令，不得归为未配置或成功。
+
+tracked setup 使用 one-shot terminal 的真实 exit code/signal，并同时匹配 workspaceId、terminalId 和 running 状态；迟到的旧终端退出不得覆盖后续 setup。终端创建、命令发送、窗口关闭和固定延迟都不是成功信号。
+
+tracked setup 不允许附加 Agent chained command，否则 Agent 的长生命周期会污染安装完成证据。不支持 one-shot 的 shell 必须在执行前拒绝。
+
+host 重启只 adopt 已存在的 running setup terminal，不重新发送命令。丢失原终端结果时状态是 unknown；不能通过“进程现在不存在”推定曾成功。恢复观察与重跑 setup 是不同授权动作。
+
+## teardown 的失败策略独立
+
+teardown 使用登录终端环境和隐藏 transient PTY，失败只返回有界 output tail。timeout 后 kill 仍须有 hard-stop settle，不能让删除 saga 永等僵尸 PTY。
+
+无效配置对 teardown 返回无命令并跳过，避免损坏配置阻止清理；这不改变 setup 的 invalid→失败规则。调用者根据生命周期选择 blocking、best-effort 或明确 skip，不能把 force 删除等同于任意跳过脚本。
+
+源码锚点：`project-config/resolve.ts`（配置模型）、`runtime/setup/config.ts`（执行解析）、`workspace-setup.ts`（状态证据）、`runtime/teardown/teardown.ts`（清理执行）。

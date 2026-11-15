@@ -1,0 +1,216 @@
+import fs from "node:fs";
+import path from "node:path";
+import { DEFAULT_MARKETPLACE } from "@jedv/shared/plugins";
+import type { PluginSkillSource } from "./managed-skills";
+import { resolveAppHomeDir } from "./paths";
+import { writeFileIfChanged } from "./write-file-if-changed";
+
+export function installedPluginsFilePath(): string {
+	return path.join(resolveAppHomeDir(), "plugins", "installed_plugins.json");
+}
+
+interface InstalledPluginRecord {
+	name?: unknown;
+	marketplace?: unknown;
+	version?: unknown;
+	installPath?: unknown;
+	enabled?: unknown;
+	tools?: unknown;
+}
+
+export interface EnabledPlugin {
+	name: string;
+	marketplace: string;
+	tools?: boolean;
+}
+
+/**
+ * The enabled, named records, or null when the ledger exists and cannot be
+ * read: an empty list means every plugin is gone, and a read failure must not
+ * be taken for one.
+ */
+function readLedgerRecords(file: string): InstalledPluginRecord[] | null {
+	let raw: string;
+	try {
+		raw = fs.readFileSync(file, "utf-8");
+	} catch (error) {
+		return (error as NodeJS.ErrnoException)?.code === "ENOENT" ? [] : null;
+	}
+
+	let parsed: unknown;
+	try {
+		parsed = JSON.parse(raw);
+	} catch {
+		return null;
+	}
+
+	const plugins = (parsed as { plugins?: unknown })?.plugins;
+	if (!Array.isArray(plugins)) return null;
+	return (plugins as InstalledPluginRecord[]).filter(
+		(entry) =>
+			entry?.enabled !== false && typeof entry?.name === "string" && entry.name,
+	);
+}
+
+export function readEnabledPlugins(
+	file: string = installedPluginsFilePath(),
+): EnabledPlugin[] | null {
+	return (
+		readLedgerRecords(file)?.map((entry) => ({
+			name: entry.name as string,
+			marketplace:
+				typeof entry.marketplace === "string" ? entry.marketplace : "",
+			...(typeof entry.tools === "boolean" ? { tools: entry.tools } : {}),
+		})) ?? null
+	);
+}
+
+export interface InstalledPluginEntry {
+	marketplace: string;
+	name: string;
+	version: string;
+	installPath?: string;
+	installedAt: string;
+	enabled: boolean;
+	/** False for an organization plugin with only skills: no MCP entry is written for it. */
+	tools?: boolean;
+}
+
+/** The version of each plugin this machine holds, or null when the ledger cannot be read. */
+export function readInstalledVersions(
+	file: string = installedPluginsFilePath(),
+): { marketplace: string; name: string; version: string }[] | null {
+	const records = readLedgerRecords(file);
+	if (!records) return null;
+	return records.flatMap((entry) =>
+		typeof entry.marketplace === "string" &&
+		typeof entry.name === "string" &&
+		typeof entry.version === "string"
+			? [
+					{
+						marketplace: entry.marketplace,
+						name: entry.name,
+						version: entry.version,
+					},
+				]
+			: [],
+	);
+}
+
+export function findInstalledTree(
+	marketplace: string,
+	name: string,
+	file: string = installedPluginsFilePath(),
+): { version: string; installPath: string } | null {
+	const record = readLedgerRecords(file)?.find(
+		(entry) => entry.marketplace === marketplace && entry.name === name,
+	);
+	return typeof record?.version === "string" &&
+		typeof record.installPath === "string" &&
+		record.installPath
+		? { version: record.version, installPath: record.installPath }
+		: null;
+}
+
+export function writeInstalledPlugins(
+	plugins: readonly InstalledPluginEntry[],
+	file: string = installedPluginsFilePath(),
+): void {
+	fs.mkdirSync(path.dirname(file), { recursive: true });
+	writeFileIfChanged(
+		file,
+		`${JSON.stringify({ version: 1, plugins }, null, "\t")}\n`,
+		0o644,
+	);
+}
+
+/**
+ * Adds the records another store kept that this file lacks, without an
+ * installPath, so moving to this one record loses no install. Returns the
+ * names it added. Throws on an unreadable file rather than replace it.
+ */
+export function adoptInstalledPlugins(
+	records: readonly {
+		name: string;
+		version: string;
+		installedAt: string;
+		enabled?: boolean;
+		marketplace?: string;
+	}[],
+	file: string = installedPluginsFilePath(),
+): string[] {
+	let ledger: InstalledPluginEntry[] = [];
+	if (fs.existsSync(file)) {
+		const parsed = JSON.parse(fs.readFileSync(file, "utf-8")) as {
+			plugins?: unknown;
+		};
+		if (!Array.isArray(parsed?.plugins)) {
+			throw new Error(`${file} has no plugins list`);
+		}
+		ledger = parsed.plugins as InstalledPluginEntry[];
+	}
+	const added: InstalledPluginEntry[] = [];
+	for (const record of records) {
+		const marketplace = record.marketplace || DEFAULT_MARKETPLACE;
+		const held = [...ledger, ...added].some(
+			(entry) =>
+				entry.name === record.name && entry.marketplace === marketplace,
+		);
+		if (held) continue;
+		added.push({
+			marketplace,
+			name: record.name,
+			version: record.version,
+			installedAt: record.installedAt,
+			enabled: record.enabled !== false,
+		});
+	}
+	if (added.length) writeInstalledPlugins([...ledger, ...added], file);
+	return added.map((entry) => entry.name);
+}
+
+/**
+ * `file` defaults to the one ledger every provisioner reads. Callers pass it
+ * explicitly when they cannot rely on the ambient JEDV_HOME_DIR — a test
+ * sharing a process with siblings that move the variable, most of all.
+ */
+export function readInstalledPluginSources(
+	file: string = installedPluginsFilePath(),
+): PluginSkillSource[] | null {
+	const records = readLedgerRecords(file);
+	if (!records) return null;
+
+	const usable: { name: string; marketplace: string; dir: string }[] = [];
+	for (const entry of records) {
+		if (typeof entry.installPath !== "string" || !entry.installPath) continue;
+		usable.push({
+			name: entry.name as string,
+			marketplace:
+				typeof entry.marketplace === "string" ? entry.marketplace : "",
+			dir: entry.installPath,
+		});
+	}
+
+	const occurrences = new Map<string, number>();
+	for (const entry of usable) {
+		occurrences.set(entry.name, (occurrences.get(entry.name) ?? 0) + 1);
+	}
+
+	const taken = new Set<string>();
+	for (const entry of usable) {
+		if (occurrences.get(entry.name) === 1) taken.add(entry.name);
+	}
+
+	return usable.map((entry) => {
+		if (occurrences.get(entry.name) === 1) {
+			return { name: entry.name, dir: entry.dir };
+		}
+		const base = entry.marketplace
+			? `${entry.marketplace}-${entry.name}`
+			: entry.name;
+		let name = base;
+		for (let n = 2; taken.has(name); n++) name = `${base}-${n}`;
+		taken.add(name);
+		return { name, dir: entry.dir };
+	});
+}

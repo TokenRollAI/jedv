@@ -1,0 +1,5689 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-08-26 16:05-0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: zh-TW\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+msgid "./"
+msgstr "./"
+
+msgid "\"{title}\" has finished its task"
+msgstr "「{title}」已完成任務"
+
+msgid "\"{title}\" is waiting for your reply"
+msgstr "「{title}」正在等待你的回覆"
+
+#. placeholder {0}: summary.updated
+msgid "{0, plural, one {# existing theme updated} other {# existing themes updated}}"
+msgstr "{0, plural, one {已更新#個現有主題} other {已更新#個現有主題}}"
+
+#. placeholder {0}: items.length
+msgid "{0} changed files"
+msgstr "{0} 個變更的檔案"
+
+#. placeholder {0}: collisions.length
+msgid "{0} files already exist in {where}. Do you want to replace them?"
+msgstr "{where}中已存在{0}個檔案。是否要替換它們？"
+
+#. placeholder {0}: failedSaves.length
+msgid "{0} files could not be saved."
+msgstr "無法儲存 {0} 個檔案。"
+
+#. placeholder {0}: ports.length
+msgid "{0} live ports"
+msgstr "{0} 個使用中的連接埠"
+
+#. placeholder {0}: checks.data?.running
+msgid "{0} running terminal sessions will stop. Worktree deletion may run teardown commands."
+msgstr "{0} 個正在執行的終端工作階段將停止。刪除工作樹可能會執行清理指令。"
+
+#. placeholder {0}: daemon.sessions.data?.length ?? 0
+msgid "{0} sessions"
+msgstr "{0} 個工作階段"
+
+#. placeholder {0}: project.workspaceCount
+#. placeholder {1}: formatDate(project.purgeAt)
+msgid "{0} workspace records · retained until {1}"
+msgstr "{0} 筆工作區記錄 · 保留至 {1}"
+
+#. placeholder {0}: row.name
+#. placeholder {1}: row.runningTerminalCount
+#. placeholder {2}: row.runningAgentCount
+msgid "{0}: {1} running terminals, {2} running agents"
+msgstr "{0}：{1} 個執行中的終端，{2} 個執行中的代理程式"
+
+msgid "{approvals} approvals"
+msgstr "{approvals} 項核准"
+
+msgid "{completed} finished"
+msgstr "{completed} 已完成"
+
+msgid "{configTitle} font size"
+msgstr "{configTitle}字型大小"
+
+msgid "{count, plural, one {Every # day at {time}} other {Every # days at {time}}}"
+msgstr "{count, plural, one {每#天{time}} other {每#天{time}}}"
+
+msgid "{count, plural, one {Every # day} other {Every # days}}"
+msgstr "{count, plural, one {每#天} other {每#天}}"
+
+msgid "{count, plural, one {Every # hour} other {Every # hours}}"
+msgstr "{count, plural, one {每#小時} other {每#小時}}"
+
+msgid "{count, plural, one {Every # minute} other {Every # minutes}}"
+msgstr "{count, plural, one {每#分鐘} other {每#分鐘}}"
+
+msgid "{count, plural, one {Every # week on {day} at {time}} other {Every # weeks on {day} at {time}}}"
+msgstr "{count, plural, one {每#週的{day}{time}} other {每#週的{day}{time}}}"
+
+msgid "{count, plural, one {Every # week on {day}} other {Every # weeks on {day}}}"
+msgstr "{count, plural, one {每#週的{day}} other {每#週的{day}}}"
+
+msgid "{count} files are over {limit} and were not added"
+msgstr "{count} 個檔案超過 {limit}，未新增"
+
+msgid "{currentPage} of {totalBranches}"
+msgstr "{currentPage}/{totalBranches}"
+
+msgid "{days} at {time}"
+msgstr "{days}{time}"
+
+msgid "{days}d"
+msgstr "{days}天"
+
+msgid "{days}d {hours}h"
+msgstr "{days}天{hours}小時"
+
+msgid "{focusShortcutText} to focus"
+msgstr "{focusShortcutText}聚焦"
+
+msgid "{hours}h"
+msgstr "{hours}小時"
+
+msgid "{hours}h {minutes}m"
+msgstr "{hours}小時{minutes}分"
+
+#. placeholder {0}: failed.length
+msgid "{imported} imported, {0} failed. Successful imports are kept."
+msgstr "已匯入 {imported} 項，{0} 項失敗。成功匯入的內容會保留。"
+
+msgid "{lines, plural, one {# line} other {# lines}}"
+msgstr "{lines, plural, other {# 行}}"
+
+msgid "{minimumContrast}:1 contrast"
+msgstr "{minimumContrast}:1對比度"
+
+msgid "{minutes}m"
+msgstr "{minutes}分"
+
+#. placeholder {0}: Number(previewLineHeight.toFixed(2))
+msgid "{previewSize}px · {0} line height"
+msgstr "{previewSize}px · 行高{0}"
+
+msgid "{projectName} icon"
+msgstr "{projectName} 的圖示"
+
+msgid "{running} working"
+msgstr "{running} 正在工作"
+
+msgid "{stagedCount} staged files"
+msgstr "{stagedCount} 個已暫存檔案"
+
+msgid "{totalImported, plural, one {Imported # custom theme} other {Imported # custom themes}}"
+msgstr "{totalImported, plural, one {已匯入#個自訂主題} other {已匯入#個自訂主題}}"
+
+msgid "{uncommittedCount, plural, one {# file changed} other {# files changed}}"
+msgstr "{uncommittedCount, plural, one {#個檔案已更改} other {#個檔案已更改}}"
+
+msgid "⇧ click"
+msgstr "⇧點選"
+
+msgid "<0>{primaryFont}</0> is not installed on this system. Falling back to the next available font."
+msgstr "此係統未安裝<0>{primaryFont}</0>。將回退到下一個可用字型。"
+
+msgid "<0>Nerd Fonts</0> are recommended."
+msgstr "推薦使用<0>Nerd Fonts</0>。"
+
+msgid "<0>vs</0> <1/>"
+msgstr "<0>對比</0> <1/>"
+
+msgid "~/agent $"
+msgstr "~/agent $"
+
+msgid "⌘ click"
+msgstr "⌘點選"
+
+msgid "⌘⇧ click"
+msgstr "⌘⇧點選"
+
+msgid "1 file is over {limit} and was not added"
+msgstr "1 個檔案超過 {limit}，未新增"
+
+msgid "4.5:1 (AA)"
+msgstr "4.5:1 (AA)"
+
+msgid "7:1 (AAA)"
+msgstr "7:1 (AAA)"
+
+msgid "A daemon operation is already in progress"
+msgstr "守護程序作業已在執行中"
+
+msgid "A file named '{firstName}' already exists in {where}. Do you want to replace it?"
+msgstr "{where}中已存在名為「{firstName}」的檔案。是否要替換它？"
+
+msgid "A listening process changed. Cancel and review the current process list before trying again."
+msgstr "監聽程序已變更。請取消操作並檢查目前程序清單，然後重試。"
+
+msgid "A pull request already exists for this branch. Refresh the pull request list."
+msgstr "此分支已有 PR。請重新整理 PR 清單。"
+
+msgid "A tab can contain at most eight panes."
+msgstr "每個分頁最多可包含 8 個窗格。"
+
+msgid "A tab can contain at most eight terminal panes."
+msgstr "一個分頁最多可包含八個終端機窗格。"
+
+msgid "A workspace is protected. Resolve its protection before removing this project."
+msgstr "一個工作區受到保護。請先解除保護，再移除此專案。"
+
+msgid "Aa"
+msgstr "Aa"
+
+msgid "About {displayName}"
+msgstr "關於 {displayName}"
+
+msgid "Accept"
+msgstr "接受"
+
+msgid "Accessibility"
+msgstr "輔助功能"
+
+msgid "Actions"
+msgstr "操作"
+
+msgid "Active"
+msgstr "啟用中"
+
+msgid "Active CLI sessions"
+msgstr "使用中的 CLI 工作階段"
+
+msgid "Active workspaces"
+msgstr "使用中的工作區"
+
+msgid "Activity"
+msgstr "動態"
+
+msgid "Adaptive keyboard layout"
+msgstr "適應性鍵盤配置"
+
+msgid "Add"
+msgstr "新增"
+
+msgid "Add agent"
+msgstr "新增代理程式"
+
+msgid "add an agent"
+msgstr "新增代理程式"
+
+msgid "Add Attachment"
+msgstr "新增附件"
+
+msgid "Add command"
+msgstr "新增命令"
+
+msgid "Add files, apps, and more"
+msgstr "新增檔案、應用等"
+
+msgid "Add files, apps, and more (@)"
+msgstr "新增檔案、應用等（@）"
+
+msgid "Add photos or files"
+msgstr "新增照片或檔案"
+
+msgid "Add preset"
+msgstr "新增預設"
+
+msgid "Add project"
+msgstr "新增專案"
+
+msgid "Add Project from Folder"
+msgstr "從資料夾新增專案"
+
+msgid "Add Project from Folder..."
+msgstr "從資料夾新增專案..."
+
+msgid "Add to Dictionary"
+msgstr "新增到詞典"
+
+msgid "Added {added} files to {where}"
+msgstr "已向{where}新增{added}個檔案"
+
+msgid "Added 1 file to {where}"
+msgstr "已向{where}新增1個檔案"
+
+msgid "Added only when launching with a prompt."
+msgstr "僅在使用提示詞啟動時新增。"
+
+msgid "Admin"
+msgstr "管理員"
+
+msgid "Advanced environment values override variables written before the command."
+msgstr "進階環境值會覆寫在命令之前寫入的變數。"
+
+msgid "Affected paths"
+msgstr "受影響的路徑"
+
+msgid "After delay"
+msgstr "延遲後"
+
+msgid "Agent"
+msgstr "代理程式"
+
+msgid "Agent activity"
+msgstr "代理程式活動"
+
+msgid "Agent activity changed. Refresh before opening the session."
+msgstr "代理程式活動已變更。請重新整理後再開啟工作階段。"
+
+msgid "Agent activity is loading or unavailable"
+msgstr "代理程式活動正在載入或無法使用"
+
+msgid "Agent commands"
+msgstr "代理程式指令"
+
+msgid "Agent Complete · {workspaceName}"
+msgstr "代理程式已完成 · {workspaceName}"
+
+msgid "Agent configuration unavailable"
+msgstr "代理程式設定無法使用"
+
+msgid "Agent control"
+msgstr "代理程式控制"
+
+msgid "Agent Control"
+msgstr "代理程式控制"
+
+msgid "Agent did not start a terminal"
+msgstr "代理程式未啟動終端"
+
+msgid "Agent failed"
+msgstr "代理程式執行失敗"
+
+msgid "Agent finished"
+msgstr "代理程式已完成"
+
+msgid "Agent Island"
+msgstr "代理程式島"
+
+msgid "Agent launch is waiting for setup"
+msgstr "代理程式正在等待初始化完成後啟動"
+
+msgid "Agent saved, but linked presets could not be updated."
+msgstr "代理程式已儲存，但無法更新關聯的預設。"
+
+msgid "Agent session has not been created yet"
+msgstr "代理程式工作階段尚未建立"
+
+msgid "Agent session is no longer available"
+msgstr "代理程式工作階段已無法使用"
+
+msgid "Agent sessions"
+msgstr "代理程式工作階段"
+
+msgid "Agent status unavailable"
+msgstr "代理程式狀態無法使用"
+
+msgid "Agents"
+msgstr "代理程式"
+
+msgid "AI chatbot built with Next.js and the AI SDK"
+msgstr "使用 Next.js 與 AI SDK 建置的 AI 聊天機器人"
+
+#. placeholder {0}: cmd.aliases.map((alias) => `/${alias}`).join(", ")
+msgid "aliases: {0}"
+msgstr "別名：{0}"
+
+msgid "Alive"
+msgstr "執行中"
+
+msgid "All"
+msgstr "全部"
+
+msgid "All commits"
+msgstr "所有提交"
+
+msgid "All files exceed the maximum size."
+msgstr "所有檔案都超過了大小上限。"
+
+msgid "All open terminal sessions will be killed and any running host-services will be stopped. Use “Close {displayName}” instead if you want services to keep running for the next launch."
+msgstr "所有開啟的終端會話都會被結束，正在執行的主機服務也會停止。如果希望服務繼續執行以便下次啟動，請改用「關閉{displayName}」。"
+
+msgid "All projects"
+msgstr "所有專案"
+
+msgid "All releases"
+msgstr "所有版本"
+
+msgid "All templates"
+msgstr "全部範本"
+
+msgid "All themes used reserved IDs (built-in or system)."
+msgstr "所有主題都使用了保留ID（內建或系統）。"
+
+msgid "Allow"
+msgstr "允許"
+
+msgid "Allow microphone access to use dictation"
+msgstr "請允許麥克風存取以使用語音輸入"
+
+msgid "Already open"
+msgstr "已開啟"
+
+msgid "Also delete local branch"
+msgstr "同時刪除本地分支"
+
+msgid "An update is ready to install."
+msgstr "更新已準備好安裝。"
+
+msgid "Animate the active terminal cursor."
+msgstr "讓目前終端游標閃爍。"
+
+msgid "Annually"
+msgstr "每年"
+
+msgid "Annually at {time}"
+msgstr "每年{time}"
+
+msgid "Annually on {date}"
+msgstr "每年{date}"
+
+msgid "Annually on {date} at {time}"
+msgstr "每年{date}{time}"
+
+msgid "Another deletion is already running for this workspace. Wait and check its status; do not force a second deletion."
+msgstr "此工作區的另一個刪除作業正在執行。請等待並檢查其狀態，不要強制執行第二次刪除。"
+
+msgid "Answered"
+msgstr "已回答"
+
+msgid "App display language. Auto follows your system language."
+msgstr "應用顯示語言。自動模式會跟隨你的系統語言。"
+
+msgid "Appearance"
+msgstr "外觀"
+
+msgid "Apple's installer closed before Git was installed."
+msgstr "Git 安裝完成前，Apple 安裝程式已關閉。"
+
+#. placeholder {0}: phase.reason
+msgid "Apple's installer did not open: {0}"
+msgstr "Apple 安裝程式未能開啟：{0}"
+
+msgid "Apple's time estimate is usually much longer than the real install."
+msgstr "Apple 顯示的預估時間通常比實際安裝時間長得多。"
+
+msgid "Application menu"
+msgstr "應用程式選單"
+
+msgid "Applies to file paths in Markdown previews and terminal output."
+msgstr "適用於 Markdown 預覽與終端機輸出中的檔案路徑。"
+
+msgid "Applies to file rows in the workspace file tree."
+msgstr "套用至工作區檔案樹中的檔案列。"
+
+msgid "Applies to folder paths in Markdown previews, terminal output, and workspace file tree rows."
+msgstr "適用於 Markdown 預覽、終端機輸出與工作區檔案樹列中的資料夾路徑。"
+
+msgid "Applies to URLs in Markdown previews and terminal output."
+msgstr "適用於 Markdown 預覽與終端機輸出中的 URL。"
+
+msgid "Apply"
+msgstr "應用"
+
+msgid "Approval expired"
+msgstr "核准已過期"
+
+msgid "Approval failed. Open the workspace to inspect its current state."
+msgstr "核准失敗。開啟工作區以檢查其目前狀態。"
+
+msgid "Approval needed"
+msgstr "需要核准"
+
+msgid "Approval requested"
+msgstr "已請求核准"
+
+msgid "Approval required"
+msgstr "需要核准"
+
+msgid "Approval response sent"
+msgstr "核准回應已傳送"
+
+msgid "Approved"
+msgstr "已批准"
+
+msgid "Are you sure you want to quit?"
+msgstr "確定要退出嗎？"
+
+msgid "Ask before quitting the app."
+msgstr "結束應用程式前詢問。"
+
+msgid "Ask before terminating a terminal with a running process. Closing a view keeps its session running."
+msgstr "終止含有執行中程序的終端前詢問。關閉檢視會保持其工作階段執行。"
+
+msgid "Ask to make changes, @mention files"
+msgstr "要求進行變更，@提及檔案"
+
+msgid "Ask to make changes, @mention files, run /commands"
+msgstr "說明要做的修改，用@提及檔案，用/執行命令"
+
+msgid "Attach"
+msgstr "附加"
+
+msgid "Attach files"
+msgstr "附加檔案"
+
+msgid "Attached"
+msgstr "已附加"
+
+msgid "attachment"
+msgstr "附件"
+
+msgid "Attachment"
+msgstr "附件"
+
+#. placeholder {0}: (cause.index ?? 0) + 1
+#. placeholder {1}: cause.problem
+msgid "Attachment {0} could not be copied: {1}"
+msgstr "無法複製附件 {0}：{1}"
+
+msgid "Attachment limits exceeded"
+msgstr "超過附件限制"
+
+msgid "attachment preview"
+msgstr "附件預覽"
+
+msgid "Attachments are available for local workspaces only."
+msgstr "附件僅可用於本機工作區。"
+
+msgid "Audio"
+msgstr "音訊"
+
+msgid "Auto"
+msgstr "自動"
+
+msgid "Auto (system)"
+msgstr "自動（跟隨系統）"
+
+msgid "Auto save"
+msgstr "自動儲存"
+
+msgid "Automatic branch"
+msgstr "自動分支名稱"
+
+msgid "Automatic name"
+msgstr "自動命名"
+
+msgid "Automatic updates are unavailable for this build."
+msgstr "此建置無法使用自動更新。"
+
+msgid "Automation"
+msgstr "自動化"
+
+msgid "Automation (Apple Events)"
+msgstr "自動化（Apple Events）"
+
+msgid "Automation action failed"
+msgstr "自動化動作失敗"
+
+msgid "Automation actions"
+msgstr "自動化動作"
+
+msgid "Automation deleted"
+msgstr "自動化已刪除"
+
+msgid "Automation enabled"
+msgstr "自動化已啟用"
+
+msgid "Automation name"
+msgstr "自動化名稱"
+
+msgid "Automation paused"
+msgstr "自動化已暫停"
+
+msgid "Automation saved"
+msgstr "自動化已儲存"
+
+msgid "Automation started"
+msgstr "自動化已啟動"
+
+msgid "Automations"
+msgstr "自動化"
+
+msgid "Awaiting approval"
+msgstr "等待核准"
+
+msgid "Awaiting Response"
+msgstr "等待回應"
+
+msgid "Awaiting Response · {workspaceName}"
+msgstr "等待回覆 · {workspaceName}"
+
+msgid "Back"
+msgstr "返回"
+
+msgid "Back to automations"
+msgstr "返回自動化"
+
+msgid "Background processes"
+msgstr "背景程序"
+
+msgid "Bar"
+msgstr "豎線"
+
+msgid "Base branch"
+msgstr "基礎分支"
+
+msgid "Base branch (repository default)"
+msgstr "基礎分支（儲存庫預設）"
+
+msgid "Binary file"
+msgstr "二進位檔案"
+
+msgid "Block"
+msgstr "方塊"
+
+msgid "Blockquote"
+msgstr "引用塊"
+
+msgid "Blue"
+msgstr "藍色"
+
+msgid "Bold"
+msgstr "粗體"
+
+msgid "Branch"
+msgstr "分支"
+
+#. placeholder {0}: params?.branch
+#. placeholder {1}: params?.remote
+msgid "Branch \"{0}\" is not on this device or on {1}. Only pushed commits can be restored."
+msgstr "分支「{0}」不在此裝置上，也不在 {1} 上。只能還原已推送的提交。"
+
+msgid "Branch name"
+msgstr "分支名稱"
+
+msgid "Branch prefix"
+msgstr "分支字首"
+
+msgid "Branch preview"
+msgstr "分支預覽"
+
+msgid "Branch switched"
+msgstr "已切換分支"
+
+msgid "Branches & naming"
+msgstr "分支與命名"
+
+msgid "Browse"
+msgstr "瀏覽"
+
+msgid "Browse for directory"
+msgstr "瀏覽目錄"
+
+msgid "Bug"
+msgstr "蟲子"
+
+msgid "builtin"
+msgstr "內建"
+
+msgid "Bullet list"
+msgstr "專案符號列表"
+
+msgid "Bulleted list"
+msgstr "專案符號列表"
+
+msgid "Cached input"
+msgstr "快取輸入"
+
+msgid "Cached terminal views"
+msgstr "快取的終端檢視"
+
+msgid "Cancel"
+msgstr "取消"
+
+msgid "Cancellation requested. Checking the host before another clone…"
+msgstr "已請求取消。正在檢查主機狀態，然後再進行另一次複製…"
+
+msgid "Cancellation requests the target host to stop. Check the operation result before retrying at this location."
+msgstr "取消操作會請求目標主機停止。請檢查作業結果，再於此位置重試。"
+
+msgid "Cancelled"
+msgstr "已取消"
+
+msgid "Cannot {action}: no active organization is selected. Select an organization or sign in again."
+msgstr "無法{action}：未選擇活動組織。請選擇一個組織或重新登入。"
+
+msgid "Cannot {action}: the local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
+msgstr "無法{action}：{device}上{organization}的本地主機服務不可用。狀態：{status}。{recovery}"
+
+msgid "Change location…"
+msgstr "變更位置…"
+
+msgid "Change project icon and color"
+msgstr "更改專案圖示和顏色"
+
+msgid "Change state"
+msgstr "變更狀態"
+
+msgid "Changed files"
+msgstr "已變更的檔案"
+
+msgid "Changes"
+msgstr "更改"
+
+msgid "Changes discarded"
+msgstr "已捨棄變更"
+
+msgid "Changes requested"
+msgstr "要求修改"
+
+msgid "Changing this location affects new worktrees. Existing folders are not moved."
+msgstr "變更此位置會影響新工作樹。現有資料夾不會移動。"
+
+msgid "Chat"
+msgstr "聊天"
+
+msgid "Chat is being reworked"
+msgstr "聊天功能正在重做"
+
+msgid "Check for updates"
+msgstr "檢查更新"
+
+msgid "Check for Updates..."
+msgstr "檢查更新..."
+
+msgid "Check resources"
+msgstr "檢查資源"
+
+msgid "Check Resources"
+msgstr "檢視資源"
+
+msgid "Check result"
+msgstr "檢查結果"
+
+msgid "Check status"
+msgstr "檢查狀態"
+
+msgid "Check your connection and try again"
+msgstr "請檢查網路連線後重試"
+
+msgid "Checking for updates…"
+msgstr "正在檢查更新…"
+
+msgid "Checking project…"
+msgstr "正在檢查專案…"
+
+msgid "Checking repository access…"
+msgstr "正在檢查儲存庫存取權限…"
+
+msgid "Checking the target host for a completed project…"
+msgstr "正在目標主機上檢查已完成的專案…"
+
+msgid "Checking workspace state…"
+msgstr "正在檢查工作區狀態…"
+
+msgid "Checking workspaces and running sessions…"
+msgstr "正在檢查工作區與執行中的工作階段…"
+
+msgid "Checklist"
+msgstr "清單"
+
+msgid "Checks"
+msgstr "檢查"
+
+msgid "Checks failed"
+msgstr "檢查失敗"
+
+msgid "Checks passed"
+msgstr "檢查通過"
+
+msgid "Checks running"
+msgstr "檢查正在執行"
+
+msgid "Choose a checkout, branch, pull request, or existing worktree on the target host."
+msgstr "在目標主機上選擇檢出、分支、PR 或現有工作樹。"
+
+msgid "Choose a folder on the connected host"
+msgstr "在已連線的主機上選擇資料夾"
+
+msgid "Choose a glyph, upload an image, or change the accent color."
+msgstr "選擇字形、上傳圖片或變更強調色。"
+
+msgid "Choose a project"
+msgstr "選擇專案"
+
+msgid "Choose a project or workspace"
+msgstr "選擇專案或工作區"
+
+msgid "Choose a project to start working."
+msgstr "選擇專案以開始工作。"
+
+msgid "Choose a saved screenshot to attach. Files are copied only when you submit the prompt."
+msgstr "選擇要附加的已儲存截圖。只有提交提示時才會複製檔案。"
+
+msgid "Choose a workspace"
+msgstr "選擇工作區"
+
+msgid "Choose agent session"
+msgstr "選擇代理程式工作階段"
+
+msgid "Choose an available project or workspace"
+msgstr "選擇可用的專案或工作區"
+
+msgid "Choose file and editor behavior on this device."
+msgstr "選擇此裝置上的檔案和編輯器行為。"
+
+msgid "Choose how Jedv behaves on this device."
+msgstr "選擇 Jedv 在此裝置上的行為。"
+
+msgid "Choose notification sounds and volume."
+msgstr "選擇通知聲音和音量。"
+
+msgid "Clear"
+msgstr "透明"
+
+msgid "Clear saved screenshots?"
+msgstr "清除已儲存的截圖？"
+
+msgid "Clear screenshots"
+msgstr "清除截圖"
+
+msgid "Clear search"
+msgstr "清除搜尋"
+
+msgid "Clear shortcut"
+msgstr "清除快速鍵"
+
+msgid "Clear Status"
+msgstr "清除狀態"
+
+msgid "Clear Terminal"
+msgstr "清空終端"
+
+msgid "CLI remains available. Structured control is unavailable for this session; check capabilities or continue in its terminal."
+msgstr "CLI 仍可使用。此工作階段無法使用結構化控制；請檢查能力或在其終端中繼續。"
+
+msgid "click"
+msgstr "點選"
+
+msgid "Click two commits to define the range."
+msgstr "點選兩個提交以確定範圍。"
+
+msgid "Clone a repository"
+msgstr "克隆儲存庫"
+
+msgid "Clone from URL"
+msgstr "從URL克隆"
+
+msgid "Clone repository"
+msgstr "複製儲存庫"
+
+msgid "clone the repository"
+msgstr "克隆儲存庫"
+
+msgid "Cloning repository…"
+msgstr "正在複製儲存庫…"
+
+msgid "Close"
+msgstr "關閉"
+
+msgid "Close (Esc)"
+msgstr "關閉（Esc）"
+
+msgid "Close {displayName}"
+msgstr "關閉{displayName}"
+
+msgid "Close a diff tab before opening another. At most eight diffs can be open."
+msgstr "請先關閉一個 diff 分頁，再開啟另一個。最多可同時開啟 8 個 diff。"
+
+msgid "Close a tab before opening more tabs in this workspace."
+msgstr "請先關閉一個分頁，再在此工作區開啟更多分頁。"
+
+msgid "Close all"
+msgstr "全部關閉"
+
+msgid "Close All"
+msgstr "全部關閉"
+
+msgid "Close all ports?"
+msgstr "關閉全部連接埠？"
+
+msgid "Close CLI terminal and take control"
+msgstr "關閉 CLI 終端並接管控制"
+
+msgid "Close detail"
+msgstr "關閉詳細資料"
+
+msgid "Close details"
+msgstr "關閉詳細資料"
+
+msgid "Close file"
+msgstr "關閉檔案"
+
+msgid "Close forwarded ports"
+msgstr "關閉轉送的連接埠"
+
+msgid "Close or delete the current workspace"
+msgstr "關閉或刪除目前工作區"
+
+msgid "Close other apps using the microphone"
+msgstr "請關閉其他正在使用麥克風的應用"
+
+msgid "Close Others"
+msgstr "關閉其他"
+
+msgid "Close pane"
+msgstr "關閉窗格"
+
+msgid "Close Pane"
+msgstr "關閉窗格"
+
+#. placeholder {0}: port.port
+msgid "Close port {0}"
+msgstr "關閉埠{0}"
+
+msgid "Close port?"
+msgstr "關閉連接埠？"
+
+msgid "Close Saved"
+msgstr "關閉已儲存文件"
+
+msgid "Close tab"
+msgstr "關閉分頁"
+
+msgid "Close Tab"
+msgstr "關閉分頁"
+
+msgid "Close Terminal"
+msgstr "關閉終端"
+
+msgid "Close the current pane"
+msgstr "關閉目前窗格"
+
+msgid "Close the current tab"
+msgstr "關閉目前分頁"
+
+msgid "Close this CLI terminal and take control of the same session? The terminal process will stop. Other terminal work may be lost."
+msgstr "關閉此 CLI 終端並接管同一工作階段？終端程序將停止，其他終端工作可能遺失。"
+
+msgid "Close to the Right"
+msgstr "關閉右側分頁"
+
+msgid "Close View"
+msgstr "關閉檢視"
+
+msgid "Close Window"
+msgstr "關閉視窗"
+
+msgid "Close Workspace"
+msgstr "關閉工作區"
+
+msgid "Closed"
+msgstr "已關閉"
+
+msgid "Code"
+msgstr "程式碼"
+
+msgid "Code block"
+msgstr "程式碼塊"
+
+msgid "Collapse"
+msgstr "摺疊"
+
+msgid "Collapse all"
+msgstr "全部摺疊"
+
+msgid "Collapse All"
+msgstr "全部摺疊"
+
+msgid "Color"
+msgstr "顏色"
+
+msgid "Color saved, but the icon could not be updated. Retry the icon update."
+msgstr "顏色已儲存，但圖示更新失敗。請重試更新圖示。"
+
+msgid "Combine sequences such as => and !==."
+msgstr "合併顯示=>和!==等序列。"
+
+msgid "Coming soon"
+msgstr "即將推出"
+
+msgid "Command"
+msgstr "命令"
+
+#. placeholder {0}: index + 1
+msgid "Command {0}"
+msgstr "指令 {0}"
+
+msgid "Command needs approval"
+msgstr "命令需要核准"
+
+msgid "Commands"
+msgstr "命令"
+
+msgid "Commands and arguments for the connected host."
+msgstr "用於連線主機的命令和參數。"
+
+msgid "Commands follow the linked agent."
+msgstr "指令將使用關聯的代理程式。"
+
+msgid "Comment"
+msgstr "評論"
+
+msgid "Comment posted"
+msgstr "評論已發布"
+
+msgid "Commented"
+msgstr "已評論"
+
+msgid "Commit"
+msgstr "提交"
+
+msgid "Commit message"
+msgstr "提交訊息"
+
+msgid "Commit or discard changes before switching branches."
+msgstr "切換分支前請提交或捨棄變更。"
+
+msgid "Commit staged changes"
+msgstr "提交已暫存的變更"
+
+msgid "Commits"
+msgstr "提交"
+
+msgid "Committed with the repository and shared with everyone who works on it."
+msgstr "隨儲存庫一起提交，與所有參與此儲存庫的人共享。"
+
+msgid "Compare"
+msgstr "對比"
+
+msgid "Completed"
+msgstr "完成時間"
+
+msgid "Config file contents"
+msgstr "設定檔內容"
+
+msgid "config.json must be a JSON object"
+msgstr "config.json 必須是 JSON 物件"
+
+msgid "Configure"
+msgstr "配置"
+
+msgid "Configure agent commands for the connected host."
+msgstr "設定連線主機上代理程式的命令。"
+
+msgid "Confirm"
+msgstr "確認"
+
+msgid "Confirm before closing a running terminal"
+msgstr "關閉正在執行的終端前確認"
+
+msgid "Confirm before quitting"
+msgstr "退出前確認"
+
+msgid "Connect"
+msgstr "連線"
+
+msgid "Connect a microphone to use dictation"
+msgstr "請連線麥克風以使用語音輸入"
+
+msgid "Connect over Tailscale using the host's HTTPS address and PSK."
+msgstr "使用主機的 HTTPS 位址和 PSK 透過 Tailscale 連線。"
+
+msgid "Connect to a host before changing workspace presentation."
+msgstr "變更工作區顯示設定前，請先連線主機。"
+
+msgid "Connect to host"
+msgstr "連線到主機"
+
+msgid "Connected"
+msgstr "已連線"
+
+msgid "Connected host"
+msgstr "已連線的主機"
+
+msgid "Connecting…"
+msgstr "正在連線…"
+
+msgid "Continue"
+msgstr "繼續"
+
+msgid "Continue {title}"
+msgstr "繼續 {title}"
+
+msgid "Continue opening"
+msgstr "繼續開啟"
+
+msgid "Continue same session"
+msgstr "繼續同一工作階段"
+
+msgid "Continue the same agent session"
+msgstr "繼續同一代理程式工作階段"
+
+msgid "Continue this exact existing session. A new agent session will not be started."
+msgstr "繼續這個指定的現有工作階段，不會啟動新的代理程式工作階段。"
+
+msgid "Continue with agent"
+msgstr "使用代理程式繼續"
+
+msgid "Continue with agent…"
+msgstr "使用代理程式繼續…"
+
+msgid "Continuing…"
+msgstr "正在繼續…"
+
+msgid "Control mode"
+msgstr "控制模式"
+
+msgid "Control output only. Earlier CLI history is not included."
+msgstr "僅控制輸出。不包含先前的 CLI 歷史記錄。"
+
+msgid "Control owns this session"
+msgstr "此工作階段由控制端擁有"
+
+msgid "Control shortcuts on macOS are reserved for terminal programs."
+msgstr "macOS 上的 Control 快速鍵已為終端程式保留。"
+
+msgid "Convert to config.toml"
+msgstr "轉換為 config.toml"
+
+msgid "Convert to draft?"
+msgstr "轉換為草稿？"
+
+msgid "Converting to draft…"
+msgstr "正在轉為草稿…"
+
+msgid "Copied"
+msgstr "已複製"
+
+msgid "Copied to clipboard"
+msgstr "已複製到剪貼簿"
+
+msgid "Copy"
+msgstr "複製"
+
+msgid "Copy agent session ID"
+msgstr "複製代理程式會話ID"
+
+msgid "Copy as CSV"
+msgstr "複製為 CSV"
+
+msgid "Copy as Markdown"
+msgstr "複製為 Markdown"
+
+msgid "Copy Branch Name"
+msgstr "複製分支名"
+
+msgid "Copy error details"
+msgstr "複製錯誤詳情"
+
+msgid "Copy failed"
+msgstr "複製失敗"
+
+msgid "Copy image"
+msgstr "複製圖片"
+
+msgid "Copy Link"
+msgstr "複製連結"
+
+msgid "Copy Link Address"
+msgstr "複製連結地址"
+
+#. placeholder {0}: port.port
+msgid "Copy localhost:{0}"
+msgstr "複製localhost:{0}"
+
+msgid "Copy on select"
+msgstr "選取即複製"
+
+msgid "Copy path"
+msgstr "複製路徑"
+
+msgid "Copy Path"
+msgstr "複製路徑"
+
+msgid "Copy Relative Path"
+msgstr "複製相對路徑"
+
+msgid "Copy selected terminal text to the clipboard."
+msgstr "將選取的終端文字複製到剪貼簿。"
+
+msgid "Copy terminal ID"
+msgstr "複製終端ID"
+
+msgid "Copy the workspace path to the clipboard"
+msgstr "將工作區路徑複製到剪貼簿"
+
+msgid "Copy Workspace ID"
+msgstr "複製工作區ID"
+
+msgid "Copy..."
+msgstr "複製…"
+
+msgid "Costs are estimates based on API list rates, not a bill or actual subscription spending. Unknown models use approximate rates."
+msgstr "費用是根據 API 標價估算的，不是帳單或實際訂閱支出。未知模型使用近似費率。"
+
+msgid "Could not change the project location. Your files have not been moved."
+msgstr "無法變更專案位置。你的檔案尚未移動。"
+
+msgid "Could not check all workspaces. Check the host connection and try again before removing this project."
+msgstr "無法檢查所有工作區。請檢查主機連線並重試，然後再移除此專案。"
+
+msgid "Could not check Git on this computer. You can retry or continue."
+msgstr "無法檢查此電腦上的 Git。你可以重試或繼續。"
+
+msgid "Could not confirm the operation on the target host. Check its connection and retry the result check."
+msgstr "無法確認目標主機上的作業。請檢查連線，然後重新檢查結果。"
+
+msgid "Could not confirm the result on the target host. Check its connection and permissions, then check the result again."
+msgstr "無法確認目標主機上的結果。請檢查連線與權限，然後再次檢查結果。"
+
+msgid "Could not confirm this session. Refresh before retrying."
+msgstr "無法確認此工作階段。重試前請重新整理。"
+
+msgid "Could not create workspace. Check the target host and retry."
+msgstr "無法建立工作區。請檢查目標主機並重試。"
+
+msgid "Could not delete workspace. Check its status before retrying."
+msgstr "無法刪除工作區。請檢查其狀態後重試。"
+
+msgid "Could not detect workspaces"
+msgstr "無法偵測工作區"
+
+msgid "Could not finish importing. Successful imports are kept."
+msgstr "無法完成匯入。成功匯入的內容會保留。"
+
+msgid "Could not finish removing the project. Refresh its status before trying again."
+msgstr "無法完成專案移除。請重新整理其狀態後重試。"
+
+msgid "Could not finish restoring the workspace. Check the target host; an occupied path or unavailable branch blocks restoration."
+msgstr "無法完成工作區還原。請檢查目標主機；路徑被占用或分支無法使用會阻止還原。"
+
+msgid "Could not import workspace"
+msgstr "無法匯入工作區"
+
+msgid "Could not inspect this workspace. Retry the checks before deleting it."
+msgstr "無法檢查此工作區。請重試檢查後再刪除。"
+
+msgid "Could not list repositories. Check gh authentication on the target host, or enter a URL below."
+msgstr "無法列出儲存庫。請檢查目標主機上的 gh 驗證，或在下方輸入 URL。"
+
+msgid "Could not load branches from the target host."
+msgstr "無法從目標主機載入分支。"
+
+msgid "Could not load GitHub permissions"
+msgstr "無法載入 GitHub 權限"
+
+msgid "Could not load image"
+msgstr "無法載入圖片"
+
+msgid "Could not load project settings from the target host."
+msgstr "無法從目標主機載入專案設定。"
+
+msgid "Could not load pull requests. Check gh access on the target host."
+msgstr "無法載入 PR。請檢查目標主機上的 gh 存取權。"
+
+msgid "Could not load workspace status. Check the target host and try again."
+msgstr "無法載入工作區狀態。請檢查目標主機並重試。"
+
+msgid "Could not open this workspace. Check the target host and try again."
+msgstr "無法開啟此工作區。請檢查目標主機並重試。"
+
+#. placeholder {0}: params?.remote
+#. placeholder {1}: params?.branch
+#. placeholder {2}: params?.remote
+msgid "Could not reach {0} to look for branch \"{1}\". Check your connection and access to {2}, then try again."
+msgstr "無法連線至 {0} 以尋找分支「{1}」。請檢查網路連線與 {2} 的存取權限，然後再試一次。"
+
+msgid "Could not read image"
+msgstr "無法讀取圖片"
+
+msgid "Could not read removed projects from this host."
+msgstr "無法從此主機讀取已移除的專案。"
+
+msgid "Could not read selected file"
+msgstr "無法讀取所選檔案"
+
+msgid "Could not read the dropped files"
+msgstr "無法讀取拖入的檔案"
+
+msgid "Could not read this directory. Check the path and permissions on the target host."
+msgstr "無法讀取此目錄。請檢查目標主機上的路徑與權限。"
+
+msgid "Could not read worktrees from the target host."
+msgstr "無法從目標主機讀取工作樹。"
+
+msgid "Could not rename project. Try again."
+msgstr "無法重新命名專案。請重試。"
+
+msgid "Could not rename project. Your draft is kept; try again."
+msgstr "無法重新命名專案。你的草稿已保留，請重試。"
+
+msgid "Could not rename this session. Your draft is kept."
+msgstr "無法重新命名此工作階段。你的草稿已保留。"
+
+msgid "Could not render icon"
+msgstr "無法呈現圖示"
+
+msgid "Could not render image"
+msgstr "無法呈現圖片"
+
+msgid "Could not save the group. Your draft is kept."
+msgstr "無法儲存群組。你的草稿已保留。"
+
+msgid "Could not save the project. Check the project name and target location."
+msgstr "無法儲存專案。請檢查專案名稱與目標位置。"
+
+msgid "Could not save the theme. Try again."
+msgstr "無法儲存主題。請重試。"
+
+msgid "Could not save this setting. Try again."
+msgstr "無法儲存此設定。請重試。"
+
+msgid "Could not save workspace order. The list may have changed on the host; refresh and try again."
+msgstr "無法儲存工作區順序。主機上的清單可能已變更，請重新整理後重試。"
+
+msgid "Could not save worktree location. Your previous setting is unchanged unless the host already saved this request."
+msgstr "無法儲存工作樹位置。除非主機已儲存此請求，否則先前的設定不會改變。"
+
+msgid "Could not save your progress. Try again."
+msgstr "無法儲存你的進度。請重試。"
+
+msgid "Could not select a project directory."
+msgstr "無法選取專案目錄。"
+
+msgid "Could not set icon"
+msgstr "無法設定圖示"
+
+msgid "Could not stop a listening process. Earlier successful stops are kept."
+msgstr "無法停止某個監聽程序。先前成功停止的程序不會重新啟動。"
+
+msgid "Could not stop it"
+msgstr "無法停止"
+
+msgid "Could not update the project tree. Try again."
+msgstr "無法更新專案樹。請重試。"
+
+msgid "Could not update the removed project. Check its status before retrying."
+msgstr "無法更新已移除的專案。請檢查其狀態後重試。"
+
+msgid "Could not update workspace. Try again."
+msgstr "無法更新工作區。請重試。"
+
+msgid "Couldn't save"
+msgstr "儲存失敗"
+
+msgid "Couldn't save. Edit or click away to retry"
+msgstr "儲存失敗。編輯或點選別處以重試"
+
+msgid "Couldn't save. Retrying…"
+msgstr "儲存失敗。正在重試…"
+
+msgid "Create a blank folder and initialize it as a Git repository."
+msgstr "建立空白資料夾並將其初始化為 Git 儲存庫。"
+
+msgid "Create a new project"
+msgstr "建立新專案"
+
+msgid "Create a new project by cloning a repository or local path."
+msgstr "通過克隆儲存庫或本地路徑來建立新專案。"
+
+msgid "Create a pull request from an existing workspace branch. Its configured base branch is used."
+msgstr "從現有工作區分支建立拉取請求。使用其設定的基礎分支。"
+
+msgid "Create a separate session from an existing one. Use the session ID placeholder for its position."
+msgstr "從現有工作階段建立獨立工作階段。使用工作階段 ID 佔位符指定其位置。"
+
+msgid "Create new project"
+msgstr "新建專案"
+
+msgid "Create PR"
+msgstr "建立 PR"
+
+msgid "Create project"
+msgstr "建立專案"
+
+msgid "Create pull request"
+msgstr "建立拉取請求"
+
+msgid "Create pull request on GitHub?"
+msgstr "在 GitHub 上建立拉取請求？"
+
+msgid "create the project"
+msgstr "建立專案"
+
+msgid "create the workspace"
+msgstr "建立工作區"
+
+msgid "Create workspace"
+msgstr "建立工作區"
+
+msgid "Created"
+msgstr "建立時間"
+
+msgid "Created {createdDirs} folders in {where}"
+msgstr "已在{where}建立{createdDirs}個資料夾"
+
+msgid "Created 1 folder in {where}"
+msgstr "已在{where}建立1個資料夾"
+
+#. placeholder {0}: completed.hash
+msgid "Created commit {0}"
+msgstr "已建立提交 {0}"
+
+msgid "Creating directory and initializing Git…"
+msgstr "正在建立目錄並初始化 Git…"
+
+msgid "Creating…"
+msgstr "建立中…"
+
+msgid "Cross-platform mobile app with Expo"
+msgstr "使用 Expo 建置的跨平台行動應用程式"
+
+msgid "Ctrl+click"
+msgstr "Ctrl+點選"
+
+msgid "Ctrl+Shift+click"
+msgstr "Ctrl+Shift+點選"
+
+msgid "Current"
+msgstr "目前"
+
+msgid "Cursor blinking"
+msgstr "游標閃爍"
+
+msgid "Cursor style"
+msgstr "游標樣式"
+
+msgid "Custom"
+msgstr "自訂"
+
+msgid "Custom branch prefix"
+msgstr "自訂分支前綴"
+
+msgid "Custom notification sound"
+msgstr "自訂通知聲音"
+
+msgid "Custom prefix"
+msgstr "自訂字首"
+
+msgid "Custom sound"
+msgstr "自訂聲音"
+
+msgid "Custom themes"
+msgstr "自訂主題"
+
+msgid "Customize how Jedv looks on your device"
+msgstr "自訂 Jedv 在裝置上的外觀"
+
+msgid "Customize shortcuts for your local workflow."
+msgstr "自訂本地工作流的快速鍵。"
+
+msgid "Customize terminal behavior and typography."
+msgstr "自訂終端行為和字體排版。"
+
+msgid "Cyan"
+msgstr "青色"
+
+msgid "Daemon restarted. All sessions were closed."
+msgstr "守護程序已重新啟動。所有工作階段均已關閉。"
+
+msgid "Daemon unavailable"
+msgstr "守護程式不可用"
+
+msgid "Daemon updated. Sessions preserved."
+msgstr "守護程序已更新。工作階段已保留。"
+
+msgid "Daily"
+msgstr "每天"
+
+msgid "Daily at {time}"
+msgstr "每天{time}"
+
+msgid "Daily token history"
+msgstr "每日權杖歷史"
+
+msgid "Danger zone"
+msgstr "危險區域"
+
+msgid "Dark"
+msgstr "深色"
+
+msgid "Dark theme"
+msgstr "深色主題"
+
+msgid "Decline"
+msgstr "拒絕"
+
+msgid "default"
+msgstr "預設"
+
+msgid "Default"
+msgstr "預設"
+
+msgid "Default external editor"
+msgstr "預設外部編輯器"
+
+msgid "Defaults for new workspaces on the connected host."
+msgstr "連線主機上新工作區的預設設定。"
+
+msgid "Delete"
+msgstr "刪除"
+
+msgid "Delete agent"
+msgstr "刪除代理程式"
+
+msgid "Delete anyway"
+msgstr "仍然刪除"
+
+msgid "Delete anyway will skip the teardown script entirely."
+msgstr "「仍然刪除」將完全跳過清理指令碼。"
+
+msgid "Delete automation?"
+msgstr "刪除自動化？"
+
+msgid "Delete multiple workspaces"
+msgstr "刪除多個工作區"
+
+msgid "Delete permanently"
+msgstr "永久刪除"
+
+msgid "Delete permanently…"
+msgstr "永久刪除…"
+
+msgid "Delete project permanently?"
+msgstr "永久刪除專案？"
+
+msgid "Delete session \"{workspaceName}\"?"
+msgstr "刪除會話「{workspaceName}」？"
+
+msgid "Delete this custom agent?"
+msgstr "刪除此自訂代理程式？"
+
+msgid "Delete this preset?"
+msgstr "刪除此預設？"
+
+msgid "Delete workspace \"{workspaceName}\"?"
+msgstr "刪除工作區「{workspaceName}」？"
+
+msgid "Delete Workspace…"
+msgstr "刪除工作區…"
+
+msgid "Deleted"
+msgstr "已刪除"
+
+msgid "Deleted sessions cannot be restored."
+msgstr "已刪除的工作階段無法還原。"
+
+msgid "Deleting…"
+msgstr "正在刪除…"
+
+msgid "Describe what the agent should do…"
+msgstr "描述代理程式應執行的任務…"
+
+msgid "Description"
+msgstr "說明"
+
+msgid "Description (optional)"
+msgstr "描述（選填）"
+
+msgid "Desktop resources"
+msgstr "桌面資源"
+
+msgid "Destination path"
+msgstr "目的地路徑"
+
+msgid "Detached"
+msgstr "已分離"
+
+msgid "Details"
+msgstr "詳情"
+
+msgid "Detect workspaces from other tools"
+msgstr "偵測其他工具中的工作區"
+
+msgid "Diagnostics"
+msgstr "診斷"
+
+msgid "Dictate"
+msgstr "語音輸入"
+
+msgid "Dictation is not available on this device"
+msgstr "此裝置不支援語音輸入"
+
+msgid "diff"
+msgstr "差異"
+
+msgid "diff in new tab"
+msgstr "在新分頁看差異"
+
+msgid "Directory path"
+msgstr "目錄路徑"
+
+msgid "Discard"
+msgstr "放棄"
+
+msgid "Discard changes"
+msgstr "放棄更改"
+
+msgid "Discard Changes"
+msgstr "捨棄變更"
+
+msgid "Discard draft"
+msgstr "捨棄草稿"
+
+msgid "Discard recording"
+msgstr "放棄錄音"
+
+msgid "Discard this unsent draft and its selected attachments?"
+msgstr "捨棄此未傳送的草稿及所選附件？"
+
+msgid "Discard unsaved changes?"
+msgstr "捨棄未儲存的變更？"
+
+msgid "Discarding renamed or copied files is unavailable. Restore both paths with Git."
+msgstr "無法捨棄重新命名或複製檔案的變更。請使用 Git 還原兩個路徑。"
+
+msgid "Disconnected"
+msgstr "已斷開"
+
+#. placeholder {0}: formatNumber(logins.data.claude.length)
+#. placeholder {1}: formatNumber(logins.data.codex.length)
+msgid "Discovered {0} Claude Code and {1} Codex login profiles on this host."
+msgstr "在此主機上發現 {0} 個 Claude Code 和 {1} 個 Codex 登入設定。"
+
+msgid "Disk version"
+msgstr "磁碟版本"
+
+msgid "Dismiss"
+msgstr "忽略"
+
+msgid "Dismissed"
+msgstr "已忽略"
+
+msgid "Display"
+msgstr "顯示"
+
+msgid "Do anything"
+msgstr "做任何事"
+
+msgid "Do not start a new agent until workspace setup has succeeded or is not required. If setup fails or its status cannot be confirmed, starting the agent is blocked."
+msgstr "在工作區初始化成功或確認無需初始化之前，請勿啟動新的代理程式。如果初始化失敗或狀態無法確認，將阻止啟動代理程式。"
+
+msgid "Do nothing"
+msgstr "不執行任何操作"
+
+msgid "Documentation"
+msgstr "文件"
+
+msgid "Done"
+msgstr "完成"
+
+msgid "Download starter"
+msgstr "下載模板"
+
+msgid "Downloading {version} · {percent}%"
+msgstr "正在下載 {version} · {percent}%"
+
+msgid "Downloading {version}…"
+msgstr "正在下載 {version}…"
+
+msgid "Downloading template and creating fresh Git history…"
+msgstr "正在下載範本並建立新的 Git 歷史…"
+
+msgid "Downloading update…"
+msgstr "正在下載更新…"
+
+msgid "Draft"
+msgstr "草稿"
+
+msgid "Drop files to attach"
+msgstr "拖放檔案以新增附件"
+
+msgid "Drop into {label}"
+msgstr "拖放到{label}"
+
+msgid "Drop to attach"
+msgstr "拖放以新增附件"
+
+msgid "dropdown"
+msgstr "下拉選單"
+
+msgid "Each surface has its own typography. Changes appear immediately in the live previews."
+msgstr "每個介面都有各自的排版設定。更改會立即體現在即時預覽中。"
+
+msgid "Earlier output"
+msgstr "較早的輸出"
+
+msgid "Edit"
+msgstr "編輯"
+
+msgid "Edit group"
+msgstr "編輯群組"
+
+msgid "Edit shared setup, run and teardown commands, or personal overrides. Saving does not execute commands."
+msgstr "編輯共用的初始化、執行與清理指令或個人覆寫設定。儲存不會執行指令。"
+
+msgid "Edit terminal preset"
+msgstr "編輯終端機預設"
+
+msgid "editor"
+msgstr "編輯器"
+
+msgid "Editor & workflow"
+msgstr "編輯器和工作流"
+
+msgid "Editor typography"
+msgstr "編輯器排版"
+
+msgid "Enable"
+msgstr "啟用"
+
+msgid "Endpoint"
+msgstr "端點"
+
+msgid "Enter a command."
+msgstr "輸入命令。"
+
+msgid "Enter a group name of 1 to 64 characters."
+msgstr "輸入 1 到 64 個字元的群組名稱。"
+
+msgid "Enter a project name and location."
+msgstr "輸入專案名稱與位置。"
+
+msgid "Enter a project name."
+msgstr "輸入專案名稱。"
+
+msgid "Enter a valid repository URL, SSH address, or absolute path on the target host. Remove query strings and fragments from GitHub URLs."
+msgstr "輸入有效的儲存庫 URL、SSH 位址或目標主機上的絕對路徑。請移除 GitHub URL 中的查詢字串與片段。"
+
+msgid "Enter a valid schedule and time zone"
+msgstr "輸入有效的日程和時區"
+
+msgid "Enter a valid value within the allowed range."
+msgstr "輸入允許範圍內的有效值。"
+
+msgid "Enter an absolute directory path on the target host."
+msgstr "輸入目標主機上的絕對目錄路徑。"
+
+msgid "Enter an agent name."
+msgstr "輸入代理程式名稱。"
+
+msgid "Enter URL..."
+msgstr "輸入URL..."
+
+msgid "Environment must be a JSON object with valid variable names and string values."
+msgstr "環境必須是包含有效變數名稱和字串值的 JSON 物件。"
+
+msgid "Environment variables"
+msgstr "環境變數"
+
+msgid "Equalize Pane Splits"
+msgstr "均分窗格"
+
+msgid "Estimated cost"
+msgstr "估計費用"
+
+msgid "Every {day}"
+msgstr "每{day}"
+
+msgid "Every {day} at {time}"
+msgstr "每{day} {time}"
+
+msgid "Every minute"
+msgstr "每分鐘"
+
+msgid "Execution mode"
+msgstr "執行模式"
+
+msgid "Existing branch"
+msgstr "現有分支"
+
+msgid "Existing chat session. No CLI terminal is attached."
+msgstr "現有聊天工作階段。未連接 CLI 終端。"
+
+msgid "Existing chat sessions"
+msgstr "現有聊天工作階段"
+
+msgid "Existing worktree"
+msgstr "現有工作樹"
+
+#. placeholder {0}: blocker.state.exitCode ?? "—"
+#. placeholder {1}: blocker.state.exitSignal ?? "—"
+msgid "Exit code: {0}; signal: {1}"
+msgstr "結束碼：{0}；訊號：{1}"
+
+msgid "Exited"
+msgstr "已退出"
+
+#. placeholder {0}: session.exitCode
+msgid "Exited ({0})"
+msgstr "已結束（{0}）"
+
+msgid "Expand"
+msgstr "展開"
+
+msgid "Expand all"
+msgstr "全部展開"
+
+msgid "Expand pane area"
+msgstr "展開窗格區域"
+
+msgid "Expand the right pane to fill the window, or restore it"
+msgstr "將右側面板擴展至整個視窗，或恢復原狀"
+
+msgid "Export theme"
+msgstr "匯出主題"
+
+msgid "external browser"
+msgstr "外部瀏覽器"
+
+msgid "External editors are available for local workspaces only."
+msgstr "外部編輯器僅適用於本機工作區。"
+
+msgid "External editors open files on this machine only"
+msgstr "外部編輯器僅開啟此機器上的檔案"
+
+msgid "Failed"
+msgstr "失敗"
+
+msgid "Failed to add {failed} files"
+msgstr "新增{failed}個檔案失敗"
+
+msgid "Failed to add 1 file"
+msgstr "新增1個檔案失敗"
+
+msgid "Failed to check for updates. Please try again later."
+msgstr "檢查更新失敗。請稍後重試。"
+
+msgid "Failed to close port"
+msgstr "關閉連接埠失敗"
+
+msgid "Failed to control run"
+msgstr "無法控制執行"
+
+msgid "Failed to copy path: {reason}"
+msgstr "複製路徑失敗：{reason}"
+
+msgid "Failed to create {failedDirs} folders"
+msgstr "建立{failedDirs}個資料夾失敗"
+
+msgid "Failed to create 1 folder"
+msgstr "建立1個資料夾失敗"
+
+msgid "Failed to create item"
+msgstr "建立項失敗"
+
+msgid "Failed to create pull request"
+msgstr "無法建立拉取請求"
+
+msgid "Failed to discard the new item"
+msgstr "放棄新建項失敗"
+
+msgid "Failed to find linked workspace"
+msgstr "無法找到關聯的工作區"
+
+msgid "Failed to import theme file"
+msgstr "匯入主題檔案失敗"
+
+msgid "Failed to load automations"
+msgstr "無法載入自動化"
+
+msgid "Failed to load changes"
+msgstr "無法載入變更"
+
+msgid "Failed to load pull request"
+msgstr "無法載入拉取請求"
+
+msgid "Failed to load pull requests"
+msgstr "無法載入拉取請求"
+
+msgid "Failed to load run output"
+msgstr "無法載入執行輸出"
+
+msgid "Failed to load runs"
+msgstr "無法載入執行記錄"
+
+msgid "Failed to load workspace status"
+msgstr "無法載入工作區狀態"
+
+msgid "Failed to open workspace"
+msgstr "無法開啟工作區"
+
+msgid "Failed to parse pull request diff"
+msgstr "無法解析拉取請求差異"
+
+msgid "Failed to refresh pull requests"
+msgstr "無法重新整理拉取請求"
+
+msgid "Failed to rename"
+msgstr "重新命名失敗"
+
+msgid "Failed to replace {replaceFailed} files"
+msgstr "替換{replaceFailed}個檔案失敗"
+
+msgid "Failed to replace 1 file"
+msgstr "替換1個檔案失敗"
+
+msgid "Failed to reveal in Finder: {reason}"
+msgstr "在Finder中顯示失敗：{reason}"
+
+msgid "Failed to save automation"
+msgstr "無法儲存自動化"
+
+msgid "Failed to send the files to the remote workspace"
+msgstr "無法將這些檔案傳送到遠端工作區"
+
+msgid "Failed to set color"
+msgstr "設定顏色失敗"
+
+msgid "Failed to set icon"
+msgstr "設定圖示失敗"
+
+msgid "Failed to update branch prefix"
+msgstr "更新分支字首失敗"
+
+msgid "Failed to update pull request state"
+msgstr "無法更新拉取請求狀態"
+
+msgid "Failed to update review thread"
+msgstr "無法更新審查討論串"
+
+msgid "Fetch completed"
+msgstr "擷取完成"
+
+msgid "Fetch current branch from origin"
+msgstr "從 origin 擷取目前分支"
+
+msgid "File"
+msgstr "檔案"
+
+msgid "File change needs approval"
+msgstr "檔案變更需要核准"
+
+msgid "File changed on disk"
+msgstr "磁碟上的檔案已變更"
+
+msgid "File changed on disk. Reload before saving."
+msgstr "磁碟上的檔案已變更。儲存前請重新載入。"
+
+msgid "File is not in an open workspace"
+msgstr "檔案不在已開啟的工作區中"
+
+msgid "File links"
+msgstr "檔案連結"
+
+msgid "File not found"
+msgstr "未找到檔案"
+
+msgid "File tree limit reached. Search files to open an unloaded path."
+msgstr "已達到檔案樹上限。請搜尋檔案以開啟未載入的路徑。"
+
+msgid "File updates may be out of date. Reload open files to check the disk."
+msgstr "檔案更新可能已過期。請重新載入開啟的檔案以檢查磁碟內容。"
+
+msgid "File was deleted on disk."
+msgstr "檔案已在磁碟上被刪除。"
+
+msgid "File was deleted on disk. You still have unsaved changes."
+msgstr "檔案已在磁碟上被刪除。你仍有未儲存的更改。"
+
+msgid "Files"
+msgstr "檔案"
+
+msgid "Files & editor"
+msgstr "檔案和編輯器"
+
+msgid "Files larger than 32 MiB must be opened in an external editor."
+msgstr "大於 32 MiB 的檔案必須在外部編輯器中開啟。"
+
+msgid "Files, Git changes, pull requests, project scripts, and port forwarding."
+msgstr "檔案、Git 變更、提取要求、專案指令碼與連接埠轉送。"
+
+msgid "Filter"
+msgstr "篩選"
+
+msgid "Filter agents"
+msgstr "篩選代理程式"
+
+msgid "Filter agents…"
+msgstr "篩選代理程式…"
+
+msgid "Find"
+msgstr "尋找"
+
+msgid "Find in Changes"
+msgstr "在更改中查詢"
+
+msgid "Find in Chat"
+msgstr "在聊天中查詢"
+
+msgid "Find in File Viewer"
+msgstr "在檔案檢視器中查詢"
+
+msgid "Find in Page"
+msgstr "在頁面中查詢"
+
+msgid "Find in Terminal"
+msgstr "在終端中查詢"
+
+msgid "Finish refreshing"
+msgstr "完成重新整理"
+
+msgid "Finished"
+msgstr "已完成"
+
+msgid "Finished · unread"
+msgstr "已完成 · 未讀"
+
+msgid "Fit"
+msgstr "符合視窗"
+
+msgid "Flame"
+msgstr "火焰"
+
+msgid "Focus Chat Input"
+msgstr "聚焦聊天輸入框"
+
+msgid "Focus Pane Down"
+msgstr "聚焦下方窗格"
+
+msgid "Focus Pane Left"
+msgstr "聚焦左側窗格"
+
+msgid "Focus Pane Right"
+msgstr "聚焦右側窗格"
+
+msgid "Focus Pane Up"
+msgstr "聚焦上方窗格"
+
+msgid "Focus Task Search"
+msgstr "聚焦任務搜尋"
+
+msgid "Focus the next tab in the active workspace"
+msgstr "聚焦目前工作區中的下一個分頁"
+
+msgid "Focus the pane above the active pane"
+msgstr "聚焦目前窗格上方的窗格"
+
+msgid "Focus the pane below the active pane"
+msgstr "聚焦目前窗格下方的窗格"
+
+msgid "Focus the pane to the left of the active pane"
+msgstr "聚焦目前窗格左側的窗格"
+
+msgid "Focus the pane to the right of the active pane"
+msgstr "聚焦目前窗格右側的窗格"
+
+msgid "Focus the previous tab in the active workspace"
+msgstr "聚焦目前工作區中的上一個分頁"
+
+msgid "Focus the search input in the tasks view"
+msgstr "聚焦任務檢視中的搜尋框"
+
+msgid "Folder"
+msgstr "資料夾"
+
+msgid "Folder links"
+msgstr "資料夾連結"
+
+msgid "Folder view"
+msgstr "資料夾檢視"
+
+msgid "Folders cannot be sent to the remote workspace"
+msgstr "無法將資料夾傳送到遠端工作區"
+
+msgid "Folders to check out into new worktrees, one per line, relative to the repo root. Root files are always included. Empty checks out everything."
+msgstr "要檢出至新工作樹的資料夾，每行一個，相對於儲存庫根目錄。一律包含根目錄檔案。留空則檢出全部內容。"
+
+msgid "Follow the characters printed on your keyboard instead of physical key positions."
+msgstr "按照鍵盤上印刷的字元，而非實體按鍵位置。"
+
+msgid "Font family"
+msgstr "字型"
+
+msgid "Font size"
+msgstr "字型大小"
+
+msgid "Font weight"
+msgstr "字重"
+
+msgid "Force Reload"
+msgstr "強制重新載入"
+
+msgid "Force restart"
+msgstr "強制重啟"
+
+msgid "Force restart terminal daemon?"
+msgstr "強制重新啟動終端守護程序？"
+
+msgid "Force Stop"
+msgstr "強制停止"
+
+msgid "Fork arguments"
+msgstr "派生參數"
+
+msgid "Forward"
+msgstr "前進"
+
+msgid "Forward port…"
+msgstr "轉送連接埠…"
+
+msgid "Friday"
+msgstr "星期五"
+
+msgid "From"
+msgstr "從"
+
+msgid "Front matter hidden. Switch to the Markdown view to edit it"
+msgstr "已隱藏front matter。切換到Markdown檢視進行編輯"
+
+msgid "Full Disk Access"
+msgstr "完全磁碟存取權限"
+
+msgid "Full-stack Turborepo with Next.js, Expo, and tRPC"
+msgstr "使用 Next.js、Expo 與 tRPC 的全端 Turborepo"
+
+msgid "Fullstack template on Cloudflare Workers"
+msgstr "基於 Cloudflare Workers 的全端範本"
+
+msgid "Garry Tan's role-based Claude Code workflow"
+msgstr "Garry Tan 的角色型 Claude Code 工作流程"
+
+msgid "General"
+msgstr "通用"
+
+msgid "Get Git"
+msgstr "取得 Git"
+
+msgid "Git & worktree"
+msgstr "Git 和 worktree"
+
+msgid "Git author"
+msgstr "Git 作者"
+
+msgid "Git author name"
+msgstr "Git作者名"
+
+msgid "GitHub authentication failed. Sign in with gh on this host, then refresh."
+msgstr "GitHub 驗證失敗。在此主機上使用 gh 登入，然後重新整理。"
+
+msgid "GitHub enforces branch protection and required checks."
+msgstr "GitHub 強制執行分支保護和必要檢查。"
+
+msgid "GitHub is unreachable. PR links may be out of date."
+msgstr "無法存取 GitHub。PR 連結可能已過期。"
+
+msgid "GitHub rate limit reached. PR links may be out of date."
+msgstr "已達到 GitHub 速率限制。PR 連結可能已過期。"
+
+msgid "GitHub username"
+msgstr "GitHub使用者名稱"
+
+msgid "Globe"
+msgstr "地球"
+
+msgid "Go"
+msgstr "前往"
+
+msgid "Go Back"
+msgstr "返回"
+
+msgid "Go back home"
+msgstr "返回首頁"
+
+msgid "Go back to the previous page in history"
+msgstr "返回歷史記錄中的上一頁"
+
+msgid "Go Forward"
+msgstr "前進"
+
+msgid "Go forward to the next page in history"
+msgstr "前進到歷史記錄中的下一頁"
+
+msgid "Go home"
+msgstr "回到首頁"
+
+msgid "Got it"
+msgstr "知道了"
+
+msgid "Granted"
+msgstr "已授予"
+
+msgid "Green"
+msgstr "綠色"
+
+msgid "Group name"
+msgstr "群組名稱"
+
+msgid "Groups use workspace tags on the target host."
+msgstr "群組使用目標主機上的工作區標籤。"
+
+msgid "Guides AI-generated workspace and branch names for this project. Empty uses the default naming."
+msgstr "指導此專案中AI生成的工作區和分支名稱。留空則使用預設命名。"
+
+msgid "Handle in terminal"
+msgstr "在終端中處理"
+
+msgid "Has uncommitted changes"
+msgstr "有未提交的改動"
+
+msgid "Has uncommitted changes and unpushed commits"
+msgstr "有未提交的改動和未推送的提交"
+
+msgid "Has unpushed commits"
+msgstr "有未推送的提交"
+
+msgid "Heading 1"
+msgstr "標題1"
+
+msgid "Heading 2"
+msgstr "標題2"
+
+msgid "Heading 3"
+msgstr "標題3"
+
+msgid "Heart"
+msgstr "心形"
+
+msgid "Help"
+msgstr "幫助"
+
+msgid "Hide {displayName}"
+msgstr "隱藏 {displayName}"
+
+msgid "Hide details"
+msgstr "隱藏詳情"
+
+msgid "Hide workspace activity"
+msgstr "隱藏工作區活動"
+
+msgid "History"
+msgstr "歷史"
+
+msgid "Home"
+msgstr "首頁"
+
+msgid "Host changed. Review the current daemon before restarting."
+msgstr "主機已變更。重新啟動前請檢查目前守護程序。"
+
+msgid "Host connection is unavailable"
+msgstr "主機連線無法使用"
+
+msgid "Host is offline"
+msgstr "主機已離線"
+
+msgid "Host Service"
+msgstr "主機服務"
+
+msgid "Host Service ({count})"
+msgstr "主機服務（{count}）"
+
+msgid "Host service crashed"
+msgstr "主機服務已崩潰"
+
+msgid "Host service unavailable"
+msgstr "主機服務不可用"
+
+msgid "Hourly"
+msgstr "每小時"
+
+msgid "https://github.com/owner/repo.git or /path/to/repo"
+msgstr "https://github.com/owner/repo.git 或 /path/to/repo"
+
+msgid "I checked the attachments"
+msgstr "我已檢查附件"
+
+msgid "I checked the result"
+msgstr "我已檢查結果"
+
+msgid "I understand that running sessions will stop and teardown commands may affect files with unsaved work."
+msgstr "我了解執行中的工作階段將停止，清理指令可能影響含有未儲存工作的檔案。"
+
+msgid "Icon"
+msgstr "圖示"
+
+msgid "IDE"
+msgstr "IDE"
+
+msgid "Idle"
+msgstr "空閒"
+
+msgid "Image"
+msgstr "圖片"
+
+msgid "Image blocked"
+msgstr "圖片已攔截"
+
+#. placeholder {0}: src ?? "(empty)"
+msgid "Image blocked: {0}"
+msgstr "圖片已攔截：{0}"
+
+msgid "Image is too large (max 10MB)"
+msgstr "圖片過大（最大10MB）"
+
+msgid "Images"
+msgstr "圖片"
+
+msgid "Import"
+msgstr "匯入"
+
+msgid "import a folder"
+msgstr "匯入資料夾"
+
+msgid "Import a project with a GitHub remote to view its pull requests."
+msgstr "匯入帶有 GitHub 遠端儲存庫的專案以查看其拉取請求。"
+
+msgid "Import a theme file or grab a starter to edit."
+msgstr "匯入主題檔案，或獲取一個模板來編輯。"
+
+msgid "Import an audio file or preview the selected sound."
+msgstr "匯入音訊檔案或預覽所選聲音。"
+
+msgid "Import from other tools"
+msgstr "從其他工具匯入"
+
+msgid "Import results"
+msgstr "匯入結果"
+
+msgid "Import selected"
+msgstr "匯入選取項目"
+
+msgid "Import sound"
+msgstr "匯入聲音"
+
+msgid "import the project"
+msgstr "匯入專案"
+
+msgid "Import untracked worktrees"
+msgstr "匯入未追蹤的worktree"
+
+msgid "Import worktree"
+msgstr "匯入工作樹"
+
+msgid "Importing project…"
+msgstr "正在匯入專案…"
+
+msgid "Importing selected workspaces…"
+msgstr "正在匯入選取的工作區…"
+
+msgid "Importing..."
+msgstr "正在匯入..."
+
+msgid "In"
+msgstr "在"
+
+msgid "In Apple's window, click Install. It takes a few minutes, and this page updates when it's done."
+msgstr "在 Apple 的視窗中按一下「安裝」。需要幾分鐘，完成後此頁面會自動更新。"
+
+msgid "In review"
+msgstr "審查中"
+
+msgid "Include the Linear ticket id from the prompt in the branch name (e.g. bin-344-fix-login). Prefix branches with fix/ or feat/ based on the task."
+msgstr "在分支名中包含提示詞裡的Linear工單ID（例如bin-344-fix-login）。根據任務為分支加上fix/或feat/字首。"
+
+msgid "Included in this build"
+msgstr "包含在此建置中"
+
+msgid "Indigo"
+msgstr "靛藍"
+
+msgid "Initialize and open"
+msgstr "初始化並開啟"
+
+msgid "Initialize Git repository?"
+msgstr "初始化 Git 儲存庫？"
+
+msgid "Inline"
+msgstr "行內"
+
+msgid "Inline code"
+msgstr "行內程式碼"
+
+msgid "Insert into CLI"
+msgstr "插入到 CLI"
+
+msgid "Insert into the existing CLI, then submit in the terminal."
+msgstr "插入現有 CLI，然後在終端中提交。"
+
+msgid "Install Command Line Tools"
+msgstr "安裝 Command Line Tools"
+
+msgid "Install Git, then come back."
+msgstr "請先安裝 Git，然後回到這裡。"
+
+msgid "Install lifecycle hooks for this agent on this device."
+msgstr "為此代理程式在此裝置上安裝生命週期鉤子。"
+
+msgid "Installing update…"
+msgstr "正在安裝更新…"
+
+msgid "Instructions"
+msgstr "說明"
+
+msgid "Interrupt"
+msgstr "打斷"
+
+msgid "Interrupt requested"
+msgstr "已請求中斷"
+
+msgid "Interrupted"
+msgstr "已中斷"
+
+msgid "Italic"
+msgstr "斜體"
+
+msgid "Its workspaces and terminals are unavailable until it restarts. Use the Jedv tray menu > Host Service > Restart."
+msgstr "在它重啟之前，其工作區和終端都不可用，請使用Jedv托盤選單 > 主機服務 > 重啟。"
+
+msgid "Jedv"
+msgstr "Jedv"
+
+msgid "Jedv hit an unexpected error. Reload to try again."
+msgstr "Jedv遇到意外錯誤。重新載入以重試。"
+
+msgid "Jedv needs Git to add a project."
+msgstr "Jedv 需要 Git 才能新增專案。"
+
+msgid "JetBrains"
+msgstr "JetBrains"
+
+msgid "Jump to a workspace that needs attention or is running."
+msgstr "跳至需要留意或正在執行的工作區。"
+
+msgid "Keep editing"
+msgstr "繼續編輯"
+
+msgid "Keep notifications silent on this device."
+msgstr "在此裝置上保持通知靜音。"
+
+msgid "Kept the new file because it changed after it was created"
+msgstr "已保留新檔案，它在建立後發生了更改"
+
+msgid "Kept the new folder because it is no longer empty"
+msgstr "已保留新資料夾，它已不再為空"
+
+msgid "Keyboard"
+msgstr "鍵盤"
+
+msgid "Keyboard Shortcuts"
+msgstr "鍵盤快速鍵"
+
+msgid "Kill {title}"
+msgstr "終止 {title}"
+
+msgid "Kill Terminal Session"
+msgstr "終止終端會話"
+
+msgid "Language"
+msgstr "語言"
+
+msgid "Last {n} days"
+msgstr "最近 {n} 天"
+
+msgid "Last activity"
+msgstr "最近活動"
+
+msgid "Last check completed"
+msgstr "上次檢查完成時間"
+
+msgid "Last day of each month"
+msgstr "每月最後一天"
+
+msgid "Last day of each month at {time}"
+msgstr "每月最後一天{time}"
+
+msgid "Later"
+msgstr "稍後"
+
+msgid "Latest output"
+msgstr "最新輸出"
+
+msgid "Launch Agent"
+msgstr "啟動代理程式"
+
+msgid "Launch result unknown. Refresh and inspect the terminal before restarting."
+msgstr "啟動結果未知。請重新整理並檢查終端後再重新啟動。"
+
+msgid "Layout"
+msgstr "佈局"
+
+msgid "Leaf"
+msgstr "葉子"
+
+msgid "Leave a comment…"
+msgstr "留下評論…"
+
+msgid "Leave empty to use the workspace directory. Relative paths are resolved inside the workspace."
+msgstr "留空以使用工作區目錄。相對路徑會在工作區內解析。"
+
+msgid "Leave it empty to go back to the name the terminal reports."
+msgstr "留空即可恢復終端回報的名稱。"
+
+msgid "Letter spacing (px)"
+msgstr "字間距（px）"
+
+msgid "Ligatures"
+msgstr "連字"
+
+msgid "Ligatures off"
+msgstr "連字已關閉"
+
+msgid "Ligatures on"
+msgstr "連字已開啟"
+
+msgid "Light"
+msgstr "淺色"
+
+msgid "Light theme"
+msgstr "淺色主題"
+
+msgid "Lime"
+msgstr "萊姆綠"
+
+#. placeholder {0}: problem.line
+#. placeholder {1}: problem.message
+msgid "Line {0}: {1}"
+msgstr "第 {0} 行：{1}"
+
+msgid "Line height"
+msgstr "行高"
+
+msgid "Link"
+msgstr "連結"
+
+msgid "Linked agent"
+msgstr "關聯的代理程式"
+
+msgid "Linked agent is unavailable."
+msgstr "關聯的代理程式無法使用。"
+
+msgid "Linked presets cannot run on remote hosts."
+msgstr "關聯的預設無法在遠端主機上執行。"
+
+msgid "List"
+msgstr "列表"
+
+msgid "Live"
+msgstr "即時"
+
+msgid "Live preview"
+msgstr "即時預覽"
+
+msgid "Live terminal"
+msgstr "作用中終端機"
+
+msgid "load agent settings"
+msgstr "載入代理程式設定"
+
+msgid "Load more"
+msgstr "載入更多"
+
+msgid "Loading"
+msgstr "載入中"
+
+msgid "Loading agents…"
+msgstr "正在載入代理程式…"
+
+msgid "Loading automations…"
+msgstr "正在載入自動化…"
+
+msgid "Loading changes…"
+msgstr "正在載入變更…"
+
+msgid "Loading directories…"
+msgstr "正在載入目錄…"
+
+msgid "Loading file…"
+msgstr "正在載入檔案…"
+
+msgid "Loading files…"
+msgstr "正在載入檔案…"
+
+msgid "Loading fonts..."
+msgstr "正在載入字型..."
+
+msgid "Loading identity…"
+msgstr "正在載入身分資訊…"
+
+msgid "Loading more..."
+msgstr "正在載入更多..."
+
+msgid "Loading output…"
+msgstr "正在載入輸出…"
+
+msgid "Loading project settings…"
+msgstr "正在載入專案設定…"
+
+msgid "Loading pull request…"
+msgstr "正在載入拉取請求…"
+
+msgid "Loading pull requests…"
+msgstr "正在載入拉取請求…"
+
+msgid "Loading quota…"
+msgstr "正在載入配額…"
+
+msgid "Loading removed projects…"
+msgstr "正在載入已移除的專案…"
+
+msgid "Loading repositories..."
+msgstr "正在載入儲存庫..."
+
+msgid "Loading runs…"
+msgstr "正在載入執行記錄…"
+
+msgid "Loading sessions…"
+msgstr "正在載入工作階段…"
+
+msgid "Loading workspace status…"
+msgstr "正在載入工作區狀態…"
+
+msgid "Loading worktrees…"
+msgstr "正在載入工作樹…"
+
+msgid "Loading..."
+msgstr "載入中..."
+
+msgid "Loading…"
+msgstr "正在載入…"
+
+msgid "Local"
+msgstr "本地"
+
+msgid "Local checkout"
+msgstr "本機檢出"
+
+msgid "Local CLI history and provider quota for the connected host."
+msgstr "連線主機的本地 CLI 歷史記錄和供應商配額。"
+
+msgid "Local CLI history and provider quota."
+msgstr "本地 CLI 歷史記錄和供應商配額。"
+
+msgid "Local desktop and terminal process usage. Closing a view keeps its process running; terminating a session stops its processes."
+msgstr "本機桌面與終端程序用量。關閉檢視會保持程序執行；終止工作階段會停止其程序。"
+
+msgid "Local network"
+msgstr "區域網路"
+
+msgid "Local projects, Git worktrees, grouped workspaces, and terminal tabs with split panes."
+msgstr "本機專案、Git 工作樹、群組工作區，以及含分割窗格的終端分頁。"
+
+msgid "Location"
+msgstr "位置"
+
+msgid "Location & checkout"
+msgstr "位置與檢出"
+
+msgid "Make all panes equal size"
+msgstr "使所有窗格大小相同"
+
+msgid "Manage local projects and recently deleted projects."
+msgstr "管理本機專案與最近刪除的專案。"
+
+msgid "Manage Terminal Scripts"
+msgstr "管理終端機指令碼"
+
+msgid "Manage the host used by your workspaces."
+msgstr "管理工作區使用的主機。"
+
+msgid "Manual"
+msgstr "手動"
+
+msgid "Manual only"
+msgstr "僅手動"
+
+msgid "Manually"
+msgstr "手動"
+
+msgid "Mark as read"
+msgstr "標示為已讀"
+
+msgid "Mark as unread"
+msgstr "標為未讀"
+
+msgid "Mark ready for review?"
+msgstr "標記為可審查？"
+
+msgid "Markdown style"
+msgstr "Markdown樣式"
+
+msgid "Marking ready…"
+msgstr "正在標記為就緒…"
+
+msgid "Match case"
+msgstr "區分大小寫"
+
+msgid "Maximum hidden terminal renderers kept in memory. Evicting a view keeps its PTY session running."
+msgstr "記憶體中保留的隱藏終端轉譯器數量上限。淘汰檢視會保持其 PTY 工作階段執行。"
+
+msgid "Maximum size is 256 KB."
+msgstr "最大為256 KB。"
+
+msgid "Member"
+msgstr "成員"
+
+msgid "Menu bar activity"
+msgstr "選單列活動"
+
+msgid "Merge"
+msgstr "合併"
+
+msgid "Merge method"
+msgstr "合併方式"
+
+msgid "Merge pull request"
+msgstr "合併拉取請求"
+
+msgid "Merge pull request?"
+msgstr "合併拉取請求？"
+
+msgid "Mergeability is being checked"
+msgstr "正在檢查可合併性"
+
+msgid "Merged"
+msgstr "已合併"
+
+msgid "Minimum contrast"
+msgstr "最小對比度"
+
+msgid "Model"
+msgstr "模型"
+
+msgid "Models"
+msgstr "模型"
+
+msgid "Monday"
+msgstr "星期一"
+
+msgid "Monospace"
+msgstr "等寬字型"
+
+msgid "Monthly"
+msgstr "按月"
+
+msgid "Monthly at {time}"
+msgstr "每月{time}"
+
+msgid "Monthly on {day}"
+msgstr "每月{day}"
+
+msgid "Monthly on {day} at {time}"
+msgstr "每月{day}{time}"
+
+msgid "Monthly on the {day, selectordinal, one {#st} two {#nd} few {#rd} other {#th}}"
+msgstr "每月 {day, selectordinal, one {#日} two {#日} few {#日} other {#日}}"
+
+msgid "Monthly on the {day, selectordinal, one {#st} two {#nd} few {#rd} other {#th}} at {time}"
+msgstr "每月 {day, selectordinal, one {#日} two {#日} few {#日} other {#日}} {time}"
+
+msgid "More actions"
+msgstr "更多操作"
+
+msgid "More options"
+msgstr "更多選項"
+
+msgid "More than one agent matches this preset."
+msgstr "此預設符合多個代理程式。"
+
+msgid "Move"
+msgstr "移動"
+
+msgid "Move agent down"
+msgstr "下移代理程式"
+
+msgid "Move agent up"
+msgstr "上移代理程式"
+
+msgid "Move focus between the main tabs and the right sidebar, and open the sidebar if it is closed"
+msgstr "在主要分頁與右側邊欄之間移動焦點，若側邊欄已關閉則將其開啟"
+
+msgid "Move group down"
+msgstr "下移群組"
+
+msgid "Move group up"
+msgstr "上移群組"
+
+msgid "Move preset down"
+msgstr "下移預設"
+
+msgid "Move preset up"
+msgstr "上移預設"
+
+msgid "Move to group"
+msgstr "移動到群組"
+
+msgid "Move to Left Side"
+msgstr "移至左側"
+
+msgid "Move to Right Side"
+msgstr "移至右側"
+
+msgid "Move to Tab"
+msgstr "移動到分頁"
+
+msgid "Move..."
+msgstr "移動…"
+
+msgid "Multiple projects match this repository. Open the project first and import its worktrees."
+msgstr "多個專案符合此儲存庫。請先開啟專案，再匯入其工作樹。"
+
+msgid "Multiple projects use this directory. Choose the project in the sidebar."
+msgstr "多個專案使用此目錄。請在側邊欄中選擇專案。"
+
+msgid "Mute notification sounds"
+msgstr "靜音通知聲音"
+
+msgid "Name"
+msgstr "名稱"
+
+msgid "Naming instructions"
+msgstr "命名說明"
+
+msgid "Native agent sessions and local attachments."
+msgstr "原生 Agent 工作階段與本機附件。"
+
+msgid "Navigate Back"
+msgstr "後退"
+
+msgid "Navigate Forward"
+msgstr "前進"
+
+msgid "Navigate to the next workspace in the sidebar"
+msgstr "切換到側邊欄中的下一個工作區"
+
+msgid "Navigate to the previous workspace in the sidebar"
+msgstr "切換到側邊欄中的上一個工作區"
+
+msgid "Navigation"
+msgstr "導航"
+
+msgid "Needs attention"
+msgstr "需要處理"
+
+msgid "Needs me"
+msgstr "需要我處理"
+
+msgid "Nerd Fonts"
+msgstr "Nerd Fonts"
+
+msgid "New automation"
+msgstr "新建自動化"
+
+msgid "New branch"
+msgstr "新分支"
+
+msgid "New Chat"
+msgstr "新建聊天"
+
+msgid "New File"
+msgstr "新建檔案"
+
+msgid "New File..."
+msgstr "新建檔案..."
+
+msgid "New Folder"
+msgstr "新建資料夾"
+
+msgid "New Folder..."
+msgstr "新建資料夾..."
+
+msgid "New group"
+msgstr "新建群組"
+
+msgid "New shell"
+msgstr "新增 Shell"
+
+msgid "new tab"
+msgstr "新分頁"
+
+msgid "New tab"
+msgstr "新分頁"
+
+msgid "New Tab"
+msgstr "新建分頁"
+
+msgid "New tab with split panes"
+msgstr "含分割窗格的新分頁"
+
+msgid "New tabs"
+msgstr "新分頁"
+
+msgid "New Terminal"
+msgstr "新建終端"
+
+msgid "New Window"
+msgstr "新建視窗"
+
+msgid "New workspace"
+msgstr "新建工作區"
+
+msgid "New Workspace"
+msgstr "新建工作區"
+
+msgid "New worktree each run"
+msgstr "每次執行使用新的 worktree"
+
+#. placeholder {0}: location.data.defaultWorktreeBaseDir
+msgid "New worktrees are stored here. Leave empty to use {0}."
+msgstr "新 worktree 儲存在這裡。留空以使用 {0}。"
+
+msgid "Next (Enter)"
+msgstr "下一個匹配項（Enter）"
+
+msgid "Next branch"
+msgstr "下一個分支"
+
+msgid "Next Right Sidebar Tab"
+msgstr "右側邊欄下一個分頁"
+
+#. placeholder {0}: formatDateTime(next, { dateStyle: "medium", timeStyle: "short", timeZone: timezone, })
+msgid "Next scheduled time: {0}"
+msgstr "下次排程時間：{0}"
+
+msgid "Next Tab"
+msgstr "下一個分頁"
+
+msgid "Next Tab (Second Shortcut)"
+msgstr "下一個分頁（第二快捷鍵）"
+
+msgid "Next Workspace"
+msgstr "下一個工作區"
+
+msgid "No"
+msgstr "否"
+
+msgid "No active agents"
+msgstr "沒有活動中的代理程式"
+
+msgid "No active organization is selected. Select an organization or sign in again."
+msgstr "未選擇活動組織。請選擇一個組織或重新登入。"
+
+msgid "No active services"
+msgstr "沒有活動的服務"
+
+msgid "No active workspaces"
+msgstr "沒有作用中的工作區"
+
+msgid "No active writer"
+msgstr "目前沒有輸入端"
+
+msgid "No activity yet"
+msgstr "尚無活動"
+
+msgid "No agent was started. After setup completes, start the agent again."
+msgstr "未啟動代理程式。初始化完成後，請再次啟動代理程式。"
+
+msgid "No automations match your filters"
+msgstr "沒有符合篩選條件的自動化"
+
+msgid "No automations yet"
+msgstr "尚無自動化"
+
+msgid "No available workspace with a GitHub remote"
+msgstr "沒有包含 GitHub 遠端儲存庫的可用工作區"
+
+msgid "No background terminals"
+msgstr "沒有背景終端"
+
+msgid "No branches found"
+msgstr "未找到分支"
+
+msgid "No changes"
+msgstr "沒有更改"
+
+msgid "No checks"
+msgstr "無檢查"
+
+msgid "No checks reported"
+msgstr "沒有檢查結果"
+
+msgid "No completed project was found yet. The host may still be stopping or finishing the operation. Check again before retrying at this location."
+msgstr "尚未找到已完成的專案。主機可能仍在停止或完成作業。請再次檢查，然後於此位置重試。"
+
+msgid "No description provided"
+msgstr "未提供說明"
+
+msgid "No existing worktrees found."
+msgstr "找不到現有工作樹。"
+
+msgid "No file changes"
+msgstr "沒有檔案變更"
+
+msgid "No files found"
+msgstr "未找到檔案"
+
+msgid "No files match the accepted types."
+msgstr "沒有檔案符合允許的型別。"
+
+msgid "No fonts found."
+msgstr "未找到字型。"
+
+msgid "No git remote detected"
+msgstr "未檢測到git遠端儲存庫"
+
+msgid "No GitHub repositories available"
+msgstr "沒有可用的 GitHub 儲存庫"
+
+msgid "No importable worktrees found on this host. You can open a project and import its worktrees instead."
+msgstr "此主機上沒有可匯入的工作樹。你可以改為開啟專案並匯入其工作樹。"
+
+msgid "No linked pull requests"
+msgstr "沒有關聯的 PR"
+
+msgid "No local terminal process metrics are available."
+msgstr "沒有可用的本機終端程序指標。"
+
+msgid "No local usage or quota data is available."
+msgstr "沒有可用的本機用量或配額資料。"
+
+msgid "No match"
+msgstr "無匹配項"
+
+msgid "No matches"
+msgstr "沒有匹配項"
+
+msgid "No matching settings."
+msgstr "沒有符合條件的設定。"
+
+msgid "No matching shortcuts."
+msgstr "沒有符合的快速鍵。"
+
+msgid "No messages in this page"
+msgstr "此頁沒有訊息"
+
+msgid "No output yet"
+msgstr "尚無輸出"
+
+msgid "No pending responses or unread completions"
+msgstr "沒有待處理的回應或未讀的完成通知"
+
+msgid "No ports yet. Start a dev server in a terminal and it shows up here."
+msgstr "尚無連接埠。在終端機中啟動開發伺服器後會顯示在這裡。"
+
+msgid "No prefix"
+msgstr "無字首"
+
+msgid "No prefix could be resolved from this host's identity."
+msgstr "無法根據此主機的身分資訊解析前綴。"
+
+msgid "No projects match your filters"
+msgstr "沒有符合篩選條件的專案"
+
+msgid "No projects on this host."
+msgstr "此主機上沒有專案。"
+
+msgid "No projects yet"
+msgstr "尚無專案"
+
+msgid "No provider quota is available. Sign in with an agent CLI, then refresh."
+msgstr "沒有可用的供應商配額。請先透過代理程式 CLI 登入，再重新整理。"
+
+msgid "No pull requests found"
+msgstr "找不到 PR"
+
+msgid "No pull requests match your filters"
+msgstr "沒有符合篩選條件的提取請求"
+
+msgid "No removed projects"
+msgstr "沒有已移除的專案"
+
+msgid "No results"
+msgstr "無結果"
+
+msgid "No results found."
+msgstr "未找到結果。"
+
+msgid "No runs yet"
+msgstr "還沒有執行過"
+
+msgid "No screenshots yet"
+msgstr "暫無截圖"
+
+msgid "No subdirectories"
+msgstr "沒有子目錄"
+
+msgid "No terminal presets yet."
+msgstr "尚無終端預設。"
+
+msgid "No terminal sessions"
+msgstr "沒有終端工作階段"
+
+msgid "No themes were imported"
+msgstr "沒有匯入任何主題"
+
+msgid "No usage logs were found for this period."
+msgstr "找不到此期間的用量記錄。"
+
+msgid "No workspaces in this group"
+msgstr "此群組中沒有工作區"
+
+msgid "No workspaces match your filters"
+msgstr "沒有符合篩選條件的工作區"
+
+msgid "No workspaces yet"
+msgstr "暫無工作區"
+
+msgid "No workspaces yet. Create a workspace to get started."
+msgstr "尚無工作區。請先建立一個工作區。"
+
+msgid "None"
+msgstr "無"
+
+msgid "Not bound · configure in Settings → Links"
+msgstr "未繫結 · 在設定→連結中配置"
+
+msgid "Not checked yet"
+msgstr "尚未檢查"
+
+msgid "Not detected in the workspace right now"
+msgstr "目前未在工作區中偵測到"
+
+msgid "Not forwarded"
+msgstr "未轉送"
+
+msgid "Not granted"
+msgstr "未授予"
+
+msgid "Notification sound"
+msgstr "通知聲音"
+
+msgid "Notification sound volume from 0 to 100."
+msgstr "通知音效的音量範圍為 0 到 100。"
+
+msgid "Notifications"
+msgstr "通知"
+
+msgid "now"
+msgstr "剛剛"
+
+msgid "Numbered list"
+msgstr "編號列表"
+
+msgid "Off"
+msgstr "關閉"
+
+msgid "On a Mac, Git comes with Apple's Command Line Tools."
+msgstr "在 Mac 上，Git 隨附於 Apple 的 Command Line Tools。"
+
+msgid "On focus change"
+msgstr "焦點變更時"
+
+msgid "On window change"
+msgstr "視窗變更時"
+
+msgid "Only agents on this device can be linked."
+msgstr "只能關聯此裝置上的代理程式。"
+
+msgid "Only new worktrees use this location. Existing worktrees are not moved."
+msgstr "只有新工作樹使用此位置。現有工作樹不會移動。"
+
+msgid "Only on this machine: gitignored, and applied to every worktree of this repository. Any key set here replaces the shared one."
+msgstr "僅限本機：會被 git 忽略，並套用至此儲存庫的每個 worktree。在此設定的任何鍵都會取代共享的值。"
+
+msgid "Only the listed staged files will be committed. Hooks may modify files or reject the commit."
+msgstr "只會提交列出的已暫存檔案。掛鉤可能會修改檔案或拒絕提交。"
+
+msgid "Only the thread author or a user with pull request write access can resolve this conversation."
+msgstr "只有討論串作者或擁有提取請求寫入權限的使用者才能將此對話標記為已解決。"
+
+msgid "open"
+msgstr "開啟"
+
+msgid "Open"
+msgstr "開啟"
+
+#. placeholder {0}: binding.agentId
+msgid "Open {0} session"
+msgstr "開啟 {0} 工作階段"
+
+msgid "Open {displayName}"
+msgstr "開啟{displayName}"
+
+msgid "Open {path} in file pane"
+msgstr "在檔案面板中開啟{path}"
+
+msgid "Open a multiline prompt composer for the active terminal"
+msgstr "為目前終端開啟多行提示詞編輯器"
+
+msgid "Open a workspace for this project first"
+msgstr "請先為此專案開啟一個工作區"
+
+msgid "Open agent activity from the menu bar. The panel closes when it loses focus or when you press Escape."
+msgstr "從選單列開啟代理程式活動。面板失去焦點或按下 Escape 鍵時會關閉。"
+
+msgid "Open an existing repository, or initialize a folder after confirmation."
+msgstr "開啟現有儲存庫，或確認後初始化資料夾。"
+
+msgid "Open Changes"
+msgstr "開啟更改"
+
+msgid "Open Changes in"
+msgstr "變更開啟位置"
+
+msgid "Open check on GitHub"
+msgstr "在 GitHub 上開啟檢查"
+
+msgid "Open CLI"
+msgstr "開啟 CLI"
+
+msgid "Open Command Palette"
+msgstr "開啟命令面板"
+
+msgid "Open Diff"
+msgstr "開啟差異"
+
+msgid "Open Diff in New Tab"
+msgstr "在新分頁中開啟差異"
+
+msgid "Open existing PR or create a new one on GitHub"
+msgstr "開啟現有PR，或在GitHub上建立新PR"
+
+msgid "open file"
+msgstr "開啟檔案"
+
+msgid "Open File"
+msgstr "開啟檔案"
+
+msgid "Open File in New Tab"
+msgstr "在新分頁中開啟檔案"
+
+msgid "Open files"
+msgstr "開啟檔案"
+
+msgid "Open files in"
+msgstr "檔案開啟方式"
+
+msgid "Open in"
+msgstr "開啟方式"
+
+#. placeholder {0}: currentApp.displayLabel ?? currentApp.label
+msgid "Open in {0}"
+msgstr "在 {0} 中開啟"
+
+msgid "Open in editor"
+msgstr "在編輯器中開啟"
+
+msgid "Open in Editor"
+msgstr "在編輯器中開啟"
+
+msgid "Open in external browser"
+msgstr "在外部瀏覽器中開啟"
+
+msgid "Open in external editor"
+msgstr "在外部編輯器中開啟"
+
+msgid "Open in Finder"
+msgstr "在Finder中開啟"
+
+msgid "Open in GitHub"
+msgstr "在GitHub中開啟"
+
+msgid "Open in new tab"
+msgstr "在新分頁開啟"
+
+msgid "Open in New Tab"
+msgstr "在新分頁中開啟"
+
+msgid "Open in right pane"
+msgstr "在右側面板中開啟"
+
+msgid "Open in split pane"
+msgstr "在分屏窗格中開啟"
+
+msgid "Open in tab"
+msgstr "在分頁中開啟"
+
+msgid "Open large file"
+msgstr "開啟大型檔案"
+
+msgid "Open local checkout"
+msgstr "開啟本地檢出"
+
+#. placeholder {0}: port.port
+msgid "Open localhost:{0} in external browser"
+msgstr "在外部瀏覽器中開啟localhost:{0}"
+
+msgid "Open project"
+msgstr "開啟專案"
+
+msgid "Open Pull Request"
+msgstr "開啟拉取請求"
+
+#. placeholder {0}: pr.number
+msgid "Open pull request #{0}"
+msgstr "開啟提取請求 #{0}"
+
+msgid "Open remote localhost links from Ports after forwarding the port."
+msgstr "轉送連接埠後，再從「連接埠」開啟遠端 localhost 連結。"
+
+msgid "Open session"
+msgstr "開啟工作階段"
+
+msgid "Open settings"
+msgstr "開啟設定"
+
+msgid "Open Settings"
+msgstr "開啟設定"
+
+msgid "Open setup terminal"
+msgstr "開啟初始化終端"
+
+msgid "Open source acknowledgements"
+msgstr "開放原始碼致謝"
+
+msgid "Open System Settings"
+msgstr "開啟系統設定"
+
+msgid "Open terminal"
+msgstr "開啟終端"
+
+msgid "Open Terminal"
+msgstr "開啟終端"
+
+msgid "Open Terminal Script 1"
+msgstr "開啟終端指令碼1"
+
+msgid "Open Terminal Script 2"
+msgstr "開啟終端指令碼2"
+
+msgid "Open Terminal Script 3"
+msgstr "開啟終端指令碼3"
+
+msgid "Open Terminal Script 4"
+msgstr "開啟終端指令碼4"
+
+msgid "Open Terminal Script 5"
+msgstr "開啟終端指令碼5"
+
+msgid "Open Terminal Script 6"
+msgstr "開啟終端指令碼6"
+
+msgid "Open Terminal Script 7"
+msgstr "開啟終端指令碼7"
+
+msgid "Open Terminal Script 8"
+msgstr "開啟終端指令碼8"
+
+msgid "Open Terminal Script 9"
+msgstr "開啟終端指令碼9"
+
+msgid "Open the Changes pane in a new tab, or focus the existing one"
+msgstr "在新分頁中開啟更改面板，或聚焦現有面板"
+
+msgid "Open the global command palette"
+msgstr "開啟全域性命令面板"
+
+msgid "Open the main window to select this workspace"
+msgstr "開啟主視窗以選擇此工作區"
+
+msgid "Open the new workspace modal"
+msgstr "開啟新建工作區彈窗"
+
+msgid "Open the resource usage view in the command palette"
+msgstr "在命令面板中開啟資源用量檢視"
+
+msgid "open the task in a workspace"
+msgstr "在工作區中開啟任務"
+
+msgid "Open the workspace in the app picked in the Open In menu (VS Code, Cursor, etc.)"
+msgstr "在「開啟方式」選單中選定的應用（VS Code、Cursor等）中開啟工作區"
+
+msgid "Open workspace"
+msgstr "開啟工作區"
+
+msgid "Opening the CLI is unavailable in this dialog."
+msgstr "此對話框無法開啟 CLI。"
+
+msgid "Opening workspace…"
+msgstr "正在開啟工作區…"
+
+msgid "Opening…"
+msgstr "正在開啟…"
+
+msgid "Option shortcuts may prevent typing special characters"
+msgstr "Option快速鍵可能會影響特殊字元的輸入"
+
+msgid "Orange"
+msgstr "橙色"
+
+msgid "Order by"
+msgstr "排序方式"
+
+msgid "organization {id}"
+msgstr "組織{id}"
+
+msgid "Other"
+msgstr "其他"
+
+msgid "Other ways to get Git"
+msgstr "取得 Git 的其他方式"
+
+msgid "Outdated"
+msgstr "已過時"
+
+msgid "Output"
+msgstr "輸出"
+
+msgid "Overwrite file"
+msgstr "覆寫檔案"
+
+msgid "Owner"
+msgstr "擁有者"
+
+msgid "Owns every PTY session and survives app restarts."
+msgstr "持有所有PTY會話，並在應用重啟後繼續存活。"
+
+msgid "Package"
+msgstr "包裹"
+
+msgid "Page Not Found"
+msgstr "頁面未找到"
+
+msgid "Pane areas must belong to the same active workspace"
+msgstr "窗格區域必須屬於同一個使用中工作區"
+
+msgid "Pane attachment state is unavailable."
+msgstr "窗格附加狀態無法使用。"
+
+msgid "Paragraph"
+msgstr "段落"
+
+msgid "Parent directory"
+msgstr "父目錄"
+
+msgid "Parent folder"
+msgstr "上層資料夾"
+
+msgid "Passed"
+msgstr "通過"
+
+msgid "Paste"
+msgstr "貼上"
+
+msgid "Paste a link"
+msgstr "貼上連結"
+
+msgid "Path copied"
+msgstr "已複製路徑"
+
+msgid "Pause"
+msgstr "暫停"
+
+msgid "Paused"
+msgstr "已暫停"
+
+msgid "Pending"
+msgstr "待處理"
+
+msgid "Permissions"
+msgstr "權限"
+
+msgid "Personal"
+msgstr "個人"
+
+msgid "Pick a folder on disk and add it as a project"
+msgstr "選擇磁碟上的資料夾並將其新增為專案"
+
+msgid "Pick a theme or follow your system appearance."
+msgstr "選擇主題或跟隨系統外觀。"
+
+msgid "Pick a workspace whose agent is waiting for your input, has finished since you last looked, or is still running"
+msgstr "選擇一個工作區：其代理正在等待你的輸入、自你上次查看後已完成，或仍在執行"
+
+msgid "PID"
+msgstr "PID"
+
+msgid "Pin workspace"
+msgstr "固定工作區"
+
+msgid "Pink"
+msgstr "粉色"
+
+msgid "Pinned"
+msgstr "已置頂"
+
+msgid "Please select a project directory."
+msgstr "請選取專案目錄。"
+
+msgid "Port forwarding is not active"
+msgstr "連接埠轉送未啟用"
+
+msgid "Ports"
+msgstr "埠"
+
+msgid "Post comment to GitHub?"
+msgstr "在 GitHub 上發佈評論？"
+
+msgid "Post reply to GitHub?"
+msgstr "在 GitHub 上發佈回覆？"
+
+msgid "Prefix"
+msgstr "字首"
+
+msgid "Prefix new workspace branches on the connected host. Project overrides take priority."
+msgstr "為已連線主機上的新工作區分支加上前綴。專案覆寫設定優先。"
+
+msgid "Preparing workspace on the target host…"
+msgstr "正在目標主機上準備工作區…"
+
+msgid "Preset association could not be confirmed. Refresh and try again."
+msgstr "無法確認預設關聯。請重新整理後重試。"
+
+msgid "Presets are stored on this device. Run them explicitly from the workspace launcher."
+msgstr "預設儲存在此裝置上。請從工作區啟動器明確執行。"
+
+msgid "Press shortcut…"
+msgstr "按下快速鍵…"
+
+msgid "Preview"
+msgstr "預覽"
+
+msgid "Previous (Shift+Enter)"
+msgstr "上一個匹配項（Shift+Enter）"
+
+msgid "Previous branch"
+msgstr "上一個分支"
+
+msgid "Previous Right Sidebar Tab"
+msgstr "右側邊欄上一個分頁"
+
+msgid "Previous Tab"
+msgstr "上一個分頁"
+
+msgid "Previous Tab (Second Shortcut)"
+msgstr "上一個分頁（第二快捷鍵）"
+
+msgid "Previous Workspace"
+msgstr "上一個工作區"
+
+msgid "Private connection"
+msgstr "私網連線"
+
+msgid "Private host"
+msgstr "私有主機"
+
+msgid "Private host connections and application settings without a Jedv account."
+msgstr "無需 Jedv 帳號即可使用私人主機連線與應用程式設定。"
+
+msgid "Processed tokens"
+msgstr "已處理token"
+
+msgid "Project"
+msgstr "專案"
+
+msgid "Project directory"
+msgstr "專案目錄"
+
+msgid "Project icon and color"
+msgstr "專案圖示與顏色"
+
+msgid "Project name"
+msgstr "專案名稱"
+
+msgid "Project name must produce a valid directory name. Use letters, numbers, dots, dashes, or underscores."
+msgstr "專案名稱必須能產生有效的目錄名稱。請使用字母、數字、點、連字號或底線。"
+
+msgid "Project options"
+msgstr "專案選項"
+
+msgid "Project scripts"
+msgstr "專案指令碼"
+
+msgid "Project settings"
+msgstr "專案設定"
+
+msgid "Project Settings"
+msgstr "專案設定"
+
+msgid "Projects"
+msgstr "專案"
+
+msgid "Projects and workspaces"
+msgstr "專案和工作區"
+
+msgid "Prompt arguments"
+msgstr "提示詞參數"
+
+msgid "Prompt preview"
+msgstr "提示詞預覽"
+
+msgid "Prompt transport"
+msgstr "提示詞傳遞方式"
+
+msgid "Provider quota"
+msgstr "供應商配額"
+
+msgid "Pull request"
+msgstr "拉取請求"
+
+msgid "Pull request created"
+msgstr "拉取請求已建立"
+
+msgid "Pull request merged"
+msgstr "拉取請求已合併"
+
+msgid "Pull request number"
+msgstr "PR 編號"
+
+msgid "Pull request title"
+msgstr "拉取請求標題"
+
+msgid "Pull requests"
+msgstr "拉取請求"
+
+msgid "Pull Requests"
+msgstr "拉取請求"
+
+msgid "Purple"
+msgstr "紫色"
+
+msgid "Push"
+msgstr "推送"
+
+msgid "Push changes?"
+msgstr "推送變更？"
+
+msgid "Push completed"
+msgstr "推送完成"
+
+msgid "Push this commit to the reviewed remote branch. A changed target requires a new confirmation."
+msgstr "將此提交推送至已審查的遠端分支。目標變更時需要重新確認。"
+
+msgid "px"
+msgstr "px"
+
+msgid "Queue message"
+msgstr "將訊息加入佇列"
+
+msgid "Queue; ⌘↩ to steer the running turn"
+msgstr "加入佇列；按⌘↩引導目前回合"
+
+msgid "Quick Create Workspace"
+msgstr "快速建立工作區"
+
+msgid "Quick Open File"
+msgstr "快速開啟檔案"
+
+msgid "Quickly create a workspace in the current project"
+msgstr "在目前專案中快速建立工作區"
+
+msgid "Quit"
+msgstr "退出"
+
+msgid "Quit {displayName}"
+msgstr "結束 {displayName}"
+
+msgctxt "quit confirmation dialog title"
+msgid "Quit {displayName}"
+msgstr "退出{displayName}"
+
+msgid "Quit {displayName} and stop all background services?"
+msgstr "退出{displayName}並停止所有背景服務？"
+
+msgid "Quit {displayName} Completely"
+msgstr "完全退出{displayName}"
+
+msgid "Quit Completely"
+msgstr "完全退出"
+
+msgid "Quota is read from your provider. Refreshing may contact the provider using your existing CLI login."
+msgstr "配額從您的供應商處讀取。重新整理可能會使用現有的 CLI 登入資訊聯絡供應商。"
+
+msgid "Quote"
+msgstr "引用"
+
+msgid "Reachable"
+msgstr "可連線"
+
+msgid "Read only"
+msgstr "唯讀"
+
+msgid "Reading local CLI logs…"
+msgstr "正在讀取本地 CLI 日誌…"
+
+msgid "Ready for review"
+msgstr "待審查"
+
+msgid "Reasoning"
+msgstr "推理"
+
+msgid "Reassign shortcut"
+msgstr "重新指派快速鍵"
+
+msgid "Reassign this shortcut?"
+msgstr "重新指派此快速鍵？"
+
+msgid "Rebase"
+msgstr "變基"
+
+msgid "Recent"
+msgstr "最近"
+
+msgid "Recent files"
+msgstr "最近使用的檔案"
+
+msgid "Recent projects"
+msgstr "最近專案"
+
+msgid "Recently removed projects"
+msgstr "最近移除的專案"
+
+msgid "Recording"
+msgstr "正在錄音"
+
+msgid "Recreate the worktree from committed branch history, then run the project's setup script if configured. Deleted uncommitted files and terminated sessions cannot be recovered."
+msgstr "根據已提交的分支歷史重新建立工作樹，然後執行專案設定的初始化指令碼。已刪除的未提交檔案與已終止的工作階段無法復原。"
+
+msgid "Recurrence rule"
+msgstr "重複規則"
+
+msgid "Red"
+msgstr "紅色"
+
+msgid "Refresh"
+msgstr "重新整理"
+
+msgid "Refresh capabilities"
+msgstr "重新整理能力"
+
+msgid "Refresh failed"
+msgstr "重新整理失敗"
+
+msgid "Refresh history"
+msgstr "重新整理歷史記錄"
+
+msgid "Refresh pull request"
+msgstr "重新整理拉取請求"
+
+msgid "Refresh pull requests"
+msgstr "重新整理拉取請求"
+
+msgid "Refresh sessions"
+msgstr "重新整理工作階段"
+
+msgid "Refresh status"
+msgstr "重新整理狀態"
+
+msgid "Reject"
+msgstr "拒絕"
+
+msgid "Rejected"
+msgstr "已拒絕"
+
+msgid "Relative path copied"
+msgstr "已複製相對路徑"
+
+msgid "Release notes"
+msgstr "版本說明"
+
+msgid "Release Notes"
+msgstr "版本說明"
+
+msgid "Reload"
+msgstr "重新載入"
+
+msgid "Reload app"
+msgstr "重新載入應用"
+
+msgid "Reload from disk"
+msgstr "從磁碟重新載入"
+
+msgid "Reloading discards your edits. Overwriting replaces the file on disk."
+msgstr "重新載入將捨棄你的編輯。覆寫將取代磁碟上的檔案。"
+
+msgid "Relocate"
+msgstr "遷移"
+
+msgid "Relocate project?"
+msgstr "遷移專案？"
+
+msgid "Relocating…"
+msgstr "正在遷移…"
+
+msgid "remote"
+msgstr "遠端"
+
+msgid "Remote"
+msgstr "遠端"
+
+msgid "Remote port"
+msgstr "遠端連接埠"
+
+msgid "Remove"
+msgstr "移除"
+
+msgid "Remove agent link"
+msgstr "移除代理程式關聯"
+
+msgid "Remove attachment"
+msgstr "移除附件"
+
+msgid "Remove from Jedv…"
+msgstr "從 Jedv 移除…"
+
+msgid "Remove icon"
+msgstr "移除圖示"
+
+msgid "Remove link"
+msgstr "移除連結"
+
+msgid "Remove pasted text"
+msgstr "移除貼上的文字"
+
+msgid "Remove project"
+msgstr "移除專案"
+
+msgid "Remove pull request link"
+msgstr "移除 PR 關聯"
+
+msgid "remove the agent"
+msgstr "移除代理程式"
+
+msgid "remove the PR link"
+msgstr "移除PR連結"
+
+msgid "Remove this project and its workspaces from Jedv and stop their terminals. Repository files stay on disk. Teardown commands may run."
+msgstr "從 Jedv 移除此專案及其工作區，並停止其終端。儲存庫檔案保留在磁碟上。可能會執行清理指令。"
+
+msgid "Removing…"
+msgstr "正在移除…"
+
+msgid "Rename"
+msgstr "重新命名"
+
+msgid "Rename {title}"
+msgstr "重新命名 {title}"
+
+msgid "Rename branch"
+msgstr "重新命名分支"
+
+msgid "Rename session"
+msgstr "重新命名會話"
+
+msgid "rename the branch"
+msgstr "重新命名分支"
+
+msgid "Rename workspace"
+msgstr "重新命名工作區"
+
+msgid "Rename..."
+msgstr "重新命名..."
+
+msgid "Rendering style for markdown files. Tufte uses elegant serif typography inspired by Edward Tufte's books."
+msgstr "Markdown檔案的渲染樣式。Tufte採用受Edward Tufte著作啟發的優雅襯線排版。"
+
+msgid "Reopen Closed Tab"
+msgstr "重新開啟已關閉的分頁"
+
+msgid "reorder agents"
+msgstr "重新排序代理程式"
+
+msgid "Reorder workspace"
+msgstr "重新排序工作區"
+
+msgid "Replace"
+msgstr "替換"
+
+msgid "Replace All"
+msgstr "全部替換"
+
+msgid "Replaced {replaced} files in {where}"
+msgstr "已替換{where}中的{replaced}個檔案"
+
+msgid "Replaced 1 file in {where}"
+msgstr "已替換{where}中的1個檔案"
+
+msgid "Reply"
+msgstr "回覆"
+
+msgid "Report Issue"
+msgstr "報告問題"
+
+msgid "Repositories"
+msgstr "儲存庫"
+
+msgid "Repository"
+msgstr "儲存庫"
+
+msgid "Repository URL or path"
+msgstr "儲存庫URL或路徑"
+
+msgid "Request cancellation"
+msgstr "請求取消"
+
+msgid "Requested permissions"
+msgstr "請求的權限"
+
+msgid "Reserved by OS"
+msgstr "已被系統佔用"
+
+msgid "Reserved by terminal"
+msgstr "已被終端佔用"
+
+msgid "Reset"
+msgstr "重置"
+
+msgid "reset agents"
+msgstr "重置代理程式"
+
+msgid "Reset all"
+msgstr "全部重置"
+
+msgid "Reset all agent commands?"
+msgstr "重設所有代理程式指令？"
+
+msgid "Reset all shortcuts?"
+msgstr "重設所有快速鍵？"
+
+msgid "Reset editor"
+msgstr "重置編輯器"
+
+msgid "Reset group appearance"
+msgstr "重設群組外觀"
+
+msgid "Reset terminal"
+msgstr "重置終端"
+
+msgid "Reset to default"
+msgstr "恢復預設"
+
+msgid "Reset zoom"
+msgstr "重置縮放"
+
+msgid "Reset Zoom"
+msgstr "重置縮放"
+
+msgid "resets"
+msgstr "重置"
+
+msgid "Resets in {countdown} · {absolute}"
+msgstr "{countdown}後重置 · {absolute}"
+
+msgid "Resets now"
+msgstr "即將重置"
+
+msgid "Resolve conversation"
+msgstr "標記為已解決"
+
+msgid "Resolve conversation?"
+msgstr "解決對話？"
+
+msgid "resolve the workspace path"
+msgstr "解析工作區路徑"
+
+msgid "Resolve these conflicts before committing."
+msgstr "提交前請解決這些衝突。"
+
+msgid "Resolved"
+msgstr "已解決"
+
+msgid "Resource monitor"
+msgstr "資源監視器"
+
+msgid "Resources"
+msgstr "資源"
+
+msgid "Restart"
+msgstr "重啟"
+
+msgid "Restart Local Host"
+msgstr "重新啟動本機主機"
+
+msgid "Restart to Install"
+msgstr "重新啟動以安裝"
+
+#. placeholder {0}: event.version ?? ""
+msgid "Restart to install v{0}"
+msgstr "重新啟動以安裝 v{0}"
+
+msgid "Restart to update"
+msgstr "重新啟動以更新"
+
+msgid "Restore"
+msgstr "恢復"
+
+msgid "Restore default"
+msgstr "恢復預設值"
+
+msgid "Restore pane area"
+msgstr "還原窗格區域"
+
+msgid "restore the agent defaults"
+msgstr "恢復代理程式預設設定"
+
+msgid "Restore this workspace record on the shared repository checkout. Terminated terminal sessions are not restarted."
+msgstr "在共用的儲存庫檢出上還原此工作區記錄。已終止的終端工作階段不會重新啟動。"
+
+msgid "Restore workspace"
+msgstr "恢復工作區"
+
+msgid "Restore workspace?"
+msgstr "還原工作區？"
+
+msgid "Restore workspace…"
+msgstr "正在還原工作區…"
+
+msgid "Restoring brings back available workspace records and existing directories. It does not restart terminated sessions or recover files changed by teardown."
+msgstr "還原會恢復可用的工作區記錄與現有目錄，不會重新啟動已終止的工作階段，也不會復原被清理作業變更的檔案。"
+
+msgid "Restoring workspace layout…"
+msgstr "正在還原工作區版面配置…"
+
+msgid "Restoring…"
+msgstr "正在還原…"
+
+msgid "Result unknown"
+msgstr "結果未知"
+
+msgid "Result unknown. Refresh before retrying."
+msgstr "結果未知。請重新整理後重試。"
+
+msgid "Resume a native session. The session ID is appended after these arguments."
+msgstr "恢復原生工作階段。工作階段 ID 會附加到這些參數之後。"
+
+msgid "Resume arguments"
+msgstr "恢復參數"
+
+msgid "Resume same CLI session"
+msgstr "恢復同一 CLI 工作階段"
+
+msgid "Resume same session"
+msgstr "恢復同一工作階段"
+
+msgid "Retry"
+msgstr "重試"
+
+msgid "Retry after the connection refreshes."
+msgstr "請在連線重新整理後重試。"
+
+msgid "Retry checks"
+msgstr "重試檢查"
+
+msgid "Retry dictation"
+msgstr "重試語音輸入"
+
+msgid "Retry failed imports"
+msgstr "重試失敗的匯入"
+
+msgid "Retry icon update"
+msgstr "重試圖示更新"
+
+msgid "Retry in a few seconds; if it persists, restart Jedv."
+msgstr "請在幾秒後重試；若問題持續，請重啟Jedv。"
+
+msgid "Retry in a few seconds."
+msgstr "請在幾秒後重試。"
+
+msgid "Return to Save"
+msgstr "返回儲存"
+
+msgid "Reveal in Finder"
+msgstr "在Finder中顯示"
+
+msgid "Reveal in sidebar"
+msgstr "在側邊欄中顯示"
+
+msgid "Review"
+msgstr "審查"
+
+msgid "Review selected workspaces"
+msgstr "檢查選取的工作區"
+
+msgid "Review system permissions on this device."
+msgstr "檢查此裝置上的系統權限。"
+
+msgid "Review thread"
+msgstr "審查討論串"
+
+msgid "Review thread updated"
+msgstr "審查討論串已更新"
+
+msgid "Review threads could not be loaded"
+msgstr "無法載入審查討論串"
+
+msgid "right pane"
+msgstr "右側面板"
+
+msgid "Rocket"
+msgstr "火箭"
+
+msgid "Run"
+msgstr "執行"
+
+msgid "Run agent"
+msgstr "執行代理程式"
+
+msgid "Run agent…"
+msgstr "執行代理程式…"
+
+msgid "Run configuration is not available"
+msgstr "執行組態無法使用"
+
+msgid "Run History"
+msgstr "執行歷史"
+
+msgid "Run history is unavailable. Refresh to try again."
+msgstr "執行歷史記錄無法使用。重新整理以重試。"
+
+msgid "Run in new terminal"
+msgstr "在新終端機中執行"
+
+msgid "run issues in workspaces"
+msgstr "在工作區中執行議題"
+
+msgid "Run now"
+msgstr "立即執行"
+
+msgid "Run output"
+msgstr "執行輸出"
+
+msgid "Run repeatable work with your local agents, on a schedule or when you need it."
+msgstr "使用本地代理程式按排程或按需執行重複性工作。"
+
+msgid "Run setup script"
+msgstr "執行初始化指令碼"
+
+msgid "Run target"
+msgstr "執行目標"
+
+msgid "run tasks in workspaces"
+msgstr "在工作區中執行任務"
+
+msgid "Run time"
+msgstr "執行時間"
+
+msgid "Run workspace command"
+msgstr "執行工作區命令"
+
+msgid "Run Workspace Command"
+msgstr "執行工作區命令"
+
+msgid "running"
+msgstr "執行中"
+
+msgid "Running"
+msgstr "執行中"
+
+msgid "Same-session CLI control is unavailable. No new session was started."
+msgstr "同一工作階段的 CLI 控制無法使用。未啟動新的工作階段。"
+
+msgid "Same-session control is unavailable. No new agent session was started."
+msgstr "同一工作階段控制無法使用，未啟動新的代理程式工作階段。"
+
+msgid "Saturday"
+msgstr "星期六"
+
+msgid "Save"
+msgstr "儲存"
+
+msgid "Save All"
+msgstr "全部儲存"
+
+msgid "Save changes"
+msgstr "儲存變更"
+
+msgid "Save changes before closing?"
+msgstr "關閉前儲存變更？"
+
+msgid "Save failed: {message}"
+msgstr "儲存失敗：{message}"
+
+msgid "Save file"
+msgstr "儲存檔案"
+
+msgid "Save group"
+msgstr "儲存群組"
+
+msgid "Save or close all unsaved files in this project before removing it."
+msgstr "移除此專案前，請儲存或關閉其中所有未儲存的檔案。"
+
+msgid "Save or close every unsaved file in this workspace before deleting it."
+msgstr "刪除此工作區前，請儲存或關閉其中每個未儲存的檔案。"
+
+msgid "Save or close the unsaved files before opening another workspace"
+msgstr "開啟另一個工作區前儲存或關閉未儲存的檔案"
+
+msgid "Save or close the unsaved files before removing this project"
+msgstr "移除此專案前儲存或關閉未儲存的檔案"
+
+msgid "Save or close the unsaved files before switching hosts"
+msgstr "切換主機前儲存或關閉未儲存的檔案"
+
+msgid "Save or close unsaved files and commit or discard changes before switching branches."
+msgstr "切換分支前，請儲存或關閉未儲存的檔案，並提交或捨棄變更。"
+
+msgid "Save preset"
+msgstr "儲存預設"
+
+msgid "save the agent"
+msgstr "儲存代理程式"
+
+msgid "save the agent command"
+msgstr "儲存代理程式命令"
+
+msgid "Save to apply your changes. Drafts are kept if saving fails."
+msgstr "儲存以套用變更。儲存失敗時保留草稿。"
+
+msgid "Save your changes before closing?"
+msgstr "關閉前儲存變更？"
+
+msgid "Save your work before restarting. Unsaved changes can still prevent the restart."
+msgstr "重新啟動前請儲存工作。未儲存的變更仍可能阻止重新啟動。"
+
+msgid "Saved"
+msgstr "已儲存"
+
+msgid "Saving a preset does not run its commands."
+msgstr "儲存預設不會執行其指令。"
+
+msgid "Saving…"
+msgstr "正在儲存…"
+
+msgid "Scaffold a new project from a starter with fresh Git history. Setup commands will not run automatically."
+msgstr "從起始範本建立新專案並產生新的 Git 歷史。初始化指令不會自動執行。"
+
+#. placeholder {0}: data.scannedFiles
+#. placeholder {1}: data.pricingTableUpdated
+msgid "Scanned {0} log files. Pricing table: {1}."
+msgstr "已掃描 {0} 個日誌檔案。定價表：{1}。"
+
+msgid "Schedule"
+msgstr "計劃"
+
+msgid "Scheduled"
+msgstr "已排程"
+
+msgid "Screenshots"
+msgstr "截圖"
+
+msgid "Scroll the active terminal to the bottom"
+msgstr "將目前終端滾動到底部"
+
+msgid "Scroll to bottom"
+msgstr "滾動到底部"
+
+msgid "Scroll to Bottom"
+msgstr "滾動到底部"
+
+msgid "Search"
+msgstr "搜尋"
+
+msgid "Search active workspaces…"
+msgstr "搜尋使用中的工作區…"
+
+msgid "Search and open files in the current workspace"
+msgstr "在目前工作區中搜尋並開啟檔案"
+
+msgid "Search automations"
+msgstr "搜尋自動化"
+
+msgid "Search automations…"
+msgstr "搜尋自動化…"
+
+msgid "Search branches..."
+msgstr "搜尋分支..."
+
+msgid "Search changed files"
+msgstr "搜尋更改的檔案"
+
+msgid "Search files"
+msgstr "搜尋檔案"
+
+msgid "Search Files"
+msgstr "搜尋檔案"
+
+msgid "Search files..."
+msgstr "搜尋檔案..."
+
+msgid "Search fonts..."
+msgstr "搜尋字型..."
+
+msgid "Search projects"
+msgstr "搜尋專案"
+
+msgid "Search pull requests"
+msgstr "搜尋拉取請求"
+
+msgid "Search pull requests or enter a PR number…"
+msgstr "搜尋 PR 或輸入 PR 編號…"
+
+msgid "Search pull requests…"
+msgstr "搜尋拉取請求…"
+
+msgid "Search repositories..."
+msgstr "搜尋儲存庫..."
+
+msgid "Search settings"
+msgstr "搜尋設定"
+
+msgid "Search settings…"
+msgstr "搜尋設定…"
+
+msgid "Search shortcuts"
+msgstr "搜尋快速鍵"
+
+msgid "Search shortcuts…"
+msgstr "搜尋快速鍵…"
+
+msgid "Search text in the active chat"
+msgstr "在目前聊天中搜尋文字"
+
+msgid "Search text in the active page"
+msgstr "在目前頁面中搜尋文字"
+
+msgid "Search text in the active terminal"
+msgstr "在目前終端中搜尋文字"
+
+msgid "Search text in the changes diff"
+msgstr "在更改差異中搜尋文字"
+
+msgid "Search text in the rendered file viewer"
+msgstr "在渲染的檔案檢視器中搜尋文字"
+
+msgid "Search workspaces"
+msgstr "搜尋工作區"
+
+msgid "Search workspaces…"
+msgstr "搜尋工作區…"
+
+msgid "Searching…"
+msgstr "正在搜尋…"
+
+msgid "See what changed in this version."
+msgstr "查看此版本的變更。"
+
+msgid "Select a file to preview or edit"
+msgstr "選擇要預覽或編輯的檔案"
+
+msgid "Select a project"
+msgstr "請選擇專案"
+
+msgid "Select a shortcut and press the new keys. Escape cancels; Backspace clears the binding."
+msgstr "選擇一個快速鍵並按下新按鍵。Escape 取消；Backspace 清除綁定。"
+
+msgid "Select All"
+msgstr "全選"
+
+msgid "Select an agent terminal to inspect or control its current session."
+msgstr "選擇一個代理程式終端以檢視或控制其目前工作階段。"
+
+msgid "Select an option"
+msgstr "選擇一個選項"
+
+msgid "Select base branch…"
+msgstr "選擇基礎分支…"
+
+msgid "Select commit range"
+msgstr "選擇提交範圍"
+
+msgid "Select directory"
+msgstr "選取目錄"
+
+msgid "Select Directory"
+msgstr "選擇目錄"
+
+msgid "Select existing worktrees to import. Files stay in place and setup commands will not run."
+msgstr "選取要匯入的現有工作樹。檔案保持原位，初始化指令不會執行。"
+
+msgid "Select new project location"
+msgstr "選擇新的專案位置"
+
+msgid "Select Notification Sound"
+msgstr "選擇通知提示音"
+
+msgid "Select only the workspaces you intend to remove. Each selected workspace receives its own current-state inspection and destructive confirmation. Cancelling one skips it."
+msgstr "只選取打算移除的工作區。每個選取的工作區都會個別檢查目前狀態並要求確認刪除。取消某個工作區將跳過它。"
+
+msgid "Select Organization Logo"
+msgstr "選擇組織標誌"
+
+msgid "Select project location"
+msgstr "選擇專案位置"
+
+msgid "Select range..."
+msgstr "選擇範圍..."
+
+msgid "Select repositories"
+msgstr "選擇儲存庫"
+
+msgid "Select worktree…"
+msgstr "選取工作樹…"
+
+msgid "Selected"
+msgstr "已選取"
+
+msgid "Send"
+msgstr "傳送"
+
+msgid "Send message"
+msgstr "傳送訊息"
+
+msgid "Sensitive values are hidden. This preview is incomplete."
+msgstr "敏感值已隱藏。此預覽不完整。"
+
+msgid "Sequential commands in one terminal"
+msgstr "在一個終端中依序執行指令"
+
+msgid "Session"
+msgstr "工作階段"
+
+msgid "Session ended"
+msgstr "工作階段已結束"
+
+msgid "Session ID"
+msgstr "工作階段 ID"
+
+msgid "Session name"
+msgstr "會話名稱"
+
+msgid "Session status and notifications"
+msgstr "工作階段狀態和通知"
+
+msgid "Sessions"
+msgstr "會話"
+
+#. placeholder {0}: color.name
+msgid "Set color to {0}"
+msgstr "將顏色設為{0}"
+
+#. placeholder {0}: i18n._(glyph.label)
+msgid "Set icon to {0}"
+msgstr "將圖示設為{0}"
+
+msgid "Set Run"
+msgstr "設定執行命令"
+
+msgid "Set up later"
+msgstr "稍後設定"
+
+msgid "Settings"
+msgstr "設定"
+
+msgid "Settings section unavailable"
+msgstr "設定區段無法使用"
+
+msgid "Settings sections"
+msgstr "設定區段"
+
+msgid "Settings..."
+msgstr "設定..."
+
+msgid "settings.ts"
+msgstr "settings.ts"
+
+msgid "Setup completion is unavailable for this workspace. Review setup or turn off waiting in settings."
+msgstr "無法取得此工作區的初始化完成狀態。請檢查初始化過程，或在設定中關閉等待。"
+
+msgid "Shared"
+msgstr "共享"
+
+msgid "Shift+click"
+msgstr "Shift+點選"
+
+msgid "Show agent commands and pinned terminal presets above the workspace."
+msgstr "在工作區上方顯示代理程式指令與固定的終端預設。"
+
+msgid "Show Apple's installer"
+msgstr "顯示 Apple 安裝程式"
+
+msgid "Show deleted workspaces"
+msgstr "顯示已刪除的工作區"
+
+msgid "Show details"
+msgstr "顯示詳情"
+
+msgid "Show hidden directories"
+msgstr "顯示隱藏目錄"
+
+msgid "Show hidden files"
+msgstr "顯示隱藏檔案"
+
+msgid "Show in folder"
+msgstr "在資料夾中顯示"
+
+msgid "Show in workspace launcher"
+msgstr "在工作區啟動器中顯示"
+
+msgid "Show Keyboard Shortcuts"
+msgstr "顯示鍵盤快速鍵"
+
+msgid "Show less"
+msgstr "收起"
+
+msgid "Show local resource usage in the workspace."
+msgstr "在工作區中顯示本地資源用量。"
+
+msgid "Show more"
+msgstr "顯示更多"
+
+msgid "Show Scripts Bar"
+msgstr "顯示指令碼列"
+
+msgid "Show the next tab in the right sidebar without moving focus"
+msgstr "顯示右側邊欄中的下一個分頁，不移動焦點"
+
+msgid "Show the previous tab in the right sidebar without moving focus"
+msgstr "顯示右側邊欄中的上一個分頁，不移動焦點"
+
+msgid "Show the Usage entry in the main sidebar."
+msgstr "在主側邊欄中顯示「用量」入口。"
+
+msgid "Show update"
+msgstr "顯示更新"
+
+msgid "Show workspace activity"
+msgstr "顯示工作區活動"
+
+msgid "Showing the first 100 results. Refine your search."
+msgstr "顯示前 100 筆結果。請縮小搜尋範圍。"
+
+msgid "Side by side"
+msgstr "並排比較"
+
+msgid "Sidebar file rows"
+msgstr "側邊欄檔案行"
+
+msgid "Sign in to GitHub on this host to reply"
+msgstr "在此主機上登入 GitHub 以回覆"
+
+msgid "Size"
+msgstr "大小"
+
+msgid "Skipped"
+msgstr "已跳過"
+
+msgid "Slate"
+msgstr "石板灰"
+
+msgid "Some files are not an accepted type and were not added."
+msgstr "部分檔案的型別不被允許，未新增。"
+
+msgid "Some files could not be saved. Review their tabs before closing."
+msgstr "部分檔案無法儲存。關閉前請檢查其分頁。"
+
+msgid "Some files exceed the maximum size and were not added."
+msgstr "部分檔案超過大小上限，未新增。"
+
+msgid "Some files may already have been copied. Check the workspace attachments folder before retrying."
+msgstr "部分檔案可能已複製。重試前請檢查工作區附件目錄。"
+
+msgid "Some project tree actions could not be loaded. Other actions remain available."
+msgstr "部分專案樹操作無法載入。其他操作仍可使用。"
+
+msgid "Some session details could not be loaded. Refresh to check the current host state."
+msgstr "部分工作階段詳細資料無法載入。請重新整理以檢查目前主機狀態。"
+
+msgid "Some themes were skipped"
+msgstr "部分主題已被跳過"
+
+msgid "Something went wrong"
+msgstr "出了點問題"
+
+msgid "Something went wrong. Please try again."
+msgstr "出了點問題。請重試。"
+
+msgid "Source Code"
+msgstr "原始碼"
+
+msgid "Sparse checkout"
+msgstr "稀疏檢出"
+
+msgid "Split Along Longer Side"
+msgstr "沿較長邊分割"
+
+msgid "Split diff"
+msgstr "分割差異"
+
+msgid "Split Down"
+msgstr "向下拆分"
+
+msgid "Split Horizontally"
+msgstr "水平拆分"
+
+msgid "split pane"
+msgstr "分割窗格"
+
+msgid "Split pane"
+msgstr "拆分窗格"
+
+msgid "Split panes"
+msgstr "分割窗格"
+
+msgid "Split Right"
+msgstr "向右拆分"
+
+msgid "Split the current pane along its longer side"
+msgstr "沿較長的一邊拆分目前窗格"
+
+msgid "Split the current pane and open a mobile simulator"
+msgstr "拆分目前窗格並開啟行動模擬器"
+
+msgid "Split the current pane and open the sandbox desktop"
+msgstr "分割目前窗格並開啟沙箱桌面"
+
+msgid "Split the current pane downward"
+msgstr "向下拆分目前窗格"
+
+msgid "Split the current pane to the right"
+msgstr "向右拆分目前窗格"
+
+msgid "Split Vertically"
+msgstr "垂直拆分"
+
+msgid "Split with Mobile Simulator"
+msgstr "分割並開啟行動模擬器"
+
+msgid "Split with Sandbox Desktop"
+msgstr "分割並開啟沙箱桌面"
+
+msgid "Squash"
+msgstr "壓縮合併"
+
+msgid "Stage All"
+msgstr "全部暫存"
+
+msgid "Stage all changes"
+msgstr "暫存所有變更"
+
+msgid "Stage file"
+msgstr "暫存檔案"
+
+msgid "Staged"
+msgstr "已暫存"
+
+msgid "Star"
+msgstr "加星"
+
+msgid "Start a new agent, or choose an existing session from Sessions."
+msgstr "啟動新代理程式，或從「工作階段」選擇現有工作階段。"
+
+msgid "Start from a template"
+msgstr "從模板開始"
+
+msgid "Start new session"
+msgstr "開始新會話"
+
+msgid "Start or stop the workspace run command"
+msgstr "啟動或停止工作區執行命令"
+
+msgid "starting"
+msgstr "啟動中"
+
+msgid "Starting"
+msgstr "啟動中"
+
+msgid "Starting the agent…"
+msgstr "正在啟動代理…"
+
+msgid "Status"
+msgstr "狀態"
+
+msgid "Status unavailable"
+msgstr "狀態無法使用"
+
+msgid "Status unavailable. Review this permission in System Settings."
+msgstr "狀態無法使用。請在系統設定中檢查此權限。"
+
+msgid "Stop"
+msgstr "停止"
+
+msgid "Stop {label}"
+msgstr "停止 {label}"
+
+msgid "Stop dictation"
+msgstr "停止語音輸入"
+
+msgid "Stop forwarded ports?"
+msgstr "停止轉送的連接埠？"
+
+msgid "Stop forwarding"
+msgstr "停止轉送"
+
+msgid "Stop listening processes?"
+msgstr "停止監聽程序？"
+
+msgid "Stop listening processes…"
+msgstr "正在停止監聽程序…"
+
+msgid "Stop local process"
+msgstr "停止本機程序"
+
+msgid "Stop local process?"
+msgstr "停止本機程序？"
+
+msgid "Stop response"
+msgstr "停止回覆"
+
+msgid "stopped"
+msgstr "已停止"
+
+msgid "Strict CLI resume is unavailable on this host. Active CLI and chat sessions remain selectable."
+msgstr "此主機不支援嚴格恢復 CLI。仍可選取使用中的 CLI 與聊天工作階段。"
+
+msgid "Strikethrough"
+msgstr "刪除線"
+
+msgid "Submit"
+msgstr "提交"
+
+msgid "Submit response"
+msgstr "提交回應"
+
+msgid "Summary"
+msgstr "摘要"
+
+msgid "Sunday"
+msgstr "星期日"
+
+msgid "Switch branch"
+msgstr "切換分支"
+
+msgid "Switch branch?"
+msgstr "切換分支？"
+
+msgid "Switch to Active Workspace"
+msgstr "切換到作用中的工作區"
+
+msgid "Switch to Local"
+msgstr "切換到本地"
+
+msgid "Switch to Tab 1"
+msgstr "切換到分頁1"
+
+msgid "Switch to Tab 2"
+msgstr "切換到分頁2"
+
+msgid "Switch to Tab 3"
+msgstr "切換到分頁3"
+
+msgid "Switch to Tab 4"
+msgstr "切換到分頁4"
+
+msgid "Switch to Tab 5"
+msgstr "切換到分頁5"
+
+msgid "Switch to Tab 6"
+msgstr "切換到分頁6"
+
+msgid "Switch to Tab 7"
+msgstr "切換到分頁7"
+
+msgid "Switch to Tab 8"
+msgstr "切換到分頁8"
+
+msgid "Switch to Tab 9"
+msgstr "切換到分頁9"
+
+msgid "Switch to this device to edit terminal presets and choose local projects."
+msgstr "切換到此裝置以編輯終端預設並選擇本機專案。"
+
+msgid "Switch to Workspace 1"
+msgstr "切換到工作區1"
+
+msgid "Switch to Workspace 2"
+msgstr "切換到工作區2"
+
+msgid "Switch to Workspace 3"
+msgstr "切換到工作區3"
+
+msgid "Switch to Workspace 4"
+msgstr "切換到工作區4"
+
+msgid "Switch to Workspace 5"
+msgstr "切換到工作區5"
+
+msgid "Switch to Workspace 6"
+msgstr "切換到工作區6"
+
+msgid "Switch to Workspace 7"
+msgstr "切換到工作區7"
+
+msgid "Switch to Workspace 8"
+msgstr "切換到工作區8"
+
+msgid "Switch to Workspace 9"
+msgstr "切換到工作區9"
+
+msgid "System"
+msgstr "跟隨系統"
+
+msgid "System permissions"
+msgstr "系統權限"
+
+msgid "Take control"
+msgstr "接管控制"
+
+#. placeholder {0}: context.hostLabel
+#. placeholder {0}: session.context.hostLabel
+msgid "Target host: {0}"
+msgstr "目標主機：{0}"
+
+msgid "Teal"
+msgstr "藍綠色"
+
+msgid "Teardown exited with code {exitCode}"
+msgstr "清理指令碼退出，程式碼為{exitCode}"
+
+msgid "Teardown failed to start"
+msgstr "清理指令碼啟動失敗"
+
+msgid "Teardown terminated by signal {signal}"
+msgstr "清理指令碼被訊號{signal}終止"
+
+msgid "Teardown timed out after {seconds}s"
+msgstr "清理指令碼在{seconds}秒後逾時"
+
+msgid "Terminal"
+msgstr "終端"
+
+msgid "Terminal daemon"
+msgstr "終端守護程式"
+
+msgid "Terminal font"
+msgstr "終端字型"
+
+msgid "Terminal font size when a terminal is focused, page zoom in a browser pane, otherwise the whole app"
+msgstr "終端取得焦點時調整終端字型大小，瀏覽器窗格中調整頁面縮放，其他情況下縮放整個應用程式"
+
+msgid "Terminal owns this session"
+msgstr "此工作階段由終端擁有"
+
+msgid "Terminal presets"
+msgstr "終端預設"
+
+msgid "Terminal sessions"
+msgstr "終端會話"
+
+msgid "Terminal typography"
+msgstr "終端排版"
+
+msgid "Terminate"
+msgstr "終止"
+
+msgid "Terminate session"
+msgstr "終止工作階段"
+
+msgid "Terminate this terminal session?"
+msgstr "終止此終端工作階段？"
+
+msgid "Text"
+msgstr "正文"
+
+msgid "Text style"
+msgstr "文字樣式"
+
+msgid "That name isn't allowed."
+msgstr "該名稱不被允許。"
+
+msgid "the active organization"
+msgstr "目前組織"
+
+msgid "The active session changed. The prompt was not sent."
+msgstr "使用中的工作階段已變更。提示未傳送。"
+
+msgid "The agent reports it is working."
+msgstr "代理程式回報其正在工作。"
+
+msgid "The attachment copy result is incomplete. Check the workspace before retrying."
+msgstr "附件複製結果不完整。重試前請檢查工作區。"
+
+msgid "The attachment could not be read."
+msgstr "無法讀取附件。"
+
+msgid "The attachment path is outside this workspace."
+msgstr "附件路徑位於此工作區之外。"
+
+msgid "The branch changed. Review the current branch before trying again."
+msgstr "分支已變更。重試前請檢查目前分支。"
+
+msgid "The command used to start this agent."
+msgstr "用於啟動此代理程式的命令。"
+
+msgid "The default location for new worktrees on the connected host."
+msgstr "連線主機上新 worktree 的預設位置。"
+
+msgid "The definition and its run records will be deleted. Existing workspaces and sessions remain available."
+msgstr "定義及其執行記錄將被刪除。現有工作區和工作階段仍可使用。"
+
+msgid "The existing session identity could not be verified. Refresh before retrying."
+msgstr "無法驗證現有工作階段的身分。重試前請重新整理。"
+
+msgid "The file changed on disk. Review it before saving again."
+msgstr "檔案在磁碟上已更改。請先檢視，然後再儲存。"
+
+msgid "The file changed. Review its diff before discarding."
+msgstr "檔案已變更。捨棄變更前請檢查其 diff。"
+
+msgid "The file did not contain any importable themes."
+msgstr "該檔案不包含任何可匯入的主題。"
+
+msgid "The file path is unavailable"
+msgstr "檔案路徑無法使用"
+
+msgid "The Jedv host service for {organization} stopped unexpectedly ({cause}) and could not be restarted automatically."
+msgstr "{organization}的Jedv主機服務意外停止（{cause}），且無法自動重啟。"
+
+msgid "The Jedv host service stopped unexpectedly ({cause}) and could not be restarted automatically."
+msgstr "Jedv主機服務意外停止（{cause}），且無法自動重啟。"
+
+msgid "The linked local agent is unavailable on this host. Edit the preset or remove its agent link."
+msgstr "關聯的本機代理程式在此主機上無法使用。請編輯預設或移除其代理程式關聯。"
+
+msgid "The local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
+msgstr "{device}上{organization}的本地主機服務不可用。狀態：{status}。{recovery}"
+
+msgid "The operation result is unknown. Check the branch history and remote before retrying."
+msgstr "作業結果未知。重試前請檢查分支歷史與遠端儲存庫。"
+
+msgid "The page you're looking for doesn't exist."
+msgstr "你要找的頁面不存在。"
+
+msgid "The project is saved, but its workspace could not be opened. Continue opening to retry without creating another project."
+msgstr "專案已儲存，但無法開啟其工作區。請繼續開啟以重試，不會建立另一個專案。"
+
+msgid "The project was saved. Continue opening its workspace."
+msgstr "專案已儲存。請繼續開啟其工作區。"
+
+msgid "The repository directory is missing on this host. Open the repository at its current path to set it up again."
+msgstr "此主機上缺少儲存庫目錄。請在其目前路徑開啟儲存庫以重新設定。"
+
+msgid "The request ended before its result was confirmed. Check the target host for a completed project or partial directory before trying again."
+msgstr "請求在確認結果前已結束。重試前請檢查目標主機上是否有已完成的專案或部分目錄。"
+
+msgid "The resumed session identity could not be verified. Refresh before retrying."
+msgstr "無法驗證恢復工作階段的身分。請重新整理後重試。"
+
+msgid "The run command is still stopping. Wait, then restart."
+msgstr "執行指令仍在停止中。請等待，然後重新啟動。"
+
+msgid "The screenshot is no longer available."
+msgstr "截圖已無法使用。"
+
+msgid "The session changed. Select its current run in the workspace."
+msgstr "工作階段已變更。在工作區中選擇其目前執行。"
+
+msgid "The session identity changed. Select it again."
+msgstr "工作階段身分已變更。請重新選取。"
+
+msgid "The session identity is unavailable."
+msgstr "工作階段身分無法使用。"
+
+msgid "The staged files changed. Review them before committing."
+msgstr "已暫存的檔案已變更。提交前請檢查。"
+
+msgid "The symbolic link target is unavailable"
+msgstr "符號連結目標無法使用"
+
+msgid "The target directory is missing, but the operation result is unknown. This does not confirm cancellation. Check the operation status again."
+msgstr "目標目錄不存在，但作業結果未知。這不能確認作業已取消。請再次檢查作業狀態。"
+
+msgid "The target host confirmed this operation has ended. You can retry; an existing directory will not be overwritten."
+msgstr "目標主機已確認此作業結束。你可以重試；現有目錄不會被覆寫。"
+
+msgid "The target host confirmed this operation has stopped. You can retry; if the target directory remains, choose another location."
+msgstr "目標主機已確認此作業停止。你可以重試；如果目標目錄仍存在，請選擇其他位置。"
+
+msgid "The target host is still processing this request. Check again before starting another operation here."
+msgstr "目標主機仍在處理此請求。在此開始另一個作業前，請再次檢查。"
+
+msgid "The target pane area cannot receive this pane"
+msgstr "目標窗格區域無法接收此窗格"
+
+msgid "The target pane area did not receive this pane"
+msgstr "目標窗格區域未接收此窗格"
+
+msgid "The target workspace changed. Return to the original workspace before continuing."
+msgstr "目標工作區已變更。繼續前請返回原工作區。"
+
+msgid "The target workspace changed. The result belongs to the original workspace."
+msgstr "目標工作區已變更，結果屬於原工作區。"
+
+msgid "The terminal session changed. Refresh before inserting the prompt."
+msgstr "終端工作階段已變更。插入提示前請重新整理。"
+
+msgid "The terminal session ended unexpectedly"
+msgstr "終端工作階段意外結束"
+
+msgid "The workspace changed"
+msgstr "工作區已變更"
+
+msgid "The workspace files will change to the selected branch."
+msgstr "工作區檔案將切換至所選分支。"
+
+msgid "The workspace is saved. Continue opening it without creating another workspace."
+msgstr "工作區已儲存。請繼續開啟，不會建立另一個工作區。"
+
+msgid "The workspace list changed on the host. Refresh it before reordering."
+msgstr "主機上的工作區清單已變更。重新排序前請重新整理。"
+
+msgid "The workspace was deleted. Continue to refresh the target host."
+msgstr "工作區已刪除。請繼續重新整理目標主機。"
+
+msgid "Theme"
+msgstr "主題"
+
+msgid "Theme default"
+msgstr "主題預設值"
+
+msgid "Theme file too large"
+msgstr "主題檔案過大"
+
+msgid "These metrics belong to this device. Remote host processes are not included."
+msgstr "這些指標屬於此裝置，不包括遠端主機程序。"
+
+msgid "These notes ship with the application. Published release details are available in the Jedv repository."
+msgstr "這些說明隨應用程式提供。已發布的版本詳情可在 Jedv 儲存庫中查看。"
+
+msgid "This action is irreversible."
+msgstr "此操作不可逆。"
+
+msgid "This API login does not expose subscription quota."
+msgstr "此 API 登入不提供訂閱配額。"
+
+msgid "This automation is no longer available"
+msgstr "此自動化不再可用"
+
+msgid "This branch has conflicts"
+msgstr "此分支存在衝突"
+
+msgid "This changes the pull request state on GitHub."
+msgstr "這會變更 GitHub 上的拉取請求狀態。"
+
+msgid "This chat is no longer live. The prompt was not sent."
+msgstr "此聊天已不在活動狀態。提示未傳送。"
+
+msgid "This chat is read only. Use Start new session to begin another chat."
+msgstr "此聊天為唯讀。請使用「開始新工作階段」發起另一個聊天。"
+
+msgid "This closes every terminal session on this host, including running agents and background processes. Restart does not preserve sessions."
+msgstr "這將關閉此主機上的每個終端工作階段，包括執行中的代理程式與背景程序。重新啟動不會保留工作階段。"
+
+msgid "This closes the run terminal and its running processes."
+msgstr "這將關閉執行終端及其正在執行的程序。"
+
+msgid "This closes the workspace and its terminals. The project's files, branches and other workspaces stay as they are."
+msgstr "這將關閉該工作區及其終端機。專案的檔案、分支和其他工作區保持不變。"
+
+msgid "This comment will be visible on the remote pull request."
+msgstr "此評論將顯示在遠端拉取請求中。"
+
+msgid "This creates a remote pull request from the workspace branch."
+msgstr "這會從工作區分支建立遠端拉取請求。"
+
+msgid "This deletes the file from disk. Unsaved editor buffers are kept. This action cannot be undone."
+msgstr "這將從磁碟刪除檔案。未儲存的編輯器緩衝區會保留。此操作無法復原。"
+
+msgid "This deletes the folder and all its contents. Unsaved editor buffers are kept. This action cannot be undone."
+msgstr "這將刪除資料夾及其全部內容。未儲存的編輯器緩衝區會保留。此操作無法復原。"
+
+msgid "This deletes the session's folder and everything in it from disk."
+msgstr "這會從磁碟上刪除會話的資料夾和其中的所有內容。"
+
+msgid "this device"
+msgstr "本裝置"
+
+msgid "This device"
+msgstr "本裝置"
+
+msgid "this device ({id})"
+msgstr "此裝置（{id}）"
+
+msgid "This draft belongs to another session. Return to it or discard the draft before composing here."
+msgstr "此草稿屬於另一個工作階段。請返回該工作階段或捨棄草稿，然後再於此處撰寫。"
+
+msgid "This file cannot be edited as text."
+msgstr "此檔案無法作為文字編輯。"
+
+msgid "This file is outside the workspace"
+msgstr "此檔案位於工作區之外"
+
+msgid "This file is outside the workspace or its symbolic link cannot be safely resolved"
+msgstr "此檔案位於工作區之外，或無法安全解析其符號連結"
+
+msgid "This folder is not a Git repository. Initialize Git here and import it as a project? Existing files will be kept."
+msgstr "此資料夾不是 Git 儲存庫。要在此初始化 Git 並匯入為專案嗎？現有檔案將保留。"
+
+msgid "This host did not provide a readable preview. Review the request in the agent CLI before approving."
+msgstr "此主機未提供可讀的預覽。核准前請在代理程式 CLI 中檢查請求。"
+
+msgid "This is a large file. Opening it may slow down the editor."
+msgstr "這是大型檔案。開啟它可能會降低編輯器速度。"
+
+msgid "This pane can't be shown"
+msgstr "無法顯示此窗格"
+
+msgid "This pane hit an error"
+msgstr "此窗格出錯了"
+
+msgid "This permanently deletes the removed project and workspace records and attempts to remove their clean worktree directories. Dirty worktree directories may remain untracked. The main repository directory is kept. This cannot be undone."
+msgstr "這將永久刪除已移除的專案與工作區記錄，並嘗試刪除其乾淨的工作樹目錄。含有未提交變更的工作樹目錄可能保留但不再追蹤。主儲存庫目錄會保留。此操作無法復原。"
+
+msgid "This preview was shortened. Review the full request in the agent CLI."
+msgstr "此預覽已截斷。請在代理程式 CLI 中檢視完整請求。"
+
+msgid "This project cannot be removed in its current state."
+msgstr "此專案在目前狀態下無法移除。"
+
+msgid "This project is not set up on the target host."
+msgstr "此專案尚未在目標主機上設定。"
+
+msgid "This project still uses the older config.json. It keeps working; convert it to config.toml to use the new sections."
+msgstr "此專案仍在使用舊的 config.json。它仍可正常運作；轉換為 config.toml 即可使用新的區段。"
+
+msgid "This project's host is offline"
+msgstr "此專案的主機已離線"
+
+msgid "This prompt is no longer active."
+msgstr "此提示已不再有效。"
+
+msgid "This removes all custom shortcut bindings, including actions outside this list."
+msgstr "這將移除所有自訂快速鍵繫結，包括此清單之外的動作。"
+
+msgid "This removes all saved screenshots listed here. Attachments already copied into a workspace are kept."
+msgstr "這將刪除此處列出的所有已儲存截圖。已複製到工作區的附件會保留。"
+
+msgid "This removes custom agents and replaces all launch configurations with the four bundled defaults. Existing sessions keep running. This cannot be undone."
+msgstr "這將移除自訂代理程式，並將所有啟動組態取代為四個內建預設組態。現有工作階段繼續執行。此操作無法復原。"
+
+msgid "This removes its launch configuration. Existing sessions keep running."
+msgstr "這會刪除其啟動設定。現有工作階段將繼續執行。"
+
+msgid "This removes the saved commands from this device. Running terminals are not affected."
+msgstr "這將刪除此裝置上儲存的指令。正在執行的終端不受影響。"
+
+msgid "This removes the worktree from disk and closes the workspace."
+msgstr "這將從磁碟中移除該 worktree 並關閉工作區。"
+
+msgid "This reply will be visible in the remote review thread."
+msgstr "此回覆將顯示在遠端審查討論串中。"
+
+msgid "This repository is no longer available as a Git repository."
+msgstr "此儲存庫已不再是可用的 Git 儲存庫。"
+
+msgid "This restores the file in the index and on disk to HEAD, or deletes an untracked file. Unsaved editor buffers are kept. This action cannot be undone."
+msgstr "這將把索引與磁碟上的檔案還原至 HEAD，或刪除未追蹤檔案。未儲存的編輯器緩衝區會保留。此操作無法復原。"
+
+msgid "This run has no agent session"
+msgstr "此次執行沒有代理程式工作階段"
+
+msgid "This session could not be resumed. No new session was started."
+msgstr "無法恢復此工作階段。未啟動新的工作階段。"
+
+msgid "This session is not active, or you are viewing earlier output. Refresh to check its current state."
+msgstr "此工作階段未處於活動狀態，或您正在檢視較早的輸出。重新整理以檢查其目前狀態。"
+
+#. placeholder {0}: label(conflict.id)
+#. placeholder {1}: conflictsFor(conflict.id, conflict.binding) .map(label) .join(", ")
+msgid "This shortcut will be assigned to {0}. These actions will become unassigned: {1}."
+msgstr "此快速鍵將指派給 {0}。以下動作將失去快速鍵繫結：{1}。"
+
+#. placeholder {0}: killing?.title
+msgid "This stops {0} and its child processes. Unsaved work in the terminal can be lost."
+msgstr "這將停止 {0} 及其子程序。終端中未儲存的工作可能遺失。"
+
+msgid "This stops only the listed forwarding tunnels. Processes on the target host keep running."
+msgstr "這只會停止列出的轉送通道。目標主機上的程序繼續執行。"
+
+msgid "This stops the listed processes on the original host. Terminal work or servers using them can be interrupted. Forwarding tunnels are separate."
+msgstr "這將停止原主機上列出的程序。使用這些程序的終端工作或伺服器可能會中斷。轉送通道是獨立的。"
+
+msgid "This stops the local process occupying the forwarded port."
+msgstr "這將停止占用轉送連接埠的本機程序。"
+
+msgid "This stops the process listening on this port."
+msgstr "這將停止監聽此連接埠的程序。"
+
+msgid "This stops the processes listening on the listed workspace ports."
+msgstr "這將停止監聽所列工作區連接埠的程序。"
+
+msgid "This stops the shell and all processes running in this terminal. Workspace files are kept. Unsaved process state may be lost."
+msgstr "這會停止 shell 以及此終端中執行的所有處理程序。工作區檔案會保留。未儲存的處理程序狀態可能遺失。"
+
+msgid "This terminal is also open on a smaller screen, so it's sized to fit"
+msgstr "此終端機也在較小的螢幕上開啟，因此已調整為符合該螢幕的大小"
+
+msgid "This terminal is no longer running. Refresh the session list."
+msgstr "此終端已不再執行。請重新整理工作階段清單。"
+
+msgid "This thread has no comment to reply to, or GitHub authentication is unavailable."
+msgstr "此討論串沒有可回覆的評論，或 GitHub 驗證無法使用。"
+
+msgid "This thread has no comment to reply to."
+msgstr "這個討論裡沒有可回覆的評論。"
+
+msgid "This updates the remote base branch on GitHub."
+msgstr "這會更新 GitHub 上的遠端基礎分支。"
+
+msgid "This updates the review thread on GitHub."
+msgstr "這會更新 GitHub 上的審查討論串。"
+
+msgid "This view hit an error"
+msgstr "此檢視出錯了"
+
+msgid "This workspace cannot be deleted in its current state."
+msgstr "此工作區在目前狀態下無法刪除。"
+
+msgid "This workspace shares the project's files, index, and current branch. It does not switch branches or run setup."
+msgstr "此工作區共用專案的檔案、索引與目前分支，不會切換分支或執行初始化。"
+
+msgid "Thursday"
+msgstr "星期四"
+
+msgid "Time unavailable"
+msgstr "時間無法使用"
+
+msgid "Time zone"
+msgstr "時區"
+
+msgid "To"
+msgstr "到"
+
+msgid "Toggle agent controls"
+msgstr "切換代理程式控制"
+
+msgid "Toggle Right Pane Full Screen"
+msgstr "切換右側面板全螢幕"
+
+msgid "Toggle right sidebar"
+msgstr "切換右側邊欄"
+
+msgid "Toggle Right Sidebar"
+msgstr "切換右側邊欄"
+
+msgid "Toggle Right Sidebar Focus"
+msgstr "切換右側邊欄焦點"
+
+msgid "Toggle Scripts Bar"
+msgstr "切換指令碼欄"
+
+msgid "Toggle Sidebar"
+msgstr "切換側邊欄"
+
+msgid "Toggle Terminal Rich Input"
+msgstr "切換終端富文字輸入"
+
+msgid "Toggle Workspaces Sidebar"
+msgstr "切換工作區側邊欄"
+
+msgid "Tokens"
+msgstr "Token"
+
+msgid "Too many background terminals. Reattach or end one before closing another view."
+msgstr "背景終端過多。關閉另一個檢視前，請重新附加或結束一個背景終端。"
+
+msgid "Too many dropped items. Add at most 5000 files and folders at a time."
+msgstr "拖放的項目過多。每次最多新增 5000 個檔案與資料夾。"
+
+msgid "Too many files. Some were not added."
+msgstr "檔案過多。部分檔案未新增。"
+
+msgid "Too many untitled items here already."
+msgstr "這裡未命名的項已經太多了。"
+
+msgid "Tool output"
+msgstr "工具輸出"
+
+msgid "Transcribing"
+msgstr "正在轉寫"
+
+msgid "Transcribing…"
+msgstr "正在轉寫…"
+
+msgid "Tree view"
+msgstr "樹狀檢視"
+
+msgid "Triggers"
+msgstr "觸發器"
+
+msgid "Try again"
+msgstr "重試"
+
+msgid "Try changing the search or status filter."
+msgstr "嘗試更改搜尋或狀態篩選條件。"
+
+msgid "Tuesday"
+msgstr "星期二"
+
+msgid "Tufte"
+msgstr "Tufte"
+
+msgid "Turn completed"
+msgstr "本輪已完成"
+
+msgid "Turn finished"
+msgstr "本輪已結束"
+
+msgid "Type project name to confirm"
+msgstr "輸入專案名稱以確認"
+
+msgid "Type to search files..."
+msgstr "輸入以搜尋檔案..."
+
+msgid "TypeScript"
+msgstr "TypeScript"
+
+msgid "Typography"
+msgstr "排版"
+
+msgid "Typography and cursor behavior used in V2 terminal panels."
+msgstr "V2終端面板中使用的排版和游標行為。"
+
+msgid "Typography used in V2 editors and diff views."
+msgstr "V2編輯器和差異檢視中使用的排版。"
+
+msgid "Unable to check for updates."
+msgstr "無法檢查更新。"
+
+msgid "Unable to read file"
+msgstr "無法讀取檔案"
+
+msgid "Unable to start dictation"
+msgstr "無法開始語音輸入"
+
+msgid "Unable to transcribe audio"
+msgstr "無法轉寫音訊"
+
+msgid "Unassigned"
+msgstr "未分配"
+
+msgid "Unavailable"
+msgstr "不可用"
+
+msgid "Uncommitted"
+msgstr "未提交"
+
+msgid "Uncommitted changes"
+msgstr "未提交的更改"
+
+msgid "Uncommitted changes and unpushed commits"
+msgstr "未提交的變更與未推送的提交"
+
+msgid "Uncommitted or unpushed work"
+msgstr "未提交或未推送的工作"
+
+msgid "Underline"
+msgstr "底線"
+
+msgid "Undo"
+msgstr "撤銷"
+
+msgid "Undo last closed workspace"
+msgstr "復原最近關閉的工作區"
+
+msgid "Undo the last archived workspace or closed chats"
+msgstr "復原上次歸檔的工作區或關閉的聊天"
+
+msgid "Ungrouped"
+msgstr "未分組"
+
+msgid "Unified diff"
+msgstr "統一差異"
+
+msgid "unknown"
+msgstr "未知"
+
+msgid "Unknown"
+msgstr "未知"
+
+msgid "Unknown error"
+msgstr "未知錯誤"
+
+msgid "Unknown pane"
+msgstr "未知窗格"
+
+msgid "Unknown pane type: {paneKind}"
+msgstr "未知的窗格類型：{paneKind}"
+
+msgid "Unpin workspace"
+msgstr "取消固定工作區"
+
+msgid "Unpushed commits"
+msgstr "未推送的提交"
+
+msgid "Unreachable"
+msgstr "無法連線"
+
+msgid "Unread activity"
+msgstr "未讀活動"
+
+msgid "Unresolve"
+msgstr "取消解決"
+
+msgid "Unresolve conversation?"
+msgstr "將對話標記為未解決？"
+
+msgid "Unsaved changes"
+msgstr "未儲存的更改"
+
+msgid "Unsaved file protection is unavailable. Delete this workspace from the sidebar."
+msgstr "未儲存檔案保護無法使用。請從側邊欄刪除此工作區。"
+
+msgid "Unsaved files"
+msgstr "未儲存的檔案"
+
+msgid "Unstage All"
+msgstr "全部取消暫存"
+
+msgid "Unstage file"
+msgstr "取消暫存檔案"
+
+msgid "Unstaged"
+msgstr "未暫存"
+
+msgid "Untitled automation"
+msgstr "未命名自動化"
+
+msgid "update"
+msgstr "更新"
+
+msgid "Update available"
+msgstr "有可用更新"
+
+#. placeholder {0}: event.version ?? ""
+msgid "Update available · v{0}"
+msgstr "有可用更新 · v{0}"
+
+msgid "Update daemon"
+msgstr "更新守護程式"
+
+msgid "Update did not finish. Review status before retrying."
+msgstr "更新未完成。重試前請檢查狀態。"
+
+msgid "Update failed. Try again."
+msgstr "更新失敗。請重試。"
+
+msgid "Update Jedv on this host to edit its workspace config."
+msgstr "更新此主機上的 Jedv 以編輯其工作區組態。"
+
+msgid "Update status unavailable"
+msgstr "更新狀態無法使用"
+
+msgid "update the branch prefix"
+msgstr "更新分支字首"
+
+#. placeholder {0}: event.version ?? event.currentVersion
+msgid "Updated to v{0}"
+msgstr "已更新至 v{0}"
+
+msgid "Updates"
+msgstr "更新"
+
+msgid "Updating…"
+msgstr "正在更新…"
+
+msgid "Upload files"
+msgstr "上傳檔案"
+
+msgid "Upload image…"
+msgstr "上傳圖片…"
+
+msgid "URL copied"
+msgstr "已複製 URL"
+
+msgid "URL links"
+msgstr "URL連結"
+
+msgid "Usage"
+msgstr "用量"
+
+msgid "Usage history"
+msgstr "用量歷史"
+
+msgid "Usage in sidebar"
+msgstr "側邊欄中的用量"
+
+msgid "Usage period"
+msgstr "用量週期"
+
+#. placeholder {0}: search.trim()
+msgid "Use “{0}”"
+msgstr "使用「{0}」"
+
+msgid "Use an existing repository at this location. Jedv changes the registered path and local checkout workspaces; it does not move files. Existing worktrees under the old repository may need to be imported again."
+msgstr "使用此位置的現有儲存庫。Jedv 會變更註冊路徑與本機檢出工作區，不會移動檔案。舊儲存庫下的現有工作樹可能需要重新匯入。"
+
+msgid "Use another local port"
+msgstr "使用另一個本機連接埠"
+
+msgid "Use for new sessions"
+msgstr "用於新工作階段"
+
+msgid "Use global default"
+msgstr "使用全域性預設值"
+
+msgid "Use host default"
+msgstr "使用主機預設值"
+
+msgid "Use Move to group to move workspaces between groups."
+msgstr "使用「移至群組」在群組之間移動工作區。"
+
+msgid "Use the Jedv tray menu > Host Service > Restart, then retry."
+msgstr "請使用Jedv托盤選單 > 主機服務 > 重啟，然後重試。"
+
+msgid "Use this device"
+msgstr "使用此裝置"
+
+msgid "Use this folder"
+msgstr "使用此資料夾"
+
+msgid "used"
+msgstr "已使用"
+
+msgid "Used when your system is in dark mode."
+msgstr "在系統處於深色模式時使用。"
+
+msgid "Used when your system is in light mode."
+msgstr "在系統處於淺色模式時使用。"
+
+msgid "Uses the connected host's global Git identity. GitHub mode may read your existing gh login."
+msgstr "使用已連線主機的全域 Git 身分。GitHub 模式可能會讀取你現有的 gh 登入。"
+
+msgid "Vercel's starter with Drizzle, NextAuth, and Postgres"
+msgstr "Vercel 的 Drizzle、NextAuth 與 Postgres 起始範本"
+
+msgid "Version installed on this device."
+msgstr "此裝置上安裝的版本。"
+
+msgctxt "menu"
+msgid "View"
+msgstr "檢視"
+
+msgid "View license"
+msgstr "檢視授權條款"
+
+msgid "View source"
+msgstr "檢視來源"
+
+msgid "Volume"
+msgstr "音量"
+
+msgid "VS Code"
+msgstr "VS Code"
+
+msgid "Wait for workspace setup before starting an agent"
+msgstr "啟動代理程式前等待工作區初始化完成"
+
+msgid "Waiting for approval"
+msgstr "等待核准"
+
+msgid "We're rebuilding this feature. Check back soon."
+msgstr "我們正在重做這個功能，敬請期待。"
+
+msgid "Wednesday"
+msgstr "星期三"
+
+msgid "Weekdays"
+msgstr "工作日"
+
+msgid "Weekdays at {time}"
+msgstr "工作日{time}"
+
+msgid "Weekends"
+msgstr "週末"
+
+msgid "Weekends at {time}"
+msgstr "週末{time}"
+
+msgid "Weekly"
+msgstr "每週"
+
+msgid "Weekly at {time}"
+msgstr "每週{time}"
+
+msgid "Welcome to Jedv"
+msgstr "歡迎使用 Jedv"
+
+msgid "What would you like to know?"
+msgstr "你想了解什麼？"
+
+msgid "Window"
+msgstr "視窗"
+
+msgid "Working"
+msgstr "工作中"
+
+msgid "Working directory"
+msgstr "工作目錄"
+
+msgid "Working…"
+msgstr "處理中…"
+
+msgid "Workspace"
+msgstr "工作區"
+
+msgid "Workspace activity"
+msgstr "工作區活動"
+
+msgid "Workspace configuration"
+msgstr "工作區組態"
+
+msgid "Workspace deletion results"
+msgstr "工作區刪除結果"
+
+msgid "Workspace files are unavailable"
+msgstr "工作區檔案無法使用"
+
+msgid "Workspace launcher"
+msgstr "工作區啟動器"
+
+msgid "Workspace name"
+msgstr "工作區名稱"
+
+msgid "Workspace navigation"
+msgstr "工作區導覽"
+
+msgid "Workspace not found"
+msgstr "未找到工作區"
+
+msgid "Workspace or running session state changed. Review the updated checks and confirm again."
+msgstr "工作區或執行中工作階段的狀態已變更。請檢視更新後的檢查結果並再次確認。"
+
+msgid "Workspace order"
+msgstr "工作區順序"
+
+msgid "Workspace pinning and ordering are unavailable on this host."
+msgstr "此主機無法固定工作區或調整其順序。"
+
+msgid "Workspace read state could not be saved."
+msgstr "無法儲存工作區已讀狀態。"
+
+msgid "workspace root"
+msgstr "工作區根目錄"
+
+msgid "Workspace setup failed. Review the setup terminal before starting an agent."
+msgstr "工作區初始化失敗。啟動代理程式前請檢查初始化終端。"
+
+msgid "Workspace setup is still running."
+msgstr "工作區初始化仍在執行。"
+
+msgid "Workspace state changed. Review the updated checks and confirm again."
+msgstr "工作區狀態已變更。請檢視更新後的檢查結果並再次確認。"
+
+msgid "Workspaces"
+msgstr "工作區"
+
+msgid "worktree"
+msgstr "worktree"
+
+msgid "Worktree"
+msgstr "worktree"
+
+msgid "Worktree base directory"
+msgstr "工作樹根目錄"
+
+msgid "Worktree location"
+msgstr "worktree位置"
+
+msgid "Write a reply…"
+msgstr "寫一條回覆…"
+
+msgid "Write access to this repository is required to create a pull request from this workspace."
+msgstr "需要此儲存庫的寫入權限才能從此工作區建立拉取請求。"
+
+msgid "Yellow"
+msgstr "黃色"
+
+msgid "Yes"
+msgstr "是"
+
+msgid "You"
+msgstr "你"
+
+msgid "You do not have permission to resolve this thread"
+msgstr "您沒有權限解決此討論串"
+
+msgid "You're up to date"
+msgstr "已是最新版本"
+
+msgid "You're up to date!"
+msgstr "已是最新！"
+
+msgid "Your automation changes have not been saved."
+msgstr "您的自動化變更尚未儲存。"
+
+msgid "Your changes"
+msgstr "你的變更"
+
+msgid "Your imports are saved. Could not refresh or open them. Try continuing again."
+msgstr "你的匯入內容已儲存。無法重新整理或開啟它們。請再次嘗試繼續。"
+
+msgid "Zap"
+msgstr "閃電"
+
+msgid "Zoom"
+msgstr "縮放"
+
+msgid "Zoom in"
+msgstr "放大"
+
+msgid "Zoom In"
+msgstr "放大"
+
+msgid "Zoom out"
+msgstr "縮小"
+
+msgid "Zoom Out"
+msgstr "縮小"
+
+msgid "zsh"
+msgstr "zsh"

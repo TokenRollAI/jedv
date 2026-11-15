@@ -1,0 +1,40 @@
+import { describe, expect, test } from "bun:test";
+import { buildUpstreamHeaders } from "./host-routing";
+
+describe("buildUpstreamHeaders", () => {
+	test("stamps the verified user id and drops host/authorization", () => {
+		const headers = buildUpstreamHeaders(
+			new Headers({
+				host: "relay.example",
+				authorization: "Bearer user-jwt",
+				"content-type": "application/json",
+				"x-jedv-client-machine-id": "machine-b",
+			}),
+			"user-1",
+		);
+
+		expect(headers).toEqual({
+			"content-type": "application/json",
+			"x-jedv-client-machine-id": "machine-b",
+			"x-jedv-user-id": "user-1",
+		});
+	});
+
+	test("overwrites a client-supplied user id — only the JWT names the caller", () => {
+		const headers = buildUpstreamHeaders(
+			new Headers({ "X-Jedv-User-Id": "someone-else" }),
+			"user-1",
+		);
+
+		expect(headers["x-jedv-user-id"]).toBe("user-1");
+	});
+
+	test("a cloud workspace's credential never reaches the host", () => {
+		const headers = buildUpstreamHeaders(
+			new Headers({ "x-jedv-sandbox-credential": "ws-1.secret" }),
+			"user-1",
+		);
+
+		expect(headers).toEqual({ "x-jedv-user-id": "user-1" });
+	});
+});

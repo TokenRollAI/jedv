@@ -1,0 +1,808 @@
+import { homedir } from "node:os";
+import { basename, resolve as resolvePath } from "node:path";
+import { parseGitHubRemote } from "@jedv/shared/github-remote";
+import { BRANCH_PREFIX_MODES } from "@jedv/shared/workspace-launch";
+import { TRPCError } from "@trpc/server";
+import { and, eq, isNotNull, isNull, or } from "drizzle-orm";
+import { z } from "zod";
+import { projects, workspaces } from "../../../db/schema";
+import type { TagSettingSnapshot } from "../../../events/types";
+import {
+	emitProjectChanged,
+	getLiveProjectAtPath,
+	getLocalProject,
+	getProjectIncludingDeleted,
+	toProjectSnapshot,
+	updateLocalProject,
+} from "../../../projects/local-project-store";
+import {
+	listDeletedProjects,
+	purgeDeletedProject,
+	readDeletionImpact,
+	repoTakenError,
+	restoreProject,
+	softDeleteProject,
+} from "../../../projects/project-deletion";
+import {
+	deleteTagFolderSetting,
+	getAllTagFolderSettings,
+	upsertTagFolderSetting,
+} from "../../../tag-folders";
+import { getStrictShellEnvironment } from "../../../terminal/clean-shell-env";
+import { gitDetectExternalWorktreesTask } from "../../../workers/tasks/git";
+import { updateLocalWorkspace } from "../../../workspaces/local-workspace-store";
+import { protectedProcedure, queryProcedure, router } from "../../index";
+import { offLoop } from "../../off-loop";
+import { projectDirExists } from "../workspace-creation/shared/local-project";
+import {
+	normalizeSparseCheckoutPaths,
+	parseSparseCheckoutPaths,
+	serializeSparseCheckoutPaths,
+} from "../workspace-creation/shared/sparse-checkout";
+import { normalizeWorktreePath } from "../workspace-creation/shared/worktree-list";
+import { normalizeWorktreeBaseDir } from "../workspace-creation/shared/worktree-paths";
+import { getCreateOperation, runCreateOperation } from "./create-operations";
+import {
+	createFromClone,
+	createFromEmpty,
+	createFromImportLocal,
+	createFromTemplate,
+} from "./handlers";
+import { listLiveLocalWorkspaces } from "./utils/create-local-workspace";
+import { listGitHubRepositories } from "./utils/github-repositories";
+import { persistLocalProject } from "./utils/persist-project";
+import {
+	adoptLocalRepo,
+	cloneRepoInto,
+	type ResolvedRepo,
+	resolveLocalRepo,
+	resolveMatchingSlug,
+	tryRevParseGitRoot,
+	validateDirectoryPath,
+} from "./utils/resolve-repo";
+
+// Icons are downscaled to a small square PNG data-URI client-side; this caps
+// the stored/broadcast value (it rides in project.list and project:changed).
+const MAX_PROJECT_ICON_LENGTH = 256 * 1024;
+
+// Naming instructions ride inside the naming model's system prompt; a couple
+// of sentences is the intended size, so cap well below prompt-bloat territory.
+const MAX_NAMING_INSTRUCTIONS_LENGTH = 2000;
+
+/** One findByPath match: an existing v2 project this repo path could link
+ * to — either the authoritative local-DB row (`local-path`) or a cloud
+ * project found via a GitHub remote URL (`remote`). Module-scoped so the
+ * exported router's declaration emit can name it. */
+export interface FindByPathCandidate {
+	id: string;
+	name: string;
+	repoCloneUrl: string | null;
+	source: "local-path" | "remote";
+	matchesExpected: boolean;
+}
+
+export const projectRouter = router({
+	listGitHubRepositories: protectedProcedure.query(() =>
+		listGitHubRepositories(),
+	),
+
+	list: protectedProcedure.query(({ ctx }) => {
+		const tagSettingsByProject = new Map<string, TagSettingSnapshot[]>();
+		for (const { scope, ...setting } of getAllTagFolderSettings(
+			ctx.db,
+			ctx.userId,
+		)) {
+			const settings = tagSettingsByProject.get(scope) ?? [];
+			settings.push(setting);
+			tagSettingsByProject.set(scope, settings);
+		}
+		return ctx.db
+			.select()
+			.from(projects)
+			.where(isNull(projects.deletedAt))
+			.all()
+			.map((row) => ({
+				id: row.id,
+				// Deprecated wire compatibility for desktops that predate the
+				// tagFolders router. Storage still has one canonical table.
+				tagSettings: tagSettingsByProject.get(row.id) ?? [],
+				// Empty until the backfill sweep fills it; folder name is the
+				// honest fallback (same rule as toProjectSnapshot).
+				name: row.name || basename(row.repoPath),
+				repoPath: row.repoPath,
+				repoOwner: row.repoOwner,
+				repoName: row.repoName,
+				repoUrl: row.repoUrl,
+				worktreeBaseDir: row.worktreeBaseDir,
+				icon: row.icon,
+				color: row.color,
+				createdAt: row.createdAt,
+				updatedAt: row.updatedAt || row.createdAt,
+			}));
+	}),
+
+	/** Rename. Commits locally — projects have no cloud dependency. */
+	update: protectedProcedure
+		.input(
+			z.object({
+				projectId: z.string().uuid(),
+				name: z.string().min(1),
+			}),
+		)
+		.mutation(({ ctx, input }) => {
+			const row = updateLocalProject(
+				{ db: ctx.db, eventBus: ctx.eventBus },
+				input.projectId,
+				{ name: input.name },
+			);
+			if (!row) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Project is not set up on this host",
+				});
+			}
+			return toProjectSnapshot(row);
+		}),
+
+	/** @deprecated Use tagFolders.upsert. Kept for mixed desktop/host versions. */
+	setTagSetting: protectedProcedure
+		.input(
+			z.object({
+				projectId: z.string().uuid(),
+				tag: z.string().min(1),
+				displayName: z.string().min(1).max(200).nullish(),
+				color: z.string().max(50).nullish(),
+				tabOrder: z.number().int().nullish(),
+			}),
+		)
+		.mutation(({ ctx, input }) => {
+			const project = getLocalProject(ctx.db, input.projectId);
+			if (!project) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Project is not set up on this host",
+				});
+			}
+			const settings = upsertTagFolderSetting(
+				{ db: ctx.db, eventBus: ctx.eventBus, userId: ctx.userId },
+				input.projectId,
+				input.tag,
+				{
+					...(input.displayName !== undefined
+						? { displayName: input.displayName }
+						: {}),
+					...(input.color !== undefined ? { color: input.color } : {}),
+					...(input.tabOrder !== undefined ? { tabOrder: input.tabOrder } : {}),
+				},
+			);
+			if (settings === undefined) {
+				throw new TRPCError({
+					code: "BAD_REQUEST",
+					message: "Invalid tag",
+				});
+			}
+			// Old desktops only listen for project:changed.
+			emitProjectChanged(ctx.eventBus, "updated", project, settings);
+			return { tagSettings: settings };
+		}),
+
+	/** @deprecated Use tagFolders.delete. Kept for mixed desktop/host versions. */
+	deleteTagSetting: protectedProcedure
+		.input(z.object({ projectId: z.string().uuid(), tag: z.string().min(1) }))
+		.mutation(({ ctx, input }) => {
+			const project = getLocalProject(ctx.db, input.projectId);
+			if (!project) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Project is not set up on this host",
+				});
+			}
+			const settings = deleteTagFolderSetting(
+				{ db: ctx.db, eventBus: ctx.eventBus, userId: ctx.userId },
+				input.projectId,
+				input.tag,
+			);
+			if (settings === undefined) {
+				throw new TRPCError({
+					code: "BAD_REQUEST",
+					message: "Invalid tag",
+				});
+			}
+			emitProjectChanged(ctx.eventBus, "updated", project, settings);
+			return { tagSettings: settings };
+		}),
+
+	get: protectedProcedure
+		.input(z.object({ projectId: z.string().uuid() }))
+		.query(async ({ ctx, input }) => {
+			const row = getLocalProject(ctx.db, input.projectId);
+			if (!row) return null;
+			return {
+				id: row.id,
+				// Same fallback rule as project.list / toProjectSnapshot.
+				name: row.name || basename(row.repoPath),
+				repoPath: row.repoPath,
+				repoPathExists: await projectDirExists(row.repoPath),
+				repoOwner: row.repoOwner,
+				repoName: row.repoName,
+				repoUrl: row.repoUrl,
+				worktreeBaseDir: row.worktreeBaseDir,
+				branchPrefixMode: row.branchPrefixMode,
+				branchPrefixCustom: row.branchPrefixCustom,
+				icon: row.icon,
+				color: row.color,
+				// Always an array; the column's JSON encoding stays internal.
+				sparseCheckoutPaths: parseSparseCheckoutPaths(row.sparseCheckoutPaths),
+				namingInstructions: row.namingInstructions,
+			};
+		}),
+
+	/**
+	 * Set (or clear) this project's custom icon. Local-first: the icon is a
+	 * small downscaled data-URI stored on the host row. The "none" sentinel
+	 * means "explicitly no icon" (renderers show the letter placeholder); a
+	 * null clears back to the default (GitHub owner avatar / placeholder).
+	 */
+	setIcon: protectedProcedure
+		.input(
+			z.object({
+				projectId: z.string().uuid(),
+				icon: z
+					.union([
+						z
+							.string()
+							.max(MAX_PROJECT_ICON_LENGTH, "Icon image is too large")
+							.regex(/^data:image\//, "Icon must be an image data URI"),
+						z.literal("none"),
+					])
+					.nullable(),
+			}),
+		)
+		.mutation(({ ctx, input }) => {
+			const row = updateLocalProject(
+				{ db: ctx.db, eventBus: ctx.eventBus },
+				input.projectId,
+				{ icon: input.icon },
+			);
+			if (!row) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Project is not set up on this host",
+				});
+			}
+			return toProjectSnapshot(row);
+		}),
+
+	/**
+	 * Set (or clear) this project's accent color. Stored as a `#rrggbb` hex on
+	 * the host row; a null clears it back to the default (no accent).
+	 */
+	setColor: protectedProcedure
+		.input(
+			z.object({
+				projectId: z.string().uuid(),
+				color: z
+					.string()
+					.regex(/^#[0-9a-fA-F]{6}$/, "Color must be a #rrggbb hex")
+					.nullable(),
+			}),
+		)
+		.mutation(({ ctx, input }) => {
+			const row = updateLocalProject(
+				{ db: ctx.db, eventBus: ctx.eventBus },
+				input.projectId,
+				{ color: input.color },
+			);
+			if (!row) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Project is not set up on this host",
+				});
+			}
+			return toProjectSnapshot(row);
+		}),
+
+	setWorktreeBaseDir: protectedProcedure
+		.input(
+			z.object({
+				projectId: z.string().uuid(),
+				path: z.string().nullable(),
+			}),
+		)
+		.mutation(({ ctx, input }) => {
+			const worktreeBaseDir = normalizeWorktreeBaseDir(input.path);
+			if (!getLocalProject(ctx.db, input.projectId)) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Project is not set up on this host",
+				});
+			}
+			ctx.db
+				.update(projects)
+				.set({ worktreeBaseDir })
+				.where(eq(projects.id, input.projectId))
+				.run();
+
+			return { id: input.projectId, worktreeBaseDir };
+		}),
+
+	/**
+	 * Set (or clear) this project's AI naming instructions — free text
+	 * injected into workspace/branch name generation. Null or blank clears
+	 * the setting so naming falls back to the default behavior.
+	 */
+	setNamingInstructions: protectedProcedure
+		.input(
+			z.object({
+				projectId: z.string().uuid(),
+				instructions: z
+					.string()
+					.max(
+						MAX_NAMING_INSTRUCTIONS_LENGTH,
+						"Naming instructions are too long",
+					)
+					.nullable(),
+			}),
+		)
+		.mutation(({ ctx, input }) => {
+			const namingInstructions = input.instructions?.trim() || null;
+			const updated = ctx.db
+				.update(projects)
+				.set({ namingInstructions })
+				.where(
+					and(eq(projects.id, input.projectId), isNull(projects.deletedAt)),
+				)
+				.returning({ id: projects.id })
+				.get();
+			if (!updated) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Project is not set up on this host",
+				});
+			}
+			return { namingInstructions };
+		}),
+
+	/**
+	 * Set the folders new worktrees are sparse-checked-out to. An empty list
+	 * clears the setting so new worktrees get a full checkout again. Existing
+	 * worktrees are left as they are.
+	 */
+	setSparseCheckoutPaths: protectedProcedure
+		.input(
+			z.object({
+				projectId: z.string().uuid(),
+				// Bounded well above the post-dedupe cap in
+				// `normalizeSparseCheckoutPaths`, so a runaway payload is
+				// rejected before we bother normalizing every entry.
+				paths: z.array(z.string().max(1024)).max(1000),
+			}),
+		)
+		.mutation(({ ctx, input }) => {
+			const paths = normalizeSparseCheckoutPaths(input.paths);
+			const updated = ctx.db
+				.update(projects)
+				.set({ sparseCheckoutPaths: serializeSparseCheckoutPaths(paths) })
+				.where(
+					and(eq(projects.id, input.projectId), isNull(projects.deletedAt)),
+				)
+				.returning({ id: projects.id })
+				.get();
+			if (!updated) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Project is not set up on this host",
+				});
+			}
+			return { sparseCheckoutPaths: paths };
+		}),
+
+	/**
+	 * Set this project's branch-prefix override. A `null` mode clears the
+	 * override so the project falls back to the host-wide default.
+	 */
+	setBranchPrefix: protectedProcedure
+		.input(
+			z.object({
+				projectId: z.string().uuid(),
+				mode: z.enum(BRANCH_PREFIX_MODES).nullable(),
+				customPrefix: z.string().nullable().optional(),
+			}),
+		)
+		.mutation(({ ctx, input }) => {
+			const updated = ctx.db
+				.update(projects)
+				.set({
+					branchPrefixMode: input.mode,
+					branchPrefixCustom: input.customPrefix ?? null,
+				})
+				.where(
+					and(eq(projects.id, input.projectId), isNull(projects.deletedAt)),
+				)
+				.returning({ id: projects.id })
+				.get();
+			if (!updated) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: `Project not set up locally: ${input.projectId}`,
+				});
+			}
+			return { success: true as const };
+		}),
+
+	findBackfillConflict: protectedProcedure
+		.input(
+			z.object({
+				projectId: z.string().uuid(),
+				repoPath: z.string().min(1),
+			}),
+		)
+		.query(() => {
+			// Multiple v2 projects may point at the same GitHub URL, so a matching
+			// repo URL is no longer a conflict. Kept for backwards-compatible
+			// clients while older settings screens still call the endpoint.
+			return { conflict: null };
+		}),
+
+	findByPath: protectedProcedure
+		.input(
+			z.object({
+				repoPath: z.string().min(1),
+				/**
+				 * Opt-in to the v1→v2 importer's discovery semantics: when no
+				 * local-DB row exists, walk every GitHub remote on the repo
+				 * (not just origin/first) and try `expectedRemoteUrl` against
+				 * cloud. In BOTH modes a local-DB hit short-circuits before
+				 * any cloud call — a local row means the repo is already a v2
+				 * project on this device ("local is reality"), regardless of
+				 * what the cloud knows.
+				 */
+				/**
+				 * Hint about the remote URL the caller *thinks* this project
+				 * tracks (e.g. v1's recorded githubOwner). Only consulted
+				 * when `walkAllRemotes` is true.
+				 */
+				expectedRemoteUrl: z.string().optional(),
+			}),
+		)
+		.query(async ({ ctx, input }) => {
+			// Detect "folder isn't a git repo yet" without throwing, so the import
+			// UI can offer to `git init` it (create importLocal + initIfNeeded)
+			// instead of dead-ending on a BAD_REQUEST. Additive optional field —
+			// repo paths never carry needsGitInit, so existing callers are
+			// unaffected.
+			const root = await tryRevParseGitRoot(input.repoPath);
+			if (root === null) {
+				validateDirectoryPath(input.repoPath, "Path"); // 400 on missing / not-a-dir
+				return {
+					candidates: [],
+					needsGitInit: true as const,
+				};
+			}
+
+			const resolved = await resolveLocalRepo(root);
+			const gitRoot = resolved.repoPath;
+
+			const expectedParsed = input.expectedRemoteUrl
+				? parseGitHubRemote(input.expectedRemoteUrl)
+				: null;
+			const expectedUrlLower = expectedParsed?.url.toLowerCase();
+			const matches = (cloneUrl: string | null) =>
+				!!expectedUrlLower &&
+				!!cloneUrl &&
+				cloneUrl.toLowerCase() === expectedUrlLower;
+
+			const localProject = getLiveProjectAtPath(ctx.db, gitRoot);
+
+			if (localProject) {
+				return {
+					candidates: [
+						{
+							id: localProject.id,
+							name:
+								localProject.name || localProject.repoName || basename(gitRoot),
+							repoCloneUrl: localProject.repoUrl ?? null,
+							source: "local-path" as const,
+							matchesExpected: matches(localProject.repoUrl ?? null),
+						},
+					],
+				};
+			}
+
+			return { candidates: [] };
+		}),
+
+	getCreateOperation: protectedProcedure
+		.input(z.object({ operationId: z.string().min(1).max(128) }))
+		.query(({ ctx, input }) => getCreateOperation(ctx, input.operationId)),
+
+	create: protectedProcedure
+		.input(
+			z.object({
+				name: z.string().min(1),
+				operationId: z.string().min(1).max(128).optional(),
+				mode: z.discriminatedUnion("kind", [
+					z.object({
+						kind: z.literal("empty"),
+						parentDir: z.string().min(1),
+					}),
+					z.object({
+						kind: z.literal("clone"),
+						parentDir: z.string().min(1),
+						url: z.string().min(1),
+					}),
+					z.object({
+						kind: z.literal("importLocal"),
+						repoPath: z.string().min(1),
+						// When set, `git init` a non-git folder in place before
+						// importing. The UI sets this only after confirming intent
+						// with the user (see findByPath's needsGitInit).
+						initIfNeeded: z.boolean().optional().default(false),
+					}),
+					z.object({
+						kind: z.literal("template"),
+						parentDir: z.string().min(1),
+						url: z
+							.string()
+							.min(1)
+							.refine((value) => /^https?:\/\//i.test(value), {
+								message: "Template URL must be http(s)",
+							}),
+					}),
+				]),
+			}),
+		)
+		.mutation(async ({ ctx, input, signal }) => {
+			return runCreateOperation(ctx, input, signal, async () => {
+				switch (input.mode.kind) {
+					case "empty":
+						return createFromEmpty(ctx, {
+							name: input.name,
+							parentDir: input.mode.parentDir,
+						});
+					case "template":
+						return createFromTemplate(ctx, {
+							name: input.name,
+							parentDir: input.mode.parentDir,
+							url: input.mode.url,
+							signal,
+						});
+					case "clone":
+						return createFromClone(ctx, {
+							name: input.name,
+							parentDir: input.mode.parentDir,
+							url: input.mode.url,
+							signal,
+						});
+					case "importLocal":
+						return createFromImportLocal(ctx, {
+							name: input.name,
+							repoPath: input.mode.repoPath,
+							initIfNeeded: input.mode.initIfNeeded,
+						});
+				}
+			});
+		}),
+
+	setup: protectedProcedure
+		.input(
+			z.object({
+				projectId: z.string().uuid(),
+				/**
+				 * Repo coordinates supplied by the caller (from the host
+				 * fan-out) so a local-first project created on ANOTHER host can
+				 * be set up on this device. Required whenever this host has no
+				 * local row for the project — nothing else knows the repo.
+				 */
+				origin: z
+					.object({
+						repoCloneUrl: z.string().nullish(),
+						name: z.string().min(1).optional(),
+					})
+					.optional(),
+				mode: z.discriminatedUnion("kind", [
+					z.object({
+						kind: z.literal("clone"),
+						parentDir: z.string().min(1),
+					}),
+					z.object({
+						kind: z.literal("import"),
+						repoPath: z.string().min(1),
+						allowRelocate: z.boolean().default(false),
+					}),
+				]),
+			}),
+		)
+		.mutation(async ({ ctx, input }) => {
+			restoreProject(ctx, input.projectId);
+			const existing = getProjectIncludingDeleted(ctx.db, input.projectId);
+
+			// Projects are host-owned, so a local row is this host's only
+			// self-contained source of repo coordinates. Without one the
+			// caller must supply them from the host fan-out — there is no
+			// registry left to ask.
+			if (!existing && !input.origin) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message:
+						input.mode.kind === "clone"
+							? `Project ${input.projectId} is not set up on this host. Pass origin.repoCloneUrl to clone it.`
+							: `Project ${input.projectId} is not set up on this host. Pass origin to import it.`,
+				});
+			}
+			const origin = {
+				repoCloneUrl: input.origin?.repoCloneUrl ?? null,
+				name: input.origin?.name,
+			};
+
+			const allowRelocate =
+				input.mode.kind === "import" && input.mode.allowRelocate;
+
+			const rejectIfRepoint = (targetPath: string) => {
+				if (!existing) return;
+				if (existing.repoPath === targetPath) return;
+				if (allowRelocate) return;
+				throw new TRPCError({
+					code: "CONFLICT",
+					message: `Project is already set up on this device at ${existing.repoPath}. Remove it first to re-import at a different location.`,
+				});
+			};
+
+			switch (input.mode.kind) {
+				case "clone": {
+					if (existing) {
+						// Already on this device — same folder name predicted from
+						// the local row; a different parentDir means a repoint.
+						rejectIfRepoint(
+							resolvePath(input.mode.parentDir, basename(existing.repoPath)),
+						);
+						return {
+							repoPath: existing.repoPath,
+						};
+					}
+					if (!origin.repoCloneUrl) {
+						throw new TRPCError({
+							code: "BAD_REQUEST",
+							message:
+								"Project has no linked GitHub repository — cannot clone. Import an existing local folder instead.",
+						});
+					}
+					const expectedParsed = parseGitHubRemote(origin.repoCloneUrl);
+					if (!expectedParsed) {
+						throw new TRPCError({
+							code: "BAD_REQUEST",
+							message: `Could not parse GitHub remote from ${origin.repoCloneUrl}`,
+						});
+					}
+					const resolved = await cloneRepoInto(
+						origin.repoCloneUrl,
+						input.mode.parentDir,
+						ctx.credentials,
+					);
+					persistLocalProject(ctx, input.projectId, resolved, {
+						name: origin.name,
+					});
+					return {
+						repoPath: resolved.repoPath,
+					};
+				}
+				case "import": {
+					let resolved: ResolvedRepo;
+					if (origin.repoCloneUrl) {
+						const parsed = parseGitHubRemote(origin.repoCloneUrl);
+						if (!parsed) {
+							throw new TRPCError({
+								code: "BAD_REQUEST",
+								message: `Could not parse GitHub remote from ${origin.repoCloneUrl}`,
+							});
+						}
+						resolved = await resolveMatchingSlug(
+							input.mode.repoPath,
+							`${parsed.owner}/${parsed.name}`,
+						);
+					} else {
+						resolved = await adoptLocalRepo(input.mode.repoPath);
+					}
+
+					// Each on-disk repo path maps to at most one project in the
+					// local DB; importing the same folder under a second project
+					// would clobber the first. Cloud-side GitHub URL collisions
+					// are allowed (see findBackfillConflict), but local-path
+					// collisions are not.
+					const localOwner = getLiveProjectAtPath(ctx.db, resolved.repoPath);
+					if (localOwner && localOwner.id !== input.projectId) {
+						throw repoTakenError();
+					}
+
+					rejectIfRepoint(resolved.repoPath);
+					if (existing && existing.repoPath === resolved.repoPath) {
+						return {
+							repoPath: existing.repoPath,
+						};
+					}
+
+					persistLocalProject(ctx, input.projectId, resolved, {
+						name: origin.name,
+					});
+					// Local workspaces are the checkout; when it moves, so do they.
+					for (const row of listLiveLocalWorkspaces(ctx, input.projectId)) {
+						if (row.worktreePath === resolved.repoPath) continue;
+						updateLocalWorkspace(ctx, row.id, {
+							worktreePath: resolved.repoPath,
+						});
+					}
+					return {
+						repoPath: resolved.repoPath,
+					};
+				}
+			}
+		}),
+
+	/**
+	 * Soft delete: the project and its live workspaces disappear for
+	 * everyone on this device, teardown runs and terminals stop, and the
+	 * worktrees stay on disk so `restore` can undo it until the purge sweep
+	 * runs. The repository folder is never removed.
+	 */
+	remove: protectedProcedure
+		.input(z.object({ projectId: z.string().uuid() }))
+		.mutation(async ({ ctx, input }) => {
+			const deleted = await softDeleteProject(ctx, input.projectId);
+			return { success: true, repoPath: deleted?.repoPath ?? null };
+		}),
+
+	restore: protectedProcedure
+		.input(z.object({ projectId: z.string().uuid() }))
+		.mutation(({ ctx, input }) => {
+			const restored = restoreProject(ctx, input.projectId);
+			if (!restored) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Project not found",
+				});
+			}
+			return restored;
+		}),
+
+	purge: protectedProcedure
+		.input(z.object({ projectId: z.string().uuid() }))
+		.mutation(async ({ ctx, input }) => {
+			if (!(await purgeDeletedProject(ctx, input.projectId))) {
+				throw new TRPCError({
+					code: "PRECONDITION_FAILED",
+					message: "Only a deleted project can be deleted permanently",
+				});
+			}
+			return { success: true };
+		}),
+
+	listDeleted: protectedProcedure.query(({ ctx }) => listDeletedProjects(ctx)),
+
+	/** Git worktrees that other agent tools (Conductor, T3 Code, Orca, …) left on
+	 * this machine and no workspace tracks yet, grouped by repository. */
+	detectExternalWorktrees: queryProcedure.query(async (args) => ({
+		repos: await offLoop({
+			task: gitDetectExternalWorktreesTask,
+			prepare: async ({ ctx }) => ({
+				homeDir: homedir(),
+				trackedWorktreePaths: ctx.db
+					.select({ worktreePath: workspaces.worktreePath })
+					.from(workspaces)
+					.leftJoin(projects, eq(projects.id, workspaces.projectId))
+					.where(
+						or(isNull(workspaces.archivedAt), isNotNull(projects.deletedAt)),
+					)
+					.all()
+					.map((row) => normalizeWorktreePath(row.worktreePath)),
+				gitEnv: await getStrictShellEnvironment().catch(
+					() => process.env as Record<string, string>,
+				),
+			}),
+			options: () => ({ timeoutMs: 4_000 }),
+		})(args),
+	})),
+
+	deletionImpact: protectedProcedure
+		.input(z.object({ projectId: z.string().uuid() }))
+		.query(({ ctx, input }) => readDeletionImpact(ctx, input.projectId)),
+});

@@ -1,0 +1,5689 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-08-26 16:05-0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: tr\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+msgid "./"
+msgstr "./"
+
+msgid "\"{title}\" has finished its task"
+msgstr "\"{title}\" görevini tamamladı"
+
+msgid "\"{title}\" is waiting for your reply"
+msgstr "\"{title}\" yanıtınızı bekliyor"
+
+#. placeholder {0}: summary.updated
+msgid "{0, plural, one {# existing theme updated} other {# existing themes updated}}"
+msgstr "{0, plural, one {# mevcut tema güncellendi} other {# mevcut tema güncellendi}}"
+
+#. placeholder {0}: items.length
+msgid "{0} changed files"
+msgstr "{0} dosya değiştirildi"
+
+#. placeholder {0}: collisions.length
+msgid "{0} files already exist in {where}. Do you want to replace them?"
+msgstr "{where} konumunda {0} dosya zaten var. Bunları değiştirmek istiyor musunuz?"
+
+#. placeholder {0}: failedSaves.length
+msgid "{0} files could not be saved."
+msgstr "{0} dosya kaydedilemedi."
+
+#. placeholder {0}: ports.length
+msgid "{0} live ports"
+msgstr "{0} etkin bağlantı noktası"
+
+#. placeholder {0}: checks.data?.running
+msgid "{0} running terminal sessions will stop. Worktree deletion may run teardown commands."
+msgstr "{0} çalışan terminal oturumu durdurulacak. Çalışma ağacı silinirken temizlik komutları çalıştırılabilir."
+
+#. placeholder {0}: daemon.sessions.data?.length ?? 0
+msgid "{0} sessions"
+msgstr "{0} oturum"
+
+#. placeholder {0}: project.workspaceCount
+#. placeholder {1}: formatDate(project.purgeAt)
+msgid "{0} workspace records · retained until {1}"
+msgstr "{0} çalışma alanı kaydı · {1} tarihine kadar saklanır"
+
+#. placeholder {0}: row.name
+#. placeholder {1}: row.runningTerminalCount
+#. placeholder {2}: row.runningAgentCount
+msgid "{0}: {1} running terminals, {2} running agents"
+msgstr "{0}: {1} çalışan terminal, {2} çalışan ajan"
+
+msgid "{approvals} approvals"
+msgstr "{approvals} onay"
+
+msgid "{completed} finished"
+msgstr "{completed} tamamlandı"
+
+msgid "{configTitle} font size"
+msgstr "{configTitle} yazı tipi boyutu"
+
+msgid "{count, plural, one {Every # day at {time}} other {Every # days at {time}}}"
+msgstr "{count, plural, one {# günde bir, saat {time}} other {# günde bir, saat {time}}}"
+
+msgid "{count, plural, one {Every # day} other {Every # days}}"
+msgstr "{count, plural, one {# günde bir} other {# günde bir}}"
+
+msgid "{count, plural, one {Every # hour} other {Every # hours}}"
+msgstr "{count, plural, one {# saatte bir} other {# saatte bir}}"
+
+msgid "{count, plural, one {Every # minute} other {Every # minutes}}"
+msgstr "{count, plural, one {# dakikada bir} other {# dakikada bir}}"
+
+msgid "{count, plural, one {Every # week on {day} at {time}} other {Every # weeks on {day} at {time}}}"
+msgstr "{count, plural, one {# haftada bir {day}, saat {time}} other {# haftada bir {day}, saat {time}}}"
+
+msgid "{count, plural, one {Every # week on {day}} other {Every # weeks on {day}}}"
+msgstr "{count, plural, one {# haftada bir {day}} other {# haftada bir {day}}}"
+
+msgid "{count} files are over {limit} and were not added"
+msgstr "{count} dosya {limit} sınırını aştığı için eklenmedi"
+
+msgid "{currentPage} of {totalBranches}"
+msgstr "{totalBranches} içinden {currentPage}"
+
+msgid "{days} at {time}"
+msgstr "{days}, saat {time}"
+
+msgid "{days}d"
+msgstr "{days}g"
+
+msgid "{days}d {hours}h"
+msgstr "{days}g {hours}sa"
+
+msgid "{focusShortcutText} to focus"
+msgstr "Odaklanmak için {focusShortcutText}"
+
+msgid "{hours}h"
+msgstr "{hours}sa"
+
+msgid "{hours}h {minutes}m"
+msgstr "{hours}sa {minutes}dk"
+
+#. placeholder {0}: failed.length
+msgid "{imported} imported, {0} failed. Successful imports are kept."
+msgstr "{imported} öğe içe aktarıldı, {0} başarısız oldu. Başarılı içe aktarmalar korunur."
+
+msgid "{lines, plural, one {# line} other {# lines}}"
+msgstr "{lines, plural, one {# satır} other {# satır}}"
+
+msgid "{minimumContrast}:1 contrast"
+msgstr "{minimumContrast}:1 kontrast"
+
+msgid "{minutes}m"
+msgstr "{minutes}dk"
+
+#. placeholder {0}: Number(previewLineHeight.toFixed(2))
+msgid "{previewSize}px · {0} line height"
+msgstr "{previewSize}px · {0} satır yüksekliği"
+
+msgid "{projectName} icon"
+msgstr "{projectName} simgesi"
+
+msgid "{running} working"
+msgstr "{running} çalışıyor"
+
+msgid "{stagedCount} staged files"
+msgstr "{stagedCount} hazırlanan dosya"
+
+msgid "{totalImported, plural, one {Imported # custom theme} other {Imported # custom themes}}"
+msgstr "{totalImported, plural, one {# özel tema içe aktarıldı} other {# özel tema içe aktarıldı}}"
+
+msgid "{uncommittedCount, plural, one {# file changed} other {# files changed}}"
+msgstr "{uncommittedCount, plural, one {# dosya değişti} other {# dosya değişti}}"
+
+msgid "⇧ click"
+msgstr "⇧ tık"
+
+msgid "<0>{primaryFont}</0> is not installed on this system. Falling back to the next available font."
+msgstr "<0>{primaryFont}</0> bu sistemde kurulu değil. Sıradaki kullanılabilir yazı tipine geçiliyor."
+
+msgid "<0>Nerd Fonts</0> are recommended."
+msgstr "<0>Nerd Fonts</0> önerilir."
+
+msgid "<0>vs</0> <1/>"
+msgstr "<0>vs</0> <1/>"
+
+msgid "~/agent $"
+msgstr "~/agent $"
+
+msgid "⌘ click"
+msgstr "⌘ tık"
+
+msgid "⌘⇧ click"
+msgstr "⌘⇧ tık"
+
+msgid "1 file is over {limit} and was not added"
+msgstr "1 dosya {limit} sınırını aştığı için eklenmedi"
+
+msgid "4.5:1 (AA)"
+msgstr "4.5:1 (AA)"
+
+msgid "7:1 (AAA)"
+msgstr "7:1 (AAA)"
+
+msgid "A daemon operation is already in progress"
+msgstr "Bir arka plan hizmeti işlemi zaten devam ediyor"
+
+msgid "A file named '{firstName}' already exists in {where}. Do you want to replace it?"
+msgstr "{where} konumunda '{firstName}' adlı bir dosya zaten var. Değiştirmek istiyor musunuz?"
+
+msgid "A listening process changed. Cancel and review the current process list before trying again."
+msgstr "Dinleyen bir işlem değişti. Tekrar denemeden önce iptal edin ve geçerli işlem listesini gözden geçirin."
+
+msgid "A pull request already exists for this branch. Refresh the pull request list."
+msgstr "Bu dal için zaten bir PR var. PR listesini yenileyin."
+
+msgid "A tab can contain at most eight panes."
+msgstr "Bir sekme en fazla sekiz bölme içerebilir."
+
+msgid "A tab can contain at most eight terminal panes."
+msgstr "Bir sekme en fazla sekiz terminal bölmesi içerebilir."
+
+msgid "A workspace is protected. Resolve its protection before removing this project."
+msgstr "Bir çalışma alanı korumalı. Bu projeyi kaldırmadan önce korumasını kaldırın."
+
+msgid "Aa"
+msgstr "Aa"
+
+msgid "About {displayName}"
+msgstr "{displayName} Hakkında"
+
+msgid "Accept"
+msgstr "Kabul et"
+
+msgid "Accessibility"
+msgstr "Erişilebilirlik"
+
+msgid "Actions"
+msgstr "Eylemler"
+
+msgid "Active"
+msgstr "Etkin"
+
+msgid "Active CLI sessions"
+msgstr "Etkin CLI oturumları"
+
+msgid "Active workspaces"
+msgstr "Etkin çalışma alanları"
+
+msgid "Activity"
+msgstr "Etkinlik"
+
+msgid "Adaptive keyboard layout"
+msgstr "Uyarlanabilir klavye düzeni"
+
+msgid "Add"
+msgstr "Ekle"
+
+msgid "Add agent"
+msgstr "Ajan ekle"
+
+msgid "add an agent"
+msgstr "ajan ekleme"
+
+msgid "Add Attachment"
+msgstr "Ek ekle"
+
+msgid "Add command"
+msgstr "Komut ekle"
+
+msgid "Add files, apps, and more"
+msgstr "Dosya, uygulama ve daha fazlasını ekleyin"
+
+msgid "Add files, apps, and more (@)"
+msgstr "Dosya, uygulama ve daha fazlasını ekleyin (@)"
+
+msgid "Add photos or files"
+msgstr "Fotoğraf veya dosya ekle"
+
+msgid "Add preset"
+msgstr "Ön ayar ekle"
+
+msgid "Add project"
+msgstr "Proje ekle"
+
+msgid "Add Project from Folder"
+msgstr "Klasörden proje ekle"
+
+msgid "Add Project from Folder..."
+msgstr "Klasörden proje ekle..."
+
+msgid "Add to Dictionary"
+msgstr "Sözlüğe ekle"
+
+msgid "Added {added} files to {where}"
+msgstr "{where} konumuna {added} dosya eklendi"
+
+msgid "Added 1 file to {where}"
+msgstr "{where} konumuna 1 dosya eklendi"
+
+msgid "Added only when launching with a prompt."
+msgstr "Yalnızca bir prompt ile başlatılırken eklenir."
+
+msgid "Admin"
+msgstr "Yönetici"
+
+msgid "Advanced environment values override variables written before the command."
+msgstr "Gelişmiş ortam değerleri, komuttan önce yazılan değişkenleri geçersiz kılar."
+
+msgid "Affected paths"
+msgstr "Etkilenen yollar"
+
+msgid "After delay"
+msgstr "Gecikme sonrası"
+
+msgid "Agent"
+msgstr "Ajan"
+
+msgid "Agent activity"
+msgstr "Aracı etkinliği"
+
+msgid "Agent activity changed. Refresh before opening the session."
+msgstr "Ajan etkinliği değişti. Oturumu açmadan önce yenileyin."
+
+msgid "Agent activity is loading or unavailable"
+msgstr "Ajan etkinliği yükleniyor veya kullanılamıyor"
+
+msgid "Agent commands"
+msgstr "Ajan komutları"
+
+msgid "Agent Complete · {workspaceName}"
+msgstr "Ajan tamamlandı · {workspaceName}"
+
+msgid "Agent configuration unavailable"
+msgstr "Ajan yapılandırması kullanılamıyor"
+
+msgid "Agent control"
+msgstr "Ajan kontrolü"
+
+msgid "Agent Control"
+msgstr "Ajan Kontrolü"
+
+msgid "Agent did not start a terminal"
+msgstr "Ajan bir terminal başlatamadı"
+
+msgid "Agent failed"
+msgstr "Ajan başarısız oldu"
+
+msgid "Agent finished"
+msgstr "Ajan bitirdi"
+
+msgid "Agent Island"
+msgstr "Ajan Adası"
+
+msgid "Agent launch is waiting for setup"
+msgstr "Ajan başlatma, kurulumun tamamlanmasını bekliyor"
+
+msgid "Agent saved, but linked presets could not be updated."
+msgstr "Ajan kaydedildi ancak bağlantılı ön ayarlar güncellenemedi."
+
+msgid "Agent session has not been created yet"
+msgstr "Ajan oturumu henüz oluşturulmadı"
+
+msgid "Agent session is no longer available"
+msgstr "Ajan oturumu artık kullanılamıyor"
+
+msgid "Agent sessions"
+msgstr "Ajan oturumları"
+
+msgid "Agent status unavailable"
+msgstr "Ajan durumu kullanılamıyor"
+
+msgid "Agents"
+msgstr "Ajanlar"
+
+msgid "AI chatbot built with Next.js and the AI SDK"
+msgstr "Next.js ve AI SDK ile oluşturulan yapay zeka sohbet robotu"
+
+#. placeholder {0}: cmd.aliases.map((alias) => `/${alias}`).join(", ")
+msgid "aliases: {0}"
+msgstr "takma adlar: {0}"
+
+msgid "Alive"
+msgstr "Etkin"
+
+msgid "All"
+msgstr "Tümü"
+
+msgid "All commits"
+msgstr "Tüm commit'ler"
+
+msgid "All files exceed the maximum size."
+msgstr "Tüm dosyalar en büyük boyutu aşıyor."
+
+msgid "All open terminal sessions will be killed and any running host-services will be stopped. Use “Close {displayName}” instead if you want services to keep running for the next launch."
+msgstr "Açık tüm terminal oturumları sonlandırılacak ve çalışan host hizmetleri durdurulacak. Hizmetlerin sonraki açılış için çalışmaya devam etmesini istiyorsanız “{displayName}'i kapat” seçeneğini kullanın."
+
+msgid "All projects"
+msgstr "Tüm projeler"
+
+msgid "All releases"
+msgstr "Tüm sürümler"
+
+msgid "All templates"
+msgstr "Tüm şablonlar"
+
+msgid "All themes used reserved IDs (built-in or system)."
+msgstr "Tüm temalar ayrılmış kimlikler kullandı (yerleşik veya sistem)."
+
+msgid "Allow"
+msgstr "İzin ver"
+
+msgid "Allow microphone access to use dictation"
+msgstr "Sesle yazmak için mikrofon erişimine izin verin"
+
+msgid "Already open"
+msgstr "Zaten açık"
+
+msgid "Also delete local branch"
+msgstr "Yerel dalı da sil"
+
+msgid "An update is ready to install."
+msgstr "Yüklenmeye hazır bir güncelleme var."
+
+msgid "Animate the active terminal cursor."
+msgstr "Etkin terminal imlecini canlandır."
+
+msgid "Annually"
+msgstr "Her yıl"
+
+msgid "Annually at {time}"
+msgstr "Her yıl saat {time}"
+
+msgid "Annually on {date}"
+msgstr "Her yıl {date}"
+
+msgid "Annually on {date} at {time}"
+msgstr "Her yıl {date}, saat {time}"
+
+msgid "Another deletion is already running for this workspace. Wait and check its status; do not force a second deletion."
+msgstr "Bu çalışma alanı için başka bir silme işlemi zaten devam ediyor. Bekleyip durumunu kontrol edin; ikinci silmeyi zorlamayın."
+
+msgid "Answered"
+msgstr "Yanıtlandı"
+
+msgid "App display language. Auto follows your system language."
+msgstr "Uygulama görüntüleme dili. Otomatik, sistem dilinizi izler."
+
+msgid "Appearance"
+msgstr "Görünüm"
+
+msgid "Apple's installer closed before Git was installed."
+msgstr "Apple'ın yükleyicisi Git yüklenmeden kapandı."
+
+#. placeholder {0}: phase.reason
+msgid "Apple's installer did not open: {0}"
+msgstr "Apple'ın yükleyicisi açılmadı: {0}"
+
+msgid "Apple's time estimate is usually much longer than the real install."
+msgstr "Apple'ın süre tahmini genellikle gerçek kurulumdan çok daha uzundur."
+
+msgid "Application menu"
+msgstr "Uygulama menüsü"
+
+msgid "Applies to file paths in Markdown previews and terminal output."
+msgstr "Markdown önizlemelerindeki ve terminal çıktısındaki dosya yollarına uygulanır."
+
+msgid "Applies to file rows in the workspace file tree."
+msgstr "Çalışma alanı dosya ağacındaki dosya satırlarına uygulanır."
+
+msgid "Applies to folder paths in Markdown previews, terminal output, and workspace file tree rows."
+msgstr "Markdown önizlemelerindeki, terminal çıktısındaki ve çalışma alanı dosya ağacı satırlarındaki klasör yollarına uygulanır."
+
+msgid "Applies to URLs in Markdown previews and terminal output."
+msgstr "Markdown önizlemelerindeki ve terminal çıktısındaki URL'lere uygulanır."
+
+msgid "Apply"
+msgstr "Uygula"
+
+msgid "Approval expired"
+msgstr "Onayın süresi doldu"
+
+msgid "Approval failed. Open the workspace to inspect its current state."
+msgstr "Onay başarısız oldu. Geçerli durumunu incelemek için çalışma alanını açın."
+
+msgid "Approval needed"
+msgstr "Onay gerekli"
+
+msgid "Approval requested"
+msgstr "Onay istendi"
+
+msgid "Approval required"
+msgstr "Onay gerekli"
+
+msgid "Approval response sent"
+msgstr "Onay yanıtı gönderildi"
+
+msgid "Approved"
+msgstr "Onaylandı"
+
+msgid "Are you sure you want to quit?"
+msgstr "Çıkmak istediğinizden emin misiniz?"
+
+msgid "Ask before quitting the app."
+msgstr "Uygulamadan çıkmadan önce sor."
+
+msgid "Ask before terminating a terminal with a running process. Closing a view keeps its session running."
+msgstr "Çalışan bir işlemi olan terminali sonlandırmadan önce sorun. Bir görünümü kapatmak oturumunu çalışır durumda tutar."
+
+msgid "Ask to make changes, @mention files"
+msgstr "Değişiklik isteyin, @ ile dosyalardan bahsedin"
+
+msgid "Ask to make changes, @mention files, run /commands"
+msgstr "Değişiklik isteyin, dosyaları @ ile anın, /komut çalıştırın"
+
+msgid "Attach"
+msgstr "Ekle"
+
+msgid "Attach files"
+msgstr "Dosya ekle"
+
+msgid "Attached"
+msgstr "Bağlı"
+
+msgid "attachment"
+msgstr "ek"
+
+msgid "Attachment"
+msgstr "Ek"
+
+#. placeholder {0}: (cause.index ?? 0) + 1
+#. placeholder {1}: cause.problem
+msgid "Attachment {0} could not be copied: {1}"
+msgstr "{0} eki kopyalanamadı: {1}"
+
+msgid "Attachment limits exceeded"
+msgstr "Ek sınırları aşıldı"
+
+msgid "attachment preview"
+msgstr "ek önizlemesi"
+
+msgid "Attachments are available for local workspaces only."
+msgstr "Ekler yalnızca yerel çalışma alanlarında kullanılabilir."
+
+msgid "Audio"
+msgstr "Ses"
+
+msgid "Auto"
+msgstr "Otomatik"
+
+msgid "Auto (system)"
+msgstr "Otomatik (sistem)"
+
+msgid "Auto save"
+msgstr "Otomatik kaydet"
+
+msgid "Automatic branch"
+msgstr "Otomatik dal adı"
+
+msgid "Automatic name"
+msgstr "Otomatik ad"
+
+msgid "Automatic updates are unavailable for this build."
+msgstr "Bu derleme için otomatik güncellemeler kullanılamıyor."
+
+msgid "Automation"
+msgstr "Otomasyon"
+
+msgid "Automation (Apple Events)"
+msgstr "Otomasyon (Apple Events)"
+
+msgid "Automation action failed"
+msgstr "Otomasyon eylemi başarısız oldu"
+
+msgid "Automation actions"
+msgstr "Otomasyon eylemleri"
+
+msgid "Automation deleted"
+msgstr "Otomasyon silindi"
+
+msgid "Automation enabled"
+msgstr "Otomasyon etkinleştirildi"
+
+msgid "Automation name"
+msgstr "Otomasyon adı"
+
+msgid "Automation paused"
+msgstr "Otomasyon duraklatıldı"
+
+msgid "Automation saved"
+msgstr "Otomasyon kaydedildi"
+
+msgid "Automation started"
+msgstr "Otomasyon başlatıldı"
+
+msgid "Automations"
+msgstr "Otomasyonlar"
+
+msgid "Awaiting approval"
+msgstr "Onay bekleniyor"
+
+msgid "Awaiting Response"
+msgstr "Yanıt Bekleniyor"
+
+msgid "Awaiting Response · {workspaceName}"
+msgstr "Yanıt bekleniyor · {workspaceName}"
+
+msgid "Back"
+msgstr "Geri"
+
+msgid "Back to automations"
+msgstr "Otomasyonlara dön"
+
+msgid "Background processes"
+msgstr "Arka plan işlemleri"
+
+msgid "Bar"
+msgstr "Çubuk"
+
+msgid "Base branch"
+msgstr "Temel dal"
+
+msgid "Base branch (repository default)"
+msgstr "Temel branch (depo varsayılanı)"
+
+msgid "Binary file"
+msgstr "İkili dosya"
+
+msgid "Block"
+msgstr "Blok"
+
+msgid "Blockquote"
+msgstr "Alıntı"
+
+msgid "Blue"
+msgstr "Mavi"
+
+msgid "Bold"
+msgstr "Kalın"
+
+msgid "Branch"
+msgstr "Dal"
+
+#. placeholder {0}: params?.branch
+#. placeholder {1}: params?.remote
+msgid "Branch \"{0}\" is not on this device or on {1}. Only pushed commits can be restored."
+msgstr "\"{0}\" dalı bu cihazda da {1} üzerinde de yok. Yalnızca gönderilmiş commit'ler geri yüklenebilir."
+
+msgid "Branch name"
+msgstr "Dal adı"
+
+msgid "Branch prefix"
+msgstr "Dal ön eki"
+
+msgid "Branch preview"
+msgstr "Dal önizlemesi"
+
+msgid "Branch switched"
+msgstr "Dal değiştirildi"
+
+msgid "Branches & naming"
+msgstr "Dallar ve adlandırma"
+
+msgid "Browse"
+msgstr "Gözat"
+
+msgid "Browse for directory"
+msgstr "Dizine gözat"
+
+msgid "Bug"
+msgstr "Böcek"
+
+msgid "builtin"
+msgstr "yerleşik"
+
+msgid "Bullet list"
+msgstr "Madde işaretli liste"
+
+msgid "Bulleted list"
+msgstr "Madde işaretli liste"
+
+msgid "Cached input"
+msgstr "Önbellekli girdi"
+
+msgid "Cached terminal views"
+msgstr "Önbelleğe alınmış terminal görünümleri"
+
+msgid "Cancel"
+msgstr "İptal"
+
+msgid "Cancellation requested. Checking the host before another clone…"
+msgstr "İptal istendi. Başka bir klonlamadan önce ana bilgisayar kontrol ediliyor…"
+
+msgid "Cancellation requests the target host to stop. Check the operation result before retrying at this location."
+msgstr "İptal, hedef ana bilgisayarın durmasını ister. Bu konumda tekrar denemeden önce işlem sonucunu kontrol edin."
+
+msgid "Cancelled"
+msgstr "İptal edildi"
+
+msgid "Cannot {action}: no active organization is selected. Select an organization or sign in again."
+msgstr "{action} işlemi yapılamıyor: etkin kuruluş seçili değil. Bir kuruluş seçin veya yeniden oturum açın."
+
+msgid "Cannot {action}: the local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
+msgstr "{action} işlemi yapılamıyor: {device} üzerinde {organization} için yerel host hizmeti kullanılamıyor. Durum: {status}. {recovery}"
+
+msgid "Change location…"
+msgstr "Konumu değiştir…"
+
+msgid "Change project icon and color"
+msgstr "Proje simgesini ve rengini değiştir"
+
+msgid "Change state"
+msgstr "Durumu değiştir"
+
+msgid "Changed files"
+msgstr "Değiştirilen dosyalar"
+
+msgid "Changes"
+msgstr "Değişiklikler"
+
+msgid "Changes discarded"
+msgstr "Değişiklikler yoksayıldı"
+
+msgid "Changes requested"
+msgstr "Değişiklik istendi"
+
+msgid "Changing this location affects new worktrees. Existing folders are not moved."
+msgstr "Bu konumu değiştirmek yeni çalışma ağaçlarını etkiler. Mevcut klasörler taşınmaz."
+
+msgid "Chat"
+msgstr "Sohbet"
+
+msgid "Chat is being reworked"
+msgstr "Sohbet yeniden düzenleniyor"
+
+msgid "Check for updates"
+msgstr "Güncellemeleri denetle"
+
+msgid "Check for Updates..."
+msgstr "Güncellemeleri denetle..."
+
+msgid "Check resources"
+msgstr "Kaynakları denetle"
+
+msgid "Check Resources"
+msgstr "Kaynakları denetle"
+
+msgid "Check result"
+msgstr "Sonucu kontrol et"
+
+msgid "Check status"
+msgstr "Durumu kontrol et"
+
+msgid "Check your connection and try again"
+msgstr "Bağlantınızı kontrol edip yeniden deneyin"
+
+msgid "Checking for updates…"
+msgstr "Güncellemeler kontrol ediliyor…"
+
+msgid "Checking project…"
+msgstr "Proje kontrol ediliyor…"
+
+msgid "Checking repository access…"
+msgstr "Depo erişimi kontrol ediliyor…"
+
+msgid "Checking the target host for a completed project…"
+msgstr "Hedef ana bilgisayarda tamamlanmış proje kontrol ediliyor…"
+
+msgid "Checking workspace state…"
+msgstr "Çalışma alanı durumu kontrol ediliyor…"
+
+msgid "Checking workspaces and running sessions…"
+msgstr "Çalışma alanları ve çalışan oturumlar kontrol ediliyor…"
+
+msgid "Checklist"
+msgstr "Kontrol listesi"
+
+msgid "Checks"
+msgstr "Kontroller"
+
+msgid "Checks failed"
+msgstr "Kontroller başarısız"
+
+msgid "Checks passed"
+msgstr "Kontroller geçti"
+
+msgid "Checks running"
+msgstr "Kontroller çalışıyor"
+
+msgid "Choose a checkout, branch, pull request, or existing worktree on the target host."
+msgstr "Hedef ana bilgisayarda bir checkout, dal, PR veya mevcut çalışma ağacı seçin."
+
+msgid "Choose a folder on the connected host"
+msgstr "Bağlı ana bilgisayarda bir klasör seçin"
+
+msgid "Choose a glyph, upload an image, or change the accent color."
+msgstr "Bir glif seçin, resim yükleyin veya vurgu rengini değiştirin."
+
+msgid "Choose a project"
+msgstr "Proje seçin"
+
+msgid "Choose a project or workspace"
+msgstr "Bir proje veya çalışma alanı seçin"
+
+msgid "Choose a project to start working."
+msgstr "Çalışmaya başlamak için bir proje seçin."
+
+msgid "Choose a saved screenshot to attach. Files are copied only when you submit the prompt."
+msgstr "Eklemek için kayıtlı bir ekran görüntüsü seçin. Dosyalar yalnızca istemi gönderdiğinizde kopyalanır."
+
+msgid "Choose a workspace"
+msgstr "Bir çalışma alanı seçin"
+
+msgid "Choose agent session"
+msgstr "Ajan oturumu seçin"
+
+msgid "Choose an available project or workspace"
+msgstr "Kullanılabilir bir proje veya çalışma alanı seçin"
+
+msgid "Choose file and editor behavior on this device."
+msgstr "Bu cihazdaki dosya ve düzenleyici davranışını seçin."
+
+msgid "Choose how Jedv behaves on this device."
+msgstr "Bu cihazda Jedv’nin nasıl davranacağını seçin."
+
+msgid "Choose notification sounds and volume."
+msgstr "Bildirim seslerini ve ses düzeyini seçin."
+
+msgid "Clear"
+msgstr "Şeffaf"
+
+msgid "Clear saved screenshots?"
+msgstr "Kayıtlı ekran görüntüleri temizlensin mi?"
+
+msgid "Clear screenshots"
+msgstr "Ekran görüntülerini temizle"
+
+msgid "Clear search"
+msgstr "Aramayı temizle"
+
+msgid "Clear shortcut"
+msgstr "Kısayolu temizle"
+
+msgid "Clear Status"
+msgstr "Durumu temizle"
+
+msgid "Clear Terminal"
+msgstr "Terminali temizle"
+
+msgid "CLI remains available. Structured control is unavailable for this session; check capabilities or continue in its terminal."
+msgstr "CLI kullanılabilir durumda. Bu oturumda yapılandırılmış kontrol kullanılamıyor; yetenekleri kontrol edin veya terminalinde devam edin."
+
+msgid "click"
+msgstr "tık"
+
+msgid "Click two commits to define the range."
+msgstr "Aralığı tanımlamak için iki commit'e tıklayın."
+
+msgid "Clone a repository"
+msgstr "Bir depoyu klonla"
+
+msgid "Clone from URL"
+msgstr "URL'den klonla"
+
+msgid "Clone repository"
+msgstr "Depoyu klonla"
+
+msgid "clone the repository"
+msgstr "depoyu klonlama"
+
+msgid "Cloning repository…"
+msgstr "Depo klonlanıyor…"
+
+msgid "Close"
+msgstr "Kapat"
+
+msgid "Close (Esc)"
+msgstr "Kapat (Esc)"
+
+msgid "Close {displayName}"
+msgstr "{displayName}'i kapat"
+
+msgid "Close a diff tab before opening another. At most eight diffs can be open."
+msgstr "Başka bir diff sekmesi açmadan önce bir diff sekmesini kapatın. En fazla sekiz diff açık olabilir."
+
+msgid "Close a tab before opening more tabs in this workspace."
+msgstr "Bu çalışma alanında daha fazla sekme açmadan önce bir sekmeyi kapatın."
+
+msgid "Close all"
+msgstr "Tümünü kapat"
+
+msgid "Close All"
+msgstr "Tümünü kapat"
+
+msgid "Close all ports?"
+msgstr "Tüm bağlantı noktaları kapatılsın mı?"
+
+msgid "Close CLI terminal and take control"
+msgstr "CLI terminalini kapat ve kontrolü al"
+
+msgid "Close detail"
+msgstr "Ayrıntıyı kapat"
+
+msgid "Close details"
+msgstr "Ayrıntıları kapat"
+
+msgid "Close file"
+msgstr "Dosyayı kapat"
+
+msgid "Close forwarded ports"
+msgstr "Yönlendirilen bağlantı noktalarını kapat"
+
+msgid "Close or delete the current workspace"
+msgstr "Geçerli çalışma alanını kapat veya sil"
+
+msgid "Close other apps using the microphone"
+msgstr "Mikrofonu kullanan diğer uygulamaları kapatın"
+
+msgid "Close Others"
+msgstr "Diğerlerini kapat"
+
+msgid "Close pane"
+msgstr "Bölmeyi kapat"
+
+msgid "Close Pane"
+msgstr "Bölmeyi kapat"
+
+#. placeholder {0}: port.port
+msgid "Close port {0}"
+msgstr "{0} portunu kapat"
+
+msgid "Close port?"
+msgstr "Bağlantı noktası kapatılsın mı?"
+
+msgid "Close Saved"
+msgstr "Kayıtlı belgeleri kapat"
+
+msgid "Close tab"
+msgstr "Sekmeyi kapat"
+
+msgid "Close Tab"
+msgstr "Sekmeyi kapat"
+
+msgid "Close Terminal"
+msgstr "Terminali kapat"
+
+msgid "Close the current pane"
+msgstr "Geçerli bölmeyi kapat"
+
+msgid "Close the current tab"
+msgstr "Geçerli sekmeyi kapat"
+
+msgid "Close this CLI terminal and take control of the same session? The terminal process will stop. Other terminal work may be lost."
+msgstr "Bu CLI terminali kapatılıp aynı oturumun kontrolü alınsın mı? Terminal işlemi duracak. Diğer terminal çalışmaları kaybolabilir."
+
+msgid "Close to the Right"
+msgstr "Sağdaki sekmeleri kapat"
+
+msgid "Close View"
+msgstr "Görünümü Kapat"
+
+msgid "Close Window"
+msgstr "Pencereyi kapat"
+
+msgid "Close Workspace"
+msgstr "Çalışma alanını kapat"
+
+msgid "Closed"
+msgstr "Kapalı"
+
+msgid "Code"
+msgstr "Kod"
+
+msgid "Code block"
+msgstr "Kod bloğu"
+
+msgid "Collapse"
+msgstr "Daralt"
+
+msgid "Collapse all"
+msgstr "Tümünü daralt"
+
+msgid "Collapse All"
+msgstr "Tümünü daralt"
+
+msgid "Color"
+msgstr "Renk"
+
+msgid "Color saved, but the icon could not be updated. Retry the icon update."
+msgstr "Renk kaydedildi ancak simge güncellenemedi. Simge güncellemesini tekrar deneyin."
+
+msgid "Combine sequences such as => and !==."
+msgstr "=> ve !== gibi dizileri birleştirir."
+
+msgid "Coming soon"
+msgstr "Çok yakında"
+
+msgid "Command"
+msgstr "Komut"
+
+#. placeholder {0}: index + 1
+msgid "Command {0}"
+msgstr "Komut {0}"
+
+msgid "Command needs approval"
+msgstr "Komut onay gerektiriyor"
+
+msgid "Commands"
+msgstr "Komutlar"
+
+msgid "Commands and arguments for the connected host."
+msgstr "Bağlı host için komutlar ve argümanlar."
+
+msgid "Commands follow the linked agent."
+msgstr "Komutlar bağlantılı ajanı kullanır."
+
+msgid "Comment"
+msgstr "Yorum yap"
+
+msgid "Comment posted"
+msgstr "Yorum gönderildi"
+
+msgid "Commented"
+msgstr "Yorum yapıldı"
+
+msgid "Commit"
+msgstr "Commit et"
+
+msgid "Commit message"
+msgstr "Commit mesajı"
+
+msgid "Commit or discard changes before switching branches."
+msgstr "Dalları değiştirmeden önce değişiklikleri işleyin veya yoksayın."
+
+msgid "Commit staged changes"
+msgstr "Hazırlanan değişiklikleri işle"
+
+msgid "Commits"
+msgstr "Commit'ler"
+
+msgid "Committed with the repository and shared with everyone who works on it."
+msgstr "Depoyla birlikte commit edilir ve üzerinde çalışan herkesle paylaşılır."
+
+msgid "Compare"
+msgstr "Karşılaştır"
+
+msgid "Completed"
+msgstr "Tamamlandı"
+
+msgid "Config file contents"
+msgstr "Yapılandırma dosyasının içeriği"
+
+msgid "config.json must be a JSON object"
+msgstr "config.json bir JSON nesnesi olmalıdır"
+
+msgid "Configure"
+msgstr "Yapılandır"
+
+msgid "Configure agent commands for the connected host."
+msgstr "Bağlı host için ajan komutlarını yapılandırın."
+
+msgid "Confirm"
+msgstr "Onayla"
+
+msgid "Confirm before closing a running terminal"
+msgstr "Çalışan bir terminali kapatmadan önce onayla"
+
+msgid "Confirm before quitting"
+msgstr "Çıkmadan önce onay iste"
+
+msgid "Connect"
+msgstr "Bağla"
+
+msgid "Connect a microphone to use dictation"
+msgstr "Sesle yazmak için bir mikrofon bağlayın"
+
+msgid "Connect over Tailscale using the host's HTTPS address and PSK."
+msgstr "Hostun HTTPS adresi ve PSK’sini kullanarak Tailscale üzerinden bağlanın."
+
+msgid "Connect to a host before changing workspace presentation."
+msgstr "Çalışma alanı sunumunu değiştirmeden önce bir ana bilgisayara bağlanın."
+
+msgid "Connect to host"
+msgstr "Hosta bağlan"
+
+msgid "Connected"
+msgstr "Bağlı"
+
+msgid "Connected host"
+msgstr "Bağlı host"
+
+msgid "Connecting…"
+msgstr "Bağlanılıyor…"
+
+msgid "Continue"
+msgstr "Devam et"
+
+msgid "Continue {title}"
+msgstr "{title} öğesine devam et"
+
+msgid "Continue opening"
+msgstr "Açmaya devam et"
+
+msgid "Continue same session"
+msgstr "Aynı oturuma devam et"
+
+msgid "Continue the same agent session"
+msgstr "Aynı ajan oturumuna devam et"
+
+msgid "Continue this exact existing session. A new agent session will not be started."
+msgstr "Tam olarak bu mevcut oturuma devam et. Yeni bir ajan oturumu başlatılmayacak."
+
+msgid "Continue with agent"
+msgstr "Ajanla devam et"
+
+msgid "Continue with agent…"
+msgstr "Ajanla devam et…"
+
+msgid "Continuing…"
+msgstr "Devam ediliyor…"
+
+msgid "Control mode"
+msgstr "Kontrol modu"
+
+msgid "Control output only. Earlier CLI history is not included."
+msgstr "Yalnızca kontrol çıktısı. Önceki CLI geçmişi dahil edilmez."
+
+msgid "Control owns this session"
+msgstr "Bu oturumun sahibi Kontrol"
+
+msgid "Control shortcuts on macOS are reserved for terminal programs."
+msgstr "macOS’ta Control kısayolları terminal programları için ayrılmıştır."
+
+msgid "Convert to config.toml"
+msgstr "config.toml'a dönüştür"
+
+msgid "Convert to draft?"
+msgstr "Taslağa dönüştürülsün mü?"
+
+msgid "Converting to draft…"
+msgstr "Taslağa dönüştürülüyor…"
+
+msgid "Copied"
+msgstr "Kopyalandı"
+
+msgid "Copied to clipboard"
+msgstr "Panoya kopyalandı"
+
+msgid "Copy"
+msgstr "Kopyala"
+
+msgid "Copy agent session ID"
+msgstr "Ajan oturum kimliğini kopyala"
+
+msgid "Copy as CSV"
+msgstr "CSV olarak kopyala"
+
+msgid "Copy as Markdown"
+msgstr "Markdown olarak kopyala"
+
+msgid "Copy Branch Name"
+msgstr "Dal adını kopyala"
+
+msgid "Copy error details"
+msgstr "Hata ayrıntılarını kopyala"
+
+msgid "Copy failed"
+msgstr "Kopyalanamadı"
+
+msgid "Copy image"
+msgstr "Görseli kopyala"
+
+msgid "Copy Link"
+msgstr "Bağlantıyı kopyala"
+
+msgid "Copy Link Address"
+msgstr "Bağlantı adresini kopyala"
+
+#. placeholder {0}: port.port
+msgid "Copy localhost:{0}"
+msgstr "localhost:{0} adresini kopyala"
+
+msgid "Copy on select"
+msgstr "Seçince kopyala"
+
+msgid "Copy path"
+msgstr "Yolu kopyala"
+
+msgid "Copy Path"
+msgstr "Yolu kopyala"
+
+msgid "Copy Relative Path"
+msgstr "Göreli yolu kopyala"
+
+msgid "Copy selected terminal text to the clipboard."
+msgstr "Seçilen terminal metnini panoya kopyala."
+
+msgid "Copy terminal ID"
+msgstr "Terminal kimliğini kopyala"
+
+msgid "Copy the workspace path to the clipboard"
+msgstr "Çalışma alanı yolunu panoya kopyala"
+
+msgid "Copy Workspace ID"
+msgstr "Çalışma alanı kimliğini kopyala"
+
+msgid "Copy..."
+msgstr "Kopyala…"
+
+msgid "Costs are estimates based on API list rates, not a bill or actual subscription spending. Unknown models use approximate rates."
+msgstr "Maliyetler, API liste fiyatlarına dayalı tahminlerdir; fatura veya gerçek abonelik harcaması değildir. Bilinmeyen modeller için yaklaşık fiyatlar kullanılır."
+
+msgid "Could not change the project location. Your files have not been moved."
+msgstr "Proje konumu değiştirilemedi. Dosyalarınız taşınmadı."
+
+msgid "Could not check all workspaces. Check the host connection and try again before removing this project."
+msgstr "Tüm çalışma alanları kontrol edilemedi. Bu projeyi kaldırmadan önce ana bilgisayar bağlantısını kontrol edin ve tekrar deneyin."
+
+msgid "Could not check Git on this computer. You can retry or continue."
+msgstr "Bu bilgisayarda Git kontrol edilemedi. Tekrar deneyebilir veya devam edebilirsiniz."
+
+msgid "Could not confirm the operation on the target host. Check its connection and retry the result check."
+msgstr "Hedef ana bilgisayardaki işlem doğrulanamadı. Bağlantıyı kontrol edin ve sonuç kontrolünü tekrar deneyin."
+
+msgid "Could not confirm the result on the target host. Check its connection and permissions, then check the result again."
+msgstr "Hedef ana bilgisayardaki sonuç doğrulanamadı. Bağlantıyı ve izinleri kontrol edin, ardından sonucu tekrar kontrol edin."
+
+msgid "Could not confirm this session. Refresh before retrying."
+msgstr "Bu oturum doğrulanamadı. Yeniden denemeden önce yenileyin."
+
+msgid "Could not create workspace. Check the target host and retry."
+msgstr "Çalışma alanı oluşturulamadı. Hedef ana bilgisayarı kontrol edin ve tekrar deneyin."
+
+msgid "Could not delete workspace. Check its status before retrying."
+msgstr "Çalışma alanı silinemedi. Tekrar denemeden önce durumunu kontrol edin."
+
+msgid "Could not detect workspaces"
+msgstr "Çalışma alanları algılanamadı"
+
+msgid "Could not finish importing. Successful imports are kept."
+msgstr "İçe aktarma tamamlanamadı. Başarılı içe aktarmalar korunur."
+
+msgid "Could not finish removing the project. Refresh its status before trying again."
+msgstr "Proje kaldırma tamamlanamadı. Tekrar denemeden önce durumunu yenileyin."
+
+msgid "Could not finish restoring the workspace. Check the target host; an occupied path or unavailable branch blocks restoration."
+msgstr "Çalışma alanı geri yükleme tamamlanamadı. Hedef ana bilgisayarı kontrol edin; dolu bir yol veya kullanılamayan dal geri yüklemeyi engelliyor."
+
+msgid "Could not import workspace"
+msgstr "Çalışma alanı içe aktarılamadı"
+
+msgid "Could not inspect this workspace. Retry the checks before deleting it."
+msgstr "Bu çalışma alanı incelenemedi. Silmeden önce kontrolleri tekrar deneyin."
+
+msgid "Could not list repositories. Check gh authentication on the target host, or enter a URL below."
+msgstr "Depolar listelenemedi. Hedef ana bilgisayardaki gh kimlik doğrulamasını kontrol edin veya aşağıya bir URL girin."
+
+msgid "Could not load branches from the target host."
+msgstr "Hedef ana bilgisayardan dallar yüklenemedi."
+
+msgid "Could not load GitHub permissions"
+msgstr "GitHub izinleri yüklenemedi"
+
+msgid "Could not load image"
+msgstr "Görsel yüklenemedi"
+
+msgid "Could not load project settings from the target host."
+msgstr "Hedef ana bilgisayardan proje ayarları yüklenemedi."
+
+msgid "Could not load pull requests. Check gh access on the target host."
+msgstr "PR'ler yüklenemedi. Hedef ana bilgisayardaki gh erişimini kontrol edin."
+
+msgid "Could not load workspace status. Check the target host and try again."
+msgstr "Çalışma alanı durumu yüklenemedi. Hedef ana bilgisayarı kontrol edin ve tekrar deneyin."
+
+msgid "Could not open this workspace. Check the target host and try again."
+msgstr "Bu çalışma alanı açılamadı. Hedef ana bilgisayarı kontrol edin ve tekrar deneyin."
+
+#. placeholder {0}: params?.remote
+#. placeholder {1}: params?.branch
+#. placeholder {2}: params?.remote
+msgid "Could not reach {0} to look for branch \"{1}\". Check your connection and access to {2}, then try again."
+msgstr "\"{1}\" dalını aramak için {0} adresine ulaşılamadı. Bağlantınızı ve {2} erişiminizi kontrol edip tekrar deneyin."
+
+msgid "Could not read image"
+msgstr "Resim okunamadı"
+
+msgid "Could not read removed projects from this host."
+msgstr "Bu ana bilgisayardaki kaldırılmış projeler okunamadı."
+
+msgid "Could not read selected file"
+msgstr "Seçilen dosya okunamadı"
+
+msgid "Could not read the dropped files"
+msgstr "Bırakılan dosyalar okunamadı"
+
+msgid "Could not read this directory. Check the path and permissions on the target host."
+msgstr "Bu dizin okunamadı. Hedef ana bilgisayardaki yolu ve izinleri kontrol edin."
+
+msgid "Could not read worktrees from the target host."
+msgstr "Hedef ana bilgisayardan çalışma ağaçları okunamadı."
+
+msgid "Could not rename project. Try again."
+msgstr "Proje yeniden adlandırılamadı. Tekrar deneyin."
+
+msgid "Could not rename project. Your draft is kept; try again."
+msgstr "Proje yeniden adlandırılamadı. Taslağınız korundu; tekrar deneyin."
+
+msgid "Could not rename this session. Your draft is kept."
+msgstr "Bu oturum yeniden adlandırılamadı. Taslağınız korundu."
+
+msgid "Could not render icon"
+msgstr "Simge oluşturulamadı"
+
+msgid "Could not render image"
+msgstr "Resim oluşturulamadı"
+
+msgid "Could not save the group. Your draft is kept."
+msgstr "Grup kaydedilemedi. Taslağınız korundu."
+
+msgid "Could not save the project. Check the project name and target location."
+msgstr "Proje kaydedilemedi. Proje adını ve hedef konumu kontrol edin."
+
+msgid "Could not save the theme. Try again."
+msgstr "Tema kaydedilemedi. Tekrar deneyin."
+
+msgid "Could not save this setting. Try again."
+msgstr "Bu ayar kaydedilemedi. Tekrar deneyin."
+
+msgid "Could not save workspace order. The list may have changed on the host; refresh and try again."
+msgstr "Çalışma alanı sırası kaydedilemedi. Ana bilgisayardaki liste değişmiş olabilir; yenileyin ve tekrar deneyin."
+
+msgid "Could not save worktree location. Your previous setting is unchanged unless the host already saved this request."
+msgstr "Çalışma ağacı konumu kaydedilemedi. Ana bilgisayar bu isteği zaten kaydetmediyse önceki ayarınız değişmez."
+
+msgid "Could not save your progress. Try again."
+msgstr "İlerlemeniz kaydedilemedi. Tekrar deneyin."
+
+msgid "Could not select a project directory."
+msgstr "Proje dizini seçilemedi."
+
+msgid "Could not set icon"
+msgstr "Simge ayarlanamadı"
+
+msgid "Could not stop a listening process. Earlier successful stops are kept."
+msgstr "Dinleyen bir işlem durdurulamadı. Önceki başarılı durdurmalar korunur."
+
+msgid "Could not stop it"
+msgstr "Durdurulamadı"
+
+msgid "Could not update the project tree. Try again."
+msgstr "Proje ağacı güncellenemedi. Tekrar deneyin."
+
+msgid "Could not update the removed project. Check its status before retrying."
+msgstr "Kaldırılan proje güncellenemedi. Tekrar denemeden önce durumunu kontrol edin."
+
+msgid "Could not update workspace. Try again."
+msgstr "Çalışma alanı güncellenemedi. Tekrar deneyin."
+
+msgid "Couldn't save"
+msgstr "Kaydedilemedi"
+
+msgid "Couldn't save. Edit or click away to retry"
+msgstr "Kaydedilemedi. Yeniden denemek için düzenleyin veya başka bir yere tıklayın"
+
+msgid "Couldn't save. Retrying…"
+msgstr "Kaydedilemedi. Yeniden deneniyor…"
+
+msgid "Create a blank folder and initialize it as a Git repository."
+msgstr "Boş bir klasör oluşturun ve Git deposu olarak başlatın."
+
+msgid "Create a new project"
+msgstr "Yeni proje oluştur"
+
+msgid "Create a new project by cloning a repository or local path."
+msgstr "Bir depoyu veya yerel yolu klonlayarak yeni bir proje oluşturun."
+
+msgid "Create a pull request from an existing workspace branch. Its configured base branch is used."
+msgstr "Mevcut bir çalışma alanı dalından pull request oluşturun. Yapılandırılan temel dal kullanılır."
+
+msgid "Create a separate session from an existing one. Use the session ID placeholder for its position."
+msgstr "Mevcut bir oturumdan ayrı bir oturum oluşturun. Konumunu belirtmek için oturum kimliği yer tutucusunu kullanın."
+
+msgid "Create new project"
+msgstr "Yeni proje oluştur"
+
+msgid "Create PR"
+msgstr "PR oluştur"
+
+msgid "Create project"
+msgstr "Proje oluştur"
+
+msgid "Create pull request"
+msgstr "Pull request oluştur"
+
+msgid "Create pull request on GitHub?"
+msgstr "GitHub'da pull request oluşturulsun mu?"
+
+msgid "create the project"
+msgstr "projeyi oluşturma"
+
+msgid "create the workspace"
+msgstr "çalışma alanını oluşturma"
+
+msgid "Create workspace"
+msgstr "Çalışma alanı oluştur"
+
+msgid "Created"
+msgstr "Oluşturuldu"
+
+msgid "Created {createdDirs} folders in {where}"
+msgstr "{where} konumunda {createdDirs} klasör oluşturuldu"
+
+msgid "Created 1 folder in {where}"
+msgstr "{where} konumunda 1 klasör oluşturuldu"
+
+#. placeholder {0}: completed.hash
+msgid "Created commit {0}"
+msgstr "{0} commit'i oluşturuldu"
+
+msgid "Creating directory and initializing Git…"
+msgstr "Dizin oluşturuluyor ve Git başlatılıyor…"
+
+msgid "Creating…"
+msgstr "Oluşturuluyor…"
+
+msgid "Cross-platform mobile app with Expo"
+msgstr "Expo ile platformlar arası mobil uygulama"
+
+msgid "Ctrl+click"
+msgstr "Ctrl+tık"
+
+msgid "Ctrl+Shift+click"
+msgstr "Ctrl+Shift+tık"
+
+msgid "Current"
+msgstr "Geçerli"
+
+msgid "Cursor blinking"
+msgstr "İmleç yanıp sönmesi"
+
+msgid "Cursor style"
+msgstr "İmleç stili"
+
+msgid "Custom"
+msgstr "Özel"
+
+msgid "Custom branch prefix"
+msgstr "Özel dal ön eki"
+
+msgid "Custom notification sound"
+msgstr "Özel bildirim sesi"
+
+msgid "Custom prefix"
+msgstr "Özel ön ek"
+
+msgid "Custom sound"
+msgstr "Özel ses"
+
+msgid "Custom themes"
+msgstr "Özel temalar"
+
+msgid "Customize how Jedv looks on your device"
+msgstr "Jedv'nin cihazınızdaki görünümünü özelleştirin"
+
+msgid "Customize shortcuts for your local workflow."
+msgstr "Yerel iş akışınıza göre kısayolları özelleştirin."
+
+msgid "Customize terminal behavior and typography."
+msgstr "Terminal davranışını ve tipografisini özelleştirin."
+
+msgid "Cyan"
+msgstr "Camgöbeği"
+
+msgid "Daemon restarted. All sessions were closed."
+msgstr "Arka plan hizmeti yeniden başlatıldı. Tüm oturumlar kapatıldı."
+
+msgid "Daemon unavailable"
+msgstr "Daemon kullanılamıyor"
+
+msgid "Daemon updated. Sessions preserved."
+msgstr "Arka plan hizmeti güncellendi. Oturumlar korundu."
+
+msgid "Daily"
+msgstr "Günlük"
+
+msgid "Daily at {time}"
+msgstr "Her gün saat {time}"
+
+msgid "Daily token history"
+msgstr "Günlük token geçmişi"
+
+msgid "Danger zone"
+msgstr "Tehlikeli bölge"
+
+msgid "Dark"
+msgstr "Koyu"
+
+msgid "Dark theme"
+msgstr "Koyu tema"
+
+msgid "Decline"
+msgstr "Reddet"
+
+msgid "default"
+msgstr "varsayılan"
+
+msgid "Default"
+msgstr "Varsayılan"
+
+msgid "Default external editor"
+msgstr "Varsayılan harici editör"
+
+msgid "Defaults for new workspaces on the connected host."
+msgstr "Bağlı host'taki yeni çalışma alanları için varsayılanlar."
+
+msgid "Delete"
+msgstr "Sil"
+
+msgid "Delete agent"
+msgstr "Ajanı sil"
+
+msgid "Delete anyway"
+msgstr "Yine de sil"
+
+msgid "Delete anyway will skip the teardown script entirely."
+msgstr "Yine de sil, kapatma betiğini tamamen atlar."
+
+msgid "Delete automation?"
+msgstr "Otomasyon silinsin mi?"
+
+msgid "Delete multiple workspaces"
+msgstr "Birden çok çalışma alanını sil"
+
+msgid "Delete permanently"
+msgstr "Kalıcı olarak sil"
+
+msgid "Delete permanently…"
+msgstr "Kalıcı olarak sil…"
+
+msgid "Delete project permanently?"
+msgstr "Proje kalıcı olarak silinsin mi?"
+
+msgid "Delete session \"{workspaceName}\"?"
+msgstr "\"{workspaceName}\" oturumu silinsin mi?"
+
+msgid "Delete this custom agent?"
+msgstr "Bu özel ajan silinsin mi?"
+
+msgid "Delete this preset?"
+msgstr "Bu ön ayar silinsin mi?"
+
+msgid "Delete workspace \"{workspaceName}\"?"
+msgstr "\"{workspaceName}\" çalışma alanı silinsin mi?"
+
+msgid "Delete Workspace…"
+msgstr "Çalışma Alanını Sil…"
+
+msgid "Deleted"
+msgstr "Silindi"
+
+msgid "Deleted sessions cannot be restored."
+msgstr "Silinen oturumlar geri yüklenemez."
+
+msgid "Deleting…"
+msgstr "Siliniyor…"
+
+msgid "Describe what the agent should do…"
+msgstr "Ajanın ne yapması gerektiğini açıklayın…"
+
+msgid "Description"
+msgstr "Açıklama"
+
+msgid "Description (optional)"
+msgstr "Açıklama (isteğe bağlı)"
+
+msgid "Desktop resources"
+msgstr "Masaüstü kaynakları"
+
+msgid "Destination path"
+msgstr "Hedef yol"
+
+msgid "Detached"
+msgstr "Ayrılmış"
+
+msgid "Details"
+msgstr "Ayrıntılar"
+
+msgid "Detect workspaces from other tools"
+msgstr "Diğer araçlardaki çalışma alanlarını algıla"
+
+msgid "Diagnostics"
+msgstr "Tanılama"
+
+msgid "Dictate"
+msgstr "Sesle yaz"
+
+msgid "Dictation is not available on this device"
+msgstr "Bu cihazda sesle yazma kullanılamıyor"
+
+msgid "diff"
+msgstr "fark"
+
+msgid "diff in new tab"
+msgstr "yeni sekmede fark"
+
+msgid "Directory path"
+msgstr "Dizin yolu"
+
+msgid "Discard"
+msgstr "At"
+
+msgid "Discard changes"
+msgstr "Değişiklikleri at"
+
+msgid "Discard Changes"
+msgstr "Değişiklikleri Yoksay"
+
+msgid "Discard draft"
+msgstr "Taslağı yoksay"
+
+msgid "Discard recording"
+msgstr "Kaydı at"
+
+msgid "Discard this unsent draft and its selected attachments?"
+msgstr "Gönderilmemiş bu taslak ve seçili ekleri yoksayılsın mı?"
+
+msgid "Discard unsaved changes?"
+msgstr "Kaydedilmemiş değişiklikler atılsın mı?"
+
+msgid "Discarding renamed or copied files is unavailable. Restore both paths with Git."
+msgstr "Yeniden adlandırılan veya kopyalanan dosyalar yoksayılamaz. Her iki yolu da Git ile geri yükleyin."
+
+msgid "Disconnected"
+msgstr "Bağlantı kesildi"
+
+#. placeholder {0}: formatNumber(logins.data.claude.length)
+#. placeholder {1}: formatNumber(logins.data.codex.length)
+msgid "Discovered {0} Claude Code and {1} Codex login profiles on this host."
+msgstr "Bu host'ta {0} Claude Code ve {1} Codex oturum açma profili bulundu."
+
+msgid "Disk version"
+msgstr "Diskteki sürüm"
+
+msgid "Dismiss"
+msgstr "Kapat"
+
+msgid "Dismissed"
+msgstr "Yok sayıldı"
+
+msgid "Display"
+msgstr "Görüntüleme"
+
+msgid "Do anything"
+msgstr "Ne isterseniz"
+
+msgid "Do not start a new agent until workspace setup has succeeded or is not required. If setup fails or its status cannot be confirmed, starting the agent is blocked."
+msgstr "Çalışma alanı kurulumu başarılı olana veya gerekli olmadığı doğrulanana kadar yeni bir ajan başlatmayın. Kurulum başarısız olursa veya durumu doğrulanamazsa ajanın başlatılması engellenir."
+
+msgid "Do nothing"
+msgstr "Hiçbir şey yapma"
+
+msgid "Documentation"
+msgstr "Belgeler"
+
+msgid "Done"
+msgstr "Tamamlandı"
+
+msgid "Download starter"
+msgstr "Başlangıç dosyasını indir"
+
+msgid "Downloading {version} · {percent}%"
+msgstr "{version} indiriliyor · %{percent}"
+
+msgid "Downloading {version}…"
+msgstr "{version} indiriliyor…"
+
+msgid "Downloading template and creating fresh Git history…"
+msgstr "Şablon indiriliyor ve yeni Git geçmişi oluşturuluyor…"
+
+msgid "Downloading update…"
+msgstr "Güncelleme indiriliyor…"
+
+msgid "Draft"
+msgstr "Taslak"
+
+msgid "Drop files to attach"
+msgstr "Eklemek için dosyaları bırakın"
+
+msgid "Drop into {label}"
+msgstr "{label} içine bırakın"
+
+msgid "Drop to attach"
+msgstr "Eklemek için bırakın"
+
+msgid "dropdown"
+msgstr "açılır menü"
+
+msgid "Each surface has its own typography. Changes appear immediately in the live previews."
+msgstr "Her yüzeyin kendi tipografisi vardır. Değişiklikler canlı önizlemelerde hemen görünür."
+
+msgid "Earlier output"
+msgstr "Önceki çıktı"
+
+msgid "Edit"
+msgstr "Düzenle"
+
+msgid "Edit group"
+msgstr "Grubu düzenle"
+
+msgid "Edit shared setup, run and teardown commands, or personal overrides. Saving does not execute commands."
+msgstr "Paylaşılan kurulum, çalıştırma ve temizlik komutlarını veya kişisel geçersiz kılmaları düzenleyin. Kaydetme komutları çalıştırmaz."
+
+msgid "Edit terminal preset"
+msgstr "Terminal ön ayarını düzenle"
+
+msgid "editor"
+msgstr "düzenleyici"
+
+msgid "Editor & workflow"
+msgstr "Editör ve iş akışı"
+
+msgid "Editor typography"
+msgstr "Düzenleyici tipografisi"
+
+msgid "Enable"
+msgstr "Etkinleştir"
+
+msgid "Endpoint"
+msgstr "Uç nokta"
+
+msgid "Enter a command."
+msgstr "Bir komut girin."
+
+msgid "Enter a group name of 1 to 64 characters."
+msgstr "1 ila 64 karakter uzunluğunda bir grup adı girin."
+
+msgid "Enter a project name and location."
+msgstr "Proje adı ve konumunu girin."
+
+msgid "Enter a project name."
+msgstr "Proje adını girin."
+
+msgid "Enter a valid repository URL, SSH address, or absolute path on the target host. Remove query strings and fragments from GitHub URLs."
+msgstr "Geçerli bir depo URL'si, SSH adresi veya hedef ana bilgisayardaki mutlak yolu girin. GitHub URL'lerindeki sorgu dizelerini ve parçaları kaldırın."
+
+msgid "Enter a valid schedule and time zone"
+msgstr "Geçerli bir zamanlama ve saat dilimi girin"
+
+msgid "Enter a valid value within the allowed range."
+msgstr "İzin verilen aralıkta geçerli bir değer girin."
+
+msgid "Enter an absolute directory path on the target host."
+msgstr "Hedef ana bilgisayardaki mutlak dizin yolunu girin."
+
+msgid "Enter an agent name."
+msgstr "Bir ajan adı girin."
+
+msgid "Enter URL..."
+msgstr "URL girin..."
+
+msgid "Environment must be a JSON object with valid variable names and string values."
+msgstr "Ortam, geçerli değişken adları ve dize değerleri içeren bir JSON nesnesi olmalıdır."
+
+msgid "Environment variables"
+msgstr "Ortam değişkenleri"
+
+msgid "Equalize Pane Splits"
+msgstr "Bölme boyutlarını eşitle"
+
+msgid "Estimated cost"
+msgstr "Tahmini maliyet"
+
+msgid "Every {day}"
+msgstr "Her {day}"
+
+msgid "Every {day} at {time}"
+msgstr "Her {day} saat {time}"
+
+msgid "Every minute"
+msgstr "Her dakika"
+
+msgid "Execution mode"
+msgstr "Yürütme modu"
+
+msgid "Existing branch"
+msgstr "Mevcut dal"
+
+msgid "Existing chat session. No CLI terminal is attached."
+msgstr "Mevcut sohbet oturumu. Bağlı CLI terminali yok."
+
+msgid "Existing chat sessions"
+msgstr "Mevcut sohbet oturumları"
+
+msgid "Existing worktree"
+msgstr "Mevcut çalışma ağacı"
+
+#. placeholder {0}: blocker.state.exitCode ?? "—"
+#. placeholder {1}: blocker.state.exitSignal ?? "—"
+msgid "Exit code: {0}; signal: {1}"
+msgstr "Çıkış kodu: {0}; sinyal: {1}"
+
+msgid "Exited"
+msgstr "Çıktı"
+
+#. placeholder {0}: session.exitCode
+msgid "Exited ({0})"
+msgstr "Çıkıldı ({0})"
+
+msgid "Expand"
+msgstr "Genişlet"
+
+msgid "Expand all"
+msgstr "Tümünü genişlet"
+
+msgid "Expand pane area"
+msgstr "Bölme alanını genişlet"
+
+msgid "Expand the right pane to fill the window, or restore it"
+msgstr "Sağ paneli pencereyi dolduracak şekilde genişlet veya geri yükle"
+
+msgid "Export theme"
+msgstr "Temayı dışa aktar"
+
+msgid "external browser"
+msgstr "harici tarayıcı"
+
+msgid "External editors are available for local workspaces only."
+msgstr "Harici düzenleyiciler yalnızca yerel çalışma alanlarında kullanılabilir."
+
+msgid "External editors open files on this machine only"
+msgstr "Harici editörler dosyaları yalnızca bu makinede açar"
+
+msgid "Failed"
+msgstr "Başarısız"
+
+msgid "Failed to add {failed} files"
+msgstr "{failed} dosya eklenemedi"
+
+msgid "Failed to add 1 file"
+msgstr "1 dosya eklenemedi"
+
+msgid "Failed to check for updates. Please try again later."
+msgstr "Güncellemeler denetlenemedi. Lütfen daha sonra yeniden deneyin."
+
+msgid "Failed to close port"
+msgstr "Bağlantı noktası kapatılamadı"
+
+msgid "Failed to control run"
+msgstr "Çalıştırma kontrol edilemedi"
+
+msgid "Failed to copy path: {reason}"
+msgstr "Yol kopyalanamadı: {reason}"
+
+msgid "Failed to create {failedDirs} folders"
+msgstr "{failedDirs} klasör oluşturulamadı"
+
+msgid "Failed to create 1 folder"
+msgstr "1 klasör oluşturulamadı"
+
+msgid "Failed to create item"
+msgstr "Öğe oluşturulamadı"
+
+msgid "Failed to create pull request"
+msgstr "Pull request oluşturulamadı"
+
+msgid "Failed to discard the new item"
+msgstr "Yeni öğe atılamadı"
+
+msgid "Failed to find linked workspace"
+msgstr "Bağlantılı çalışma alanı bulunamadı"
+
+msgid "Failed to import theme file"
+msgstr "Tema dosyası içe aktarılamadı"
+
+msgid "Failed to load automations"
+msgstr "Otomasyonlar yüklenemedi"
+
+msgid "Failed to load changes"
+msgstr "Değişiklikler yüklenemedi"
+
+msgid "Failed to load pull request"
+msgstr "Pull request yüklenemedi"
+
+msgid "Failed to load pull requests"
+msgstr "Pull request'ler yüklenemedi"
+
+msgid "Failed to load run output"
+msgstr "Çalıştırma çıktısı yüklenemedi"
+
+msgid "Failed to load runs"
+msgstr "Çalıştırmalar yüklenemedi"
+
+msgid "Failed to load workspace status"
+msgstr "Çalışma alanı durumu yüklenemedi"
+
+msgid "Failed to open workspace"
+msgstr "Çalışma alanı açılamadı"
+
+msgid "Failed to parse pull request diff"
+msgstr "Pull request farkı ayrıştırılamadı"
+
+msgid "Failed to refresh pull requests"
+msgstr "Pull request'ler yenilenemedi"
+
+msgid "Failed to rename"
+msgstr "Yeniden adlandırılamadı"
+
+msgid "Failed to replace {replaceFailed} files"
+msgstr "{replaceFailed} dosya değiştirilemedi"
+
+msgid "Failed to replace 1 file"
+msgstr "1 dosya değiştirilemedi"
+
+msgid "Failed to reveal in Finder: {reason}"
+msgstr "Finder'da gösterilemedi: {reason}"
+
+msgid "Failed to save automation"
+msgstr "Otomasyon kaydedilemedi"
+
+msgid "Failed to send the files to the remote workspace"
+msgstr "Dosyalar uzak çalışma alanına gönderilemedi"
+
+msgid "Failed to set color"
+msgstr "Renk ayarlanamadı"
+
+msgid "Failed to set icon"
+msgstr "Simge ayarlanamadı"
+
+msgid "Failed to update branch prefix"
+msgstr "Dal ön eki güncellenemedi"
+
+msgid "Failed to update pull request state"
+msgstr "Pull request durumu güncellenemedi"
+
+msgid "Failed to update review thread"
+msgstr "İnceleme başlığı güncellenemedi"
+
+msgid "Fetch completed"
+msgstr "Getirme tamamlandı"
+
+msgid "Fetch current branch from origin"
+msgstr "Geçerli dalı origin'den getir"
+
+msgid "File"
+msgstr "Dosya"
+
+msgid "File change needs approval"
+msgstr "Dosya değişikliği onay gerektiriyor"
+
+msgid "File changed on disk"
+msgstr "Diskteki dosya değişti"
+
+msgid "File changed on disk. Reload before saving."
+msgstr "Diskteki dosya değişti. Kaydetmeden önce yeniden yükleyin."
+
+msgid "File is not in an open workspace"
+msgstr "Dosya açık bir çalışma alanında değil"
+
+msgid "File links"
+msgstr "Dosya bağlantıları"
+
+msgid "File not found"
+msgstr "Dosya bulunamadı"
+
+msgid "File tree limit reached. Search files to open an unloaded path."
+msgstr "Dosya ağacı sınırına ulaşıldı. Yüklenmemiş bir yolu açmak için dosyaları arayın."
+
+msgid "File updates may be out of date. Reload open files to check the disk."
+msgstr "Dosya güncellemeleri eski olabilir. Diski kontrol etmek için açık dosyaları yeniden yükleyin."
+
+msgid "File was deleted on disk."
+msgstr "Dosya diskten silindi."
+
+msgid "File was deleted on disk. You still have unsaved changes."
+msgstr "Dosya diskten silindi. Hâlâ kaydedilmemiş değişiklikleriniz var."
+
+msgid "Files"
+msgstr "Dosyalar"
+
+msgid "Files & editor"
+msgstr "Dosyalar ve editör"
+
+msgid "Files larger than 32 MiB must be opened in an external editor."
+msgstr "32 MiB'den büyük dosyalar harici bir düzenleyicide açılmalıdır."
+
+msgid "Files, Git changes, pull requests, project scripts, and port forwarding."
+msgstr "Dosyalar, Git değişiklikleri, pull request’ler, proje betikleri ve bağlantı noktası yönlendirme."
+
+msgid "Filter"
+msgstr "Filtre"
+
+msgid "Filter agents"
+msgstr "Ajanları filtrele"
+
+msgid "Filter agents…"
+msgstr "Ajanları filtrele…"
+
+msgid "Find"
+msgstr "Bul"
+
+msgid "Find in Changes"
+msgstr "Değişikliklerde bul"
+
+msgid "Find in Chat"
+msgstr "Sohbette bul"
+
+msgid "Find in File Viewer"
+msgstr "Dosya görüntüleyicide bul"
+
+msgid "Find in Page"
+msgstr "Sayfada bul"
+
+msgid "Find in Terminal"
+msgstr "Terminalde bul"
+
+msgid "Finish refreshing"
+msgstr "Yenilemeyi bitir"
+
+msgid "Finished"
+msgstr "Tamamlandı"
+
+msgid "Finished · unread"
+msgstr "Tamamlandı · okunmadı"
+
+msgid "Fit"
+msgstr "Sığdır"
+
+msgid "Flame"
+msgstr "Alev"
+
+msgid "Focus Chat Input"
+msgstr "Sohbet girişine odaklan"
+
+msgid "Focus Pane Down"
+msgstr "Alttaki bölmeye odaklan"
+
+msgid "Focus Pane Left"
+msgstr "Soldaki bölmeye odaklan"
+
+msgid "Focus Pane Right"
+msgstr "Sağdaki bölmeye odaklan"
+
+msgid "Focus Pane Up"
+msgstr "Üstteki bölmeye odaklan"
+
+msgid "Focus Task Search"
+msgstr "Görev aramasına odaklan"
+
+msgid "Focus the next tab in the active workspace"
+msgstr "Etkin çalışma alanındaki sonraki sekmeye odaklan"
+
+msgid "Focus the pane above the active pane"
+msgstr "Etkin bölmenin üstündeki bölmeye odaklan"
+
+msgid "Focus the pane below the active pane"
+msgstr "Etkin bölmenin altındaki bölmeye odaklan"
+
+msgid "Focus the pane to the left of the active pane"
+msgstr "Etkin bölmenin solundaki bölmeye odaklan"
+
+msgid "Focus the pane to the right of the active pane"
+msgstr "Etkin bölmenin sağındaki bölmeye odaklan"
+
+msgid "Focus the previous tab in the active workspace"
+msgstr "Etkin çalışma alanındaki önceki sekmeye odaklan"
+
+msgid "Focus the search input in the tasks view"
+msgstr "Görevler görünümündeki arama girişine odaklan"
+
+msgid "Folder"
+msgstr "Klasör"
+
+msgid "Folder links"
+msgstr "Klasör bağlantıları"
+
+msgid "Folder view"
+msgstr "Klasör görünümü"
+
+msgid "Folders cannot be sent to the remote workspace"
+msgstr "Klasörler uzak çalışma alanına gönderilemez"
+
+msgid "Folders to check out into new worktrees, one per line, relative to the repo root. Root files are always included. Empty checks out everything."
+msgstr "Yeni çalışma ağaçlarına checkout yapılacak klasörler, her satırda bir tane, depo köküne göreli. Kök dosyalar her zaman dahildir. Boş bırakırsanız her şey checkout yapılır."
+
+msgid "Follow the characters printed on your keyboard instead of physical key positions."
+msgstr "Fiziksel tuş konumları yerine klavyenizde basılı olan karakterleri izleyin."
+
+msgid "Font family"
+msgstr "Yazı tipi ailesi"
+
+msgid "Font size"
+msgstr "Yazı tipi boyutu"
+
+msgid "Font weight"
+msgstr "Yazı tipi kalınlığı"
+
+msgid "Force Reload"
+msgstr "Zorla yeniden yükle"
+
+msgid "Force restart"
+msgstr "Zorla yeniden başlat"
+
+msgid "Force restart terminal daemon?"
+msgstr "Terminal arka plan hizmeti zorla yeniden başlatılsın mı?"
+
+msgid "Force Stop"
+msgstr "Zorla durdur"
+
+msgid "Fork arguments"
+msgstr "Fork argümanları"
+
+msgid "Forward"
+msgstr "İleri"
+
+msgid "Forward port…"
+msgstr "Bağlantı noktasını yönlendir…"
+
+msgid "Friday"
+msgstr "Cuma"
+
+msgid "From"
+msgstr "Kaynak"
+
+msgid "Front matter hidden. Switch to the Markdown view to edit it"
+msgstr "Front matter gizli. Düzenlemek için Markdown görünümüne geçin"
+
+msgid "Full Disk Access"
+msgstr "Tam Disk Erişimi"
+
+msgid "Full-stack Turborepo with Next.js, Expo, and tRPC"
+msgstr "Next.js, Expo ve tRPC ile tam yığın Turborepo"
+
+msgid "Fullstack template on Cloudflare Workers"
+msgstr "Cloudflare Workers üzerinde tam yığın şablon"
+
+msgid "Garry Tan's role-based Claude Code workflow"
+msgstr "Garry Tan'ın rol tabanlı Claude Code iş akışı"
+
+msgid "General"
+msgstr "Genel"
+
+msgid "Get Git"
+msgstr "Git'i indir"
+
+msgid "Git & worktree"
+msgstr "Git ve worktree"
+
+msgid "Git author"
+msgstr "Git yazarı"
+
+msgid "Git author name"
+msgstr "Git yazar adı"
+
+msgid "GitHub authentication failed. Sign in with gh on this host, then refresh."
+msgstr "GitHub kimlik doğrulaması başarısız oldu. Bu host'ta gh ile oturum açın, ardından yenileyin."
+
+msgid "GitHub enforces branch protection and required checks."
+msgstr "GitHub, dal korumasını ve gerekli kontrolleri uygular."
+
+msgid "GitHub is unreachable. PR links may be out of date."
+msgstr "GitHub'a erişilemiyor. PR bağlantıları güncel olmayabilir."
+
+msgid "GitHub rate limit reached. PR links may be out of date."
+msgstr "GitHub istek sınırına ulaşıldı. PR bağlantıları güncel olmayabilir."
+
+msgid "GitHub username"
+msgstr "GitHub kullanıcı adı"
+
+msgid "Globe"
+msgstr "Küre"
+
+msgid "Go"
+msgstr "Git"
+
+msgid "Go Back"
+msgstr "Geri"
+
+msgid "Go back home"
+msgstr "Ana sayfaya dön"
+
+msgid "Go back to the previous page in history"
+msgstr "Geçmişte önceki sayfaya dön"
+
+msgid "Go Forward"
+msgstr "İleri"
+
+msgid "Go forward to the next page in history"
+msgstr "Geçmişte sonraki sayfaya git"
+
+msgid "Go home"
+msgstr "Ana sayfaya git"
+
+msgid "Got it"
+msgstr "Anladım"
+
+msgid "Granted"
+msgstr "Verildi"
+
+msgid "Green"
+msgstr "Yeşil"
+
+msgid "Group name"
+msgstr "Grup adı"
+
+msgid "Groups use workspace tags on the target host."
+msgstr "Gruplar, hedef ana bilgisayardaki çalışma alanı etiketlerini kullanır."
+
+msgid "Guides AI-generated workspace and branch names for this project. Empty uses the default naming."
+msgstr "Bu proje için AI tarafından üretilen çalışma alanı ve dal adlarını yönlendirir. Boş bırakılırsa varsayılan adlandırma kullanılır."
+
+msgid "Handle in terminal"
+msgstr "Terminalde işle"
+
+msgid "Has uncommitted changes"
+msgstr "Commit'lenmemiş değişiklikler var"
+
+msgid "Has uncommitted changes and unpushed commits"
+msgstr "Commit'lenmemiş değişiklikler ve push edilmemiş commit'ler var"
+
+msgid "Has unpushed commits"
+msgstr "Push edilmemiş commit'ler var"
+
+msgid "Heading 1"
+msgstr "Başlık 1"
+
+msgid "Heading 2"
+msgstr "Başlık 2"
+
+msgid "Heading 3"
+msgstr "Başlık 3"
+
+msgid "Heart"
+msgstr "Kalp"
+
+msgid "Help"
+msgstr "Yardım"
+
+msgid "Hide {displayName}"
+msgstr "{displayName} Uygulamasını Gizle"
+
+msgid "Hide details"
+msgstr "Ayrıntıları gizle"
+
+msgid "Hide workspace activity"
+msgstr "Çalışma alanı etkinliğini gizle"
+
+msgid "History"
+msgstr "Geçmiş"
+
+msgid "Home"
+msgstr "Ana sayfa"
+
+msgid "Host changed. Review the current daemon before restarting."
+msgstr "Ana bilgisayar değişti. Yeniden başlatmadan önce geçerli arka plan hizmetini gözden geçirin."
+
+msgid "Host connection is unavailable"
+msgstr "Ana bilgisayar bağlantısı kullanılamıyor"
+
+msgid "Host is offline"
+msgstr "Host çevrimdışı"
+
+msgid "Host Service"
+msgstr "Host hizmeti"
+
+msgid "Host Service ({count})"
+msgstr "Host hizmeti ({count})"
+
+msgid "Host service crashed"
+msgstr "Host hizmeti çöktü"
+
+msgid "Host service unavailable"
+msgstr "Host hizmeti kullanılamıyor"
+
+msgid "Hourly"
+msgstr "Saatlik"
+
+msgid "https://github.com/owner/repo.git or /path/to/repo"
+msgstr "https://github.com/owner/repo.git veya /path/to/repo"
+
+msgid "I checked the attachments"
+msgstr "Ekleri kontrol ettim"
+
+msgid "I checked the result"
+msgstr "Sonucu kontrol ettim"
+
+msgid "I understand that running sessions will stop and teardown commands may affect files with unsaved work."
+msgstr "Çalışan oturumların duracağını ve temizlik komutlarının kaydedilmemiş çalışma içeren dosyaları etkileyebileceğini anlıyorum."
+
+msgid "Icon"
+msgstr "Simge"
+
+msgid "IDE"
+msgstr "IDE"
+
+msgid "Idle"
+msgstr "Boşta"
+
+msgid "Image"
+msgstr "Görsel"
+
+msgid "Image blocked"
+msgstr "Görsel engellendi"
+
+#. placeholder {0}: src ?? "(empty)"
+msgid "Image blocked: {0}"
+msgstr "Görsel engellendi: {0}"
+
+msgid "Image is too large (max 10MB)"
+msgstr "Görsel çok büyük (en fazla 10MB)"
+
+msgid "Images"
+msgstr "Görseller"
+
+msgid "Import"
+msgstr "İçe aktar"
+
+msgid "import a folder"
+msgstr "klasör içe aktarma"
+
+msgid "Import a project with a GitHub remote to view its pull requests."
+msgstr "Pull request'lerini görüntülemek için GitHub remote'u olan bir projeyi içe aktarın."
+
+msgid "Import a theme file or grab a starter to edit."
+msgstr "Bir tema dosyası içe aktarın veya düzenlemek için başlangıç dosyası alın."
+
+msgid "Import an audio file or preview the selected sound."
+msgstr "Bir ses dosyası içe aktarın veya seçili sesi dinleyin."
+
+msgid "Import from other tools"
+msgstr "Diğer araçlardan içe aktar"
+
+msgid "Import results"
+msgstr "İçe aktarma sonuçları"
+
+msgid "Import selected"
+msgstr "Seçilenleri içe aktar"
+
+msgid "Import sound"
+msgstr "Sesi içe aktar"
+
+msgid "import the project"
+msgstr "projeyi içe aktarma"
+
+msgid "Import untracked worktrees"
+msgstr "İzlenmeyen worktree'leri içe aktar"
+
+msgid "Import worktree"
+msgstr "Çalışma ağacını içe aktar"
+
+msgid "Importing project…"
+msgstr "Proje içe aktarılıyor…"
+
+msgid "Importing selected workspaces…"
+msgstr "Seçilen çalışma alanları içe aktarılıyor…"
+
+msgid "Importing..."
+msgstr "İçe aktarılıyor..."
+
+msgid "In"
+msgstr "İçinde"
+
+msgid "In Apple's window, click Install. It takes a few minutes, and this page updates when it's done."
+msgstr "Apple'ın penceresinde Yükle'ye tıklayın. Birkaç dakika sürer ve bittiğinde bu sayfa güncellenir."
+
+msgid "In review"
+msgstr "İncelemede"
+
+msgid "Include the Linear ticket id from the prompt in the branch name (e.g. bin-344-fix-login). Prefix branches with fix/ or feat/ based on the task."
+msgstr "Dal adına istemdeki Linear bilet kimliğini ekle (örn. bin-344-fix-login). Göreve göre dallara fix/ veya feat/ ön eki koy."
+
+msgid "Included in this build"
+msgstr "Bu derlemeye dahil"
+
+msgid "Indigo"
+msgstr "Çivit"
+
+msgid "Initialize and open"
+msgstr "Başlat ve aç"
+
+msgid "Initialize Git repository?"
+msgstr "Git deposu başlatılsın mı?"
+
+msgid "Inline"
+msgstr "Satır içi"
+
+msgid "Inline code"
+msgstr "Satır içi kod"
+
+msgid "Insert into CLI"
+msgstr "CLI'ye ekle"
+
+msgid "Insert into the existing CLI, then submit in the terminal."
+msgstr "Mevcut CLI'ye ekleyin, ardından terminalde gönderin."
+
+msgid "Install Command Line Tools"
+msgstr "Command Line Tools'u yükle"
+
+msgid "Install Git, then come back."
+msgstr "Git'i yükle, sonra buraya geri dön."
+
+msgid "Install lifecycle hooks for this agent on this device."
+msgstr "Bu cihazda bu ajan için yaşam döngüsü kancalarını yükleyin."
+
+msgid "Installing update…"
+msgstr "Güncelleme yükleniyor…"
+
+msgid "Instructions"
+msgstr "Yönergeler"
+
+msgid "Interrupt"
+msgstr "Kes"
+
+msgid "Interrupt requested"
+msgstr "Kesme istendi"
+
+msgid "Interrupted"
+msgstr "Kesildi"
+
+msgid "Italic"
+msgstr "İtalik"
+
+msgid "Its workspaces and terminals are unavailable until it restarts. Use the Jedv tray menu > Host Service > Restart."
+msgstr "Yeniden başlayana kadar çalışma alanları ve terminalleri kullanılamaz. Jedv tepsi menüsünde Host hizmeti > Yeniden başlat yolunu kullanın."
+
+msgid "Jedv"
+msgstr "Jedv"
+
+msgid "Jedv hit an unexpected error. Reload to try again."
+msgstr "Jedv beklenmeyen bir hatayla karşılaştı. Yeniden denemek için sayfayı yeniden yükleyin."
+
+msgid "Jedv needs Git to add a project."
+msgstr "Jedv'nin proje eklemek için Git'e ihtiyacı var."
+
+msgid "JetBrains"
+msgstr "JetBrains"
+
+msgid "Jump to a workspace that needs attention or is running."
+msgstr "Dikkat gerektiren veya çalışan bir çalışma alanına geçin."
+
+msgid "Keep editing"
+msgstr "Düzenlemeye devam et"
+
+msgid "Keep notifications silent on this device."
+msgstr "Bu cihazda bildirimleri sessiz tutun."
+
+msgid "Kept the new file because it changed after it was created"
+msgstr "Yeni dosya korundu, oluşturulduktan sonra değişti"
+
+msgid "Kept the new folder because it is no longer empty"
+msgstr "Yeni klasör korundu, artık boş değil"
+
+msgid "Keyboard"
+msgstr "Klavye"
+
+msgid "Keyboard Shortcuts"
+msgstr "Klavye kısayolları"
+
+msgid "Kill {title}"
+msgstr "{title} öğesini zorla sonlandır"
+
+msgid "Kill Terminal Session"
+msgstr "Terminal oturumunu sonlandır"
+
+msgid "Language"
+msgstr "Dil"
+
+msgid "Last {n} days"
+msgstr "Son {n} gün"
+
+msgid "Last activity"
+msgstr "Son etkinlik"
+
+msgid "Last check completed"
+msgstr "Son kontrol tamamlandı"
+
+msgid "Last day of each month"
+msgstr "Her ayın son günü"
+
+msgid "Last day of each month at {time}"
+msgstr "Her ayın son günü saat {time}"
+
+msgid "Later"
+msgstr "Daha sonra"
+
+msgid "Latest output"
+msgstr "En son çıktı"
+
+msgid "Launch Agent"
+msgstr "Ajanı Başlat"
+
+msgid "Launch result unknown. Refresh and inspect the terminal before restarting."
+msgstr "Başlatma sonucu bilinmiyor. Yeniden başlatmadan önce yenileyin ve terminali inceleyin."
+
+msgid "Layout"
+msgstr "Düzen"
+
+msgid "Leaf"
+msgstr "Yaprak"
+
+msgid "Leave a comment…"
+msgstr "Bir yorum bırakın…"
+
+msgid "Leave empty to use the workspace directory. Relative paths are resolved inside the workspace."
+msgstr "Çalışma alanı dizinini kullanmak için boş bırakın. Göreli yollar çalışma alanı içinde çözülür."
+
+msgid "Leave it empty to go back to the name the terminal reports."
+msgstr "Terminalin bildirdiği ada dönmek için boş bırakın."
+
+msgid "Letter spacing (px)"
+msgstr "Harf aralığı (px)"
+
+msgid "Ligatures"
+msgstr "Ligatürler"
+
+msgid "Ligatures off"
+msgstr "Ligatürler kapalı"
+
+msgid "Ligatures on"
+msgstr "Ligatürler açık"
+
+msgid "Light"
+msgstr "Açık"
+
+msgid "Light theme"
+msgstr "Açık tema"
+
+msgid "Lime"
+msgstr "Limon yeşili"
+
+#. placeholder {0}: problem.line
+#. placeholder {1}: problem.message
+msgid "Line {0}: {1}"
+msgstr "Satır {0}: {1}"
+
+msgid "Line height"
+msgstr "Satır yüksekliği"
+
+msgid "Link"
+msgstr "Bağlantı"
+
+msgid "Linked agent"
+msgstr "Bağlantılı ajan"
+
+msgid "Linked agent is unavailable."
+msgstr "Bağlantılı ajan kullanılamıyor."
+
+msgid "Linked presets cannot run on remote hosts."
+msgstr "Bağlantılı ön ayarlar uzak ana bilgisayarlarda çalıştırılamaz."
+
+msgid "List"
+msgstr "Liste"
+
+msgid "Live"
+msgstr "Canlı"
+
+msgid "Live preview"
+msgstr "Canlı önizleme"
+
+msgid "Live terminal"
+msgstr "Etkin terminal"
+
+msgid "load agent settings"
+msgstr "ajan ayarlarını yükleme"
+
+msgid "Load more"
+msgstr "Daha fazla yükle"
+
+msgid "Loading"
+msgstr "Yükleniyor"
+
+msgid "Loading agents…"
+msgstr "Ajanlar yükleniyor…"
+
+msgid "Loading automations…"
+msgstr "Otomasyonlar yükleniyor…"
+
+msgid "Loading changes…"
+msgstr "Değişiklikler yükleniyor…"
+
+msgid "Loading directories…"
+msgstr "Dizinler yükleniyor…"
+
+msgid "Loading file…"
+msgstr "Dosya yükleniyor…"
+
+msgid "Loading files…"
+msgstr "Dosyalar yükleniyor…"
+
+msgid "Loading fonts..."
+msgstr "Yazı tipleri yükleniyor..."
+
+msgid "Loading identity…"
+msgstr "Kimlik yükleniyor…"
+
+msgid "Loading more..."
+msgstr "Daha fazlası yükleniyor..."
+
+msgid "Loading output…"
+msgstr "Çıktı yükleniyor…"
+
+msgid "Loading project settings…"
+msgstr "Proje ayarları yükleniyor…"
+
+msgid "Loading pull request…"
+msgstr "Pull request yükleniyor…"
+
+msgid "Loading pull requests…"
+msgstr "Pull request'ler yükleniyor…"
+
+msgid "Loading quota…"
+msgstr "Kota yükleniyor…"
+
+msgid "Loading removed projects…"
+msgstr "Kaldırılan projeler yükleniyor…"
+
+msgid "Loading repositories..."
+msgstr "Depolar yükleniyor..."
+
+msgid "Loading runs…"
+msgstr "Çalıştırmalar yükleniyor…"
+
+msgid "Loading sessions…"
+msgstr "Oturumlar yükleniyor…"
+
+msgid "Loading workspace status…"
+msgstr "Çalışma alanı durumu yükleniyor…"
+
+msgid "Loading worktrees…"
+msgstr "Çalışma ağaçları yükleniyor…"
+
+msgid "Loading..."
+msgstr "Yükleniyor..."
+
+msgid "Loading…"
+msgstr "Yükleniyor…"
+
+msgid "Local"
+msgstr "Yerel"
+
+msgid "Local checkout"
+msgstr "Yerel checkout"
+
+msgid "Local CLI history and provider quota for the connected host."
+msgstr "Bağlı host için yerel CLI geçmişi ve sağlayıcı kotası."
+
+msgid "Local CLI history and provider quota."
+msgstr "Yerel CLI geçmişi ve sağlayıcı kotası."
+
+msgid "Local desktop and terminal process usage. Closing a view keeps its process running; terminating a session stops its processes."
+msgstr "Yerel masaüstü ve terminal işlem kullanımı. Bir görünümü kapatmak işlemini çalışır durumda tutar; bir oturumu sonlandırmak işlemlerini durdurur."
+
+msgid "Local network"
+msgstr "Yerel ağ"
+
+msgid "Local projects, Git worktrees, grouped workspaces, and terminal tabs with split panes."
+msgstr "Yerel projeler, Git çalışma ağaçları, gruplandırılmış çalışma alanları ve bölünmüş bölmeler içeren terminal sekmeleri."
+
+msgid "Location"
+msgstr "Konum"
+
+msgid "Location & checkout"
+msgstr "Konum ve checkout"
+
+msgid "Make all panes equal size"
+msgstr "Tüm bölmeleri eşit boyuta getir"
+
+msgid "Manage local projects and recently deleted projects."
+msgstr "Yerel projeleri ve son silinen projeleri yönetin."
+
+msgid "Manage Terminal Scripts"
+msgstr "Terminal Betiklerini Yönet"
+
+msgid "Manage the host used by your workspaces."
+msgstr "Çalışma alanlarınızın kullandığı host'u yönetin."
+
+msgid "Manual"
+msgstr "Elle"
+
+msgid "Manual only"
+msgstr "Yalnızca manuel"
+
+msgid "Manually"
+msgstr "Manuel olarak"
+
+msgid "Mark as read"
+msgstr "Okundu olarak işaretle"
+
+msgid "Mark as unread"
+msgstr "Okunmamış olarak işaretle"
+
+msgid "Mark ready for review?"
+msgstr "İncelemeye hazır olarak işaretlensin mi?"
+
+msgid "Markdown style"
+msgstr "Markdown stili"
+
+msgid "Marking ready…"
+msgstr "Hazır olarak işaretleniyor…"
+
+msgid "Match case"
+msgstr "Büyük/küçük harf eşleştir"
+
+msgid "Maximum hidden terminal renderers kept in memory. Evicting a view keeps its PTY session running."
+msgstr "Bellekte tutulan gizli terminal oluşturucularının maksimum sayısı. Bir görünüm kaldırıldığında PTY oturumu çalışmaya devam eder."
+
+msgid "Maximum size is 256 KB."
+msgstr "En büyük boyut 256 KB."
+
+msgid "Member"
+msgstr "Üye"
+
+msgid "Menu bar activity"
+msgstr "Menü çubuğu etkinliği"
+
+msgid "Merge"
+msgstr "Birleştir"
+
+msgid "Merge method"
+msgstr "Birleştirme yöntemi"
+
+msgid "Merge pull request"
+msgstr "Pull request'i birleştir"
+
+msgid "Merge pull request?"
+msgstr "Pull request birleştirilsin mi?"
+
+msgid "Mergeability is being checked"
+msgstr "Birleştirilebilirlik denetleniyor"
+
+msgid "Merged"
+msgstr "Birleştirildi"
+
+msgid "Minimum contrast"
+msgstr "En düşük kontrast"
+
+msgid "Model"
+msgstr "Model"
+
+msgid "Models"
+msgstr "Modeller"
+
+msgid "Monday"
+msgstr "Pazartesi"
+
+msgid "Monospace"
+msgstr "Eş aralıklı"
+
+msgid "Monthly"
+msgstr "Aylık"
+
+msgid "Monthly at {time}"
+msgstr "Her ay saat {time}"
+
+msgid "Monthly on {day}"
+msgstr "Her ay {day}"
+
+msgid "Monthly on {day} at {time}"
+msgstr "Her ay {day}, saat {time}"
+
+msgid "Monthly on the {day, selectordinal, one {#st} two {#nd} few {#rd} other {#th}}"
+msgstr "Her ayın {day, selectordinal, one {#.} two {#.} few {#.} other {#.}} günü"
+
+msgid "Monthly on the {day, selectordinal, one {#st} two {#nd} few {#rd} other {#th}} at {time}"
+msgstr "Her ayın {day, selectordinal, one {#.} two {#.} few {#.} other {#.}} günü {time}"
+
+msgid "More actions"
+msgstr "Diğer eylemler"
+
+msgid "More options"
+msgstr "Diğer seçenekler"
+
+msgid "More than one agent matches this preset."
+msgstr "Bu ön ayarla birden fazla ajan eşleşiyor."
+
+msgid "Move"
+msgstr "Taşı"
+
+msgid "Move agent down"
+msgstr "Ajanı aşağı taşı"
+
+msgid "Move agent up"
+msgstr "Ajanı yukarı taşı"
+
+msgid "Move focus between the main tabs and the right sidebar, and open the sidebar if it is closed"
+msgstr "Odağı ana sekmeler ile sağ kenar çubuğu arasında taşı ve kapalıysa kenar çubuğunu aç"
+
+msgid "Move group down"
+msgstr "Grubu aşağı taşı"
+
+msgid "Move group up"
+msgstr "Grubu yukarı taşı"
+
+msgid "Move preset down"
+msgstr "Ön ayarı aşağı taşı"
+
+msgid "Move preset up"
+msgstr "Ön ayarı yukarı taşı"
+
+msgid "Move to group"
+msgstr "Gruba taşı"
+
+msgid "Move to Left Side"
+msgstr "Sol tarafa taşı"
+
+msgid "Move to Right Side"
+msgstr "Sağ tarafa taşı"
+
+msgid "Move to Tab"
+msgstr "Sekmeye taşı"
+
+msgid "Move..."
+msgstr "Taşı…"
+
+msgid "Multiple projects match this repository. Open the project first and import its worktrees."
+msgstr "Bu depoyla birden çok proje eşleşiyor. Önce projeyi açın, ardından çalışma ağaçlarını içe aktarın."
+
+msgid "Multiple projects use this directory. Choose the project in the sidebar."
+msgstr "Bu dizini birden çok proje kullanıyor. Kenar çubuğunda projeyi seçin."
+
+msgid "Mute notification sounds"
+msgstr "Bildirim seslerini kapat"
+
+msgid "Name"
+msgstr "Ad"
+
+msgid "Naming instructions"
+msgstr "Adlandırma yönergeleri"
+
+msgid "Native agent sessions and local attachments."
+msgstr "Yerel Agent oturumları ve yerel ekler."
+
+msgid "Navigate Back"
+msgstr "Geri git"
+
+msgid "Navigate Forward"
+msgstr "İleri git"
+
+msgid "Navigate to the next workspace in the sidebar"
+msgstr "Kenar çubuğundaki sonraki çalışma alanına git"
+
+msgid "Navigate to the previous workspace in the sidebar"
+msgstr "Kenar çubuğundaki önceki çalışma alanına git"
+
+msgid "Navigation"
+msgstr "Gezinme"
+
+msgid "Needs attention"
+msgstr "İlgi bekliyor"
+
+msgid "Needs me"
+msgstr "Bana ihtiyaç duyuyor"
+
+msgid "Nerd Fonts"
+msgstr "Nerd Fonts"
+
+msgid "New automation"
+msgstr "Yeni otomasyon"
+
+msgid "New branch"
+msgstr "Yeni dal"
+
+msgid "New Chat"
+msgstr "Yeni sohbet"
+
+msgid "New File"
+msgstr "Yeni dosya"
+
+msgid "New File..."
+msgstr "Yeni dosya..."
+
+msgid "New Folder"
+msgstr "Yeni klasör"
+
+msgid "New Folder..."
+msgstr "Yeni klasör..."
+
+msgid "New group"
+msgstr "Yeni grup"
+
+msgid "New shell"
+msgstr "Yeni kabuk"
+
+msgid "new tab"
+msgstr "yeni sekme"
+
+msgid "New tab"
+msgstr "Yeni sekme"
+
+msgid "New Tab"
+msgstr "Yeni sekme"
+
+msgid "New tab with split panes"
+msgstr "Bölünmüş bölmeler içeren yeni sekme"
+
+msgid "New tabs"
+msgstr "Yeni sekmeler"
+
+msgid "New Terminal"
+msgstr "Yeni terminal"
+
+msgid "New Window"
+msgstr "Yeni pencere"
+
+msgid "New workspace"
+msgstr "Yeni çalışma alanı"
+
+msgid "New Workspace"
+msgstr "Yeni çalışma alanı"
+
+msgid "New worktree each run"
+msgstr "Her çalıştırmada yeni worktree"
+
+#. placeholder {0}: location.data.defaultWorktreeBaseDir
+msgid "New worktrees are stored here. Leave empty to use {0}."
+msgstr "Yeni worktree'ler burada saklanır. {0} kullanmak için boş bırakın."
+
+msgid "Next (Enter)"
+msgstr "Sonraki (Enter)"
+
+msgid "Next branch"
+msgstr "Sonraki dal"
+
+msgid "Next Right Sidebar Tab"
+msgstr "Sağ kenar çubuğunda sonraki sekme"
+
+#. placeholder {0}: formatDateTime(next, { dateStyle: "medium", timeStyle: "short", timeZone: timezone, })
+msgid "Next scheduled time: {0}"
+msgstr "Sonraki zamanlanan zaman: {0}"
+
+msgid "Next Tab"
+msgstr "Sonraki sekme"
+
+msgid "Next Tab (Second Shortcut)"
+msgstr "Sonraki sekme (ikinci kısayol)"
+
+msgid "Next Workspace"
+msgstr "Sonraki çalışma alanı"
+
+msgid "No"
+msgstr "Hayır"
+
+msgid "No active agents"
+msgstr "Etkin ajan yok"
+
+msgid "No active organization is selected. Select an organization or sign in again."
+msgstr "Etkin kuruluş seçili değil. Bir kuruluş seçin veya yeniden oturum açın."
+
+msgid "No active services"
+msgstr "Etkin hizmet yok"
+
+msgid "No active workspaces"
+msgstr "Etkin çalışma alanı yok"
+
+msgid "No active writer"
+msgstr "Etkin yazma işlemi yok"
+
+msgid "No activity yet"
+msgstr "Henüz etkinlik yok"
+
+msgid "No agent was started. After setup completes, start the agent again."
+msgstr "Hiçbir ajan başlatılmadı. Kurulum tamamlandıktan sonra ajanı tekrar başlatın."
+
+msgid "No automations match your filters"
+msgstr "Filtrelerinizle eşleşen otomasyon yok"
+
+msgid "No automations yet"
+msgstr "Henüz otomasyon yok"
+
+msgid "No available workspace with a GitHub remote"
+msgstr "GitHub remote'u olan kullanılabilir çalışma alanı yok"
+
+msgid "No background terminals"
+msgstr "Arka plan terminali yok"
+
+msgid "No branches found"
+msgstr "Dal bulunamadı"
+
+msgid "No changes"
+msgstr "Değişiklik yok"
+
+msgid "No checks"
+msgstr "Kontrol yok"
+
+msgid "No checks reported"
+msgstr "Kontrol bildirilmedi"
+
+msgid "No completed project was found yet. The host may still be stopping or finishing the operation. Check again before retrying at this location."
+msgstr "Henüz tamamlanmış proje bulunamadı. Ana bilgisayar işlemi hâlâ durduruyor veya tamamlıyor olabilir. Bu konumda tekrar denemeden önce tekrar kontrol edin."
+
+msgid "No description provided"
+msgstr "Açıklama yok"
+
+msgid "No existing worktrees found."
+msgstr "Mevcut çalışma ağacı bulunamadı."
+
+msgid "No file changes"
+msgstr "Dosya değişikliği yok"
+
+msgid "No files found"
+msgstr "Dosya bulunamadı"
+
+msgid "No files match the accepted types."
+msgstr "Hiçbir dosya kabul edilen türlerle eşleşmiyor."
+
+msgid "No fonts found."
+msgstr "Yazı tipi bulunamadı."
+
+msgid "No git remote detected"
+msgstr "Git remote algılanmadı"
+
+msgid "No GitHub repositories available"
+msgstr "Kullanılabilir GitHub deposu yok"
+
+msgid "No importable worktrees found on this host. You can open a project and import its worktrees instead."
+msgstr "Bu ana bilgisayarda içe aktarılabilir çalışma ağacı bulunamadı. Bunun yerine bir proje açıp çalışma ağaçlarını içe aktarabilirsiniz."
+
+msgid "No linked pull requests"
+msgstr "Bağlantılı PR yok"
+
+msgid "No local terminal process metrics are available."
+msgstr "Kullanılabilir yerel terminal işlem ölçümü yok."
+
+msgid "No local usage or quota data is available."
+msgstr "Yerel kullanım veya kota verisi yok."
+
+msgid "No match"
+msgstr "Eşleşme yok"
+
+msgid "No matches"
+msgstr "Eşleşme yok"
+
+msgid "No matching settings."
+msgstr "Eşleşen ayar yok."
+
+msgid "No matching shortcuts."
+msgstr "Eşleşen kısayol yok."
+
+msgid "No messages in this page"
+msgstr "Bu sayfada mesaj yok"
+
+msgid "No output yet"
+msgstr "Henüz çıktı yok"
+
+msgid "No pending responses or unread completions"
+msgstr "Bekleyen yanıt veya okunmamış tamamlanma yok"
+
+msgid "No ports yet. Start a dev server in a terminal and it shows up here."
+msgstr "Henüz port yok. Bir terminalde geliştirme sunucusu başlatın, burada görünür."
+
+msgid "No prefix"
+msgstr "Ön ek yok"
+
+msgid "No prefix could be resolved from this host's identity."
+msgstr "Bu ana bilgisayarın kimliğinden ön ek çözümlenemedi."
+
+msgid "No projects match your filters"
+msgstr "Filtrelerinize uyan proje yok"
+
+msgid "No projects on this host."
+msgstr "Bu ana bilgisayarda proje yok."
+
+msgid "No projects yet"
+msgstr "Henüz proje yok"
+
+msgid "No provider quota is available. Sign in with an agent CLI, then refresh."
+msgstr "Sağlayıcı kotası yok. Bir ajan CLI'sı ile oturum açın, ardından yenileyin."
+
+msgid "No pull requests found"
+msgstr "PR bulunamadı"
+
+msgid "No pull requests match your filters"
+msgstr "Filtrelerinizle eşleşen pull request yok"
+
+msgid "No removed projects"
+msgstr "Kaldırılmış proje yok"
+
+msgid "No results"
+msgstr "Sonuç yok"
+
+msgid "No results found."
+msgstr "Sonuç bulunamadı."
+
+msgid "No runs yet"
+msgstr "Henüz çalıştırma yok"
+
+msgid "No screenshots yet"
+msgstr "Henüz ekran görüntüsü yok"
+
+msgid "No subdirectories"
+msgstr "Alt dizin yok"
+
+msgid "No terminal presets yet."
+msgstr "Henüz terminal ön ayarı yok."
+
+msgid "No terminal sessions"
+msgstr "Terminal oturumu yok"
+
+msgid "No themes were imported"
+msgstr "Hiçbir tema içe aktarılmadı"
+
+msgid "No usage logs were found for this period."
+msgstr "Bu dönem için kullanım günlüğü bulunamadı."
+
+msgid "No workspaces in this group"
+msgstr "Bu grupta çalışma alanı yok"
+
+msgid "No workspaces match your filters"
+msgstr "Filtrelerinizle eşleşen çalışma alanı yok"
+
+msgid "No workspaces yet"
+msgstr "Henüz çalışma alanı yok"
+
+msgid "No workspaces yet. Create a workspace to get started."
+msgstr "Henüz çalışma alanı yok. Başlamak için bir çalışma alanı oluşturun."
+
+msgid "None"
+msgstr "Yok"
+
+msgid "Not bound · configure in Settings → Links"
+msgstr "Atanmadı · Ayarlar → Bağlantılar bölümünden yapılandırın"
+
+msgid "Not checked yet"
+msgstr "Henüz kontrol edilmedi"
+
+msgid "Not detected in the workspace right now"
+msgstr "Şu anda çalışma alanında algılanmıyor"
+
+msgid "Not forwarded"
+msgstr "Yönlendirilmedi"
+
+msgid "Not granted"
+msgstr "Verilmedi"
+
+msgid "Notification sound"
+msgstr "Bildirim sesi"
+
+msgid "Notification sound volume from 0 to 100."
+msgstr "Bildirim sesi düzeyi 0 ile 100 arasında."
+
+msgid "Notifications"
+msgstr "Bildirimler"
+
+msgid "now"
+msgstr "şimdi"
+
+msgid "Numbered list"
+msgstr "Numaralı liste"
+
+msgid "Off"
+msgstr "Kapalı"
+
+msgid "On a Mac, Git comes with Apple's Command Line Tools."
+msgstr "Mac'te Git, Apple'ın Command Line Tools paketiyle birlikte gelir."
+
+msgid "On focus change"
+msgstr "Odak değiştiğinde"
+
+msgid "On window change"
+msgstr "Pencere değiştiğinde"
+
+msgid "Only agents on this device can be linked."
+msgstr "Yalnızca bu cihazdaki ajanlar bağlanabilir."
+
+msgid "Only new worktrees use this location. Existing worktrees are not moved."
+msgstr "Yalnızca yeni çalışma ağaçları bu konumu kullanır. Mevcut çalışma ağaçları taşınmaz."
+
+msgid "Only on this machine: gitignored, and applied to every worktree of this repository. Any key set here replaces the shared one."
+msgstr "Yalnızca bu makinede: git tarafından yok sayılır ve bu deponun her worktree'sine uygulanır. Burada ayarlanan her anahtar paylaşılanın yerini alır."
+
+msgid "Only the listed staged files will be committed. Hooks may modify files or reject the commit."
+msgstr "Yalnızca listelenen hazırlanan dosyalar işlenecek. Kancalar dosyaları değiştirebilir veya commit'i reddedebilir."
+
+msgid "Only the thread author or a user with pull request write access can resolve this conversation."
+msgstr "Bu konuşmayı yalnızca başlık sahibi veya pull request yazma erişimi olan bir kullanıcı çözümleyebilir."
+
+msgid "open"
+msgstr "aç"
+
+msgid "Open"
+msgstr "Aç"
+
+#. placeholder {0}: binding.agentId
+msgid "Open {0} session"
+msgstr "{0} oturumunu aç"
+
+msgid "Open {displayName}"
+msgstr "{displayName}'i aç"
+
+msgid "Open {path} in file pane"
+msgstr "{path} dosyasını dosya bölmesinde aç"
+
+msgid "Open a multiline prompt composer for the active terminal"
+msgstr "Etkin terminal için çok satırlı istem düzenleyicisini aç"
+
+msgid "Open a workspace for this project first"
+msgstr "Önce bu proje için bir çalışma alanı açın"
+
+msgid "Open agent activity from the menu bar. The panel closes when it loses focus or when you press Escape."
+msgstr "Menü çubuğundan aracı etkinliğini açın. Panel odağı kaybettiğinde veya Escape tuşuna bastığınızda kapanır."
+
+msgid "Open an existing repository, or initialize a folder after confirmation."
+msgstr "Mevcut bir depoyu açın veya onaydan sonra bir klasörü başlatın."
+
+msgid "Open Changes"
+msgstr "Değişiklikleri aç"
+
+msgid "Open Changes in"
+msgstr "Değişiklikleri açma yeri"
+
+msgid "Open check on GitHub"
+msgstr "Kontrolü GitHub'da aç"
+
+msgid "Open CLI"
+msgstr "CLI’yı Aç"
+
+msgid "Open Command Palette"
+msgstr "Komut paletini aç"
+
+msgid "Open Diff"
+msgstr "Farkı aç"
+
+msgid "Open Diff in New Tab"
+msgstr "Farkı yeni sekmede aç"
+
+msgid "Open existing PR or create a new one on GitHub"
+msgstr "Mevcut PR'ı aç veya GitHub'da yeni bir tane oluştur"
+
+msgid "open file"
+msgstr "dosyayı aç"
+
+msgid "Open File"
+msgstr "Dosyayı aç"
+
+msgid "Open File in New Tab"
+msgstr "Dosyayı yeni sekmede aç"
+
+msgid "Open files"
+msgstr "Dosyaları aç"
+
+msgid "Open files in"
+msgstr "Dosyaları şurada aç"
+
+msgid "Open in"
+msgstr "Şununla aç"
+
+#. placeholder {0}: currentApp.displayLabel ?? currentApp.label
+msgid "Open in {0}"
+msgstr "{0} ile aç"
+
+msgid "Open in editor"
+msgstr "Düzenleyicide aç"
+
+msgid "Open in Editor"
+msgstr "Düzenleyicide aç"
+
+msgid "Open in external browser"
+msgstr "Harici tarayıcıda aç"
+
+msgid "Open in external editor"
+msgstr "Harici editörde aç"
+
+msgid "Open in Finder"
+msgstr "Finder'da aç"
+
+msgid "Open in GitHub"
+msgstr "GitHub'da aç"
+
+msgid "Open in new tab"
+msgstr "Yeni sekmede aç"
+
+msgid "Open in New Tab"
+msgstr "Yeni sekmede aç"
+
+msgid "Open in right pane"
+msgstr "Sağ panelde aç"
+
+msgid "Open in split pane"
+msgstr "Bölünmüş bölmede aç"
+
+msgid "Open in tab"
+msgstr "Sekmede aç"
+
+msgid "Open large file"
+msgstr "Büyük dosyayı aç"
+
+msgid "Open local checkout"
+msgstr "Yerel checkout’u aç"
+
+#. placeholder {0}: port.port
+msgid "Open localhost:{0} in external browser"
+msgstr "localhost:{0} adresini harici tarayıcıda aç"
+
+msgid "Open project"
+msgstr "Projeyi aç"
+
+msgid "Open Pull Request"
+msgstr "Pull request aç"
+
+#. placeholder {0}: pr.number
+msgid "Open pull request #{0}"
+msgstr "#{0} çekme isteğini aç"
+
+msgid "Open remote localhost links from Ports after forwarding the port."
+msgstr "Bağlantı noktasını yönlendirdikten sonra Ports bölümünden uzak localhost bağlantılarını açın."
+
+msgid "Open session"
+msgstr "Oturumu aç"
+
+msgid "Open settings"
+msgstr "Ayarları aç"
+
+msgid "Open Settings"
+msgstr "Ayarları aç"
+
+msgid "Open setup terminal"
+msgstr "Kurulum terminalini aç"
+
+msgid "Open source acknowledgements"
+msgstr "Açık kaynak teşekkürleri"
+
+msgid "Open System Settings"
+msgstr "Sistem Ayarları'nı aç"
+
+msgid "Open terminal"
+msgstr "Terminali aç"
+
+msgid "Open Terminal"
+msgstr "Terminali aç"
+
+msgid "Open Terminal Script 1"
+msgstr "1. terminal betiğini aç"
+
+msgid "Open Terminal Script 2"
+msgstr "2. terminal betiğini aç"
+
+msgid "Open Terminal Script 3"
+msgstr "3. terminal betiğini aç"
+
+msgid "Open Terminal Script 4"
+msgstr "4. terminal betiğini aç"
+
+msgid "Open Terminal Script 5"
+msgstr "5. terminal betiğini aç"
+
+msgid "Open Terminal Script 6"
+msgstr "6. terminal betiğini aç"
+
+msgid "Open Terminal Script 7"
+msgstr "7. terminal betiğini aç"
+
+msgid "Open Terminal Script 8"
+msgstr "8. terminal betiğini aç"
+
+msgid "Open Terminal Script 9"
+msgstr "9. terminal betiğini aç"
+
+msgid "Open the Changes pane in a new tab, or focus the existing one"
+msgstr "Değişiklikler panelini yeni sekmede açar veya mevcut olana odaklanır"
+
+msgid "Open the global command palette"
+msgstr "Genel komut paletini aç"
+
+msgid "Open the main window to select this workspace"
+msgstr "Bu çalışma alanını seçmek için ana pencereyi açın"
+
+msgid "Open the new workspace modal"
+msgstr "Yeni çalışma alanı penceresini aç"
+
+msgid "Open the resource usage view in the command palette"
+msgstr "Komut paletinde kaynak kullanımı görünümünü aç"
+
+msgid "open the task in a workspace"
+msgstr "görevi çalışma alanında açma"
+
+msgid "Open the workspace in the app picked in the Open In menu (VS Code, Cursor, etc.)"
+msgstr "Çalışma alanını \"Şununla aç\" menüsünde seçilen uygulamada aç (VS Code, Cursor vb.)"
+
+msgid "Open workspace"
+msgstr "Çalışma alanını aç"
+
+msgid "Opening the CLI is unavailable in this dialog."
+msgstr "Bu iletişim kutusunda CLI açılamaz."
+
+msgid "Opening workspace…"
+msgstr "Çalışma alanı açılıyor…"
+
+msgid "Opening…"
+msgstr "Açılıyor…"
+
+msgid "Option shortcuts may prevent typing special characters"
+msgstr "Option kısayolları özel karakter yazmayı engelleyebilir"
+
+msgid "Orange"
+msgstr "Turuncu"
+
+msgid "Order by"
+msgstr "Sıralama ölçütü"
+
+msgid "organization {id}"
+msgstr "{id} kuruluşu"
+
+msgid "Other"
+msgstr "Diğer"
+
+msgid "Other ways to get Git"
+msgstr "Git'i edinmenin diğer yolları"
+
+msgid "Outdated"
+msgstr "Güncel değil"
+
+msgid "Output"
+msgstr "Çıktı"
+
+msgid "Overwrite file"
+msgstr "Dosyanın üzerine yaz"
+
+msgid "Owner"
+msgstr "Sahip"
+
+msgid "Owns every PTY session and survives app restarts."
+msgstr "Her PTY oturumunun sahibidir ve uygulama yeniden başlatmalarından sağ çıkar."
+
+msgid "Package"
+msgstr "Paket"
+
+msgid "Page Not Found"
+msgstr "Sayfa bulunamadı"
+
+msgid "Pane areas must belong to the same active workspace"
+msgstr "Bölme alanları aynı etkin çalışma alanına ait olmalıdır"
+
+msgid "Pane attachment state is unavailable."
+msgstr "Bölme ekleme durumu kullanılamıyor."
+
+msgid "Paragraph"
+msgstr "Paragraf"
+
+msgid "Parent directory"
+msgstr "Üst dizin"
+
+msgid "Parent folder"
+msgstr "Üst klasör"
+
+msgid "Passed"
+msgstr "Geçti"
+
+msgid "Paste"
+msgstr "Yapıştır"
+
+msgid "Paste a link"
+msgstr "Bağlantı yapıştır"
+
+msgid "Path copied"
+msgstr "Yol kopyalandı"
+
+msgid "Pause"
+msgstr "Duraklat"
+
+msgid "Paused"
+msgstr "Duraklatıldı"
+
+msgid "Pending"
+msgstr "Beklemede"
+
+msgid "Permissions"
+msgstr "İzinler"
+
+msgid "Personal"
+msgstr "Kişisel"
+
+msgid "Pick a folder on disk and add it as a project"
+msgstr "Diskte bir klasör seçip proje olarak ekleyin"
+
+msgid "Pick a theme or follow your system appearance."
+msgstr "Bir tema seçin veya sistem görünümünüzü izleyin."
+
+msgid "Pick a workspace whose agent is waiting for your input, has finished since you last looked, or is still running"
+msgstr "Ajanı sizden yanıt bekleyen, son bakışınızdan beri işini bitiren veya hâlâ çalışan bir çalışma alanı seçin"
+
+msgid "PID"
+msgstr "PID"
+
+msgid "Pin workspace"
+msgstr "Çalışma alanını sabitle"
+
+msgid "Pink"
+msgstr "Pembe"
+
+msgid "Pinned"
+msgstr "Sabitlenmiş"
+
+msgid "Please select a project directory."
+msgstr "Lütfen bir proje dizini seçin."
+
+msgid "Port forwarding is not active"
+msgstr "Bağlantı noktası yönlendirme etkin değil"
+
+msgid "Ports"
+msgstr "Portlar"
+
+msgid "Post comment to GitHub?"
+msgstr "Yorum GitHub'a gönderilsin mi?"
+
+msgid "Post reply to GitHub?"
+msgstr "Yanıt GitHub'a gönderilsin mi?"
+
+msgid "Prefix"
+msgstr "Ön ek"
+
+msgid "Prefix new workspace branches on the connected host. Project overrides take priority."
+msgstr "Bağlı ana bilgisayarda yeni çalışma alanı dallarına ön ek ekleyin. Proje geçersiz kılmaları önceliklidir."
+
+msgid "Preparing workspace on the target host…"
+msgstr "Hedef ana bilgisayarda çalışma alanı hazırlanıyor…"
+
+msgid "Preset association could not be confirmed. Refresh and try again."
+msgstr "Ön ayar ilişkilendirmesi doğrulanamadı. Yenileyin ve tekrar deneyin."
+
+msgid "Presets are stored on this device. Run them explicitly from the workspace launcher."
+msgstr "Ön ayarlar bu cihazda saklanır. Bunları çalışma alanı başlatıcısından açıkça çalıştırın."
+
+msgid "Press shortcut…"
+msgstr "Kısayola basın…"
+
+msgid "Preview"
+msgstr "Önizleme"
+
+msgid "Previous (Shift+Enter)"
+msgstr "Önceki (Shift+Enter)"
+
+msgid "Previous branch"
+msgstr "Önceki dal"
+
+msgid "Previous Right Sidebar Tab"
+msgstr "Sağ kenar çubuğunda önceki sekme"
+
+msgid "Previous Tab"
+msgstr "Önceki sekme"
+
+msgid "Previous Tab (Second Shortcut)"
+msgstr "Önceki sekme (ikinci kısayol)"
+
+msgid "Previous Workspace"
+msgstr "Önceki çalışma alanı"
+
+msgid "Private connection"
+msgstr "Özel bağlantı"
+
+msgid "Private host"
+msgstr "Özel host"
+
+msgid "Private host connections and application settings without a Jedv account."
+msgstr "Jedv hesabı olmadan özel ana bilgisayar bağlantıları ve uygulama ayarları."
+
+msgid "Processed tokens"
+msgstr "İşlenen token"
+
+msgid "Project"
+msgstr "Proje"
+
+msgid "Project directory"
+msgstr "Proje dizini"
+
+msgid "Project icon and color"
+msgstr "Proje simgesi ve rengi"
+
+msgid "Project name"
+msgstr "Proje adı"
+
+msgid "Project name must produce a valid directory name. Use letters, numbers, dots, dashes, or underscores."
+msgstr "Proje adı geçerli bir dizin adı oluşturmalıdır. Harfler, sayılar, noktalar, tireler veya alt çizgiler kullanın."
+
+msgid "Project options"
+msgstr "Proje seçenekleri"
+
+msgid "Project scripts"
+msgstr "Proje betikleri"
+
+msgid "Project settings"
+msgstr "Proje ayarları"
+
+msgid "Project Settings"
+msgstr "Proje ayarları"
+
+msgid "Projects"
+msgstr "Projeler"
+
+msgid "Projects and workspaces"
+msgstr "Projeler ve çalışma alanları"
+
+msgid "Prompt arguments"
+msgstr "İstem argümanları"
+
+msgid "Prompt preview"
+msgstr "İstem önizlemesi"
+
+msgid "Prompt transport"
+msgstr "İstem aktarımı"
+
+msgid "Provider quota"
+msgstr "Sağlayıcı kotası"
+
+msgid "Pull request"
+msgstr "Pull request"
+
+msgid "Pull request created"
+msgstr "Pull request oluşturuldu"
+
+msgid "Pull request merged"
+msgstr "Pull request birleştirildi"
+
+msgid "Pull request number"
+msgstr "PR numarası"
+
+msgid "Pull request title"
+msgstr "Pull request başlığı"
+
+msgid "Pull requests"
+msgstr "Pull request'ler"
+
+msgid "Pull Requests"
+msgstr "Pull request'ler"
+
+msgid "Purple"
+msgstr "Mor"
+
+msgid "Push"
+msgstr "Push"
+
+msgid "Push changes?"
+msgstr "Değişiklikler gönderilsin mi?"
+
+msgid "Push completed"
+msgstr "Gönderme tamamlandı"
+
+msgid "Push this commit to the reviewed remote branch. A changed target requires a new confirmation."
+msgstr "Bu commit'i incelenen uzak dala gönderin. Değiştirilen hedef yeni bir onay gerektirir."
+
+msgid "px"
+msgstr "px"
+
+msgid "Queue message"
+msgstr "Mesajı kuyruğa al"
+
+msgid "Queue; ⌘↩ to steer the running turn"
+msgstr "Kuyruğa al; çalışan turu yönlendirmek için ⌘↩"
+
+msgid "Quick Create Workspace"
+msgstr "Hızlı çalışma alanı oluştur"
+
+msgid "Quick Open File"
+msgstr "Hızlı dosya aç"
+
+msgid "Quickly create a workspace in the current project"
+msgstr "Geçerli projede hızlıca çalışma alanı oluştur"
+
+msgid "Quit"
+msgstr "Çık"
+
+msgid "Quit {displayName}"
+msgstr "{displayName} Uygulamasından Çık"
+
+msgctxt "quit confirmation dialog title"
+msgid "Quit {displayName}"
+msgstr "{displayName}'ten çık"
+
+msgid "Quit {displayName} and stop all background services?"
+msgstr "{displayName}'ten çıkılsın ve tüm arka plan hizmetleri durdurulsun mu?"
+
+msgid "Quit {displayName} Completely"
+msgstr "{displayName}'ten tamamen çık"
+
+msgid "Quit Completely"
+msgstr "Tamamen çık"
+
+msgid "Quota is read from your provider. Refreshing may contact the provider using your existing CLI login."
+msgstr "Kota sağlayıcınızdan okunur. Yenileme işlemi, mevcut CLI oturumunuzu kullanarak sağlayıcıyla iletişime geçebilir."
+
+msgid "Quote"
+msgstr "Alıntı"
+
+msgid "Reachable"
+msgstr "Erişilebilir"
+
+msgid "Read only"
+msgstr "Salt okunur"
+
+msgid "Reading local CLI logs…"
+msgstr "Yerel CLI günlükleri okunuyor…"
+
+msgid "Ready for review"
+msgstr "İncelemeye hazır"
+
+msgid "Reasoning"
+msgstr "Akıl yürütme"
+
+msgid "Reassign shortcut"
+msgstr "Kısayolu yeniden ata"
+
+msgid "Reassign this shortcut?"
+msgstr "Bu kısayol yeniden atansın mı?"
+
+msgid "Rebase"
+msgstr "Rebase"
+
+msgid "Recent"
+msgstr "Son"
+
+msgid "Recent files"
+msgstr "Son dosyalar"
+
+msgid "Recent projects"
+msgstr "Son projeler"
+
+msgid "Recently removed projects"
+msgstr "Son kaldırılan projeler"
+
+msgid "Recording"
+msgstr "Kaydediliyor"
+
+msgid "Recreate the worktree from committed branch history, then run the project's setup script if configured. Deleted uncommitted files and terminated sessions cannot be recovered."
+msgstr "Çalışma ağacını işlenmiş dal geçmişinden yeniden oluşturun, ardından yapılandırılmışsa projenin kurulum betiğini çalıştırın. Silinen işlenmemiş dosyalar ve sonlandırılan oturumlar geri getirilemez."
+
+msgid "Recurrence rule"
+msgstr "Yinelenme kuralı"
+
+msgid "Red"
+msgstr "Kırmızı"
+
+msgid "Refresh"
+msgstr "Yenile"
+
+msgid "Refresh capabilities"
+msgstr "Yetenekleri yenile"
+
+msgid "Refresh failed"
+msgstr "Yenileme başarısız oldu"
+
+msgid "Refresh history"
+msgstr "Geçmişi yenile"
+
+msgid "Refresh pull request"
+msgstr "Pull request'i yenile"
+
+msgid "Refresh pull requests"
+msgstr "Pull request'leri yenile"
+
+msgid "Refresh sessions"
+msgstr "Oturumları yenile"
+
+msgid "Refresh status"
+msgstr "Durumu yenile"
+
+msgid "Reject"
+msgstr "Reddet"
+
+msgid "Rejected"
+msgstr "Reddedildi"
+
+msgid "Relative path copied"
+msgstr "Göreli yol kopyalandı"
+
+msgid "Release notes"
+msgstr "Sürüm notları"
+
+msgid "Release Notes"
+msgstr "Sürüm Notları"
+
+msgid "Reload"
+msgstr "Yeniden yükle"
+
+msgid "Reload app"
+msgstr "Uygulamayı yeniden yükle"
+
+msgid "Reload from disk"
+msgstr "Diskten yeniden yükle"
+
+msgid "Reloading discards your edits. Overwriting replaces the file on disk."
+msgstr "Yeniden yükleme düzenlemelerinizi siler. Üzerine yazma diskteki dosyayı değiştirir."
+
+msgid "Relocate"
+msgstr "Taşı"
+
+msgid "Relocate project?"
+msgstr "Proje taşınsın mı?"
+
+msgid "Relocating…"
+msgstr "Taşınıyor…"
+
+msgid "remote"
+msgstr "uzak"
+
+msgid "Remote"
+msgstr "Uzak"
+
+msgid "Remote port"
+msgstr "Uzak bağlantı noktası"
+
+msgid "Remove"
+msgstr "Kaldır"
+
+msgid "Remove agent link"
+msgstr "Ajan bağlantısını kaldır"
+
+msgid "Remove attachment"
+msgstr "Eki kaldır"
+
+msgid "Remove from Jedv…"
+msgstr "Jedv’den Kaldır…"
+
+msgid "Remove icon"
+msgstr "Simgeyi kaldır"
+
+msgid "Remove link"
+msgstr "Bağlantıyı kaldır"
+
+msgid "Remove pasted text"
+msgstr "Yapıştırılan metni kaldır"
+
+msgid "Remove project"
+msgstr "Projeyi kaldır"
+
+msgid "Remove pull request link"
+msgstr "PR bağlantısını kaldır"
+
+msgid "remove the agent"
+msgstr "ajanı kaldırma"
+
+msgid "remove the PR link"
+msgstr "PR bağlantısını kaldırma"
+
+msgid "Remove this project and its workspaces from Jedv and stop their terminals. Repository files stay on disk. Teardown commands may run."
+msgstr "Bu projeyi ve çalışma alanlarını Jedv'den kaldırın ve terminallerini durdurun. Depo dosyaları diskte kalır. Temizlik komutları çalıştırılabilir."
+
+msgid "Removing…"
+msgstr "Kaldırılıyor…"
+
+msgid "Rename"
+msgstr "Yeniden adlandır"
+
+msgid "Rename {title}"
+msgstr "{title} adını değiştir"
+
+msgid "Rename branch"
+msgstr "Dalı yeniden adlandır"
+
+msgid "Rename session"
+msgstr "Oturumu yeniden adlandır"
+
+msgid "rename the branch"
+msgstr "dalı yeniden adlandırma"
+
+msgid "Rename workspace"
+msgstr "Çalışma alanını yeniden adlandır"
+
+msgid "Rename..."
+msgstr "Yeniden adlandır..."
+
+msgid "Rendering style for markdown files. Tufte uses elegant serif typography inspired by Edward Tufte's books."
+msgstr "Markdown dosyaları için işleme stili. Tufte, Edward Tufte'nin kitaplarından esinlenen zarif serif tipografiyi kullanır."
+
+msgid "Reopen Closed Tab"
+msgstr "Kapatılan sekmeyi yeniden aç"
+
+msgid "reorder agents"
+msgstr "ajanları yeniden sıralama"
+
+msgid "Reorder workspace"
+msgstr "Çalışma alanını yeniden sırala"
+
+msgid "Replace"
+msgstr "Değiştir"
+
+msgid "Replace All"
+msgstr "Tümünü değiştir"
+
+msgid "Replaced {replaced} files in {where}"
+msgstr "{where} konumunda {replaced} dosya değiştirildi"
+
+msgid "Replaced 1 file in {where}"
+msgstr "{where} konumunda 1 dosya değiştirildi"
+
+msgid "Reply"
+msgstr "Yanıtla"
+
+msgid "Report Issue"
+msgstr "Sorun bildir"
+
+msgid "Repositories"
+msgstr "Depolar"
+
+msgid "Repository"
+msgstr "Depo"
+
+msgid "Repository URL or path"
+msgstr "Depo URL'si veya yolu"
+
+msgid "Request cancellation"
+msgstr "İptal iste"
+
+msgid "Requested permissions"
+msgstr "İstenen izinler"
+
+msgid "Reserved by OS"
+msgstr "İşletim sistemi tarafından ayrılmış"
+
+msgid "Reserved by terminal"
+msgstr "Terminal tarafından ayrılmış"
+
+msgid "Reset"
+msgstr "Sıfırla"
+
+msgid "reset agents"
+msgstr "ajanları sıfırlama"
+
+msgid "Reset all"
+msgstr "Tümünü sıfırla"
+
+msgid "Reset all agent commands?"
+msgstr "Tüm ajan komutları sıfırlansın mı?"
+
+msgid "Reset all shortcuts?"
+msgstr "Tüm kısayollar sıfırlansın mı?"
+
+msgid "Reset editor"
+msgstr "Düzenleyiciyi sıfırla"
+
+msgid "Reset group appearance"
+msgstr "Grup görünümünü sıfırla"
+
+msgid "Reset terminal"
+msgstr "Terminali sıfırla"
+
+msgid "Reset to default"
+msgstr "Varsayılana sıfırla"
+
+msgid "Reset zoom"
+msgstr "Yakınlaştırmayı sıfırla"
+
+msgid "Reset Zoom"
+msgstr "Yakınlaştırmayı sıfırla"
+
+msgid "resets"
+msgstr "sıfırlanır"
+
+msgid "Resets in {countdown} · {absolute}"
+msgstr "{countdown} sonra sıfırlanır · {absolute}"
+
+msgid "Resets now"
+msgstr "Şimdi sıfırlanıyor"
+
+msgid "Resolve conversation"
+msgstr "Konuşmayı çöz"
+
+msgid "Resolve conversation?"
+msgstr "Konuşma çözümlensin mi?"
+
+msgid "resolve the workspace path"
+msgstr "çalışma alanı yolunu çözümleme"
+
+msgid "Resolve these conflicts before committing."
+msgstr "İşlemeden önce bu çakışmaları çözün."
+
+msgid "Resolved"
+msgstr "Çözüldü"
+
+msgid "Resource monitor"
+msgstr "Kaynak izleyici"
+
+msgid "Resources"
+msgstr "Kaynaklar"
+
+msgid "Restart"
+msgstr "Yeniden başlat"
+
+msgid "Restart Local Host"
+msgstr "Yerel Hostu Yeniden Başlat"
+
+msgid "Restart to Install"
+msgstr "Yüklemek için Yeniden Başlat"
+
+#. placeholder {0}: event.version ?? ""
+msgid "Restart to install v{0}"
+msgstr "v{0} yüklemek için yeniden başlat"
+
+msgid "Restart to update"
+msgstr "Güncellemek için yeniden başlat"
+
+msgid "Restore"
+msgstr "Geri yükle"
+
+msgid "Restore default"
+msgstr "Varsayılanı geri yükle"
+
+msgid "Restore pane area"
+msgstr "Bölme alanını geri yükle"
+
+msgid "restore the agent defaults"
+msgstr "ajan varsayılanlarını geri yükleme"
+
+msgid "Restore this workspace record on the shared repository checkout. Terminated terminal sessions are not restarted."
+msgstr "Bu çalışma alanı kaydını paylaşılan depo checkout'unda geri yükleyin. Sonlandırılan terminal oturumları yeniden başlatılmaz."
+
+msgid "Restore workspace"
+msgstr "Çalışma alanını geri yükle"
+
+msgid "Restore workspace?"
+msgstr "Çalışma alanı geri yüklensin mi?"
+
+msgid "Restore workspace…"
+msgstr "Çalışma alanı geri yükleniyor…"
+
+msgid "Restoring brings back available workspace records and existing directories. It does not restart terminated sessions or recover files changed by teardown."
+msgstr "Geri yükleme, kullanılabilir çalışma alanı kayıtlarını ve mevcut dizinleri geri getirir. Sonlandırılan oturumları yeniden başlatmaz veya temizlikle değiştirilen dosyaları geri getirmez."
+
+msgid "Restoring workspace layout…"
+msgstr "Çalışma alanı düzeni geri yükleniyor…"
+
+msgid "Restoring…"
+msgstr "Geri yükleniyor…"
+
+msgid "Result unknown"
+msgstr "Sonuç bilinmiyor"
+
+msgid "Result unknown. Refresh before retrying."
+msgstr "Sonuç bilinmiyor. Tekrar denemeden önce yenileyin."
+
+msgid "Resume a native session. The session ID is appended after these arguments."
+msgstr "Yerel oturumu sürdürün. Oturum kimliği bu argümanların sonuna eklenir."
+
+msgid "Resume arguments"
+msgstr "Sürdürme argümanları"
+
+msgid "Resume same CLI session"
+msgstr "Aynı CLI oturumunu sürdür"
+
+msgid "Resume same session"
+msgstr "Aynı oturumu sürdür"
+
+msgid "Retry"
+msgstr "Yeniden dene"
+
+msgid "Retry after the connection refreshes."
+msgstr "Bağlantı yenilendikten sonra yeniden deneyin."
+
+msgid "Retry checks"
+msgstr "Kontrolleri tekrar dene"
+
+msgid "Retry dictation"
+msgstr "Sesle yazmayı yeniden dene"
+
+msgid "Retry failed imports"
+msgstr "Başarısız içe aktarmaları tekrar dene"
+
+msgid "Retry icon update"
+msgstr "Simge güncellemesini tekrar dene"
+
+msgid "Retry in a few seconds; if it persists, restart Jedv."
+msgstr "Birkaç saniye sonra yeniden deneyin; sorun sürerse Jedv'i yeniden başlatın."
+
+msgid "Retry in a few seconds."
+msgstr "Birkaç saniye sonra yeniden deneyin."
+
+msgid "Return to Save"
+msgstr "Kaydetmek için geri dön"
+
+msgid "Reveal in Finder"
+msgstr "Finder'da göster"
+
+msgid "Reveal in sidebar"
+msgstr "Kenar çubuğunda göster"
+
+msgid "Review"
+msgstr "İnceleme"
+
+msgid "Review selected workspaces"
+msgstr "Seçilen çalışma alanlarını gözden geçir"
+
+msgid "Review system permissions on this device."
+msgstr "Bu cihazdaki sistem izinlerini gözden geçirin."
+
+msgid "Review thread"
+msgstr "İnceleme başlığı"
+
+msgid "Review thread updated"
+msgstr "İnceleme başlığı güncellendi"
+
+msgid "Review threads could not be loaded"
+msgstr "İnceleme başlıkları yüklenemedi"
+
+msgid "right pane"
+msgstr "sağ panel"
+
+msgid "Rocket"
+msgstr "Roket"
+
+msgid "Run"
+msgstr "Çalıştır"
+
+msgid "Run agent"
+msgstr "Ajanı çalıştır"
+
+msgid "Run agent…"
+msgstr "Ajanı çalıştır…"
+
+msgid "Run configuration is not available"
+msgstr "Çalıştırma yapılandırması kullanılamıyor"
+
+msgid "Run History"
+msgstr "Çalıştırma geçmişi"
+
+msgid "Run history is unavailable. Refresh to try again."
+msgstr "Çalıştırma geçmişi kullanılamıyor. Tekrar denemek için yenileyin."
+
+msgid "Run in new terminal"
+msgstr "Yeni terminalde çalıştır"
+
+msgid "run issues in workspaces"
+msgstr "issue'ları çalışma alanlarında çalıştırma"
+
+msgid "Run now"
+msgstr "Şimdi çalıştır"
+
+msgid "Run output"
+msgstr "Çalıştırma çıktısı"
+
+msgid "Run repeatable work with your local agents, on a schedule or when you need it."
+msgstr "Yinelenebilir işleri yerel ajanlarınızla zamanlanmış olarak veya gerektiğinde çalıştırın."
+
+msgid "Run setup script"
+msgstr "Kurulum betiğini çalıştır"
+
+msgid "Run target"
+msgstr "Çalıştırma hedefi"
+
+msgid "run tasks in workspaces"
+msgstr "görevleri çalışma alanlarında çalıştırma"
+
+msgid "Run time"
+msgstr "Çalıştırma zamanı"
+
+msgid "Run workspace command"
+msgstr "Çalışma alanı komutunu çalıştır"
+
+msgid "Run Workspace Command"
+msgstr "Çalışma alanı komutunu çalıştır"
+
+msgid "running"
+msgstr "çalışıyor"
+
+msgid "Running"
+msgstr "Çalışıyor"
+
+msgid "Same-session CLI control is unavailable. No new session was started."
+msgstr "Aynı oturumun CLI kontrolü kullanılamıyor. Yeni oturum başlatılmadı."
+
+msgid "Same-session control is unavailable. No new agent session was started."
+msgstr "Aynı oturum denetimi kullanılamıyor. Yeni ajan oturumu başlatılmadı."
+
+msgid "Saturday"
+msgstr "Cumartesi"
+
+msgid "Save"
+msgstr "Kaydet"
+
+msgid "Save All"
+msgstr "Tümünü kaydet"
+
+msgid "Save changes"
+msgstr "Değişiklikleri kaydet"
+
+msgid "Save changes before closing?"
+msgstr "Kapatmadan önce değişiklikler kaydedilsin mi?"
+
+msgid "Save failed: {message}"
+msgstr "Kaydedilemedi: {message}"
+
+msgid "Save file"
+msgstr "Dosyayı kaydet"
+
+msgid "Save group"
+msgstr "Grubu kaydet"
+
+msgid "Save or close all unsaved files in this project before removing it."
+msgstr "Bu projeyi kaldırmadan önce tüm kaydedilmemiş dosyaları kaydedin veya kapatın."
+
+msgid "Save or close every unsaved file in this workspace before deleting it."
+msgstr "Bu çalışma alanını silmeden önce tüm kaydedilmemiş dosyaları kaydedin veya kapatın."
+
+msgid "Save or close the unsaved files before opening another workspace"
+msgstr "Başka bir çalışma alanı açmadan önce kaydedilmemiş dosyaları kaydedin veya kapatın"
+
+msgid "Save or close the unsaved files before removing this project"
+msgstr "Bu projeyi kaldırmadan önce kaydedilmemiş dosyaları kaydedin veya kapatın"
+
+msgid "Save or close the unsaved files before switching hosts"
+msgstr "Host değiştirmeden önce kaydedilmemiş dosyaları kaydedin veya kapatın"
+
+msgid "Save or close unsaved files and commit or discard changes before switching branches."
+msgstr "Dalları değiştirmeden önce kaydedilmemiş dosyaları kaydedin veya kapatın ve değişiklikleri işleyin veya yoksayın."
+
+msgid "Save preset"
+msgstr "Ön ayarı kaydet"
+
+msgid "save the agent"
+msgstr "ajanı kaydetme"
+
+msgid "save the agent command"
+msgstr "ajan komutunu kaydetme"
+
+msgid "Save to apply your changes. Drafts are kept if saving fails."
+msgstr "Değişikliklerinizi uygulamak için kaydedin. Kaydetme başarısız olursa taslaklar korunur."
+
+msgid "Save your changes before closing?"
+msgstr "Kapatmadan önce değişiklikler kaydedilsin mi?"
+
+msgid "Save your work before restarting. Unsaved changes can still prevent the restart."
+msgstr "Yeniden başlatmadan önce çalışmanızı kaydedin. Kaydedilmemiş değişiklikler yeniden başlatmayı yine de engelleyebilir."
+
+msgid "Saved"
+msgstr "Kaydedildi"
+
+msgid "Saving a preset does not run its commands."
+msgstr "Bir ön ayarı kaydetmek komutlarını çalıştırmaz."
+
+msgid "Saving…"
+msgstr "Kaydediliyor…"
+
+msgid "Scaffold a new project from a starter with fresh Git history. Setup commands will not run automatically."
+msgstr "Yeni Git geçmişiyle bir başlangıçtan yeni proje oluşturun. Kurulum komutları otomatik olarak çalıştırılmaz."
+
+#. placeholder {0}: data.scannedFiles
+#. placeholder {1}: data.pricingTableUpdated
+msgid "Scanned {0} log files. Pricing table: {1}."
+msgstr "{0} günlük dosyası tarandı. Fiyatlandırma tablosu: {1}."
+
+msgid "Schedule"
+msgstr "Zamanlama"
+
+msgid "Scheduled"
+msgstr "Zamanlandı"
+
+msgid "Screenshots"
+msgstr "Ekran görüntüleri"
+
+msgid "Scroll the active terminal to the bottom"
+msgstr "Etkin terminali en alta kaydır"
+
+msgid "Scroll to bottom"
+msgstr "En alta kaydır"
+
+msgid "Scroll to Bottom"
+msgstr "En alta kaydır"
+
+msgid "Search"
+msgstr "Ara"
+
+msgid "Search active workspaces…"
+msgstr "Etkin çalışma alanlarını ara…"
+
+msgid "Search and open files in the current workspace"
+msgstr "Geçerli çalışma alanında dosya ara ve aç"
+
+msgid "Search automations"
+msgstr "Otomasyonlarda ara"
+
+msgid "Search automations…"
+msgstr "Otomasyonlarda ara…"
+
+msgid "Search branches..."
+msgstr "Dal ara..."
+
+msgid "Search changed files"
+msgstr "Değişen dosyaları ara"
+
+msgid "Search files"
+msgstr "Dosyalarda ara"
+
+msgid "Search Files"
+msgstr "Dosya ara"
+
+msgid "Search files..."
+msgstr "Dosya ara..."
+
+msgid "Search fonts..."
+msgstr "Yazı tipi ara..."
+
+msgid "Search projects"
+msgstr "Projelerde ara"
+
+msgid "Search pull requests"
+msgstr "Pull request'lerde ara"
+
+msgid "Search pull requests or enter a PR number…"
+msgstr "PR'leri ara veya PR numarası girin…"
+
+msgid "Search pull requests…"
+msgstr "Pull request ara…"
+
+msgid "Search repositories..."
+msgstr "Depolarda ara..."
+
+msgid "Search settings"
+msgstr "Ayarlarda ara"
+
+msgid "Search settings…"
+msgstr "Ayarlarda ara…"
+
+msgid "Search shortcuts"
+msgstr "Kısayolları ara"
+
+msgid "Search shortcuts…"
+msgstr "Kısayolları ara…"
+
+msgid "Search text in the active chat"
+msgstr "Etkin sohbette metin ara"
+
+msgid "Search text in the active page"
+msgstr "Etkin sayfada metin ara"
+
+msgid "Search text in the active terminal"
+msgstr "Etkin terminalde metin ara"
+
+msgid "Search text in the changes diff"
+msgstr "Değişiklik farkında metin ara"
+
+msgid "Search text in the rendered file viewer"
+msgstr "İşlenmiş dosya görüntüleyicide metin ara"
+
+msgid "Search workspaces"
+msgstr "Çalışma alanlarında ara"
+
+msgid "Search workspaces…"
+msgstr "Çalışma alanlarında ara…"
+
+msgid "Searching…"
+msgstr "Aranıyor…"
+
+msgid "See what changed in this version."
+msgstr "Bu sürümdeki değişiklikleri görün."
+
+msgid "Select a file to preview or edit"
+msgstr "Önizlemek veya düzenlemek için bir dosya seçin"
+
+msgid "Select a project"
+msgstr "Bir proje seçin"
+
+msgid "Select a shortcut and press the new keys. Escape cancels; Backspace clears the binding."
+msgstr "Bir kısayol seçin ve yeni tuşlara basın. Escape iptal eder; Backspace atamayı temizler."
+
+msgid "Select All"
+msgstr "Tümünü seç"
+
+msgid "Select an agent terminal to inspect or control its current session."
+msgstr "Geçerli oturumunu incelemek veya kontrol etmek için bir ajan terminali seçin."
+
+msgid "Select an option"
+msgstr "Bir seçenek belirleyin"
+
+msgid "Select base branch…"
+msgstr "Temel dal seçin…"
+
+msgid "Select commit range"
+msgstr "Commit aralığı seçin"
+
+msgid "Select directory"
+msgstr "Dizin seç"
+
+msgid "Select Directory"
+msgstr "Dizin seçin"
+
+msgid "Select existing worktrees to import. Files stay in place and setup commands will not run."
+msgstr "İçe aktarılacak mevcut çalışma ağaçlarını seçin. Dosyalar yerinde kalır ve kurulum komutları çalıştırılmaz."
+
+msgid "Select new project location"
+msgstr "Yeni proje konumunu seçin"
+
+msgid "Select Notification Sound"
+msgstr "Bildirim sesi seçin"
+
+msgid "Select only the workspaces you intend to remove. Each selected workspace receives its own current-state inspection and destructive confirmation. Cancelling one skips it."
+msgstr "Yalnızca kaldırmak istediğiniz çalışma alanlarını seçin. Seçilen her çalışma alanı kendi geçerli durum incelemesini ve yıkıcı onayını alır. Birini iptal etmek onu atlar."
+
+msgid "Select Organization Logo"
+msgstr "Kuruluş logosu seçin"
+
+msgid "Select project location"
+msgstr "Proje konumunu seçin"
+
+msgid "Select range..."
+msgstr "Aralık seçin..."
+
+msgid "Select repositories"
+msgstr "Depoları seç"
+
+msgid "Select worktree…"
+msgstr "Çalışma ağacı seç…"
+
+msgid "Selected"
+msgstr "Seçildi"
+
+msgid "Send"
+msgstr "Gönder"
+
+msgid "Send message"
+msgstr "Mesaj gönder"
+
+msgid "Sensitive values are hidden. This preview is incomplete."
+msgstr "Hassas değerler gizlidir. Bu önizleme eksiktir."
+
+msgid "Sequential commands in one terminal"
+msgstr "Tek terminalde sıralı komutlar"
+
+msgid "Session"
+msgstr "Oturum"
+
+msgid "Session ended"
+msgstr "Oturum sona erdi"
+
+msgid "Session ID"
+msgstr "Oturum Kimliği"
+
+msgid "Session name"
+msgstr "Oturum adı"
+
+msgid "Session status and notifications"
+msgstr "Oturum durumu ve bildirimler"
+
+msgid "Sessions"
+msgstr "Oturumlar"
+
+#. placeholder {0}: color.name
+msgid "Set color to {0}"
+msgstr "Rengi şuna ayarla: {0}"
+
+#. placeholder {0}: i18n._(glyph.label)
+msgid "Set icon to {0}"
+msgstr "Simgeyi şuna ayarla: {0}"
+
+msgid "Set Run"
+msgstr "Çalıştırmayı ayarla"
+
+msgid "Set up later"
+msgstr "Daha sonra kur"
+
+msgid "Settings"
+msgstr "Ayarlar"
+
+msgid "Settings section unavailable"
+msgstr "Ayarlar bölümü kullanılamıyor"
+
+msgid "Settings sections"
+msgstr "Ayar bölümleri"
+
+msgid "Settings..."
+msgstr "Ayarlar..."
+
+msgid "settings.ts"
+msgstr "settings.ts"
+
+msgid "Setup completion is unavailable for this workspace. Review setup or turn off waiting in settings."
+msgstr "Bu çalışma alanının kurulum tamamlanma durumu kullanılamıyor. Kurulumu gözden geçirin veya ayarlarda beklemeyi kapatın."
+
+msgid "Shared"
+msgstr "Paylaşılan"
+
+msgid "Shift+click"
+msgstr "Shift+tık"
+
+msgid "Show agent commands and pinned terminal presets above the workspace."
+msgstr "Ajan komutlarını ve sabitlenmiş terminal ön ayarlarını çalışma alanının üstünde gösterin."
+
+msgid "Show Apple's installer"
+msgstr "Apple'ın yükleyicisini göster"
+
+msgid "Show deleted workspaces"
+msgstr "Silinen çalışma alanlarını göster"
+
+msgid "Show details"
+msgstr "Ayrıntıları göster"
+
+msgid "Show hidden directories"
+msgstr "Gizli dizinleri göster"
+
+msgid "Show hidden files"
+msgstr "Gizli dosyaları göster"
+
+msgid "Show in folder"
+msgstr "Klasörde göster"
+
+msgid "Show in workspace launcher"
+msgstr "Çalışma alanı başlatıcısında göster"
+
+msgid "Show Keyboard Shortcuts"
+msgstr "Klavye kısayollarını göster"
+
+msgid "Show less"
+msgstr "Daha az göster"
+
+msgid "Show local resource usage in the workspace."
+msgstr "Çalışma alanında yerel kaynak kullanımını göster."
+
+msgid "Show more"
+msgstr "Daha fazla göster"
+
+msgid "Show Scripts Bar"
+msgstr "Betik Çubuğunu Göster"
+
+msgid "Show the next tab in the right sidebar without moving focus"
+msgstr "Odağı taşımadan sağ kenar çubuğunda sonraki sekmeyi göster"
+
+msgid "Show the previous tab in the right sidebar without moving focus"
+msgstr "Odağı taşımadan sağ kenar çubuğunda önceki sekmeyi göster"
+
+msgid "Show the Usage entry in the main sidebar."
+msgstr "Ana kenar çubuğunda Kullanım girişini göster."
+
+msgid "Show update"
+msgstr "Güncellemeyi göster"
+
+msgid "Show workspace activity"
+msgstr "Çalışma alanı etkinliğini göster"
+
+msgid "Showing the first 100 results. Refine your search."
+msgstr "İlk 100 sonuç gösteriliyor. Aramanızı daraltın."
+
+msgid "Side by side"
+msgstr "Yan yana"
+
+msgid "Sidebar file rows"
+msgstr "Kenar çubuğu dosya satırları"
+
+msgid "Sign in to GitHub on this host to reply"
+msgstr "Yanıtlamak için bu host'ta GitHub'da oturum açın"
+
+msgid "Size"
+msgstr "Boyut"
+
+msgid "Skipped"
+msgstr "Atlandı"
+
+msgid "Slate"
+msgstr "Arduvaz"
+
+msgid "Some files are not an accepted type and were not added."
+msgstr "Bazı dosyalar kabul edilen türde değil ve eklenmedi."
+
+msgid "Some files could not be saved. Review their tabs before closing."
+msgstr "Bazı dosyalar kaydedilemedi. Kapatmadan önce sekmelerini gözden geçirin."
+
+msgid "Some files exceed the maximum size and were not added."
+msgstr "Bazı dosyalar en büyük boyutu aşıyor ve eklenmedi."
+
+msgid "Some files may already have been copied. Check the workspace attachments folder before retrying."
+msgstr "Bazı dosyalar zaten kopyalanmış olabilir. Tekrar denemeden önce çalışma alanı ekler klasörünü kontrol edin."
+
+msgid "Some project tree actions could not be loaded. Other actions remain available."
+msgstr "Bazı proje ağacı eylemleri yüklenemedi. Diğer eylemler kullanılabilir durumda."
+
+msgid "Some session details could not be loaded. Refresh to check the current host state."
+msgstr "Bazı oturum ayrıntıları yüklenemedi. Geçerli ana bilgisayar durumunu denetlemek için yenileyin."
+
+msgid "Some themes were skipped"
+msgstr "Bazı temalar atlandı"
+
+msgid "Something went wrong"
+msgstr "Bir şeyler ters gitti"
+
+msgid "Something went wrong. Please try again."
+msgstr "Bir şeyler ters gitti. Lütfen yeniden deneyin."
+
+msgid "Source Code"
+msgstr "Kaynak Kodu"
+
+msgid "Sparse checkout"
+msgstr "Seyrek checkout"
+
+msgid "Split Along Longer Side"
+msgstr "Uzun kenar boyunca böl"
+
+msgid "Split diff"
+msgstr "Bölünmüş fark"
+
+msgid "Split Down"
+msgstr "Aşağı böl"
+
+msgid "Split Horizontally"
+msgstr "Yatay böl"
+
+msgid "split pane"
+msgstr "bölünmüş bölme"
+
+msgid "Split pane"
+msgstr "Bölünmüş bölme"
+
+msgid "Split panes"
+msgstr "Bölmeleri ayır"
+
+msgid "Split Right"
+msgstr "Sağa böl"
+
+msgid "Split the current pane along its longer side"
+msgstr "Geçerli bölmeyi uzun kenarı boyunca böl"
+
+msgid "Split the current pane and open a mobile simulator"
+msgstr "Geçerli bölmeyi böl ve bir mobil simülatör aç"
+
+msgid "Split the current pane and open the sandbox desktop"
+msgstr "Geçerli bölmeyi böl ve sanal alan masaüstünü aç"
+
+msgid "Split the current pane downward"
+msgstr "Geçerli bölmeyi aşağı doğru böl"
+
+msgid "Split the current pane to the right"
+msgstr "Geçerli bölmeyi sağa doğru böl"
+
+msgid "Split Vertically"
+msgstr "Dikey böl"
+
+msgid "Split with Mobile Simulator"
+msgstr "Mobil Simülatörle böl"
+
+msgid "Split with Sandbox Desktop"
+msgstr "Sanal alan masaüstüyle böl"
+
+msgid "Squash"
+msgstr "Squash"
+
+msgid "Stage All"
+msgstr "Tümünü Hazırla"
+
+msgid "Stage all changes"
+msgstr "Tüm değişiklikleri hazırla"
+
+msgid "Stage file"
+msgstr "Dosyayı hazırla"
+
+msgid "Staged"
+msgstr "Hazırlanmış"
+
+msgid "Star"
+msgstr "Yıldızla"
+
+msgid "Start a new agent, or choose an existing session from Sessions."
+msgstr "Yeni bir ajan başlatın veya Oturumlar'dan mevcut bir oturum seçin."
+
+msgid "Start from a template"
+msgstr "Şablondan başla"
+
+msgid "Start new session"
+msgstr "Yeni oturum başlat"
+
+msgid "Start or stop the workspace run command"
+msgstr "Çalışma alanı çalıştırma komutunu başlat veya durdur"
+
+msgid "starting"
+msgstr "başlatılıyor"
+
+msgid "Starting"
+msgstr "Başlatılıyor"
+
+msgid "Starting the agent…"
+msgstr "Aracı başlatılıyor…"
+
+msgid "Status"
+msgstr "Durum"
+
+msgid "Status unavailable"
+msgstr "Durum kullanılamıyor"
+
+msgid "Status unavailable. Review this permission in System Settings."
+msgstr "Durum kullanılamıyor. Bu izni Sistem Ayarları'nda gözden geçirin."
+
+msgid "Stop"
+msgstr "Durdur"
+
+msgid "Stop {label}"
+msgstr "{label} öğesini durdur"
+
+msgid "Stop dictation"
+msgstr "Sesle yazmayı durdur"
+
+msgid "Stop forwarded ports?"
+msgstr "Yönlendirilen bağlantı noktaları durdurulsun mu?"
+
+msgid "Stop forwarding"
+msgstr "Yönlendirmeyi durdur"
+
+msgid "Stop listening processes?"
+msgstr "Dinleyen işlemler durdurulsun mu?"
+
+msgid "Stop listening processes…"
+msgstr "Dinleyen işlemler durduruluyor…"
+
+msgid "Stop local process"
+msgstr "Yerel işlemi durdur"
+
+msgid "Stop local process?"
+msgstr "Yerel işlem durdurulsun mu?"
+
+msgid "Stop response"
+msgstr "Yanıtı durdur"
+
+msgid "stopped"
+msgstr "durduruldu"
+
+msgid "Strict CLI resume is unavailable on this host. Active CLI and chat sessions remain selectable."
+msgstr "Bu ana bilgisayarda katı CLI sürdürme kullanılamıyor. Etkin CLI ve sohbet oturumları seçilebilir durumda."
+
+msgid "Strikethrough"
+msgstr "Üstü çizili"
+
+msgid "Submit"
+msgstr "Gönder"
+
+msgid "Submit response"
+msgstr "Yanıtı gönder"
+
+msgid "Summary"
+msgstr "Özet"
+
+msgid "Sunday"
+msgstr "Pazar"
+
+msgid "Switch branch"
+msgstr "Dal değiştir"
+
+msgid "Switch branch?"
+msgstr "Dal değiştirilsin mi?"
+
+msgid "Switch to Active Workspace"
+msgstr "Etkin çalışma alanına geç"
+
+msgid "Switch to Local"
+msgstr "Yerel Moda Geç"
+
+msgid "Switch to Tab 1"
+msgstr "1. sekmeye geç"
+
+msgid "Switch to Tab 2"
+msgstr "2. sekmeye geç"
+
+msgid "Switch to Tab 3"
+msgstr "3. sekmeye geç"
+
+msgid "Switch to Tab 4"
+msgstr "4. sekmeye geç"
+
+msgid "Switch to Tab 5"
+msgstr "5. sekmeye geç"
+
+msgid "Switch to Tab 6"
+msgstr "6. sekmeye geç"
+
+msgid "Switch to Tab 7"
+msgstr "7. sekmeye geç"
+
+msgid "Switch to Tab 8"
+msgstr "8. sekmeye geç"
+
+msgid "Switch to Tab 9"
+msgstr "9. sekmeye geç"
+
+msgid "Switch to this device to edit terminal presets and choose local projects."
+msgstr "Terminal ön ayarlarını düzenlemek ve yerel projeleri seçmek için bu cihaza geçin."
+
+msgid "Switch to Workspace 1"
+msgstr "1. çalışma alanına geç"
+
+msgid "Switch to Workspace 2"
+msgstr "2. çalışma alanına geç"
+
+msgid "Switch to Workspace 3"
+msgstr "3. çalışma alanına geç"
+
+msgid "Switch to Workspace 4"
+msgstr "4. çalışma alanına geç"
+
+msgid "Switch to Workspace 5"
+msgstr "5. çalışma alanına geç"
+
+msgid "Switch to Workspace 6"
+msgstr "6. çalışma alanına geç"
+
+msgid "Switch to Workspace 7"
+msgstr "7. çalışma alanına geç"
+
+msgid "Switch to Workspace 8"
+msgstr "8. çalışma alanına geç"
+
+msgid "Switch to Workspace 9"
+msgstr "9. çalışma alanına geç"
+
+msgid "System"
+msgstr "Sistem"
+
+msgid "System permissions"
+msgstr "Sistem izinleri"
+
+msgid "Take control"
+msgstr "Kontrolü al"
+
+#. placeholder {0}: context.hostLabel
+#. placeholder {0}: session.context.hostLabel
+msgid "Target host: {0}"
+msgstr "Hedef ana bilgisayar: {0}"
+
+msgid "Teal"
+msgstr "Deniz yeşili"
+
+msgid "Teardown exited with code {exitCode}"
+msgstr "Kapatma {exitCode} koduyla çıktı"
+
+msgid "Teardown failed to start"
+msgstr "Kapatma başlatılamadı"
+
+msgid "Teardown terminated by signal {signal}"
+msgstr "Kapatma {signal} sinyaliyle sonlandırıldı"
+
+msgid "Teardown timed out after {seconds}s"
+msgstr "Kapatma {seconds}sn sonra zaman aşımına uğradı"
+
+msgid "Terminal"
+msgstr "Terminal"
+
+msgid "Terminal daemon"
+msgstr "Terminal daemon'u"
+
+msgid "Terminal font"
+msgstr "Terminal yazı tipi"
+
+msgid "Terminal font size when a terminal is focused, page zoom in a browser pane, otherwise the whole app"
+msgstr "Bir terminal odaktayken terminal yazı tipi boyutu, tarayıcı bölmesinde sayfa yakınlaştırma, aksi halde tüm uygulama"
+
+msgid "Terminal owns this session"
+msgstr "Bu oturumu terminal yönetir"
+
+msgid "Terminal presets"
+msgstr "Terminal ön ayarları"
+
+msgid "Terminal sessions"
+msgstr "Terminal oturumları"
+
+msgid "Terminal typography"
+msgstr "Terminal tipografisi"
+
+msgid "Terminate"
+msgstr "Sonlandır"
+
+msgid "Terminate session"
+msgstr "Oturumu sonlandır"
+
+msgid "Terminate this terminal session?"
+msgstr "Bu terminal oturumu sonlandırılsın mı?"
+
+msgid "Text"
+msgstr "Metin"
+
+msgid "Text style"
+msgstr "Metin stili"
+
+msgid "That name isn't allowed."
+msgstr "Bu ada izin verilmiyor."
+
+msgid "the active organization"
+msgstr "etkin kuruluş"
+
+msgid "The active session changed. The prompt was not sent."
+msgstr "Etkin oturum değişti. İstem gönderilmedi."
+
+msgid "The agent reports it is working."
+msgstr "Ajan çalıştığını bildiriyor."
+
+msgid "The attachment copy result is incomplete. Check the workspace before retrying."
+msgstr "Ek kopyalama sonucu eksik. Tekrar denemeden önce çalışma alanını kontrol edin."
+
+msgid "The attachment could not be read."
+msgstr "Ek okunamadı."
+
+msgid "The attachment path is outside this workspace."
+msgstr "Ek yolu bu çalışma alanının dışında."
+
+msgid "The branch changed. Review the current branch before trying again."
+msgstr "Dal değişti. Tekrar denemeden önce geçerli dalı gözden geçirin."
+
+msgid "The command used to start this agent."
+msgstr "Bu ajanı başlatmak için kullanılan komut."
+
+msgid "The default location for new worktrees on the connected host."
+msgstr "Bağlı host'taki yeni worktree'ler için varsayılan konum."
+
+msgid "The definition and its run records will be deleted. Existing workspaces and sessions remain available."
+msgstr "Tanım ve çalıştırma kayıtları silinecek. Mevcut çalışma alanları ve oturumlar kullanılabilir kalır."
+
+msgid "The existing session identity could not be verified. Refresh before retrying."
+msgstr "Mevcut oturumun kimliği doğrulanamadı. Yeniden denemeden önce yenileyin."
+
+msgid "The file changed on disk. Review it before saving again."
+msgstr "Dosya diskte değişti. Yeniden kaydetmeden önce inceleyin."
+
+msgid "The file changed. Review its diff before discarding."
+msgstr "Dosya değişti. Yoksaymadan önce diff'ini gözden geçirin."
+
+msgid "The file did not contain any importable themes."
+msgstr "Dosya içe aktarılabilir tema içermiyordu."
+
+msgid "The file path is unavailable"
+msgstr "Dosya yolu kullanılamıyor"
+
+msgid "The Jedv host service for {organization} stopped unexpectedly ({cause}) and could not be restarted automatically."
+msgstr "{organization} için Jedv host hizmeti beklenmedik şekilde durdu ({cause}) ve otomatik olarak yeniden başlatılamadı."
+
+msgid "The Jedv host service stopped unexpectedly ({cause}) and could not be restarted automatically."
+msgstr "Jedv host hizmeti beklenmedik şekilde durdu ({cause}) ve otomatik olarak yeniden başlatılamadı."
+
+msgid "The linked local agent is unavailable on this host. Edit the preset or remove its agent link."
+msgstr "Bağlantılı yerel ajan bu ana bilgisayarda kullanılamıyor. Ön ayarı düzenleyin veya ajan bağlantısını kaldırın."
+
+msgid "The local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
+msgstr "{device} üzerinde {organization} için yerel host hizmeti kullanılamıyor. Durum: {status}. {recovery}"
+
+msgid "The operation result is unknown. Check the branch history and remote before retrying."
+msgstr "İşlem sonucu bilinmiyor. Tekrar denemeden önce dal geçmişini ve uzak depoyu kontrol edin."
+
+msgid "The page you're looking for doesn't exist."
+msgstr "Aradığınız sayfa mevcut değil."
+
+msgid "The project is saved, but its workspace could not be opened. Continue opening to retry without creating another project."
+msgstr "Proje kaydedildi ancak çalışma alanı açılamadı. Başka proje oluşturmadan tekrar denemek için açmaya devam edin."
+
+msgid "The project was saved. Continue opening its workspace."
+msgstr "Proje kaydedildi. Çalışma alanını açmaya devam edin."
+
+msgid "The repository directory is missing on this host. Open the repository at its current path to set it up again."
+msgstr "Bu ana bilgisayarda depo dizini eksik. Yeniden kurmak için depoyu geçerli yolunda açın."
+
+msgid "The request ended before its result was confirmed. Check the target host for a completed project or partial directory before trying again."
+msgstr "İstek, sonucu doğrulanmadan sona erdi. Tekrar denemeden önce hedef ana bilgisayarda tamamlanmış proje veya kısmi dizin olup olmadığını kontrol edin."
+
+msgid "The resumed session identity could not be verified. Refresh before retrying."
+msgstr "Sürdürülen oturumun kimliği doğrulanamadı. Tekrar denemeden önce yenileyin."
+
+msgid "The run command is still stopping. Wait, then restart."
+msgstr "Çalıştırma komutu hâlâ durduruluyor. Bekleyin, ardından yeniden başlatın."
+
+msgid "The screenshot is no longer available."
+msgstr "Ekran görüntüsü artık kullanılamıyor."
+
+msgid "The session changed. Select its current run in the workspace."
+msgstr "Oturum değişti. Çalışma alanında geçerli çalıştırmasını seçin."
+
+msgid "The session identity changed. Select it again."
+msgstr "Oturum kimliği değişti. Tekrar seçin."
+
+msgid "The session identity is unavailable."
+msgstr "Oturum kimliği kullanılamıyor."
+
+msgid "The staged files changed. Review them before committing."
+msgstr "Hazırlanan dosyalar değişti. İşlemeden önce gözden geçirin."
+
+msgid "The symbolic link target is unavailable"
+msgstr "Sembolik bağlantı hedefi kullanılamıyor"
+
+msgid "The target directory is missing, but the operation result is unknown. This does not confirm cancellation. Check the operation status again."
+msgstr "Hedef dizin eksik, ancak işlem sonucu bilinmiyor. Bu, iptali doğrulamaz. İşlem durumunu tekrar kontrol edin."
+
+msgid "The target host confirmed this operation has ended. You can retry; an existing directory will not be overwritten."
+msgstr "Hedef ana bilgisayar bu işlemin sona erdiğini doğruladı. Tekrar deneyebilirsiniz; mevcut dizin üzerine yazılmayacak."
+
+msgid "The target host confirmed this operation has stopped. You can retry; if the target directory remains, choose another location."
+msgstr "Hedef ana bilgisayar bu işlemin durduğunu doğruladı. Tekrar deneyebilirsiniz; hedef dizin hâlâ varsa başka bir konum seçin."
+
+msgid "The target host is still processing this request. Check again before starting another operation here."
+msgstr "Hedef ana bilgisayar bu isteği hâlâ işliyor. Burada başka bir işlem başlatmadan önce tekrar kontrol edin."
+
+msgid "The target pane area cannot receive this pane"
+msgstr "Hedef bölme alanı bu bölmeyi kabul edemez"
+
+msgid "The target pane area did not receive this pane"
+msgstr "Hedef bölme alanı bu bölmeyi kabul etmedi"
+
+msgid "The target workspace changed. Return to the original workspace before continuing."
+msgstr "Hedef çalışma alanı değişti. Devam etmeden önce özgün çalışma alanına dönün."
+
+msgid "The target workspace changed. The result belongs to the original workspace."
+msgstr "Hedef çalışma alanı değişti. Sonuç özgün çalışma alanına ait."
+
+msgid "The terminal session changed. Refresh before inserting the prompt."
+msgstr "Terminal oturumu değişti. İstemi eklemeden önce yenileyin."
+
+msgid "The terminal session ended unexpectedly"
+msgstr "Terminal oturumu beklenmedik şekilde sona erdi"
+
+msgid "The workspace changed"
+msgstr "Çalışma alanı değişti"
+
+msgid "The workspace files will change to the selected branch."
+msgstr "Çalışma alanı dosyaları seçilen dala geçecek."
+
+msgid "The workspace is saved. Continue opening it without creating another workspace."
+msgstr "Çalışma alanı kaydedildi. Başka çalışma alanı oluşturmadan açmaya devam edin."
+
+msgid "The workspace list changed on the host. Refresh it before reordering."
+msgstr "Ana bilgisayardaki çalışma alanı listesi değişti. Yeniden sıralamadan önce yenileyin."
+
+msgid "The workspace was deleted. Continue to refresh the target host."
+msgstr "Çalışma alanı silindi. Hedef ana bilgisayarı yenilemeye devam edin."
+
+msgid "Theme"
+msgstr "Tema"
+
+msgid "Theme default"
+msgstr "Tema varsayılanı"
+
+msgid "Theme file too large"
+msgstr "Tema dosyası çok büyük"
+
+msgid "These metrics belong to this device. Remote host processes are not included."
+msgstr "Bu ölçümler bu cihaza aittir. Uzak ana bilgisayar işlemleri dahil değildir."
+
+msgid "These notes ship with the application. Published release details are available in the Jedv repository."
+msgstr "Bu notlar uygulamayla birlikte gelir. Yayınlanan sürüm ayrıntıları Jedv deposunda bulunabilir."
+
+msgid "This action is irreversible."
+msgstr "Bu işlem geri alınamaz."
+
+msgid "This API login does not expose subscription quota."
+msgstr "Bu API oturumu abonelik kotasını göstermiyor."
+
+msgid "This automation is no longer available"
+msgstr "Bu otomasyon artık kullanılamıyor"
+
+msgid "This branch has conflicts"
+msgstr "Bu dalda çakışmalar var"
+
+msgid "This changes the pull request state on GitHub."
+msgstr "Bu işlem, GitHub'daki pull request durumunu değiştirir."
+
+msgid "This chat is no longer live. The prompt was not sent."
+msgstr "Bu sohbet artık canlı değil. İstem gönderilmedi."
+
+msgid "This chat is read only. Use Start new session to begin another chat."
+msgstr "Bu sohbet salt okunur. Başka bir sohbet başlatmak için Yeni oturum başlat'ı kullanın."
+
+msgid "This closes every terminal session on this host, including running agents and background processes. Restart does not preserve sessions."
+msgstr "Bu, çalışan ajanlar ve arka plan işlemleri dahil bu ana bilgisayardaki tüm terminal oturumlarını kapatır. Yeniden başlatma oturumları korumaz."
+
+msgid "This closes the run terminal and its running processes."
+msgstr "Bu, çalıştırma terminalini ve çalışan işlemlerini kapatır."
+
+msgid "This closes the workspace and its terminals. The project's files, branches and other workspaces stay as they are."
+msgstr "Bu, çalışma alanını ve terminallerini kapatır. Projenin dosyaları, dalları ve diğer çalışma alanları olduğu gibi kalır."
+
+msgid "This comment will be visible on the remote pull request."
+msgstr "Bu yorum uzak pull request'te görünür olacak."
+
+msgid "This creates a remote pull request from the workspace branch."
+msgstr "Bu işlem, çalışma alanı dalından uzak bir pull request oluşturur."
+
+msgid "This deletes the file from disk. Unsaved editor buffers are kept. This action cannot be undone."
+msgstr "Bu, dosyayı diskten siler. Kaydedilmemiş düzenleyici arabellekleri korunur. Bu işlem geri alınamaz."
+
+msgid "This deletes the folder and all its contents. Unsaved editor buffers are kept. This action cannot be undone."
+msgstr "Bu, klasörü ve tüm içeriğini siler. Kaydedilmemiş düzenleyici arabellekleri korunur. Bu işlem geri alınamaz."
+
+msgid "This deletes the session's folder and everything in it from disk."
+msgstr "Bu işlem, oturumun klasörünü ve içindeki her şeyi diskten siler."
+
+msgid "this device"
+msgstr "bu cihaz"
+
+msgid "This device"
+msgstr "Bu cihaz"
+
+msgid "this device ({id})"
+msgstr "bu cihaz ({id})"
+
+msgid "This draft belongs to another session. Return to it or discard the draft before composing here."
+msgstr "Bu taslak başka bir oturuma ait. Burada yazmaya başlamadan önce o oturuma dönün veya taslağı yoksayın."
+
+msgid "This file cannot be edited as text."
+msgstr "Bu dosya metin olarak düzenlenemez."
+
+msgid "This file is outside the workspace"
+msgstr "Bu dosya çalışma alanının dışında"
+
+msgid "This file is outside the workspace or its symbolic link cannot be safely resolved"
+msgstr "Bu dosya çalışma alanının dışında veya sembolik bağlantısı güvenli şekilde çözülemiyor"
+
+msgid "This folder is not a Git repository. Initialize Git here and import it as a project? Existing files will be kept."
+msgstr "Bu klasör bir Git deposu değil. Burada Git başlatılsın ve proje olarak içe aktarılsın mı? Mevcut dosyalar korunacak."
+
+msgid "This host did not provide a readable preview. Review the request in the agent CLI before approving."
+msgstr "Bu ana bilgisayar okunabilir bir önizleme sağlamadı. Onaylamadan önce isteği ajan CLI'sinde gözden geçirin."
+
+msgid "This is a large file. Opening it may slow down the editor."
+msgstr "Bu büyük bir dosya. Açmak düzenleyiciyi yavaşlatabilir."
+
+msgid "This pane can't be shown"
+msgstr "Bu bölme gösterilemiyor"
+
+msgid "This pane hit an error"
+msgstr "Bu bölme bir hatayla karşılaştı"
+
+msgid "This permanently deletes the removed project and workspace records and attempts to remove their clean worktree directories. Dirty worktree directories may remain untracked. The main repository directory is kept. This cannot be undone."
+msgstr "Bu, kaldırılan proje ve çalışma alanı kayıtlarını kalıcı olarak siler ve temiz çalışma ağacı dizinlerini kaldırmaya çalışır. Değişiklik içeren çalışma ağacı dizinleri izlenmeden kalabilir. Ana depo dizini korunur. Bu işlem geri alınamaz."
+
+msgid "This preview was shortened. Review the full request in the agent CLI."
+msgstr "Bu önizleme kısaltıldı. Tam isteği ajan CLI'sinde gözden geçirin."
+
+msgid "This project cannot be removed in its current state."
+msgstr "Bu proje geçerli durumunda kaldırılamaz."
+
+msgid "This project is not set up on the target host."
+msgstr "Bu proje hedef ana bilgisayarda kurulu değil."
+
+msgid "This project still uses the older config.json. It keeps working; convert it to config.toml to use the new sections."
+msgstr "Bu proje hâlâ eski config.json dosyasını kullanıyor. Çalışmaya devam eder; yeni bölümleri kullanmak için config.toml'a dönüştürün."
+
+msgid "This project's host is offline"
+msgstr "Bu projenin host'u çevrimdışı"
+
+msgid "This prompt is no longer active."
+msgstr "Bu istem artık etkin değil."
+
+msgid "This removes all custom shortcut bindings, including actions outside this list."
+msgstr "Bu, listede olmayan eylemler de dahil tüm özel kısayol atamalarını kaldırır."
+
+msgid "This removes all saved screenshots listed here. Attachments already copied into a workspace are kept."
+msgstr "Bu, burada listelenen tüm kayıtlı ekran görüntülerini kaldırır. Çalışma alanına zaten kopyalanmış ekler korunur."
+
+msgid "This removes custom agents and replaces all launch configurations with the four bundled defaults. Existing sessions keep running. This cannot be undone."
+msgstr "Bu, özel ajanları kaldırır ve tüm başlatma yapılandırmalarını dört varsayılan yapılandırmayla değiştirir. Mevcut oturumlar çalışmaya devam eder. Bu işlem geri alınamaz."
+
+msgid "This removes its launch configuration. Existing sessions keep running."
+msgstr "Bu işlem başlatma yapılandırmasını kaldırır. Mevcut oturumlar çalışmaya devam eder."
+
+msgid "This removes the saved commands from this device. Running terminals are not affected."
+msgstr "Bu, bu cihazda kayıtlı komutları kaldırır. Çalışan terminaller etkilenmez."
+
+msgid "This removes the worktree from disk and closes the workspace."
+msgstr "Bu, worktree'yi diskten kaldırır ve çalışma alanını kapatır."
+
+msgid "This reply will be visible in the remote review thread."
+msgstr "Bu yanıt uzak inceleme başlığında görünür olacak."
+
+msgid "This repository is no longer available as a Git repository."
+msgstr "Bu depo artık Git deposu olarak kullanılamıyor."
+
+msgid "This restores the file in the index and on disk to HEAD, or deletes an untracked file. Unsaved editor buffers are kept. This action cannot be undone."
+msgstr "Bu, dizindeki ve diskteki dosyayı HEAD'e geri yükler veya izlenmeyen bir dosyayı siler. Kaydedilmemiş düzenleyici arabellekleri korunur. Bu işlem geri alınamaz."
+
+msgid "This run has no agent session"
+msgstr "Bu çalıştırmanın ajan oturumu yok"
+
+msgid "This session could not be resumed. No new session was started."
+msgstr "Bu oturum sürdürülemedi. Yeni oturum başlatılmadı."
+
+msgid "This session is not active, or you are viewing earlier output. Refresh to check its current state."
+msgstr "Bu oturum etkin değil veya önceki çıktıyı görüntülüyorsunuz. Geçerli durumunu kontrol etmek için yenileyin."
+
+#. placeholder {0}: label(conflict.id)
+#. placeholder {1}: conflictsFor(conflict.id, conflict.binding) .map(label) .join(", ")
+msgid "This shortcut will be assigned to {0}. These actions will become unassigned: {1}."
+msgstr "Bu kısayol {0} için atanacak. Şu eylemlerin ataması kaldırılacak: {1}."
+
+#. placeholder {0}: killing?.title
+msgid "This stops {0} and its child processes. Unsaved work in the terminal can be lost."
+msgstr "Bu, {0} ve alt işlemlerini durdurur. Terminaldeki kaydedilmemiş çalışma kaybolabilir."
+
+msgid "This stops only the listed forwarding tunnels. Processes on the target host keep running."
+msgstr "Bu, yalnızca listelenen yönlendirme tünellerini durdurur. Hedef ana bilgisayardaki işlemler çalışmaya devam eder."
+
+msgid "This stops the listed processes on the original host. Terminal work or servers using them can be interrupted. Forwarding tunnels are separate."
+msgstr "Bu, orijinal ana bilgisayarda listelenen işlemleri durdurur. Bunları kullanan terminal çalışmaları veya sunucular kesintiye uğrayabilir. Yönlendirme tünelleri ayrıdır."
+
+msgid "This stops the local process occupying the forwarded port."
+msgstr "Bu, yönlendirilen bağlantı noktasını kullanan yerel işlemi durdurur."
+
+msgid "This stops the process listening on this port."
+msgstr "Bu, bu bağlantı noktasını dinleyen işlemi durdurur."
+
+msgid "This stops the processes listening on the listed workspace ports."
+msgstr "Bu, listelenen çalışma alanı bağlantı noktalarını dinleyen işlemleri durdurur."
+
+msgid "This stops the shell and all processes running in this terminal. Workspace files are kept. Unsaved process state may be lost."
+msgstr "Bu, kabuğu ve bu terminalde çalışan tüm süreçleri durdurur. Çalışma alanı dosyaları korunur. Kaydedilmemiş süreç durumu kaybolabilir."
+
+msgid "This terminal is also open on a smaller screen, so it's sized to fit"
+msgstr "Bu terminal daha küçük bir ekranda da açık, bu yüzden ona sığacak şekilde boyutlandırıldı"
+
+msgid "This terminal is no longer running. Refresh the session list."
+msgstr "Bu terminal artık çalışmıyor. Oturum listesini yenileyin."
+
+msgid "This thread has no comment to reply to, or GitHub authentication is unavailable."
+msgstr "Bu başlıkta yanıtlanacak yorum yok veya GitHub kimlik doğrulaması kullanılamıyor."
+
+msgid "This thread has no comment to reply to."
+msgstr "Bu konuda yanıtlanacak yorum yok."
+
+msgid "This updates the remote base branch on GitHub."
+msgstr "Bu işlem, GitHub'daki uzak temel dalı günceller."
+
+msgid "This updates the review thread on GitHub."
+msgstr "Bu işlem, GitHub'daki inceleme başlığını günceller."
+
+msgid "This view hit an error"
+msgstr "Bu görünüm bir hatayla karşılaştı"
+
+msgid "This workspace cannot be deleted in its current state."
+msgstr "Bu çalışma alanı geçerli durumunda silinemez."
+
+msgid "This workspace shares the project's files, index, and current branch. It does not switch branches or run setup."
+msgstr "Bu çalışma alanı, projenin dosyalarını, dizinini ve geçerli dalını paylaşır. Dal değiştirmez veya kurulum çalıştırmaz."
+
+msgid "Thursday"
+msgstr "Perşembe"
+
+msgid "Time unavailable"
+msgstr "Saat kullanılamıyor"
+
+msgid "Time zone"
+msgstr "Saat dilimi"
+
+msgid "To"
+msgstr "Hedef"
+
+msgid "Toggle agent controls"
+msgstr "Ajan denetimlerini aç/kapat"
+
+msgid "Toggle Right Pane Full Screen"
+msgstr "Sağ panelin tam ekranını aç/kapat"
+
+msgid "Toggle right sidebar"
+msgstr "Sağ kenar çubuğunu aç/kapat"
+
+msgid "Toggle Right Sidebar"
+msgstr "Sağ kenar çubuğunu aç/kapat"
+
+msgid "Toggle Right Sidebar Focus"
+msgstr "Sağ kenar çubuğu odağını değiştir"
+
+msgid "Toggle Scripts Bar"
+msgstr "Betikler çubuğunu aç/kapat"
+
+msgid "Toggle Sidebar"
+msgstr "Kenar çubuğunu aç/kapat"
+
+msgid "Toggle Terminal Rich Input"
+msgstr "Zengin terminal girişini aç/kapat"
+
+msgid "Toggle Workspaces Sidebar"
+msgstr "Çalışma alanları kenar çubuğunu aç/kapat"
+
+msgid "Tokens"
+msgstr "Token"
+
+msgid "Too many background terminals. Reattach or end one before closing another view."
+msgstr "Çok fazla arka plan terminali var. Başka bir görünümü kapatmadan önce birini yeniden ekleyin veya sonlandırın."
+
+msgid "Too many dropped items. Add at most 5000 files and folders at a time."
+msgstr "Çok fazla bırakılan öğe var. Bir seferde en fazla 5000 dosya ve klasör ekleyin."
+
+msgid "Too many files. Some were not added."
+msgstr "Çok fazla dosya. Bazıları eklenmedi."
+
+msgid "Too many untitled items here already."
+msgstr "Burada zaten çok fazla adsız öğe var."
+
+msgid "Tool output"
+msgstr "Araç çıktısı"
+
+msgid "Transcribing"
+msgstr "Yazıya dökülüyor"
+
+msgid "Transcribing…"
+msgstr "Yazıya dökülüyor…"
+
+msgid "Tree view"
+msgstr "Ağaç görünümü"
+
+msgid "Triggers"
+msgstr "Tetikleyiciler"
+
+msgid "Try again"
+msgstr "Yeniden dene"
+
+msgid "Try changing the search or status filter."
+msgstr "Aramayı veya durum filtresini değiştirmeyi deneyin."
+
+msgid "Tuesday"
+msgstr "Salı"
+
+msgid "Tufte"
+msgstr "Tufte"
+
+msgid "Turn completed"
+msgstr "Tur tamamlandı"
+
+msgid "Turn finished"
+msgstr "Tur bitti"
+
+msgid "Type project name to confirm"
+msgstr "Onaylamak için proje adını yazın"
+
+msgid "Type to search files..."
+msgstr "Dosya aramak için yazın..."
+
+msgid "TypeScript"
+msgstr "TypeScript"
+
+msgid "Typography"
+msgstr "Tipografi"
+
+msgid "Typography and cursor behavior used in V2 terminal panels."
+msgstr "V2 terminal panellerinde kullanılan tipografi ve imleç davranışı."
+
+msgid "Typography used in V2 editors and diff views."
+msgstr "V2 düzenleyicilerde ve fark görünümlerinde kullanılan tipografi."
+
+msgid "Unable to check for updates."
+msgstr "Güncellemeler kontrol edilemiyor."
+
+msgid "Unable to read file"
+msgstr "Dosya okunamıyor"
+
+msgid "Unable to start dictation"
+msgstr "Sesle yazma başlatılamıyor"
+
+msgid "Unable to transcribe audio"
+msgstr "Ses yazıya dökülemiyor"
+
+msgid "Unassigned"
+msgstr "Atanmamış"
+
+msgid "Unavailable"
+msgstr "Kullanılamıyor"
+
+msgid "Uncommitted"
+msgstr "Commit'lenmemiş"
+
+msgid "Uncommitted changes"
+msgstr "Commit'lenmemiş değişiklikler"
+
+msgid "Uncommitted changes and unpushed commits"
+msgstr "İşlenmemiş değişiklikler ve gönderilmemiş commit'ler"
+
+msgid "Uncommitted or unpushed work"
+msgstr "İşlenmemiş veya gönderilmemiş çalışma"
+
+msgid "Underline"
+msgstr "Altı çizili"
+
+msgid "Undo"
+msgstr "Geri al"
+
+msgid "Undo last closed workspace"
+msgstr "Son kapatılan çalışma alanını geri al"
+
+msgid "Undo the last archived workspace or closed chats"
+msgstr "Son arşivlenen çalışma alanını veya kapatılan sohbetleri geri al"
+
+msgid "Ungrouped"
+msgstr "Gruplandırılmamış"
+
+msgid "Unified diff"
+msgstr "Birleşik fark"
+
+msgid "unknown"
+msgstr "bilinmiyor"
+
+msgid "Unknown"
+msgstr "Bilinmiyor"
+
+msgid "Unknown error"
+msgstr "Bilinmeyen hata"
+
+msgid "Unknown pane"
+msgstr "Bilinmeyen bölme"
+
+msgid "Unknown pane type: {paneKind}"
+msgstr "Bilinmeyen bölme türü: {paneKind}"
+
+msgid "Unpin workspace"
+msgstr "Çalışma alanının sabitlemesini kaldır"
+
+msgid "Unpushed commits"
+msgstr "Gönderilmemiş commit'ler"
+
+msgid "Unreachable"
+msgstr "Erişilemez"
+
+msgid "Unread activity"
+msgstr "Okunmamış etkinlik"
+
+msgid "Unresolve"
+msgstr "Çözümü geri al"
+
+msgid "Unresolve conversation?"
+msgstr "Konuşma yeniden açılsın mı?"
+
+msgid "Unsaved changes"
+msgstr "Kaydedilmemiş değişiklikler"
+
+msgid "Unsaved file protection is unavailable. Delete this workspace from the sidebar."
+msgstr "Kaydedilmemiş dosya koruması kullanılamıyor. Bu çalışma alanını kenar çubuğundan silin."
+
+msgid "Unsaved files"
+msgstr "Kaydedilmemiş dosyalar"
+
+msgid "Unstage All"
+msgstr "Tümünü Hazırlıktan Çıkar"
+
+msgid "Unstage file"
+msgstr "Dosyayı hazırlıktan çıkar"
+
+msgid "Unstaged"
+msgstr "Hazırlanmamış"
+
+msgid "Untitled automation"
+msgstr "Başlıksız otomasyon"
+
+msgid "update"
+msgstr "güncelle"
+
+msgid "Update available"
+msgstr "Güncelleme mevcut"
+
+#. placeholder {0}: event.version ?? ""
+msgid "Update available · v{0}"
+msgstr "Güncelleme mevcut · v{0}"
+
+msgid "Update daemon"
+msgstr "Daemon'u güncelle"
+
+msgid "Update did not finish. Review status before retrying."
+msgstr "Güncelleme tamamlanmadı. Tekrar denemeden önce durumu gözden geçirin."
+
+msgid "Update failed. Try again."
+msgstr "Güncelleme başarısız oldu. Tekrar deneyin."
+
+msgid "Update Jedv on this host to edit its workspace config."
+msgstr "Çalışma alanı yapılandırmasını düzenlemek için bu ana bilgisayardaki Jedv'yi güncelleyin."
+
+msgid "Update status unavailable"
+msgstr "Güncelleme durumu kullanılamıyor"
+
+msgid "update the branch prefix"
+msgstr "dal ön ekini güncelleme"
+
+#. placeholder {0}: event.version ?? event.currentVersion
+msgid "Updated to v{0}"
+msgstr "v{0} sürümüne güncellendi"
+
+msgid "Updates"
+msgstr "Güncellemeler"
+
+msgid "Updating…"
+msgstr "Güncelleniyor…"
+
+msgid "Upload files"
+msgstr "Dosya yükle"
+
+msgid "Upload image…"
+msgstr "Görsel yükle…"
+
+msgid "URL copied"
+msgstr "URL kopyalandı"
+
+msgid "URL links"
+msgstr "URL bağlantıları"
+
+msgid "Usage"
+msgstr "Kullanım"
+
+msgid "Usage history"
+msgstr "Kullanım geçmişi"
+
+msgid "Usage in sidebar"
+msgstr "Kenar çubuğunda kullanım"
+
+msgid "Usage period"
+msgstr "Kullanım dönemi"
+
+#. placeholder {0}: search.trim()
+msgid "Use “{0}”"
+msgstr "“{0}” kullan"
+
+msgid "Use an existing repository at this location. Jedv changes the registered path and local checkout workspaces; it does not move files. Existing worktrees under the old repository may need to be imported again."
+msgstr "Bu konumdaki mevcut depoyu kullanın. Jedv, kayıtlı yolu ve yerel checkout çalışma alanlarını değiştirir; dosyaları taşımaz. Eski depodaki mevcut çalışma ağaçlarının yeniden içe aktarılması gerekebilir."
+
+msgid "Use another local port"
+msgstr "Başka bir yerel bağlantı noktası kullan"
+
+msgid "Use for new sessions"
+msgstr "Yeni oturumlarda kullan"
+
+msgid "Use global default"
+msgstr "Genel varsayılanı kullan"
+
+msgid "Use host default"
+msgstr "Ana bilgisayar varsayılanını kullan"
+
+msgid "Use Move to group to move workspaces between groups."
+msgstr "Çalışma alanlarını gruplar arasında taşımak için Gruba taşı'yı kullanın."
+
+msgid "Use the Jedv tray menu > Host Service > Restart, then retry."
+msgstr "Jedv tepsi menüsünde Host hizmeti > Yeniden başlat yolunu kullanın, sonra yeniden deneyin."
+
+msgid "Use this device"
+msgstr "Bu cihazı kullan"
+
+msgid "Use this folder"
+msgstr "Bu klasörü kullan"
+
+msgid "used"
+msgstr "kullanıldı"
+
+msgid "Used when your system is in dark mode."
+msgstr "Sisteminiz koyu moddayken kullanılır."
+
+msgid "Used when your system is in light mode."
+msgstr "Sisteminiz açık moddayken kullanılır."
+
+msgid "Uses the connected host's global Git identity. GitHub mode may read your existing gh login."
+msgstr "Bağlı ana bilgisayarın genel Git kimliğini kullanır. GitHub modu mevcut gh oturumunuzu okuyabilir."
+
+msgid "Vercel's starter with Drizzle, NextAuth, and Postgres"
+msgstr "Vercel'in Drizzle, NextAuth ve Postgres içeren başlangıç şablonu"
+
+msgid "Version installed on this device."
+msgstr "Bu cihazda yüklü sürüm."
+
+msgctxt "menu"
+msgid "View"
+msgstr "Görüntüle"
+
+msgid "View license"
+msgstr "Lisansı görüntüle"
+
+msgid "View source"
+msgstr "Kaynağı görüntüle"
+
+msgid "Volume"
+msgstr "Ses düzeyi"
+
+msgid "VS Code"
+msgstr "VS Code"
+
+msgid "Wait for workspace setup before starting an agent"
+msgstr "Ajanı başlatmadan önce çalışma alanı kurulumunu bekleyin"
+
+msgid "Waiting for approval"
+msgstr "Onay bekleniyor"
+
+msgid "We're rebuilding this feature. Check back soon."
+msgstr "Bu özelliği yeniden yapıyoruz. Yakında tekrar bakın."
+
+msgid "Wednesday"
+msgstr "Çarşamba"
+
+msgid "Weekdays"
+msgstr "Hafta içi"
+
+msgid "Weekdays at {time}"
+msgstr "Hafta içi saat {time}"
+
+msgid "Weekends"
+msgstr "Hafta sonları"
+
+msgid "Weekends at {time}"
+msgstr "Hafta sonları saat {time}"
+
+msgid "Weekly"
+msgstr "Haftalık"
+
+msgid "Weekly at {time}"
+msgstr "Her hafta saat {time}"
+
+msgid "Welcome to Jedv"
+msgstr "Jedv'ye hoş geldiniz"
+
+msgid "What would you like to know?"
+msgstr "Ne öğrenmek istersiniz?"
+
+msgid "Window"
+msgstr "Pencere"
+
+msgid "Working"
+msgstr "Çalışıyor"
+
+msgid "Working directory"
+msgstr "Çalışma dizini"
+
+msgid "Working…"
+msgstr "Çalışıyor…"
+
+msgid "Workspace"
+msgstr "Çalışma alanı"
+
+msgid "Workspace activity"
+msgstr "Çalışma alanı etkinliği"
+
+msgid "Workspace configuration"
+msgstr "Çalışma alanı yapılandırması"
+
+msgid "Workspace deletion results"
+msgstr "Çalışma alanı silme sonuçları"
+
+msgid "Workspace files are unavailable"
+msgstr "Çalışma alanı dosyaları kullanılamıyor"
+
+msgid "Workspace launcher"
+msgstr "Çalışma alanı başlatıcısı"
+
+msgid "Workspace name"
+msgstr "Çalışma alanı adı"
+
+msgid "Workspace navigation"
+msgstr "Çalışma alanı gezintisi"
+
+msgid "Workspace not found"
+msgstr "Çalışma alanı bulunamadı"
+
+msgid "Workspace or running session state changed. Review the updated checks and confirm again."
+msgstr "Çalışma alanı veya çalışan oturum durumu değişti. Güncellenen kontrolleri gözden geçirin ve tekrar onaylayın."
+
+msgid "Workspace order"
+msgstr "Çalışma alanı sırası"
+
+msgid "Workspace pinning and ordering are unavailable on this host."
+msgstr "Bu ana bilgisayarda çalışma alanı sabitleme ve sıralama kullanılamıyor."
+
+msgid "Workspace read state could not be saved."
+msgstr "Çalışma alanı okuma durumu kaydedilemedi."
+
+msgid "workspace root"
+msgstr "çalışma alanı kökü"
+
+msgid "Workspace setup failed. Review the setup terminal before starting an agent."
+msgstr "Çalışma alanı kurulumu başarısız oldu. Ajanı başlatmadan önce kurulum terminalini gözden geçirin."
+
+msgid "Workspace setup is still running."
+msgstr "Çalışma alanı kurulumu hâlâ çalışıyor."
+
+msgid "Workspace state changed. Review the updated checks and confirm again."
+msgstr "Çalışma alanı durumu değişti. Güncellenen kontrolleri gözden geçirin ve tekrar onaylayın."
+
+msgid "Workspaces"
+msgstr "Çalışma alanları"
+
+msgid "worktree"
+msgstr "worktree"
+
+msgid "Worktree"
+msgstr "Worktree"
+
+msgid "Worktree base directory"
+msgstr "Çalışma ağacı temel dizini"
+
+msgid "Worktree location"
+msgstr "Worktree konumu"
+
+msgid "Write a reply…"
+msgstr "Bir yanıt yazın…"
+
+msgid "Write access to this repository is required to create a pull request from this workspace."
+msgstr "Bu çalışma alanından pull request oluşturmak için bu depoya yazma erişimi gerekir."
+
+msgid "Yellow"
+msgstr "Sarı"
+
+msgid "Yes"
+msgstr "Evet"
+
+msgid "You"
+msgstr "Siz"
+
+msgid "You do not have permission to resolve this thread"
+msgstr "Bu başlığı çözümleme izniniz yok"
+
+msgid "You're up to date"
+msgstr "Güncelsiniz"
+
+msgid "You're up to date!"
+msgstr "Her şey güncel!"
+
+msgid "Your automation changes have not been saved."
+msgstr "Otomasyon değişiklikleriniz kaydedilmedi."
+
+msgid "Your changes"
+msgstr "Değişiklikleriniz"
+
+msgid "Your imports are saved. Could not refresh or open them. Try continuing again."
+msgstr "İçe aktarımlarınız kaydedildi. Yenilenemedi veya açılamadı. Tekrar devam etmeyi deneyin."
+
+msgid "Zap"
+msgstr "Şimşek"
+
+msgid "Zoom"
+msgstr "Yakınlaştırma"
+
+msgid "Zoom in"
+msgstr "Yakınlaştır"
+
+msgid "Zoom In"
+msgstr "Yakınlaştır"
+
+msgid "Zoom out"
+msgstr "Uzaklaştır"
+
+msgid "Zoom Out"
+msgstr "Uzaklaştır"
+
+msgid "zsh"
+msgstr "zsh"

@@ -1,0 +1,797 @@
+import {
+	afterEach,
+	beforeEach,
+	describe,
+	expect,
+	mock,
+	spyOn,
+	test,
+} from "bun:test";
+import {
+	createParserIdleGate,
+	runWhenParserIdle,
+	wrapWrite,
+} from "./parser-idle-gate";
+import {
+	terminalMeasurementsChanged,
+	tryPersistRuntimeState,
+} from "./terminal-runtime";
+import { terminalRuntimeRegistry } from "./terminal-runtime-registry";
+
+test("new theme assignments reset query overrides while identical assignments preserve them", async () => {
+	const { getDefaultTerminalAppearance } = await import("./appearance");
+	const appearance = getDefaultTerminalAppearance();
+	const entries = (
+		terminalRuntimeRegistry as unknown as { entries: Map<string, unknown> }
+	).entries;
+	const terminalId = "color-reset-review";
+	const key = `${terminalId}\u0000${terminalId}`;
+	const sent: Array<{ type: string; resetOverrides?: boolean }> = [];
+	entries.set(key, {
+		terminalId,
+		instanceId: terminalId,
+		runtime: {
+			container: null,
+			wrapper: { style: { setProperty() {} } },
+			terminal: {
+				options: { ...appearance, theme: appearance.theme },
+				rows: 24,
+				refresh() {},
+			},
+			ligaturesEnabled: appearance.ligatures,
+		},
+		transport: {
+			connectionState: "open",
+			_socket: {
+				readyState: WebSocket.OPEN,
+				send(data: string) {
+					sent.push(JSON.parse(data));
+				},
+			},
+		},
+	});
+	try {
+		const selectionOnlyChange = {
+			...appearance,
+			theme: { ...appearance.theme, selectionBackground: "#123456" },
+		};
+		terminalRuntimeRegistry.updateAppearance(terminalId, selectionOnlyChange);
+		terminalRuntimeRegistry.updateAppearance(terminalId, selectionOnlyChange);
+		terminalRuntimeRegistry.updateAllAppearances({
+			...selectionOnlyChange,
+			theme: { ...selectionOnlyChange.theme },
+		});
+		expect(
+			sent
+				.filter((message) => message.type === "colors")
+				.map((message) => message.resetOverrides),
+		).toEqual([true, false, true]);
+	} finally {
+		entries.delete(key);
+	}
+});
+
+interface FakeStorageState {
+	values: Map<string, string>;
+	storage: Storage;
+}
+
+function createFakeStorage(): FakeStorageState {
+	const values = new Map<string, string>();
+	const storage = {
+		get length() {
+			return values.size;
+		},
+		clear: () => values.clear(),
+		getItem: (key: string) => values.get(key) ?? null,
+		key: (index: number) => Array.from(values.keys())[index] ?? null,
+		removeItem: (key: string) => values.delete(key),
+		setItem: (key: string, value: string) => values.set(key, value),
+	} as Storage;
+	return { values, storage };
+}
+
+const originalLocalStorage = Object.getOwnPropertyDescriptor(
+	globalThis,
+	"localStorage",
+);
+let fakeStorage: FakeStorageState;
+
+beforeEach(() => {
+	fakeStorage = createFakeStorage();
+	Object.defineProperty(globalThis, "localStorage", {
+		configurable: true,
+		value: fakeStorage.storage,
+	});
+});
+
+afterEach(() => {
+	if (originalLocalStorage) {
+		Object.defineProperty(globalThis, "localStorage", originalLocalStorage);
+	} else {
+		Reflect.deleteProperty(globalThis, "localStorage");
+	}
+});
+
+describe("terminalRuntimeRegistry eviction cleanup", () => {
+	test("refits for every cell-measurement typography change", () => {
+		const appearance = {
+			theme: {},
+			background: "#000",
+			fontFamily: "monospace",
+			fontSize: 14,
+			lineHeight: 1,
+			letterSpacing: 0,
+			fontWeight: "normal" as const,
+			ligatures: true,
+			minimumContrastRatio: 1,
+			cursorStyle: "block" as const,
+			cursorBlink: true,
+		};
+		const runtime = {
+			terminal: {
+				options: {
+					fontFamily: appearance.fontFamily,
+					fontSize: appearance.fontSize,
+					lineHeight: appearance.lineHeight,
+					letterSpacing: appearance.letterSpacing,
+					fontWeight: appearance.fontWeight,
+				},
+			},
+			ligaturesEnabled: appearance.ligatures,
+		} as Parameters<typeof terminalMeasurementsChanged>[0];
+
+		expect(terminalMeasurementsChanged(runtime, appearance)).toBe(false);
+		for (const change of [
+			{ fontSize: 15.5 },
+			{ lineHeight: 1.2 },
+			{ letterSpacing: 0.5 },
+			{ fontWeight: 500 },
+			{ ligatures: false },
+		]) {
+			expect(
+				terminalMeasurementsChanged(runtime, { ...appearance, ...change }),
+			).toBe(true);
+		}
+	});
+
+	test("updates active and parked runtime appearance overrides", () => {
+		const entries = (
+			terminalRuntimeRegistry as unknown as {
+				entries: Map<string, unknown>;
+			}
+		).entries;
+		const addedKeys: string[] = [];
+		const setLigatures = mock(() => {});
+
+		for (const [index, container] of [
+			[0, {} as HTMLDivElement],
+			[1, null],
+		] as const) {
+			const terminalId = `appearance-${index}`;
+			const key = `${terminalId}\u0000${terminalId}`;
+			addedKeys.push(key);
+			entries.set(key, {
+				terminalId,
+				instanceId: terminalId,
+				runtime: {
+					container,
+					wrapper: {
+						style: { setProperty: mock(() => {}) },
+					} as unknown as HTMLDivElement,
+					terminal: {
+						options: {
+							fontFamily: "monospace",
+							fontSize: 14,
+							lineHeight: 1,
+							letterSpacing: 0,
+							fontWeight: "normal",
+						},
+						rows: 24,
+						refresh: mock(() => {}),
+					},
+					ligaturesEnabled: true,
+					_setLigaturesEnabled: setLigatures,
+				},
+				transport: {},
+			});
+		}
+
+		try {
+			terminalRuntimeRegistry.updateAllAppearances({
+				theme: { background: "#000" },
+				background: "#000",
+				fontFamily: "monospace",
+				fontSize: 15.5,
+				lineHeight: 1.2,
+				letterSpacing: 0.5,
+				fontWeight: 500,
+				ligatures: false,
+				minimumContrastRatio: 4.5,
+				cursorStyle: "bar",
+				cursorBlink: false,
+			});
+
+			for (const key of addedKeys) {
+				const entry = entries.get(key) as {
+					runtime: {
+						terminal: { options: Record<string, unknown> };
+						ligaturesEnabled: boolean;
+					};
+				};
+				expect(entry.runtime.terminal.options).toMatchObject({
+					fontSize: 15.5,
+					lineHeight: 1.2,
+					letterSpacing: 0.5,
+					fontWeight: 500,
+					minimumContrastRatio: 4.5,
+					cursorStyle: "bar",
+					cursorBlink: false,
+				});
+				expect(entry.runtime.ligaturesEnabled).toBe(false);
+			}
+			expect(setLigatures).toHaveBeenCalledTimes(2);
+		} finally {
+			for (const key of addedKeys) entries.delete(key);
+		}
+	});
+
+	test("keeps a runtime when dimensions fail to persist", () => {
+		const terminalId = "dimensions-write-failure";
+		const setItem = fakeStorage.storage.setItem.bind(fakeStorage.storage);
+		fakeStorage.storage.setItem = (key: string, value: string) => {
+			if (key === `terminal-dims:${terminalId}`) {
+				throw new Error("dimensions write failed");
+			}
+			setItem(key, value);
+		};
+		const runtime = {
+			terminalId,
+			serializeAddon: { serialize: () => "serialized scrollback" },
+			lastCols: 120,
+			lastRows: 32,
+		};
+
+		expect(
+			tryPersistRuntimeState(
+				runtime as Parameters<typeof tryPersistRuntimeState>[0],
+			),
+		).toBe(false);
+		expect(fakeStorage.values.get(`terminal-buffer:${terminalId}`)).toBe(
+			"serialized scrollback",
+		);
+		expect(fakeStorage.values.has(`terminal-dims:${terminalId}`)).toBe(false);
+	});
+
+	test("release keeps runtimes on persist failure and warns once per terminal", () => {
+		const terminalIds = ["release-failure-a", "release-failure-b"];
+		const warnSpy = spyOn(console, "warn").mockImplementation(() => {});
+		const entries = terminalIds.map((terminalId) => ({
+			terminalId,
+			instanceId: terminalId,
+			runtime: {
+				terminalId,
+				serializeAddon: { serialize: () => "serialized scrollback" },
+				lastCols: 120,
+				lastRows: 32,
+			},
+			transport: {},
+			linkManager: null,
+			pendingLinkHandlers: null,
+			disposeBufferChangeListener: null,
+			lastUsedAt: 1,
+		}));
+		const registryInternals = terminalRuntimeRegistry as unknown as {
+			entries: Map<string, (typeof entries)[number]>;
+			entryKeysByTerminalId: Map<string, Set<string>>;
+			persistFailureWarnedTerminalIds: Set<string>;
+		};
+		fakeStorage.storage.setItem = () => {
+			throw new Error("storage unavailable");
+		};
+
+		for (const entry of entries) {
+			const key = `${entry.terminalId}\u0000${entry.instanceId}`;
+			registryInternals.entries.set(key, entry);
+			registryInternals.entryKeysByTerminalId.set(
+				entry.terminalId,
+				new Set([key]),
+			);
+		}
+
+		try {
+			terminalRuntimeRegistry.release(terminalIds[0]);
+			terminalRuntimeRegistry.release(terminalIds[0]);
+			terminalRuntimeRegistry.release(terminalIds[1]);
+
+			expect(terminalRuntimeRegistry.has(terminalIds[0])).toBe(true);
+			expect(terminalRuntimeRegistry.has(terminalIds[1])).toBe(true);
+			expect(warnSpy).toHaveBeenCalledTimes(2);
+			expect(warnSpy.mock.calls.map((call) => call[0])).toEqual([
+				`[terminal-registry] state persist failed for ${terminalIds[0]}; keeping runtime alive (localStorage quota?)`,
+				`[terminal-registry] state persist failed for ${terminalIds[1]}; keeping runtime alive (localStorage quota?)`,
+			]);
+		} finally {
+			for (const entry of entries) {
+				const key = `${entry.terminalId}\u0000${entry.instanceId}`;
+				registryInternals.entries.delete(key);
+				registryInternals.entryKeysByTerminalId.delete(entry.terminalId);
+				registryInternals.persistFailureWarnedTerminalIds.delete(
+					entry.terminalId,
+				);
+			}
+			warnSpy.mockRestore();
+		}
+	});
+
+	test("persistEndedSession saves the scrollback and anchor once the parser is idle", async () => {
+		const terminalId = "ended-on-screen";
+		const gate = createParserIdleGate();
+		let parsed: (() => void) | undefined;
+		const runtime = {
+			terminalId,
+			serializeAddon: { serialize: () => "output\r\n[terminal] exited" },
+			lastCols: 120,
+			lastRows: 32,
+			gate,
+			terminal: {
+				write: wrapWrite(gate, (_data, callback) => {
+					parsed = callback;
+				}),
+			},
+		};
+		const entry = {
+			terminalId,
+			instanceId: terminalId,
+			runtime,
+			transport: {
+				sessionEnded: true,
+				seqAnchor: { epoch: "e1", seq: 42 },
+				_seqCounting: true,
+				_bytesSinceAttach: false,
+			},
+		};
+		const registryInternals = terminalRuntimeRegistry as unknown as {
+			entries: Map<string, typeof entry>;
+			entryKeysByTerminalId: Map<string, Set<string>>;
+		};
+		const entryKey = `${terminalId}\u0000${terminalId}`;
+		registryInternals.entries.set(entryKey, entry);
+		registryInternals.entryKeysByTerminalId.set(
+			terminalId,
+			new Set([entryKey]),
+		);
+
+		try {
+			terminalRuntimeRegistry.persistEndedSession(terminalId);
+			expect(fakeStorage.values.has(`terminal-buffer:${terminalId}`)).toBe(
+				false,
+			);
+			parsed?.();
+			await Promise.resolve();
+			expect(fakeStorage.values.get(`terminal-buffer:${terminalId}`)).toBe(
+				"output\r\n[terminal] exited",
+			);
+			expect(
+				JSON.parse(
+					fakeStorage.values.get(`terminal-seq:${terminalId}`) ?? "null",
+				),
+			).toEqual({ epoch: "e1", seq: 42 });
+		} finally {
+			registryInternals.entries.delete(entryKey);
+			registryInternals.entryKeysByTerminalId.delete(terminalId);
+			fakeStorage.values.delete(`terminal-buffer:${terminalId}`);
+			fakeStorage.values.delete(`terminal-seq:${terminalId}`);
+		}
+	});
+
+	test("persistEndedSession leaves other queued idle work in place", async () => {
+		const terminalId = "ended-with-queued-resize";
+		const gate = createParserIdleGate();
+		const callbacks: (() => void)[] = [];
+		const write = wrapWrite(gate, (_data, callback) => {
+			if (callback) callbacks.push(callback);
+		});
+		const entry = {
+			terminalId,
+			instanceId: terminalId,
+			runtime: {
+				terminalId,
+				serializeAddon: { serialize: () => "kept output" },
+				lastCols: 120,
+				lastRows: 32,
+				gate,
+				terminal: { write },
+			},
+			transport: { sessionEnded: true },
+		};
+		const registryInternals = terminalRuntimeRegistry as unknown as {
+			entries: Map<string, typeof entry>;
+			entryKeysByTerminalId: Map<string, Set<string>>;
+		};
+		const entryKey = `${terminalId}\u0000${terminalId}`;
+		registryInternals.entries.set(entryKey, entry);
+		registryInternals.entryKeysByTerminalId.set(
+			terminalId,
+			new Set([entryKey]),
+		);
+		const resize = mock(() => {});
+
+		try {
+			write("still parsing");
+			runWhenParserIdle(gate, resize);
+			terminalRuntimeRegistry.persistEndedSession(terminalId);
+			callbacks[1]?.();
+			await Promise.resolve();
+			expect(fakeStorage.values.get(`terminal-buffer:${terminalId}`)).toBe(
+				"kept output",
+			);
+			callbacks[0]?.();
+			await Promise.resolve();
+			expect(resize).toHaveBeenCalledTimes(1);
+		} finally {
+			registryInternals.entries.delete(entryKey);
+			registryInternals.entryKeysByTerminalId.delete(terminalId);
+			fakeStorage.values.delete(`terminal-buffer:${terminalId}`);
+		}
+	});
+
+	test("persistEndedSession skips the save when the pane is disposed first", async () => {
+		const terminalId = "ended-then-closed";
+		const gate = createParserIdleGate();
+		let parsed: (() => void) | undefined;
+		const entry = {
+			terminalId,
+			instanceId: terminalId,
+			runtime: {
+				terminalId,
+				serializeAddon: { serialize: () => "late output" },
+				lastCols: 120,
+				lastRows: 32,
+				gate,
+				terminal: {
+					write: wrapWrite(gate, (_data, callback) => {
+						parsed = callback;
+					}),
+				},
+			},
+			transport: { sessionEnded: true },
+		};
+		const registryInternals = terminalRuntimeRegistry as unknown as {
+			entries: Map<string, typeof entry>;
+			entryKeysByTerminalId: Map<string, Set<string>>;
+		};
+		const entryKey = `${terminalId}\u0000${terminalId}`;
+		registryInternals.entries.set(entryKey, entry);
+		registryInternals.entryKeysByTerminalId.set(
+			terminalId,
+			new Set([entryKey]),
+		);
+
+		try {
+			terminalRuntimeRegistry.persistEndedSession(terminalId);
+			registryInternals.entries.delete(entryKey);
+			parsed?.();
+			await Promise.resolve();
+			expect(fakeStorage.values.has(`terminal-buffer:${terminalId}`)).toBe(
+				false,
+			);
+		} finally {
+			registryInternals.entries.delete(entryKey);
+			registryInternals.entryKeysByTerminalId.delete(terminalId);
+			fakeStorage.values.delete(`terminal-buffer:${terminalId}`);
+		}
+	});
+
+	test("release persists once before disposing a runtime", () => {
+		const terminalId = "release-success";
+		const entry = {
+			terminalId,
+			instanceId: terminalId,
+			runtime: {
+				terminalId,
+				serializeAddon: { serialize: () => "serialized scrollback" },
+				lastCols: 120,
+				lastRows: 32,
+				gate: { pending: 0 },
+			},
+			transport: {},
+			linkManager: null,
+			pendingLinkHandlers: null,
+			disposeBufferChangeListener: null,
+			lastUsedAt: 1,
+		};
+		const registryInternals = terminalRuntimeRegistry as unknown as {
+			entries: Map<string, typeof entry>;
+			entryKeysByTerminalId: Map<string, Set<string>>;
+			persistFailureWarnedTerminalIds: Set<string>;
+			disposeEntry: (
+				disposedEntry: typeof entry,
+				options: { persistedState?: "clear" | "preserve" },
+			) => void;
+		};
+		const entryKey = `${terminalId}\u0000${terminalId}`;
+		const disposeCalls: { persistedState?: "clear" | "preserve" }[] = [];
+		registryInternals.entries.set(entryKey, entry);
+		registryInternals.entryKeysByTerminalId.set(
+			terminalId,
+			new Set([entryKey]),
+		);
+		registryInternals.persistFailureWarnedTerminalIds.add(terminalId);
+		registryInternals.disposeEntry = (_entry, options) => {
+			disposeCalls.push(options);
+		};
+
+		try {
+			terminalRuntimeRegistry.release(terminalId);
+
+			expect(fakeStorage.values.get(`terminal-buffer:${terminalId}`)).toBe(
+				"serialized scrollback",
+			);
+			expect(fakeStorage.values.get(`terminal-dims:${terminalId}`)).toBe(
+				JSON.stringify({ cols: 120, rows: 32 }),
+			);
+			expect(disposeCalls).toEqual([{ persistedState: "preserve" }]);
+			expect(
+				registryInternals.persistFailureWarnedTerminalIds.has(terminalId),
+			).toBe(false);
+		} finally {
+			delete (terminalRuntimeRegistry as unknown as { disposeEntry?: unknown })
+				.disposeEntry;
+			registryInternals.entries.delete(entryKey);
+			registryInternals.entryKeysByTerminalId.delete(terminalId);
+			registryInternals.persistFailureWarnedTerminalIds.delete(terminalId);
+		}
+	});
+
+	test("release keeps an ended session's scrollback for the pane to show", () => {
+		const terminalId = "release-session-ended";
+		const serialize = mock(() => "dead session scrollback");
+		const entry = {
+			terminalId,
+			instanceId: terminalId,
+			runtime: {
+				terminalId,
+				serializeAddon: { serialize },
+				lastCols: 120,
+				lastRows: 32,
+				gate: { pending: 0 },
+			},
+			transport: { sessionEnded: true },
+			linkManager: null,
+			pendingLinkHandlers: null,
+			disposeBufferChangeListener: null,
+			lastUsedAt: 1,
+		};
+		const registryInternals = terminalRuntimeRegistry as unknown as {
+			entries: Map<string, typeof entry>;
+			entryKeysByTerminalId: Map<string, Set<string>>;
+			disposeEntry: (
+				disposedEntry: typeof entry,
+				options: { persistedState?: "clear" | "preserve" },
+			) => void;
+		};
+		const entryKey = `${terminalId}\u0000${terminalId}`;
+		const disposeCalls: { persistedState?: "clear" | "preserve" }[] = [];
+		registryInternals.entries.set(entryKey, entry);
+		registryInternals.entryKeysByTerminalId.set(
+			terminalId,
+			new Set([entryKey]),
+		);
+		registryInternals.disposeEntry = (_entry, options) => {
+			disposeCalls.push(options);
+		};
+
+		try {
+			terminalRuntimeRegistry.release(terminalId);
+
+			expect(fakeStorage.values.get(`terminal-buffer:${terminalId}`)).toBe(
+				"dead session scrollback",
+			);
+			expect(disposeCalls).toEqual([{ persistedState: "preserve" }]);
+		} finally {
+			delete (terminalRuntimeRegistry as unknown as { disposeEntry?: unknown })
+				.disposeEntry;
+			registryInternals.entries.delete(entryKey);
+			registryInternals.entryKeysByTerminalId.delete(terminalId);
+		}
+	});
+
+	test("dispose clears persisted state even when eviction already removed the entry", () => {
+		const terminalId = "evicted-terminal";
+		fakeStorage.values.set(`terminal-buffer:${terminalId}`, "scrollback");
+		fakeStorage.values.set(
+			`terminal-dims:${terminalId}`,
+			JSON.stringify({ cols: 120, rows: 32 }),
+		);
+
+		expect(terminalRuntimeRegistry.has(terminalId)).toBe(false);
+		terminalRuntimeRegistry.dispose(terminalId);
+
+		expect(fakeStorage.values.has(`terminal-buffer:${terminalId}`)).toBe(false);
+		expect(fakeStorage.values.has(`terminal-dims:${terminalId}`)).toBe(false);
+	});
+
+	test("reschedules eviction when a parked terminal changes buffers", () => {
+		let emitBufferChange: () => void = () => {
+			throw new Error("buffer listener was not installed");
+		};
+		let listenerDisposed = false;
+		const runtime = {
+			container: {} as HTMLDivElement | null,
+			terminal: {
+				buffer: {
+					onBufferChange: (listener: () => void) => {
+						emitBufferChange = listener;
+						return { dispose: () => (listenerDisposed = true) };
+					},
+				},
+			},
+		};
+		const entry = {
+			runtime,
+			disposeBufferChangeListener: null as (() => void) | null,
+		};
+		const registryInternals = terminalRuntimeRegistry as unknown as {
+			observeBufferChanges: (observedEntry: typeof entry) => void;
+			pendingEviction: ReturnType<typeof setTimeout> | null;
+		};
+
+		if (registryInternals.pendingEviction !== null) {
+			clearTimeout(registryInternals.pendingEviction);
+			registryInternals.pendingEviction = null;
+		}
+		registryInternals.observeBufferChanges(entry);
+		emitBufferChange();
+		expect(registryInternals.pendingEviction).toBeNull();
+
+		runtime.container = null;
+		emitBufferChange();
+		expect(registryInternals.pendingEviction).not.toBeNull();
+
+		if (registryInternals.pendingEviction !== null) {
+			clearTimeout(registryInternals.pendingEviction);
+			registryInternals.pendingEviction = null;
+		}
+		entry.disposeBufferChangeListener?.();
+		expect(listenerDisposed).toBe(true);
+	});
+
+	test("defers eviction while flushed output is still being parsed", () => {
+		const terminalId = "parser-busy-terminal";
+		let flushed = false;
+		const gate = { pending: 1, queued: null as (() => void) | null };
+		const entry = {
+			terminalId,
+			instanceId: terminalId,
+			runtime: {
+				container: null,
+				gate,
+				terminal: { buffer: { active: { type: "normal" } } },
+			},
+			transport: {
+				_writeCoalescer: {
+					flushSync: () => {
+						flushed = true;
+					},
+				},
+			},
+			linkManager: null,
+			pendingLinkHandlers: null,
+			lastUsedAt: 1,
+		};
+		const registryInternals = terminalRuntimeRegistry as unknown as {
+			entries: Map<string, typeof entry>;
+			evictExcessParkedRuntimes: () => void;
+		};
+		const entryKey = `${terminalId}\u0000${terminalId}`;
+		registryInternals.entries.set(entryKey, entry);
+
+		try {
+			registryInternals.evictExcessParkedRuntimes();
+
+			expect(flushed).toBe(true);
+			expect(gate.queued).not.toBeNull();
+			expect(registryInternals.entries.has(entryKey)).toBe(true);
+		} finally {
+			registryInternals.entries.delete(entryKey);
+		}
+	});
+});
+
+describe("terminal replacement history", () => {
+	test("distinguishes session death from transport termination and bounds restored history", () => {
+		const serialize = mock(() => "previous output");
+		const previous = {
+			transport: { sessionEnded: false, _terminated: true },
+			runtime: { serializeAddon: { serialize } },
+		};
+		const replacement: { initialBuffer?: string } = {};
+		const internals = terminalRuntimeRegistry as unknown as {
+			getEntry: () => typeof previous;
+			getOrCreateEntry: () => typeof replacement;
+		};
+		const getEntry = spyOn(internals, "getEntry").mockReturnValue(previous);
+		const getOrCreate = spyOn(internals, "getOrCreateEntry").mockReturnValue(
+			replacement,
+		);
+		try {
+			expect(terminalRuntimeRegistry.isSessionEnded("old", "pane")).toBe(false);
+			terminalRuntimeRegistry.prepareReplacement(
+				"old",
+				"pane",
+				"New shell",
+			)("new");
+			expect(getOrCreate).not.toHaveBeenCalled();
+			previous.transport.sessionEnded = true;
+			expect(terminalRuntimeRegistry.isSessionEnded("old", "pane")).toBe(true);
+			const apply = terminalRuntimeRegistry.prepareReplacement(
+				"old",
+				"pane",
+				"New shell",
+			);
+			expect(getOrCreate).not.toHaveBeenCalled();
+			getEntry.mockReturnValue(undefined as unknown as typeof previous);
+			apply("new");
+			expect(serialize).toHaveBeenCalledWith({
+				scrollback: 1000,
+				excludeAltBuffer: true,
+				excludeModes: true,
+			});
+			expect(getOrCreate).toHaveBeenCalledWith("new", "pane");
+			expect(replacement.initialBuffer).toBe(
+				"previous output\r\n\x1b[0mNew shell\r\n\x1b7",
+			);
+		} finally {
+			getEntry.mockRestore();
+			getOrCreate.mockRestore();
+		}
+	});
+});
+
+describe("terminalRuntimeRegistry copy selection", () => {
+	test("uses the same Ghostty whitespace policy", () => {
+		const entries = (
+			terminalRuntimeRegistry as unknown as { entries: Map<string, unknown> }
+		).entries;
+		const terminalId = "copy-policy-test";
+		const key = `${terminalId}\u0000${terminalId}`;
+		let selection = "foo   \r\nbar\u3000  ";
+		entries.set(key, {
+			terminalId,
+			instanceId: terminalId,
+			runtime: {
+				terminal: {
+					getSelection: () => selection,
+					getSelectionPosition: () => ({
+						start: { x: 0, y: 0 },
+						end: { x: 9, y: 1 },
+					}),
+					_core: { _selectionService: { _activeSelectionMode: 0 } },
+					buffer: {
+						active: {
+							getLine: () => ({
+								translateToString: () => "",
+								isWrapped: false,
+							}),
+						},
+					},
+				},
+			},
+		});
+		try {
+			expect(terminalRuntimeRegistry.getSelection(terminalId, terminalId)).toBe(
+				"foo\r\nbar\u3000",
+			);
+			selection = "   ";
+			expect(terminalRuntimeRegistry.getSelection(terminalId, terminalId)).toBe(
+				"",
+			);
+		} finally {
+			entries.delete(key);
+		}
+		expect(terminalRuntimeRegistry.getSelection(terminalId, terminalId)).toBe(
+			"",
+		);
+	});
+});

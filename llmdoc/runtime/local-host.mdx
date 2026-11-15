@@ -1,0 +1,54 @@
+---
+description: "host manifest adopt ownership、并发 start 取消、owned/adopted 清理权限，以及桌面重启和 local CLI daemon 的进程生命周期。"
+kind: architecture
+code:
+  paths:
+    - "apps/desktop/src/main/lib/host-service-coordinator.ts"
+    - "apps/desktop/src/main/host-service/shutdown.ts"
+    - "packages/cli/src/lib/host/spawn.ts"
+    - "packages/cli/src/lib/host/manifest.ts"
+    - "packages/host-service/src/serve.ts"
+    - "apps/desktop/src/main/host-service/index.ts"
+    - "apps/desktop/src/main/lib/host-service-manifest.ts"
+    - "packages/cli/src/lib/host/process-identity.ts"
+    - "packages/cli/src/lib/host/manifest-liveness.ts"
+    - "packages/cli/src/commands/stop/command.ts"
+    - "packages/cli/src/commands/stop/stop-host.ts"
+    - "packages/cli/src/commands/status/command.ts"
+relations:
+  related:
+    - "execution-model.mdx"
+    - "terminals/session-lifecycle.mdx"
+    - "runtime/local-persistence.mdx"
+    - "distribution/cli-contract.mdx"
+---
+
+# host 进程与 manifest 所有权
+
+manifest 是桌面与 CLI 寻址同一应用数据目录下 host 的契约，包含端点、PSK 与进程身份；它不是“该进程健康且可安全终止”的充分证据。读取、探活、启动和清理必须保持同一所有权模型。
+
+## start、adopt 与取消
+
+桌面 coordinator 合并同一命名空间的并发 start。文件 spawn lock 防不同实例同时创建 host；取锁后再次检查健康 manifest，避免把刚完成启动的同伴漏掉。遇锁持有者时等待其启动结果，超出预算明确失败，不无限等待。
+
+adopt 必须通过带凭证的健康探针。`owned` 表示当前 coordinator 生成并管理 child，`adopted` 表示只借用另一实例的服务。普通 stop 对 adopted 只删除本地引用；不杀进程，也不删除他人 manifest。清理自有 manifest 前再次比较 holder PID，防并发新 holder 的 claim 被旧进程退出路径删除。
+
+stopAll 先推进启动 generation、取消 respawn，再清理实例。任何被旧 generation 发起的异步 start 都不得在退出之后重新登记或复活服务。延迟 kill escalation 同样须在 child 退出时撤销，避免命中复用 PID。
+
+restart 延续普通所有权语义；显式 reset 是更强的恢复路径，会读取 manifest holder 并强制终止后重新启动。不能把 reset 的权限推广到普通 stop。
+
+## 桌面 child 与独立 daemon
+
+桌面生成的 host 与 Electron 生命周期耦合。child 在启动 await 前安装 parent watchdog；关闭顺序先停止 reclaim，再关闭新连接、有限排空、有限 dispose。native worker 卡住可能让 Node 的正常 exit 等待线程；超过 dispose deadline 使用内核强制退出，避免孤儿 host 持有旧 socket 干扰新实例。
+
+host-service child 在监听成功后 claim manifest；对健康 holder 让位，并在 holder 消失后重新 claim。CLI 启动也必须先等健康再发布 manifest；启动或发布失败只清理本次 child。`--daemon` 的脱离、日志和数据目录传递是显式启动模式，不能由终端窗口是否存在来猜。
+
+CLI status 和 stop 共用 manifest liveness 核验：区分已死 PID、被复用为另一进程的 PID 与真正 host；无法读取命令身份时再用带凭证的端点探活。stop 只对通过核验的 holder 发送终止信号，不能凭 PID 存活就当作归属匹配。移除过期 manifest 仍须比较记录中的 holder，避免删掉后来建立的新 claim。额外停止 terminal daemon 是显式选项，会结束其中终端与 Agent，区别于只停止 host。
+
+PTY 存续由独立 pty-daemon 承担；host 重启与 terminal detach 不等同杀 shell。修改 host 退出顺序时必须同时评审终端恢复与 chat 的未完成工作记录。
+
+## 权威锚点
+
+- `apps/desktop/src/main/lib/host-service-coordinator.ts`：start/adopt、generation、owned 与 reset 的权限分支。
+- `apps/desktop/src/main/host-service/shutdown.ts`：排空与 native worker 故障下的有界退出。
+- `packages/cli/src/lib/host/spawn.ts`、`manifest.ts`：独立启动与共享 manifest 格式。

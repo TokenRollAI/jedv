@@ -1,0 +1,190 @@
+import type { ReactNode } from "react";
+import type { StoreApi } from "zustand/vanilla";
+import type { CreatePaneInput, WorkspaceStore } from "../core/store";
+import type { Pane, Tab } from "../types";
+
+export interface PaneActionConfig<TData> {
+	key: string;
+	icon: ReactNode | ((context: RendererContext<TData>) => ReactNode);
+	tooltip?: ReactNode | ((context: RendererContext<TData>) => ReactNode);
+	onClick: (context: RendererContext<TData>) => void;
+}
+
+export interface ContextMenuActionConfig<TData> {
+	key: string;
+	label?: string;
+	icon?: ReactNode;
+	hotkeyId?: string;
+	shortcut?: string;
+	onSelect?: (context: RendererContext<TData>) => void;
+	disabled?: boolean | ((context: RendererContext<TData>) => boolean);
+	/**
+	 * Omit the entry entirely. Evaluated when the menu opens, not when the
+	 * action list is built, so an entry can depend on state that changes
+	 * between opens (e.g. whether the right-click landed on a terminal link).
+	 */
+	hidden?: boolean | ((context: RendererContext<TData>) => boolean);
+	variant?: "destructive";
+	type?: "item" | "separator";
+	children?:
+		| ContextMenuActionConfig<TData>[]
+		| ((context: RendererContext<TData>) => ContextMenuActionConfig<TData>[]);
+}
+
+export interface PaneContext<TData> extends Pane<TData> {
+	parentDirection: "horizontal" | "vertical" | null;
+}
+
+export interface TabContext<TData> extends Tab<TData> {
+	position: number;
+}
+
+export interface RendererContext<TData> {
+	pane: PaneContext<TData>;
+	tab: TabContext<TData>;
+	isActive: boolean;
+	store: StoreApi<WorkspaceStore<TData>>;
+
+	actions: {
+		close: () => void;
+		focus: () => void;
+		setTitle: (title: string) => void;
+		pin: () => void;
+		updateData: (data: TData) => void;
+		split: (
+			position: "right" | "down",
+			newPane: CreatePaneInput<TData>,
+		) => void;
+	};
+
+	headerActions: ReactNode;
+}
+
+export interface PaneTitleSource {
+	subscribe: (callback: () => void) => () => void;
+	getSnapshot: () => string | undefined;
+}
+
+export interface PaneDefinition<TData> {
+	renderPane(context: RendererContext<TData>): ReactNode;
+	getTitle?(pane: Pane<TData>): string | undefined;
+	/**
+	 * Optional reactive title source. When defined, the tab title (and other
+	 * title-aware UI) subscribes to it and re-renders when the runtime title
+	 * changes — without mirroring runtime state into the pane store.
+	 */
+	titleSource?(pane: Pane<TData>): PaneTitleSource | undefined;
+	getIcon?(context: RendererContext<TData>): ReactNode;
+	renderTitle?(context: RendererContext<TData>): ReactNode;
+	/** Skip the pane's header row; its actions stay in the context menu. */
+	hideHeader?(context: RendererContext<TData>): boolean;
+	renderHeaderExtras?(context: RendererContext<TData>): ReactNode;
+	renderToolbar?(context: RendererContext<TData>): ReactNode;
+	onHeaderClick?(context: RendererContext<TData>): void;
+	onBeforeClose?(pane: Pane<TData>): boolean | Promise<boolean>;
+	onAfterClose?(pane: Pane<TData>, closedPanes: readonly Pane<TData>[]): void;
+	onAfterRemove?(pane: Pane<TData>): void;
+	/**
+	 * Keep this pane mounted, hidden, after its tab is left, so returning to it
+	 * does not rebuild it (`WorkspaceProps.keepAliveTabs`). A tab is kept only
+	 * when every pane in it opts in. Opt in only when the pane is idle while
+	 * hidden: pause its polling with `useIsTabVisible()`.
+	 */
+	keepAlive?: boolean;
+	/**
+	 * The pane keeps its body full width under the aside and makes room itself
+	 * with `var(--pane-aside-inset)`, so its scrollbars stay at the pane edge.
+	 * Other panes get the inset as right padding.
+	 */
+	insetsAside?: boolean;
+	paneActions?:
+		| PaneActionConfig<TData>[]
+		| ((
+				context: RendererContext<TData>,
+				defaults: PaneActionConfig<TData>[],
+		  ) => PaneActionConfig<TData>[]);
+	contextMenuActions?:
+		| ContextMenuActionConfig<TData>[]
+		| ((
+				context: RendererContext<TData>,
+				defaults: ContextMenuActionConfig<TData>[],
+		  ) => ContextMenuActionConfig<TData>[]);
+}
+
+export type PaneRegistry<TData> = Record<string, PaneDefinition<TData>>;
+
+export type PaneErrorHandler = (
+	error: unknown,
+	componentStack: string | null,
+) => void;
+
+export interface WorkspaceInteractionState {
+	resizeActive: boolean;
+}
+
+export interface AddTabMenuActions {
+	runAfterClose: (action: () => void) => void;
+}
+
+/** `cards` draws each pane as its own rounded card with gaps between them, and the tabs as pills. */
+export type PaneAppearance = "default" | "cards";
+
+export interface WorkspaceProps<TData> {
+	appearance?: PaneAppearance;
+	/**
+	 * Defaults to true. False when another workspace in the same window has
+	 * keyboard focus: the active tab and pane header then look inactive.
+	 */
+	isFocused?: boolean;
+	store: StoreApi<WorkspaceStore<TData>>;
+	registry: PaneRegistry<TData>;
+	className?: string;
+	renderTabAccessory?: (tab: Tab<TData>) => ReactNode;
+	renderTabIcon?: (tab: Tab<TData>) => ReactNode;
+	/** Shows the tab's title in italics, for a tab the next open will replace. */
+	isPreviewTab?: (tab: Tab<TData>) => boolean;
+	/** Defaults to true. When false, tabs can't be renamed. */
+	renameTabs?: boolean;
+	/** Runs when a tab is clicked, after it is selected. */
+	onTabClick?: (tab: Tab<TData>) => void;
+	renderEmptyState?: () => ReactNode;
+	renderAddTabMenu?: (actions: AddTabMenuActions) => ReactNode;
+	/** Runs when the add-tab button is clicked. Ignored when `renderAddTabMenu` is set. */
+	onAddTab?: () => void;
+	/** Rendered at the leading (left) edge of the tab bar row, before the tabs. */
+	renderTabBarLeading?: () => ReactNode;
+	/** Rendered at the trailing (right) edge of the tab bar row. */
+	renderTabBarTrailing?: () => ReactNode;
+	renderBelowTabBar?: () => ReactNode;
+	/** Classes for the tab bar row, merged over its defaults. */
+	tabBarClassName?: string;
+	/**
+	 * Places the tab bar: gets the bar and returns what to render in its place,
+	 * such as a portal into a window title bar. Unset, the bar sits above the tabs.
+	 */
+	renderTabBar?: (tabBar: ReactNode) => ReactNode;
+	/**
+	 * Rendered over the right of the top-right pane's body, below its header.
+	 * It reserves its width by setting `--pane-aside-inset` on its parent.
+	 */
+	renderPaneAside?: () => ReactNode;
+	onBeforeClosePane?: (
+		pane: Pane<TData>,
+		tab: Tab<TData>,
+	) => boolean | Promise<boolean>;
+	onBeforeCloseTab?: (tab: Tab<TData>) => boolean | Promise<boolean>;
+	onAfterCloseTab?: (tab: Tab<TData>) => void;
+	onInteractionStateChange?: (state: WorkspaceInteractionState) => void;
+	paneActions?:
+		| PaneActionConfig<TData>[]
+		| ((context: RendererContext<TData>) => PaneActionConfig<TData>[]);
+	contextMenuActions?:
+		| ContextMenuActionConfig<TData>[]
+		| ((context: RendererContext<TData>) => ContextMenuActionConfig<TData>[]);
+	onPaneError?: PaneErrorHandler;
+	/**
+	 * How many recently shown tabs stay mounted, hidden, besides the active
+	 * one. The least recently shown is unmounted past this. Defaults to 0.
+	 */
+	keepAliveTabs?: number;
+}

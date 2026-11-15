@@ -1,0 +1,245 @@
+/**
+ * Electron Builder Configuration
+ * @see https://www.electron.build/configuration/configuration
+ */
+
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+import { SUPPORTED_LOCALES } from "@jedv/i18n/locales";
+import type { Configuration } from "electron-builder";
+import pkg from "./package.json";
+import {
+	packagedAsarUnpackGlobs,
+	packagedNodeModuleCopies,
+	packagedNodeModuleExclusions,
+} from "./runtime-dependencies";
+import { localizeMacDisplayName } from "./scripts/localize-display-name";
+import {
+	JEDV_CANARY_UPDATE_FEED_URL,
+	JEDV_UPDATE_FEED_URL,
+} from "./src/shared/jedv";
+
+const currentYear = new Date().getFullYear();
+const productName = pkg.productName;
+// productName names the bundle, userData, logs and the keychain entry, so it
+// never changes; the menu bar, Dock and launchers show displayName.
+export const displayName = process.env.DESKTOP_DISPLAY_NAME || productName;
+export const toInstallerFileName = (name: string) =>
+	name.trim().replace(/\s+/g, "-");
+const macIconPath = join(pkg.resources, "build/icons/icon.icns");
+const linuxIconPath = join(pkg.resources, "build/icons");
+const winIconPath = join(pkg.resources, "build/icons/icon.ico");
+const dmgBackgroundPath = join(
+	pkg.resources,
+	"build/installer/background.tiff",
+);
+const extraResourceDirs = [
+	"migrations",
+	"host-migrations",
+	"chat-migrations",
+	"bin",
+];
+// Chromium names its macOS locale folders zh_CN, zh_CN_FEMININE, and so on.
+const macElectronLanguages = SUPPORTED_LOCALES.flatMap((locale) => {
+	const folder = locale.replace("-", "_");
+	return [
+		folder,
+		...["FEMININE", "MASCULINE", "NEUTER"].map(
+			(gender) => `${folder}_${gender}`,
+		),
+	];
+});
+
+const config: Configuration = {
+	appId: "dev.jedv.desktop",
+	productName,
+	afterPack: localizeMacDisplayName(displayName),
+	copyright: `Copyright © ${currentYear} Jedv contributors`,
+	electronVersion: pkg.devDependencies.electron.replace(/^\^/, ""),
+
+	publish: {
+		provider: "generic",
+		url: pkg.version.includes("-")
+			? JEDV_CANARY_UPDATE_FEED_URL
+			: JEDV_UPDATE_FEED_URL,
+	},
+
+	// Directories
+	directories: {
+		output: "release",
+		buildResources: join(pkg.resources, "build"),
+	},
+
+	// ASAR configuration for native modules and external resources
+	asar: true,
+	asarUnpack: [
+		...packagedAsarUnpackGlobs,
+		// Sound files must be unpacked so external audio players (afplay, paplay, etc.) can access them
+		"**/resources/sounds/**/*",
+		// Tray icon must be unpacked so Electron Tray can load it
+		"**/resources/tray/**/*",
+	],
+
+	// Extra resources placed outside asar archive (accessible via process.resourcesPath).
+	// Migrations must be outside asar for drizzle-orm to read.
+	extraResources: [
+		{ from: "../../LICENSE.md", to: "LICENSE.md" },
+		...extraResourceDirs.map((dir) => ({
+			from: `dist/resources/${dir}`,
+			to: `resources/${dir}`,
+			filter: ["**/*"],
+		})),
+	],
+
+	// electron-builder moves top-level "!" patterns ahead of the includes, so an
+	// exclusion that must beat an include goes in that entry's own filter.
+	files: [
+		{
+			from: "dist",
+			to: "dist",
+			// CI uploads source maps to Sentry during the build, which symbolicates by debug ID.
+			filter: [
+				"**/*",
+				"!**/*.map",
+				...extraResourceDirs.map((dir) => `!resources/${dir}/**`),
+			],
+		},
+		"package.json",
+		{
+			from: pkg.resources,
+			to: "resources",
+			filter: ["**/*", "!build/icons/*.icns", "!build/icons/*.ico"],
+		},
+		// Runtime modules that stay external to the main bundle.
+		// bun creates symlinks for direct deps in workspace node_modules.
+		// The copy:native-modules script replaces symlinks with real files
+		// before building (required for Bun 1.3+ isolated installs).
+		...packagedNodeModuleCopies,
+		...packagedNodeModuleExclusions,
+		"!**/.DS_Store",
+		"!**/*.map",
+		"!**/node_modules/@anthropic-ai/claude-agent-sdk-*/**",
+		"!**/node_modules/@openai/codex*/**",
+	],
+
+	// Rebuild native modules for Electron's Node.js version
+	npmRebuild: true,
+
+	// macOS DMG installer
+	dmg: {
+		...(existsSync(dmgBackgroundPath) ? { background: dmgBackgroundPath } : {}),
+		// Explicit size — dmgbuild's auto-calc under-allocates and silently truncates
+		// the last large file above ~1.7GB of contents. `shrink: true` (default) keeps
+		// the final artifact compact.
+		size: "4g",
+		title: displayName,
+		artifactName: `${toInstallerFileName(displayName)}-\${version}-\${arch}.\${ext}`,
+	},
+
+	// macOS
+	mac: {
+		...(existsSync(macIconPath) ? { icon: macIconPath } : {}),
+		category: "public.app-category.utilities",
+		target: "default",
+		electronLanguages: macElectronLanguages,
+		hardenedRuntime: true,
+		gatekeeperAssess: false,
+		notarize: true,
+		entitlements: join(pkg.resources, "build/entitlements.mac.plist"),
+		entitlementsInherit: join(
+			pkg.resources,
+			"build/entitlements.mac.inherit.plist",
+		),
+		extendInfo: {
+			// Electron finds "<CFBundleName> Helper.app" by this name and aborts at
+			// launch when it is not productName. The shown name is localized in
+			// afterPack.
+			CFBundleName: productName,
+			CFBundleDisplayName: productName,
+			LSHasLocalizedDisplayName: true,
+
+			// Required for macOS local network permission prompt
+			NSLocalNetworkUsageDescription: `${displayName} needs access to your local network to discover and connect to development servers running on your network.`,
+			// Bonjour service types to browse for (triggers the permission prompt)
+			NSBonjourServices: ["_http._tcp", "_https._tcp"],
+			// Required for Apple Events / Automation permission prompt
+			NSAppleEventsUsageDescription: `${displayName} needs to interact with other applications to run terminal commands and development tools.`,
+		},
+	},
+
+	// fpm's default xz takes ~15 minutes on the 2 GB tree; gzip takes about
+	// one and costs roughly a tenth in download size.
+	deb: { compression: "gz" },
+
+	// Deep linking protocol
+	protocols: {
+		name: productName,
+		schemes: ["jedv"],
+	},
+
+	// Linux
+	linux: {
+		...(existsSync(linuxIconPath) ? { icon: linuxIconPath } : {}),
+		// Otherwise the binary, and with it the window class the desktop entry
+		// must match, is the package name mangled to "@jedvdesktop".
+		executableName: "jedv",
+		category: "Utility",
+		synopsis: pkg.description,
+		// The AppImage runtime needs libfuse2, which Debian 12 / Ubuntu 22.04+
+		// no longer install by default; the deb needs nothing extra and installs
+		// the desktop entry and icon that the dock and deep links resolve.
+		target: ["AppImage", "deb"],
+		artifactName: `jedv-\${version}-\${arch}.\${ext}`,
+		// GNOME's app menus only show their heuristic "New Window" item
+		// intermittently for running apps; an explicit desktop action (the
+		// Chrome/VS Code approach) is always shown. The action relaunches with
+		// --new-window, which the second-instance handler answers by opening a
+		// window; a plain relaunch focuses the running app. `jedv` is the
+		// deb's /usr/bin link; AppImage integration rewrites Exec lines to the
+		// image path, and the un-integrated AppImage never shows actions.
+		desktop: {
+			// electron-builder appends [Desktop Action] groups but never writes
+			// the Actions= key that exposes them, so declare it explicitly —
+			// launchers ignore action groups not listed under Actions.
+			entry: {
+				Name: displayName,
+				Actions: "new-window;",
+				// Electron sets the window class from the executable name, so the
+				// default (the product name) never matches and the dock shows a
+				// second, iconless entry for the running app.
+				StartupWMClass: "jedv",
+			},
+			desktopActions: {
+				"new-window": {
+					Name: "New Window",
+					// Args must stay in sync with linux.executableArgs (the
+					// AppImage default is --no-sandbox when unset); %U is
+					// intentionally omitted. --new-window is what the
+					// second-instance handler keys on to open a window instead
+					// of focusing the running app.
+					Exec: "jedv --new-window",
+				},
+			},
+		},
+	},
+
+	// Windows
+	win: {
+		...(existsSync(winIconPath) ? { icon: winIconPath } : {}),
+		target: [
+			{
+				target: "nsis",
+				arch: ["x64"],
+			},
+		],
+		artifactName: `${productName}-${pkg.version}-\${arch}.\${ext}`,
+	},
+
+	// NSIS installer (Windows)
+	nsis: {
+		oneClick: false,
+		allowToChangeInstallationDirectory: true,
+	},
+};
+
+export default config;

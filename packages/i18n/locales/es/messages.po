@@ -1,0 +1,5689 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-08-26 16:05-0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: es\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+msgid "./"
+msgstr "./"
+
+msgid "\"{title}\" has finished its task"
+msgstr "\"{title}\" ha terminado su tarea"
+
+msgid "\"{title}\" is waiting for your reply"
+msgstr "\"{title}\" está esperando tu respuesta"
+
+#. placeholder {0}: summary.updated
+msgid "{0, plural, one {# existing theme updated} other {# existing themes updated}}"
+msgstr "{0, plural, one {# tema existente actualizado} other {# temas existentes actualizados}}"
+
+#. placeholder {0}: items.length
+msgid "{0} changed files"
+msgstr "{0} archivos modificados"
+
+#. placeholder {0}: collisions.length
+msgid "{0} files already exist in {where}. Do you want to replace them?"
+msgstr "Ya hay {0} archivos en {where}. ¿Quieres reemplazarlos?"
+
+#. placeholder {0}: failedSaves.length
+msgid "{0} files could not be saved."
+msgstr "No se pudieron guardar {0} archivos."
+
+#. placeholder {0}: ports.length
+msgid "{0} live ports"
+msgstr "{0} puertos activos"
+
+#. placeholder {0}: checks.data?.running
+msgid "{0} running terminal sessions will stop. Worktree deletion may run teardown commands."
+msgstr "{0} sesiones de terminal en ejecución se detendrán. La eliminación del árbol de trabajo puede ejecutar comandos de limpieza."
+
+#. placeholder {0}: daemon.sessions.data?.length ?? 0
+msgid "{0} sessions"
+msgstr "{0} sesiones"
+
+#. placeholder {0}: project.workspaceCount
+#. placeholder {1}: formatDate(project.purgeAt)
+msgid "{0} workspace records · retained until {1}"
+msgstr "{0} registros de espacios de trabajo · se conservan hasta {1}"
+
+#. placeholder {0}: row.name
+#. placeholder {1}: row.runningTerminalCount
+#. placeholder {2}: row.runningAgentCount
+msgid "{0}: {1} running terminals, {2} running agents"
+msgstr "{0}: {1} terminales en ejecución, {2} agentes en ejecución"
+
+msgid "{approvals} approvals"
+msgstr "{approvals} aprobaciones"
+
+msgid "{completed} finished"
+msgstr "{completed} finalizados"
+
+msgid "{configTitle} font size"
+msgstr "Tamaño de fuente de {configTitle}"
+
+msgid "{count, plural, one {Every # day at {time}} other {Every # days at {time}}}"
+msgstr "{count, plural, one {Cada # día a las {time}} other {Cada # días a las {time}}}"
+
+msgid "{count, plural, one {Every # day} other {Every # days}}"
+msgstr "{count, plural, one {Cada # día} other {Cada # días}}"
+
+msgid "{count, plural, one {Every # hour} other {Every # hours}}"
+msgstr "{count, plural, one {Cada # hora} other {Cada # horas}}"
+
+msgid "{count, plural, one {Every # minute} other {Every # minutes}}"
+msgstr "{count, plural, one {Cada # minuto} other {Cada # minutos}}"
+
+msgid "{count, plural, one {Every # week on {day} at {time}} other {Every # weeks on {day} at {time}}}"
+msgstr "{count, plural, one {Cada # semana el {day} a las {time}} other {Cada # semanas el {day} a las {time}}}"
+
+msgid "{count, plural, one {Every # week on {day}} other {Every # weeks on {day}}}"
+msgstr "{count, plural, one {Cada # semana el {day}} other {Cada # semanas el {day}}}"
+
+msgid "{count} files are over {limit} and were not added"
+msgstr "{count} archivos superan {limit} y no se añadieron"
+
+msgid "{currentPage} of {totalBranches}"
+msgstr "{currentPage} de {totalBranches}"
+
+msgid "{days} at {time}"
+msgstr "{days} a las {time}"
+
+msgid "{days}d"
+msgstr "{days} d"
+
+msgid "{days}d {hours}h"
+msgstr "{days} d {hours} h"
+
+msgid "{focusShortcutText} to focus"
+msgstr "{focusShortcutText} para enfocar"
+
+msgid "{hours}h"
+msgstr "{hours} h"
+
+msgid "{hours}h {minutes}m"
+msgstr "{hours} h {minutes} min"
+
+#. placeholder {0}: failed.length
+msgid "{imported} imported, {0} failed. Successful imports are kept."
+msgstr "{imported} elementos importados, {0} con errores. Las importaciones correctas se conservan."
+
+msgid "{lines, plural, one {# line} other {# lines}}"
+msgstr "{lines, plural, one {# línea} other {# líneas}}"
+
+msgid "{minimumContrast}:1 contrast"
+msgstr "contraste {minimumContrast}:1"
+
+msgid "{minutes}m"
+msgstr "{minutes} min"
+
+#. placeholder {0}: Number(previewLineHeight.toFixed(2))
+msgid "{previewSize}px · {0} line height"
+msgstr "{previewSize}px · interlineado {0}"
+
+msgid "{projectName} icon"
+msgstr "Icono de {projectName}"
+
+msgid "{running} working"
+msgstr "{running} trabajando"
+
+msgid "{stagedCount} staged files"
+msgstr "{stagedCount} archivos preparados"
+
+msgid "{totalImported, plural, one {Imported # custom theme} other {Imported # custom themes}}"
+msgstr "{totalImported, plural, one {Se importó # tema personalizado} other {Se importaron # temas personalizados}}"
+
+msgid "{uncommittedCount, plural, one {# file changed} other {# files changed}}"
+msgstr "{uncommittedCount, plural, one {# archivo modificado} other {# archivos modificados}}"
+
+msgid "⇧ click"
+msgstr "⇧ clic"
+
+msgid "<0>{primaryFont}</0> is not installed on this system. Falling back to the next available font."
+msgstr "<0>{primaryFont}</0> no está instalada en este sistema. Se usará la siguiente fuente disponible."
+
+msgid "<0>Nerd Fonts</0> are recommended."
+msgstr "Se recomiendan las <0>Nerd Fonts</0>."
+
+msgid "<0>vs</0> <1/>"
+msgstr "<0>vs</0> <1/>"
+
+msgid "~/agent $"
+msgstr "~/agent $"
+
+msgid "⌘ click"
+msgstr "⌘ clic"
+
+msgid "⌘⇧ click"
+msgstr "⌘⇧ clic"
+
+msgid "1 file is over {limit} and was not added"
+msgstr "1 archivo supera {limit} y no se añadió"
+
+msgid "4.5:1 (AA)"
+msgstr "4.5:1 (AA)"
+
+msgid "7:1 (AAA)"
+msgstr "7:1 (AAA)"
+
+msgid "A daemon operation is already in progress"
+msgstr "Ya hay una operación del demonio en curso"
+
+msgid "A file named '{firstName}' already exists in {where}. Do you want to replace it?"
+msgstr "Ya hay un archivo llamado '{firstName}' en {where}. ¿Quieres reemplazarlo?"
+
+msgid "A listening process changed. Cancel and review the current process list before trying again."
+msgstr "Un proceso de escucha ha cambiado. Cancela y revisa la lista de procesos actual antes de volver a intentarlo."
+
+msgid "A pull request already exists for this branch. Refresh the pull request list."
+msgstr "Ya existe una PR para esta rama. Actualiza la lista de PR."
+
+msgid "A tab can contain at most eight panes."
+msgstr "Una pestaña puede contener como máximo ocho paneles."
+
+msgid "A tab can contain at most eight terminal panes."
+msgstr "Una pestaña puede contener como máximo ocho paneles de terminal."
+
+msgid "A workspace is protected. Resolve its protection before removing this project."
+msgstr "Un espacio de trabajo está protegido. Resuelve su protección antes de eliminar este proyecto."
+
+msgid "Aa"
+msgstr "Aa"
+
+msgid "About {displayName}"
+msgstr "Acerca de {displayName}"
+
+msgid "Accept"
+msgstr "Aceptar"
+
+msgid "Accessibility"
+msgstr "Accesibilidad"
+
+msgid "Actions"
+msgstr "Acciones"
+
+msgid "Active"
+msgstr "Activo"
+
+msgid "Active CLI sessions"
+msgstr "Sesiones de CLI activas"
+
+msgid "Active workspaces"
+msgstr "Espacios de trabajo activos"
+
+msgid "Activity"
+msgstr "Actividad"
+
+msgid "Adaptive keyboard layout"
+msgstr "Diseño de teclado adaptable"
+
+msgid "Add"
+msgstr "Añadir"
+
+msgid "Add agent"
+msgstr "Añadir agente"
+
+msgid "add an agent"
+msgstr "añadir un agente"
+
+msgid "Add Attachment"
+msgstr "Añadir adjunto"
+
+msgid "Add command"
+msgstr "Añadir comando"
+
+msgid "Add files, apps, and more"
+msgstr "Añadir archivos, apps y más"
+
+msgid "Add files, apps, and more (@)"
+msgstr "Añadir archivos, apps y más (@)"
+
+msgid "Add photos or files"
+msgstr "Añadir fotos o archivos"
+
+msgid "Add preset"
+msgstr "Añadir preajuste"
+
+msgid "Add project"
+msgstr "Añadir proyecto"
+
+msgid "Add Project from Folder"
+msgstr "Añadir proyecto desde carpeta"
+
+msgid "Add Project from Folder..."
+msgstr "Añadir proyecto desde carpeta..."
+
+msgid "Add to Dictionary"
+msgstr "Añadir al diccionario"
+
+msgid "Added {added} files to {where}"
+msgstr "Se añadieron {added} archivos a {where}"
+
+msgid "Added 1 file to {where}"
+msgstr "Se añadió 1 archivo a {where}"
+
+msgid "Added only when launching with a prompt."
+msgstr "Agregado solo al iniciar con un prompt."
+
+msgid "Admin"
+msgstr "Administrador"
+
+msgid "Advanced environment values override variables written before the command."
+msgstr "Los valores avanzados del entorno sobrescriben las variables escritas antes del comando."
+
+msgid "Affected paths"
+msgstr "Rutas afectadas"
+
+msgid "After delay"
+msgstr "Después del retraso"
+
+msgid "Agent"
+msgstr "Agente"
+
+msgid "Agent activity"
+msgstr "Actividad del agente"
+
+msgid "Agent activity changed. Refresh before opening the session."
+msgstr "La actividad del agente ha cambiado. Actualiza antes de abrir la sesión."
+
+msgid "Agent activity is loading or unavailable"
+msgstr "La actividad del agente se está cargando o no está disponible"
+
+msgid "Agent commands"
+msgstr "Comandos de agente"
+
+msgid "Agent Complete · {workspaceName}"
+msgstr "Agente finalizado · {workspaceName}"
+
+msgid "Agent configuration unavailable"
+msgstr "Configuración del agente no disponible"
+
+msgid "Agent control"
+msgstr "Control del agente"
+
+msgid "Agent Control"
+msgstr "Control del agente"
+
+msgid "Agent did not start a terminal"
+msgstr "El agente no inició una terminal"
+
+msgid "Agent failed"
+msgstr "El agente ha fallado"
+
+msgid "Agent finished"
+msgstr "El agente terminó"
+
+msgid "Agent Island"
+msgstr "Isla de agentes"
+
+msgid "Agent launch is waiting for setup"
+msgstr "El inicio del agente está esperando a que termine la configuración"
+
+msgid "Agent saved, but linked presets could not be updated."
+msgstr "Agente guardado, pero no se pudieron actualizar los preajustes vinculados."
+
+msgid "Agent session has not been created yet"
+msgstr "La sesión del agente aún no se ha creado"
+
+msgid "Agent session is no longer available"
+msgstr "La sesión del agente ya no está disponible"
+
+msgid "Agent sessions"
+msgstr "Sesiones de agentes"
+
+msgid "Agent status unavailable"
+msgstr "Estado del agente no disponible"
+
+msgid "Agents"
+msgstr "Agentes"
+
+msgid "AI chatbot built with Next.js and the AI SDK"
+msgstr "Chatbot de IA creado con Next.js y el AI SDK"
+
+#. placeholder {0}: cmd.aliases.map((alias) => `/${alias}`).join(", ")
+msgid "aliases: {0}"
+msgstr "alias: {0}"
+
+msgid "Alive"
+msgstr "Activo"
+
+msgid "All"
+msgstr "Todas"
+
+msgid "All commits"
+msgstr "Todos los commits"
+
+msgid "All files exceed the maximum size."
+msgstr "Todos los archivos superan el tamaño máximo."
+
+msgid "All open terminal sessions will be killed and any running host-services will be stopped. Use “Close {displayName}” instead if you want services to keep running for the next launch."
+msgstr "Se cerrarán todas las sesiones de terminal abiertas y se detendrán los host-services en ejecución. Usa “Cerrar {displayName}” si prefieres que los servicios sigan activos para el próximo inicio."
+
+msgid "All projects"
+msgstr "Todos los proyectos"
+
+msgid "All releases"
+msgstr "Todas las versiones"
+
+msgid "All templates"
+msgstr "Todas las plantillas"
+
+msgid "All themes used reserved IDs (built-in or system)."
+msgstr "Todos los temas usaban ID reservados (integrados o del sistema)."
+
+msgid "Allow"
+msgstr "Permitir"
+
+msgid "Allow microphone access to use dictation"
+msgstr "Permitir el acceso al micrófono para usar el dictado"
+
+msgid "Already open"
+msgstr "Ya está abierto"
+
+msgid "Also delete local branch"
+msgstr "Eliminar también la rama local"
+
+msgid "An update is ready to install."
+msgstr "Hay una actualización lista para instalar."
+
+msgid "Animate the active terminal cursor."
+msgstr "Anima el cursor del terminal activo."
+
+msgid "Annually"
+msgstr "Anualmente"
+
+msgid "Annually at {time}"
+msgstr "Anualmente a las {time}"
+
+msgid "Annually on {date}"
+msgstr "Anualmente el {date}"
+
+msgid "Annually on {date} at {time}"
+msgstr "Anualmente el {date} a las {time}"
+
+msgid "Another deletion is already running for this workspace. Wait and check its status; do not force a second deletion."
+msgstr "Ya hay otra eliminación en curso para este espacio de trabajo. Espera y comprueba su estado; no fuerces una segunda eliminación."
+
+msgid "Answered"
+msgstr "Respondido"
+
+msgid "App display language. Auto follows your system language."
+msgstr "Idioma de la app. Automático sigue el idioma del sistema."
+
+msgid "Appearance"
+msgstr "Apariencia"
+
+msgid "Apple's installer closed before Git was installed."
+msgstr "El instalador de Apple se cerró antes de instalar Git."
+
+#. placeholder {0}: phase.reason
+msgid "Apple's installer did not open: {0}"
+msgstr "El instalador de Apple no se abrió: {0}"
+
+msgid "Apple's time estimate is usually much longer than the real install."
+msgstr "La estimación de tiempo de Apple suele ser mucho mayor que lo que tarda la instalación."
+
+msgid "Application menu"
+msgstr "Menú de la aplicación"
+
+msgid "Applies to file paths in Markdown previews and terminal output."
+msgstr "Se aplica a las rutas de archivos en las vistas previas de Markdown y la salida del terminal."
+
+msgid "Applies to file rows in the workspace file tree."
+msgstr "Se aplica a las filas de archivo en el árbol de archivos del espacio de trabajo."
+
+msgid "Applies to folder paths in Markdown previews, terminal output, and workspace file tree rows."
+msgstr "Se aplica a las rutas de carpetas en las vistas previas de Markdown, la salida del terminal y las filas del árbol de archivos del espacio de trabajo."
+
+msgid "Applies to URLs in Markdown previews and terminal output."
+msgstr "Se aplica a las URL en las vistas previas de Markdown y la salida del terminal."
+
+msgid "Apply"
+msgstr "Aplicar"
+
+msgid "Approval expired"
+msgstr "Aprobación caducada"
+
+msgid "Approval failed. Open the workspace to inspect its current state."
+msgstr "La aprobación falló. Abre el espacio de trabajo para inspeccionar su estado actual."
+
+msgid "Approval needed"
+msgstr "Aprobación necesaria"
+
+msgid "Approval requested"
+msgstr "Aprobación solicitada"
+
+msgid "Approval required"
+msgstr "Aprobación requerida"
+
+msgid "Approval response sent"
+msgstr "Respuesta de aprobación enviada"
+
+msgid "Approved"
+msgstr "Aprobada"
+
+msgid "Are you sure you want to quit?"
+msgstr "¿Seguro que quieres salir?"
+
+msgid "Ask before quitting the app."
+msgstr "Preguntar antes de salir de la aplicación."
+
+msgid "Ask before terminating a terminal with a running process. Closing a view keeps its session running."
+msgstr "Preguntar antes de terminar una terminal con un proceso en ejecución. Cerrar una vista mantiene su sesión en ejecución."
+
+msgid "Ask to make changes, @mention files"
+msgstr "Pedir cambios, @mencionar archivos"
+
+msgid "Ask to make changes, @mention files, run /commands"
+msgstr "Pedir cambios, mencionar archivos con @, ejecutar /comandos"
+
+msgid "Attach"
+msgstr "Adjuntar"
+
+msgid "Attach files"
+msgstr "Adjuntar archivos"
+
+msgid "Attached"
+msgstr "Conectada"
+
+msgid "attachment"
+msgstr "adjunto"
+
+msgid "Attachment"
+msgstr "Adjunto"
+
+#. placeholder {0}: (cause.index ?? 0) + 1
+#. placeholder {1}: cause.problem
+msgid "Attachment {0} could not be copied: {1}"
+msgstr "No se pudo copiar el archivo adjunto {0}: {1}"
+
+msgid "Attachment limits exceeded"
+msgstr "Se superaron los límites de los archivos adjuntos"
+
+msgid "attachment preview"
+msgstr "vista previa del adjunto"
+
+msgid "Attachments are available for local workspaces only."
+msgstr "Los archivos adjuntos solo están disponibles para espacios de trabajo locales."
+
+msgid "Audio"
+msgstr "Audio"
+
+msgid "Auto"
+msgstr "Auto"
+
+msgid "Auto (system)"
+msgstr "Automático (sistema)"
+
+msgid "Auto save"
+msgstr "Guardado automático"
+
+msgid "Automatic branch"
+msgstr "Nombre de rama automático"
+
+msgid "Automatic name"
+msgstr "Nombre automático"
+
+msgid "Automatic updates are unavailable for this build."
+msgstr "Las actualizaciones automáticas no están disponibles para esta compilación."
+
+msgid "Automation"
+msgstr "Automatización"
+
+msgid "Automation (Apple Events)"
+msgstr "Automatización (Apple Events)"
+
+msgid "Automation action failed"
+msgstr "Acción de automatización fallida"
+
+msgid "Automation actions"
+msgstr "Acciones de automatización"
+
+msgid "Automation deleted"
+msgstr "Automatización eliminada"
+
+msgid "Automation enabled"
+msgstr "Automatización activada"
+
+msgid "Automation name"
+msgstr "Nombre de la automatización"
+
+msgid "Automation paused"
+msgstr "Automatización pausada"
+
+msgid "Automation saved"
+msgstr "Automatización guardada"
+
+msgid "Automation started"
+msgstr "Automatización iniciada"
+
+msgid "Automations"
+msgstr "Automatizaciones"
+
+msgid "Awaiting approval"
+msgstr "Esperando aprobación"
+
+msgid "Awaiting Response"
+msgstr "Esperando respuesta"
+
+msgid "Awaiting Response · {workspaceName}"
+msgstr "Esperando respuesta · {workspaceName}"
+
+msgid "Back"
+msgstr "Atrás"
+
+msgid "Back to automations"
+msgstr "Volver a automatizaciones"
+
+msgid "Background processes"
+msgstr "Procesos en segundo plano"
+
+msgid "Bar"
+msgstr "Barra"
+
+msgid "Base branch"
+msgstr "Rama base"
+
+msgid "Base branch (repository default)"
+msgstr "Rama base (predeterminada del repositorio)"
+
+msgid "Binary file"
+msgstr "Archivo binario"
+
+msgid "Block"
+msgstr "Bloque"
+
+msgid "Blockquote"
+msgstr "Cita"
+
+msgid "Blue"
+msgstr "Azul"
+
+msgid "Bold"
+msgstr "Negrita"
+
+msgid "Branch"
+msgstr "Rama"
+
+#. placeholder {0}: params?.branch
+#. placeholder {1}: params?.remote
+msgid "Branch \"{0}\" is not on this device or on {1}. Only pushed commits can be restored."
+msgstr "La rama \"{0}\" no está en este dispositivo ni en {1}. Solo se pueden restaurar los commits enviados."
+
+msgid "Branch name"
+msgstr "Nombre de la rama"
+
+msgid "Branch prefix"
+msgstr "Prefijo de rama"
+
+msgid "Branch preview"
+msgstr "Vista previa de la rama"
+
+msgid "Branch switched"
+msgstr "Rama cambiada"
+
+msgid "Branches & naming"
+msgstr "Ramas y nombres"
+
+msgid "Browse"
+msgstr "Examinar"
+
+msgid "Browse for directory"
+msgstr "Examinar directorios"
+
+msgid "Bug"
+msgstr "Insecto"
+
+msgid "builtin"
+msgstr "integrado"
+
+msgid "Bullet list"
+msgstr "Lista con viñetas"
+
+msgid "Bulleted list"
+msgstr "Lista con viñetas"
+
+msgid "Cached input"
+msgstr "Entrada en caché"
+
+msgid "Cached terminal views"
+msgstr "Vistas de terminal en caché"
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Cancellation requested. Checking the host before another clone…"
+msgstr "Cancelación solicitada. Comprobando el host antes de otra clonación…"
+
+msgid "Cancellation requests the target host to stop. Check the operation result before retrying at this location."
+msgstr "La cancelación solicita al host de destino que se detenga. Comprueba el resultado de la operación antes de volver a intentarlo en esta ubicación."
+
+msgid "Cancelled"
+msgstr "Cancelado"
+
+msgid "Cannot {action}: no active organization is selected. Select an organization or sign in again."
+msgstr "No se puede {action}: no hay ninguna organización activa seleccionada. Selecciona una organización o vuelve a iniciar sesión."
+
+msgid "Cannot {action}: the local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
+msgstr "No se puede {action}: el servicio de host local no está disponible para {organization} en {device}. Estado: {status}. {recovery}"
+
+msgid "Change location…"
+msgstr "Cambiar ubicación…"
+
+msgid "Change project icon and color"
+msgstr "Cambiar el icono y el color del proyecto"
+
+msgid "Change state"
+msgstr "Cambiar estado"
+
+msgid "Changed files"
+msgstr "Archivos cambiados"
+
+msgid "Changes"
+msgstr "Cambios"
+
+msgid "Changes discarded"
+msgstr "Cambios descartados"
+
+msgid "Changes requested"
+msgstr "Cambios solicitados"
+
+msgid "Changing this location affects new worktrees. Existing folders are not moved."
+msgstr "Cambiar esta ubicación afecta a los nuevos árboles de trabajo. Las carpetas existentes no se mueven."
+
+msgid "Chat"
+msgstr "Chat"
+
+msgid "Chat is being reworked"
+msgstr "El chat se está rehaciendo"
+
+msgid "Check for updates"
+msgstr "Buscar actualizaciones"
+
+msgid "Check for Updates..."
+msgstr "Buscar actualizaciones..."
+
+msgid "Check resources"
+msgstr "Ver recursos"
+
+msgid "Check Resources"
+msgstr "Ver recursos"
+
+msgid "Check result"
+msgstr "Comprobar resultado"
+
+msgid "Check status"
+msgstr "Comprobar estado"
+
+msgid "Check your connection and try again"
+msgstr "Comprobar la conexión e intentarlo de nuevo"
+
+msgid "Checking for updates…"
+msgstr "Comprobando actualizaciones…"
+
+msgid "Checking project…"
+msgstr "Comprobando el proyecto…"
+
+msgid "Checking repository access…"
+msgstr "Comprobando acceso al repositorio…"
+
+msgid "Checking the target host for a completed project…"
+msgstr "Comprobando si hay un proyecto completado en el host de destino…"
+
+msgid "Checking workspace state…"
+msgstr "Comprobando el estado del espacio de trabajo…"
+
+msgid "Checking workspaces and running sessions…"
+msgstr "Comprobando espacios de trabajo y sesiones en ejecución…"
+
+msgid "Checklist"
+msgstr "Lista de tareas"
+
+msgid "Checks"
+msgstr "Comprobaciones"
+
+msgid "Checks failed"
+msgstr "Comprobaciones fallidas"
+
+msgid "Checks passed"
+msgstr "Comprobaciones superadas"
+
+msgid "Checks running"
+msgstr "Comprobaciones en ejecución"
+
+msgid "Choose a checkout, branch, pull request, or existing worktree on the target host."
+msgstr "Elige un checkout, una rama, una PR o un árbol de trabajo existente en el host de destino."
+
+msgid "Choose a folder on the connected host"
+msgstr "Elegir una carpeta en el host conectado"
+
+msgid "Choose a glyph, upload an image, or change the accent color."
+msgstr "Elige un glifo, sube una imagen o cambia el color de énfasis."
+
+msgid "Choose a project"
+msgstr "Elegir un proyecto"
+
+msgid "Choose a project or workspace"
+msgstr "Elige un proyecto o espacio de trabajo"
+
+msgid "Choose a project to start working."
+msgstr "Elige un proyecto para empezar a trabajar."
+
+msgid "Choose a saved screenshot to attach. Files are copied only when you submit the prompt."
+msgstr "Elige una captura de pantalla guardada para adjuntar. Los archivos solo se copian cuando envías el prompt."
+
+msgid "Choose a workspace"
+msgstr "Elige un espacio de trabajo"
+
+msgid "Choose agent session"
+msgstr "Elegir sesión de agente"
+
+msgid "Choose an available project or workspace"
+msgstr "Elige un proyecto o espacio de trabajo disponible"
+
+msgid "Choose file and editor behavior on this device."
+msgstr "Elige el comportamiento de archivos y editor en este dispositivo."
+
+msgid "Choose how Jedv behaves on this device."
+msgstr "Elige cómo se comporta Jedv en este dispositivo."
+
+msgid "Choose notification sounds and volume."
+msgstr "Elige sonidos y volumen de notificaciones."
+
+msgid "Clear"
+msgstr "Transparente"
+
+msgid "Clear saved screenshots?"
+msgstr "¿Borrar las capturas de pantalla guardadas?"
+
+msgid "Clear screenshots"
+msgstr "Borrar capturas de pantalla"
+
+msgid "Clear search"
+msgstr "Borrar la búsqueda"
+
+msgid "Clear shortcut"
+msgstr "Borrar atajo"
+
+msgid "Clear Status"
+msgstr "Borrar el estado"
+
+msgid "Clear Terminal"
+msgstr "Limpiar terminal"
+
+msgid "CLI remains available. Structured control is unavailable for this session; check capabilities or continue in its terminal."
+msgstr "La CLI sigue disponible. El control estructurado no está disponible para esta sesión; comprueba las capacidades o continúa en su terminal."
+
+msgid "click"
+msgstr "clic"
+
+msgid "Click two commits to define the range."
+msgstr "Haz clic en dos commits para definir el intervalo."
+
+msgid "Clone a repository"
+msgstr "Clonar un repositorio"
+
+msgid "Clone from URL"
+msgstr "Clonar desde una URL"
+
+msgid "Clone repository"
+msgstr "Clonar repositorio"
+
+msgid "clone the repository"
+msgstr "clonar el repositorio"
+
+msgid "Cloning repository…"
+msgstr "Clonando repositorio…"
+
+msgid "Close"
+msgstr "Cerrar"
+
+msgid "Close (Esc)"
+msgstr "Cerrar (Esc)"
+
+msgid "Close {displayName}"
+msgstr "Cerrar {displayName}"
+
+msgid "Close a diff tab before opening another. At most eight diffs can be open."
+msgstr "Cierra una pestaña de diff antes de abrir otra. Se pueden abrir un máximo de ocho diffs."
+
+msgid "Close a tab before opening more tabs in this workspace."
+msgstr "Cierra una pestaña antes de abrir más pestañas en este espacio de trabajo."
+
+msgid "Close all"
+msgstr "Cerrar todos"
+
+msgid "Close All"
+msgstr "Cerrar todo"
+
+msgid "Close all ports?"
+msgstr "¿Cerrar todos los puertos?"
+
+msgid "Close CLI terminal and take control"
+msgstr "Cerrar la terminal CLI y tomar el control"
+
+msgid "Close detail"
+msgstr "Cerrar detalle"
+
+msgid "Close details"
+msgstr "Cerrar detalles"
+
+msgid "Close file"
+msgstr "Cerrar archivo"
+
+msgid "Close forwarded ports"
+msgstr "Cerrar puertos reenviados"
+
+msgid "Close or delete the current workspace"
+msgstr "Cerrar o eliminar el espacio de trabajo actual"
+
+msgid "Close other apps using the microphone"
+msgstr "Cerrar las otras apps que están usando el micrófono"
+
+msgid "Close Others"
+msgstr "Cerrar los demás"
+
+msgid "Close pane"
+msgstr "Cerrar panel"
+
+msgid "Close Pane"
+msgstr "Cerrar panel"
+
+#. placeholder {0}: port.port
+msgid "Close port {0}"
+msgstr "Cerrar el puerto {0}"
+
+msgid "Close port?"
+msgstr "¿Cerrar el puerto?"
+
+msgid "Close Saved"
+msgstr "Cerrar documentos guardados"
+
+msgid "Close tab"
+msgstr "Cerrar la pestaña"
+
+msgid "Close Tab"
+msgstr "Cerrar pestaña"
+
+msgid "Close Terminal"
+msgstr "Cerrar terminal"
+
+msgid "Close the current pane"
+msgstr "Cerrar el panel actual"
+
+msgid "Close the current tab"
+msgstr "Cerrar la pestaña actual"
+
+msgid "Close this CLI terminal and take control of the same session? The terminal process will stop. Other terminal work may be lost."
+msgstr "¿Cerrar esta terminal de CLI y tomar el control de la misma sesión? El proceso de la terminal se detendrá. Otro trabajo de la terminal podría perderse."
+
+msgid "Close to the Right"
+msgstr "Cerrar pestañas a la derecha"
+
+msgid "Close View"
+msgstr "Cerrar vista"
+
+msgid "Close Window"
+msgstr "Cerrar ventana"
+
+msgid "Close Workspace"
+msgstr "Cerrar espacio de trabajo"
+
+msgid "Closed"
+msgstr "Cerrada"
+
+msgid "Code"
+msgstr "Código"
+
+msgid "Code block"
+msgstr "Bloque de código"
+
+msgid "Collapse"
+msgstr "Contraer"
+
+msgid "Collapse all"
+msgstr "Contraer todo"
+
+msgid "Collapse All"
+msgstr "Contraer todo"
+
+msgid "Color"
+msgstr "Color"
+
+msgid "Color saved, but the icon could not be updated. Retry the icon update."
+msgstr "Color guardado, pero no se pudo actualizar el icono. Vuelve a intentar actualizar el icono."
+
+msgid "Combine sequences such as => and !==."
+msgstr "Combina secuencias como => y !==."
+
+msgid "Coming soon"
+msgstr "Próximamente"
+
+msgid "Command"
+msgstr "Comando"
+
+#. placeholder {0}: index + 1
+msgid "Command {0}"
+msgstr "Comando {0}"
+
+msgid "Command needs approval"
+msgstr "El comando necesita aprobación"
+
+msgid "Commands"
+msgstr "Comandos"
+
+msgid "Commands and arguments for the connected host."
+msgstr "Comandos y argumentos para el host conectado."
+
+msgid "Commands follow the linked agent."
+msgstr "Los comandos siguen al agente vinculado."
+
+msgid "Comment"
+msgstr "Comentar"
+
+msgid "Comment posted"
+msgstr "Comentario publicado"
+
+msgid "Commented"
+msgstr "Comentada"
+
+msgid "Commit"
+msgstr "Hacer commit"
+
+msgid "Commit message"
+msgstr "Mensaje de commit"
+
+msgid "Commit or discard changes before switching branches."
+msgstr "Confirma o descarta los cambios antes de cambiar de rama."
+
+msgid "Commit staged changes"
+msgstr "Confirmar cambios preparados"
+
+msgid "Commits"
+msgstr "Commits"
+
+msgid "Committed with the repository and shared with everyone who works on it."
+msgstr "Se guarda con un commit en el repositorio y se comparte con todos los que trabajan en él."
+
+msgid "Compare"
+msgstr "Comparar"
+
+msgid "Completed"
+msgstr "Completada"
+
+msgid "Config file contents"
+msgstr "Contenido del archivo de configuración"
+
+msgid "config.json must be a JSON object"
+msgstr "config.json debe ser un objeto JSON"
+
+msgid "Configure"
+msgstr "Configurar"
+
+msgid "Configure agent commands for the connected host."
+msgstr "Configura los comandos del agente para el host conectado."
+
+msgid "Confirm"
+msgstr "Confirmar"
+
+msgid "Confirm before closing a running terminal"
+msgstr "Confirmar antes de cerrar una terminal en ejecución"
+
+msgid "Confirm before quitting"
+msgstr "Confirmar antes de salir"
+
+msgid "Connect"
+msgstr "Conectar"
+
+msgid "Connect a microphone to use dictation"
+msgstr "Conectar un micrófono para usar el dictado"
+
+msgid "Connect over Tailscale using the host's HTTPS address and PSK."
+msgstr "Conecta mediante Tailscale usando la dirección HTTPS y el PSK del host."
+
+msgid "Connect to a host before changing workspace presentation."
+msgstr "Conéctate a un host antes de cambiar la presentación del espacio de trabajo."
+
+msgid "Connect to host"
+msgstr "Conectar al host"
+
+msgid "Connected"
+msgstr "Conectado"
+
+msgid "Connected host"
+msgstr "Host conectado"
+
+msgid "Connecting…"
+msgstr "Conectando…"
+
+msgid "Continue"
+msgstr "Continuar"
+
+msgid "Continue {title}"
+msgstr "Continuar {title}"
+
+msgid "Continue opening"
+msgstr "Continuar abriendo"
+
+msgid "Continue same session"
+msgstr "Continuar la misma sesión"
+
+msgid "Continue the same agent session"
+msgstr "Continuar la misma sesión del agente"
+
+msgid "Continue this exact existing session. A new agent session will not be started."
+msgstr "Continuar exactamente esta sesión existente. No se iniciará una nueva sesión del agente."
+
+msgid "Continue with agent"
+msgstr "Continuar con el agente"
+
+msgid "Continue with agent…"
+msgstr "Continuar con el agente…"
+
+msgid "Continuing…"
+msgstr "Continuando…"
+
+msgid "Control mode"
+msgstr "Modo de control"
+
+msgid "Control output only. Earlier CLI history is not included."
+msgstr "Solo salida de control. No se incluye el historial anterior de CLI."
+
+msgid "Control owns this session"
+msgstr "Control posee esta sesión"
+
+msgid "Control shortcuts on macOS are reserved for terminal programs."
+msgstr "Los atajos de Control están reservados para programas de terminal en macOS."
+
+msgid "Convert to config.toml"
+msgstr "Convertir a config.toml"
+
+msgid "Convert to draft?"
+msgstr "¿Convertir en borrador?"
+
+msgid "Converting to draft…"
+msgstr "Convirtiendo en borrador…"
+
+msgid "Copied"
+msgstr "Copiado"
+
+msgid "Copied to clipboard"
+msgstr "Copiado al portapapeles"
+
+msgid "Copy"
+msgstr "Copiar"
+
+msgid "Copy agent session ID"
+msgstr "Copiar el ID de sesión del agente"
+
+msgid "Copy as CSV"
+msgstr "Copiar como CSV"
+
+msgid "Copy as Markdown"
+msgstr "Copiar como Markdown"
+
+msgid "Copy Branch Name"
+msgstr "Copiar el nombre de la rama"
+
+msgid "Copy error details"
+msgstr "Copiar detalles del error"
+
+msgid "Copy failed"
+msgstr "No se pudo copiar"
+
+msgid "Copy image"
+msgstr "Copiar imagen"
+
+msgid "Copy Link"
+msgstr "Copiar enlace"
+
+msgid "Copy Link Address"
+msgstr "Copiar la dirección del enlace"
+
+#. placeholder {0}: port.port
+msgid "Copy localhost:{0}"
+msgstr "Copiar localhost:{0}"
+
+msgid "Copy on select"
+msgstr "Copiar al seleccionar"
+
+msgid "Copy path"
+msgstr "Copiar ruta"
+
+msgid "Copy Path"
+msgstr "Copiar ruta"
+
+msgid "Copy Relative Path"
+msgstr "Copiar la ruta relativa"
+
+msgid "Copy selected terminal text to the clipboard."
+msgstr "Copiar el texto seleccionado de la terminal al portapapeles."
+
+msgid "Copy terminal ID"
+msgstr "Copiar el ID de la terminal"
+
+msgid "Copy the workspace path to the clipboard"
+msgstr "Copiar la ruta del espacio de trabajo al portapapeles"
+
+msgid "Copy Workspace ID"
+msgstr "Copiar el ID del espacio de trabajo"
+
+msgid "Copy..."
+msgstr "Copiar…"
+
+msgid "Costs are estimates based on API list rates, not a bill or actual subscription spending. Unknown models use approximate rates."
+msgstr "Los costes son estimaciones basadas en las tarifas de lista de la API, no una factura ni el gasto real de la suscripción. Los modelos desconocidos usan tarifas aproximadas."
+
+msgid "Could not change the project location. Your files have not been moved."
+msgstr "No se pudo cambiar la ubicación del proyecto. Tus archivos no se han movido."
+
+msgid "Could not check all workspaces. Check the host connection and try again before removing this project."
+msgstr "No se pudieron comprobar todos los espacios de trabajo. Comprueba la conexión con el host y vuelve a intentarlo antes de eliminar este proyecto."
+
+msgid "Could not check Git on this computer. You can retry or continue."
+msgstr "No se pudo comprobar Git en este ordenador. Puedes volver a intentarlo o continuar."
+
+msgid "Could not confirm the operation on the target host. Check its connection and retry the result check."
+msgstr "No se pudo confirmar la operación en el host de destino. Comprueba su conexión y vuelve a comprobar el resultado."
+
+msgid "Could not confirm the result on the target host. Check its connection and permissions, then check the result again."
+msgstr "No se pudo confirmar el resultado en el host de destino. Comprueba su conexión y permisos y, a continuación, vuelve a comprobar el resultado."
+
+msgid "Could not confirm this session. Refresh before retrying."
+msgstr "No se pudo confirmar esta sesión. Actualiza antes de volver a intentarlo."
+
+msgid "Could not create workspace. Check the target host and retry."
+msgstr "No se pudo crear el espacio de trabajo. Comprueba el host de destino y vuelve a intentarlo."
+
+msgid "Could not delete workspace. Check its status before retrying."
+msgstr "No se pudo eliminar el espacio de trabajo. Comprueba su estado antes de volver a intentarlo."
+
+msgid "Could not detect workspaces"
+msgstr "No se pudieron detectar los espacios de trabajo"
+
+msgid "Could not finish importing. Successful imports are kept."
+msgstr "No se pudo finalizar la importación. Las importaciones correctas se conservan."
+
+msgid "Could not finish removing the project. Refresh its status before trying again."
+msgstr "No se pudo finalizar la eliminación del proyecto. Actualiza su estado antes de volver a intentarlo."
+
+msgid "Could not finish restoring the workspace. Check the target host; an occupied path or unavailable branch blocks restoration."
+msgstr "No se pudo finalizar la restauración del espacio de trabajo. Comprueba el host de destino; una ruta ocupada o una rama no disponible impide la restauración."
+
+msgid "Could not import workspace"
+msgstr "No se pudo importar el espacio de trabajo"
+
+msgid "Could not inspect this workspace. Retry the checks before deleting it."
+msgstr "No se pudo inspeccionar este espacio de trabajo. Vuelve a realizar las comprobaciones antes de eliminarlo."
+
+msgid "Could not list repositories. Check gh authentication on the target host, or enter a URL below."
+msgstr "No se pudieron enumerar los repositorios. Comprueba la autenticación de gh en el host de destino o introduce una URL abajo."
+
+msgid "Could not load branches from the target host."
+msgstr "No se pudieron cargar las ramas desde el host de destino."
+
+msgid "Could not load GitHub permissions"
+msgstr "No se pudieron cargar los permisos de GitHub"
+
+msgid "Could not load image"
+msgstr "No se pudo cargar la imagen"
+
+msgid "Could not load project settings from the target host."
+msgstr "No se pudieron cargar los ajustes del proyecto desde el host de destino."
+
+msgid "Could not load pull requests. Check gh access on the target host."
+msgstr "No se pudieron cargar las PR. Comprueba el acceso de gh en el host de destino."
+
+msgid "Could not load workspace status. Check the target host and try again."
+msgstr "No se pudo cargar el estado del espacio de trabajo. Comprueba el host de destino y vuelve a intentarlo."
+
+msgid "Could not open this workspace. Check the target host and try again."
+msgstr "No se pudo abrir este espacio de trabajo. Comprueba el host de destino y vuelve a intentarlo."
+
+#. placeholder {0}: params?.remote
+#. placeholder {1}: params?.branch
+#. placeholder {2}: params?.remote
+msgid "Could not reach {0} to look for branch \"{1}\". Check your connection and access to {2}, then try again."
+msgstr "No se pudo acceder a {0} para buscar la rama \"{1}\". Revisa tu conexión y tu acceso a {2} e inténtalo de nuevo."
+
+msgid "Could not read image"
+msgstr "No se pudo leer la imagen"
+
+msgid "Could not read removed projects from this host."
+msgstr "No se pudieron leer los proyectos eliminados de este host."
+
+msgid "Could not read selected file"
+msgstr "No se pudo leer el archivo seleccionado"
+
+msgid "Could not read the dropped files"
+msgstr "No se pudieron leer los archivos soltados"
+
+msgid "Could not read this directory. Check the path and permissions on the target host."
+msgstr "No se pudo leer este directorio. Comprueba la ruta y los permisos en el host de destino."
+
+msgid "Could not read worktrees from the target host."
+msgstr "No se pudieron leer los árboles de trabajo desde el host de destino."
+
+msgid "Could not rename project. Try again."
+msgstr "No se pudo cambiar el nombre del proyecto. Vuelve a intentarlo."
+
+msgid "Could not rename project. Your draft is kept; try again."
+msgstr "No se pudo cambiar el nombre del proyecto. Tu borrador se conserva; vuelve a intentarlo."
+
+msgid "Could not rename this session. Your draft is kept."
+msgstr "No se pudo cambiar el nombre de esta sesión. Tu borrador se conserva."
+
+msgid "Could not render icon"
+msgstr "No se pudo mostrar el icono"
+
+msgid "Could not render image"
+msgstr "No se pudo mostrar la imagen"
+
+msgid "Could not save the group. Your draft is kept."
+msgstr "No se pudo guardar el grupo. Tu borrador se conserva."
+
+msgid "Could not save the project. Check the project name and target location."
+msgstr "No se pudo guardar el proyecto. Comprueba el nombre del proyecto y la ubicación de destino."
+
+msgid "Could not save the theme. Try again."
+msgstr "No se pudo guardar el tema. Inténtalo de nuevo."
+
+msgid "Could not save this setting. Try again."
+msgstr "No se pudo guardar este ajuste. Inténtalo de nuevo."
+
+msgid "Could not save workspace order. The list may have changed on the host; refresh and try again."
+msgstr "No se pudo guardar el orden del espacio de trabajo. La lista puede haber cambiado en el host; actualiza y vuelve a intentarlo."
+
+msgid "Could not save worktree location. Your previous setting is unchanged unless the host already saved this request."
+msgstr "No se pudo guardar la ubicación del árbol de trabajo. Tu ajuste anterior no cambia a menos que el host ya haya guardado esta solicitud."
+
+msgid "Could not save your progress. Try again."
+msgstr "No se pudo guardar tu progreso. Vuelve a intentarlo."
+
+msgid "Could not select a project directory."
+msgstr "No se pudo seleccionar un directorio de proyecto."
+
+msgid "Could not set icon"
+msgstr "No se pudo establecer el icono"
+
+msgid "Could not stop a listening process. Earlier successful stops are kept."
+msgstr "No se pudo detener un proceso de escucha. Las detenciones anteriores realizadas correctamente se conservan."
+
+msgid "Could not stop it"
+msgstr "No se pudo detener"
+
+msgid "Could not update the project tree. Try again."
+msgstr "No se pudo actualizar el árbol del proyecto. Vuelve a intentarlo."
+
+msgid "Could not update the removed project. Check its status before retrying."
+msgstr "No se pudo actualizar el proyecto eliminado. Comprueba su estado antes de volver a intentarlo."
+
+msgid "Could not update workspace. Try again."
+msgstr "No se pudo actualizar el espacio de trabajo. Vuelve a intentarlo."
+
+msgid "Couldn't save"
+msgstr "No se pudo guardar"
+
+msgid "Couldn't save. Edit or click away to retry"
+msgstr "No se pudo guardar: edita o haz clic fuera para reintentarlo"
+
+msgid "Couldn't save. Retrying…"
+msgstr "No se pudo guardar: reintentando…"
+
+msgid "Create a blank folder and initialize it as a Git repository."
+msgstr "Crea una carpeta vacía e inicialízala como repositorio de Git."
+
+msgid "Create a new project"
+msgstr "Crear un nuevo proyecto"
+
+msgid "Create a new project by cloning a repository or local path."
+msgstr "Crea un proyecto nuevo clonando un repositorio o una ruta local."
+
+msgid "Create a pull request from an existing workspace branch. Its configured base branch is used."
+msgstr "Crea una pull request desde una rama existente del espacio de trabajo. Se usa la rama base configurada."
+
+msgid "Create a separate session from an existing one. Use the session ID placeholder for its position."
+msgstr "Crea una sesión independiente a partir de una existente. Usa el marcador de posición del ID de sesión para indicar su posición."
+
+msgid "Create new project"
+msgstr "Crear un proyecto nuevo"
+
+msgid "Create PR"
+msgstr "Crear PR"
+
+msgid "Create project"
+msgstr "Crear proyecto"
+
+msgid "Create pull request"
+msgstr "Crear pull request"
+
+msgid "Create pull request on GitHub?"
+msgstr "¿Crear una pull request en GitHub?"
+
+msgid "create the project"
+msgstr "crear el proyecto"
+
+msgid "create the workspace"
+msgstr "crear el espacio de trabajo"
+
+msgid "Create workspace"
+msgstr "Crear espacio de trabajo"
+
+msgid "Created"
+msgstr "Creado"
+
+msgid "Created {createdDirs} folders in {where}"
+msgstr "Se crearon {createdDirs} carpetas en {where}"
+
+msgid "Created 1 folder in {where}"
+msgstr "Se creó 1 carpeta en {where}"
+
+#. placeholder {0}: completed.hash
+msgid "Created commit {0}"
+msgstr "Commit {0} creado"
+
+msgid "Creating directory and initializing Git…"
+msgstr "Creando directorio e inicializando Git…"
+
+msgid "Creating…"
+msgstr "Creando…"
+
+msgid "Cross-platform mobile app with Expo"
+msgstr "Aplicación móvil multiplataforma con Expo"
+
+msgid "Ctrl+click"
+msgstr "Ctrl+clic"
+
+msgid "Ctrl+Shift+click"
+msgstr "Ctrl+Shift+clic"
+
+msgid "Current"
+msgstr "Actual"
+
+msgid "Cursor blinking"
+msgstr "Parpadeo del cursor"
+
+msgid "Cursor style"
+msgstr "Estilo del cursor"
+
+msgid "Custom"
+msgstr "Personalizado"
+
+msgid "Custom branch prefix"
+msgstr "Prefijo de rama personalizado"
+
+msgid "Custom notification sound"
+msgstr "Sonido de notificación personalizado"
+
+msgid "Custom prefix"
+msgstr "Prefijo personalizado"
+
+msgid "Custom sound"
+msgstr "Sonido personalizado"
+
+msgid "Custom themes"
+msgstr "Temas personalizados"
+
+msgid "Customize how Jedv looks on your device"
+msgstr "Personaliza el aspecto de Jedv en tu dispositivo"
+
+msgid "Customize shortcuts for your local workflow."
+msgstr "Personaliza los atajos para tu flujo de trabajo local."
+
+msgid "Customize terminal behavior and typography."
+msgstr "Personaliza el comportamiento y la tipografía de la terminal."
+
+msgid "Cyan"
+msgstr "Cian"
+
+msgid "Daemon restarted. All sessions were closed."
+msgstr "Demonio reiniciado. Todas las sesiones se cerraron."
+
+msgid "Daemon unavailable"
+msgstr "Daemon no disponible"
+
+msgid "Daemon updated. Sessions preserved."
+msgstr "Demonio actualizado. Sesiones conservadas."
+
+msgid "Daily"
+msgstr "A diario"
+
+msgid "Daily at {time}"
+msgstr "A diario a las {time}"
+
+msgid "Daily token history"
+msgstr "Historial diario de tokens"
+
+msgid "Danger zone"
+msgstr "Zona de peligro"
+
+msgid "Dark"
+msgstr "Oscuro"
+
+msgid "Dark theme"
+msgstr "Tema oscuro"
+
+msgid "Decline"
+msgstr "Rechazar"
+
+msgid "default"
+msgstr "predeterminada"
+
+msgid "Default"
+msgstr "Predeterminado"
+
+msgid "Default external editor"
+msgstr "Editor externo predeterminado"
+
+msgid "Defaults for new workspaces on the connected host."
+msgstr "Valores predeterminados para los nuevos espacios de trabajo en el host conectado."
+
+msgid "Delete"
+msgstr "Eliminar"
+
+msgid "Delete agent"
+msgstr "Eliminar agente"
+
+msgid "Delete anyway"
+msgstr "Eliminar de todos modos"
+
+msgid "Delete anyway will skip the teardown script entirely."
+msgstr "Eliminar de todos modos omitirá por completo el script de limpieza."
+
+msgid "Delete automation?"
+msgstr "¿Eliminar la automatización?"
+
+msgid "Delete multiple workspaces"
+msgstr "Eliminar varios espacios de trabajo"
+
+msgid "Delete permanently"
+msgstr "Eliminar definitivamente"
+
+msgid "Delete permanently…"
+msgstr "Eliminar permanentemente…"
+
+msgid "Delete project permanently?"
+msgstr "¿Eliminar el proyecto permanentemente?"
+
+msgid "Delete session \"{workspaceName}\"?"
+msgstr "¿Eliminar la sesión \"{workspaceName}\"?"
+
+msgid "Delete this custom agent?"
+msgstr "¿Eliminar este agente personalizado?"
+
+msgid "Delete this preset?"
+msgstr "¿Eliminar este preajuste?"
+
+msgid "Delete workspace \"{workspaceName}\"?"
+msgstr "¿Eliminar el espacio de trabajo \"{workspaceName}\"?"
+
+msgid "Delete Workspace…"
+msgstr "Eliminar espacio de trabajo…"
+
+msgid "Deleted"
+msgstr "Eliminados"
+
+msgid "Deleted sessions cannot be restored."
+msgstr "Las sesiones eliminadas no se pueden restaurar."
+
+msgid "Deleting…"
+msgstr "Eliminando…"
+
+msgid "Describe what the agent should do…"
+msgstr "Describe qué debe hacer el agente…"
+
+msgid "Description"
+msgstr "Descripción"
+
+msgid "Description (optional)"
+msgstr "Descripción (opcional)"
+
+msgid "Desktop resources"
+msgstr "Recursos del escritorio"
+
+msgid "Destination path"
+msgstr "Ruta de destino"
+
+msgid "Detached"
+msgstr "Desconectada"
+
+msgid "Details"
+msgstr "Detalles"
+
+msgid "Detect workspaces from other tools"
+msgstr "Detectar espacios de trabajo de otras herramientas"
+
+msgid "Diagnostics"
+msgstr "Diagnóstico"
+
+msgid "Dictate"
+msgstr "Dictar"
+
+msgid "Dictation is not available on this device"
+msgstr "El dictado no está disponible en este dispositivo"
+
+msgid "diff"
+msgstr "diff"
+
+msgid "diff in new tab"
+msgstr "diff en pestaña nueva"
+
+msgid "Directory path"
+msgstr "Ruta del directorio"
+
+msgid "Discard"
+msgstr "Descartar"
+
+msgid "Discard changes"
+msgstr "Descartar los cambios"
+
+msgid "Discard Changes"
+msgstr "Descartar cambios"
+
+msgid "Discard draft"
+msgstr "Descartar borrador"
+
+msgid "Discard recording"
+msgstr "Descartar la grabación"
+
+msgid "Discard this unsent draft and its selected attachments?"
+msgstr "¿Descartar este borrador no enviado y sus archivos adjuntos seleccionados?"
+
+msgid "Discard unsaved changes?"
+msgstr "¿Descartar los cambios sin guardar?"
+
+msgid "Discarding renamed or copied files is unavailable. Restore both paths with Git."
+msgstr "No se pueden descartar los cambios de archivos renombrados o copiados. Restaura ambas rutas con Git."
+
+msgid "Disconnected"
+msgstr "Desconectado"
+
+#. placeholder {0}: formatNumber(logins.data.claude.length)
+#. placeholder {1}: formatNumber(logins.data.codex.length)
+msgid "Discovered {0} Claude Code and {1} Codex login profiles on this host."
+msgstr "Se encontraron perfiles de inicio de sesión en este host: Claude Code {0}, Codex {1}."
+
+msgid "Disk version"
+msgstr "Versión en disco"
+
+msgid "Dismiss"
+msgstr "Descartar"
+
+msgid "Dismissed"
+msgstr "Descartado"
+
+msgid "Display"
+msgstr "Visualización"
+
+msgid "Do anything"
+msgstr "Haz cualquier cosa"
+
+msgid "Do not start a new agent until workspace setup has succeeded or is not required. If setup fails or its status cannot be confirmed, starting the agent is blocked."
+msgstr "No inicies un nuevo agente hasta que la configuración del espacio de trabajo se complete correctamente o no sea necesaria. Si la configuración falla o su estado no se puede confirmar, el inicio del agente quedará bloqueado."
+
+msgid "Do nothing"
+msgstr "No hacer nada"
+
+msgid "Documentation"
+msgstr "Documentación"
+
+msgid "Done"
+msgstr "Listo"
+
+msgid "Download starter"
+msgstr "Descargar plantilla inicial"
+
+msgid "Downloading {version} · {percent}%"
+msgstr "Descargando {version} · {percent} %"
+
+msgid "Downloading {version}…"
+msgstr "Descargando {version}…"
+
+msgid "Downloading template and creating fresh Git history…"
+msgstr "Descargando plantilla y creando un nuevo historial de Git…"
+
+msgid "Downloading update…"
+msgstr "Descargando actualización…"
+
+msgid "Draft"
+msgstr "Borrador"
+
+msgid "Drop files to attach"
+msgstr "Soltar archivos para adjuntar"
+
+msgid "Drop into {label}"
+msgstr "Soltar en {label}"
+
+msgid "Drop to attach"
+msgstr "Soltar para adjuntar"
+
+msgid "dropdown"
+msgstr "desplegable"
+
+msgid "Each surface has its own typography. Changes appear immediately in the live previews."
+msgstr "Cada superficie tiene su propia tipografía. Los cambios se ven al instante en las vistas previas en vivo."
+
+msgid "Earlier output"
+msgstr "Salida anterior"
+
+msgid "Edit"
+msgstr "Editar"
+
+msgid "Edit group"
+msgstr "Editar grupo"
+
+msgid "Edit shared setup, run and teardown commands, or personal overrides. Saving does not execute commands."
+msgstr "Edita los comandos compartidos de configuración, ejecución y limpieza o las personalizaciones individuales. Guardar no ejecuta los comandos."
+
+msgid "Edit terminal preset"
+msgstr "Editar preajuste de terminal"
+
+msgid "editor"
+msgstr "editor"
+
+msgid "Editor & workflow"
+msgstr "Editor y flujo de trabajo"
+
+msgid "Editor typography"
+msgstr "Tipografía del editor"
+
+msgid "Enable"
+msgstr "Activar"
+
+msgid "Endpoint"
+msgstr "Punto de conexión"
+
+msgid "Enter a command."
+msgstr "Introduce un comando."
+
+msgid "Enter a group name of 1 to 64 characters."
+msgstr "Introduce un nombre de grupo de entre 1 y 64 caracteres."
+
+msgid "Enter a project name and location."
+msgstr "Introduce un nombre y una ubicación para el proyecto."
+
+msgid "Enter a project name."
+msgstr "Introduce un nombre de proyecto."
+
+msgid "Enter a valid repository URL, SSH address, or absolute path on the target host. Remove query strings and fragments from GitHub URLs."
+msgstr "Introduce una URL de repositorio, una dirección SSH o una ruta absoluta válida en el host de destino. Elimina las cadenas de consulta y los fragmentos de las URL de GitHub."
+
+msgid "Enter a valid schedule and time zone"
+msgstr "Introduce una programación y una zona horaria válidas"
+
+msgid "Enter a valid value within the allowed range."
+msgstr "Introduce un valor válido dentro del intervalo permitido."
+
+msgid "Enter an absolute directory path on the target host."
+msgstr "Introduce una ruta de directorio absoluta en el host de destino."
+
+msgid "Enter an agent name."
+msgstr "Introduce un nombre para el agente."
+
+msgid "Enter URL..."
+msgstr "Introducir URL..."
+
+msgid "Environment must be a JSON object with valid variable names and string values."
+msgstr "El entorno debe ser un objeto JSON con nombres de variable válidos y valores de cadena."
+
+msgid "Environment variables"
+msgstr "Variables de entorno"
+
+msgid "Equalize Pane Splits"
+msgstr "Igualar división de paneles"
+
+msgid "Estimated cost"
+msgstr "Coste estimado"
+
+msgid "Every {day}"
+msgstr "Cada {day}"
+
+msgid "Every {day} at {time}"
+msgstr "Cada {day} a las {time}"
+
+msgid "Every minute"
+msgstr "Cada minuto"
+
+msgid "Execution mode"
+msgstr "Modo de ejecución"
+
+msgid "Existing branch"
+msgstr "Rama existente"
+
+msgid "Existing chat session. No CLI terminal is attached."
+msgstr "Sesión de chat existente. No hay ninguna terminal CLI conectada."
+
+msgid "Existing chat sessions"
+msgstr "Sesiones de chat existentes"
+
+msgid "Existing worktree"
+msgstr "Árbol de trabajo existente"
+
+#. placeholder {0}: blocker.state.exitCode ?? "—"
+#. placeholder {1}: blocker.state.exitSignal ?? "—"
+msgid "Exit code: {0}; signal: {1}"
+msgstr "Código de salida: {0}; señal: {1}"
+
+msgid "Exited"
+msgstr "Finalizada"
+
+#. placeholder {0}: session.exitCode
+msgid "Exited ({0})"
+msgstr "Finalizado ({0})"
+
+msgid "Expand"
+msgstr "Expandir"
+
+msgid "Expand all"
+msgstr "Expandir todo"
+
+msgid "Expand pane area"
+msgstr "Expandir área del panel"
+
+msgid "Expand the right pane to fill the window, or restore it"
+msgstr "Expandir el panel derecho para llenar la ventana, o restaurarlo"
+
+msgid "Export theme"
+msgstr "Exportar tema"
+
+msgid "external browser"
+msgstr "navegador externo"
+
+msgid "External editors are available for local workspaces only."
+msgstr "Los editores externos solo están disponibles para espacios de trabajo locales."
+
+msgid "External editors open files on this machine only"
+msgstr "Los editores externos solo abren archivos en esta máquina"
+
+msgid "Failed"
+msgstr "Fallida"
+
+msgid "Failed to add {failed} files"
+msgstr "No se pudieron añadir {failed} archivos"
+
+msgid "Failed to add 1 file"
+msgstr "No se pudo añadir 1 archivo"
+
+msgid "Failed to check for updates. Please try again later."
+msgstr "No se pudo buscar actualizaciones. Inténtalo de nuevo más tarde."
+
+msgid "Failed to close port"
+msgstr "No se pudo cerrar el puerto"
+
+msgid "Failed to control run"
+msgstr "No se pudo controlar la ejecución"
+
+msgid "Failed to copy path: {reason}"
+msgstr "No se pudo copiar la ruta: {reason}"
+
+msgid "Failed to create {failedDirs} folders"
+msgstr "No se pudieron crear {failedDirs} carpetas"
+
+msgid "Failed to create 1 folder"
+msgstr "No se pudo crear 1 carpeta"
+
+msgid "Failed to create item"
+msgstr "No se pudo crear el elemento"
+
+msgid "Failed to create pull request"
+msgstr "No se pudo crear la pull request"
+
+msgid "Failed to discard the new item"
+msgstr "No se pudo descartar el elemento nuevo"
+
+msgid "Failed to find linked workspace"
+msgstr "No se pudo encontrar el espacio de trabajo vinculado"
+
+msgid "Failed to import theme file"
+msgstr "No se pudo importar el archivo de tema"
+
+msgid "Failed to load automations"
+msgstr "No se pudieron cargar las automatizaciones"
+
+msgid "Failed to load changes"
+msgstr "No se pudieron cargar los cambios"
+
+msgid "Failed to load pull request"
+msgstr "No se pudo cargar la pull request"
+
+msgid "Failed to load pull requests"
+msgstr "No se pudieron cargar las pull requests"
+
+msgid "Failed to load run output"
+msgstr "No se pudo cargar la salida de la ejecución"
+
+msgid "Failed to load runs"
+msgstr "No se pudieron cargar las ejecuciones"
+
+msgid "Failed to load workspace status"
+msgstr "No se pudo cargar el estado del espacio de trabajo"
+
+msgid "Failed to open workspace"
+msgstr "No se pudo abrir el espacio de trabajo"
+
+msgid "Failed to parse pull request diff"
+msgstr "No se pudo analizar el diff de la pull request"
+
+msgid "Failed to refresh pull requests"
+msgstr "No se pudieron actualizar las pull requests"
+
+msgid "Failed to rename"
+msgstr "No se pudo cambiar el nombre"
+
+msgid "Failed to replace {replaceFailed} files"
+msgstr "No se pudieron reemplazar {replaceFailed} archivos"
+
+msgid "Failed to replace 1 file"
+msgstr "No se pudo reemplazar 1 archivo"
+
+msgid "Failed to reveal in Finder: {reason}"
+msgstr "No se pudo mostrar en Finder: {reason}"
+
+msgid "Failed to save automation"
+msgstr "No se pudo guardar la automatización"
+
+msgid "Failed to send the files to the remote workspace"
+msgstr "No se pudieron enviar los archivos al espacio de trabajo remoto"
+
+msgid "Failed to set color"
+msgstr "No se pudo establecer el color"
+
+msgid "Failed to set icon"
+msgstr "No se pudo establecer el icono"
+
+msgid "Failed to update branch prefix"
+msgstr "No se pudo actualizar el prefijo de rama"
+
+msgid "Failed to update pull request state"
+msgstr "No se pudo actualizar el estado de la pull request"
+
+msgid "Failed to update review thread"
+msgstr "No se pudo actualizar el hilo de revisión"
+
+msgid "Fetch completed"
+msgstr "Descarga completada"
+
+msgid "Fetch current branch from origin"
+msgstr "Descargar la rama actual desde origin"
+
+msgid "File"
+msgstr "Archivo"
+
+msgid "File change needs approval"
+msgstr "El cambio de archivo necesita aprobación"
+
+msgid "File changed on disk"
+msgstr "El archivo ha cambiado en disco"
+
+msgid "File changed on disk. Reload before saving."
+msgstr "El archivo cambió en el disco. Recárgalo antes de guardar."
+
+msgid "File is not in an open workspace"
+msgstr "El archivo no está en un espacio de trabajo abierto"
+
+msgid "File links"
+msgstr "Enlaces a archivos"
+
+msgid "File not found"
+msgstr "Archivo no encontrado"
+
+msgid "File tree limit reached. Search files to open an unloaded path."
+msgstr "Se alcanzó el límite del árbol de archivos. Busca archivos para abrir una ruta no cargada."
+
+msgid "File updates may be out of date. Reload open files to check the disk."
+msgstr "Las actualizaciones de archivos pueden estar desactualizadas. Vuelve a cargar los archivos abiertos para comprobar el disco."
+
+msgid "File was deleted on disk."
+msgstr "El archivo se eliminó del disco."
+
+msgid "File was deleted on disk. You still have unsaved changes."
+msgstr "El archivo se eliminó del disco. Todavía tienes cambios sin guardar."
+
+msgid "Files"
+msgstr "Archivos"
+
+msgid "Files & editor"
+msgstr "Archivos y editor"
+
+msgid "Files larger than 32 MiB must be opened in an external editor."
+msgstr "Los archivos de más de 32 MiB deben abrirse en un editor externo."
+
+msgid "Files, Git changes, pull requests, project scripts, and port forwarding."
+msgstr "Archivos, cambios de Git, pull requests, scripts del proyecto y reenvío de puertos."
+
+msgid "Filter"
+msgstr "Filtro"
+
+msgid "Filter agents"
+msgstr "Filtrar agentes"
+
+msgid "Filter agents…"
+msgstr "Filtrar agentes…"
+
+msgid "Find"
+msgstr "Buscar"
+
+msgid "Find in Changes"
+msgstr "Buscar en los cambios"
+
+msgid "Find in Chat"
+msgstr "Buscar en el chat"
+
+msgid "Find in File Viewer"
+msgstr "Buscar en el visor de archivos"
+
+msgid "Find in Page"
+msgstr "Buscar en la página"
+
+msgid "Find in Terminal"
+msgstr "Buscar en la terminal"
+
+msgid "Finish refreshing"
+msgstr "Finalizar actualización"
+
+msgid "Finished"
+msgstr "Finalizado"
+
+msgid "Finished · unread"
+msgstr "Terminado · sin leer"
+
+msgid "Fit"
+msgstr "Ajustar"
+
+msgid "Flame"
+msgstr "Llama"
+
+msgid "Focus Chat Input"
+msgstr "Enfocar el campo de chat"
+
+msgid "Focus Pane Down"
+msgstr "Enfocar panel de abajo"
+
+msgid "Focus Pane Left"
+msgstr "Enfocar panel de la izquierda"
+
+msgid "Focus Pane Right"
+msgstr "Enfocar panel de la derecha"
+
+msgid "Focus Pane Up"
+msgstr "Enfocar panel de arriba"
+
+msgid "Focus Task Search"
+msgstr "Enfocar búsqueda de tareas"
+
+msgid "Focus the next tab in the active workspace"
+msgstr "Enfocar la pestaña siguiente del espacio de trabajo activo"
+
+msgid "Focus the pane above the active pane"
+msgstr "Enfocar el panel de encima del panel activo"
+
+msgid "Focus the pane below the active pane"
+msgstr "Enfocar el panel de debajo del panel activo"
+
+msgid "Focus the pane to the left of the active pane"
+msgstr "Enfocar el panel a la izquierda del panel activo"
+
+msgid "Focus the pane to the right of the active pane"
+msgstr "Enfocar el panel a la derecha del panel activo"
+
+msgid "Focus the previous tab in the active workspace"
+msgstr "Enfocar la pestaña anterior del espacio de trabajo activo"
+
+msgid "Focus the search input in the tasks view"
+msgstr "Enfocar el campo de búsqueda en la vista de tareas"
+
+msgid "Folder"
+msgstr "Carpeta"
+
+msgid "Folder links"
+msgstr "Enlaces a carpetas"
+
+msgid "Folder view"
+msgstr "Vista de carpetas"
+
+msgid "Folders cannot be sent to the remote workspace"
+msgstr "Las carpetas no se pueden enviar al espacio de trabajo remoto"
+
+msgid "Folders to check out into new worktrees, one per line, relative to the repo root. Root files are always included. Empty checks out everything."
+msgstr "Carpetas para extraer en los nuevos árboles de trabajo, una por línea, relativas a la raíz del repositorio. Los archivos raíz siempre se incluyen. Déjalo vacío para extraer todo."
+
+msgid "Follow the characters printed on your keyboard instead of physical key positions."
+msgstr "Sigue los caracteres impresos en tu teclado en lugar de las posiciones físicas de las teclas."
+
+msgid "Font family"
+msgstr "Familia tipográfica"
+
+msgid "Font size"
+msgstr "Tamaño de fuente"
+
+msgid "Font weight"
+msgstr "Grosor de la fuente"
+
+msgid "Force Reload"
+msgstr "Forzar recarga"
+
+msgid "Force restart"
+msgstr "Forzar el reinicio"
+
+msgid "Force restart terminal daemon?"
+msgstr "¿Forzar el reinicio del demonio de terminal?"
+
+msgid "Force Stop"
+msgstr "Forzar detención"
+
+msgid "Fork arguments"
+msgstr "Argumentos de fork"
+
+msgid "Forward"
+msgstr "Adelante"
+
+msgid "Forward port…"
+msgstr "Reenviar puerto…"
+
+msgid "Friday"
+msgstr "Viernes"
+
+msgid "From"
+msgstr "De"
+
+msgid "Front matter hidden. Switch to the Markdown view to edit it"
+msgstr "Front matter oculto: cambia a la vista Markdown para editarlo"
+
+msgid "Full Disk Access"
+msgstr "Acceso total al disco"
+
+msgid "Full-stack Turborepo with Next.js, Expo, and tRPC"
+msgstr "Turborepo full-stack con Next.js, Expo y tRPC"
+
+msgid "Fullstack template on Cloudflare Workers"
+msgstr "Plantilla full-stack en Cloudflare Workers"
+
+msgid "Garry Tan's role-based Claude Code workflow"
+msgstr "Flujo de trabajo de Claude Code basado en roles de Garry Tan"
+
+msgid "General"
+msgstr "General"
+
+msgid "Get Git"
+msgstr "Obtener Git"
+
+msgid "Git & worktree"
+msgstr "Git y worktree"
+
+msgid "Git author"
+msgstr "Autor de Git"
+
+msgid "Git author name"
+msgstr "Nombre del autor de Git"
+
+msgid "GitHub authentication failed. Sign in with gh on this host, then refresh."
+msgstr "Error de autenticación de GitHub. Inicia sesión con gh en este host y luego actualiza."
+
+msgid "GitHub enforces branch protection and required checks."
+msgstr "GitHub aplica la protección de ramas y las comprobaciones obligatorias."
+
+msgid "GitHub is unreachable. PR links may be out of date."
+msgstr "No se puede acceder a GitHub. Los enlaces de las pull requests pueden estar desactualizados."
+
+msgid "GitHub rate limit reached. PR links may be out of date."
+msgstr "Se alcanzó el límite de solicitudes de GitHub. Los enlaces de las pull requests pueden estar desactualizados."
+
+msgid "GitHub username"
+msgstr "Nombre de usuario de GitHub"
+
+msgid "Globe"
+msgstr "Globo"
+
+msgid "Go"
+msgstr "Ir"
+
+msgid "Go Back"
+msgstr "Atrás"
+
+msgid "Go back home"
+msgstr "Volver al inicio"
+
+msgid "Go back to the previous page in history"
+msgstr "Volver a la página anterior del historial"
+
+msgid "Go Forward"
+msgstr "Adelante"
+
+msgid "Go forward to the next page in history"
+msgstr "Avanzar a la página siguiente del historial"
+
+msgid "Go home"
+msgstr "Ir al inicio"
+
+msgid "Got it"
+msgstr "Entendido"
+
+msgid "Granted"
+msgstr "Concedido"
+
+msgid "Green"
+msgstr "Verde"
+
+msgid "Group name"
+msgstr "Nombre del grupo"
+
+msgid "Groups use workspace tags on the target host."
+msgstr "Los grupos usan etiquetas de espacio de trabajo en el host de destino."
+
+msgid "Guides AI-generated workspace and branch names for this project. Empty uses the default naming."
+msgstr "Guía los nombres de espacios de trabajo y ramas generados por IA para este proyecto. Si se deja vacío, se usa el nombrado predeterminado."
+
+msgid "Handle in terminal"
+msgstr "Gestionar en la terminal"
+
+msgid "Has uncommitted changes"
+msgstr "Tiene cambios sin commit"
+
+msgid "Has uncommitted changes and unpushed commits"
+msgstr "Tiene cambios sin commit y commits sin push"
+
+msgid "Has unpushed commits"
+msgstr "Tiene commits sin push"
+
+msgid "Heading 1"
+msgstr "Encabezado 1"
+
+msgid "Heading 2"
+msgstr "Encabezado 2"
+
+msgid "Heading 3"
+msgstr "Encabezado 3"
+
+msgid "Heart"
+msgstr "Corazón"
+
+msgid "Help"
+msgstr "Ayuda"
+
+msgid "Hide {displayName}"
+msgstr "Ocultar {displayName}"
+
+msgid "Hide details"
+msgstr "Ocultar detalles"
+
+msgid "Hide workspace activity"
+msgstr "Ocultar actividad del espacio de trabajo"
+
+msgid "History"
+msgstr "Historial"
+
+msgid "Home"
+msgstr "Inicio"
+
+msgid "Host changed. Review the current daemon before restarting."
+msgstr "El host ha cambiado. Revisa el demonio actual antes de reiniciar."
+
+msgid "Host connection is unavailable"
+msgstr "La conexión con el host no está disponible"
+
+msgid "Host is offline"
+msgstr "El host está sin conexión"
+
+msgid "Host Service"
+msgstr "Servicio de host"
+
+msgid "Host Service ({count})"
+msgstr "Servicio de host ({count})"
+
+msgid "Host service crashed"
+msgstr "El servicio del host falló"
+
+msgid "Host service unavailable"
+msgstr "Servicio del host no disponible"
+
+msgid "Hourly"
+msgstr "Cada hora"
+
+msgid "https://github.com/owner/repo.git or /path/to/repo"
+msgstr "https://github.com/owner/repo.git o /ruta/al/repo"
+
+msgid "I checked the attachments"
+msgstr "He comprobado los archivos adjuntos"
+
+msgid "I checked the result"
+msgstr "He comprobado el resultado"
+
+msgid "I understand that running sessions will stop and teardown commands may affect files with unsaved work."
+msgstr "Entiendo que las sesiones en ejecución se detendrán y que los comandos de limpieza pueden afectar a archivos con trabajo sin guardar."
+
+msgid "Icon"
+msgstr "Icono"
+
+msgid "IDE"
+msgstr "IDE"
+
+msgid "Idle"
+msgstr "Inactivo"
+
+msgid "Image"
+msgstr "Imagen"
+
+msgid "Image blocked"
+msgstr "Imagen bloqueada"
+
+#. placeholder {0}: src ?? "(empty)"
+msgid "Image blocked: {0}"
+msgstr "Imagen bloqueada: {0}"
+
+msgid "Image is too large (max 10MB)"
+msgstr "La imagen es demasiado grande (máx. 10 MB)"
+
+msgid "Images"
+msgstr "Imágenes"
+
+msgid "Import"
+msgstr "Importar"
+
+msgid "import a folder"
+msgstr "importar una carpeta"
+
+msgid "Import a project with a GitHub remote to view its pull requests."
+msgstr "Importa un proyecto con un remoto de GitHub para ver sus pull requests."
+
+msgid "Import a theme file or grab a starter to edit."
+msgstr "Importa un archivo de tema o descarga una plantilla inicial para editarla."
+
+msgid "Import an audio file or preview the selected sound."
+msgstr "Importa un archivo de audio o reproduce una prueba del sonido seleccionado."
+
+msgid "Import from other tools"
+msgstr "Importar desde otras herramientas"
+
+msgid "Import results"
+msgstr "Resultados de la importación"
+
+msgid "Import selected"
+msgstr "Importar selección"
+
+msgid "Import sound"
+msgstr "Importar sonido"
+
+msgid "import the project"
+msgstr "importar el proyecto"
+
+msgid "Import untracked worktrees"
+msgstr "Importar worktrees no registrados"
+
+msgid "Import worktree"
+msgstr "Importar árbol de trabajo"
+
+msgid "Importing project…"
+msgstr "Importando proyecto…"
+
+msgid "Importing selected workspaces…"
+msgstr "Importando espacios de trabajo seleccionados…"
+
+msgid "Importing..."
+msgstr "Importando..."
+
+msgid "In"
+msgstr "En"
+
+msgid "In Apple's window, click Install. It takes a few minutes, and this page updates when it's done."
+msgstr "En la ventana de Apple, haz clic en Instalar. Tarda unos minutos y esta página se actualiza cuando termina."
+
+msgid "In review"
+msgstr "En revisión"
+
+msgid "Include the Linear ticket id from the prompt in the branch name (e.g. bin-344-fix-login). Prefix branches with fix/ or feat/ based on the task."
+msgstr "Incluye en el nombre de la rama el id del ticket de Linear que aparece en el prompt (p. ej. bin-344-fix-login). Añade el prefijo fix/ o feat/ según la tarea."
+
+msgid "Included in this build"
+msgstr "Incluido en esta compilación"
+
+msgid "Indigo"
+msgstr "Índigo"
+
+msgid "Initialize and open"
+msgstr "Inicializar y abrir"
+
+msgid "Initialize Git repository?"
+msgstr "¿Inicializar el repositorio de Git?"
+
+msgid "Inline"
+msgstr "En línea"
+
+msgid "Inline code"
+msgstr "Código en línea"
+
+msgid "Insert into CLI"
+msgstr "Insertar en la CLI"
+
+msgid "Insert into the existing CLI, then submit in the terminal."
+msgstr "Inserta en la CLI existente y, a continuación, envía en la terminal."
+
+msgid "Install Command Line Tools"
+msgstr "Instalar Command Line Tools"
+
+msgid "Install Git, then come back."
+msgstr "Instala Git y luego vuelve aquí."
+
+msgid "Install lifecycle hooks for this agent on this device."
+msgstr "Instala hooks de ciclo de vida para este agente en este dispositivo."
+
+msgid "Installing update…"
+msgstr "Instalando actualización…"
+
+msgid "Instructions"
+msgstr "Instrucciones"
+
+msgid "Interrupt"
+msgstr "Interrumpir"
+
+msgid "Interrupt requested"
+msgstr "Interrupción solicitada"
+
+msgid "Interrupted"
+msgstr "Interrumpido"
+
+msgid "Italic"
+msgstr "Cursiva"
+
+msgid "Its workspaces and terminals are unavailable until it restarts. Use the Jedv tray menu > Host Service > Restart."
+msgstr "Sus espacios de trabajo y terminales no estarán disponibles hasta que se reinicie: usa el menú de la bandeja de Jedv > Host Service > Reiniciar."
+
+msgid "Jedv"
+msgstr "Jedv"
+
+msgid "Jedv hit an unexpected error. Reload to try again."
+msgstr "Jedv ha encontrado un error inesperado. Recargar para volver a intentarlo."
+
+msgid "Jedv needs Git to add a project."
+msgstr "Jedv necesita Git para añadir un proyecto."
+
+msgid "JetBrains"
+msgstr "JetBrains"
+
+msgid "Jump to a workspace that needs attention or is running."
+msgstr "Ir a un espacio de trabajo que necesite atención o esté en ejecución."
+
+msgid "Keep editing"
+msgstr "Seguir editando"
+
+msgid "Keep notifications silent on this device."
+msgstr "Mantén las notificaciones silenciadas en este dispositivo."
+
+msgid "Kept the new file because it changed after it was created"
+msgstr "Se conservó el archivo nuevo: cambió después de crearse"
+
+msgid "Kept the new folder because it is no longer empty"
+msgstr "Se conservó la carpeta nueva: ya no está vacía"
+
+msgid "Keyboard"
+msgstr "Teclado"
+
+msgid "Keyboard Shortcuts"
+msgstr "Atajos de teclado"
+
+msgid "Kill {title}"
+msgstr "Forzar el cierre de {title}"
+
+msgid "Kill Terminal Session"
+msgstr "Terminar la sesión de terminal"
+
+msgid "Language"
+msgstr "Idioma"
+
+msgid "Last {n} days"
+msgstr "Últimos {n} días"
+
+msgid "Last activity"
+msgstr "Última actividad"
+
+msgid "Last check completed"
+msgstr "Última comprobación completada"
+
+msgid "Last day of each month"
+msgstr "El último día de cada mes"
+
+msgid "Last day of each month at {time}"
+msgstr "El último día de cada mes a las {time}"
+
+msgid "Later"
+msgstr "Más tarde"
+
+msgid "Latest output"
+msgstr "Última salida"
+
+msgid "Launch Agent"
+msgstr "Iniciar agente"
+
+msgid "Launch result unknown. Refresh and inspect the terminal before restarting."
+msgstr "Resultado del inicio desconocido. Actualiza e inspecciona la terminal antes de reiniciar."
+
+msgid "Layout"
+msgstr "Diseño"
+
+msgid "Leaf"
+msgstr "Hoja"
+
+msgid "Leave a comment…"
+msgstr "Deja un comentario…"
+
+msgid "Leave empty to use the workspace directory. Relative paths are resolved inside the workspace."
+msgstr "Déjalo vacío para usar el directorio del espacio de trabajo. Las rutas relativas se resuelven dentro del espacio de trabajo."
+
+msgid "Leave it empty to go back to the name the terminal reports."
+msgstr "Déjalo vacío para volver al nombre que indica la terminal."
+
+msgid "Letter spacing (px)"
+msgstr "Espaciado entre letras (px)"
+
+msgid "Ligatures"
+msgstr "Ligaduras"
+
+msgid "Ligatures off"
+msgstr "Ligaduras desactivadas"
+
+msgid "Ligatures on"
+msgstr "Ligaduras activadas"
+
+msgid "Light"
+msgstr "Claro"
+
+msgid "Light theme"
+msgstr "Tema claro"
+
+msgid "Lime"
+msgstr "Lima"
+
+#. placeholder {0}: problem.line
+#. placeholder {1}: problem.message
+msgid "Line {0}: {1}"
+msgstr "Línea {0}: {1}"
+
+msgid "Line height"
+msgstr "Interlineado"
+
+msgid "Link"
+msgstr "Enlace"
+
+msgid "Linked agent"
+msgstr "Agente vinculado"
+
+msgid "Linked agent is unavailable."
+msgstr "El agente vinculado no está disponible."
+
+msgid "Linked presets cannot run on remote hosts."
+msgstr "Los preajustes vinculados no se pueden ejecutar en hosts remotos."
+
+msgid "List"
+msgstr "Lista"
+
+msgid "Live"
+msgstr "En directo"
+
+msgid "Live preview"
+msgstr "Vista previa en vivo"
+
+msgid "Live terminal"
+msgstr "Terminal activo"
+
+msgid "load agent settings"
+msgstr "cargar la configuración del agente"
+
+msgid "Load more"
+msgstr "Cargar más"
+
+msgid "Loading"
+msgstr "Cargando"
+
+msgid "Loading agents…"
+msgstr "Cargando agentes…"
+
+msgid "Loading automations…"
+msgstr "Cargando automatizaciones…"
+
+msgid "Loading changes…"
+msgstr "Cargando cambios…"
+
+msgid "Loading directories…"
+msgstr "Cargando directorios…"
+
+msgid "Loading file…"
+msgstr "Cargando archivo…"
+
+msgid "Loading files…"
+msgstr "Cargando archivos…"
+
+msgid "Loading fonts..."
+msgstr "Cargando fuentes..."
+
+msgid "Loading identity…"
+msgstr "Cargando identidad…"
+
+msgid "Loading more..."
+msgstr "Cargando más..."
+
+msgid "Loading output…"
+msgstr "Cargando salida…"
+
+msgid "Loading project settings…"
+msgstr "Cargando ajustes del proyecto…"
+
+msgid "Loading pull request…"
+msgstr "Cargando pull request…"
+
+msgid "Loading pull requests…"
+msgstr "Cargando pull requests…"
+
+msgid "Loading quota…"
+msgstr "Cargando cuota…"
+
+msgid "Loading removed projects…"
+msgstr "Cargando proyectos eliminados…"
+
+msgid "Loading repositories..."
+msgstr "Cargando los repositorios..."
+
+msgid "Loading runs…"
+msgstr "Cargando ejecuciones…"
+
+msgid "Loading sessions…"
+msgstr "Cargando sesiones…"
+
+msgid "Loading workspace status…"
+msgstr "Cargando estado del espacio de trabajo…"
+
+msgid "Loading worktrees…"
+msgstr "Cargando árboles de trabajo…"
+
+msgid "Loading..."
+msgstr "Cargando..."
+
+msgid "Loading…"
+msgstr "Cargando…"
+
+msgid "Local"
+msgstr "Local"
+
+msgid "Local checkout"
+msgstr "Checkout local"
+
+msgid "Local CLI history and provider quota for the connected host."
+msgstr "Historial de CLI local y cuota del proveedor para el host conectado."
+
+msgid "Local CLI history and provider quota."
+msgstr "Historial de CLI local y cuota del proveedor."
+
+msgid "Local desktop and terminal process usage. Closing a view keeps its process running; terminating a session stops its processes."
+msgstr "Uso de procesos del escritorio y la terminal locales. Cerrar una vista mantiene su proceso en ejecución; terminar una sesión detiene sus procesos."
+
+msgid "Local network"
+msgstr "Red local"
+
+msgid "Local projects, Git worktrees, grouped workspaces, and terminal tabs with split panes."
+msgstr "Proyectos locales, árboles de trabajo de Git, espacios de trabajo agrupados y pestañas de terminal con paneles divididos."
+
+msgid "Location"
+msgstr "Ubicación"
+
+msgid "Location & checkout"
+msgstr "Ubicación y checkout"
+
+msgid "Make all panes equal size"
+msgstr "Igualar el tamaño de todos los paneles"
+
+msgid "Manage local projects and recently deleted projects."
+msgstr "Gestiona los proyectos locales y los proyectos eliminados recientemente."
+
+msgid "Manage Terminal Scripts"
+msgstr "Gestionar scripts de terminal"
+
+msgid "Manage the host used by your workspaces."
+msgstr "Gestiona el host que usan tus espacios de trabajo."
+
+msgid "Manual"
+msgstr "Manual"
+
+msgid "Manual only"
+msgstr "Solo manual"
+
+msgid "Manually"
+msgstr "Manualmente"
+
+msgid "Mark as read"
+msgstr "Marcar como leído"
+
+msgid "Mark as unread"
+msgstr "Marcar como no leído"
+
+msgid "Mark ready for review?"
+msgstr "¿Marcar como lista para revisión?"
+
+msgid "Markdown style"
+msgstr "Estilo de Markdown"
+
+msgid "Marking ready…"
+msgstr "Marcando como lista…"
+
+msgid "Match case"
+msgstr "Distinguir mayúsculas y minúsculas"
+
+msgid "Maximum hidden terminal renderers kept in memory. Evicting a view keeps its PTY session running."
+msgstr "Número máximo de renderizadores de terminal ocultos que se mantienen en memoria. Expulsar una vista mantiene su sesión de PTY en ejecución."
+
+msgid "Maximum size is 256 KB."
+msgstr "El tamaño máximo es 256 KB."
+
+msgid "Member"
+msgstr "Miembro"
+
+msgid "Menu bar activity"
+msgstr "Actividad de la barra de menús"
+
+msgid "Merge"
+msgstr "Fusionar"
+
+msgid "Merge method"
+msgstr "Método de fusión"
+
+msgid "Merge pull request"
+msgstr "Fusionar la pull request"
+
+msgid "Merge pull request?"
+msgstr "¿Fusionar la pull request?"
+
+msgid "Mergeability is being checked"
+msgstr "Se está comprobando si se puede fusionar"
+
+msgid "Merged"
+msgstr "Fusionada"
+
+msgid "Minimum contrast"
+msgstr "Contraste mínimo"
+
+msgid "Model"
+msgstr "Modelo"
+
+msgid "Models"
+msgstr "Modelos"
+
+msgid "Monday"
+msgstr "Lunes"
+
+msgid "Monospace"
+msgstr "Monoespaciadas"
+
+msgid "Monthly"
+msgstr "Mensual"
+
+msgid "Monthly at {time}"
+msgstr "Mensualmente a las {time}"
+
+msgid "Monthly on {day}"
+msgstr "Mensualmente el {day}"
+
+msgid "Monthly on {day} at {time}"
+msgstr "Mensualmente el {day} a las {time}"
+
+msgid "Monthly on the {day, selectordinal, one {#st} two {#nd} few {#rd} other {#th}}"
+msgstr "Mensualmente el {day, selectordinal, other {#.º}}"
+
+msgid "Monthly on the {day, selectordinal, one {#st} two {#nd} few {#rd} other {#th}} at {time}"
+msgstr "Mensualmente el {day, selectordinal, other {#.º}} a las {time}"
+
+msgid "More actions"
+msgstr "Más acciones"
+
+msgid "More options"
+msgstr "Más opciones"
+
+msgid "More than one agent matches this preset."
+msgstr "Más de un agente coincide con este preajuste."
+
+msgid "Move"
+msgstr "Mover"
+
+msgid "Move agent down"
+msgstr "Bajar agente"
+
+msgid "Move agent up"
+msgstr "Subir agente"
+
+msgid "Move focus between the main tabs and the right sidebar, and open the sidebar if it is closed"
+msgstr "Mover el foco entre las pestañas principales y la barra lateral derecha, y abrir la barra lateral si está cerrada"
+
+msgid "Move group down"
+msgstr "Bajar grupo"
+
+msgid "Move group up"
+msgstr "Subir grupo"
+
+msgid "Move preset down"
+msgstr "Bajar preajuste"
+
+msgid "Move preset up"
+msgstr "Subir preajuste"
+
+msgid "Move to group"
+msgstr "Mover a un grupo"
+
+msgid "Move to Left Side"
+msgstr "Mover al lado izquierdo"
+
+msgid "Move to Right Side"
+msgstr "Mover al lado derecho"
+
+msgid "Move to Tab"
+msgstr "Mover a una pestaña"
+
+msgid "Move..."
+msgstr "Mover…"
+
+msgid "Multiple projects match this repository. Open the project first and import its worktrees."
+msgstr "Varios proyectos coinciden con este repositorio. Abre primero el proyecto e importa sus árboles de trabajo."
+
+msgid "Multiple projects use this directory. Choose the project in the sidebar."
+msgstr "Varios proyectos usan este directorio. Elige el proyecto en la barra lateral."
+
+msgid "Mute notification sounds"
+msgstr "Silenciar sonidos de notificación"
+
+msgid "Name"
+msgstr "Nombre"
+
+msgid "Naming instructions"
+msgstr "Instrucciones de nombres"
+
+msgid "Native agent sessions and local attachments."
+msgstr "Sesiones nativas de Agent y archivos adjuntos locales."
+
+msgid "Navigate Back"
+msgstr "Navegar atrás"
+
+msgid "Navigate Forward"
+msgstr "Navegar adelante"
+
+msgid "Navigate to the next workspace in the sidebar"
+msgstr "Ir al siguiente espacio de trabajo de la barra lateral"
+
+msgid "Navigate to the previous workspace in the sidebar"
+msgstr "Ir al espacio de trabajo anterior de la barra lateral"
+
+msgid "Navigation"
+msgstr "Navegación"
+
+msgid "Needs attention"
+msgstr "Necesita atención"
+
+msgid "Needs me"
+msgstr "Me necesita"
+
+msgid "Nerd Fonts"
+msgstr "Nerd Fonts"
+
+msgid "New automation"
+msgstr "Nueva automatización"
+
+msgid "New branch"
+msgstr "Nueva rama"
+
+msgid "New Chat"
+msgstr "Nuevo chat"
+
+msgid "New File"
+msgstr "Archivo nuevo"
+
+msgid "New File..."
+msgstr "Archivo nuevo..."
+
+msgid "New Folder"
+msgstr "Carpeta nueva"
+
+msgid "New Folder..."
+msgstr "Carpeta nueva..."
+
+msgid "New group"
+msgstr "Nuevo grupo"
+
+msgid "New shell"
+msgstr "Nueva shell"
+
+msgid "new tab"
+msgstr "pestaña nueva"
+
+msgid "New tab"
+msgstr "Nueva pestaña"
+
+msgid "New Tab"
+msgstr "Pestaña nueva"
+
+msgid "New tab with split panes"
+msgstr "Nueva pestaña con paneles divididos"
+
+msgid "New tabs"
+msgstr "Nuevas pestañas"
+
+msgid "New Terminal"
+msgstr "Nueva terminal"
+
+msgid "New Window"
+msgstr "Nueva ventana"
+
+msgid "New workspace"
+msgstr "Nuevo espacio de trabajo"
+
+msgid "New Workspace"
+msgstr "Nuevo espacio de trabajo"
+
+msgid "New worktree each run"
+msgstr "Nuevo worktree en cada ejecución"
+
+#. placeholder {0}: location.data.defaultWorktreeBaseDir
+msgid "New worktrees are stored here. Leave empty to use {0}."
+msgstr "Los nuevos worktrees se guardan aquí. Déjalo vacío para usar {0}."
+
+msgid "Next (Enter)"
+msgstr "Siguiente (Enter)"
+
+msgid "Next branch"
+msgstr "Rama siguiente"
+
+msgid "Next Right Sidebar Tab"
+msgstr "Pestaña siguiente de la barra lateral derecha"
+
+#. placeholder {0}: formatDateTime(next, { dateStyle: "medium", timeStyle: "short", timeZone: timezone, })
+msgid "Next scheduled time: {0}"
+msgstr "Próxima hora programada: {0}"
+
+msgid "Next Tab"
+msgstr "Pestaña siguiente"
+
+msgid "Next Tab (Second Shortcut)"
+msgstr "Pestaña siguiente (segundo atajo)"
+
+msgid "Next Workspace"
+msgstr "Espacio de trabajo siguiente"
+
+msgid "No"
+msgstr "No"
+
+msgid "No active agents"
+msgstr "No hay agentes activos"
+
+msgid "No active organization is selected. Select an organization or sign in again."
+msgstr "No hay ninguna organización activa seleccionada. Selecciona una organización o vuelve a iniciar sesión."
+
+msgid "No active services"
+msgstr "No hay servicios activos"
+
+msgid "No active workspaces"
+msgstr "No hay espacios de trabajo activos"
+
+msgid "No active writer"
+msgstr "No hay ningún escritor activo"
+
+msgid "No activity yet"
+msgstr "Aún no hay actividad"
+
+msgid "No agent was started. After setup completes, start the agent again."
+msgstr "No se inició ningún agente. Cuando finalice la configuración, vuelve a iniciar el agente."
+
+msgid "No automations match your filters"
+msgstr "Ninguna automatización coincide con tus filtros"
+
+msgid "No automations yet"
+msgstr "Aún no hay automatizaciones"
+
+msgid "No available workspace with a GitHub remote"
+msgstr "No hay ningún espacio de trabajo disponible con un remoto de GitHub"
+
+msgid "No background terminals"
+msgstr "No hay terminales en segundo plano"
+
+msgid "No branches found"
+msgstr "No se encontraron ramas"
+
+msgid "No changes"
+msgstr "Sin cambios"
+
+msgid "No checks"
+msgstr "Sin comprobaciones"
+
+msgid "No checks reported"
+msgstr "Sin comprobaciones"
+
+msgid "No completed project was found yet. The host may still be stopping or finishing the operation. Check again before retrying at this location."
+msgstr "Todavía no se ha encontrado ningún proyecto completado. Es posible que el host siga deteniendo o finalizando la operación. Vuelve a comprobarlo antes de reintentarlo en esta ubicación."
+
+msgid "No description provided"
+msgstr "Sin descripción"
+
+msgid "No existing worktrees found."
+msgstr "No se encontraron árboles de trabajo existentes."
+
+msgid "No file changes"
+msgstr "No hay cambios de archivos"
+
+msgid "No files found"
+msgstr "No se encontraron archivos"
+
+msgid "No files match the accepted types."
+msgstr "Ningún archivo coincide con los tipos admitidos."
+
+msgid "No fonts found."
+msgstr "No se encontraron fuentes."
+
+msgid "No git remote detected"
+msgstr "No se detectó ningún remoto de git"
+
+msgid "No GitHub repositories available"
+msgstr "No hay repositorios de GitHub disponibles"
+
+msgid "No importable worktrees found on this host. You can open a project and import its worktrees instead."
+msgstr "No se encontraron árboles de trabajo importables en este host. En su lugar, puedes abrir un proyecto e importar sus árboles de trabajo."
+
+msgid "No linked pull requests"
+msgstr "No hay PR vinculadas"
+
+msgid "No local terminal process metrics are available."
+msgstr "No hay métricas de procesos de terminal locales disponibles."
+
+msgid "No local usage or quota data is available."
+msgstr "No hay datos locales de uso o cuota disponibles."
+
+msgid "No match"
+msgstr "Sin coincidencias"
+
+msgid "No matches"
+msgstr "Sin coincidencias"
+
+msgid "No matching settings."
+msgstr "No hay ajustes que coincidan."
+
+msgid "No matching shortcuts."
+msgstr "No hay atajos coincidentes."
+
+msgid "No messages in this page"
+msgstr "No hay mensajes en esta página"
+
+msgid "No output yet"
+msgstr "Aún no hay salida"
+
+msgid "No pending responses or unread completions"
+msgstr "No hay respuestas pendientes ni finalizaciones sin leer"
+
+msgid "No ports yet. Start a dev server in a terminal and it shows up here."
+msgstr "Aún no hay puertos. Inicia un servidor de desarrollo en una terminal y aparecerá aquí."
+
+msgid "No prefix"
+msgstr "Sin prefijo"
+
+msgid "No prefix could be resolved from this host's identity."
+msgstr "No se pudo resolver ningún prefijo a partir de la identidad de este host."
+
+msgid "No projects match your filters"
+msgstr "Ningún proyecto coincide con tus filtros"
+
+msgid "No projects on this host."
+msgstr "No hay proyectos en este host."
+
+msgid "No projects yet"
+msgstr "Todavía no hay proyectos"
+
+msgid "No provider quota is available. Sign in with an agent CLI, then refresh."
+msgstr "No hay cuota del proveedor disponible. Inicia sesión con una CLI de agente y luego actualiza."
+
+msgid "No pull requests found"
+msgstr "No se encontraron PR"
+
+msgid "No pull requests match your filters"
+msgstr "Ninguna pull request coincide con tus filtros"
+
+msgid "No removed projects"
+msgstr "No hay proyectos eliminados"
+
+msgid "No results"
+msgstr "Sin resultados"
+
+msgid "No results found."
+msgstr "No se encontraron resultados."
+
+msgid "No runs yet"
+msgstr "Aún no hay ejecuciones"
+
+msgid "No screenshots yet"
+msgstr "Aún no hay capturas"
+
+msgid "No subdirectories"
+msgstr "No hay subdirectorios"
+
+msgid "No terminal presets yet."
+msgstr "Todavía no hay preajustes de terminal."
+
+msgid "No terminal sessions"
+msgstr "No hay sesiones de terminal"
+
+msgid "No themes were imported"
+msgstr "No se importó ningún tema"
+
+msgid "No usage logs were found for this period."
+msgstr "No se encontraron registros de uso para este período."
+
+msgid "No workspaces in this group"
+msgstr "No hay espacios de trabajo en este grupo"
+
+msgid "No workspaces match your filters"
+msgstr "Ningún espacio de trabajo coincide con tus filtros"
+
+msgid "No workspaces yet"
+msgstr "Aún no hay espacios de trabajo"
+
+msgid "No workspaces yet. Create a workspace to get started."
+msgstr "Aún no hay espacios de trabajo. Crea un espacio de trabajo para empezar."
+
+msgid "None"
+msgstr "Ninguno"
+
+msgid "Not bound · configure in Settings → Links"
+msgstr "Sin asignar · configurar en Configuración → Enlaces"
+
+msgid "Not checked yet"
+msgstr "Aún no comprobado"
+
+msgid "Not detected in the workspace right now"
+msgstr "No se detecta en el espacio de trabajo ahora mismo"
+
+msgid "Not forwarded"
+msgstr "No reenviado"
+
+msgid "Not granted"
+msgstr "No concedido"
+
+msgid "Notification sound"
+msgstr "Sonido de notificación"
+
+msgid "Notification sound volume from 0 to 100."
+msgstr "Volumen del sonido de notificación de 0 a 100."
+
+msgid "Notifications"
+msgstr "Notificaciones"
+
+msgid "now"
+msgstr "ahora"
+
+msgid "Numbered list"
+msgstr "Lista numerada"
+
+msgid "Off"
+msgstr "Desactivado"
+
+msgid "On a Mac, Git comes with Apple's Command Line Tools."
+msgstr "En Mac, Git viene incluido en las Command Line Tools de Apple."
+
+msgid "On focus change"
+msgstr "Al cambiar el foco"
+
+msgid "On window change"
+msgstr "Al cambiar de ventana"
+
+msgid "Only agents on this device can be linked."
+msgstr "Solo se pueden vincular agentes de este dispositivo."
+
+msgid "Only new worktrees use this location. Existing worktrees are not moved."
+msgstr "Solo los nuevos árboles de trabajo usan esta ubicación. Los árboles existentes no se mueven."
+
+msgid "Only on this machine: gitignored, and applied to every worktree of this repository. Any key set here replaces the shared one."
+msgstr "Solo en esta máquina: ignorado por git y aplicado a cada worktree de este repositorio. Cualquier clave definida aquí reemplaza la compartida."
+
+msgid "Only the listed staged files will be committed. Hooks may modify files or reject the commit."
+msgstr "Solo se confirmarán los archivos preparados enumerados. Los hooks pueden modificar archivos o rechazar el commit."
+
+msgid "Only the thread author or a user with pull request write access can resolve this conversation."
+msgstr "Solo el autor del hilo o un usuario con acceso de escritura a la pull request puede resolver esta conversación."
+
+msgid "open"
+msgstr "abrir"
+
+msgid "Open"
+msgstr "Abrir"
+
+#. placeholder {0}: binding.agentId
+msgid "Open {0} session"
+msgstr "Abrir sesión de {0}"
+
+msgid "Open {displayName}"
+msgstr "Abrir {displayName}"
+
+msgid "Open {path} in file pane"
+msgstr "Abrir {path} en el panel de archivos"
+
+msgid "Open a multiline prompt composer for the active terminal"
+msgstr "Abrir un editor de prompts multilínea para la terminal activa"
+
+msgid "Open a workspace for this project first"
+msgstr "Abre primero un espacio de trabajo para este proyecto"
+
+msgid "Open agent activity from the menu bar. The panel closes when it loses focus or when you press Escape."
+msgstr "Abre la actividad del agente desde la barra de menús. El panel se cierra cuando pierde el foco o cuando pulsas Escape."
+
+msgid "Open an existing repository, or initialize a folder after confirmation."
+msgstr "Abre un repositorio existente o inicializa una carpeta tras la confirmación."
+
+msgid "Open Changes"
+msgstr "Abrir cambios"
+
+msgid "Open Changes in"
+msgstr "Abrir cambios en"
+
+msgid "Open check on GitHub"
+msgstr "Abrir comprobación en GitHub"
+
+msgid "Open CLI"
+msgstr "Abrir CLI"
+
+msgid "Open Command Palette"
+msgstr "Abrir la paleta de comandos"
+
+msgid "Open Diff"
+msgstr "Abrir el diff"
+
+msgid "Open Diff in New Tab"
+msgstr "Abrir el diff en una pestaña nueva"
+
+msgid "Open existing PR or create a new one on GitHub"
+msgstr "Abrir la PR existente o crear una nueva en GitHub"
+
+msgid "open file"
+msgstr "abrir archivo"
+
+msgid "Open File"
+msgstr "Abrir el archivo"
+
+msgid "Open File in New Tab"
+msgstr "Abrir el archivo en una pestaña nueva"
+
+msgid "Open files"
+msgstr "Abrir archivos"
+
+msgid "Open files in"
+msgstr "Abrir archivos en"
+
+msgid "Open in"
+msgstr "Abrir en"
+
+#. placeholder {0}: currentApp.displayLabel ?? currentApp.label
+msgid "Open in {0}"
+msgstr "Abrir en {0}"
+
+msgid "Open in editor"
+msgstr "Abrir en el editor"
+
+msgid "Open in Editor"
+msgstr "Abrir en el editor"
+
+msgid "Open in external browser"
+msgstr "Abrir en el navegador externo"
+
+msgid "Open in external editor"
+msgstr "Abrir en editor externo"
+
+msgid "Open in Finder"
+msgstr "Abrir en Finder"
+
+msgid "Open in GitHub"
+msgstr "Abrir en GitHub"
+
+msgid "Open in new tab"
+msgstr "Abrir en una pestaña nueva"
+
+msgid "Open in New Tab"
+msgstr "Abrir en una pestaña nueva"
+
+msgid "Open in right pane"
+msgstr "Abrir en el panel derecho"
+
+msgid "Open in split pane"
+msgstr "Abrir en un panel dividido"
+
+msgid "Open in tab"
+msgstr "Abrir en una pestaña"
+
+msgid "Open large file"
+msgstr "Abrir archivo grande"
+
+msgid "Open local checkout"
+msgstr "Abrir checkout local"
+
+#. placeholder {0}: port.port
+msgid "Open localhost:{0} in external browser"
+msgstr "Abrir localhost:{0} en el navegador externo"
+
+msgid "Open project"
+msgstr "Abrir proyecto"
+
+msgid "Open Pull Request"
+msgstr "Abrir pull request"
+
+#. placeholder {0}: pr.number
+msgid "Open pull request #{0}"
+msgstr "Abrir pull request #{0}"
+
+msgid "Open remote localhost links from Ports after forwarding the port."
+msgstr "Tras reenviar el puerto, abre los enlaces localhost remotos desde Puertos."
+
+msgid "Open session"
+msgstr "Abrir sesión"
+
+msgid "Open settings"
+msgstr "Abrir la configuración"
+
+msgid "Open Settings"
+msgstr "Abrir la configuración"
+
+msgid "Open setup terminal"
+msgstr "Abrir terminal de configuración"
+
+msgid "Open source acknowledgements"
+msgstr "Agradecimientos de código abierto"
+
+msgid "Open System Settings"
+msgstr "Abrir Ajustes del Sistema"
+
+msgid "Open terminal"
+msgstr "Abrir terminal"
+
+msgid "Open Terminal"
+msgstr "Abrir la terminal"
+
+msgid "Open Terminal Script 1"
+msgstr "Abrir el script de terminal 1"
+
+msgid "Open Terminal Script 2"
+msgstr "Abrir el script de terminal 2"
+
+msgid "Open Terminal Script 3"
+msgstr "Abrir el script de terminal 3"
+
+msgid "Open Terminal Script 4"
+msgstr "Abrir el script de terminal 4"
+
+msgid "Open Terminal Script 5"
+msgstr "Abrir el script de terminal 5"
+
+msgid "Open Terminal Script 6"
+msgstr "Abrir el script de terminal 6"
+
+msgid "Open Terminal Script 7"
+msgstr "Abrir el script de terminal 7"
+
+msgid "Open Terminal Script 8"
+msgstr "Abrir el script de terminal 8"
+
+msgid "Open Terminal Script 9"
+msgstr "Abrir el script de terminal 9"
+
+msgid "Open the Changes pane in a new tab, or focus the existing one"
+msgstr "Abre el panel de cambios en una pestaña nueva o enfoca el existente"
+
+msgid "Open the global command palette"
+msgstr "Abrir la paleta de comandos global"
+
+msgid "Open the main window to select this workspace"
+msgstr "Abre la ventana principal para seleccionar este espacio de trabajo"
+
+msgid "Open the new workspace modal"
+msgstr "Abrir el modal de nuevo espacio de trabajo"
+
+msgid "Open the resource usage view in the command palette"
+msgstr "Abrir la vista de uso de recursos en la paleta de comandos"
+
+msgid "open the task in a workspace"
+msgstr "abrir la tarea en un espacio de trabajo"
+
+msgid "Open the workspace in the app picked in the Open In menu (VS Code, Cursor, etc.)"
+msgstr "Abrir el espacio de trabajo en la app elegida en el menú «Abrir en» (VS Code, Cursor, etc.)"
+
+msgid "Open workspace"
+msgstr "Abrir el espacio de trabajo"
+
+msgid "Opening the CLI is unavailable in this dialog."
+msgstr "No se puede abrir la CLI en este diálogo."
+
+msgid "Opening workspace…"
+msgstr "Abriendo espacio de trabajo…"
+
+msgid "Opening…"
+msgstr "Abriendo…"
+
+msgid "Option shortcuts may prevent typing special characters"
+msgstr "Los atajos con Option pueden impedir escribir caracteres especiales"
+
+msgid "Orange"
+msgstr "Naranja"
+
+msgid "Order by"
+msgstr "Ordenar por"
+
+msgid "organization {id}"
+msgstr "la organización {id}"
+
+msgid "Other"
+msgstr "Otros"
+
+msgid "Other ways to get Git"
+msgstr "Otras formas de obtener Git"
+
+msgid "Outdated"
+msgstr "Obsoleto"
+
+msgid "Output"
+msgstr "Salida"
+
+msgid "Overwrite file"
+msgstr "Sobrescribir archivo"
+
+msgid "Owner"
+msgstr "Propietario"
+
+msgid "Owns every PTY session and survives app restarts."
+msgstr "Es dueño de todas las sesiones PTY y sobrevive a los reinicios de la app."
+
+msgid "Package"
+msgstr "Paquete"
+
+msgid "Page Not Found"
+msgstr "Página no encontrada"
+
+msgid "Pane areas must belong to the same active workspace"
+msgstr "Las áreas de panel deben pertenecer al mismo espacio de trabajo activo"
+
+msgid "Pane attachment state is unavailable."
+msgstr "El estado de adjunción del panel no está disponible."
+
+msgid "Paragraph"
+msgstr "Párrafo"
+
+msgid "Parent directory"
+msgstr "Directorio padre"
+
+msgid "Parent folder"
+msgstr "Carpeta principal"
+
+msgid "Passed"
+msgstr "Superada"
+
+msgid "Paste"
+msgstr "Pegar"
+
+msgid "Paste a link"
+msgstr "Pega un enlace"
+
+msgid "Path copied"
+msgstr "Ruta copiada"
+
+msgid "Pause"
+msgstr "Pausar"
+
+msgid "Paused"
+msgstr "En pausa"
+
+msgid "Pending"
+msgstr "Pendiente"
+
+msgid "Permissions"
+msgstr "Permisos"
+
+msgid "Personal"
+msgstr "Personal"
+
+msgid "Pick a folder on disk and add it as a project"
+msgstr "Elige una carpeta del disco y añádela como proyecto"
+
+msgid "Pick a theme or follow your system appearance."
+msgstr "Elige un tema o sigue la apariencia del sistema."
+
+msgid "Pick a workspace whose agent is waiting for your input, has finished since you last looked, or is still running"
+msgstr "Elige un espacio de trabajo cuyo agente espera tu respuesta, terminó desde la última vez que lo miraste o sigue en ejecución"
+
+msgid "PID"
+msgstr "PID"
+
+msgid "Pin workspace"
+msgstr "Fijar espacio de trabajo"
+
+msgid "Pink"
+msgstr "Rosa"
+
+msgid "Pinned"
+msgstr "Fijadas"
+
+msgid "Please select a project directory."
+msgstr "Selecciona un directorio de proyecto."
+
+msgid "Port forwarding is not active"
+msgstr "El reenvío de puertos no está activo"
+
+msgid "Ports"
+msgstr "Puertos"
+
+msgid "Post comment to GitHub?"
+msgstr "¿Publicar el comentario en GitHub?"
+
+msgid "Post reply to GitHub?"
+msgstr "¿Publicar la respuesta en GitHub?"
+
+msgid "Prefix"
+msgstr "Prefijo"
+
+msgid "Prefix new workspace branches on the connected host. Project overrides take priority."
+msgstr "Prefija las nuevas ramas de espacio de trabajo en el host conectado. Las personalizaciones del proyecto tienen prioridad."
+
+msgid "Preparing workspace on the target host…"
+msgstr "Preparando espacio de trabajo en el host de destino…"
+
+msgid "Preset association could not be confirmed. Refresh and try again."
+msgstr "No se pudo confirmar la asociación del preajuste. Actualiza y vuelve a intentarlo."
+
+msgid "Presets are stored on this device. Run them explicitly from the workspace launcher."
+msgstr "Los preajustes se almacenan en este dispositivo. Ejecutálos explícitamente desde el lanzador del espacio de trabajo."
+
+msgid "Press shortcut…"
+msgstr "Pulsa el atajo…"
+
+msgid "Preview"
+msgstr "Vista previa"
+
+msgid "Previous (Shift+Enter)"
+msgstr "Anterior (Shift+Enter)"
+
+msgid "Previous branch"
+msgstr "Rama anterior"
+
+msgid "Previous Right Sidebar Tab"
+msgstr "Pestaña anterior de la barra lateral derecha"
+
+msgid "Previous Tab"
+msgstr "Pestaña anterior"
+
+msgid "Previous Tab (Second Shortcut)"
+msgstr "Pestaña anterior (segundo atajo)"
+
+msgid "Previous Workspace"
+msgstr "Espacio de trabajo anterior"
+
+msgid "Private connection"
+msgstr "Conexión privada"
+
+msgid "Private host"
+msgstr "Host privado"
+
+msgid "Private host connections and application settings without a Jedv account."
+msgstr "Conexiones a hosts privados y ajustes de la aplicación sin una cuenta de Jedv."
+
+msgid "Processed tokens"
+msgstr "Tokens procesados"
+
+msgid "Project"
+msgstr "Proyecto"
+
+msgid "Project directory"
+msgstr "Directorio del proyecto"
+
+msgid "Project icon and color"
+msgstr "Icono y color del proyecto"
+
+msgid "Project name"
+msgstr "Nombre del proyecto"
+
+msgid "Project name must produce a valid directory name. Use letters, numbers, dots, dashes, or underscores."
+msgstr "El nombre del proyecto debe generar un nombre de directorio válido. Usa letras, números, puntos, guiones o guiones bajos."
+
+msgid "Project options"
+msgstr "Opciones del proyecto"
+
+msgid "Project scripts"
+msgstr "Scripts del proyecto"
+
+msgid "Project settings"
+msgstr "Ajustes del proyecto"
+
+msgid "Project Settings"
+msgstr "Configuración del proyecto"
+
+msgid "Projects"
+msgstr "Proyectos"
+
+msgid "Projects and workspaces"
+msgstr "Proyectos y espacios de trabajo"
+
+msgid "Prompt arguments"
+msgstr "Argumentos del prompt"
+
+msgid "Prompt preview"
+msgstr "Vista previa del prompt"
+
+msgid "Prompt transport"
+msgstr "Transporte del prompt"
+
+msgid "Provider quota"
+msgstr "Cuota del proveedor"
+
+msgid "Pull request"
+msgstr "Pull request"
+
+msgid "Pull request created"
+msgstr "Pull request creada"
+
+msgid "Pull request merged"
+msgstr "Pull request fusionada"
+
+msgid "Pull request number"
+msgstr "Número de PR"
+
+msgid "Pull request title"
+msgstr "Título del pull request"
+
+msgid "Pull requests"
+msgstr "Pull requests"
+
+msgid "Pull Requests"
+msgstr "Pull requests"
+
+msgid "Purple"
+msgstr "Morado"
+
+msgid "Push"
+msgstr "Push"
+
+msgid "Push changes?"
+msgstr "¿Enviar cambios?"
+
+msgid "Push completed"
+msgstr "Envío completado"
+
+msgid "Push this commit to the reviewed remote branch. A changed target requires a new confirmation."
+msgstr "Envía este commit a la rama remota revisada. Un destino modificado requiere una nueva confirmación."
+
+msgid "px"
+msgstr "px"
+
+msgid "Queue message"
+msgstr "Poner mensaje en cola"
+
+msgid "Queue; ⌘↩ to steer the running turn"
+msgstr "En cola; ⌘↩ para redirigir el turno en curso"
+
+msgid "Quick Create Workspace"
+msgstr "Creación rápida de espacio de trabajo"
+
+msgid "Quick Open File"
+msgstr "Apertura rápida de archivo"
+
+msgid "Quickly create a workspace in the current project"
+msgstr "Crear rápidamente un espacio de trabajo en el proyecto actual"
+
+msgid "Quit"
+msgstr "Salir"
+
+msgid "Quit {displayName}"
+msgstr "Salir de {displayName}"
+
+msgctxt "quit confirmation dialog title"
+msgid "Quit {displayName}"
+msgstr "Salir de {displayName}"
+
+msgid "Quit {displayName} and stop all background services?"
+msgstr "¿Salir de {displayName} y detener todos los servicios en segundo plano?"
+
+msgid "Quit {displayName} Completely"
+msgstr "Salir de {displayName} por completo"
+
+msgid "Quit Completely"
+msgstr "Salir por completo"
+
+msgid "Quota is read from your provider. Refreshing may contact the provider using your existing CLI login."
+msgstr "La cuota se lee de tu proveedor. Al actualizar, es posible que se contacte con el proveedor mediante tu inicio de sesión de CLI existente."
+
+msgid "Quote"
+msgstr "Cita"
+
+msgid "Reachable"
+msgstr "Accesible"
+
+msgid "Read only"
+msgstr "Solo lectura"
+
+msgid "Reading local CLI logs…"
+msgstr "Leyendo registros de CLI locales…"
+
+msgid "Ready for review"
+msgstr "Lista para revisión"
+
+msgid "Reasoning"
+msgstr "Razonamiento"
+
+msgid "Reassign shortcut"
+msgstr "Reasignar atajo"
+
+msgid "Reassign this shortcut?"
+msgstr "¿Reasignar este atajo?"
+
+msgid "Rebase"
+msgstr "Rebase"
+
+msgid "Recent"
+msgstr "Reciente"
+
+msgid "Recent files"
+msgstr "Archivos recientes"
+
+msgid "Recent projects"
+msgstr "Proyectos recientes"
+
+msgid "Recently removed projects"
+msgstr "Proyectos eliminados recientemente"
+
+msgid "Recording"
+msgstr "Grabando"
+
+msgid "Recreate the worktree from committed branch history, then run the project's setup script if configured. Deleted uncommitted files and terminated sessions cannot be recovered."
+msgstr "Vuelve a crear el árbol de trabajo a partir del historial de ramas confirmadas y, a continuación, ejecuta el script de configuración del proyecto si está configurado. Los archivos no confirmados eliminados y las sesiones terminadas no se pueden recuperar."
+
+msgid "Recurrence rule"
+msgstr "Regla de recurrencia"
+
+msgid "Red"
+msgstr "Rojo"
+
+msgid "Refresh"
+msgstr "Actualizar"
+
+msgid "Refresh capabilities"
+msgstr "Actualizar capacidades"
+
+msgid "Refresh failed"
+msgstr "Error al actualizar"
+
+msgid "Refresh history"
+msgstr "Actualizar historial"
+
+msgid "Refresh pull request"
+msgstr "Actualizar la pull request"
+
+msgid "Refresh pull requests"
+msgstr "Actualizar las pull requests"
+
+msgid "Refresh sessions"
+msgstr "Actualizar sesiones"
+
+msgid "Refresh status"
+msgstr "Actualizar estado"
+
+msgid "Reject"
+msgstr "Rechazar"
+
+msgid "Rejected"
+msgstr "Rechazado"
+
+msgid "Relative path copied"
+msgstr "Ruta relativa copiada"
+
+msgid "Release notes"
+msgstr "Notas de la versión"
+
+msgid "Release Notes"
+msgstr "Notas de la versión"
+
+msgid "Reload"
+msgstr "Recargar"
+
+msgid "Reload app"
+msgstr "Recargar la aplicación"
+
+msgid "Reload from disk"
+msgstr "Recargar desde el disco"
+
+msgid "Reloading discards your edits. Overwriting replaces the file on disk."
+msgstr "Al recargar se descartan tus cambios. Al sobrescribir se reemplaza el archivo en disco."
+
+msgid "Relocate"
+msgstr "Mover"
+
+msgid "Relocate project?"
+msgstr "¿Mover el proyecto?"
+
+msgid "Relocating…"
+msgstr "Moviendo…"
+
+msgid "remote"
+msgstr "remoto"
+
+msgid "Remote"
+msgstr "Remoto"
+
+msgid "Remote port"
+msgstr "Puerto remoto"
+
+msgid "Remove"
+msgstr "Quitar"
+
+msgid "Remove agent link"
+msgstr "Eliminar vínculo del agente"
+
+msgid "Remove attachment"
+msgstr "Quitar adjunto"
+
+msgid "Remove from Jedv…"
+msgstr "Eliminar de Jedv…"
+
+msgid "Remove icon"
+msgstr "Quitar el icono"
+
+msgid "Remove link"
+msgstr "Quitar enlace"
+
+msgid "Remove pasted text"
+msgstr "Quitar texto pegado"
+
+msgid "Remove project"
+msgstr "Eliminar proyecto"
+
+msgid "Remove pull request link"
+msgstr "Eliminar vínculo de la PR"
+
+msgid "remove the agent"
+msgstr "quitar el agente"
+
+msgid "remove the PR link"
+msgstr "quitar el enlace a la PR"
+
+msgid "Remove this project and its workspaces from Jedv and stop their terminals. Repository files stay on disk. Teardown commands may run."
+msgstr "Elimina este proyecto y sus espacios de trabajo de Jedv y detén sus terminales. Los archivos del repositorio permanecen en el disco. Es posible que se ejecuten comandos de limpieza."
+
+msgid "Removing…"
+msgstr "Eliminando…"
+
+msgid "Rename"
+msgstr "Cambiar nombre"
+
+msgid "Rename {title}"
+msgstr "Cambiar el nombre de {title}"
+
+msgid "Rename branch"
+msgstr "Cambiar nombre de la rama"
+
+msgid "Rename session"
+msgstr "Cambiar el nombre de la sesión"
+
+msgid "rename the branch"
+msgstr "cambiar el nombre de la rama"
+
+msgid "Rename workspace"
+msgstr "Cambiar el nombre del espacio de trabajo"
+
+msgid "Rename..."
+msgstr "Cambiar el nombre..."
+
+msgid "Rendering style for markdown files. Tufte uses elegant serif typography inspired by Edward Tufte's books."
+msgstr "Estilo de renderizado de los archivos Markdown. Tufte usa una elegante tipografía con serifa inspirada en los libros de Edward Tufte."
+
+msgid "Reopen Closed Tab"
+msgstr "Reabrir pestaña cerrada"
+
+msgid "reorder agents"
+msgstr "reordenar los agentes"
+
+msgid "Reorder workspace"
+msgstr "Reordenar espacio de trabajo"
+
+msgid "Replace"
+msgstr "Reemplazar"
+
+msgid "Replace All"
+msgstr "Reemplazar todo"
+
+msgid "Replaced {replaced} files in {where}"
+msgstr "Se reemplazaron {replaced} archivos en {where}"
+
+msgid "Replaced 1 file in {where}"
+msgstr "Se reemplazó 1 archivo en {where}"
+
+msgid "Reply"
+msgstr "Responder"
+
+msgid "Report Issue"
+msgstr "Informar de un problema"
+
+msgid "Repositories"
+msgstr "Repositorios"
+
+msgid "Repository"
+msgstr "Repositorio"
+
+msgid "Repository URL or path"
+msgstr "URL o ruta del repositorio"
+
+msgid "Request cancellation"
+msgstr "Solicitar cancelación"
+
+msgid "Requested permissions"
+msgstr "Permisos solicitados"
+
+msgid "Reserved by OS"
+msgstr "Reservado por el sistema operativo"
+
+msgid "Reserved by terminal"
+msgstr "Reservado por la terminal"
+
+msgid "Reset"
+msgstr "Restablecer"
+
+msgid "reset agents"
+msgstr "restablecer los agentes"
+
+msgid "Reset all"
+msgstr "Restablecer todo"
+
+msgid "Reset all agent commands?"
+msgstr "¿Restablecer todos los comandos de agente?"
+
+msgid "Reset all shortcuts?"
+msgstr "¿Restablecer todos los atajos?"
+
+msgid "Reset editor"
+msgstr "Restablecer el editor"
+
+msgid "Reset group appearance"
+msgstr "Restablecer apariencia del grupo"
+
+msgid "Reset terminal"
+msgstr "Restablecer el terminal"
+
+msgid "Reset to default"
+msgstr "Restablecer al predeterminado"
+
+msgid "Reset zoom"
+msgstr "Restablecer el zoom"
+
+msgid "Reset Zoom"
+msgstr "Restablecer el zoom"
+
+msgid "resets"
+msgstr "se restablece"
+
+msgid "Resets in {countdown} · {absolute}"
+msgstr "Se reinicia en {countdown} · {absolute}"
+
+msgid "Resets now"
+msgstr "Se reinicia ahora"
+
+msgid "Resolve conversation"
+msgstr "Resolver la conversación"
+
+msgid "Resolve conversation?"
+msgstr "¿Resolver la conversación?"
+
+msgid "resolve the workspace path"
+msgstr "resolver la ruta del espacio de trabajo"
+
+msgid "Resolve these conflicts before committing."
+msgstr "Resuelve estos conflictos antes de confirmar."
+
+msgid "Resolved"
+msgstr "Resuelto"
+
+msgid "Resource monitor"
+msgstr "Monitor de recursos"
+
+msgid "Resources"
+msgstr "Recursos"
+
+msgid "Restart"
+msgstr "Reiniciar"
+
+msgid "Restart Local Host"
+msgstr "Reiniciar host local"
+
+msgid "Restart to Install"
+msgstr "Reiniciar para instalar"
+
+#. placeholder {0}: event.version ?? ""
+msgid "Restart to install v{0}"
+msgstr "Reiniciar para instalar v{0}"
+
+msgid "Restart to update"
+msgstr "Reiniciar para actualizar"
+
+msgid "Restore"
+msgstr "Restaurar"
+
+msgid "Restore default"
+msgstr "Restaurar valores predeterminados"
+
+msgid "Restore pane area"
+msgstr "Restaurar área del panel"
+
+msgid "restore the agent defaults"
+msgstr "restaurar los valores predeterminados del agente"
+
+msgid "Restore this workspace record on the shared repository checkout. Terminated terminal sessions are not restarted."
+msgstr "Restaura este registro del espacio de trabajo en el checkout del repositorio compartido. Las sesiones de terminal terminadas no se reinician."
+
+msgid "Restore workspace"
+msgstr "Restaurar espacio de trabajo"
+
+msgid "Restore workspace?"
+msgstr "¿Restaurar espacio de trabajo?"
+
+msgid "Restore workspace…"
+msgstr "Restaurando espacio de trabajo…"
+
+msgid "Restoring brings back available workspace records and existing directories. It does not restart terminated sessions or recover files changed by teardown."
+msgstr "La restauración recupera los registros de espacios de trabajo disponibles y los directorios existentes. No reinicia las sesiones terminadas ni recupera los archivos modificados por la limpieza."
+
+msgid "Restoring workspace layout…"
+msgstr "Restaurando el diseño del espacio de trabajo…"
+
+msgid "Restoring…"
+msgstr "Restaurando…"
+
+msgid "Result unknown"
+msgstr "Resultado desconocido"
+
+msgid "Result unknown. Refresh before retrying."
+msgstr "Resultado desconocido. Actualiza antes de volver a intentarlo."
+
+msgid "Resume a native session. The session ID is appended after these arguments."
+msgstr "Reanuda una sesión nativa. El ID de sesión se añade después de estos argumentos."
+
+msgid "Resume arguments"
+msgstr "Argumentos de reanudación"
+
+msgid "Resume same CLI session"
+msgstr "Reanudar la misma sesión de CLI"
+
+msgid "Resume same session"
+msgstr "Reanudar la misma sesión"
+
+msgid "Retry"
+msgstr "Reintentar"
+
+msgid "Retry after the connection refreshes."
+msgstr "Reinténtalo cuando se actualice la conexión."
+
+msgid "Retry checks"
+msgstr "Reintentar comprobaciones"
+
+msgid "Retry dictation"
+msgstr "Reintentar el dictado"
+
+msgid "Retry failed imports"
+msgstr "Reintentar importaciones fallidas"
+
+msgid "Retry icon update"
+msgstr "Reintentar actualización del icono"
+
+msgid "Retry in a few seconds; if it persists, restart Jedv."
+msgstr "Reinténtalo en unos segundos; si persiste, reinicia Jedv."
+
+msgid "Retry in a few seconds."
+msgstr "Reinténtalo en unos segundos."
+
+msgid "Return to Save"
+msgstr "Volver para guardar"
+
+msgid "Reveal in Finder"
+msgstr "Mostrar en Finder"
+
+msgid "Reveal in sidebar"
+msgstr "Mostrar en la barra lateral"
+
+msgid "Review"
+msgstr "Revisión"
+
+msgid "Review selected workspaces"
+msgstr "Revisar espacios de trabajo seleccionados"
+
+msgid "Review system permissions on this device."
+msgstr "Revisa los permisos del sistema en este dispositivo."
+
+msgid "Review thread"
+msgstr "Hilo de revisión"
+
+msgid "Review thread updated"
+msgstr "Hilo de revisión actualizado"
+
+msgid "Review threads could not be loaded"
+msgstr "No se pudieron cargar los hilos de revisión"
+
+msgid "right pane"
+msgstr "panel derecho"
+
+msgid "Rocket"
+msgstr "Cohete"
+
+msgid "Run"
+msgstr "Ejecutar"
+
+msgid "Run agent"
+msgstr "Ejecutar agente"
+
+msgid "Run agent…"
+msgstr "Ejecutar agente…"
+
+msgid "Run configuration is not available"
+msgstr "La configuración de ejecución no está disponible"
+
+msgid "Run History"
+msgstr "Historial de ejecuciones"
+
+msgid "Run history is unavailable. Refresh to try again."
+msgstr "El historial de ejecuciones no está disponible. Actualiza para volver a intentarlo."
+
+msgid "Run in new terminal"
+msgstr "Ejecutar en una terminal nueva"
+
+msgid "run issues in workspaces"
+msgstr "ejecutar issues en espacios de trabajo"
+
+msgid "Run now"
+msgstr "Ejecutar ahora"
+
+msgid "Run output"
+msgstr "Salida de la ejecución"
+
+msgid "Run repeatable work with your local agents, on a schedule or when you need it."
+msgstr "Ejecuta trabajo repetible con tus agentes locales, según una programación o cuando lo necesites."
+
+msgid "Run setup script"
+msgstr "Ejecutar script de configuración"
+
+msgid "Run target"
+msgstr "Destino de la ejecución"
+
+msgid "run tasks in workspaces"
+msgstr "ejecutar tareas en espacios de trabajo"
+
+msgid "Run time"
+msgstr "Hora de ejecución"
+
+msgid "Run workspace command"
+msgstr "Ejecutar el comando del espacio de trabajo"
+
+msgid "Run Workspace Command"
+msgstr "Ejecutar el comando del espacio de trabajo"
+
+msgid "running"
+msgstr "en ejecución"
+
+msgid "Running"
+msgstr "En ejecución"
+
+msgid "Same-session CLI control is unavailable. No new session was started."
+msgstr "El control de CLI de la misma sesión no está disponible. No se inició ninguna nueva sesión."
+
+msgid "Same-session control is unavailable. No new agent session was started."
+msgstr "El control de la misma sesión no está disponible. No se inició ninguna sesión nueva del agente."
+
+msgid "Saturday"
+msgstr "Sábado"
+
+msgid "Save"
+msgstr "Guardar"
+
+msgid "Save All"
+msgstr "Guardar todo"
+
+msgid "Save changes"
+msgstr "Guardar cambios"
+
+msgid "Save changes before closing?"
+msgstr "¿Guardar los cambios antes de cerrar?"
+
+msgid "Save failed: {message}"
+msgstr "No se pudo guardar: {message}"
+
+msgid "Save file"
+msgstr "Guardar archivo"
+
+msgid "Save group"
+msgstr "Guardar grupo"
+
+msgid "Save or close all unsaved files in this project before removing it."
+msgstr "Guarda o cierra todos los archivos sin guardar de este proyecto antes de eliminarlo."
+
+msgid "Save or close every unsaved file in this workspace before deleting it."
+msgstr "Guarda o cierra todos los archivos sin guardar de este espacio de trabajo antes de eliminarlo."
+
+msgid "Save or close the unsaved files before opening another workspace"
+msgstr "Guarda o cierra los archivos sin guardar antes de abrir otro espacio de trabajo"
+
+msgid "Save or close the unsaved files before removing this project"
+msgstr "Guarda o cierra los archivos sin guardar antes de eliminar este proyecto"
+
+msgid "Save or close the unsaved files before switching hosts"
+msgstr "Guarda o cierra los archivos sin guardar antes de cambiar de host"
+
+msgid "Save or close unsaved files and commit or discard changes before switching branches."
+msgstr "Guarda o cierra los archivos sin guardar y confirma o descarta los cambios antes de cambiar de rama."
+
+msgid "Save preset"
+msgstr "Guardar preajuste"
+
+msgid "save the agent"
+msgstr "guardar el agente"
+
+msgid "save the agent command"
+msgstr "guardar el comando del agente"
+
+msgid "Save to apply your changes. Drafts are kept if saving fails."
+msgstr "Guarda para aplicar los cambios. Los borradores se conservan si no se puede guardar."
+
+msgid "Save your changes before closing?"
+msgstr "¿Guardar los cambios antes de cerrar?"
+
+msgid "Save your work before restarting. Unsaved changes can still prevent the restart."
+msgstr "Guarda tu trabajo antes de reiniciar. Los cambios sin guardar aún pueden impedir el reinicio."
+
+msgid "Saved"
+msgstr "Guardado"
+
+msgid "Saving a preset does not run its commands."
+msgstr "Guardar un preajuste no ejecuta sus comandos."
+
+msgid "Saving…"
+msgstr "Guardando…"
+
+msgid "Scaffold a new project from a starter with fresh Git history. Setup commands will not run automatically."
+msgstr "Crea un nuevo proyecto a partir de una plantilla con un nuevo historial de Git. Los comandos de configuración no se ejecutarán automáticamente."
+
+#. placeholder {0}: data.scannedFiles
+#. placeholder {1}: data.pricingTableUpdated
+msgid "Scanned {0} log files. Pricing table: {1}."
+msgstr "Archivos de registro analizados: {0}. Tabla de precios: {1}."
+
+msgid "Schedule"
+msgstr "Programación"
+
+msgid "Scheduled"
+msgstr "Programado"
+
+msgid "Screenshots"
+msgstr "Capturas"
+
+msgid "Scroll the active terminal to the bottom"
+msgstr "Desplazar la terminal activa hasta el final"
+
+msgid "Scroll to bottom"
+msgstr "Ir al final"
+
+msgid "Scroll to Bottom"
+msgstr "Desplazar al final"
+
+msgid "Search"
+msgstr "Buscar"
+
+msgid "Search active workspaces…"
+msgstr "Buscar espacios de trabajo activos…"
+
+msgid "Search and open files in the current workspace"
+msgstr "Buscar y abrir archivos en el espacio de trabajo actual"
+
+msgid "Search automations"
+msgstr "Buscar automatizaciones"
+
+msgid "Search automations…"
+msgstr "Buscar automatizaciones…"
+
+msgid "Search branches..."
+msgstr "Buscar ramas..."
+
+msgid "Search changed files"
+msgstr "Buscar archivos modificados"
+
+msgid "Search files"
+msgstr "Buscar archivos"
+
+msgid "Search Files"
+msgstr "Buscar archivos"
+
+msgid "Search files..."
+msgstr "Buscar archivos..."
+
+msgid "Search fonts..."
+msgstr "Buscar fuentes..."
+
+msgid "Search projects"
+msgstr "Buscar proyectos"
+
+msgid "Search pull requests"
+msgstr "Buscar pull requests"
+
+msgid "Search pull requests or enter a PR number…"
+msgstr "Buscar PR o introducir un número de PR…"
+
+msgid "Search pull requests…"
+msgstr "Buscar pull requests…"
+
+msgid "Search repositories..."
+msgstr "Buscar repositorios..."
+
+msgid "Search settings"
+msgstr "Buscar en la configuración"
+
+msgid "Search settings…"
+msgstr "Buscar en la configuración…"
+
+msgid "Search shortcuts"
+msgstr "Buscar atajos"
+
+msgid "Search shortcuts…"
+msgstr "Buscar atajos…"
+
+msgid "Search text in the active chat"
+msgstr "Buscar texto en el chat activo"
+
+msgid "Search text in the active page"
+msgstr "Buscar texto en la página activa"
+
+msgid "Search text in the active terminal"
+msgstr "Buscar texto en la terminal activa"
+
+msgid "Search text in the changes diff"
+msgstr "Buscar texto en el diff de cambios"
+
+msgid "Search text in the rendered file viewer"
+msgstr "Buscar texto en el visor de archivos renderizado"
+
+msgid "Search workspaces"
+msgstr "Buscar espacios de trabajo"
+
+msgid "Search workspaces…"
+msgstr "Buscar espacios de trabajo…"
+
+msgid "Searching…"
+msgstr "Buscando…"
+
+msgid "See what changed in this version."
+msgstr "Consulta los cambios de esta versión."
+
+msgid "Select a file to preview or edit"
+msgstr "Selecciona un archivo para previsualizarlo o editarlo"
+
+msgid "Select a project"
+msgstr "Selecciona un proyecto"
+
+msgid "Select a shortcut and press the new keys. Escape cancels; Backspace clears the binding."
+msgstr "Selecciona un atajo y pulsa las nuevas teclas. Escape cancela; Backspace borra la asignación."
+
+msgid "Select All"
+msgstr "Seleccionar todo"
+
+msgid "Select an agent terminal to inspect or control its current session."
+msgstr "Selecciona una terminal de agente para inspeccionar o controlar su sesión actual."
+
+msgid "Select an option"
+msgstr "Selecciona una opción"
+
+msgid "Select base branch…"
+msgstr "Selecciona la rama base…"
+
+msgid "Select commit range"
+msgstr "Seleccionar el intervalo de commits"
+
+msgid "Select directory"
+msgstr "Seleccionar directorio"
+
+msgid "Select Directory"
+msgstr "Seleccionar directorio"
+
+msgid "Select existing worktrees to import. Files stay in place and setup commands will not run."
+msgstr "Selecciona los árboles de trabajo existentes que quieras importar. Los archivos permanecen en su lugar y los comandos de configuración no se ejecutan."
+
+msgid "Select new project location"
+msgstr "Seleccionar la nueva ubicación del proyecto"
+
+msgid "Select Notification Sound"
+msgstr "Seleccionar el sonido de notificación"
+
+msgid "Select only the workspaces you intend to remove. Each selected workspace receives its own current-state inspection and destructive confirmation. Cancelling one skips it."
+msgstr "Selecciona solo los espacios de trabajo que quieras eliminar. Cada espacio seleccionado recibe su propia inspección del estado actual y confirmación destructiva. Cancelar uno lo omite."
+
+msgid "Select Organization Logo"
+msgstr "Seleccionar el logotipo de la organización"
+
+msgid "Select project location"
+msgstr "Seleccionar la ubicación del proyecto"
+
+msgid "Select range..."
+msgstr "Seleccionar intervalo..."
+
+msgid "Select repositories"
+msgstr "Seleccionar repositorios"
+
+msgid "Select worktree…"
+msgstr "Seleccionar árbol de trabajo…"
+
+msgid "Selected"
+msgstr "Seleccionado"
+
+msgid "Send"
+msgstr "Enviar"
+
+msgid "Send message"
+msgstr "Enviar mensaje"
+
+msgid "Sensitive values are hidden. This preview is incomplete."
+msgstr "Los valores sensibles están ocultos. Esta vista previa está incompleta."
+
+msgid "Sequential commands in one terminal"
+msgstr "Comandos secuenciales en una sola terminal"
+
+msgid "Session"
+msgstr "Sesión"
+
+msgid "Session ended"
+msgstr "Sesión finalizada"
+
+msgid "Session ID"
+msgstr "ID de sesión"
+
+msgid "Session name"
+msgstr "Nombre de la sesión"
+
+msgid "Session status and notifications"
+msgstr "Estado de la sesión y notificaciones"
+
+msgid "Sessions"
+msgstr "Sesiones"
+
+#. placeholder {0}: color.name
+msgid "Set color to {0}"
+msgstr "Cambiar el color a {0}"
+
+#. placeholder {0}: i18n._(glyph.label)
+msgid "Set icon to {0}"
+msgstr "Establecer el icono en {0}"
+
+msgid "Set Run"
+msgstr "Definir comando"
+
+msgid "Set up later"
+msgstr "Configurar más tarde"
+
+msgid "Settings"
+msgstr "Configuración"
+
+msgid "Settings section unavailable"
+msgstr "Sección de ajustes no disponible"
+
+msgid "Settings sections"
+msgstr "Secciones de configuración"
+
+msgid "Settings..."
+msgstr "Configuración..."
+
+msgid "settings.ts"
+msgstr "settings.ts"
+
+msgid "Setup completion is unavailable for this workspace. Review setup or turn off waiting in settings."
+msgstr "El estado de finalización de la configuración no está disponible para este espacio de trabajo. Revisa la configuración o desactiva la espera en los ajustes."
+
+msgid "Shared"
+msgstr "Compartido"
+
+msgid "Shift+click"
+msgstr "Shift+clic"
+
+msgid "Show agent commands and pinned terminal presets above the workspace."
+msgstr "Muestra los comandos de agente y los preajustes de terminal fijados encima del espacio de trabajo."
+
+msgid "Show Apple's installer"
+msgstr "Mostrar el instalador de Apple"
+
+msgid "Show deleted workspaces"
+msgstr "Mostrar espacios de trabajo eliminados"
+
+msgid "Show details"
+msgstr "Mostrar detalles"
+
+msgid "Show hidden directories"
+msgstr "Mostrar directorios ocultos"
+
+msgid "Show hidden files"
+msgstr "Mostrar archivos ocultos"
+
+msgid "Show in folder"
+msgstr "Mostrar en la carpeta"
+
+msgid "Show in workspace launcher"
+msgstr "Mostrar en el lanzador del espacio de trabajo"
+
+msgid "Show Keyboard Shortcuts"
+msgstr "Mostrar atajos de teclado"
+
+msgid "Show less"
+msgstr "Mostrar menos"
+
+msgid "Show local resource usage in the workspace."
+msgstr "Muestra el uso de recursos locales en el espacio de trabajo."
+
+msgid "Show more"
+msgstr "Mostrar más"
+
+msgid "Show Scripts Bar"
+msgstr "Mostrar barra de scripts"
+
+msgid "Show the next tab in the right sidebar without moving focus"
+msgstr "Mostrar la pestaña siguiente de la barra lateral derecha sin mover el foco"
+
+msgid "Show the previous tab in the right sidebar without moving focus"
+msgstr "Mostrar la pestaña anterior de la barra lateral derecha sin mover el foco"
+
+msgid "Show the Usage entry in the main sidebar."
+msgstr "Muestra la entrada Uso en la barra lateral principal."
+
+msgid "Show update"
+msgstr "Mostrar actualización"
+
+msgid "Show workspace activity"
+msgstr "Mostrar actividad del espacio de trabajo"
+
+msgid "Showing the first 100 results. Refine your search."
+msgstr "Mostrando los primeros 100 resultados. Afina tu búsqueda."
+
+msgid "Side by side"
+msgstr "Lado a lado"
+
+msgid "Sidebar file rows"
+msgstr "Filas de archivo de la barra lateral"
+
+msgid "Sign in to GitHub on this host to reply"
+msgstr "Inicia sesión en GitHub en este host para responder"
+
+msgid "Size"
+msgstr "Tamaño"
+
+msgid "Skipped"
+msgstr "Omitido"
+
+msgid "Slate"
+msgstr "Pizarra"
+
+msgid "Some files are not an accepted type and were not added."
+msgstr "Algunos archivos no son de un tipo admitido y no se añadieron."
+
+msgid "Some files could not be saved. Review their tabs before closing."
+msgstr "Algunos archivos no se pudieron guardar. Revisa sus pestañas antes de cerrar."
+
+msgid "Some files exceed the maximum size and were not added."
+msgstr "Algunos archivos superan el tamaño máximo y no se añadieron."
+
+msgid "Some files may already have been copied. Check the workspace attachments folder before retrying."
+msgstr "Es posible que algunos archivos ya se hayan copiado. Comprueba la carpeta de archivos adjuntos del espacio de trabajo antes de volver a intentarlo."
+
+msgid "Some project tree actions could not be loaded. Other actions remain available."
+msgstr "Algunas acciones del árbol del proyecto no se pudieron cargar. Otras acciones siguen disponibles."
+
+msgid "Some session details could not be loaded. Refresh to check the current host state."
+msgstr "No se pudieron cargar algunos detalles de la sesión. Actualiza para comprobar el estado actual del host."
+
+msgid "Some themes were skipped"
+msgstr "Se omitieron algunos temas"
+
+msgid "Something went wrong"
+msgstr "Algo salió mal"
+
+msgid "Something went wrong. Please try again."
+msgstr "Algo salió mal. Inténtalo de nuevo."
+
+msgid "Source Code"
+msgstr "Código fuente"
+
+msgid "Sparse checkout"
+msgstr "Sparse checkout"
+
+msgid "Split Along Longer Side"
+msgstr "Dividir por el lado más largo"
+
+msgid "Split diff"
+msgstr "Diff dividido"
+
+msgid "Split Down"
+msgstr "Dividir hacia abajo"
+
+msgid "Split Horizontally"
+msgstr "Dividir horizontalmente"
+
+msgid "split pane"
+msgstr "panel dividido"
+
+msgid "Split pane"
+msgstr "Dividir panel"
+
+msgid "Split panes"
+msgstr "Dividir paneles"
+
+msgid "Split Right"
+msgstr "Dividir hacia la derecha"
+
+msgid "Split the current pane along its longer side"
+msgstr "Dividir el panel actual por su lado más largo"
+
+msgid "Split the current pane and open a mobile simulator"
+msgstr "Dividir el panel actual y abrir un simulador móvil"
+
+msgid "Split the current pane and open the sandbox desktop"
+msgstr "Dividir el panel actual y abrir el escritorio del entorno aislado"
+
+msgid "Split the current pane downward"
+msgstr "Dividir el panel actual hacia abajo"
+
+msgid "Split the current pane to the right"
+msgstr "Dividir el panel actual hacia la derecha"
+
+msgid "Split Vertically"
+msgstr "Dividir verticalmente"
+
+msgid "Split with Mobile Simulator"
+msgstr "Dividir con simulador móvil"
+
+msgid "Split with Sandbox Desktop"
+msgstr "Dividir con escritorio del entorno aislado"
+
+msgid "Squash"
+msgstr "Squash"
+
+msgid "Stage All"
+msgstr "Preparar todo"
+
+msgid "Stage all changes"
+msgstr "Preparar todos los cambios"
+
+msgid "Stage file"
+msgstr "Preparar archivo"
+
+msgid "Staged"
+msgstr "Preparados"
+
+msgid "Star"
+msgstr "Destacar"
+
+msgid "Start a new agent, or choose an existing session from Sessions."
+msgstr "Inicia un agente nuevo o elige una sesión existente en Sesiones."
+
+msgid "Start from a template"
+msgstr "Empezar desde una plantilla"
+
+msgid "Start new session"
+msgstr "Iniciar una sesión nueva"
+
+msgid "Start or stop the workspace run command"
+msgstr "Iniciar o detener el comando de ejecución del espacio de trabajo"
+
+msgid "starting"
+msgstr "iniciando"
+
+msgid "Starting"
+msgstr "Iniciando"
+
+msgid "Starting the agent…"
+msgstr "Iniciando el agente…"
+
+msgid "Status"
+msgstr "Estado"
+
+msgid "Status unavailable"
+msgstr "Estado no disponible"
+
+msgid "Status unavailable. Review this permission in System Settings."
+msgstr "Estado no disponible. Revisa este permiso en Ajustes del Sistema."
+
+msgid "Stop"
+msgstr "Detener"
+
+msgid "Stop {label}"
+msgstr "Detener {label}"
+
+msgid "Stop dictation"
+msgstr "Detener el dictado"
+
+msgid "Stop forwarded ports?"
+msgstr "¿Detener los puertos reenviados?"
+
+msgid "Stop forwarding"
+msgstr "Detener reenvío"
+
+msgid "Stop listening processes?"
+msgstr "¿Detener los procesos de escucha?"
+
+msgid "Stop listening processes…"
+msgstr "Deteniendo procesos de escucha…"
+
+msgid "Stop local process"
+msgstr "Detener proceso local"
+
+msgid "Stop local process?"
+msgstr "¿Detener el proceso local?"
+
+msgid "Stop response"
+msgstr "Detener la respuesta"
+
+msgid "stopped"
+msgstr "detenido"
+
+msgid "Strict CLI resume is unavailable on this host. Active CLI and chat sessions remain selectable."
+msgstr "La reanudación estricta de CLI no está disponible en este host. Las sesiones activas de CLI y chat siguen siendo seleccionables."
+
+msgid "Strikethrough"
+msgstr "Tachado"
+
+msgid "Submit"
+msgstr "Enviar"
+
+msgid "Submit response"
+msgstr "Enviar respuesta"
+
+msgid "Summary"
+msgstr "Resumen"
+
+msgid "Sunday"
+msgstr "Domingo"
+
+msgid "Switch branch"
+msgstr "Cambiar de rama"
+
+msgid "Switch branch?"
+msgstr "¿Cambiar de rama?"
+
+msgid "Switch to Active Workspace"
+msgstr "Cambiar a espacio de trabajo activo"
+
+msgid "Switch to Local"
+msgstr "Cambiar a Local"
+
+msgid "Switch to Tab 1"
+msgstr "Ir a la pestaña 1"
+
+msgid "Switch to Tab 2"
+msgstr "Ir a la pestaña 2"
+
+msgid "Switch to Tab 3"
+msgstr "Ir a la pestaña 3"
+
+msgid "Switch to Tab 4"
+msgstr "Ir a la pestaña 4"
+
+msgid "Switch to Tab 5"
+msgstr "Ir a la pestaña 5"
+
+msgid "Switch to Tab 6"
+msgstr "Ir a la pestaña 6"
+
+msgid "Switch to Tab 7"
+msgstr "Ir a la pestaña 7"
+
+msgid "Switch to Tab 8"
+msgstr "Ir a la pestaña 8"
+
+msgid "Switch to Tab 9"
+msgstr "Ir a la pestaña 9"
+
+msgid "Switch to this device to edit terminal presets and choose local projects."
+msgstr "Cambia a este dispositivo para editar los preajustes de terminal y elegir proyectos locales."
+
+msgid "Switch to Workspace 1"
+msgstr "Ir al espacio de trabajo 1"
+
+msgid "Switch to Workspace 2"
+msgstr "Ir al espacio de trabajo 2"
+
+msgid "Switch to Workspace 3"
+msgstr "Ir al espacio de trabajo 3"
+
+msgid "Switch to Workspace 4"
+msgstr "Ir al espacio de trabajo 4"
+
+msgid "Switch to Workspace 5"
+msgstr "Ir al espacio de trabajo 5"
+
+msgid "Switch to Workspace 6"
+msgstr "Ir al espacio de trabajo 6"
+
+msgid "Switch to Workspace 7"
+msgstr "Ir al espacio de trabajo 7"
+
+msgid "Switch to Workspace 8"
+msgstr "Ir al espacio de trabajo 8"
+
+msgid "Switch to Workspace 9"
+msgstr "Ir al espacio de trabajo 9"
+
+msgid "System"
+msgstr "Sistema"
+
+msgid "System permissions"
+msgstr "Permisos del sistema"
+
+msgid "Take control"
+msgstr "Tomar el control"
+
+#. placeholder {0}: context.hostLabel
+#. placeholder {0}: session.context.hostLabel
+msgid "Target host: {0}"
+msgstr "Host de destino: {0}"
+
+msgid "Teal"
+msgstr "Verde azulado"
+
+msgid "Teardown exited with code {exitCode}"
+msgstr "La limpieza terminó con el código {exitCode}"
+
+msgid "Teardown failed to start"
+msgstr "La limpieza no pudo iniciarse"
+
+msgid "Teardown terminated by signal {signal}"
+msgstr "La limpieza fue terminada por la señal {signal}"
+
+msgid "Teardown timed out after {seconds}s"
+msgstr "La limpieza agotó el tiempo tras {seconds} s"
+
+msgid "Terminal"
+msgstr "Terminal"
+
+msgid "Terminal daemon"
+msgstr "Daemon de terminal"
+
+msgid "Terminal font"
+msgstr "Fuente de terminal"
+
+msgid "Terminal font size when a terminal is focused, page zoom in a browser pane, otherwise the whole app"
+msgstr "Tamaño de fuente del terminal cuando un terminal tiene el foco, zoom de página en un panel de navegador, si no, toda la aplicación"
+
+msgid "Terminal owns this session"
+msgstr "La terminal posee esta sesión"
+
+msgid "Terminal presets"
+msgstr "Preajustes de terminal"
+
+msgid "Terminal sessions"
+msgstr "Sesiones de terminal"
+
+msgid "Terminal typography"
+msgstr "Tipografía del terminal"
+
+msgid "Terminate"
+msgstr "Terminar"
+
+msgid "Terminate session"
+msgstr "Terminar sesión"
+
+msgid "Terminate this terminal session?"
+msgstr "¿Terminar esta sesión de terminal?"
+
+msgid "Text"
+msgstr "Texto"
+
+msgid "Text style"
+msgstr "Estilo de texto"
+
+msgid "That name isn't allowed."
+msgstr "Ese nombre no está permitido."
+
+msgid "the active organization"
+msgstr "la organización activa"
+
+msgid "The active session changed. The prompt was not sent."
+msgstr "La sesión activa ha cambiado. El prompt no se envió."
+
+msgid "The agent reports it is working."
+msgstr "El agente indica que está trabajando."
+
+msgid "The attachment copy result is incomplete. Check the workspace before retrying."
+msgstr "El resultado de la copia del archivo adjunto está incompleto. Comprueba el espacio de trabajo antes de volver a intentarlo."
+
+msgid "The attachment could not be read."
+msgstr "No se pudo leer el archivo adjunto."
+
+msgid "The attachment path is outside this workspace."
+msgstr "La ruta del archivo adjunto está fuera de este espacio de trabajo."
+
+msgid "The branch changed. Review the current branch before trying again."
+msgstr "La rama ha cambiado. Revisa la rama actual antes de volver a intentarlo."
+
+msgid "The command used to start this agent."
+msgstr "El comando usado para iniciar este agente."
+
+msgid "The default location for new worktrees on the connected host."
+msgstr "La ubicación predeterminada para los nuevos worktrees en el host conectado."
+
+msgid "The definition and its run records will be deleted. Existing workspaces and sessions remain available."
+msgstr "Se eliminarán la definición y sus registros de ejecución. Los espacios de trabajo y las sesiones existentes seguirán disponibles."
+
+msgid "The existing session identity could not be verified. Refresh before retrying."
+msgstr "No se pudo verificar la identidad de la sesión existente. Actualiza antes de volver a intentarlo."
+
+msgid "The file changed on disk. Review it before saving again."
+msgstr "El archivo cambió en disco. Revísalo antes de volver a guardar."
+
+msgid "The file changed. Review its diff before discarding."
+msgstr "El archivo ha cambiado. Revisa su diff antes de descartarlo."
+
+msgid "The file did not contain any importable themes."
+msgstr "El archivo no contenía ningún tema importable."
+
+msgid "The file path is unavailable"
+msgstr "La ruta del archivo no está disponible"
+
+msgid "The Jedv host service for {organization} stopped unexpectedly ({cause}) and could not be restarted automatically."
+msgstr "El servicio del host de Jedv de {organization} se detuvo de forma inesperada ({cause}) y no se pudo reiniciar automáticamente."
+
+msgid "The Jedv host service stopped unexpectedly ({cause}) and could not be restarted automatically."
+msgstr "El servicio del host de Jedv se detuvo de forma inesperada ({cause}) y no se pudo reiniciar automáticamente."
+
+msgid "The linked local agent is unavailable on this host. Edit the preset or remove its agent link."
+msgstr "El agente local vinculado no está disponible en este host. Edita el preajuste o elimina su vínculo de agente."
+
+msgid "The local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
+msgstr "El servicio de host local no está disponible para {organization} en {device}. Estado: {status}. {recovery}"
+
+msgid "The operation result is unknown. Check the branch history and remote before retrying."
+msgstr "El resultado de la operación es desconocido. Comprueba el historial de la rama y el repositorio remoto antes de volver a intentarlo."
+
+msgid "The page you're looking for doesn't exist."
+msgstr "La página solicitada no existe."
+
+msgid "The project is saved, but its workspace could not be opened. Continue opening to retry without creating another project."
+msgstr "El proyecto está guardado, pero no se pudo abrir su espacio de trabajo. Continúa abriéndolo para volver a intentarlo sin crear otro proyecto."
+
+msgid "The project was saved. Continue opening its workspace."
+msgstr "El proyecto se ha guardado. Continúa abriendo su espacio de trabajo."
+
+msgid "The repository directory is missing on this host. Open the repository at its current path to set it up again."
+msgstr "Falta el directorio del repositorio en este host. Abre el repositorio en su ruta actual para volver a configurarlo."
+
+msgid "The request ended before its result was confirmed. Check the target host for a completed project or partial directory before trying again."
+msgstr "La solicitud finalizó antes de confirmarse su resultado. Comprueba si hay un proyecto completado o un directorio parcial en el host de destino antes de volver a intentarlo."
+
+msgid "The resumed session identity could not be verified. Refresh before retrying."
+msgstr "No se pudo verificar la identidad de la sesión reanudada. Actualiza antes de volver a intentarlo."
+
+msgid "The run command is still stopping. Wait, then restart."
+msgstr "El comando de ejecución aún se está deteniendo. Espera y luego reinicia."
+
+msgid "The screenshot is no longer available."
+msgstr "La captura de pantalla ya no está disponible."
+
+msgid "The session changed. Select its current run in the workspace."
+msgstr "La sesión cambió. Selecciona su ejecución actual en el espacio de trabajo."
+
+msgid "The session identity changed. Select it again."
+msgstr "La identidad de la sesión ha cambiado. Selecciónala de nuevo."
+
+msgid "The session identity is unavailable."
+msgstr "La identidad de la sesión no está disponible."
+
+msgid "The staged files changed. Review them before committing."
+msgstr "Los archivos preparados han cambiado. Revísalos antes de confirmar."
+
+msgid "The symbolic link target is unavailable"
+msgstr "El destino del enlace simbólico no está disponible"
+
+msgid "The target directory is missing, but the operation result is unknown. This does not confirm cancellation. Check the operation status again."
+msgstr "Falta el directorio de destino, pero el resultado de la operación es desconocido. Esto no confirma la cancelación. Vuelve a comprobar el estado de la operación."
+
+msgid "The target host confirmed this operation has ended. You can retry; an existing directory will not be overwritten."
+msgstr "El host de destino confirmó que esta operación ha finalizado. Puedes volver a intentarlo; no se sobrescribirá un directorio existente."
+
+msgid "The target host confirmed this operation has stopped. You can retry; if the target directory remains, choose another location."
+msgstr "El host de destino confirmó que esta operación se ha detenido. Puedes volver a intentarlo; si el directorio de destino sigue existiendo, elige otra ubicación."
+
+msgid "The target host is still processing this request. Check again before starting another operation here."
+msgstr "El host de destino sigue procesando esta solicitud. Vuelve a comprobarlo antes de iniciar otra operación aquí."
+
+msgid "The target pane area cannot receive this pane"
+msgstr "El área de panel de destino no puede recibir este panel"
+
+msgid "The target pane area did not receive this pane"
+msgstr "El área de panel de destino no recibió este panel"
+
+msgid "The target workspace changed. Return to the original workspace before continuing."
+msgstr "El espacio de trabajo de destino cambió. Vuelve al espacio de trabajo original antes de continuar."
+
+msgid "The target workspace changed. The result belongs to the original workspace."
+msgstr "El espacio de trabajo de destino cambió. El resultado pertenece al espacio de trabajo original."
+
+msgid "The terminal session changed. Refresh before inserting the prompt."
+msgstr "La sesión de terminal ha cambiado. Actualiza antes de insertar el prompt."
+
+msgid "The terminal session ended unexpectedly"
+msgstr "La sesión de terminal finalizó inesperadamente"
+
+msgid "The workspace changed"
+msgstr "El espacio de trabajo ha cambiado"
+
+msgid "The workspace files will change to the selected branch."
+msgstr "Los archivos del espacio de trabajo cambiarán a la rama seleccionada."
+
+msgid "The workspace is saved. Continue opening it without creating another workspace."
+msgstr "El espacio de trabajo está guardado. Continúa abriéndolo sin crear otro espacio de trabajo."
+
+msgid "The workspace list changed on the host. Refresh it before reordering."
+msgstr "La lista de espacios de trabajo ha cambiado en el host. Actualízala antes de reordenar."
+
+msgid "The workspace was deleted. Continue to refresh the target host."
+msgstr "El espacio de trabajo se ha eliminado. Continúa actualizando el host de destino."
+
+msgid "Theme"
+msgstr "Tema"
+
+msgid "Theme default"
+msgstr "Predeterminado del tema"
+
+msgid "Theme file too large"
+msgstr "El archivo de tema es demasiado grande"
+
+msgid "These metrics belong to this device. Remote host processes are not included."
+msgstr "Estas métricas pertenecen a este dispositivo. No se incluyen los procesos del host remoto."
+
+msgid "These notes ship with the application. Published release details are available in the Jedv repository."
+msgstr "Estas notas se incluyen con la aplicación. Los detalles de las versiones publicadas están disponibles en el repositorio de Jedv."
+
+msgid "This action is irreversible."
+msgstr "Esta acción es irreversible."
+
+msgid "This API login does not expose subscription quota."
+msgstr "Este inicio de sesión de API no expone la cuota de la suscripción."
+
+msgid "This automation is no longer available"
+msgstr "Esta automatización ya no está disponible"
+
+msgid "This branch has conflicts"
+msgstr "Esta rama tiene conflictos"
+
+msgid "This changes the pull request state on GitHub."
+msgstr "Esto cambia el estado de la pull request en GitHub."
+
+msgid "This chat is no longer live. The prompt was not sent."
+msgstr "Este chat ya no está activo. El prompt no se envió."
+
+msgid "This chat is read only. Use Start new session to begin another chat."
+msgstr "Este chat es de solo lectura. Usa Iniciar nueva sesión para comenzar otro chat."
+
+msgid "This closes every terminal session on this host, including running agents and background processes. Restart does not preserve sessions."
+msgstr "Esto cierra todas las sesiones de terminal de este host, incluidos los agentes en ejecución y los procesos en segundo plano. Reiniciar no conserva las sesiones."
+
+msgid "This closes the run terminal and its running processes."
+msgstr "Esto cierra la terminal de ejecución y sus procesos en ejecución."
+
+msgid "This closes the workspace and its terminals. The project's files, branches and other workspaces stay as they are."
+msgstr "Esto cierra el espacio de trabajo y sus terminales. Los archivos, las ramas y los demás espacios de trabajo del proyecto se mantienen tal cual."
+
+msgid "This comment will be visible on the remote pull request."
+msgstr "Este comentario será visible en la pull request remota."
+
+msgid "This creates a remote pull request from the workspace branch."
+msgstr "Esto crea una pull request remota desde la rama del espacio de trabajo."
+
+msgid "This deletes the file from disk. Unsaved editor buffers are kept. This action cannot be undone."
+msgstr "Esto elimina el archivo del disco. Los búferes del editor sin guardar se conservan. Esta acción no se puede deshacer."
+
+msgid "This deletes the folder and all its contents. Unsaved editor buffers are kept. This action cannot be undone."
+msgstr "Esto elimina la carpeta y todo su contenido. Los búferes del editor sin guardar se conservan. Esta acción no se puede deshacer."
+
+msgid "This deletes the session's folder and everything in it from disk."
+msgstr "Esto elimina del disco la carpeta de la sesión y todo su contenido."
+
+msgid "this device"
+msgstr "este dispositivo"
+
+msgid "This device"
+msgstr "Este dispositivo"
+
+msgid "this device ({id})"
+msgstr "este dispositivo ({id})"
+
+msgid "This draft belongs to another session. Return to it or discard the draft before composing here."
+msgstr "Este borrador pertenece a otra sesión. Vuelve a ella o descarta el borrador antes de redactar aquí."
+
+msgid "This file cannot be edited as text."
+msgstr "Este archivo no se puede editar como texto."
+
+msgid "This file is outside the workspace"
+msgstr "Este archivo está fuera del espacio de trabajo"
+
+msgid "This file is outside the workspace or its symbolic link cannot be safely resolved"
+msgstr "Este archivo está fuera del espacio de trabajo o su enlace simbólico no se puede resolver de forma segura"
+
+msgid "This folder is not a Git repository. Initialize Git here and import it as a project? Existing files will be kept."
+msgstr "Esta carpeta no es un repositorio de Git. ¿Inicializar Git aquí e importarla como proyecto? Los archivos existentes se conservarán."
+
+msgid "This host did not provide a readable preview. Review the request in the agent CLI before approving."
+msgstr "Este host no proporcionó una vista previa legible. Revisa la solicitud en la CLI del agente antes de aprobarla."
+
+msgid "This is a large file. Opening it may slow down the editor."
+msgstr "Este es un archivo grande. Abrirlo puede ralentizar el editor."
+
+msgid "This pane can't be shown"
+msgstr "Este panel no se puede mostrar"
+
+msgid "This pane hit an error"
+msgstr "Este panel encontró un error"
+
+msgid "This permanently deletes the removed project and workspace records and attempts to remove their clean worktree directories. Dirty worktree directories may remain untracked. The main repository directory is kept. This cannot be undone."
+msgstr "Esto elimina permanentemente los registros del proyecto y los espacios de trabajo eliminados e intenta eliminar sus directorios de árboles de trabajo limpios. Los directorios de árboles de trabajo con cambios pueden permanecer sin seguimiento. El directorio principal del repositorio se conserva. Esto no se puede deshacer."
+
+msgid "This preview was shortened. Review the full request in the agent CLI."
+msgstr "Esta vista previa se ha acortado. Revisa la solicitud completa en la CLI del agente."
+
+msgid "This project cannot be removed in its current state."
+msgstr "Este proyecto no se puede eliminar en su estado actual."
+
+msgid "This project is not set up on the target host."
+msgstr "Este proyecto no está configurado en el host de destino."
+
+msgid "This project still uses the older config.json. It keeps working; convert it to config.toml to use the new sections."
+msgstr "Este proyecto aún usa el antiguo config.json. Sigue funcionando; conviértelo a config.toml para usar las nuevas secciones."
+
+msgid "This project's host is offline"
+msgstr "El host de este proyecto está sin conexión"
+
+msgid "This prompt is no longer active."
+msgstr "Este prompt ya no está activo."
+
+msgid "This removes all custom shortcut bindings, including actions outside this list."
+msgstr "Esto elimina todas las asignaciones de atajos personalizadas, incluidas las acciones fuera de esta lista."
+
+msgid "This removes all saved screenshots listed here. Attachments already copied into a workspace are kept."
+msgstr "Esto elimina todas las capturas de pantalla guardadas enumeradas aquí. Los archivos adjuntos ya copiados en un espacio de trabajo se conservan."
+
+msgid "This removes custom agents and replaces all launch configurations with the four bundled defaults. Existing sessions keep running. This cannot be undone."
+msgstr "Esto elimina los agentes personalizados y sustituye todas las configuraciones de inicio por las cuatro predeterminadas incluidas. Las sesiones existentes siguen en ejecución. Esto no se puede deshacer."
+
+msgid "This removes its launch configuration. Existing sessions keep running."
+msgstr "Esto elimina su configuración de inicio. Las sesiones existentes siguen ejecutándose."
+
+msgid "This removes the saved commands from this device. Running terminals are not affected."
+msgstr "Esto elimina los comandos guardados de este dispositivo. Las terminales en ejecución no se ven afectadas."
+
+msgid "This removes the worktree from disk and closes the workspace."
+msgstr "Esto elimina el worktree del disco y cierra el espacio de trabajo."
+
+msgid "This reply will be visible in the remote review thread."
+msgstr "Esta respuesta será visible en el hilo de revisión remoto."
+
+msgid "This repository is no longer available as a Git repository."
+msgstr "Este repositorio ya no está disponible como repositorio de Git."
+
+msgid "This restores the file in the index and on disk to HEAD, or deletes an untracked file. Unsaved editor buffers are kept. This action cannot be undone."
+msgstr "Esto restaura el archivo del índice y del disco a HEAD o elimina un archivo sin seguimiento. Los búferes del editor sin guardar se conservan. Esta acción no se puede deshacer."
+
+msgid "This run has no agent session"
+msgstr "Esta ejecución no tiene sesión de agente"
+
+msgid "This session could not be resumed. No new session was started."
+msgstr "No se pudo reanudar esta sesión. No se inició ninguna nueva sesión."
+
+msgid "This session is not active, or you are viewing earlier output. Refresh to check its current state."
+msgstr "Esta sesión no está activa o estás viendo una salida anterior. Actualiza para comprobar su estado actual."
+
+#. placeholder {0}: label(conflict.id)
+#. placeholder {1}: conflictsFor(conflict.id, conflict.binding) .map(label) .join(", ")
+msgid "This shortcut will be assigned to {0}. These actions will become unassigned: {1}."
+msgstr "Este atajo se asignará a {0}. Las siguientes acciones quedarán sin asignar: {1}."
+
+#. placeholder {0}: killing?.title
+msgid "This stops {0} and its child processes. Unsaved work in the terminal can be lost."
+msgstr "Esto detiene {0} y sus procesos secundarios. El trabajo sin guardar en la terminal puede perderse."
+
+msgid "This stops only the listed forwarding tunnels. Processes on the target host keep running."
+msgstr "Esto detiene solo los túneles de reenvío enumerados. Los procesos del host de destino siguen en ejecución."
+
+msgid "This stops the listed processes on the original host. Terminal work or servers using them can be interrupted. Forwarding tunnels are separate."
+msgstr "Esto detiene los procesos enumerados en el host original. El trabajo de la terminal o los servidores que los usan pueden interrumpirse. Los túneles de reenvío son independientes."
+
+msgid "This stops the local process occupying the forwarded port."
+msgstr "Esto detiene el proceso local que ocupa el puerto reenviado."
+
+msgid "This stops the process listening on this port."
+msgstr "Esto detiene el proceso que escucha en este puerto."
+
+msgid "This stops the processes listening on the listed workspace ports."
+msgstr "Esto detiene los procesos que escuchan en los puertos del espacio de trabajo enumerados."
+
+msgid "This stops the shell and all processes running in this terminal. Workspace files are kept. Unsaved process state may be lost."
+msgstr "Esto detiene el shell y todos los procesos de esta terminal. Los archivos del espacio de trabajo se conservan. El estado no guardado de los procesos puede perderse."
+
+msgid "This terminal is also open on a smaller screen, so it's sized to fit"
+msgstr "Este terminal también está abierto en una pantalla más pequeña, así que se ajusta a ella"
+
+msgid "This terminal is no longer running. Refresh the session list."
+msgstr "Esta terminal ya no está en ejecución. Actualiza la lista de sesiones."
+
+msgid "This thread has no comment to reply to, or GitHub authentication is unavailable."
+msgstr "Este hilo no tiene ningún comentario al que responder o la autenticación de GitHub no está disponible."
+
+msgid "This thread has no comment to reply to."
+msgstr "Este hilo no tiene ningún comentario al que responder."
+
+msgid "This updates the remote base branch on GitHub."
+msgstr "Esto actualiza la rama base remota en GitHub."
+
+msgid "This updates the review thread on GitHub."
+msgstr "Esto actualiza el hilo de revisión en GitHub."
+
+msgid "This view hit an error"
+msgstr "Esta vista encontró un error"
+
+msgid "This workspace cannot be deleted in its current state."
+msgstr "Este espacio de trabajo no se puede eliminar en su estado actual."
+
+msgid "This workspace shares the project's files, index, and current branch. It does not switch branches or run setup."
+msgstr "Este espacio de trabajo comparte los archivos, el índice y la rama actual del proyecto. No cambia de rama ni ejecuta la configuración."
+
+msgid "Thursday"
+msgstr "Jueves"
+
+msgid "Time unavailable"
+msgstr "Hora no disponible"
+
+msgid "Time zone"
+msgstr "Zona horaria"
+
+msgid "To"
+msgstr "A"
+
+msgid "Toggle agent controls"
+msgstr "Alternar controles del agente"
+
+msgid "Toggle Right Pane Full Screen"
+msgstr "Alternar pantalla completa del panel derecho"
+
+msgid "Toggle right sidebar"
+msgstr "Alternar barra lateral derecha"
+
+msgid "Toggle Right Sidebar"
+msgstr "Alternar barra lateral derecha"
+
+msgid "Toggle Right Sidebar Focus"
+msgstr "Alternar el foco de la barra lateral derecha"
+
+msgid "Toggle Scripts Bar"
+msgstr "Alternar la barra de scripts"
+
+msgid "Toggle Sidebar"
+msgstr "Alternar barra lateral"
+
+msgid "Toggle Terminal Rich Input"
+msgstr "Alternar la entrada enriquecida de la terminal"
+
+msgid "Toggle Workspaces Sidebar"
+msgstr "Alternar la barra lateral de espacios de trabajo"
+
+msgid "Tokens"
+msgstr "Tokens"
+
+msgid "Too many background terminals. Reattach or end one before closing another view."
+msgstr "Demasiadas terminales en segundo plano. Vuelve a adjuntar una o termina una antes de cerrar otra vista."
+
+msgid "Too many dropped items. Add at most 5000 files and folders at a time."
+msgstr "Demasiados elementos soltados. Añade como máximo 5000 archivos y carpetas a la vez."
+
+msgid "Too many files. Some were not added."
+msgstr "Demasiados archivos. Algunos no se añadieron."
+
+msgid "Too many untitled items here already."
+msgstr "Ya hay demasiados elementos sin título aquí."
+
+msgid "Tool output"
+msgstr "Salida de la herramienta"
+
+msgid "Transcribing"
+msgstr "Transcribiendo"
+
+msgid "Transcribing…"
+msgstr "Transcribiendo…"
+
+msgid "Tree view"
+msgstr "Vista de árbol"
+
+msgid "Triggers"
+msgstr "Disparadores"
+
+msgid "Try again"
+msgstr "Intentar de nuevo"
+
+msgid "Try changing the search or status filter."
+msgstr "Prueba a cambiar la búsqueda o el filtro de estado."
+
+msgid "Tuesday"
+msgstr "Martes"
+
+msgid "Tufte"
+msgstr "Tufte"
+
+msgid "Turn completed"
+msgstr "Turno completado"
+
+msgid "Turn finished"
+msgstr "Turno finalizado"
+
+msgid "Type project name to confirm"
+msgstr "Escribe el nombre del proyecto para confirmar"
+
+msgid "Type to search files..."
+msgstr "Escribir para buscar archivos..."
+
+msgid "TypeScript"
+msgstr "TypeScript"
+
+msgid "Typography"
+msgstr "Tipografía"
+
+msgid "Typography and cursor behavior used in V2 terminal panels."
+msgstr "Tipografía y comportamiento del cursor usados en los paneles de terminal de V2."
+
+msgid "Typography used in V2 editors and diff views."
+msgstr "Tipografía usada en los editores y las vistas de diff de V2."
+
+msgid "Unable to check for updates."
+msgstr "No se pueden buscar actualizaciones."
+
+msgid "Unable to read file"
+msgstr "No se pudo leer el archivo"
+
+msgid "Unable to start dictation"
+msgstr "No se pudo iniciar el dictado"
+
+msgid "Unable to transcribe audio"
+msgstr "No se pudo transcribir el audio"
+
+msgid "Unassigned"
+msgstr "Sin asignar"
+
+msgid "Unavailable"
+msgstr "No disponible"
+
+msgid "Uncommitted"
+msgstr "Sin commit"
+
+msgid "Uncommitted changes"
+msgstr "Cambios sin commit"
+
+msgid "Uncommitted changes and unpushed commits"
+msgstr "Cambios no confirmados y commits no enviados"
+
+msgid "Uncommitted or unpushed work"
+msgstr "Trabajo no confirmado o no enviado"
+
+msgid "Underline"
+msgstr "Subrayado"
+
+msgid "Undo"
+msgstr "Deshacer"
+
+msgid "Undo last closed workspace"
+msgstr "Deshacer el cierre del último espacio de trabajo"
+
+msgid "Undo the last archived workspace or closed chats"
+msgstr "Deshacer el último espacio de trabajo archivado o los chats cerrados"
+
+msgid "Ungrouped"
+msgstr "Sin agrupar"
+
+msgid "Unified diff"
+msgstr "Diff unificado"
+
+msgid "unknown"
+msgstr "desconocido"
+
+msgid "Unknown"
+msgstr "Desconocida"
+
+msgid "Unknown error"
+msgstr "Error desconocido"
+
+msgid "Unknown pane"
+msgstr "Panel desconocido"
+
+msgid "Unknown pane type: {paneKind}"
+msgstr "Tipo de panel desconocido: {paneKind}"
+
+msgid "Unpin workspace"
+msgstr "Desfijar espacio de trabajo"
+
+msgid "Unpushed commits"
+msgstr "Commits no enviados"
+
+msgid "Unreachable"
+msgstr "Inaccesible"
+
+msgid "Unread activity"
+msgstr "Actividad no leída"
+
+msgid "Unresolve"
+msgstr "Reabrir"
+
+msgid "Unresolve conversation?"
+msgstr "¿Marcar la conversación como no resuelta?"
+
+msgid "Unsaved changes"
+msgstr "Cambios sin guardar"
+
+msgid "Unsaved file protection is unavailable. Delete this workspace from the sidebar."
+msgstr "La protección de archivos sin guardar no está disponible. Elimina este espacio de trabajo desde la barra lateral."
+
+msgid "Unsaved files"
+msgstr "Archivos sin guardar"
+
+msgid "Unstage All"
+msgstr "Quitar preparación de todo"
+
+msgid "Unstage file"
+msgstr "Quitar archivo de preparados"
+
+msgid "Unstaged"
+msgstr "Sin preparar"
+
+msgid "Untitled automation"
+msgstr "Automatización sin título"
+
+msgid "update"
+msgstr "actualizar"
+
+msgid "Update available"
+msgstr "Actualización disponible"
+
+#. placeholder {0}: event.version ?? ""
+msgid "Update available · v{0}"
+msgstr "Actualización disponible · v{0}"
+
+msgid "Update daemon"
+msgstr "Actualizar el daemon"
+
+msgid "Update did not finish. Review status before retrying."
+msgstr "La actualización no finalizó. Revisa el estado antes de volver a intentarlo."
+
+msgid "Update failed. Try again."
+msgstr "La actualización falló. Vuelve a intentarlo."
+
+msgid "Update Jedv on this host to edit its workspace config."
+msgstr "Actualiza Jedv en este host para editar la configuración de su espacio de trabajo."
+
+msgid "Update status unavailable"
+msgstr "Estado de la actualización no disponible"
+
+msgid "update the branch prefix"
+msgstr "actualizar el prefijo de rama"
+
+#. placeholder {0}: event.version ?? event.currentVersion
+msgid "Updated to v{0}"
+msgstr "Actualizado a v{0}"
+
+msgid "Updates"
+msgstr "Actualizaciones"
+
+msgid "Updating…"
+msgstr "Actualizando…"
+
+msgid "Upload files"
+msgstr "Subir archivos"
+
+msgid "Upload image…"
+msgstr "Subir imagen…"
+
+msgid "URL copied"
+msgstr "URL copiada"
+
+msgid "URL links"
+msgstr "Enlaces de URL"
+
+msgid "Usage"
+msgstr "Uso"
+
+msgid "Usage history"
+msgstr "Historial de uso"
+
+msgid "Usage in sidebar"
+msgstr "Uso en la barra lateral"
+
+msgid "Usage period"
+msgstr "Período de uso"
+
+#. placeholder {0}: search.trim()
+msgid "Use “{0}”"
+msgstr "Usar “{0}”"
+
+msgid "Use an existing repository at this location. Jedv changes the registered path and local checkout workspaces; it does not move files. Existing worktrees under the old repository may need to be imported again."
+msgstr "Usa un repositorio existente en esta ubicación. Jedv cambia la ruta registrada y los espacios de trabajo del checkout local; no mueve archivos. Es posible que los árboles de trabajo existentes del repositorio antiguo deban importarse de nuevo."
+
+msgid "Use another local port"
+msgstr "Usar otro puerto local"
+
+msgid "Use for new sessions"
+msgstr "Usar para nuevas sesiones"
+
+msgid "Use global default"
+msgstr "Usar el valor global predeterminado"
+
+msgid "Use host default"
+msgstr "Usar el valor predeterminado del host"
+
+msgid "Use Move to group to move workspaces between groups."
+msgstr "Usa Mover a grupo para mover espacios de trabajo entre grupos."
+
+msgid "Use the Jedv tray menu > Host Service > Restart, then retry."
+msgstr "Usa el menú de la bandeja de Jedv > Servicio de host > Reiniciar y vuelve a intentarlo."
+
+msgid "Use this device"
+msgstr "Usar este dispositivo"
+
+msgid "Use this folder"
+msgstr "Usar esta carpeta"
+
+msgid "used"
+msgstr "usado"
+
+msgid "Used when your system is in dark mode."
+msgstr "Se usa cuando tu sistema está en modo oscuro."
+
+msgid "Used when your system is in light mode."
+msgstr "Se usa cuando tu sistema está en modo claro."
+
+msgid "Uses the connected host's global Git identity. GitHub mode may read your existing gh login."
+msgstr "Usa la identidad global de Git del host conectado. El modo GitHub puede leer tu inicio de sesión de gh existente."
+
+msgid "Vercel's starter with Drizzle, NextAuth, and Postgres"
+msgstr "Plantilla inicial de Vercel con Drizzle, NextAuth y Postgres"
+
+msgid "Version installed on this device."
+msgstr "Versión instalada en este dispositivo."
+
+msgctxt "menu"
+msgid "View"
+msgstr "Ver"
+
+msgid "View license"
+msgstr "Ver licencia"
+
+msgid "View source"
+msgstr "Ver origen"
+
+msgid "Volume"
+msgstr "Volumen"
+
+msgid "VS Code"
+msgstr "VS Code"
+
+msgid "Wait for workspace setup before starting an agent"
+msgstr "Esperar a que termine la configuración del espacio de trabajo antes de iniciar un agente"
+
+msgid "Waiting for approval"
+msgstr "Esperando aprobación"
+
+msgid "We're rebuilding this feature. Check back soon."
+msgstr "Estamos rehaciendo esta función. Estará disponible pronto."
+
+msgid "Wednesday"
+msgstr "Miércoles"
+
+msgid "Weekdays"
+msgstr "Días laborables"
+
+msgid "Weekdays at {time}"
+msgstr "Días laborables a las {time}"
+
+msgid "Weekends"
+msgstr "Fines de semana"
+
+msgid "Weekends at {time}"
+msgstr "Fines de semana a las {time}"
+
+msgid "Weekly"
+msgstr "Semanal"
+
+msgid "Weekly at {time}"
+msgstr "Semanalmente a las {time}"
+
+msgid "Welcome to Jedv"
+msgstr "Bienvenido a Jedv"
+
+msgid "What would you like to know?"
+msgstr "¿Qué te gustaría saber?"
+
+msgid "Window"
+msgstr "Ventana"
+
+msgid "Working"
+msgstr "Trabajando"
+
+msgid "Working directory"
+msgstr "Directorio de trabajo"
+
+msgid "Working…"
+msgstr "Trabajando…"
+
+msgid "Workspace"
+msgstr "Espacio de trabajo"
+
+msgid "Workspace activity"
+msgstr "Actividad del espacio de trabajo"
+
+msgid "Workspace configuration"
+msgstr "Configuración del espacio de trabajo"
+
+msgid "Workspace deletion results"
+msgstr "Resultados de la eliminación del espacio de trabajo"
+
+msgid "Workspace files are unavailable"
+msgstr "Los archivos del espacio de trabajo no están disponibles"
+
+msgid "Workspace launcher"
+msgstr "Lanzador del espacio de trabajo"
+
+msgid "Workspace name"
+msgstr "Nombre del espacio de trabajo"
+
+msgid "Workspace navigation"
+msgstr "Navegación del espacio de trabajo"
+
+msgid "Workspace not found"
+msgstr "Espacio de trabajo no encontrado"
+
+msgid "Workspace or running session state changed. Review the updated checks and confirm again."
+msgstr "El estado del espacio de trabajo o de la sesión en ejecución ha cambiado. Revisa las comprobaciones actualizadas y confirma de nuevo."
+
+msgid "Workspace order"
+msgstr "Orden del espacio de trabajo"
+
+msgid "Workspace pinning and ordering are unavailable on this host."
+msgstr "La fijación y el orden de los espacios de trabajo no están disponibles en este host."
+
+msgid "Workspace read state could not be saved."
+msgstr "No se pudo guardar el estado de lectura del espacio de trabajo."
+
+msgid "workspace root"
+msgstr "raíz del espacio de trabajo"
+
+msgid "Workspace setup failed. Review the setup terminal before starting an agent."
+msgstr "La configuración del espacio de trabajo falló. Revisa la terminal de configuración antes de iniciar un agente."
+
+msgid "Workspace setup is still running."
+msgstr "La configuración del espacio de trabajo sigue en ejecución."
+
+msgid "Workspace state changed. Review the updated checks and confirm again."
+msgstr "El estado del espacio de trabajo ha cambiado. Revisa las comprobaciones actualizadas y confirma de nuevo."
+
+msgid "Workspaces"
+msgstr "Espacios de trabajo"
+
+msgid "worktree"
+msgstr "worktree"
+
+msgid "Worktree"
+msgstr "Worktree"
+
+msgid "Worktree base directory"
+msgstr "Directorio base del árbol de trabajo"
+
+msgid "Worktree location"
+msgstr "Ubicación del worktree"
+
+msgid "Write a reply…"
+msgstr "Escribe una respuesta…"
+
+msgid "Write access to this repository is required to create a pull request from this workspace."
+msgstr "Se requiere acceso de escritura a este repositorio para crear una pull request desde este espacio de trabajo."
+
+msgid "Yellow"
+msgstr "Amarillo"
+
+msgid "Yes"
+msgstr "Sí"
+
+msgid "You"
+msgstr "Tú"
+
+msgid "You do not have permission to resolve this thread"
+msgstr "No tienes permiso para resolver este hilo"
+
+msgid "You're up to date"
+msgstr "Estás al día"
+
+msgid "You're up to date!"
+msgstr "¡Todo está actualizado!"
+
+msgid "Your automation changes have not been saved."
+msgstr "Tus cambios en la automatización no se han guardado."
+
+msgid "Your changes"
+msgstr "Tus cambios"
+
+msgid "Your imports are saved. Could not refresh or open them. Try continuing again."
+msgstr "Tus importaciones se han guardado. No se pudieron actualizar ni abrir. Intenta continuar de nuevo."
+
+msgid "Zap"
+msgstr "Rayo"
+
+msgid "Zoom"
+msgstr "Zoom"
+
+msgid "Zoom in"
+msgstr "Acercar"
+
+msgid "Zoom In"
+msgstr "Acercar"
+
+msgid "Zoom out"
+msgstr "Alejar"
+
+msgid "Zoom Out"
+msgstr "Alejar"
+
+msgid "zsh"
+msgstr "zsh"

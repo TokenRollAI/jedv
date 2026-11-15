@@ -1,0 +1,366 @@
+import { describe, expect, it } from "bun:test";
+import { spawnSync } from "node:child_process";
+import { getBuiltinAgentDefinition } from "./agent-catalog";
+import {
+	AGENT_LABELS,
+	AGENT_TYPES,
+	buildAgentFileCommand,
+	buildAgentPromptCommand,
+} from "./agent-command";
+import { DEFAULT_TERMINAL_PRESET_AGENT_TYPES } from "./builtin-terminal-agents";
+import { FEATURE_FLAGS } from "./constants";
+import {
+	getDefaultSeedPresets,
+	getPresetById,
+	isAgentPresetEnabled,
+} from "./host-agent-presets";
+
+describe("UFO launches", () => {
+	it("passes a multiline prompt literally as one positional argument", () => {
+		const prompt =
+			"Review `echo unsafe` and $(echo unsafe)\nKeep 'quotes' and $variables";
+		const command = buildAgentPromptCommand({
+			prompt,
+			randomId: "ufo-test",
+			agent: "ufo",
+		});
+		const result = spawnSync(
+			"bash",
+			["-c", `ufo() { printf '%s\\0' "$@"; }\n${command}`],
+			{ encoding: "utf8" },
+		);
+		expect(result.status).toBe(0);
+		expect(result.stdout).toBe(`${prompt}\0`);
+	});
+
+	it("provides local launch and ID-based resume without unverified modes", () => {
+		expect(getPresetById("ufo")).toMatchObject({
+			command: "ufo",
+			args: [],
+			promptArgs: [],
+			promptTransport: "argv",
+			resumeArgs: ["--resume"],
+			forkArgs: [],
+		});
+		expect(
+			getBuiltinAgentDefinition("ufo").nonInteractiveCommand,
+		).toBeUndefined();
+	});
+});
+
+describe("buildAgentPromptCommand", () => {
+	it("adds `--` before codex prompt payload", () => {
+		const command = buildAgentPromptCommand({
+			prompt: "- Only modified file: runtime.ts",
+			randomId: "1234-5678",
+			agent: "codex",
+		});
+
+		expect(command).toContain(
+			"codex --dangerously-bypass-approvals-and-sandbox --dangerously-bypass-hook-trust -- \"$(cat <<'JEDV_PROMPT_12345678'",
+		);
+		expect(command).toContain("- Only modified file: runtime.ts");
+	});
+
+	it("does not change non-codex commands", () => {
+		const command = buildAgentPromptCommand({
+			prompt: "hello",
+			randomId: "abcd-efgh",
+			agent: "claude",
+		});
+
+		expect(command).toStartWith(
+			"claude --dangerously-skip-permissions \"$(cat <<'JEDV_PROMPT_abcdefgh'",
+		);
+	});
+
+	it("uses Amp interactive stdin mode for prompt launches", () => {
+		const command = buildAgentPromptCommand({
+			prompt: "hello",
+			randomId: "amp-1234",
+			agent: "amp",
+		});
+
+		expect(command).toStartWith("amp <<'JEDV_PROMPT_amp1234'");
+		expect(command).not.toContain("amp -x");
+	});
+
+	it("uses Amp interactive stdin mode for file launches", () => {
+		const command = buildAgentFileCommand({
+			filePath: ".jedv/task-demo.md",
+			agent: "amp",
+		});
+
+		expect(command).toBe("amp < '.jedv/task-demo.md'");
+	});
+
+	it("uses OMP interactive mode for prompt launches", () => {
+		const command = buildAgentPromptCommand({
+			prompt: "hello",
+			randomId: "omp-1234",
+			agent: "omp",
+		});
+
+		expect(command).toStartWith("omp \"$(cat <<'JEDV_PROMPT_omp1234'");
+		expect(command).not.toContain("omp -p");
+	});
+
+	it("preserves legacy Pi interactive mode for prompt launches", () => {
+		const command = buildAgentPromptCommand({
+			prompt: "hello",
+			randomId: "pi-1234",
+			agent: "pi",
+		});
+
+		expect(command).toStartWith("pi \"$(cat <<'JEDV_PROMPT_pi1234'");
+	});
+});
+
+describe("vibe agent registration", () => {
+	it("is a registered terminal agent with the right label", () => {
+		expect(AGENT_TYPES).toContain("vibe");
+		expect(AGENT_LABELS.vibe).toBe("Mistral Vibe");
+	});
+});
+
+describe("kimi agent registration", () => {
+	it("is a registered terminal agent with the right label", () => {
+		expect(AGENT_TYPES).toContain("kimi");
+		expect(AGENT_LABELS.kimi).toBe("Kimi Code");
+	});
+
+	it("passes the prompt to the native Kimi session", () => {
+		const command = buildAgentPromptCommand({
+			prompt: "hello",
+			randomId: "kimi-1234",
+			agent: "kimi",
+		});
+
+		expect(command).toStartWith(
+			"kimi --yolo -p \"$(cat <<'JEDV_PROMPT_kimi1234'",
+		);
+		expect(command).toEndWith('\n)"');
+	});
+
+	it("derives the host prompt flag from the distinct prompt command", () => {
+		const preset = getPresetById("kimi");
+		expect(preset?.command).toBe("kimi");
+		expect(preset?.args).toEqual(["--yolo"]);
+		expect(preset?.promptArgs).toEqual(["-p"]);
+	});
+});
+
+describe("kiro agent registration", () => {
+	it("is a registered terminal agent with the right label", () => {
+		expect(AGENT_TYPES).toContain("kiro");
+		expect(AGENT_LABELS.kiro).toBe("Kiro");
+	});
+
+	it("seeds prompt launches into the interactive chat positionally", () => {
+		const command = buildAgentPromptCommand({
+			prompt: "hello",
+			randomId: "kiro-1234",
+			agent: "kiro",
+		});
+
+		expect(command).toStartWith(
+			"kiro-cli chat --trust-all-tools \"$(cat <<'JEDV_PROMPT_kiro1234'",
+		);
+		expect(command).toEndWith('\n)"');
+	});
+
+	it("derives host preset args and id-based resume from the base command", () => {
+		const preset = getPresetById("kiro");
+		expect(preset?.command).toBe("kiro-cli");
+		expect(preset?.args).toEqual(["chat", "--trust-all-tools"]);
+		expect(preset?.promptArgs).toEqual([]);
+		expect(preset?.resumeArgs).toEqual(["--resume-id"]);
+	});
+});
+
+describe("agy agent registration", () => {
+	it("is a registered terminal agent with the right label", () => {
+		expect(AGENT_TYPES).toContain("agy");
+		expect(AGENT_LABELS.agy).toBe("Antigravity");
+	});
+
+	it("seeds prompt launches into the interactive session via -i", () => {
+		const command = buildAgentPromptCommand({
+			prompt: "hello",
+			randomId: "agy-1234",
+			agent: "agy",
+		});
+
+		expect(command).toStartWith(
+			"agy --mode accept-edits -i \"$(cat <<'JEDV_PROMPT_agy1234'",
+		);
+		expect(command).toEndWith('\n)"');
+	});
+
+	it("derives host preset args and id-based resume from the base command", () => {
+		const preset = getPresetById("agy");
+		expect(preset?.command).toBe("agy");
+		expect(preset?.args).toEqual(["--mode", "accept-edits"]);
+		expect(preset?.promptArgs).toEqual(["-i"]);
+		expect(preset?.resumeArgs).toEqual(["--conversation"]);
+	});
+});
+
+describe("fx agent registration", () => {
+	it("is a registered terminal agent with the right label", () => {
+		expect(AGENT_TYPES).toContain("fx");
+		expect(AGENT_LABELS.fx).toBe("fx");
+	});
+
+	it("runs prompt launches through fx ask and resumes them interactively", () => {
+		const command = buildAgentPromptCommand({
+			prompt: "hello",
+			randomId: "fx-1234",
+			agent: "fx",
+		});
+
+		expect(command).toStartWith("fx ask --auto \"$(cat <<'JEDV_PROMPT_fx1234'");
+		expect(command).toEndWith('\n)" ; fx resume last');
+	});
+
+	it("derives host preset prompt and resume args from the base command", () => {
+		const preset = getPresetById("fx");
+		expect(preset?.command).toBe("fx");
+		expect(preset?.args).toEqual([]);
+		expect(preset?.promptArgs).toEqual(["ask", "--auto"]);
+		expect(preset?.resumeArgs).toEqual(["resume"]);
+	});
+});
+
+describe("hermes agent registration", () => {
+	it("is a registered terminal agent with the right label", () => {
+		expect(AGENT_TYPES).toContain("hermes");
+		expect(AGENT_LABELS.hermes).toBe("Hermes");
+	});
+
+	it("runs prompt launches as a one-shot query and continues them in the chat", () => {
+		const command = buildAgentPromptCommand({
+			prompt: "hello",
+			randomId: "hermes-1234",
+			agent: "hermes",
+		});
+
+		expect(command).toStartWith(
+			"hermes chat --yolo -q \"$(cat <<'JEDV_PROMPT_hermes1234'",
+		);
+		expect(command).toEndWith('\n)" ; hermes chat --yolo -c');
+	});
+
+	it("derives host preset prompt and resume args from the base command", () => {
+		const preset = getPresetById("hermes");
+		expect(preset?.command).toBe("hermes");
+		expect(preset?.args).toEqual(["chat", "--yolo"]);
+		expect(preset?.promptArgs).toEqual(["-q"]);
+		expect(preset?.resumeArgs).toEqual(["-r"]);
+	});
+});
+
+describe("muse agent registration", () => {
+	it("is a registered terminal agent with the right label", () => {
+		expect(AGENT_TYPES).toContain("muse");
+		expect(AGENT_LABELS.muse).toBe("Muse Code");
+	});
+
+	it("seeds prompt launches as the positional prompt of an interactive session", () => {
+		const command = buildAgentPromptCommand({
+			prompt: "hello",
+			randomId: "muse-1234",
+			agent: "muse",
+		});
+
+		expect(command).toStartWith("muse \"$(cat <<'JEDV_PROMPT_muse1234'");
+		expect(command).toEndWith('\n)"');
+	});
+
+	it("derives host preset resume args from the base command", () => {
+		const preset = getPresetById("muse");
+		expect(preset?.command).toBe("muse");
+		expect(preset?.args).toEqual([]);
+		expect(preset?.resumeArgs).toEqual(["resume"]);
+	});
+});
+
+describe("devin agent registration", () => {
+	it("is a registered terminal agent with the right label", () => {
+		expect(AGENT_TYPES).toContain("devin");
+		expect(AGENT_LABELS.devin).toBe("Devin");
+	});
+
+	it("passes prompt launches after the -- separator of an interactive session", () => {
+		const command = buildAgentPromptCommand({
+			prompt: "hello",
+			randomId: "devin-1234",
+			agent: "devin",
+		});
+
+		expect(command).toStartWith(
+			"devin --permission-mode dangerous -- \"$(cat <<'JEDV_PROMPT_devin1234'",
+		);
+		expect(command).toEndWith('\n)"');
+	});
+
+	it("derives host preset prompt and resume args from the base command", () => {
+		const preset = getPresetById("devin");
+		expect(preset?.command).toBe("devin");
+		expect(preset?.args).toEqual(["--permission-mode", "dangerous"]);
+		expect(preset?.promptArgs).toEqual(["--"]);
+		expect(preset?.resumeArgs).toEqual(["--resume"]);
+	});
+});
+
+describe("grok agent registration", () => {
+	it("is a registered terminal agent with the right label", () => {
+		expect(AGENT_TYPES).toContain("grok");
+		expect(AGENT_LABELS.grok).toBe("Grok");
+	});
+
+	it("seeds prompt launches into the interactive TUI positionally", () => {
+		const command = buildAgentPromptCommand({
+			prompt: "hello",
+			randomId: "grok-1234",
+			agent: "grok",
+		});
+
+		expect(command).toStartWith(
+			"grok --always-approve \"$(cat <<'JEDV_PROMPT_grok1234'",
+		);
+		expect(command).toEndWith('\n)"');
+	});
+
+	it("derives host preset args from the base command with no prompt flag", () => {
+		const preset = getPresetById("grok");
+		expect(preset?.command).toBe("grok");
+		expect(preset?.args).toEqual(["--always-approve"]);
+		expect(preset?.promptArgs).toEqual([]);
+	});
+});
+
+describe("pdev agent registration", () => {
+	it("is a registered terminal agent with Pi-style session args", () => {
+		expect(AGENT_LABELS.pdev).toBe("pdev");
+		const preset = getPresetById("pdev");
+		expect(preset?.command).toBe("pdev");
+		expect(preset?.args).toEqual([]);
+		expect(preset?.resumeArgs).toEqual(["--session"]);
+		expect(preset?.forkArgs).toEqual(["--fork", "{sessionId}"]);
+	});
+
+	it("is never a default terminal preset or a seeded host agent", () => {
+		expect(DEFAULT_TERMINAL_PRESET_AGENT_TYPES).not.toContain("pdev");
+		const seeded = getDefaultSeedPresets().map((preset) => preset.presetId);
+		expect(seeded).not.toContain("pdev");
+		expect(seeded).toEqual(["claude", "codex", "kimi", "agy"]);
+	});
+
+	it("is enabled only while the pdev-agent flag is active", () => {
+		expect(isAgentPresetEnabled("pdev", [])).toBe(false);
+		expect(isAgentPresetEnabled("pdev", [FEATURE_FLAGS.PDEV_AGENT])).toBe(true);
+		expect(isAgentPresetEnabled("pi", [])).toBe(true);
+		expect(isAgentPresetEnabled("custom:pdev", [])).toBe(true);
+	});
+});

@@ -1,0 +1,51 @@
+---
+description: "CLI schema/help 同源的发现与执行契约：audience 路由、middleware abort signal、machine JSON、quiet 优先和 pipe output truncation 防护。"
+kind: architecture
+code:
+  paths:
+    - "packages/cli-framework/src/runner.ts"
+    - "packages/cli-framework/src/router.ts"
+    - "packages/cli-framework/src/schema.ts"
+    - "packages/cli-framework/src/output.ts"
+    - "packages/cli/cli.config.ts"
+    - "packages/cli/src/commands/schema/command.ts"
+    - "packages/cli-framework/src/parser.ts"
+    - "packages/cli-framework/src/completion.ts"
+    - "packages/cli/src/commands/middleware.ts"
+relations:
+  related:
+    - "runtime/local-host.mdx"
+    - "execution-model.mdx"
+    - "desktop/localization.mdx"
+    - "distribution/release-integrity.mdx"
+---
+
+# CLI 发现、执行与输出交付
+
+CLI 是可供人和 Agent 使用的本地控制接口。命令发现、实际可调用树、参数解析和输出交付必须保持同一契约；自动化不能靠解析过时帮助或猜测内部命令获得更大能力。
+
+## schema 与 help 同源
+
+framework 先按 audience 过滤命令树，再用同一棵树做路由、help、schema 与 completion。分组被过滤会连同子命令一起隐藏；hidden 展示标记和真正不在运行 audience 的命令不是同一概念。schema 是当前运行面可发现能力的描述，不取代 host 的凭证与资源权限验证。
+
+选项与位置参数从同一个 builder 模型进入 parser 和 schema。更改别名、默认值、冲突或 required 语义时，不能只改帮助文案。全局选项参与 routing 拆分，叶子未知 flag 及其后输入由叶子 parser 接管，防顶层开关让命令退回 root help。
+
+## 上下文与取消
+
+middleware 必须调用 next 初始化命令 ctx，除非命令显式 skipMiddleware；未初始化要失败，而不是让命令用空配置继续。local middleware 提供本地命名空间，目标解析另行限制本机与 loopback manifest。
+
+runner 统一把 SIGINT/SIGTERM 转为 AbortSignal，命令需将取消传到等待或流操作。停止等待不自动授权关闭远端终端、删除工作区或重试外部 mutation；各子系统保留自己的副作用确认模型。
+
+## JSON pipe output truncation
+
+Agent/CI 模式默认结构化 JSON，显式 quiet 优先；raw result 保留原始输出语义。所有命令结果经过统一 output formatter 和等待 drain 的写出路径，不应自行 console.log 大结果后立刻退出。
+
+Bun 在慢 pipe reader 下可能丢失尚未写出的尾部；等待 write callback 是数据交付要求，不是格式偏好。EPIPE 表示 reader 提前结束，无需转成命令故障。用户取消必须能打断永不 drain 的 pipe，此时允许放弃尾部，不能让输出等待吞掉终止动作。
+
+写操作返回了结构化错误数据，也要保留失败 exit code。不能因为 stdout 出现可解析 JSON 就把失败标为成功。
+
+## 权威锚点
+
+- `packages/cli-framework/src/runner.ts`：introspection、middleware、取消及输出 drain。
+- `packages/cli-framework/src/router.ts`、`schema.ts`：audience 路由与能力发现的同源约束。
+- `packages/cli/cli.config.ts`、`src/commands/schema/command.ts`：产品命令面的装配。

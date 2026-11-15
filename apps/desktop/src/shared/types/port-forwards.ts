@@ -1,0 +1,43 @@
+export interface ForwardTarget {
+	/** Private host-service origin, e.g. https://worker.tailnet.ts.net. */
+	hostUrl: string;
+	workspaceId: string;
+	remotePort: number;
+}
+
+export interface LocalPortOwner {
+	pid: number;
+	processName: string;
+	terminalId: string;
+	workspaceId: string;
+}
+
+export type PortForwardStatus =
+	| { state: "active"; localPort: number }
+	// localOwner is null when the local port scanner does not know the process;
+	// only a known owner can be stopped from the UI.
+	| { state: "busy"; localPort: number; localOwner: LocalPortOwner | null }
+	| { state: "error"; message: string };
+
+export type ForwardTransportKind = "direct";
+
+export interface PortForward {
+	/** `${hostUrl}|${workspaceId}|${remotePort}` */
+	id: string;
+	target: ForwardTarget;
+	status: PortForwardStatus;
+	transport: ForwardTransportKind;
+	connections: number;
+	/** Asked for with Forward, and kept until Stop instead of following the selected workspace. */
+	explicit: boolean;
+	/** The port bound on this machine, whatever the status; null while nothing is bound. */
+	localPort: number | null;
+}
+
+export function portForwardId({
+	hostUrl,
+	workspaceId,
+	remotePort,
+}: ForwardTarget): string {
+	return `${hostUrl}|${workspaceId}|${remotePort}`;
+}

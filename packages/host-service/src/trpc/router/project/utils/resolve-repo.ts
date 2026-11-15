@@ -1,0 +1,623 @@
+import { mkdirSync } from "node:fs";
+// Recursive deletes go through async `rm`: a failed clone/init rolls back an
+// entire repo directory, and rmSync would hold the event loop for the whole
+// walk.
+import { rm } from "node:fs/promises";
+import { dirname, join, resolve as resolvePath } from "node:path";
+import { parseGitHubRemote } from "@jedv/shared/github-remote";
+import { TRPCError } from "@trpc/server";
+import type { GitCredentialProvider } from "../../../../runtime/git";
+import { createUserSimpleGit } from "../../../../runtime/git/simple-git";
+import {
+	getPathState,
+	inaccessiblePathMessage,
+	isPermissionDenied,
+	isUnreadable,
+} from "../../../../runtime/path-state";
+import {
+	rethrowEnvironmentalGitError,
+	rethrowGitToolsMissing,
+} from "../../git/utils/classify-git-error";
+import {
+	findMatchingRemote,
+	getGitHubRemotes,
+	type ParsedGitHubRemote,
+} from "./git-remote";
+import { runProjectGit } from "./run-project-git";
+
+async function cloneEnv(
+	credentials: GitCredentialProvider | undefined,
+	remoteUrl: string,
+): Promise<Record<string, string> | undefined> {
+	if (!credentials) return undefined;
+	const { env } = await credentials.getCredentials(remoteUrl);
+	return env;
+}
+
+export interface ResolvedRepo {
+	repoPath: string;
+	remoteName: string | null;
+	parsed: ParsedGitHubRemote | null;
+}
+
+export interface ResolvedGitHubRepo extends ResolvedRepo {
+	remoteName: string;
+	parsed: ParsedGitHubRemote;
+}
+
+export function validateDirectoryPath(path: string, label: string): void {
+	const state = getPathState(path);
+	if (state === "inaccessible") {
+		throw new TRPCError({
+			code: "FORBIDDEN",
+			message: inaccessiblePathMessage(path),
+		});
+	}
+	if (state === "missing") {
+		throw new TRPCError({
+			code: "BAD_REQUEST",
+			message: `${label} does not exist: ${path}`,
+		});
+	}
+	if (state !== "directory") {
+		throw new TRPCError({
+			code: "BAD_REQUEST",
+			message: `${label} is not a directory: ${path}`,
+		});
+	}
+}
+
+/**
+ * Ensure the parent directory we're about to create a project under exists,
+ * creating it (and any missing ancestors) when it doesn't. Unlike
+ * `validateDirectoryPath`, a missing parent is a recoverable condition: the
+ * default project location (e.g. `~/.jedv/projects`) won't exist on a
+ * fresh machine, and the user shouldn't have to pre-create it before their
+ * first clone. Still rejects when the path exists but is a file.
+ */
+function ensureParentDirectory(path: string): void {
+	const state = getPathState(path);
+	if (state === "directory") return;
+	if (state === "inaccessible") {
+		throw new TRPCError({
+			code: "FORBIDDEN",
+			message: inaccessiblePathMessage(path),
+		});
+	}
+	if (state === "file") {
+		throw new TRPCError({
+			code: "BAD_REQUEST",
+			message: `Parent directory is not a directory: ${path}`,
+		});
+	}
+	try {
+		mkdirSync(path, { recursive: true });
+	} catch (err) {
+		throw new TRPCError({
+			code: "BAD_REQUEST",
+			message: `Could not create parent directory: ${path}: ${
+				err instanceof Error ? err.message : String(err)
+			}`,
+		});
+	}
+}
+
+/** Rollback delete inside catch blocks: must never throw, or it would
+ * replace the original error the caller is about to re-throw. */
+async function rollbackTargetDir(targetPath: string): Promise<void> {
+	try {
+		await rm(targetPath, { recursive: true, force: true });
+	} catch (cleanupErr) {
+		console.warn("[project] rollback cleanup failed", {
+			targetPath,
+			cleanupErr,
+		});
+	}
+}
+
+/**
+ * Atomic claim: `mkdir` without `recursive` throws EEXIST when the path is
+ * present, which avoids the TOCTOU window between an `existsSync` check
+ * and the work that follows. If anything fails after this, the caller
+ * created the dir and can delete it without risk of nuking someone else's.
+ */
+function claimEmptyTargetDir(targetPath: string): void {
+	try {
+		mkdirSync(targetPath);
+	} catch (err) {
+		if ((err as NodeJS.ErrnoException).code === "EEXIST") {
+			throw new TRPCError({
+				code: "BAD_REQUEST",
+				message: `Directory already exists: ${targetPath}`,
+			});
+		}
+		throw new TRPCError({
+			code: "BAD_REQUEST",
+			message: `Could not create target directory: ${
+				err instanceof Error ? err.message : String(err)
+			}`,
+		});
+	}
+}
+
+/**
+ * Translates git's "empty ident"/`user.email`/`user.name` errors from a
+ * failed initial commit into a `PRECONDITION_FAILED` TRPCError with setup
+ * instructions. Falls through to `INTERNAL_SERVER_ERROR` for unknown
+ * failures.
+ */
+function asInitialCommitTrpcError(err: unknown): TRPCError {
+	const message = err instanceof Error ? err.message : String(err);
+	if (
+		message.includes("empty ident") ||
+		message.includes("user.email") ||
+		message.includes("user.name")
+	) {
+		return new TRPCError({
+			code: "PRECONDITION_FAILED",
+			message:
+				'Git user is not configured. Run: git config --global user.name "Your Name" && git config --global user.email "you@example.com"',
+		});
+	}
+	return new TRPCError({
+		code: "INTERNAL_SERVER_ERROR",
+		message: `Failed to create initial commit: ${message}`,
+	});
+}
+
+/**
+ * Scaffolding commits are authored by us in repos we just created — the
+ * user's local git policy must not be able to reject them. Two bypasses,
+ * both per-invocation `-c` overrides that never touch stored config:
+ *
+ * - Hooks: `--no-verify` skips pre-commit/commit-msg; the empty
+ *   `core.hooksPath` override covers the rest (a failing
+ *   prepare-commit-msg still aborts a `--no-verify` commit).
+ * - Signing: `commit.gpgsign=false` — this is our scaffolding, not the
+ *   user's work, so it must not carry their signing identity, and a
+ *   signing key that git cannot load (absent, unreadable, or not in the
+ *   agent) must not fail the commit outright (HOST-SERVICE-22).
+ */
+const scaffoldCommitArgs = [
+	"-c",
+	"core.hooksPath=",
+	"-c",
+	"commit.gpgsign=false",
+	"commit",
+	"--no-verify",
+];
+
+/** `git init --initial-branch=main` with a fallback for older git versions. */
+async function gitInitMainBranch(
+	targetPath: string,
+	signal?: AbortSignal,
+): Promise<void> {
+	signal?.throwIfAborted();
+	const git = createUserSimpleGit(targetPath, { abort: signal });
+	try {
+		if (signal)
+			await runProjectGit(["init", "--initial-branch=main"], {
+				cwd: targetPath,
+				signal,
+			});
+		else await git.init(["--initial-branch=main"]);
+	} catch (err) {
+		signal?.throwIfAborted();
+		// Retrying cannot help when git itself cannot run.
+		rethrowGitToolsMissing(err);
+		if (signal) await runProjectGit(["init"], { cwd: targetPath, signal });
+		else await git.init();
+	}
+}
+
+/** The `--allow-empty` scaffold commit that gives a brand new repo a real
+ * branch/HEAD. Shared by every path that inits or adopts a repo with no
+ * commits yet. */
+async function commitInitialEmpty(repoPath: string): Promise<void> {
+	try {
+		await createUserSimpleGit(repoPath).raw([
+			...scaffoldCommitArgs,
+			"--allow-empty",
+			"-m",
+			"Initial commit",
+		]);
+	} catch (err) {
+		throw asInitialCommitTrpcError(err);
+	}
+}
+
+/**
+ * Makes sure `repoPath` has a resolvable `HEAD` before Jedv treats it as
+ * a usable project. A bare `git init` with nothing committed leaves HEAD
+ * unborn, and `git worktree add` — which every workspace creation runs
+ * through (see `resolveStartPoint` / `GIT_REFS.md`) — has no start point to
+ * fork from and fails outright. `initEmptyRepo`/`initLocalRepoInPlace`
+ * already avoid this for repos Jedv creates from scratch; this covers a
+ * repo a caller points us at that already exists but was never committed to.
+ */
+async function ensureNotUnborn(repoPath: string): Promise<void> {
+	const git = createUserSimpleGit(repoPath);
+	try {
+		await git.raw(["rev-parse", "--verify", "HEAD"]);
+		return;
+	} catch {}
+	// git commits onto a HEAD that names an invalid ref, then cannot read
+	// that ref back, so only an unborn branch gets the scaffold commit.
+	try {
+		await git.raw(["symbolic-ref", "-q", "HEAD"]);
+	} catch (err) {
+		throw new TRPCError({
+			code: "BAD_REQUEST",
+			message:
+				"This repository's HEAD does not point to a valid branch. Run: git symbolic-ref HEAD refs/heads/main",
+			cause: err,
+		});
+	}
+	await commitInitialEmpty(repoPath);
+}
+
+// Git skips a `.git` it cannot read and reports "not a git repository".
+function findUnreadableRepoAbove(path: string): string | undefined {
+	for (let dir = resolvePath(path); ; dir = dirname(dir)) {
+		if (isUnreadable(join(dir, ".git"))) return dir;
+		if (dirname(dir) === dir) return undefined;
+	}
+}
+
+// simple-git's revparse() trims, which drops trailing spaces of a folder name.
+export async function readGitToplevel(path: string): Promise<string> {
+	const stdout = await createUserSimpleGit(path).raw([
+		"rev-parse",
+		"--show-toplevel",
+	]);
+	return stdout.replace(/\n$/, "");
+}
+
+/**
+ * Returns the canonical git root for `path`, or `null` when `path` is not
+ * inside a git work tree. Callers that want to branch on "is this a git
+ * repo?" use this instead of catching. Still throws FORBIDDEN when git may not
+ * read `path` or the repo that holds it, so a blocked repo is never offered
+ * `git init`.
+ */
+export async function tryRevParseGitRoot(path: string): Promise<string | null> {
+	let error: unknown;
+	try {
+		return await readGitToplevel(path);
+	} catch (err) {
+		error = err;
+	}
+	// Without git every folder would look like a non-repo, and the caller would
+	// offer `git init` on a real repository.
+	rethrowGitToolsMissing(error);
+	const blockedPath = isPermissionDenied(error)
+		? path
+		: findUnreadableRepoAbove(path);
+	if (blockedPath) {
+		throw new TRPCError({
+			code: "FORBIDDEN",
+			message: inaccessiblePathMessage(blockedPath),
+			cause: error,
+		});
+	}
+	return null;
+}
+
+async function revParseGitRoot(path: string): Promise<string> {
+	const root = await tryRevParseGitRoot(path);
+	if (root === null) {
+		throw new TRPCError({
+			code: "BAD_REQUEST",
+			message: `Not a git repository: ${path}`,
+		});
+	}
+	return root;
+}
+
+/** Shared by `resolveLocalRepo` and `adoptLocalRepo` once each has settled
+ * what `gitRoot` is (and, for the latter, made sure it has a commit). */
+async function resolveRemotesFor(gitRoot: string): Promise<ResolvedRepo> {
+	const remotes = await getGitHubRemotes(createUserSimpleGit(gitRoot));
+	const originParsed = remotes.get("origin");
+	if (originParsed) {
+		return { repoPath: gitRoot, remoteName: "origin", parsed: originParsed };
+	}
+	const first = remotes.entries().next().value;
+	if (!first) return { repoPath: gitRoot, remoteName: null, parsed: null };
+	const [firstName, firstParsed] = first;
+	return { repoPath: gitRoot, remoteName: firstName, parsed: firstParsed };
+}
+
+/**
+ * Validates that a path is a git working tree and returns the canonical git
+ * root plus its primary GitHub remote when one exists. Local-only repos are
+ * valid v2 projects; they simply have no cloud clone URL or GitHub metadata.
+ *
+ * Read-only — never writes to the repo. This is the function the "detect
+ * import candidates" preview query uses, before the user has confirmed
+ * adopting anything. A path that's actually adopting/creating a project
+ * wants `adoptLocalRepo` instead, so it doesn't leave an unborn `HEAD`
+ * behind; don't reach for this one there just because the signature is
+ * simpler.
+ */
+export async function resolveLocalRepo(
+	repoPath: string,
+): Promise<ResolvedRepo> {
+	validateDirectoryPath(repoPath, "Path");
+	const gitRoot = await revParseGitRoot(repoPath);
+	return resolveRemotesFor(gitRoot);
+}
+
+/**
+ * Like `resolveLocalRepo`, but for a path that is ADOPTING `repoPath` as a
+ * project (import, clone-fallback, in-place init of an already-existing
+ * repo) rather than merely previewing it. Runs `ensureNotUnborn` first, so
+ * a repo that's a valid git work tree but has zero commits gets the same
+ * `--allow-empty` scaffold commit a brand new repo does — otherwise its
+ * `HEAD` stays unborn and every later `git worktree add` against it fails
+ * outright. Never call this from a read-only/preview path.
+ */
+export async function adoptLocalRepo(repoPath: string): Promise<ResolvedRepo> {
+	validateDirectoryPath(repoPath, "Path");
+	const gitRoot = await revParseGitRoot(repoPath);
+	await ensureNotUnborn(gitRoot);
+	return resolveRemotesFor(gitRoot);
+}
+
+/**
+ * Initialize git in an EXISTING, populated folder (in place) and resolve it as
+ * a local-only project. Unlike `initEmptyRepo`, this neither mkdirs nor fails on
+ * a non-empty directory — it adopts the user's folder. Use for "import a folder
+ * that isn't a git repo yet"; the caller must have confirmed intent with the
+ * user first, since `git init` writes into their directory.
+ *
+ * Idempotent: if the path is already inside a git work tree (e.g. it was
+ * initialized between detection and this call, or it's nested under a parent
+ * repo) we skip init and just resolve the existing root — but still run the
+ * same unborn-HEAD guard, since that existing work tree may itself have zero
+ * commits.
+ *
+ * Like `initEmptyRepo`, creates an `--allow-empty` initial commit so the
+ * checkout has a real branch/HEAD for `createLocalWorkspace` to record; a
+ * bare `git init` leaves an unborn branch.
+ */
+export async function initLocalRepoInPlace(
+	repoPath: string,
+): Promise<ResolvedRepo> {
+	validateDirectoryPath(repoPath, "Path");
+
+	const existingRoot = await tryRevParseGitRoot(repoPath);
+	if (existingRoot) {
+		return adoptLocalRepo(existingRoot);
+	}
+
+	await gitInitMainBranch(repoPath);
+	await commitInitialEmpty(repoPath);
+	return resolveLocalRepo(repoPath);
+}
+
+/**
+ * Validates that a path is a git working tree and returns the canonical git
+ * root plus the GitHub remote whose `owner/name` matches `expectedSlug`.
+ * Throws if no matching remote exists.
+ *
+ * Used when the caller has an authoritative clone URL from the cloud and
+ * wants to confirm this local repo is actually that project (`setup
+ * mode=import`, post-clone validation). Both callers are adopting/creating a
+ * project, so this always runs the unborn-HEAD guard — e.g. a GitHub repo
+ * cloned before its first push has no commits either.
+ */
+export async function resolveMatchingSlug(
+	repoPath: string,
+	expectedSlug: string,
+): Promise<ResolvedGitHubRepo> {
+	validateDirectoryPath(repoPath, "Path");
+	const gitRoot = await revParseGitRoot(repoPath);
+	await ensureNotUnborn(gitRoot);
+	const remotes = await getGitHubRemotes(createUserSimpleGit(gitRoot));
+	const remoteName = findMatchingRemote(remotes, expectedSlug);
+	if (!remoteName) {
+		const found = [...remotes.entries()]
+			.map(([name, parsed]) => `${name}: ${parsed.owner}/${parsed.name}`)
+			.join(", ");
+		throw new TRPCError({
+			code: "BAD_REQUEST",
+			message: `No remote matches ${expectedSlug}. Found: ${found || "no remotes"}`,
+		});
+	}
+	const parsed = remotes.get(remoteName);
+	if (!parsed) {
+		throw new TRPCError({
+			code: "INTERNAL_SERVER_ERROR",
+			message: `Remote "${remoteName}" matched but has no parsed data`,
+		});
+	}
+	return { repoPath: gitRoot, remoteName, parsed };
+}
+
+/**
+ * Empty git repo at `<parentDir>/<dirName>`: atomic mkdir (fails on EEXIST,
+ * so we never blow away someone else's directory), `git init`, initial
+ * empty commit. Cleans up the dir on any post-mkdir failure.
+ *
+ * Catches "empty ident"/`user.email`/`user.name` from git and re-throws as
+ * `PRECONDITION_FAILED` with setup instructions — git's raw message is
+ * actionable to a developer but useless to a user.
+ */
+export async function initEmptyRepo(
+	parentDir: string,
+	dirName: string,
+): Promise<ResolvedRepo> {
+	if (!dirName.trim() || /[/\\]/.test(dirName)) {
+		throw new TRPCError({
+			code: "BAD_REQUEST",
+			message: `Invalid directory name: "${dirName}"`,
+		});
+	}
+
+	const resolvedParentDir = resolvePath(parentDir);
+	ensureParentDirectory(resolvedParentDir);
+	const targetPath = join(resolvedParentDir, dirName);
+	claimEmptyTargetDir(targetPath);
+
+	try {
+		await gitInitMainBranch(targetPath);
+		await commitInitialEmpty(targetPath);
+		return { repoPath: targetPath, remoteName: null, parsed: null };
+	} catch (err) {
+		await rollbackTargetDir(targetPath);
+		throw err;
+	}
+}
+
+/**
+ * Shallow-clone a template into `<parentDir>/<dirName>`, drop its `.git`,
+ * re-init, and commit the snapshot as the user's first commit. The result
+ * has no remote — the caller is responsible for any first-push provisioning.
+ * Cleans up the dir on any post-mkdir failure.
+ */
+export async function cloneTemplateInto(
+	templateUrl: string,
+	parentDir: string,
+	dirName: string,
+	credentials?: GitCredentialProvider,
+	signal?: AbortSignal,
+): Promise<ResolvedRepo> {
+	signal?.throwIfAborted();
+	if (!dirName.trim() || /[/\\]/.test(dirName)) {
+		throw new TRPCError({
+			code: "BAD_REQUEST",
+			message: `Invalid directory name: "${dirName}"`,
+		});
+	}
+
+	const resolvedParentDir = resolvePath(parentDir);
+	ensureParentDirectory(resolvedParentDir);
+	const targetPath = join(resolvedParentDir, dirName);
+	claimEmptyTargetDir(targetPath);
+
+	try {
+		// --depth=1 since we're throwing away the template's history anyway.
+		const env = await cloneEnv(credentials, templateUrl);
+		signal?.throwIfAborted();
+		if (signal) {
+			await runProjectGit(
+				["clone", "--depth=1", "--", templateUrl, targetPath],
+				{ env, signal },
+			);
+		} else {
+			await createUserSimpleGit(undefined, { env }).clone(
+				templateUrl,
+				targetPath,
+				["--depth=1"],
+			);
+		}
+		signal?.throwIfAborted();
+		await rm(join(targetPath, ".git"), { recursive: true, force: true });
+
+		await gitInitMainBranch(targetPath, signal);
+		const git = createUserSimpleGit(targetPath, { abort: signal });
+		if (signal) await runProjectGit(["add", "."], { cwd: targetPath, signal });
+		else await git.add(".");
+		try {
+			if (signal)
+				await runProjectGit([...scaffoldCommitArgs, "-m", "Initial commit"], {
+					cwd: targetPath,
+					signal,
+				});
+			else await git.raw([...scaffoldCommitArgs, "-m", "Initial commit"]);
+		} catch (err) {
+			throw asInitialCommitTrpcError(err);
+		}
+		signal?.throwIfAborted();
+		return { repoPath: targetPath, remoteName: null, parsed: null };
+	} catch (err) {
+		await rollbackTargetDir(targetPath);
+		throw err;
+	}
+}
+
+function deriveCloneDirectoryName(repoCloneUrl: string): string {
+	const normalized = repoCloneUrl
+		.trim()
+		.replace(/[?#].*$/, "")
+		.replace(/[\\/]+$/g, "")
+		.replace(/\.git$/i, "");
+	const segments = normalized.split(/[/:\\]/).filter(Boolean);
+	const lastSegment = segments[segments.length - 1] ?? "";
+	if (!lastSegment || lastSegment === "." || lastSegment === "..") {
+		throw new TRPCError({
+			code: "BAD_REQUEST",
+			message: `Could not derive repository name from ${repoCloneUrl}`,
+		});
+	}
+	return lastSegment;
+}
+
+/**
+ * Clones a repo into `<parentDir>/<repoName>` and returns the resolved repo.
+ * GitHub URLs are post-clone verified against the original slug; non-GitHub
+ * URLs and local paths are accepted and resolved as local-only projects
+ * unless the cloned repo happens to have a parseable GitHub remote.
+ */
+export async function cloneRepoInto(
+	repoCloneUrl: string,
+	parentDir: string,
+	credentials?: GitCredentialProvider,
+	signal?: AbortSignal,
+): Promise<ResolvedRepo> {
+	if (signal?.aborted) {
+		throw new TRPCError({
+			code: "BAD_REQUEST",
+			message: `Failed to clone repository: ${signal.reason instanceof Error ? signal.reason.message : String(signal.reason)}`,
+		});
+	}
+	const parsedUrl = parseGitHubRemote(repoCloneUrl);
+	const expectedSlug = parsedUrl
+		? `${parsedUrl.owner}/${parsedUrl.name}`
+		: null;
+	const repoName = parsedUrl?.name ?? deriveCloneDirectoryName(repoCloneUrl);
+
+	const resolvedParentDir = resolvePath(parentDir);
+	ensureParentDirectory(resolvedParentDir);
+
+	const targetPath = join(resolvedParentDir, repoName);
+	claimEmptyTargetDir(targetPath);
+
+	try {
+		const env = await cloneEnv(credentials, repoCloneUrl);
+		if (signal) {
+			await runProjectGit(["clone", "--", repoCloneUrl, targetPath], {
+				env,
+				signal,
+			});
+		} else {
+			await createUserSimpleGit(undefined, { env }).clone(
+				repoCloneUrl,
+				targetPath,
+			);
+		}
+		signal?.throwIfAborted();
+	} catch (err) {
+		await rollbackTargetDir(targetPath);
+		rethrowGitToolsMissing(err);
+		rethrowEnvironmentalGitError(err);
+		throw new TRPCError({
+			code: "BAD_REQUEST",
+			message: `Failed to clone repository: ${
+				err instanceof Error ? err.message : String(err)
+			}`,
+		});
+	}
+
+	try {
+		const resolved = expectedSlug
+			? await resolveMatchingSlug(targetPath, expectedSlug)
+			: await adoptLocalRepo(targetPath);
+		signal?.throwIfAborted();
+		return resolved;
+	} catch (err) {
+		await rollbackTargetDir(targetPath);
+		throw err;
+	}
+}

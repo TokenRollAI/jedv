@@ -1,0 +1,57 @@
+---
+description: "Tailscale PSK 私网连接、直连端口转发与 relaySocket 重连：origin 凭证边界、每次拨号取 token、事件重订阅和断线输入不重放。"
+kind: architecture
+code:
+  paths:
+    - "apps/desktop/src/lib/trpc/routers/host-service-coordinator/index.ts"
+    - "apps/desktop/src/main/lib/port-forward/private-endpoint.ts"
+    - "apps/desktop/src/main/lib/port-forward/direct-forward-transport.ts"
+    - "packages/host-service/src/providers/host-auth/PskHostAuthProvider/PskHostAuthProvider.ts"
+    - "packages/host-service/src/ports/forward-mux-route.ts"
+    - "packages/workspace-client/src/lib/relaySocket/relaySocket.ts"
+    - "packages/workspace-client/src/lib/eventBus.ts"
+    - "packages/workspace-client/src/lib/hostServiceLinks/hostServiceLinks.ts"
+    - "packages/shared/src/tunnel-protocol.ts"
+    - "apps/desktop/src/main/lib/port-forward/index.ts"
+    - "apps/desktop/src/main/lib/port-forward/forward-tokens.ts"
+    - "packages/workspace-client/src/lib/probeRelayHost.ts"
+    - "packages/shared/src/port-forward-mux.ts"
+    - "apps/desktop/src/renderer/components/JedvShell/local-client.ts"
+relations:
+  related:
+    - "runtime/local-host.mdx"
+    - "terminals/session-lifecycle.mdx"
+    - "execution-model.mdx"
+---
+
+# 私网直连、转发与重连
+
+私网连接以一个受验证的 origin 和 host PSK 为能力边界。桌面先验证地址与凭证格式，再使用有限时、禁止 redirect 的 host 查询探活；只有成功后才在 main 保存该连接 token。连接失败不能留下“已连接”的授权状态。
+
+## origin 与 token
+
+用户连接入口只接受不含路径、查询、fragment 或内嵌凭证的 origin。127.0.0.1 可用 HTTP，其他入口要求 HTTPS 的 Tailscale `.ts.net` 地址。PSK 不含空白。HTTP Bearer 与 WS token 都由 host 的同一 PSK provider 做等长、恒时比较；机器标识用于调用上下文，不代替认证。
+
+main 按 origin 保存 ForwardTokens。回环连接仍需匹配 coordinator 当前活连接与 secret，不能仅因 token 缓存存在而视为有效。disconnect 要一起撤销 token、关闭该 origin 的 mux 会话并释放转发 lease，避免 UI 断开后旧流仍可访问。
+
+## 端口转发是工作区能力
+
+一个 `/fwd` WebSocket 承载该工作区的多个 TCP 流，帧协议有握手、流数、窗口和数据上限。host 每次 OPEN 都检查端口扫描器当前是否将目标端口归属于请求工作区；已建立 host 连接不等于任意端口访问权。流量窗口和 TCP backpressure 必须端到端传播，不能用无界队列吸收慢读者。
+
+desktop 按地址和 workspace 复用 mux；token 或 CA 改变时淘汰旧会话。单请求取消只能清理无其他 pending 或 active stream 的会话，不能切断共享连接里的其他用户请求。远端不支持协议、拒绝凭证和未授权是不同可解释失败，不应一律当网络离线。
+
+## relaySocket 是共用的直连重连实现
+
+`createRelaySocket` 的历史名称不代表托管云运行依赖。当前终端和 eventBus 在直连地址上共用它：每次拨号重新取得 URL 与 token，避免重连一直使用过时签名；显式 reconnect 或 close 可以打断 retry 等待。
+
+默认 `maxEnqueuedMessages=0`，断线时输入不缓存重放。旧命令在恢复后突然发送会产生新的执行副作用，不能为了“可靠传输”改成自动重放。eventBus 的 watch interest 则是可重建的订阅状态，open 后重新登记，二者必须区分。
+
+`probeRelayHost` 仅识别 `/hosts/<id>/` 可选兼容路径；普通直连 URL 立即返回 null，不发云端探测。null 表示没有该诊断信息，不能据此宣称已认证、主机离线或请求成功。
+
+通用 HTTP 批流适配器用 POST query 避免大输入撑爆 GET header。旧 host 明确拒绝 method override 时，只对 query 回退一次 GET；连接失败清除该 endpoint 的降级记忆，让替换后的 host 重新探测。不要将这一兼容分支写成云服务前置条件。
+
+## 权威锚点
+
+- `apps/desktop/src/lib/trpc/routers/host-service-coordinator/index.ts` 与 `private-endpoint.ts`：连接发布前的验证。
+- `packages/shared/src/port-forward-mux.ts`、`packages/host-service/src/ports/forward-mux-route.ts`：帧协议与逐端口授权。
+- `packages/workspace-client/src/lib/relaySocket/relaySocket.ts`、`eventBus.ts`：拨号、重订阅与发送语义。

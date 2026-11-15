@@ -1,0 +1,303 @@
+import type { ChatRouterInputs, ChatRouterOutputs } from "@jedv/chat-runtime";
+import { isMissingProcedureError } from "@jedv/shared/missing-procedure-error";
+import type { UsageLimitAction } from "../../protocol/commands";
+import type { Cursor } from "../../protocol/cursor";
+import type { DeltaChannel, Envelope } from "../../protocol/envelope";
+import type { Decision, UserContent } from "../../protocol/items";
+import type {
+	SessionStream,
+	StreamSocketFactory,
+	StreamStatus,
+	Wait,
+} from "../subscribeToSession";
+import { buildStreamUrl, subscribeToSession } from "../subscribeToSession";
+
+export type ChatTransport = {
+	[Procedure in keyof ChatRouterInputs & keyof ChatRouterOutputs]: (
+		input: ChatRouterInputs[Procedure],
+	) => Promise<ChatRouterOutputs[Procedure]>;
+};
+
+export type SteerSubagentResult = "steered" | "finished" | "unsupported";
+export type BackgroundSubagentResult = "moved" | "refused" | "unsupported";
+
+async function orUnsupported<Result>(
+	call: () => Promise<{ result: Result }>,
+): Promise<Result | "unsupported"> {
+	try {
+		return (await call()).result;
+	} catch (error) {
+		if (isMissingProcedureError(error)) return "unsupported";
+		throw error;
+	}
+}
+
+export type GetItemsPage = {
+	before?: Cursor;
+	limit?: number;
+};
+
+export type PromptOptions = {
+	content: UserContent[];
+	clientId: string;
+	commandId?: string;
+	steer?: { expectedTurnId: string };
+	snapshotWorktree?: boolean;
+};
+
+export type SessionSubscribeOptions = {
+	deltas?: readonly DeltaChannel[];
+	since?: Cursor | null;
+	onEnvelope(envelope: Envelope): void;
+	onReset?(reason: string): void;
+	onStatusChange?(status: StreamStatus): void;
+};
+
+export type SessionClientOptions = {
+	sessionId: string;
+	transport: ChatTransport;
+	streamBaseUrl: string;
+	createSocket: StreamSocketFactory;
+	nestedSubagents?: boolean;
+	mintId?(): string;
+	wait?: Wait;
+	backoffInitialMs?: number;
+	backoffMaxMs?: number;
+};
+
+export type SessionClient = {
+	sessionId: string;
+	getSession(): Promise<ChatRouterOutputs["getSession"]>;
+	getItems(page?: GetItemsPage): Promise<ChatRouterOutputs["getItems"]>;
+	getOutline(): Promise<ChatRouterOutputs["getOutline"]>;
+	getItemBodies(itemIds: string[]): Promise<ChatRouterOutputs["getItemBodies"]>;
+	/** "unsupported" when the host predates turn snapshots. */
+	getTurnChanges(input: {
+		workspaceId: string;
+		turnId: string;
+		live?: boolean;
+		anchorItemIds?: string[];
+	}): Promise<ChatRouterOutputs["getTurnChanges"] | "unsupported">;
+	undoTurnFiles(input: {
+		workspaceId: string;
+		turnId: string;
+		paths: string[];
+		anchorItemIds?: string[];
+	}): Promise<ChatRouterOutputs["undoTurnFiles"] | "unsupported">;
+	prompt(options: PromptOptions): Promise<ChatRouterOutputs["prompt"]>;
+	removeQueuedPrompt(itemId: string): Promise<void>;
+	steerQueuedPrompt(itemId: string): Promise<void>;
+	updateQueuedPrompt(itemId: string, content: UserContent[]): Promise<void>;
+	resumeQueue(): Promise<void>;
+	respondToUsageLimit(action: UsageLimitAction): Promise<void>;
+	cancelTurn(turnId: string, options?: { pauseQueue?: boolean }): Promise<void>;
+	stopBackgroundTask(taskId: string): Promise<boolean>;
+	steerSubagent(
+		taskId: string,
+		content: UserContent[],
+	): Promise<SteerSubagentResult>;
+	backgroundSubagent(taskId: string): Promise<BackgroundSubagentResult>;
+	respondToApproval(approvalId: string, decision: Decision): Promise<void>;
+	setMode(modeId: string): Promise<void>;
+	setConfigOption(
+		configId: string,
+		value: string,
+		options?: { confirm?: boolean },
+	): Promise<void>;
+	subscribe(options: SessionSubscribeOptions): SessionStream;
+	close(): void;
+};
+
+export function createSessionClient(
+	options: SessionClientOptions,
+): SessionClient {
+	const mintId = options.mintId ?? (() => crypto.randomUUID());
+	const sessionId = options.sessionId;
+	const streams = new Set<SessionStream>();
+	const nested = options.nestedSubagents ? { nestedSubagents: true } : {};
+
+	return {
+		sessionId,
+
+		getSession: () => options.transport.getSession({ sessionId }),
+
+		getItems: (page = {}) =>
+			options.transport.getItems({
+				sessionId,
+				before: page.before,
+				limit: page.limit,
+				...nested,
+			}),
+
+		getOutline: () => options.transport.getOutline({ sessionId, ...nested }),
+
+		getItemBodies: (itemIds) =>
+			options.transport.getItemBodies({ sessionId, itemIds, ...nested }),
+
+		getTurnChanges: async (input) => {
+			try {
+				return await options.transport.getTurnChanges({ sessionId, ...input });
+			} catch (error) {
+				if (isMissingProcedureError(error)) return "unsupported";
+				throw error;
+			}
+		},
+
+		undoTurnFiles: async (input) => {
+			try {
+				return await options.transport.undoTurnFiles({
+					commandId: mintId(),
+					sessionId,
+					...input,
+				});
+			} catch (error) {
+				if (isMissingProcedureError(error)) return "unsupported";
+				throw error;
+			}
+		},
+
+		prompt: (promptOptions) =>
+			options.transport.prompt({
+				commandId: promptOptions.commandId ?? mintId(),
+				sessionId,
+				clientId: promptOptions.clientId,
+				content: promptOptions.content,
+				...(promptOptions.steer ? { steer: promptOptions.steer } : {}),
+				...(promptOptions.snapshotWorktree ? { snapshotWorktree: true } : {}),
+			}),
+
+		removeQueuedPrompt: async (itemId) => {
+			await options.transport.removeQueuedPrompt({
+				commandId: mintId(),
+				sessionId,
+				itemId,
+			});
+		},
+
+		steerQueuedPrompt: async (itemId) => {
+			await options.transport.steerQueuedPrompt({
+				commandId: mintId(),
+				sessionId,
+				itemId,
+			});
+		},
+
+		updateQueuedPrompt: async (itemId, content) => {
+			await options.transport.updateQueuedPrompt({
+				commandId: mintId(),
+				sessionId,
+				itemId,
+				content,
+			});
+		},
+
+		resumeQueue: async () => {
+			await options.transport.resumeQueue({ commandId: mintId(), sessionId });
+		},
+
+		respondToUsageLimit: async (action) => {
+			await options.transport.respondToUsageLimit({
+				commandId: mintId(),
+				sessionId,
+				action,
+			});
+		},
+
+		cancelTurn: async (turnId, cancelOptions) => {
+			await options.transport.cancelTurn({
+				commandId: mintId(),
+				sessionId,
+				turnId,
+				...(cancelOptions?.pauseQueue ? { pauseQueue: true } : {}),
+			});
+		},
+
+		stopBackgroundTask: (taskId) =>
+			options.transport.stopBackgroundTask({
+				commandId: mintId(),
+				sessionId,
+				taskId,
+			}),
+
+		steerSubagent: (taskId, content) =>
+			orUnsupported(() =>
+				options.transport.steerSubagent({
+					commandId: mintId(),
+					sessionId,
+					taskId,
+					content,
+				}),
+			),
+
+		backgroundSubagent: (taskId) =>
+			orUnsupported(() =>
+				options.transport.backgroundSubagent({
+					commandId: mintId(),
+					sessionId,
+					taskId,
+				}),
+			),
+
+		respondToApproval: async (approvalId, decision) => {
+			await options.transport.respondToApproval({
+				commandId: mintId(),
+				sessionId,
+				approvalId,
+				decision,
+			});
+		},
+
+		setMode: async (modeId) => {
+			await options.transport.setMode({
+				commandId: mintId(),
+				sessionId,
+				modeId,
+			});
+		},
+
+		setConfigOption: async (configId, value, setOptions) => {
+			await options.transport.setConfigOption({
+				commandId: mintId(),
+				sessionId,
+				configId,
+				value,
+				...(setOptions?.confirm ? { confirm: true } : {}),
+			});
+		},
+
+		subscribe(subscribeOptions) {
+			const deltas = subscribeOptions.deltas ?? [];
+			const stream = subscribeToSession({
+				createSocket: options.createSocket,
+				url: (since) =>
+					buildStreamUrl({
+						baseUrl: options.streamBaseUrl,
+						sessionId,
+						deltas,
+						since,
+						nestedSubagents: options.nestedSubagents,
+					}),
+				since: subscribeOptions.since,
+				onEnvelope: subscribeOptions.onEnvelope,
+				onReset: subscribeOptions.onReset,
+				onStatusChange: subscribeOptions.onStatusChange,
+				wait: options.wait,
+				backoffInitialMs: options.backoffInitialMs,
+				backoffMaxMs: options.backoffMaxMs,
+			});
+			streams.add(stream);
+			return {
+				cursor: () => stream.cursor(),
+				close: () => {
+					streams.delete(stream);
+					stream.close();
+				},
+			};
+		},
+
+		close() {
+			for (const stream of [...streams]) stream.close();
+			streams.clear();
+		},
+	};
+}

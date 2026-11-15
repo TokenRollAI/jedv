@@ -1,0 +1,75 @@
+import fs from "node:fs";
+import path from "node:path";
+import {
+	buildWrapperScript,
+	createWrapper,
+	removeOwnedFileIfMarked,
+	writeFileIfChanged,
+} from "./agent-wrappers-common";
+import { getTemplatePath } from "./config";
+import { APP_HOME_DIR_NAME, resolveUserHomeDir } from "./paths";
+
+/**
+ * Creates the Amp wrapper that preserves Jedv's terminal environment.
+ * Amp lifecycle events are registered through a system plugin; the wrapper
+ * exists to forward JEDV_* env vars into the plugin runtime.
+ */
+export function createAmpWrapper(): void {
+	const script = buildWrapperScript("amp", `exec "$REAL_BIN" "$@"`, {
+		agentId: "amp",
+	});
+	createWrapper("amp", script);
+}
+
+export const AMP_PLUGIN_FILE = "jedv-lifecycle.ts";
+const AMP_PLUGIN_SIGNATURE = "// Jedv Amp lifecycle plugin";
+const AMP_PLUGIN_VERSION = "v3";
+export const AMP_PLUGIN_MARKER = `${AMP_PLUGIN_SIGNATURE} ${AMP_PLUGIN_VERSION}`;
+
+/**
+ * Amp loads system plugins from ~/.config/amp/plugins/*.ts.
+ *
+ * @see https://ampcode.com/manual#plugins
+ */
+export function getAmpGlobalPluginPath(): string {
+	return path.join(
+		resolveUserHomeDir(),
+		".config",
+		"amp",
+		"plugins",
+		AMP_PLUGIN_FILE,
+	);
+}
+
+/**
+ * Renders a global Amp plugin that bridges Amp's lifecycle events into the
+ * existing Jedv notify hook. The notify hook owns v2/v1 fallback dispatch,
+ * so this plugin stays small and avoids duplicating mapping logic.
+ */
+export function getAmpPluginContent(): string {
+	const template = fs.readFileSync(
+		getTemplatePath("amp-plugin.template.ts"),
+		"utf-8",
+	);
+	return template
+		.replace("{{MARKER}}", AMP_PLUGIN_MARKER)
+		.replaceAll("{{APP_HOME_DIR_NAME}}", APP_HOME_DIR_NAME);
+}
+
+export function createAmpPlugin(): void {
+	const pluginPath = getAmpGlobalPluginPath();
+	fs.mkdirSync(path.dirname(pluginPath), { recursive: true });
+	const changed = writeFileIfChanged(pluginPath, getAmpPluginContent(), 0o644);
+	console.log(
+		`[agent-setup] ${changed ? "Updated" : "Verified"} Amp lifecycle plugin`,
+	);
+}
+
+/** Removes the wholly Jedv-owned Amp plugin file (signature-gated). */
+export function removeAmpPlugin(): void {
+	removeOwnedFileIfMarked(
+		getAmpGlobalPluginPath(),
+		AMP_PLUGIN_SIGNATURE,
+		"Amp lifecycle plugin",
+	);
+}

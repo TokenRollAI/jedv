@@ -1,0 +1,61 @@
+---
+description: "standalone native addon ABI、版本锁步与 unsigned package updater：CLI/host 资源装配、Electron 外置依赖、签名验证和安装退出取消。"
+kind: architecture
+code:
+  paths:
+    - "packages/cli/scripts/build-dist.ts"
+    - "packages/host-service/build.ts"
+    - "apps/desktop/electron-builder.ts"
+    - "apps/desktop/runtime-dependencies.ts"
+    - "apps/desktop/src/main/lib/auto-updater/runtime.ts"
+    - "apps/desktop/src/main/lib/auto-updater/signature.ts"
+    - "scripts/release/lib.ts"
+    - ".github/workflows/package-jedv.yml"
+    - "apps/desktop/electron.vite.config.ts"
+    - "apps/desktop/src/main/lib/auto-updater/quit-lifecycle.ts"
+    - "scripts/release/check-versions.ts"
+    - "apps/desktop/vite/helpers.ts"
+    - "apps/desktop/scripts/check-runtime-dependencies.ts"
+    - "apps/desktop/package.json"
+    - "packages/cli/package.json"
+    - "packages/host-service/package.json"
+relations:
+  related:
+    - "runtime/local-persistence.mdx"
+    - "runtime/local-host.mdx"
+    - "desktop/localization.mdx"
+---
+
+# 分发与更新完整性
+
+源码版本、独立 CLI、桌面安装包和自动更新 feed 是不同完整性边界。构建成功不证明资源齐全，生成安装包不等于发布，而 source tag 也不证明签名、notarization 或更新元数据已经可用。
+
+## 版本兼容规则
+
+CLI 与 host-service 使用相同 plain MAJOR.MINOR.PATCH；发布准备保持 desktop、CLI 与 host 对齐。底层版本校验还允许 CLI/host 在 desktop 同一 major/minor 内领先 patch，不能将这个兼容能力误写为三个值永远严格相等。pty-daemon 有独立版本与协议生命周期。
+
+变更版本或最小 host 支持条件时，应共同评审 manifest adoption、客户端兼容和发布脚本，而非只改某个 package manifest。具体当前值由 manifest 与 check:versions 回答，知识文档不保存版本快照。
+
+## standalone 与 Electron 的原生运行时
+
+独立分发将 Bun 编译的 CLI、Node host wrapper/runtime、原生依赖和 host/chat 迁移作为整体。只复制 bin/jedv 不能提供完整本地 host。目标 OS、architecture、Node ABI 与 native addon 必须匹配；在 Electron 下重建的 addon 不能直接替换独立 Node 分发依赖。
+
+桌面打包同时维护 bundler external、真实文件 materialization、打包 copy 和 ASAR unpack。通过文件系统动态加载的模块或迁移不能因 bundle 成功就省略。更新任一清单时需追踪实际运行时解析路径，否则开发 symlink 可用的依赖会在安装包中失效。
+
+安装包只携带 production dependencies。编译产物仍通过 require/import 动态加载的包，以及独立启动的 ACP adapter，都必须落在这一依赖闭包；只在开发环境可解析不足以证明可分发。runtime dependency 检查读取编译后的 main/preload 与 adapter 声明，变更宏编译、external 或依赖归类后要保留该检查。资源复制 helpers 同时决定迁移与 Agent templates 的实际落盘路径，不能因删除旧功能而连带删掉保留运行面所需资源。
+
+手动 packaging workflow 生成 unsigned inspection artifacts 并禁止 publish。生产发行另需平台签名、macOS notarization、匹配的 manifests 与 binaries，以及可验证的更新 feed；维护源码或检查产物不自动授权这些发布动作。
+
+## updater 的成功与失败证据
+
+updater 先区分开发、未安装、缺元数据、环境禁用与受支持运行面。macOS 签名检查必须通过 strict verify，并具有非 ad hoc 的有效 TeamIdentifier；unsigned package 不应进入更新检查与安装流程。
+
+feed 必须给出合法版本，并明确确认较新发行或无更新。没有结果、无法解析版本或返回非更新版本不是“已最新”。错误应脱敏、区分签名/feed/网络/磁盘与发行问题，不能靠下载进度判断安装已获准。
+
+安装只从 ready 状态经用户确认和 prepare 后进入；窗口 close/beforeunload 可取消退出，取消须恢复 ready 与可重试状态。不能设置退出时无条件自动安装来绕过窗口保存与用户取消。下载/签名等失败按类型清理相应缓存，不能把有问题的产物继续留在可安装状态。
+
+## 权威锚点
+
+- `packages/cli/scripts/build-dist.ts`、`apps/desktop/runtime-dependencies.ts`：原生依赖与文件布局。
+- `scripts/release/lib.ts`：版本兼容校验；`.github/workflows/package-jedv.yml`：不发布的检查产物边界。
+- `apps/desktop/src/main/lib/auto-updater/runtime.ts`、`signature.ts`、`quit-lifecycle.ts`：更新与退出状态机。

@@ -1,0 +1,45 @@
+---
+description: "工作区 CPU memory attribution、phys_footprint 与 RSS 的本地进程树快照：活 session PID 来源、平台补充、single-flight 和采样失败降级。"
+kind: architecture
+code:
+  paths:
+    - "apps/desktop/src/main/lib/resource-metrics/index.ts"
+    - "apps/desktop/src/main/lib/resource-metrics/process-tree.ts"
+    - "apps/desktop/src/main/lib/resource-metrics/session-sources.ts"
+    - "packages/macos-process-metrics/src/addon.cc"
+    - "packages/macos-process-metrics/index.js"
+    - "apps/desktop/src/lib/trpc/routers/resource-metrics.ts"
+relations:
+  related:
+    - "terminals/session-lifecycle.mdx"
+    - "usage/local-history.mdx"
+    - "runtime/local-host.mdx"
+---
+
+# 本地资源快照与工作区归属
+
+资源指标回答本机活执行进程占用了多少 CPU 和内存，provider quota 与 token 历史回答另一类问题。二者不能互推，也不能把一次快照当作计费、配额或终端存活的权威证据。
+
+## 从活 session 到进程子树
+
+main 通过 coordinator 当前本地 host 连接读取 terminal resource sessions，以 workspace/session/PID 归属进程。请求失败或超时可使某连接缺席；缺少一项不是用户已关闭该工作区的证明。主进程的显示 metadata 可以是稳定占位值，具体工作区名称由界面数据补齐，不应反向影响 PID 归属。
+
+Unix 采样以一次进程表读取同时得到父子关系、CPU 与 RSS，避免先查树、后查数值导致 PID 已变化的竞态。按 session 根的子树聚合，再与 Electron main、renderer 和其他 app 进程分开。若改变根进程的来源或生命周期，必须重新评审重复统计与漏统计风险。
+
+## 平台差异与安全退化
+
+macOS 可用 optional native addon 将 RSS 替换为 phys_footprint，更接近 Activity Monitor 的压缩内存口径。addon 缺失、PID 不可访问或采样异常时保留原 RSS；不能因为 native build 缺失让桌面资源页崩溃。Windows 用平台进程表并批量补 CPU。
+
+采样结果统一约束为有限非负数；进程在列举和读取之间退出属于正常竞态。CPU 可以因多核超过单核百分比，不应为了 UI 将合法子树用量硬截为一个核。
+
+## 缓存与失败语义
+
+扫描是共享昂贵工作，按 surface/命名空间缓存并 single-flight，interactive 与 idle 有不同 freshness。并发页面不能各自发全进程扫描；只有必要的显式 force 绕过缓存。
+
+总体采集失败退回已有缓存或安全空快照，结果仍是采样投影。使用者必须保留 collectedAt/刷新语义，不能把 fallback 的零值宣传为刚刚确认无进程。采样逻辑也不能因“看见进程不存在”直接执行终止或清理，危险操作由资源所有者重新确认。
+
+## 权威锚点
+
+- `apps/desktop/src/main/lib/resource-metrics/session-sources.ts`：本地 host session 来源与失败映射。
+- `apps/desktop/src/main/lib/resource-metrics/process-tree.ts`：原子进程树与平台口径。
+- `packages/macos-process-metrics/index.js`、`src/addon.cc`：可选 native 采样与缺失退化。
