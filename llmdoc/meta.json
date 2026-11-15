@@ -1,81 +1,81 @@
 {
   "schema": "llmdoc.meta/v3",
   "baseline": {
-    "revision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d",
-    "verifiedAt": "2026-11-15T17:06:05.291Z"
+    "revision": "a801adb199a9233b389e94d5e2634653ac0fc71d",
+    "verifiedAt": "2026-11-15T17:19:52.044Z"
   },
   "documents": {
     "agents/chat-journal.mdx": {
-      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+      "validatedRevision": "a801adb199a9233b389e94d5e2634653ac0fc71d"
     },
     "agents/native-control.mdx": {
-      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+      "validatedRevision": "a801adb199a9233b389e94d5e2634653ac0fc71d"
     },
     "agents/provider-environment.mdx": {
-      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+      "validatedRevision": "a801adb199a9233b389e94d5e2634653ac0fc71d"
     },
     "automations/execution.mdx": {
-      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+      "validatedRevision": "a801adb199a9233b389e94d5e2634653ac0fc71d"
     },
     "desktop/failure-boundaries.mdx": {
-      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+      "validatedRevision": "a801adb199a9233b389e94d5e2634653ac0fc71d"
     },
     "desktop/localization.mdx": {
-      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+      "validatedRevision": "a801adb199a9233b389e94d5e2634653ac0fc71d"
     },
     "desktop/resource-metrics.mdx": {
-      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+      "validatedRevision": "a801adb199a9233b389e94d5e2634653ac0fc71d"
     },
     "desktop/workspace-state.mdx": {
-      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+      "validatedRevision": "a801adb199a9233b389e94d5e2634653ac0fc71d"
     },
     "distribution/cli-contract.mdx": {
-      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+      "validatedRevision": "a801adb199a9233b389e94d5e2634653ac0fc71d"
     },
     "distribution/release-integrity.mdx": {
-      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+      "validatedRevision": "a801adb199a9233b389e94d5e2634653ac0fc71d"
     },
     "execution-model.mdx": {
-      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+      "validatedRevision": "a801adb199a9233b389e94d5e2634653ac0fc71d"
     },
     "files-git/filesystem.mdx": {
-      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+      "validatedRevision": "a801adb199a9233b389e94d5e2634653ac0fc71d"
     },
     "files-git/git-execution.mdx": {
-      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+      "validatedRevision": "a801adb199a9233b389e94d5e2634653ac0fc71d"
     },
     "pull-requests/review-contract.mdx": {
-      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+      "validatedRevision": "a801adb199a9233b389e94d5e2634653ac0fc71d"
     },
     "runtime/local-host.mdx": {
-      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+      "validatedRevision": "a801adb199a9233b389e94d5e2634653ac0fc71d"
     },
     "runtime/local-persistence.mdx": {
-      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+      "validatedRevision": "a801adb199a9233b389e94d5e2634653ac0fc71d"
     },
     "runtime/outbound-content.mdx": {
-      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+      "validatedRevision": "a801adb199a9233b389e94d5e2634653ac0fc71d"
     },
     "runtime/private-connections.mdx": {
-      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+      "validatedRevision": "a801adb199a9233b389e94d5e2634653ac0fc71d"
     },
     "terminals/session-lifecycle.mdx": {
-      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+      "validatedRevision": "a801adb199a9233b389e94d5e2634653ac0fc71d"
     },
     "usage/local-history.mdx": {
-      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+      "validatedRevision": "a801adb199a9233b389e94d5e2634653ac0fc71d"
     },
     "usage/provider-accounts.mdx": {
-      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+      "validatedRevision": "a801adb199a9233b389e94d5e2634653ac0fc71d"
     },
     "workspaces/lifecycle.mdx": {
-      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+      "validatedRevision": "a801adb199a9233b389e94d5e2634653ac0fc71d"
     },
     "workspaces/setup-contract.mdx": {
-      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+      "validatedRevision": "a801adb199a9233b389e94d5e2634653ac0fc71d"
     },
     "runtime/attachments.mdx": {
-      "validatedRevision": "4032279217645e05fb5c7f79c3c98b64bdb9e96d"
+      "validatedRevision": "a801adb199a9233b389e94d5e2634653ac0fc71d"
     }
   },
   "convergence": {
