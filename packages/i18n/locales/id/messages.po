@@ -1879,6 +1879,9 @@ msgstr "Unduh JSON"
 msgid "Download starter"
 msgstr "Unduh starter"
 
+msgid "Download update"
+msgstr "Unduh pembaruan"
+
 msgid "Downloading {version} · {percent}%"
 msgstr "Mengunduh {version} · {percent}%"
 
@@ -6302,6 +6305,9 @@ msgstr "Diperbarui ke v{0}"
 
 msgid "Updates"
 msgstr "Pembaruan"
+
+msgid "Updates require manual installation for this build."
+msgstr "Pembaruan untuk versi ini harus diinstal secara manual."
 
 msgid "Updating…"
 msgstr "Memperbarui…"

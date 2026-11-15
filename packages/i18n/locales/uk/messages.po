@@ -1873,6 +1873,9 @@ msgstr "Завантажити JSON"
 msgid "Download starter"
 msgstr "Завантажити шаблон"
 
+msgid "Download update"
+msgstr "Завантажити оновлення"
+
 msgid "Downloading {version} · {percent}%"
 msgstr "Завантаження {version} · {percent}%"
 
@@ -6296,6 +6299,9 @@ msgstr "Оновлено до v{0}"
 
 msgid "Updates"
 msgstr "Оновлення"
+
+msgid "Updates require manual installation for this build."
+msgstr "Оновлення для цієї збірки потрібно встановлювати вручну."
 
 msgid "Updating…"
 msgstr "Оновлення…"

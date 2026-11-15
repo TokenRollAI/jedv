@@ -111,13 +111,12 @@ test("SDK update events retain real progress, ready state and a single concurren
 	}
 });
 
-test("missing prerequisites and unsigned builds are distinct and never up to date", async () => {
+test("missing prerequisites are distinct and never up to date", async () => {
 	for (const [options, availability] of [
 		[{ development: true }, "development"],
 		[{ packaged: false }, "unpackaged"],
 		[{ metadataExists: () => false }, "missing-metadata"],
 		[{ disabledByEnvironment: () => true }, "disabled-environment"],
-		[{ verifySignature: async () => false }, "unsigned"],
 	] as const) {
 		const h = fixture(options);
 		try {
@@ -128,6 +127,39 @@ test("missing prerequisites and unsigned builds are distinct and never up to dat
 		} finally {
 			h.runtime.dispose();
 		}
+	}
+});
+
+test("unsigned builds check releases without downloading or installing and can retry", async () => {
+	const h = fixture({
+		verifySignature: async () => false,
+		freeBytes: () => 1024,
+	});
+	try {
+		expect(await h.runtime.check()).toMatchObject({
+			availability: "unsigned",
+			status: "idle",
+			checkOutcome: "update-available",
+			version: "2.0.9",
+		});
+		expect(h.updater.autoDownload).toBe(false);
+		h.updater.emit("update-downloaded", { version: "2.0.9" });
+		expect(await h.runtime.install()).toEqual({ started: false });
+		expect(h.updater.installs).toBe(0);
+		h.updater.failure = new Error("ECONNREFUSED");
+		expect(await h.runtime.check()).toMatchObject({
+			status: "error",
+			checkOutcome: "failed",
+		});
+		h.updater.failure = null;
+		h.updater.checkEvent = "update-not-available";
+		expect(await h.runtime.check()).toMatchObject({
+			availability: "unsigned",
+			checkOutcome: "up-to-date",
+		});
+		expect(h.updater.checks).toBe(3);
+	} finally {
+		h.runtime.dispose();
 	}
 });
 

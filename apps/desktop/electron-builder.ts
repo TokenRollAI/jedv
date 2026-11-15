@@ -179,6 +179,7 @@ const config: Configuration = {
 
 	// Linux
 	linux: {
+		maintainer: "DJJ <shuaiqijianhao@qq.com>",
 		...(existsSync(linuxIconPath) ? { icon: linuxIconPath } : {}),
 		// Otherwise the binary, and with it the window class the desktop entry
 		// must match, is the package name mangled to "@jedvdesktop".

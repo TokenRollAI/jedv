@@ -1,5 +1,5 @@
 ---
-description: "standalone native addon ABI、版本锁步与 unsigned package updater：CLI/host 资源装配、Electron 外置依赖、签名验证和安装退出取消。"
+description: "standalone native addon ABI、版本锁步、unsigned 更新检查与手动下载：真实 feed、signed 安装保护、可选 macOS 签名公证和发布权限边界。"
 kind: architecture
 code:
   paths:
@@ -7,10 +7,14 @@ code:
     - "packages/host-service/build.ts"
     - "apps/desktop/electron-builder.ts"
     - "apps/desktop/runtime-dependencies.ts"
+    - "apps/desktop/src/main/lib/auto-updater.ts"
     - "apps/desktop/src/main/lib/auto-updater/runtime.ts"
     - "apps/desktop/src/main/lib/auto-updater/signature.ts"
+    - "apps/desktop/src/renderer/components/UpdatesPill/update-state.ts"
+    - "apps/desktop/src/renderer/components/UpdatesPill/UpdatesPill.tsx"
     - "scripts/release/lib.ts"
     - ".github/workflows/package-jedv.yml"
+    - ".github/workflows/ci.yml"
     - "apps/desktop/electron.vite.config.ts"
     - "apps/desktop/src/main/lib/auto-updater/quit-lifecycle.ts"
     - "scripts/release/check-versions.ts"
@@ -44,11 +48,17 @@ CLI 与 host-service 使用相同 plain MAJOR.MINOR.PATCH；发布准备保持 d
 
 安装包只携带 production dependencies。编译产物仍通过 require/import 动态加载的包，以及独立启动的 ACP adapter，都必须落在这一依赖闭包；只在开发环境可解析不足以证明可分发。runtime dependency 检查读取编译后的 main/preload 与 adapter 声明，变更宏编译、external 或依赖归类后要保留该检查。资源复制 helpers 同时决定迁移与 Agent templates 的实际落盘路径，不能因删除旧功能而连带删掉保留运行面所需资源。
 
-手动 packaging workflow 生成 unsigned inspection artifacts 并禁止 publish。生产发行另需平台签名、macOS notarization、匹配的 manifests 与 binaries，以及可验证的更新 feed；维护源码或检查产物不自动授权这些发布动作。
+## 打包、签名与发布边界
+
+手动 packaging workflow 默认生成 unsigned artifacts；显式选择 signed 时，必须先具备 Developer ID 与 Apple 公证凭据，导入临时 keychain、强制代码签名并公证，再通过 codesign strict verify、有效 TeamIdentifier、stapler 和 spctl 验证。签名分支结束后清理临时 keychain；缺凭据或验证失败不能悄悄降级为 unsigned 成功。
+
+签名选择与发布权限相互独立。两种打包路径都禁止自动 publish，只上传构建 artifacts；包、manifest 与更新 feed 的一致性仍需在实际发布时验证。生成签名或未签名产物都不代表发行已发布。release 分支的推送同样进入 CI，不能只依赖 main 分支的检查覆盖发行准备。
 
 ## updater 的成功与失败证据
 
-updater 先区分开发、未安装、缺元数据、环境禁用与受支持运行面。macOS 签名检查必须通过 strict verify，并具有非 ad hoc 的有效 TeamIdentifier；unsigned package 不应进入更新检查与安装流程。
+updater 先区分开发、未安装、缺元数据、环境禁用与受支持运行面。macOS 本体签名检查仍要求 strict verify、有效 TeamIdentifier 与非 ad hoc 身份；签名决定自动下载和安装资格，不阻止已打包且具有更新元数据的 unsigned build 查询真实 feed。
+
+SDK 默认关闭 autoDownload 和退出时自动安装。检查前确认本体签名，通过后才开启自动下载，继续使用 electron-updater 原生签名保护；unsigned 保持 autoDownload=false，也不接受下载事件进入 ready。unsigned 的“已最新”、可用版本和检查失败都必须来自真实检查结果；发现新版本时提供打开 Releases 页的手动下载动作，不能调用安装器。
 
 feed 必须给出合法版本，并明确确认较新发行或无更新。没有结果、无法解析版本或返回非更新版本不是“已最新”。错误应脱敏、区分签名/feed/网络/磁盘与发行问题，不能靠下载进度判断安装已获准。
 
@@ -57,5 +67,6 @@ feed 必须给出合法版本，并明确确认较新发行或无更新。没有
 ## 权威锚点
 
 - `packages/cli/scripts/build-dist.ts`、`apps/desktop/runtime-dependencies.ts`：原生依赖与文件布局。
-- `scripts/release/lib.ts`：版本兼容校验；`.github/workflows/package-jedv.yml`：不发布的检查产物边界。
-- `apps/desktop/src/main/lib/auto-updater/runtime.ts`、`signature.ts`、`quit-lifecycle.ts`：更新与退出状态机。
+- `scripts/release/lib.ts`：版本兼容校验；`.github/workflows/package-jedv.yml`：可选签名公证与不自动发布的产物边界。
+- `apps/desktop/src/main/lib/auto-updater.ts`、`auto-updater/runtime.ts`、`signature.ts`、`quit-lifecycle.ts`：检查、下载、安装权限与退出状态机。
+- `apps/desktop/src/renderer/components/UpdatesPill/update-state.ts`：真实检查结果与手动更新动作的展示契约。

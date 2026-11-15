@@ -139,8 +139,11 @@ export async function openReleaseNotes(): Promise<void> {
 
 export async function checkForUpdatesInteractive(): Promise<AutoUpdateStatusEvent> {
 	const state = await checkForUpdates();
+	const manualUpdate =
+		state.availability === "unsigned" &&
+		state.checkOutcome === "update-available";
 	const message =
-		state.availability !== "supported"
+		state.availability !== "supported" && state.availability !== "unsigned"
 			? state.reason
 			: state.status === AUTO_UPDATE_STATUS.ERROR
 				? i18n._(
@@ -148,17 +151,34 @@ export async function checkForUpdatesInteractive(): Promise<AutoUpdateStatusEven
 							message: "Failed to check for updates. Please try again later.",
 						}),
 					)
-				: state.status === AUTO_UPDATE_STATUS.READY
-					? i18n._(msg({ message: "An update is ready to install." }))
-					: state.checkOutcome === "up-to-date"
-						? i18n._(msg({ message: "You're up to date!" }))
-						: i18n._(msg({ message: "Downloading update…" }));
-	await showMessage({
+				: manualUpdate
+					? i18n._(
+							msg({
+								message: "Updates require manual installation for this build.",
+							}),
+						)
+					: state.status === AUTO_UPDATE_STATUS.READY
+						? i18n._(msg({ message: "An update is ready to install." }))
+						: state.checkOutcome === "up-to-date"
+							? i18n._(msg({ message: "You're up to date!" }))
+							: i18n._(msg({ message: "Downloading update…" }));
+	const { response } = await showMessage({
+		...(manualUpdate
+			? {
+					buttons: [
+						i18n._(msg({ message: "Download update" })),
+						i18n._(msg({ message: "Close" })),
+					],
+					defaultId: 0,
+					cancelId: 1,
+				}
+			: {}),
 		type: state.status === AUTO_UPDATE_STATUS.ERROR ? "error" : "info",
 		title: i18n._(msg({ message: "Updates" })),
 		message:
 			message ?? i18n._(msg({ message: "Unable to check for updates." })),
 		detail: state.error ?? state.version ?? state.currentVersion,
 	});
+	if (manualUpdate && response === 0) await openReleaseNotes();
 	return state;
 }

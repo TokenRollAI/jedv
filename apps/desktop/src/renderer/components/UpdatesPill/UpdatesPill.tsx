@@ -29,6 +29,7 @@ export function UpdatesPill({
 		onSettled: () => query.refetch(),
 	});
 	const dismiss = electronTrpc.autoUpdate.dismiss.useMutation();
+	const releases = electronTrpc.autoUpdate.openReleaseNotes.useMutation();
 	const [confirmationDone, setConfirmationDone] = useState(false);
 	const event = query.data;
 	const state = event ? updateDisplayState(event) : null;
@@ -38,7 +39,12 @@ export function UpdatesPill({
 		const timer = setTimeout(() => setConfirmationDone(true), 5_000);
 		return () => clearTimeout(timer);
 	}, [state]);
-	const error = check.error ?? install.error ?? dismiss.error ?? query.error;
+	const error =
+		check.error ??
+		install.error ??
+		dismiss.error ??
+		releases.error ??
+		query.error;
 	const busy =
 		check.isPending ||
 		install.isPending ||
@@ -72,7 +78,7 @@ export function UpdatesPill({
 		label = t({ message: "Installing update…" });
 	else if (state === "ready")
 		label = t({ message: `Restart to install v${event.version ?? ""}` });
-	else if (state === "deferred")
+	else if (state === "deferred" || state === "manual-update")
 		label = t({ message: `Update available · v${event.version ?? ""}` });
 	else if (state === "updated")
 		label = t({
@@ -83,6 +89,7 @@ export function UpdatesPill({
 	const action = () => {
 		if (busy) return;
 		if (state === "ready") install.mutate();
+		else if (state === "manual-update") releases.mutate();
 		else check.mutate();
 	};
 	const icon =
@@ -107,6 +114,7 @@ export function UpdatesPill({
 				"updated",
 				"installing",
 				"checking",
+				"manual-update",
 			].includes(state ?? "") ||
 			(state === "updated" && confirmationDone)
 		)
@@ -137,6 +145,11 @@ export function UpdatesPill({
 	return (
 		<div className="flex max-w-lg flex-col items-end gap-2 text-xs">
 			<output className="text-right text-muted-foreground">{label}</output>
+			{event?.availability === "unsigned" && (
+				<p className="text-right text-muted-foreground">
+					<Trans>Updates require manual installation for this build.</Trans>
+				</p>
+			)}
 			{event?.checkedAt && (
 				<p className="text-muted-foreground">
 					<Trans>Last check completed</Trans>
@@ -161,6 +174,8 @@ export function UpdatesPill({
 					{icon}
 					{state === "ready" ? (
 						<Trans>Restart to update</Trans>
+					) : state === "manual-update" ? (
+						<Trans>Download update</Trans>
 					) : state === "deferred" ? (
 						<Trans>Show update</Trans>
 					) : (

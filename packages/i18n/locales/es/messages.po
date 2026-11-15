@@ -1879,6 +1879,9 @@ msgstr "Descargar JSON"
 msgid "Download starter"
 msgstr "Descargar plantilla inicial"
 
+msgid "Download update"
+msgstr "Descargar actualización"
+
 msgid "Downloading {version} · {percent}%"
 msgstr "Descargando {version} · {percent} %"
 
@@ -6302,6 +6305,9 @@ msgstr "Actualizado a v{0}"
 
 msgid "Updates"
 msgstr "Actualizaciones"
+
+msgid "Updates require manual installation for this build."
+msgstr "Las actualizaciones de esta versión deben instalarse manualmente."
 
 msgid "Updating…"
 msgstr "Actualizando…"

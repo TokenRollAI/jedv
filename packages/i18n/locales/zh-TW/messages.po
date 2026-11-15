@@ -1879,6 +1879,9 @@ msgstr "下載 JSON"
 msgid "Download starter"
 msgstr "下載模板"
 
+msgid "Download update"
+msgstr "下載更新"
+
 msgid "Downloading {version} · {percent}%"
 msgstr "正在下載 {version} · {percent}%"
 
@@ -6302,6 +6305,9 @@ msgstr "已更新至 v{0}"
 
 msgid "Updates"
 msgstr "更新"
+
+msgid "Updates require manual installation for this build."
+msgstr "此版本需要手動安裝更新。"
 
 msgid "Updating…"
 msgstr "正在更新…"

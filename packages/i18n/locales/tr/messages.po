@@ -1879,6 +1879,9 @@ msgstr "JSON indir"
 msgid "Download starter"
 msgstr "Başlangıç dosyasını indir"
 
+msgid "Download update"
+msgstr "Güncellemeyi indir"
+
 msgid "Downloading {version} · {percent}%"
 msgstr "{version} indiriliyor · %{percent}"
 
@@ -6302,6 +6305,9 @@ msgstr "v{0} sürümüne güncellendi"
 
 msgid "Updates"
 msgstr "Güncellemeler"
+
+msgid "Updates require manual installation for this build."
+msgstr "Bu derlemenin güncellemeleri elle yüklenmelidir."
 
 msgid "Updating…"
 msgstr "Güncelleniyor…"

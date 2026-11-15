@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, "release/*"]
   pull_request:
     types: [opened, synchronize]
 
@@ -159,9 +159,9 @@ jobs:
               free -m
               ps -eLo pid,ppid,tid,stat,pcpu,etime,wchan:32,args | cut -c1-220
               for pid in $(pgrep -x 'bun|node|turbo'); do
-                echo "== $pid $(tr '\0' ' ' < /proc/$pid/cmdline | cut -c1-160)"
-                cat /proc/$pid/syscall
-                ls -l /proc/$pid/fd
+                echo "== $pid $(tr '\0' ' ' < "/proc/$pid/cmdline" | cut -c1-160)"
+                cat "/proc/$pid/syscall"
+                ls -l "/proc/$pid/fd"
               done
             } > "$RUNNER_TEMP/test-hang.txt" 2>&1
           ) > /dev/null 2>&1 &
