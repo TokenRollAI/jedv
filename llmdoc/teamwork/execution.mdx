@@ -58,6 +58,12 @@ Host 拥有 Team、member、workspace/terminal 绑定和 Mail 持久记录；桌
 
 只有 `targetWorkspace.projectId === null` 的 Host session workspace 才会在 Leader/Worker 启动时预置 Agent folder trust；导入的已有 folder Project 即使没有 `.git` 也不自动获得信任写入。
 
+## 协作委派与完成权限
+
+Team 协作先明确当前委派的角色、子任务、可写产物、可操作资源和总体验收负责人；上下文恢复时重新确认这一范围。父目标文字、共享工作区或自己的 DONE 不扩大权限。总体进度、验收标准、最终报告及合并矩阵由协调器或明确指定的单一 writer 维护，成员交付证据和建议，不自行核销父目标。这是协作约定，不是 Host 已强制实施的文件级授权隔离。
+
+资源身份和清理职责分别确认；本任务的隔离资源不自动归任意成员清理。清理负责人交接时明确资源范围、允许动作、保留对象和既有执行状态，接收方确认后才接手；已明确授权自己负责的测试资源仍按原委派清理。发现资源已退出时记录 observed-closed 并核对实际执行者，不按旧身份重复 signal。子任务完成只结束自己的交付义务，不自动接管总体清理或结案。
+
 ## operationId 绑定请求，不绑定新尝试
 
 start/spawn 都保存 operationId、规范化请求指纹和 planned 资源。同标识同参数重入返回同一进行中操作或既有状态；同标识不同参数是 CONFLICT。workspace setup 未完成会拒绝 launch，避免在资源尚未就绪时留下不可解释的成员。
