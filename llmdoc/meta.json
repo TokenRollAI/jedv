@@ -27,13 +27,13 @@
       "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "desktop/workspace-state.mdx": {
-      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
+      "validatedRevision": "2757abaa0d083d60ea73d440db5fc4aeae9de8c1"
     },
     "distribution/cli-contract.mdx": {
       "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "distribution/release-integrity.mdx": {
-      "validatedRevision": "9b721e2e20fb1f1b2378a1ca32c0feae949d1b6c"
+      "validatedRevision": "2757abaa0d083d60ea73d440db5fc4aeae9de8c1"
     },
     "execution-model.mdx": {
       "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
@@ -69,25 +69,25 @@
       "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "workspaces/lifecycle.mdx": {
-      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
+      "validatedRevision": "2757abaa0d083d60ea73d440db5fc4aeae9de8c1"
     },
     "workspaces/setup-contract.mdx": {
-      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
+      "validatedRevision": "2757abaa0d083d60ea73d440db5fc4aeae9de8c1"
     },
     "runtime/attachments.mdx": {
-      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
+      "validatedRevision": "2757abaa0d083d60ea73d440db5fc4aeae9de8c1"
     },
     "teamwork/execution.mdx": {
-      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
+      "validatedRevision": "2757abaa0d083d60ea73d440db5fc4aeae9de8c1"
     },
     "memory/lifecycle.mdx": {
-      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
+      "validatedRevision": "2757abaa0d083d60ea73d440db5fc4aeae9de8c1"
     },
     "butler/runtime.mdx": {
-      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
+      "validatedRevision": "2757abaa0d083d60ea73d440db5fc4aeae9de8c1"
     },
     "teamwork/integrations.mdx": {
-      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
+      "validatedRevision": "2757abaa0d083d60ea73d440db5fc4aeae9de8c1"
     }
   },
   "convergence": {
