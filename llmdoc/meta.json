@@ -1,93 +1,93 @@
 {
   "schema": "llmdoc.meta/v3",
   "baseline": {
-    "revision": "b44ae070270e9adf1598c3046e42a58a56b11527",
-    "verifiedAt": "2026-11-15T23:18:48.755Z"
+    "revision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d",
+    "verifiedAt": "2026-11-16T10:18:20.923Z"
   },
   "documents": {
     "agents/chat-journal.mdx": {
-      "validatedRevision": "b44ae070270e9adf1598c3046e42a58a56b11527"
+      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "agents/native-control.mdx": {
-      "validatedRevision": "b44ae070270e9adf1598c3046e42a58a56b11527"
+      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "agents/provider-environment.mdx": {
-      "validatedRevision": "b44ae070270e9adf1598c3046e42a58a56b11527"
+      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "automations/execution.mdx": {
-      "validatedRevision": "b44ae070270e9adf1598c3046e42a58a56b11527"
+      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "desktop/failure-boundaries.mdx": {
-      "validatedRevision": "b44ae070270e9adf1598c3046e42a58a56b11527"
+      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "desktop/localization.mdx": {
-      "validatedRevision": "85592880ea8fd4ca94eedaa61391188a9ec6ec34"
+      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "desktop/resource-metrics.mdx": {
-      "validatedRevision": "b44ae070270e9adf1598c3046e42a58a56b11527"
+      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "desktop/workspace-state.mdx": {
-      "validatedRevision": "b44ae070270e9adf1598c3046e42a58a56b11527"
+      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "distribution/cli-contract.mdx": {
-      "validatedRevision": "b44ae070270e9adf1598c3046e42a58a56b11527"
+      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "distribution/release-integrity.mdx": {
-      "validatedRevision": "85592880ea8fd4ca94eedaa61391188a9ec6ec34"
+      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "execution-model.mdx": {
-      "validatedRevision": "b44ae070270e9adf1598c3046e42a58a56b11527"
+      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "files-git/filesystem.mdx": {
-      "validatedRevision": "b44ae070270e9adf1598c3046e42a58a56b11527"
+      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "files-git/git-execution.mdx": {
-      "validatedRevision": "b44ae070270e9adf1598c3046e42a58a56b11527"
+      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "pull-requests/review-contract.mdx": {
-      "validatedRevision": "b44ae070270e9adf1598c3046e42a58a56b11527"
+      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "runtime/local-host.mdx": {
-      "validatedRevision": "85592880ea8fd4ca94eedaa61391188a9ec6ec34"
+      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "runtime/local-persistence.mdx": {
-      "validatedRevision": "b44ae070270e9adf1598c3046e42a58a56b11527"
+      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "runtime/outbound-content.mdx": {
-      "validatedRevision": "b44ae070270e9adf1598c3046e42a58a56b11527"
+      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "runtime/private-connections.mdx": {
-      "validatedRevision": "b44ae070270e9adf1598c3046e42a58a56b11527"
+      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "terminals/session-lifecycle.mdx": {
-      "validatedRevision": "f9958d8b26c0bfb684cef538038c63bdbf96e86b"
+      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "usage/local-history.mdx": {
-      "validatedRevision": "b44ae070270e9adf1598c3046e42a58a56b11527"
+      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "usage/provider-accounts.mdx": {
-      "validatedRevision": "b44ae070270e9adf1598c3046e42a58a56b11527"
+      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "workspaces/lifecycle.mdx": {
-      "validatedRevision": "b44ae070270e9adf1598c3046e42a58a56b11527"
+      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "workspaces/setup-contract.mdx": {
-      "validatedRevision": "b44ae070270e9adf1598c3046e42a58a56b11527"
+      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "runtime/attachments.mdx": {
-      "validatedRevision": "b44ae070270e9adf1598c3046e42a58a56b11527"
+      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "teamwork/execution.mdx": {
-      "validatedRevision": "b44ae070270e9adf1598c3046e42a58a56b11527"
+      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "memory/lifecycle.mdx": {
-      "validatedRevision": "f9958d8b26c0bfb684cef538038c63bdbf96e86b"
+      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "butler/runtime.mdx": {
-      "validatedRevision": "f9958d8b26c0bfb684cef538038c63bdbf96e86b"
+      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     },
     "teamwork/integrations.mdx": {
-      "validatedRevision": "f9958d8b26c0bfb684cef538038c63bdbf96e86b"
+      "validatedRevision": "46de848f107c2a8f752c5d04ac0388a8c5a0337d"
     }
   },
   "convergence": {
