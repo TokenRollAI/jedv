@@ -32,6 +32,15 @@ import { DaemonClient } from "../terminal/DaemonClient/index.ts";
 import { EXPECTED_DAEMON_VERSION } from "./expected-version.ts";
 import { MAX_DAEMON_LOG_BYTES, openRotatingLogFd } from "./log-fd.ts";
 import {
+	findMacosDaemonJob,
+	launchMacosDaemon,
+	type MacosDaemonJob,
+	recordMacosDaemonHandoff,
+	recordMacosDaemonPid,
+	releaseMacosDaemonJob,
+	runLaunchctl,
+} from "./macos-launch.ts";
+import {
 	type DaemonProbeResult,
 	type ProbeAttemptOutcome,
 	probeDaemonHello,
@@ -59,6 +68,7 @@ import {
 
 interface DaemonInstance {
 	pid: number;
+	launchdJob?: MacosDaemonJob;
 	socketPath: string;
 	startedAt: number;
 	/** Version reported by the running daemon's hello-ack. "unknown" if probe failed. */
@@ -155,7 +165,9 @@ export function shouldKillStaleDaemonForDev(
 	env: NodeJS.ProcessEnv = process.env,
 ): boolean {
 	if (env[ADOPT_IN_DEV_ENV] === "1") return false;
-	return env.NODE_ENV === "development";
+	return (
+		env.NODE_ENV === "development" && env.JEDV_PTY_DAEMON_RESTART_IN_DEV === "1"
+	);
 }
 
 /**
@@ -182,7 +194,11 @@ export function ptyDaemonSocketPath(
 	// the boot runner clears, so a socket from the previous session never
 	// looks live on a restored disk.
 	if (env.JEDV_RUN_DIR) return path.join(env.JEDV_RUN_DIR, "ptyd.sock");
-	const home = env.JEDV_HOME_DIR;
+	const home =
+		env.JEDV_HOME_DIR?.trim() ||
+		(env.JEDV_USER_HOME_DIR?.trim()
+			? path.join(path.resolve(env.JEDV_USER_HOME_DIR.trim()), ".jedv")
+			: undefined);
 	// Hash the RESOLVED home so equivalent spellings of one custom home
 	// (trailing slash, relative segments) land on the same socket.
 	const key =
@@ -292,7 +308,9 @@ export class DaemonSupervisor {
 		organizationId: string,
 		instance: DaemonInstance,
 	): Promise<void> {
+		this.assertLaunchdIdentity(organizationId, instance);
 		await terminateProcessTreeAndGroups(instance.pid, "SIGTERM");
+		await this.releaseLaunchdJob(organizationId, instance);
 		removePtyDaemonManifest(organizationId);
 		try {
 			if (fs.existsSync(instance.socketPath)) {
@@ -389,6 +407,22 @@ export class DaemonSupervisor {
 		// the exit handler treat it as expected.
 		this.stopping.add(organizationId);
 		this.stopHealthPoll(organizationId);
+		if (
+			instance.launchdJob &&
+			!recordMacosDaemonHandoff(
+				ptyDaemonManifestDir(organizationId),
+				instance.launchdJob,
+				instance.pid,
+				true,
+			)
+		) {
+			this.stopping.delete(organizationId);
+			this.startAdoptedLivenessCheck(organizationId, instance.pid);
+			return {
+				ok: false,
+				reason: "LaunchAgent ownership changed before handoff",
+			};
+		}
 
 		// Mark the manifest so a host-service crash mid-handoff is
 		// debuggable. We restore on failure or replace on success.
@@ -402,6 +436,14 @@ export class DaemonSupervisor {
 
 		const restoreOnFailure = () => {
 			this.stopping.delete(organizationId);
+			if (instance.launchdJob && isProcessAlive(instance.pid)) {
+				recordMacosDaemonHandoff(
+					ptyDaemonManifestDir(organizationId),
+					instance.launchdJob,
+					instance.pid,
+					false,
+				);
+			}
 			if (existingManifest) writePtyDaemonManifest(existingManifest);
 			// Re-arm liveness for the (still-living) predecessor.
 			this.startAdoptedLivenessCheck(organizationId, instance.pid);
@@ -466,6 +508,7 @@ export class DaemonSupervisor {
 		const successorStartedAt = Date.now();
 		const successorInstance: DaemonInstance = {
 			pid: result.successorPid,
+			launchdJob: instance.launchdJob,
 			socketPath: instance.socketPath,
 			startedAt: successorStartedAt,
 			runningVersion,
@@ -474,6 +517,14 @@ export class DaemonSupervisor {
 			unreachableSince: probedVersion ? null : Date.now(),
 		};
 		this.instances.set(organizationId, successorInstance);
+		if (instance.launchdJob) {
+			recordMacosDaemonPid(
+				ptyDaemonManifestDir(organizationId),
+				instance.launchdJob,
+				instance.pid,
+				result.successorPid,
+			);
+		}
 		this.stopping.delete(organizationId);
 		this.lastUpdatePendingPair.delete(organizationId);
 
@@ -483,6 +534,7 @@ export class DaemonSupervisor {
 		// probe failure orphans a live daemon (GH #6822).
 		writePtyDaemonManifest({
 			pid: result.successorPid,
+			launchdJob: instance.launchdJob,
 			socketPath: instance.socketPath,
 			protocolVersions: existingManifest?.protocolVersions ?? [
 				CURRENT_PROTOCOL_VERSION,
@@ -595,13 +647,63 @@ export class DaemonSupervisor {
 	}
 
 	async stop(organizationId: string): Promise<void> {
+		// A handoff can replace the PID while stop awaits. Finish that transfer
+		// before choosing the process/job generation that the explicit stop owns.
+		while (this.updateInFlight.has(organizationId)) {
+			await this.updateInFlight.get(organizationId);
+		}
 		const instance = this.instances.get(organizationId);
+		if (instance) this.assertLaunchdIdentity(organizationId, instance);
 		this.instances.delete(organizationId);
 		this.stopHealthPoll(organizationId);
 		if (!instance) return;
 		this.stopping.add(organizationId);
 		await terminateProcessTreeAndGroups(instance.pid, "SIGTERM");
+		await this.releaseLaunchdJob(organizationId, instance);
 		removePtyDaemonManifest(organizationId);
+	}
+
+	private assertLaunchdIdentity(
+		organizationId: string,
+		instance: DaemonInstance,
+	): void {
+		if (!instance.launchdJob) return;
+		const current = findMacosDaemonJob(
+			ptyDaemonManifestDir(organizationId),
+			process.getuid?.() ?? -1,
+			instance.pid,
+		);
+		if (current?.generation !== instance.launchdJob.generation) {
+			throw new Error(
+				"PTY LaunchAgent identity changed; no process was signalled",
+			);
+		}
+	}
+
+	private async releaseLaunchdJob(
+		organizationId: string,
+		instance: DaemonInstance,
+	): Promise<void> {
+		if (!instance.launchdJob) return;
+		const released = await releaseMacosDaemonJob(
+			{
+				directory: ptyDaemonManifestDir(organizationId),
+				socketPath: instance.socketPath,
+				uid: process.getuid?.() ?? -1,
+			},
+			instance.launchdJob,
+			instance.pid,
+			{
+				run: runLaunchctl,
+				isAlive: isProcessAlive,
+				isSocketLive: (socketPath) => isSocketConnectable(socketPath, 1_000),
+			},
+		);
+		if (!released) {
+			throw new Error(
+				"PTY LaunchAgent stop is unconfirmed; ownership evidence was retained",
+			);
+		}
 	}
 
 	/**
@@ -900,12 +1002,8 @@ export class DaemonSupervisor {
 	}
 
 	private async start(organizationId: string): Promise<DaemonInstance> {
-		// Dev mode: never adopt. A leftover detached daemon from a previous
-		// `bun dev` session would mask code changes — devs hit Update or
-		// open a session and see stale-bundle behavior with no obvious
-		// reason. Kill any running daemon for the org and spawn fresh.
-		// Production keeps the adopt path so PTY sessions survive
-		// host-service restarts (the original Phase 1 promise).
+		// Main-process HMR must preserve live terminals. Developers can opt
+		// into destructive daemon replacement when testing a new bundle.
 		if (shouldKillStaleDaemonForDev()) {
 			await this.killStaleDaemonForDev(organizationId);
 		}
@@ -1062,8 +1160,19 @@ export class DaemonSupervisor {
 			);
 		}
 		const runningVersion = probe?.daemonVersion ?? "unknown";
+		let launchdJob =
+			process.platform === "darwin" ? manifest.launchdJob : undefined;
+		if (process.platform === "darwin" && probe) {
+			launchdJob = findMacosDaemonJob(
+				ptyDaemonManifestDir(organizationId),
+				process.getuid?.() ?? -1,
+				manifest.pid,
+				probe.launchdGeneration,
+			);
+		}
 		return {
 			pid: manifest.pid,
+			launchdJob,
 			socketPath: manifest.socketPath,
 			startedAt: manifest.startedAt,
 			runningVersion,
@@ -1162,8 +1271,18 @@ export class DaemonSupervisor {
 		}
 
 		const startedAt = Date.now();
+		const launchdJob =
+			process.platform === "darwin"
+				? findMacosDaemonJob(
+						ptyDaemonManifestDir(organizationId),
+						process.getuid?.() ?? -1,
+						resolvedPid,
+						probe.launchdGeneration,
+					)
+				: undefined;
 		writePtyDaemonManifest({
 			pid: resolvedPid,
+			launchdJob,
 			socketPath,
 			protocolVersions: [CURRENT_PROTOCOL_VERSION],
 			startedAt,
@@ -1180,6 +1299,7 @@ export class DaemonSupervisor {
 
 		return {
 			pid: resolvedPid,
+			launchdJob,
 			socketPath,
 			startedAt,
 			runningVersion: probe.daemonVersion,
@@ -1223,6 +1343,10 @@ export class DaemonSupervisor {
 			throw new Error(
 				`[pty-daemon:${organizationId}] script not found at ${this.opts.scriptPath} — has the daemon binary been bundled?`,
 			);
+		}
+
+		if (process.platform === "darwin") {
+			return this.spawnMacosDaemon(organizationId, socketPath, logPath);
 		}
 
 		// Dev: pipe daemon stdout/stderr through host-service so log lines
@@ -1337,53 +1461,7 @@ export class DaemonSupervisor {
 
 		if (!isDev) child.unref();
 		child.on("exit", (code) => {
-			console.log(`[pty-daemon:${organizationId}] exited with code ${code}`);
-			const current = this.instances.get(organizationId);
-			if (current?.pid !== childPid) return;
-			this.instances.delete(organizationId);
-			removePtyDaemonManifest(organizationId);
-
-			if (this.stopping.has(organizationId)) {
-				this.stopping.delete(organizationId);
-				return;
-			}
-
-			const now = Date.now();
-			const recent = (this.crashTimes.get(organizationId) ?? []).filter(
-				(t) => now - t < CRASH_WINDOW_MS,
-			);
-			recent.push(now);
-			this.crashTimes.set(organizationId, recent);
-
-			logEvent("pty_daemon_crash", {
-				organizationId,
-				exitCode: code,
-				crashesInWindow: recent.length,
-				windowSeconds: CRASH_WINDOW_MS / 1000,
-				ageSeconds: Math.round((now - current.startedAt) / 1000),
-			});
-
-			if (recent.length > CRASH_BUDGET) {
-				this.circuitOpen.add(organizationId);
-				console.error(
-					`[pty-daemon:${organizationId}] crash circuit OPEN — ${recent.length} crashes in ${CRASH_WINDOW_MS / 1000}s; refusing further respawns until clearCrashCircuit() is called`,
-				);
-				logEvent("pty_daemon_circuit_open", {
-					organizationId,
-					crashesInWindow: recent.length,
-				});
-				return;
-			}
-
-			console.warn(
-				`[pty-daemon:${organizationId}] auto-respawning after unexpected exit (${recent.length}/${CRASH_BUDGET} in window)`,
-			);
-			void this.ensure(organizationId).catch((err) => {
-				console.error(
-					`[pty-daemon:${organizationId}] auto-respawn failed:`,
-					err,
-				);
-			});
+			this.handleSpawnedDaemonExit(organizationId, childPid, code);
 		});
 
 		const startedAt = Date.now();
@@ -1413,6 +1491,136 @@ export class DaemonSupervisor {
 		this.startHealthPoll(organizationId, childPid, null);
 		console.log(
 			`[pty-daemon:${organizationId}] spawned pid=${childPid} socket=${socketPath}`,
+		);
+		return instance;
+	}
+
+	private handleSpawnedDaemonExit(
+		organizationId: string,
+		pid: number,
+		code: number | null,
+	): void {
+		console.log(`[pty-daemon:${organizationId}] exited with code ${code}`);
+		const current = this.instances.get(organizationId);
+		if (current?.pid !== pid) return;
+		this.instances.delete(organizationId);
+		removePtyDaemonManifest(organizationId);
+
+		if (this.stopping.has(organizationId)) {
+			this.stopping.delete(organizationId);
+			return;
+		}
+
+		const now = Date.now();
+		const recent = (this.crashTimes.get(organizationId) ?? []).filter(
+			(t) => now - t < CRASH_WINDOW_MS,
+		);
+		recent.push(now);
+		this.crashTimes.set(organizationId, recent);
+
+		logEvent("pty_daemon_crash", {
+			organizationId,
+			exitCode: code,
+			crashesInWindow: recent.length,
+			windowSeconds: CRASH_WINDOW_MS / 1000,
+			ageSeconds: Math.round((now - current.startedAt) / 1000),
+		});
+
+		if (recent.length > CRASH_BUDGET) {
+			this.circuitOpen.add(organizationId);
+			console.error(
+				`[pty-daemon:${organizationId}] crash circuit OPEN — ${recent.length} crashes in ${CRASH_WINDOW_MS / 1000}s; refusing further respawns until clearCrashCircuit() is called`,
+			);
+			logEvent("pty_daemon_circuit_open", {
+				organizationId,
+				crashesInWindow: recent.length,
+			});
+			return;
+		}
+
+		console.warn(
+			`[pty-daemon:${organizationId}] auto-respawning after unexpected exit (${recent.length}/${CRASH_BUDGET} in window)`,
+		);
+		void this.ensure(organizationId).catch((err) => {
+			console.error(`[pty-daemon:${organizationId}] auto-respawn failed:`, err);
+		});
+	}
+
+	private async spawnMacosDaemon(
+		organizationId: string,
+		socketPath: string,
+		logPath: string,
+	): Promise<DaemonInstance> {
+		const directory = ptyDaemonManifestDir(organizationId);
+		const logFd = openRotatingLogFd(logPath, MAX_DAEMON_LOG_BYTES);
+		if (logFd >= 0) fs.closeSync(logFd);
+		const launched = await launchMacosDaemon(
+			{
+				directory,
+				socketPath,
+				executable: process.execPath,
+				scriptPath: this.opts.scriptPath,
+				bufferBytes: DAEMON_REPLAY_BUFFER_BYTES,
+				logPath,
+				uid: process.getuid?.() ?? -1,
+				env: {
+					...process.env,
+					ORGANIZATION_ID: organizationId,
+					JEDV_PTY_DAEMON_VERSION: EXPECTED_DAEMON_VERSION,
+				},
+			},
+			{
+				run: runLaunchctl,
+				isAlive: isProcessAlive,
+				isSocketLive: (socket) => isSocketConnectable(socket, 1_000),
+			},
+		);
+		const startedAt = Date.now();
+		// The job is durable before readiness. If this Host dies during the
+		// probe, a successor can adopt the same PID instead of launching twice.
+		writePtyDaemonManifest({
+			pid: launched.pid,
+			launchdJob: launched.job,
+			socketPath,
+			protocolVersions: [CURRENT_PROTOCOL_VERSION],
+			startedAt,
+			organizationId,
+		});
+		const probe = await probeDaemonHelloWithRetry(
+			socketPath,
+			SOCKET_READY_TIMEOUT_MS,
+		);
+		if (
+			!probe ||
+			probe.daemonPid !== launched.pid ||
+			(probe.launchdGeneration !== undefined &&
+				probe.launchdGeneration !== launched.job.generation)
+		) {
+			// A timeout is not permission to kill: another Host may already have
+			// attached. Keep the exact generation for explicit reconciliation.
+			throw new Error(
+				`PTY LaunchAgent ${launched.job.label} did not confirm its daemon PID; ownership evidence was retained`,
+			);
+		}
+		const instance: DaemonInstance = {
+			pid: launched.pid,
+			launchdJob: launched.job,
+			socketPath,
+			startedAt,
+			runningVersion: probe.daemonVersion,
+			expectedVersion: EXPECTED_DAEMON_VERSION,
+			updatePending: isVersionUpdatePending(probe.daemonVersion),
+			unreachableSince: null,
+			trustdHealthy: probe.trustdHealthy,
+		};
+		this.instances.set(organizationId, instance);
+		// launchd owns the process handle; polling feeds the same crash circuit
+		// and restart path as a directly spawned child.
+		this.startHealthPoll(organizationId, launched.pid, () => {
+			this.handleSpawnedDaemonExit(organizationId, launched.pid, null);
+		});
+		console.log(
+			`[pty-daemon:${organizationId}] launchd started pid=${launched.pid} job=${launched.job.label}`,
 		);
 		return instance;
 	}

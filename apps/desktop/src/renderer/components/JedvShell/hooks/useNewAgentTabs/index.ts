@@ -1,0 +1,1 @@
+export { useNewAgentTabs } from "./useNewAgentTabs";

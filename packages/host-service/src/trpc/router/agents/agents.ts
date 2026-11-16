@@ -1,3 +1,4 @@
+import { readAgentLaunchEvidence } from "@jedv/agent-setup";
 import { acpStartModes, presetForAcpHarness } from "@jedv/chat/core";
 import { attachedFilesBlock } from "@jedv/chat-runtime";
 import { isBuiltinAgentId } from "@jedv/shared/agent-catalog";
@@ -11,7 +12,7 @@ import {
 	getAgentEfforts,
 	getAgentModelSupport,
 	getAgentModeSupport,
-	isCuratedAgentModel,
+	isSupportedAgentModel,
 	resolveAgentLaunchPresetId,
 } from "@jedv/shared/agent-models";
 import {
@@ -30,10 +31,11 @@ import { and, eq, isNull } from "drizzle-orm";
 import { z } from "zod";
 import { acpHarnessForPreset } from "../../../chat-v3/acpCatalogue";
 import type { HostDb } from "../../../db";
-import { workspaces } from "../../../db/schema";
+import { terminalSessions, workspaces } from "../../../db/schema";
 import {
 	createTerminalSessionInternal,
 	sendAgentMessage,
+	type TerminalSessionError,
 } from "../../../terminal/terminal";
 import type {
 	TerminalAgentBinding,
@@ -89,8 +91,18 @@ export function buildAgentCommandString(
 		? buildForkArgv(config.forkArgs, options.forkSessionId)
 		: [];
 	const baseArgv = [...modelArgs, ...resumeArgv, ...forkArgv];
+	// Kimi 2.6 rejects its interactive --yolo flag in prompt mode. Adapt only
+	// argv launches of the actual executable, leaving stored/custom config intact.
+	const kimiPrompt =
+		/(?:^|[\\/])kimi(?:\.exe)?$/i.test(config.command) &&
+		config.promptTransport === "argv" &&
+		prompt !== "" &&
+		config.promptArgs.some((arg) => arg === "-p" || arg === "--prompt");
+	const args = kimiPrompt
+		? config.args.filter((arg) => arg !== "--yolo" && arg !== "-y")
+		: config.args;
 	const withCommand = (argv: string[]) =>
-		[agentCommandText(config.command, config.args), buildArgvCommand(argv)]
+		[agentCommandText(config.command, args), buildArgvCommand(argv)]
 			.filter(Boolean)
 			.join(" ");
 
@@ -167,6 +179,10 @@ export type AgentRunResult = {
 	label: string;
 	chatSessionId?: string;
 	chatAgentId?: string;
+	/** PTY creation queues a command; it does not attest Agent readiness. */
+	launchState?: "starting";
+	/** Correlates optional wrapper evidence returned by agents.launchStatus. */
+	runId?: string;
 };
 
 /**
@@ -193,7 +209,7 @@ export function validateAgentModelSelection(
 		});
 	}
 
-	if (!isCuratedAgentModel(presetId, model)) {
+	if (!isSupportedAgentModel(presetId, model)) {
 		throw new TRPCError({
 			code: "BAD_REQUEST",
 			message: `Unsupported model "${model}" for ${label}. Choose one of: ${support.models.map((option) => option.id).join(", ")}.`,
@@ -402,7 +418,11 @@ export function validateAgentLaunchOptions(
 export function buildTerminalAgentLaunch(
 	db: HostDb,
 	input: AgentRunInput,
-): { fullCommand: string; label: string } {
+): {
+	fullCommand: string;
+	label: string;
+	nativeInterruptLaunch?: { command: string; path?: string; launchId: string };
+} {
 	const config = resolveHostAgentConfig(db, input.agent);
 	if (!config) {
 		// Worded for end users (automation run errors show this verbatim), but
@@ -474,9 +494,24 @@ export function buildTerminalAgentLaunch(
 		},
 	);
 	const modelEnv = buildAgentModelEnv(launchPresetId, input.model);
+	const launchEnv = {
+		...agentLaunchEnv(db, config),
+		...modelEnv,
+		...input.launchEnv,
+	};
+	const launchId = input.launchEnv?.JEDV_AGENT_LAUNCH_ID;
 	return {
-		fullCommand: `${envOverlayPrefix({ ...agentLaunchEnv(db, config), ...modelEnv, ...input.launchEnv })}${command}`,
+		fullCommand: `${envOverlayPrefix(launchEnv)}${command}`,
 		label: config.label,
+		...(launchPresetId === "codex" && launchId
+			? {
+					nativeInterruptLaunch: {
+						command: config.command,
+						...(launchEnv.PATH === undefined ? {} : { path: launchEnv.PATH }),
+						launchId,
+					},
+				}
+			: {}),
 	};
 }
 
@@ -496,7 +531,9 @@ export function bindResumedSession(
 	terminalId: string,
 ): void {
 	if (!input.resumeSessionId) return;
-	const presetId = resolveHostAgentConfig(ctx.db, input.agent)?.presetId;
+	const presetId =
+		input.launchEnv?.JEDV_AGENT_ID ??
+		resolveHostAgentConfig(ctx.db, input.agent)?.presetId;
 	if (!presetId || !isBuiltinAgentId(presetId)) return;
 
 	ctx.terminalAgentStore.recordEvent({
@@ -505,37 +542,138 @@ export function bindResumedSession(
 		eventType: "Attached",
 		agentId: presetId,
 		agentSessionId: input.resumeSessionId,
+		...(input.launchEnv?.JEDV_AGENT_LAUNCH_ID
+			? { launchId: input.launchEnv.JEDV_AGENT_LAUNCH_ID }
+			: {}),
 		occurredAt: Date.now(),
 	});
 }
 
-async function runTerminalAgent(
+export async function runTerminalAgent(
 	ctx: Pick<HostServiceContext, "db" | "eventBus" | "terminalAgentStore">,
 	input: AgentRunInput,
 	terminalId: string = crypto.randomUUID(),
+	createTerminal: (
+		options: Parameters<typeof createTerminalSessionInternal>[0],
+	) => Promise<
+		{ terminalId: string } | TerminalSessionError
+	> = createTerminalSessionInternal,
 ): Promise<AgentRunResult> {
-	const { fullCommand, label } = buildTerminalAgentLaunch(ctx.db, input);
-
-	const result = await createTerminalSessionInternal({
-		terminalId,
-		workspaceId: input.workspaceId,
-		db: ctx.db,
-		eventBus: ctx.eventBus,
-		initialCommand: fullCommand,
-		colors: input.colors,
-	});
-
-	if ("error" in result) {
-		throw toTerminalSessionError(result);
-	}
-
-	bindResumedSession(ctx, input, result.terminalId);
-
-	return {
-		kind: "terminal",
-		sessionId: result.terminalId,
-		label,
+	const runId = crypto.randomUUID();
+	const config = resolveHostAgentConfig(ctx.db, input.agent);
+	const presetId =
+		config && resolveAgentLaunchPresetId(config.presetId, config.command);
+	const managedLaunch =
+		presetId && isBuiltinAgentId(presetId)
+			? {
+					terminalId,
+					workspaceId: input.workspaceId,
+					agentId: presetId,
+					launchId:
+						input.launchEnv?.JEDV_AGENT_LAUNCH_ID || crypto.randomUUID(),
+				}
+			: null;
+	const launchInput = {
+		...input,
+		launchEnv: {
+			...input.launchEnv,
+			JEDV_AGENT_RUN_ID: runId,
+			...(managedLaunch
+				? {
+						JEDV_AGENT_ID: managedLaunch.agentId,
+						JEDV_AGENT_LAUNCH_ID: managedLaunch.launchId,
+					}
+				: {}),
+		},
 	};
+	const { fullCommand, label, nativeInterruptLaunch } =
+		buildTerminalAgentLaunch(ctx.db, launchInput);
+	let registered = false;
+	try {
+		const result = await createTerminal({
+			terminalId,
+			workspaceId: input.workspaceId,
+			db: ctx.db,
+			eventBus: ctx.eventBus,
+			initialCommand: fullCommand,
+			colors: input.colors,
+			nativeInterruptLaunch,
+			...(managedLaunch
+				? {
+						onFreshCreated: (proof) => {
+							// Allocation is not proof: existing/adopted PTYs never call this.
+							if (
+								!registered &&
+								proof.terminalId === terminalId &&
+								proof.workspaceId === input.workspaceId
+							)
+								registered =
+									ctx.terminalAgentStore.recordManagedAgentLaunch(
+										managedLaunch,
+									);
+						},
+						onManualInput: (id) => {
+							if (id === terminalId)
+								ctx.terminalAgentStore.invalidateTerminalInput(id);
+						},
+					}
+				: {}),
+		});
+		if ("error" in result) throw toTerminalSessionError(result);
+		bindResumedSession(ctx, launchInput, result.terminalId);
+		return {
+			kind: "terminal",
+			sessionId: result.terminalId,
+			label,
+			launchState: "starting",
+			runId,
+		};
+	} catch (error) {
+		if (registered && managedLaunch)
+			ctx.terminalAgentStore.forgetManagedAgentLaunch(managedLaunch);
+		throw error;
+	}
+}
+
+export type AgentLaunchStatus = {
+	state: "unknown" | "starting" | "active" | "exited" | "failed";
+	exitCode?: number;
+};
+
+/** Missing hooks/wrappers are unknown, never an inferred ready state. */
+export function getAgentLaunchStatus(
+	ctx: Pick<HostServiceContext, "db" | "terminalAgentStore">,
+	input: { workspaceId: string; sessionId: string; runId: string },
+): AgentLaunchStatus {
+	const terminal = ctx.db.query.terminalSessions
+		.findFirst({
+			where: and(
+				eq(terminalSessions.id, input.sessionId),
+				eq(terminalSessions.originWorkspaceId, input.workspaceId),
+			),
+		})
+		.sync();
+	if (!terminal) return { state: "unknown" };
+	const evidence = readAgentLaunchEvidence(input.sessionId, input.runId);
+	if (!evidence) return { state: "unknown" };
+	if (evidence.exitCode !== undefined) {
+		return {
+			state: evidence.exitCode === 0 ? "exited" : "failed",
+			exitCode: evidence.exitCode,
+		};
+	}
+	if (terminal.status !== "active" || terminal.disposeRequestedAt != null)
+		return { state: "unknown" };
+	const binding = ctx.terminalAgentStore.get(input.sessionId);
+	if (
+		binding?.workspaceId === input.workspaceId &&
+		binding.launchId === evidence.launchId
+	) {
+		const state = ctx.terminalAgentStore.getAutomaticDeliveryState(binding);
+		if (state === "working" || state === "idle" || state === "permission")
+			return { state: "active" };
+	}
+	return { state: "starting" };
 }
 
 /**
@@ -894,6 +1032,15 @@ export async function runAgentInWorkspace(
 }
 
 export const agentsRouter = router({
+	launchStatus: protectedProcedure
+		.input(
+			z.object({
+				workspaceId: z.string().uuid(),
+				sessionId: z.string().uuid(),
+				runId: z.string().uuid(),
+			}),
+		)
+		.query(({ ctx, input }) => getAgentLaunchStatus(ctx, input)),
 	run: protectedProcedure
 		.input(
 			z.object({

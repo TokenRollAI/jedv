@@ -2,18 +2,25 @@ export interface TeamMailDraftScope {
 	hostId: string;
 	teamId: string;
 }
+export interface MailDeliveryOptions {
+	deliveryMode: "queue" | "interrupt";
+	requiresAck: true;
+}
 interface MailRequest {
+	options?: MailDeliveryOptions;
 	to: string;
 	body: string;
 	key: string;
 }
 interface MailDraft {
+	deliveryMode: "queue" | "interrupt";
 	to: string;
 	body: string;
 	request: MailRequest | null;
 	pending: boolean;
 }
 const empty: MailDraft = {
+	deliveryMode: "queue",
 	to: "leader",
 	body: "",
 	request: null,
@@ -79,7 +86,7 @@ export class TeamMailDraftStore {
 	}
 	edit(
 		scope: TeamMailDraftScope,
-		patch: Partial<Pick<MailDraft, "to" | "body">>,
+		patch: Partial<Pick<MailDraft, "to" | "body" | "deliveryMode">>,
 	) {
 		const previous = this.read(scope);
 		if (previous.pending) return false;
@@ -88,17 +95,32 @@ export class TeamMailDraftStore {
 			...patch,
 			body: (patch.body ?? previous.body).slice(0, 200_000),
 		};
-		if (value.to !== previous.to || value.body !== previous.body)
+		if (
+			value.to !== previous.to ||
+			value.body !== previous.body ||
+			value.deliveryMode !== previous.deliveryMode
+		)
 			value.request = null;
 		return this.write(scope, value);
 	}
-	begin(scope: TeamMailDraftScope): MailRequest | null {
+	begin(
+		scope: TeamMailDraftScope,
+		deliveryModesSupported = false,
+	): MailRequest | null {
 		const previous = this.read(scope);
 		if (previous.pending || !previous.body.trim()) return null;
 		const request = previous.request ?? {
 			to: previous.to,
 			body: previous.body,
 			key: this.uuid(),
+			...(deliveryModesSupported
+				? {
+						options: {
+							deliveryMode: previous.deliveryMode,
+							requiresAck: true as const,
+						},
+					}
+				: {}),
 		};
 		return this.write(scope, { ...previous, request, pending: true })
 			? request

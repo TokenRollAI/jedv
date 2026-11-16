@@ -21,18 +21,10 @@ export function setHostToken(hostUrl: string, token: string | null): void {
 export function hasHostConnection(hostUrl: string): boolean {
 	try {
 		const origin = normalizePrivateEndpoint(hostUrl);
-		const token = tokens.hostTokenFor(origin);
-		if (!token) return false;
-		if (new URL(origin).hostname === "127.0.0.1") {
-			return getHostServiceCoordinator()
-				.getConnections()
-				.some(
-					(connection) =>
-						origin === `http://127.0.0.1:${connection.port}` &&
-						token === connection.secret,
-				);
-		}
-		return true;
+		return tokens.hasHostConnection(
+			origin,
+			getHostServiceCoordinator().getConnections(),
+		);
 	} catch {
 		return false;
 	}
@@ -56,4 +48,17 @@ export async function disconnectPrivateHost(hostUrl: string): Promise<void> {
 	tokens.setHostToken(origin, null);
 	transport.closeHost(origin);
 	await portForwardManager.releaseHost(origin);
+}
+
+export async function beginPrivateHostConnection(hostUrl: string) {
+	const origin = normalizePrivateEndpoint(hostUrl);
+	const attempt = tokens.beginPrivateConnection(origin);
+	transport.closeHost(origin);
+	try {
+		await portForwardManager.releaseHost(origin);
+		return attempt;
+	} catch (error) {
+		attempt.cancel();
+		throw error;
+	}
 }

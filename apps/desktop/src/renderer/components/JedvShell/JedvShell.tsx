@@ -81,6 +81,7 @@ import {
 import { JedvProjectRun } from "./components/JedvProjectRun";
 import { ProjectScriptsDialog } from "./components/JedvProjectRun/components/ProjectScriptsDialog";
 import { JedvProjectTree } from "./components/JedvProjectTree";
+import { workspaceAgentSessions } from "./components/JedvProjectTree/components/ProjectTreeWorkspace/session-rows";
 import { JedvPullRequestsView } from "./components/JedvPullRequestsView";
 import { JedvReleaseNotes } from "./components/JedvReleaseNotes";
 import { JedvResourceSummary } from "./components/JedvResourceSummary";
@@ -151,6 +152,9 @@ import {
 	type ShellHistory,
 	type ShellLocation,
 } from "./hooks/useJedvNavigation/history";
+import { useNewAgentTabs } from "./hooks/useNewAgentTabs";
+import { usePaneLayoutBridge } from "./hooks/usePaneLayoutBridge";
+import { useResumedTerminalPanes } from "./hooks/useResumedTerminalPanes";
 import { useTeamwork } from "./hooks/useTeamwork";
 import { useWorkspaceReadReceiptSync } from "./hooks/useWorkspaceReadReceiptSync";
 import {
@@ -365,6 +369,9 @@ export function JedvShell() {
 		return () => observer.disconnect();
 	}, [workspaceElement]);
 	const leftPanelRef = useRef<ImperativePanelHandle>(null);
+	const [rightPanel, setRightPanel] = useState<ImperativePanelHandle | null>(
+		null,
+	);
 	const [maximizedStore, setMaximizedStore] = useState<
 		typeof terminalStore | null
 	>(null);
@@ -372,14 +379,13 @@ export function JedvShell() {
 	useEffect(() => {
 		if (rightMaximized && areaState.rightAreaOpen) {
 			leftPanelRef.current?.collapse();
-			rightPanelRef.current?.resize(100);
+			rightPanel?.resize(100);
 		} else if (leftPanelRef.current?.isCollapsed()) {
 			leftPanelRef.current.expand(60);
-			if (areaState.rightAreaOpen) rightPanelRef.current?.resize(40);
+			if (areaState.rightAreaOpen) rightPanel?.resize(40);
 		}
 		if (!areaState.rightAreaOpen && rightMaximized) setMaximizedStore(null);
-	}, [rightMaximized, areaState.rightAreaOpen]);
-	const rightPanelRef = useRef<ImperativePanelHandle>(null);
+	}, [rightMaximized, areaState.rightAreaOpen, rightPanel]);
 	const focusedStore =
 		areaState.rightAreaOpen && areaState.focusedArea === "right"
 			? rightStore
@@ -396,10 +402,9 @@ export function JedvShell() {
 	});
 	useEffect(() => {
 		if (areaState.rightAreaOpen) {
-			if (rightPanelRef.current?.isCollapsed())
-				rightPanelRef.current.expand(40);
-		} else rightPanelRef.current?.collapse();
-	}, [areaState.rightAreaOpen]);
+			if (rightPanel?.isCollapsed()) rightPanel.expand(40);
+		} else rightPanel?.collapse();
+	}, [areaState.rightAreaOpen, rightPanel]);
 	const shortcutWorkspaceIds = useRef<string[]>([]);
 	const recordShortcutOrder = useCallback((ids: string[]) => {
 		shortcutWorkspaceIds.current = ids;
@@ -546,6 +551,7 @@ export function JedvShell() {
 		[terminals.data],
 	);
 	const layoutPersistence = useJedvLayoutPersistence({
+		client,
 		store: terminalStore,
 		hostUrl,
 		workspaceId,
@@ -555,17 +561,15 @@ export function JedvShell() {
 	useEffect(() => {
 		if (!layoutPersistence.ready || !terminalId || !terminals.isSuccess) return;
 		if (findTerminalPane(terminalStore, terminalId)) return;
-		const session = layoutSessions.find(
-			(session) => session.terminalId === terminalId,
+		setTerminalId(
+			paneTerminalId(focusedStore.getState().getActivePane()?.pane),
 		);
-		if (session) attachTerminalSession(terminalStore, session);
-		else setTerminalId(null);
 	}, [
 		layoutPersistence.ready,
 		terminalId,
 		terminalStore,
+		focusedStore,
 		terminals.isSuccess,
-		layoutSessions,
 	]);
 
 	const bindings = useQuery({
@@ -573,6 +577,41 @@ export function JedvShell() {
 		queryFn: client ? () => client.terminalAgents.list.query() : skipToken,
 		refetchInterval: 3_000,
 	});
+	useNewAgentTabs({
+		store: terminalStore,
+		hostUrl,
+		workspaceId,
+		ready:
+			layoutPersistence.ready &&
+			terminals.isSuccess &&
+			!terminals.isPlaceholderData &&
+			!terminals.isError &&
+			bindings.isSuccess &&
+			!bindings.isPlaceholderData &&
+			!bindings.isError,
+		sessions: layoutSessions,
+		bindings: bindings.data ?? [],
+	});
+	const agentSessions = workspaceAgentSessions({
+		store: terminalStore,
+		sessions: layoutSessions,
+		workspaceId,
+		ready:
+			layoutPersistence.ready &&
+			terminals.isSuccess &&
+			!terminals.isPlaceholderData,
+		bindings: bindings.data ?? [],
+		memberNames: new Map(
+			teamwork.activeSnapshots.flatMap((snapshot) =>
+				snapshot.members.flatMap((member) =>
+					member.terminalId ? [[member.terminalId, member.name] as const] : [],
+				),
+			),
+		),
+	});
+	const agentSessionNames = new Map(
+		[...agentSessions].map(([id, row]) => [id, row.name]),
+	);
 	const workspace = workspaces.data?.find((item) => item.id === workspaceId);
 	const project = projects.data?.find(
 		(item) => item.id === workspace?.projectId,
@@ -585,6 +624,18 @@ export function JedvShell() {
 		!projects.isError &&
 		workspaces.isSuccess &&
 		!workspaces.isError;
+	useResumedTerminalPanes({
+		client,
+		hostUrl,
+		workspaceId,
+		store: terminalStore,
+		sessions: layoutSessions,
+		sessionsReady:
+			terminals.isSuccess && !terminals.isPlaceholderData && !terminals.isError,
+		layoutReady: layoutPersistence.ready,
+		connected,
+		getWsToken: () => activeConnection?.secret ?? null,
+	});
 	const butler = useButlerInbox(client, hostUrl, connected);
 	const usageVisible = electronTrpc.settings.getShowUsageInSidebar.useQuery(
 		undefined,
@@ -913,6 +964,7 @@ export function JedvShell() {
 		if (!hostUrl) return;
 		const store = terminalWorkspaceStore(`${hostUrl}:${id}`);
 		await ensureJedvLayoutRestored({
+			client,
 			store,
 			hostUrl,
 			workspaceId: id,
@@ -948,6 +1000,45 @@ export function JedvShell() {
 		setSurface("terminal");
 		setLaunched(null);
 	};
+	usePaneLayoutBridge({
+		localConnection: connection.data ?? null,
+		activeWorkspaceId: !remote && surface === "terminal" ? workspaceId : null,
+		getSidebarFullScreen: (id) =>
+			!remote && id === workspaceId && rightMaximized,
+		onFocusWorkspace: async (id) => {
+			if (
+				remote ||
+				!connection.data ||
+				hostUrl !== hostBaseUrl(connection.data)
+			)
+				throw new Error(
+					t({
+						message:
+							"Open the local host before focusing a local workspace pane.",
+					}),
+				);
+			if (filesDirtyRef.current)
+				throw new Error(
+					t({
+						message:
+							"Save or close the unsaved files before opening another workspace",
+					}),
+				);
+			const expectedNavigation = navigationSequence.current + 1;
+			await openWorkspace(id);
+			if (
+				navigationSequence.current !== expectedNavigation ||
+				currentHost.current.hostUrl !== hostUrl ||
+				currentHost.current.client !== client
+			)
+				throw new Error(
+					t({
+						message:
+							"Navigation changed before the pane could be focused. Inspect the workspace before retrying.",
+					}),
+				);
+		},
+	});
 	const island = useAgentIslandBridge({
 		client,
 		hostId: hostUrl,
@@ -1041,6 +1132,7 @@ export function JedvShell() {
 			);
 			const store = terminalWorkspaceStore(`${location.hostUrl}:${row.id}`);
 			await ensureJedvLayoutRestored({
+				client: targetClient,
 				store,
 				hostUrl: location.hostUrl,
 				workspaceId: row.id,
@@ -1308,6 +1400,7 @@ export function JedvShell() {
 		const targetStore =
 			areaStore ?? (id === workspaceId ? focusedStore : primaryStore);
 		await ensureJedvLayoutRestored({
+			client,
 			store: primaryStore,
 			hostUrl,
 			workspaceId: id,
@@ -2217,6 +2310,7 @@ export function JedvShell() {
 														projects={projects.data ?? []}
 														workspaces={workspaces.data ?? []}
 														bindings={bindings.data ?? []}
+														agentSessions={agentSessions}
 														workspaceTeams={teamwork.workspaceTeams}
 														onOpenTeam={openTeam}
 														activeWorkspaceId={workspaceId}
@@ -2541,7 +2635,7 @@ export function JedvShell() {
 								<ResizablePanelGroup direction="horizontal">
 									<ResizablePanel
 										ref={leftPanelRef}
-										defaultSize={60}
+										defaultSize={areaState.rightAreaOpen ? 60 : 100}
 										minSize={25}
 										collapsible
 										collapsedSize={0}
@@ -2804,6 +2898,7 @@ export function JedvShell() {
 													}
 													agentConfigs={configuredAgents}
 													agentByTerminal={agentByTerminal}
+													agentSessionNames={agentSessionNames}
 													agentProjectionReady={bindings.data !== undefined}
 													agentBindings={currentBindings}
 													agentSessionByTerminal={
@@ -2862,8 +2957,8 @@ export function JedvShell() {
 										className={areaState.rightAreaOpen ? "" : "hidden"}
 									/>
 									<ResizablePanel
-										ref={rightPanelRef}
-										defaultSize={0}
+										ref={setRightPanel}
+										defaultSize={areaState.rightAreaOpen ? 40 : 0}
 										minSize={Math.min(
 											75,
 											(262 / Math.max(workspaceWidth, 350)) * 100,
@@ -2980,6 +3075,7 @@ export function JedvShell() {
 													}
 													agentConfigs={configuredAgents}
 													agentByTerminal={agentByTerminal}
+													agentSessionNames={agentSessionNames}
 													agentProjectionReady={bindings.data !== undefined}
 													agentBindings={currentBindings}
 													agentSessionByTerminal={

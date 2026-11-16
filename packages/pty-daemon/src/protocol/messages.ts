@@ -45,6 +45,8 @@ export interface HelloAckMessage {
 	 * missing or stale.
 	 */
 	daemonPid?: number;
+	/** Optional launchd job generation; inherited unchanged across FD handoff. */
+	launchdGeneration?: string;
 	/**
 	 * macOS only: whether the daemon's Mach bootstrap can reach `com.apple.trustd`
 	 * (Security-framework TLS trust evaluation). False means terminals it spawns

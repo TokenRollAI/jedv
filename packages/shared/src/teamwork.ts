@@ -47,6 +47,7 @@ export const teamSelectorSchema = z.object({
 export const teamStartSchema = z
 	.object({
 		operationId: id,
+		actor: teamworkActorSchema.optional(),
 		workspaceId: id,
 		agent: z.string().min(1).max(256),
 		prompt: z
@@ -98,6 +99,8 @@ export const teamRenameSchema = teamSelectorSchema.extend({
 	name: z.string().trim().min(1).max(120),
 });
 export const mailSendSchema = teamSelectorSchema.extend({
+	deliveryMode: z.enum(["queue", "interrupt"]).optional(),
+	requiresAck: z.boolean().optional(),
 	targetPeer: targetPeerSchema.optional(),
 	to: z.string().min(1).max(128),
 	type: z.string().min(1).max(80).default("message"),
@@ -128,5 +131,10 @@ export interface TeamworkCapabilities {
 	protocolVersion: number;
 	localOnly: boolean;
 	orderedHooks?: boolean;
-	features?: { start?: boolean };
+	features?: {
+		start?: boolean;
+		startCaller?: boolean;
+		mailDeliveryModes?: boolean;
+		mailInterrupt?: boolean;
+	};
 }

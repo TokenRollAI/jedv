@@ -16,6 +16,10 @@ export interface JedvProjectTreeProps {
 	projects: Project[];
 	workspaces: Workspace[];
 	bindings: ActiveBinding[];
+	agentSessions?: Map<
+		string,
+		import("./components/ProjectTreeWorkspace/session-rows").WorkspaceAgentSession
+	>;
 	workspaceTeams?: Map<
 		string,
 		import("../../hooks/useTeamwork").WorkspaceTeam[]

@@ -29,11 +29,13 @@ export function TerminalPaneSessionMenu({
 	menuProps,
 	onCreated,
 	displayAgentId,
+	displaySessionName,
 }: {
 	context: RendererContext<WorkspacePaneData>;
 	menuProps: TerminalSessionsMenuProps;
 	onCreated(): Promise<void>;
 	displayAgentId?: string | null;
+	displaySessionName?: string;
 }) {
 	const { t } = useLingui();
 	const cache = useQueryClient();
@@ -137,7 +139,7 @@ export function TerminalPaneSessionMenu({
 			const title = terminalPaneTitle({
 				titleOverride: context.store.getState().getPane(paneId)?.pane
 					.titleOverride,
-				customTitle: session?.customTitle,
+				customTitle: session?.customTitle || displaySessionName,
 				agentLabel,
 				runtimeTitle:
 					runtimeTitle !== undefined ? runtimeTitle : session?.title,

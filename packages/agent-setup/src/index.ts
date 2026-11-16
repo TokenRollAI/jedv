@@ -54,6 +54,10 @@ export function setupAgentIntegrations(
 }
 
 export { setupSingleAgent, teardownSingleAgent };
+export {
+	readAgentLaunchEvidence,
+	removeAgentLaunchEvidence,
+} from "./agent-launch-status";
 
 export {
 	ensureClaudeManagedHooksAt,
@@ -69,6 +73,11 @@ export {
 export { getCommandShellArgs, getShellArgs, getShellEnv };
 
 export { getWrapperPath } from "./agent-wrappers-common";
+export type {
+	CodexNativeExecutableResult,
+	CodexNativeLaunchSnapshot,
+} from "./codex-native-executable";
+export { resolveCodexNativeExecutable } from "./codex-native-executable";
 export {
 	getAgentSetupTemplatesDir,
 	getBundledMarketplaceDir,
@@ -169,6 +178,7 @@ export {
 	skillsRoot,
 	writeKnownMarketplaces,
 } from "./plugin-state";
+export { readProcessExecutable } from "./process-executable";
 export {
 	type McpReconcileReport,
 	reconcileMcpServers,

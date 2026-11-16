@@ -1,5 +1,5 @@
 import { afterEach, expect, mock, test } from "bun:test";
-import type { ButlerSendResult } from "@jedv/shared/butler";
+import type { ButlerMessageShape, ButlerSendResult } from "@jedv/shared/butler";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, cleanup, renderHook, waitFor } from "@testing-library/react";
 import type { ReactNode } from "react";
@@ -21,7 +21,7 @@ const result = (id: string): ButlerSendResult => ({
 	degraded: false,
 	reason: null,
 });
-function fixture(supported = true) {
+function fixture(supported = true, historyByRequest = false) {
 	let current = "first";
 	const state = mock(async () => ({
 		currentThreadId: current,
@@ -33,7 +33,9 @@ function fixture(supported = true) {
 			updatedAt: 1,
 		},
 	}));
-	const history = mock(async (_input: unknown) => []);
+	const history = mock(
+		async (_input: unknown): Promise<ButlerMessageShape[]> => [],
+	);
 	const send = mock(async (_input: unknown) => result(current));
 	const threads = mock(async (_input: unknown) => []);
 	const ai = mock(async () => ({ configured: true, maskedHint: "••1234" }));
@@ -55,14 +57,22 @@ function fixture(supported = true) {
 	});
 	caches.push(cache);
 	const hook = renderHook(
-		() =>
-			useButlerConversation({
+		() => {
+			const value = useButlerConversation({
 				context,
 				connected: true,
 				supported,
 				active: true,
 				historyOpen: true,
-			}),
+				historyByRequest,
+			});
+			// Track the history fields consumed by ButlerChat during render.
+			if (historyByRequest) {
+				void value.history.data;
+				void value.history.status;
+			}
+			return value;
+		},
 		{
 			wrapper: ({ children }: { children: ReactNode }) => (
 				<QueryClientProvider client={cache}>{children}</QueryClientProvider>
@@ -226,4 +236,57 @@ test("draft capacity stays bounded without evicting unsent instructions", async 
 	expect(f.result.current.capacityError).toBe(true);
 	expect(f.result.current.drafts.size).toBe(32);
 	expect(f.result.current.drafts.get("thread:history-0")?.text).toBe("Draft 0");
+});
+
+test("new topic reads live tool progress by its own request before the send completes", async () => {
+	const f = fixture(true, true);
+	await waitFor(() => expect(f.result.current.key).toBe("thread:first"));
+	let complete: (result: ButlerSendResult) => void = () => {};
+	const pending = new Promise<ButlerSendResult>((resolve) => {
+		complete = resolve;
+	});
+	let status = "running";
+	f.history.mockImplementation(async (input) => {
+		const requestId = (input as { requestId?: string }).requestId;
+		if (!requestId) return [];
+		const tool: ButlerMessageShape = {
+			id: "tool-1",
+			threadId: "accepted-thread",
+			requestId,
+			role: "tool",
+			content: JSON.stringify({ version: 1, tool: "listProjects", status }),
+			createdAt: 1,
+		};
+		return [tool, { ...tool, id: "unrelated", requestId: "someone-else" }];
+	});
+	f.send.mockImplementationOnce(async () => pending);
+	act(() => f.result.current.newTopic());
+	act(() => f.result.current.setDraft("Inspect projects"));
+	let sending: Promise<void> = Promise.resolve();
+	act(() => {
+		sending = f.result.current.send();
+	});
+	const requestId = f.result.current.draft.request?.requestId;
+	if (!requestId) throw new Error("Missing request ID");
+	await act(async () => {
+		await f.result.current.history.refetch();
+	});
+	await waitFor(() => expect(f.result.current.history.data).toHaveLength(1));
+	expect(f.result.current.history.data?.[0]?.id).toBe("tool-1");
+	expect(f.result.current.draft.pending).toBe(true);
+	expect(f.result.current.key.startsWith("new:")).toBe(true);
+	expect(f.history.mock.calls.at(-1)?.[0]).toEqual({ requestId, limit: 100 });
+	status = "failed";
+	await act(async () => {
+		await f.result.current.history.refetch();
+	});
+	await waitFor(() =>
+		expect(f.result.current.history.data?.[0]?.content).toContain('"failed"'),
+	);
+	expect(f.send).toHaveBeenCalledTimes(1);
+	await act(async () => {
+		complete(result("accepted-thread"));
+		await sending;
+	});
+	expect(f.result.current.key).toBe("thread:accepted-thread");
 });

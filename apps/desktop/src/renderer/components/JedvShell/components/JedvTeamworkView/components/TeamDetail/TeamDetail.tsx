@@ -47,6 +47,8 @@ import {
 	WindowChromeLeading,
 	WindowControlsInset,
 } from "../../../WindowChrome";
+import type { MailDeliveryOptions } from "../../team-mail-drafts";
+import { TeamGoal } from "../TeamGoal";
 import { TeamIconButton } from "../TeamIconButton";
 import { TeamMailComposer } from "../TeamMailComposer";
 import { TeamMailTimeline } from "../TeamMailTimeline";
@@ -56,11 +58,15 @@ export function TeamDetail({
 	teamId,
 	connected,
 	title,
+	deliveryModesSupported = false,
+	interruptSupported = false,
 }: {
 	context: JedvParityViewContext;
 	teamId: string;
 	connected: boolean;
 	title: string;
+	deliveryModesSupported?: boolean;
+	interruptSupported?: boolean;
 }) {
 	const { client, hostUrl } = context;
 	const { t } = useLingui();
@@ -160,11 +166,13 @@ export function TeamDetail({
 			to,
 			body,
 			dedupeKey,
+			options,
 		}: {
 			to: string;
 			body: string;
 			dedupeKey: string;
-		}) => client.mail.send.mutate({ teamId, to, body, dedupeKey }),
+			options?: MailDeliveryOptions;
+		}) => client.mail.send.mutate({ teamId, to, body, dedupeKey, ...options }),
 		onMutate: () => setError(null),
 		onSuccess: refresh,
 		onError: (cause) =>
@@ -381,13 +389,7 @@ export function TeamDetail({
 				className="flex min-h-0 flex-1 flex-col gap-0 px-5 pb-4"
 			>
 				<div className="min-h-0 flex-1 overflow-y-auto">
-					{team?.goal.trim() &&
-						team.goal.trim().replace(/\s+/g, " ") !==
-							team.name.trim().replace(/\s+/g, " ") && (
-							<p className="py-3 whitespace-pre-wrap break-words text-xs text-muted-foreground">
-								{team.goal}
-							</p>
-						)}
+					{team && <TeamGoal key={team.id} name={team.name} goal={team.goal} />}
 					{(!connected ||
 						error ||
 						status.isError ||
@@ -442,7 +444,7 @@ export function TeamDetail({
 					<div className="sticky top-0 z-10 bg-background py-1">
 						<TabsList className="h-8">
 							<TabsTrigger value="mail" className="text-xs">
-								<Trans>Team mail</Trans>
+								<Trans>Progress and decisions</Trans>
 							</TabsTrigger>
 							<TabsTrigger value="memory" className="text-xs">
 								<Trans>Shared memory</Trans>
@@ -518,8 +520,10 @@ export function TeamDetail({
 							members={members}
 							disabled={unavailable || team?.status === "stopped"}
 							pending={pending}
-							onSend={async (to, body, dedupeKey) => {
-								await send.mutateAsync({ to, body, dedupeKey });
+							deliveryModesSupported={deliveryModesSupported}
+							interruptSupported={interruptSupported}
+							onSend={async (to, body, dedupeKey, options) => {
+								await send.mutateAsync({ to, body, dedupeKey, options });
 							}}
 						/>
 					</div>

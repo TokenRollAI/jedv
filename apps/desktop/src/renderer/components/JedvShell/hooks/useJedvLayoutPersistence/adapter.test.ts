@@ -185,3 +185,175 @@ test("paired layout persists a hidden right area without detaching or duplicatin
 	expect(workspacePaneAreas(store).state.getState().rightAreaOpen).toBe(false);
 	expect(writes.at(-1)?.detachedTerminalIds ?? []).toEqual([]);
 });
+
+test("strict successor lookup runs before restoring saved panes in both areas, preserving identities and parked sessions", async () => {
+	const source = createTerminalWorkspaceStore();
+	reconcileTerminalPanes(source, [
+		session("old-left"),
+		session("neighbor"),
+		session("old-right"),
+		session("parked"),
+	]);
+	source.getState().movePaneToSplit({
+		sourcePaneId: "neighbor",
+		targetPaneId: "old-left",
+		position: "right",
+	});
+	source.getState().setPaneTitleOverride({
+		tabId: "old-left",
+		paneId: "old-left",
+		titleOverride: "Keep my title",
+	});
+	detachTerminalTab(source, "parked");
+	const sourceAreas = workspacePaneAreas(source);
+	moveWorkspacePane(source, sourceAreas.right, "old-right");
+	const disk: JedvWorkspaceLayout = {
+		...encodeWorkspaceLayout(source.getState(), ["parked"]),
+		rightArea: {
+			version: 1,
+			tabs: sourceAreas.right.getState().tabs,
+			activeTabId: sourceAreas.right.getState().activeTabId,
+		},
+		rightAreaOpen: false,
+	};
+	const store = createTerminalWorkspaceStore(),
+		lookedUp: string[] = [];
+	const adapter = createLayoutPersistenceAdapter({
+		store,
+		reconcile: reconcileTerminalPanes,
+		resolveResumedTerminal: async (id) => {
+			lookedUp.push(id);
+			return id === "old-left" ? "new-left" : "new-right";
+		},
+		client: { get: async () => disk, set: async () => {} },
+	});
+	adapter.update(
+		[
+			session("new-left"),
+			session("new-right"),
+			session("neighbor"),
+			session("parked"),
+		],
+		true,
+	);
+	await adapter.start();
+	expect(lookedUp.sort()).toEqual(["old-left", "old-right"]);
+	expect(store.getState().getPane("old-left")?.pane.data).toEqual({
+		terminalId: "new-left",
+	});
+	expect(store.getState().getPane("old-left")?.pane.titleOverride).toBe(
+		"Keep my title",
+	);
+	expect(store.getState().getTab("old-left")?.layout).toEqual(
+		disk.tabs[0].layout,
+	);
+	expect(
+		workspacePaneAreas(store).right.getState().getPane("old-right")?.pane.data,
+	).toEqual({ terminalId: "new-right" });
+	expect(workspacePaneAreas(store).state.getState().rightAreaOpen).toBe(false);
+	expect(store.getState().findPaneByKey("parked")).toBeNull();
+});
+
+test("a verified successor not yet in the terminal list keeps saved layout intact for retry", async () => {
+	const source = createTerminalWorkspaceStore();
+	reconcileTerminalPanes(source, [session("old")]);
+	const disk = encodeWorkspaceLayout(source.getState(), []),
+		store = createTerminalWorkspaceStore();
+	const writes: JedvWorkspaceLayout[] = [];
+	const adapter = createLayoutPersistenceAdapter({
+		store,
+		reconcile: reconcileTerminalPanes,
+		resolveResumedTerminal: async () => "new",
+		client: {
+			get: async () => disk,
+			set: async (layout) => {
+				writes.push(layout);
+			},
+		},
+	});
+	adapter.update([], true);
+	await adapter.start();
+	expect(adapter.getState().ready).toBe(false);
+	expect(adapter.getState().status).toBe("error");
+	expect(store.getState().tabs).toHaveLength(0);
+	expect(writes).toEqual([]);
+	expect(disk.tabs[0].panes.old.data).toEqual({ terminalId: "old" });
+	adapter.update([session("new")], true);
+	await adapter.start();
+	expect(adapter.getState().ready).toBe(true);
+	expect(store.getState().getPane("old")?.pane.data).toEqual({
+		terminalId: "new",
+	});
+});
+
+test("terminal list arriving during strict lookup is used without mounting the absent old terminal", async () => {
+	const source = createTerminalWorkspaceStore();
+	reconcileTerminalPanes(source, [session("old")]);
+	const disk = encodeWorkspaceLayout(source.getState(), []),
+		store = createTerminalWorkspaceStore(),
+		successor = deferred<string | null>();
+	const adapter = createLayoutPersistenceAdapter({
+		store,
+		reconcile: reconcileTerminalPanes,
+		resolveResumedTerminal: () => successor.promise,
+		client: { get: async () => disk, set: async () => {} },
+	});
+	adapter.update([], true);
+	const loading = adapter.start();
+	await Promise.resolve();
+	expect(store.getState().tabs).toHaveLength(0);
+	adapter.update([session("new")], true);
+	successor.resolve("new");
+	await loading;
+	expect(adapter.getState().ready).toBe(true);
+	expect(store.getState().getPane("old")?.pane.data).toEqual({
+		terminalId: "new",
+	});
+});
+
+test("edits during strict restore win and lookup failure does not discard saved data", async () => {
+	const source = createTerminalWorkspaceStore();
+	reconcileTerminalPanes(source, [session("old")]);
+	const disk = encodeWorkspaceLayout(source.getState(), []),
+		store = createTerminalWorkspaceStore(),
+		successor = deferred<string | null>();
+	const adapter = createLayoutPersistenceAdapter({
+		store,
+		reconcile: reconcileTerminalPanes,
+		resolveResumedTerminal: () => successor.promise,
+		client: { get: async () => disk, set: async () => {} },
+	});
+	adapter.update([session("new")], true);
+	const loading = adapter.start();
+	await Promise.resolve();
+	const userPane = openChangesTab(store);
+	successor.resolve("new");
+	await loading;
+	expect(store.getState().getPane(userPane)?.pane.kind).toBe("changes");
+	expect(store.getState().getPane("old")).toBeNull();
+	const failureStore = createTerminalWorkspaceStore();
+	let fail = true;
+	const writes: JedvWorkspaceLayout[] = [];
+	const failure = createLayoutPersistenceAdapter({
+		store: failureStore,
+		reconcile: reconcileTerminalPanes,
+		resolveResumedTerminal: async () => {
+			if (fail) throw new Error("offline");
+			return null;
+		},
+		client: {
+			get: async () => disk,
+			set: async (layout) => {
+				writes.push(layout);
+			},
+		},
+	});
+	failure.update([], true);
+	await failure.start();
+	expect(failure.getState().error?.message).toBe("offline");
+	expect(writes).toEqual([]);
+	fail = false;
+	await failure.retry();
+	expect(failure.getState().ready).toBe(true);
+	expect(failureStore.getState().tabs).toHaveLength(0);
+});

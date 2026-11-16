@@ -11,6 +11,13 @@ code:
     - apps/desktop/src/renderer/components/JedvShell/components/NativeAgentControls/NativeAgentControls.tsx
     - packages/host-service/src/chat-v3/approval-detail.ts
     - apps/desktop/src/renderer/components/JedvShell/components/NativeAgentControls/components/ChatSessionControl/ChatSessionControl.tsx
+    - packages/agent-setup/src/agent-launch-status.ts
+    - packages/agent-setup/src/codex-native-executable.ts
+    - packages/shared/src/agent-models.ts
+    - packages/shared/src/host-agent-presets.ts
+    - packages/shared/src/builtin-terminal-agents.ts
+    - packages/cli/src/commands/agents/create/command.ts
+    - packages/cli/src/commands/agents/launch-status/command.ts
 relations:
   requires:
     - agents/chat-journal.mdx
@@ -34,7 +41,7 @@ claim Control 要求 turn idle，且原生 CLI 已退出或终端被明确关闭
 
 ## provider 的控制方式
 
-Codex 使用同 workspace/profile 的 shared daemon，broker 观察 native notifications 与 server requests；非 Codex 采用 quiesced resume，在原生 CLI 释放后加载同一会话。daemon 退出时 writer→none、turn→unknown 并更换 epoch，不能伪报 idle。
+Control 接管的 Codex 路径使用同 workspace/profile 的 shared daemon，broker 观察 native notifications 与 server requests；普通 Team 原生 PTY 启动不因此自动具备 shared-daemon RPC 取消能力。非 Codex 采用 quiesced resume，在原生 CLI 释放后加载同一会话。daemon 退出时 writer→none、turn→unknown 并更换 epoch，不能伪报 idle。
 
 能力来自 controlCapabilities 与协议协商，不应把 protocol-negotiated 升级为已验证所有认证场景。新增 provider 必须说明能否加载同一 native identity，以及何时可以确认原 writer 已经停止。
 
@@ -49,6 +56,10 @@ Codex 使用同 workspace/profile 的 shared daemon，broker 观察 native notif
 `runAgentInWorkspace` 先要求工作区存在且未归档，优先继续当前工作区内、配置身份匹配的 live Chat 或 terminal。发送只 adopt 既有 PTY，不 respawn，防止查询后进程死亡把 prompt 打入新 shell。普通 continuation hint 失效可以回落到新 launch；它不是 strict resume 的原会话保证。
 
 新启动在创建 PTY 前校验配置、model/effort/mode、resume/fork 互斥、参数支持与附件。transcript 可用性必须用实际 launch environment 调查；未知 store 不等于不存在。resume 的 native id 在启动时立即绑定新 terminal，不等待首条 hook；idle 恢复会话可能没有 hook。fork 会生成新 id，不能预绑旧身份。
+
+内置模型目录提供默认选择，不必然是 provider 最新可用目录。只有明确支持自定义模型的 provider 才接受经单 argv token 格式校验的显式 ID，最终可用性由 provider 判断；effort 与模型后缀须统一，不能发送冲突选择。具体型号留在源码与 provider CLI，不成为稳定文档快照。
+
+terminal 创建返回 starting/runId 只说明启动命令已排队。支持的 wrapper 以本次 run/launch 记录有界退出证据，launch-status 再结合可信生命周期判断 active；缺证据是 unknown，进程 exit 0 也不证明业务任务成功。这些状态不授予自动输入许可。native executable 解析必须来自当次保存的最小 command/PATH/cwd 快照；managed wrapper 或已审查的 npm loader 不能直接当作前台 native 身份，未知自定义 wrapper 拒绝猜测，连版本探测也使用隔离目录。
 
 恢复先原子 claim 候选，再按 workspace+旧 terminal 合并并发调用，避免多个窗口同时 resume 导致重复 launch。失败 unclaim，允许后续明确重试；成功记录 resumedInto，清理旧 terminal，并广播 resumed，使所有窗口/pane 跟随新 terminal，不能只改发起窗口。
 

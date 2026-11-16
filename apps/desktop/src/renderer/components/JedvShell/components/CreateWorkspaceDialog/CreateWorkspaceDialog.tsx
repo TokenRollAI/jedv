@@ -60,6 +60,7 @@ export function CreateWorkspaceDialog(props: CreateWorkspaceDialogProps) {
 	const mode = gitEnabled ? requestedMode : "local";
 	const [name, setName] = useState("");
 	const [branch, setBranch] = useState("");
+	const [conflictFromServer, setConflictFromServer] = useState(false);
 	const [baseBranch, setBaseBranch] = useState<string | null>(null);
 	const [pr, setPr] = useState<number | null>(null);
 	const [worktreePath, setWorktreePath] = useState("");
@@ -107,11 +108,33 @@ export function CreateWorkspaceDialog(props: CreateWorkspaceDialogProps) {
 			context.client.workspaceCreation.listProjectWorktrees.query({
 				projectId,
 			}),
-		enabled: !!projectId && mode === "import",
+		enabled:
+			!!projectId && (mode === "import" || mode === "new" || mode === "branch"),
 		retry: false,
 	});
+	const branchWorktree = worktrees.data?.worktrees.find(
+		(row) => row.branch === branch.trim(),
+	);
+	const sharedConflict =
+		(mode === "new" || mode === "branch") &&
+		(!!branchWorktree?.isMainWorktree || conflictFromServer);
+	const existingConflict =
+		mode === "new" &&
+		!!branch.trim() &&
+		!sharedConflict &&
+		(!!branchWorktree ||
+			!!branches.data?.pages.some((page) =>
+				page.items.some((row) => row.name === branch.trim() && row.isLocal),
+			));
+	const branchConflict = sharedConflict || existingConflict;
+	const switchToLocal = () => {
+		setMode("local");
+		setError(null);
+		setConflictFromServer(false);
+		if (!setupTouched) setRunSetup(false);
+	};
 	const submit = async () => {
-		if (busy.current || !projectId) return;
+		if (busy.current || !projectId || (!saved && branchConflict)) return;
 		if (
 			(mode === "branch" && !branch.trim()) ||
 			(mode === "pr" && (!pr || !Number.isSafeInteger(pr))) ||
@@ -133,7 +156,9 @@ export function CreateWorkspaceDialog(props: CreateWorkspaceDialogProps) {
 				};
 				if (mode === "new") {
 					if (branch.trim()) input.branch = branch.trim();
-					if (baseBranch) input.baseBranch = baseBranch;
+					const effectiveBase =
+						baseBranch ?? branches.data?.pages[0]?.defaultBranch;
+					if (effectiveBase) input.baseBranch = effectiveBase;
 				}
 				if (mode === "branch") {
 					input.branch = branch.trim();
@@ -164,16 +189,23 @@ export function CreateWorkspaceDialog(props: CreateWorkspaceDialogProps) {
 			await props.onCreated(result);
 			props.onClose();
 		} catch (failure) {
-			setError(
-				redactProjectError(
-					failure instanceof Error
-						? failure.message
-						: t({
-								message:
-									"Could not create workspace. Check the target host and retry.",
-							}),
-				),
-			);
+			if (
+				failure instanceof Error &&
+				failure.message.includes("shared checkout")
+			) {
+				setConflictFromServer(true);
+				setError(null);
+			} else
+				setError(
+					redactProjectError(
+						failure instanceof Error
+							? failure.message
+							: t({
+									message:
+										"Could not create workspace. Check the target host and retry.",
+								}),
+					),
+				);
 		} finally {
 			busy.current = false;
 			setPending(false);
@@ -227,6 +259,8 @@ export function CreateWorkspaceDialog(props: CreateWorkspaceDialogProps) {
 							disabled={pending || !!saved}
 							onValueChange={(value) => {
 								setProjectId(value);
+								setConflictFromServer(false);
+								setError(null);
 								setBaseBranch(null);
 								setBranch("");
 								setPr(null);
@@ -250,6 +284,7 @@ export function CreateWorkspaceDialog(props: CreateWorkspaceDialogProps) {
 						value={mode}
 						onValueChange={(value) => {
 							setMode(value as WorkspaceCreateMode);
+							setConflictFromServer(false);
 							if (!setupTouched)
 								setRunSetup(value !== "import" && value !== "local");
 							setError(null);
@@ -305,28 +340,89 @@ export function CreateWorkspaceDialog(props: CreateWorkspaceDialogProps) {
 						<div className="space-y-2">
 							<Label htmlFor={`${id}-branch`}>
 								{mode === "new" ? (
-									<Trans>Branch name</Trans>
+									<Trans>New branch name</Trans>
 								) : (
 									<Trans>Existing branch</Trans>
 								)}
 							</Label>
 							<Input
 								id={`${id}-branch`}
+								aria-invalid={branchConflict}
+								aria-describedby={`${id}-branch-help`}
 								value={branch}
 								disabled={pending || !!saved}
 								onChange={(event) => {
 									setBranch(event.target.value);
+									setConflictFromServer(false);
+									setError(null);
 									setWorktreePath("");
 								}}
 								placeholder={
 									mode === "new"
-										? t({ message: "Automatic branch" })
+										? t({ message: "Leave empty for a unique new branch" })
 										: t({ message: "Branch name" })
 								}
 							/>
+							<div id={`${id}-branch-help`} className="text-xs leading-5">
+								{branchConflict ? (
+									<div role="alert" className="space-y-2 text-destructive">
+										<p>
+											{sharedConflict ? (
+												<Trans>
+													This branch is used by the shared checkout. Choose a
+													new name or use the local checkout.
+												</Trans>
+											) : (
+												<Trans>
+													This branch already exists. Choose a new name or
+													select Existing branch.
+												</Trans>
+											)}
+										</p>
+										<Button
+											type="button"
+											variant="outline"
+											size="sm"
+											disabled={pending || !!saved}
+											onClick={
+												sharedConflict
+													? switchToLocal
+													: () => {
+															setMode("branch");
+															setError(null);
+														}
+											}
+										>
+											{sharedConflict ? (
+												<Trans>Use local checkout</Trans>
+											) : (
+												<Trans>Use existing branch</Trans>
+											)}
+										</Button>
+									</div>
+								) : (
+									mode === "new" && (
+										<p className="text-muted-foreground">
+											<Trans>
+												A new branch is separate from its base. Leave the name
+												empty to generate a unique branch automatically.
+											</Trans>
+										</p>
+									)
+								)}
+							</div>
+							{mode === "new" && (
+								<p className="text-xs font-medium">
+									<Trans>Base branch to create from</Trans>
+								</p>
+							)}
 							<CompareBaseBranchPicker
 								effectiveCompareBaseBranch={
-									mode === "new" ? baseBranch : branch || null
+									mode === "new"
+										? (baseBranch ??
+											branches.data?.pages[0]?.defaultBranch ??
+											null)
+										: branch || null
 								}
 								defaultBranch={branches.data?.pages[0]?.defaultBranch}
 								isBranchesLoading={branches.isPending}
@@ -507,6 +603,7 @@ export function CreateWorkspaceDialog(props: CreateWorkspaceDialogProps) {
 							type="submit"
 							disabled={
 								pending ||
+								(!saved && branchConflict) ||
 								!projectId ||
 								(mode === "branch" && !branch.trim()) ||
 								(mode === "pr" && !pr) ||

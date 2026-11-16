@@ -114,3 +114,20 @@ test("disabled/offline menu cannot attach, kill or start a session", async () =>
 	cleanup();
 	f.cache.clear();
 });
+
+test("a closed menu never seeds the shared terminal query with its non-authoritative empty props", async () => {
+	const f = fixture();
+	const key = ["jedv", "http://original.invalid", "terminals", "w"];
+	const screen = render(f.view({ ...f.props, sessions: [] }));
+	expect(f.cache.getQueryData(key)).toBeUndefined();
+	expect(f.cache.getQueryState(key)?.status).not.toBe("success");
+	fireEvent.keyDown(screen.getByRole("button", { name: "Terminal sessions" }), {
+		key: "Enter",
+	});
+	await screen.findByText("Terminal 44");
+	expect(
+		f.cache.getQueryData<{ sessions: TerminalSession[] }>(key)?.sessions,
+	).toHaveLength(45);
+	cleanup();
+	f.cache.clear();
+});

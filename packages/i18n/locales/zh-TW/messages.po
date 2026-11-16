@@ -13,6 +13,50 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#. js-lingui-explicit-id
+msgid "Delivery mode (default: queue); interrupt requires an explicit human action and safe native support"
+msgstr "投遞方式（預設：queue）；interrupt 需要使用者明確操作，且原生會話支援安全中斷"
+
+#. js-lingui-explicit-id
+msgid "Do not request recipient acknowledgement; this never marks mail acknowledged"
+msgstr "不要求接收方確認；這不會將郵件標記為已確認"
+
+#. js-lingui-explicit-id
+msgid "--delivery-mode interrupt requires --human and an explicit user request"
+msgstr "--delivery-mode interrupt 需要 --human 和使用者的明確請求"
+
+#. js-lingui-explicit-id
+msgid "This Host does not support Mail delivery modes; no mail was sent"
+msgstr "此主機不支援選擇郵件投遞方式；未傳送郵件"
+
+#. js-lingui-explicit-id
+msgid "Safe Mail interruption is unavailable on this Host; no mail was sent"
+msgstr "此主機不支援安全中斷以投遞郵件；未傳送任何郵件"
+
+#. js-lingui-explicit-id
+msgid "Inspect launch evidence; starting or unknown does not mean the agent is ready"
+msgstr "查看啟動證據；啟動中或狀態未知不代表 Agent 已就緒"
+
+#. js-lingui-explicit-id
+msgid "Workspace ID"
+msgstr "工作區 ID"
+
+#. js-lingui-explicit-id
+msgid "Host on this machine (default: local)"
+msgstr "本機上的主機（預設：local）"
+
+#. js-lingui-explicit-id
+msgid "The workspace is on this machine"
+msgstr "工作區位於本機"
+
+#. js-lingui-explicit-id
+msgid "Terminal sessionId returned by agents create"
+msgstr "agents create 傳回的終端機 sessionId"
+
+#. js-lingui-explicit-id
+msgid "Launch runId returned by agents create"
+msgstr "agents create 傳回的啟動 runId"
+
 msgid "./"
 msgstr "./"
 
@@ -180,6 +224,9 @@ msgstr "4.5:1 (AA)"
 msgid "7:1 (AAA)"
 msgstr "7:1 (AAA)"
 
+msgid "A connected host and workspace are required to save layout"
+msgstr "儲存版面配置需要已連線的主機與工作區"
+
 msgid "A daemon operation is already in progress"
 msgstr "守護程序作業已在執行中"
 
@@ -189,6 +236,9 @@ msgstr "{where}中已存在名為「{firstName}」的檔案。是否要替換它
 msgid "A listening process changed. Cancel and review the current process list before trying again."
 msgstr "監聽程序已變更。請取消操作並檢查目前程序清單，然後重試。"
 
+msgid "A new branch is separate from its base. Leave the name empty to generate a unique branch automatically."
+msgstr "新分支與基準分支彼此獨立。名稱留空即可自動產生不重複的新分支。"
+
 msgid "A pull request already exists for this branch. Refresh the pull request list."
 msgstr "此分支已有 PR。請重新整理 PR 清單。"
 
@@ -197,6 +247,9 @@ msgstr "每個分頁最多可包含 8 個窗格。"
 
 msgid "A tab can contain at most eight terminal panes."
 msgstr "一個分頁最多可包含八個終端機窗格。"
+
+msgid "A workspace can contain at most 32 tabs and each tab at most eight panes."
+msgstr "一個工作區最多可包含 32 個分頁，每個分頁最多可包含 8 個面板。"
 
 msgid "A workspace is protected. Resolve its protection before removing this project."
 msgstr "一個工作區受到保護。請先解除保護，再移除此專案。"
@@ -357,6 +410,18 @@ msgstr "代理程式正在等待初始化完成後啟動"
 
 msgid "Agent may be stalled"
 msgstr "Agent 可能停滯"
+
+msgid "Agent notified, awaiting consumption"
+msgstr "已通知 Agent，等待處理"
+
+msgid "Agent progress report"
+msgstr "Agent 進度報告"
+
+msgid "Agent reported a blocker"
+msgstr "Agent 回報了阻礙"
+
+msgid "Agent reports are not verified completion. Mail acknowledgement is separate from task acceptance."
+msgstr "Agent 的報告不代表任務已通過驗收。郵件確認與任務驗收是兩回事。"
 
 msgid "Agent saved, but linked presets could not be updated."
 msgstr "代理程式已儲存，但無法更新關聯的預設。"
@@ -605,8 +670,8 @@ msgstr "自動（跟隨系統）"
 msgid "Auto save"
 msgstr "自動儲存"
 
-msgid "Automatic branch"
-msgstr "自動分支名稱"
+msgid "Automatic delivery paused"
+msgstr "自動投遞已暫停"
 
 msgid "Automatic name"
 msgstr "自動命名"
@@ -671,6 +736,9 @@ msgstr "返回自動化"
 msgid "Back to current conversation"
 msgstr "返回目前對話"
 
+msgid "Background"
+msgstr "背景"
+
 msgid "Background processes"
 msgstr "背景程序"
 
@@ -682,6 +750,9 @@ msgstr "基礎分支"
 
 msgid "Base branch (repository default)"
 msgstr "基礎分支（儲存庫預設）"
+
+msgid "Base branch to create from"
+msgstr "建立所用的基準分支"
 
 msgid "Binary file"
 msgstr "二進位檔案"
@@ -907,6 +978,9 @@ msgstr "選擇 Jedv 在此裝置上的行為。"
 msgid "Choose notification sounds and volume."
 msgstr "選擇通知聲音和音量。"
 
+msgid "Choose two different panes."
+msgstr "請選擇兩個不同的面板。"
+
 msgid "Clear"
 msgstr "透明"
 
@@ -1036,6 +1110,9 @@ msgstr "關閉目前窗格"
 
 msgid "Close the current tab"
 msgstr "關閉目前分頁"
+
+msgid "Close the files view in the desktop so unsaved changes can be checked."
+msgstr "請在桌面端關閉檔案檢視，以便檢查尚未儲存的變更。"
 
 msgid "Close this CLI terminal and take control of the same session? The terminal process will stop. Other terminal work may be lost."
 msgstr "關閉此 CLI 終端並接管同一工作階段？終端程序將停止，其他終端工作可能遺失。"
@@ -1306,6 +1383,9 @@ msgstr "複製localhost:{0}"
 msgid "Copy on select"
 msgstr "選取即複製"
 
+msgid "Copy original instructions"
+msgstr "複製原始指令"
+
 msgid "Copy path"
 msgstr "複製路徑"
 
@@ -1359,6 +1439,9 @@ msgstr "無法確認目標主機上的結果。請檢查連線與權限，然後
 
 msgid "Could not confirm this session. Refresh before retrying."
 msgstr "無法確認此工作階段。重試前請重新整理。"
+
+msgid "Could not copy. Select the text below to copy it."
+msgstr "複製失敗。請選取下方文字後複製。"
 
 msgid "Could not create team. Refresh the agents and retry."
 msgstr "無法建立團隊，請重新整理 Agent 後重試。"
@@ -1756,6 +1839,21 @@ msgstr "已送達"
 
 msgid "Delivered means the remote host stored the mail, not that a recipient read or acknowledged it."
 msgstr "已送達表示遠端主機已儲存郵件，不代表收件者已讀或確認處理。"
+
+msgid "Delivering"
+msgstr "正在投遞"
+
+msgid "Delivery failed"
+msgstr "投遞失敗"
+
+msgid "Delivery mode"
+msgstr "投遞方式"
+
+msgid "Delivery outcome is uncertain. Inspect the terminal before retrying."
+msgstr "投遞結果不確定。請先檢查終端機，再決定是否重試。"
+
+msgid "Delivery uncertain"
+msgstr "投遞結果不確定"
 
 msgid "Describe a goal to start a new task."
 msgstr "描述目標，開始一個新任務。"
@@ -2398,6 +2496,9 @@ msgstr "已隱藏front matter。切換到Markdown檢視進行編輯"
 msgid "Full Disk Access"
 msgstr "完全磁碟存取權限"
 
+msgid "Full task instructions"
+msgstr "完整任務指令"
+
 msgid "Full-stack Turborepo with Next.js, Expo, and tRPC"
 msgstr "使用 Next.js、Expo 與 tRPC 的全端 Turborepo"
 
@@ -2572,6 +2673,9 @@ msgstr "https://github.com/owner/repo.git 或 /path/to/repo"
 msgid "Human"
 msgstr "人類"
 
+msgid "Human instruction"
+msgstr "使用者指令"
+
 msgid "I checked the attachments"
 msgstr "我已檢查附件"
 
@@ -2690,6 +2794,12 @@ msgstr "在 Apple 的視窗中按一下「安裝」。需要幾分鐘，完成�
 msgid "In review"
 msgstr "審查中"
 
+msgid "In right pane"
+msgstr "位於右側面板"
+
+msgid "In tab"
+msgstr "位於分頁"
+
 msgid "Inbound mail token"
 msgstr "入站郵件權杖"
 
@@ -2747,8 +2857,20 @@ msgstr "正在安裝更新…"
 msgid "Instructions"
 msgstr "說明"
 
+msgid "Instructions are available in the original mail."
+msgstr "可在原始郵件中查看完整指令。"
+
+msgid "Internal mail and diagnostics"
+msgstr "內部郵件與診斷"
+
+msgid "Internal mail diagnostics"
+msgstr "內部郵件診斷"
+
 msgid "Interrupt"
 msgstr "打斷"
+
+msgid "Interrupt now"
+msgstr "立即中斷"
 
 msgid "Interrupt requested"
 msgstr "已請求中斷"
@@ -2851,6 +2973,9 @@ msgstr "葉子"
 
 msgid "Leave a comment…"
 msgstr "留下評論…"
+
+msgid "Leave empty for a unique new branch"
+msgstr "留空以自動產生不重複的新分支"
 
 msgid "Leave empty to use the workspace directory. Relative paths are resolved inside the workspace."
 msgstr "留空以使用工作區目錄。相對路徑會在工作區內解析。"
@@ -3025,11 +3150,17 @@ msgstr "位置"
 msgid "Location & checkout"
 msgstr "位置與檢出"
 
+msgid "Location unavailable"
+msgstr "位置無法取得"
+
 msgid "Mail awaiting acknowledgement: {activeCount}"
 msgstr "{activeCount} 封郵件待確認"
 
 msgid "Mail awaits acknowledgement"
 msgstr "郵件待確認"
+
+msgid "Mail delivery needs attention. Open diagnostics to inspect the delivery."
+msgstr "郵件投遞需要處理。請開啟診斷查看投遞詳情。"
 
 msgid "Mail has not been acknowledged. Reading it does not acknowledge it."
 msgstr "郵件尚未確認，閱讀郵件不等於確認處理。"
@@ -3275,6 +3406,9 @@ msgstr "切換到側邊欄中的上一個工作區"
 msgid "Navigation"
 msgstr "導航"
 
+msgid "Navigation changed before the pane could be focused. Inspect the workspace before retrying."
+msgstr "聚焦面板前導覽已變更。請先檢查工作區，再決定是否重試。"
+
 msgid "Needs attention"
 msgstr "需要處理"
 
@@ -3295,6 +3429,9 @@ msgstr "新建自動化"
 
 msgid "New branch"
 msgstr "新分支"
+
+msgid "New branch name"
+msgstr "新分支名稱"
 
 msgid "New Chat"
 msgstr "新建聊天"
@@ -3448,6 +3585,12 @@ msgstr "尚未找到已完成的專案。主機可能仍在停止或完成作業
 msgid "No description provided"
 msgstr "未提供說明"
 
+msgid "No desktop pane consumer is connected."
+msgstr "尚未連接桌面面板處理端。"
+
+msgid "No desktop window is open to apply the layout change."
+msgstr "沒有開啟的桌面視窗可套用版面配置變更。"
+
 msgid "No existing worktrees found."
 msgstr "找不到現有工作樹。"
 
@@ -3526,6 +3669,9 @@ msgstr "無字首"
 msgid "No prefix could be resolved from this host's identity."
 msgstr "無法根據此主機的身分資訊解析前綴。"
 
+msgid "No progress reports or decisions yet. Internal communication is available in diagnostics."
+msgstr "尚無進度報告或待決事項。內部通訊可在診斷中查看。"
+
 msgid "No projects match your filters"
 msgstr "沒有符合篩選條件的專案"
 
@@ -3570,9 +3716,6 @@ msgstr "尚未指派任務"
 
 msgid "No team"
 msgstr "無團隊"
-
-msgid "No team mail yet"
-msgstr "尚無團隊郵件"
 
 msgid "No teams yet"
 msgstr "尚無團隊"
@@ -3676,16 +3819,15 @@ msgstr "開啟"
 msgid "Open"
 msgstr "開啟"
 
-#. placeholder {0}: binding.agentId
-msgid "Open {0} session"
-msgstr "開啟 {0} 工作階段"
-
 #. placeholder {0}: member.name
 msgid "Open {0} terminal"
 msgstr "開啟 {0} 的終端機"
 
 msgid "Open {displayName}"
 msgstr "開啟{displayName}"
+
+msgid "Open {name} session"
+msgstr "開啟 {name} 工作階段"
 
 msgid "Open {path} in file pane"
 msgstr "在檔案面板中開啟{path}"
@@ -3866,6 +4008,9 @@ msgstr "在新分頁中開啟更改面板，或聚焦現有面板"
 
 msgid "Open the global command palette"
 msgstr "開啟全域性命令面板"
+
+msgid "Open the local host before focusing a local workspace pane."
+msgstr "請先開啟本機主機，再聚焦本機工作區中的面板。"
 
 msgid "Open the main window to select this workspace"
 msgstr "開啟主視窗以選擇此工作區"
@@ -4110,6 +4255,9 @@ msgstr "已處理token"
 msgid "Processing"
 msgstr "處理中"
 
+msgid "Progress and decisions"
+msgstr "進度與決策"
+
 msgid "Project"
 msgstr "專案"
 
@@ -4206,8 +4354,14 @@ msgstr "px"
 msgid "Queue message"
 msgstr "將訊息加入佇列"
 
+msgid "Queue waits for the agent. Interrupt requires safe support from the current session. Both require recipient acknowledgement; sending is not consumption."
+msgstr "排隊傳送會等待 Agent；立即中斷需要目前的會話支援安全中斷。兩種方式都要求接收方確認，傳送成功不代表已處理。"
+
 msgid "Queue; ⌘↩ to steer the running turn"
 msgstr "加入佇列；按⌘↩引導目前回合"
+
+msgid "Queued"
+msgstr "已排隊"
 
 msgid "Quick Create Workspace"
 msgstr "快速建立工作區"
@@ -4781,6 +4935,9 @@ msgstr "執行中"
 msgid "Running"
 msgstr "執行中"
 
+msgid "Safe interruption is unavailable on this host. Queued mail waits for the agent; sending does not confirm consumption."
+msgstr "此主機不支援安全中斷。排隊郵件會等待 Agent 處理；傳送成功不代表已處理。"
+
 msgid "Same-session CLI control is unavailable. No new session was started."
 msgstr "同一工作階段的 CLI 控制無法使用。未啟動新的工作階段。"
 
@@ -5145,6 +5302,9 @@ msgstr "在工作區上方顯示代理程式指令與固定的終端預設。"
 msgid "Show Apple's installer"
 msgstr "顯示 Apple 安裝程式"
 
+msgid "Show decisions and exceptions"
+msgstr "顯示待決事項與異常"
+
 msgid "Show deleted workspaces"
 msgstr "顯示已刪除的工作區"
 
@@ -5177,6 +5337,9 @@ msgstr "在工作區中顯示本地資源用量。"
 
 msgid "Show more"
 msgstr "顯示更多"
+
+msgid "Show progress and decisions"
+msgstr "顯示進度與決策"
 
 msgid "Show Scripts Bar"
 msgstr "顯示指令碼列"
@@ -5656,6 +5819,15 @@ msgstr "連線主機上新 worktree 的預設位置。"
 msgid "The definition and its run records will be deleted. Existing workspaces and sessions remain available."
 msgstr "定義及其執行記錄將被刪除。現有工作區和工作階段仍可使用。"
 
+msgid "The desktop app did not confirm the layout change in time. Inspect the layout before retrying."
+msgstr "桌面應用程式未及時確認版面配置變更。請先檢查版面配置，再決定是否重試。"
+
+msgid "The desktop could not apply the pane request."
+msgstr "桌面端無法執行面板請求。"
+
+msgid "The desktop pane connection closed before the layout result was confirmed."
+msgstr "確認版面配置結果前，桌面面板連線已關閉。"
+
 msgid "The existing session identity could not be verified. Refresh before retrying."
 msgstr "無法驗證現有工作階段的身分。重試前請重新整理。"
 
@@ -5680,11 +5852,17 @@ msgstr "Jedv主機服務意外停止（{cause}），且無法自動重啟。"
 msgid "The key stays on this host. It is never injected into terminals or returned to this screen."
 msgstr "金鑰僅儲存在目前主機，不會注入終端機或傳回此畫面。"
 
+msgid "The layout change failed."
+msgstr "版面配置變更失敗。"
+
 msgid "The Leader terminal continues running."
 msgstr "Leader 終端機將繼續執行。"
 
 msgid "The linked local agent is unavailable on this host. Edit the preset or remove its agent link."
 msgstr "關聯的本機代理程式在此主機上無法使用。請編輯預設或移除其代理程式關聯。"
+
+msgid "The local host connection changed. Inspect the layout before retrying."
+msgstr "本機主機連線已變更。請先檢查版面配置，再決定是否重試。"
 
 msgid "The local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
 msgstr "{device}上{organization}的本地主機服務不可用。狀態：{status}。{recovery}"
@@ -5700,6 +5878,12 @@ msgstr "你要找的頁面不存在。"
 
 msgid "The pairing code expired or was already used. Request a new code on your computer."
 msgstr "配對碼已過期或已使用，請在電腦上產生新的配對碼。"
+
+msgid "The pane or tab is not in this workspace."
+msgstr "此面板或分頁不在目前的工作區中。"
+
+msgid "The pane request expired. Inspect the layout before retrying."
+msgstr "面板請求已過期。請先檢查版面配置，再決定是否重試。"
 
 msgid "The previous token will stop working. Update the remote peer with the new token."
 msgstr "舊權杖將失效。請使用新權杖更新遠端對端設定。"
@@ -5727,6 +5911,9 @@ msgstr "結果不確定，請使用相同請求 ID 重試此訊息。"
 
 msgid "The resumed session identity could not be verified. Refresh before retrying."
 msgstr "無法驗證恢復工作階段的身分。請重新整理後重試。"
+
+msgid "The resumed terminal is not available yet. Refresh the workspace to retry."
+msgstr "恢復的終端機暫時無法使用。請重新整理工作區後再試。"
 
 msgid "The run command is still stopping. Wait, then restart."
 msgstr "執行指令仍在停止中。請等待，然後重新啟動。"
@@ -5776,6 +5963,9 @@ msgstr "目標工作區已變更，結果屬於原工作區。"
 msgid "The team becomes read-only. Its workspaces, files and terminals are kept."
 msgstr "團隊將變為唯讀，其工作區、檔案和終端機會保留。"
 
+msgid "The terminal is not available in this workspace."
+msgstr "此終端機在目前的工作區中無法使用。"
+
 msgid "The terminal session changed. Refresh before inserting the prompt."
 msgstr "終端工作階段已變更。插入提示前請重新整理。"
 
@@ -5824,8 +6014,14 @@ msgstr "此 API 登入不提供訂閱配額。"
 msgid "This automation is no longer available"
 msgstr "此自動化不再可用"
 
+msgid "This branch already exists. Choose a new name or select Existing branch."
+msgstr "此分支已存在。請選擇新名稱，或切換至「現有分支」。"
+
 msgid "This branch has conflicts"
 msgstr "此分支存在衝突"
+
+msgid "This branch is used by the shared checkout. Choose a new name or use the local checkout."
+msgstr "此分支正由共用檢出使用。請選擇新名稱，或使用本機檢出。"
 
 msgid "This changes the pull request state on GitHub."
 msgstr "這會變更 GitHub 上的拉取請求狀態。"
@@ -5911,8 +6107,14 @@ msgstr "這是大型檔案。開啟它可能會降低編輯器速度。"
 msgid "This pane can't be shown"
 msgstr "無法顯示此窗格"
 
+msgid "This pane has no split to resize."
+msgstr "此面板沒有可調整大小的分割區。"
+
 msgid "This pane hit an error"
 msgstr "此窗格出錯了"
+
+msgid "This pane operation is not supported by this desktop."
+msgstr "此桌面版本不支援這項面板操作。"
 
 msgid "This permanently deletes the removed project and workspace records and attempts to remove their clean worktree directories. Dirty worktree directories may remain untracked. The main repository directory is kept. This cannot be undone."
 msgstr "這將永久刪除已移除的專案與工作區記錄，並嘗試刪除其乾淨的工作樹目錄。含有未提交變更的工作樹目錄可能保留但不再追蹤。主儲存庫目錄會保留。此操作無法復原。"
@@ -6088,17 +6290,29 @@ msgstr "Token"
 msgid "Too many background terminals. Reattach or end one before closing another view."
 msgstr "背景終端過多。關閉另一個檢視前，請重新附加或結束一個背景終端。"
 
+msgid "Too many desktop pane subscriptions."
+msgstr "桌面面板訂閱過多。"
+
 msgid "Too many dropped items. Add at most 5000 files and folders at a time."
 msgstr "拖放的項目過多。每次最多新增 5000 個檔案與資料夾。"
 
 msgid "Too many files. Some were not added."
 msgstr "檔案過多。部分檔案未新增。"
 
+msgid "Too many pane requests are waiting. Try again after they finish."
+msgstr "等待處理的面板請求過多。請等它們完成後再試。"
+
+msgid "Too many pending pane requests. Wait for the current requests to finish."
+msgstr "等待中的面板請求過多。請等候目前的請求完成。"
+
 msgid "Too many requests. Wait a moment and try again."
 msgstr "請求過於頻繁，請稍後重試。"
 
 msgid "Too many untitled items here already."
 msgstr "這裡未命名的項已經太多了。"
+
+msgid "Tool details are unavailable in this older record."
+msgstr "此舊記錄不包含工具詳細資訊。"
 
 msgid "Tool output"
 msgstr "工具輸出"
@@ -6349,6 +6563,9 @@ msgstr "使用現有工作階段"
 msgid "Use another local port"
 msgstr "使用另一個本機連接埠"
 
+msgid "Use existing branch"
+msgstr "使用現有分支"
+
 msgid "Use for new sessions"
 msgstr "用於新工作階段"
 
@@ -6357,6 +6574,9 @@ msgstr "使用全域性預設值"
 
 msgid "Use host default"
 msgstr "使用主機預設值"
+
+msgid "Use local checkout"
+msgstr "使用本機檢出"
 
 msgid "Use Move to group to move workspaces between groups."
 msgstr "使用「移至群組」在群組之間移動工作區。"
@@ -6400,6 +6620,9 @@ msgstr "檢視"
 
 msgid "View license"
 msgstr "檢視授權條款"
+
+msgid "View original mail"
+msgstr "查看原始郵件"
 
 msgid "View run"
 msgstr "查看執行"
@@ -6496,6 +6719,9 @@ msgstr "工作區檔案無法使用"
 
 msgid "Workspace launcher"
 msgstr "工作區啟動器"
+
+msgid "Workspace layout could not be saved"
+msgstr "無法儲存工作區版面配置"
 
 msgid "Workspace name"
 msgstr "工作區名稱"

@@ -1,6 +1,4 @@
-import type { AppRouter as HostRouter } from "@jedv/host-service";
 import { getHostId } from "@jedv/shared/host-info";
-import { createTRPCClient, httpBatchLink } from "@trpc/client";
 import { TRPCError } from "@trpc/server";
 import { observable } from "@trpc/server/observable";
 import {
@@ -8,16 +6,16 @@ import {
 	type HostServiceStatusEvent,
 	isSafeOrganizationId,
 } from "main/lib/host-service-coordinator";
-import { disconnectPrivateHost, setHostToken } from "main/lib/port-forward";
 import {
-	normalizePrivateEndpoint,
-	validatePrivateHostToken,
-} from "main/lib/port-forward/private-endpoint";
+	beginPrivateHostConnection,
+	disconnectPrivateHost,
+	setHostToken,
+} from "main/lib/port-forward";
+import { normalizePrivateEndpoint } from "main/lib/port-forward/private-endpoint";
 import { LOCAL_HOST_NAMESPACE } from "shared/jedv";
-import type { PrivateHostConnection } from "shared/types/private-hosts";
-import superjson from "superjson";
 import { z } from "zod";
 import { publicProcedure, router } from "../..";
+import { connectPrivateHost } from "./connect-private-host";
 import { readTailscaleStatus } from "./tailscale-status";
 
 const orgInput = z.object({
@@ -36,52 +34,12 @@ export const createHostServiceCoordinatorRouter = () => {
 					token: z.string().max(4096),
 				}),
 			)
-			.mutation(async ({ input }) => {
-				let baseUrl: string;
-				let token: string;
-				try {
-					baseUrl = normalizePrivateEndpoint(input.baseUrl.trim());
-					token = validatePrivateHostToken(input.token);
-				} catch (error) {
-					throw new TRPCError({
-						code: "BAD_REQUEST",
-						message:
-							error instanceof Error
-								? error.message
-								: "Invalid private host connection",
-					});
-				}
-				const machineId = getHostId();
-				const client = createTRPCClient<HostRouter>({
-					links: [
-						httpBatchLink({
-							url: `${baseUrl}/trpc`,
-							transformer: superjson,
-							headers: {
-								Authorization: `Bearer ${token}`,
-								"x-jedv-client-machine-id": machineId,
-							},
-							fetch: (url, options) =>
-								fetch(url, {
-									...options,
-									redirect: "error",
-									signal: AbortSignal.timeout(8_000),
-								}),
-						}),
-					],
-				});
-				try {
-					await client.workspace.list.query();
-				} catch {
-					throw new TRPCError({
-						code: "BAD_REQUEST",
-						message:
-							"Private host connection failed. Check endpoint, PSK, TLS certificate and Tailscale access.",
-					});
-				}
-				setHostToken(baseUrl, token);
-				return { baseUrl, machineId } satisfies PrivateHostConnection;
-			}),
+			.mutation(({ input }) =>
+				connectPrivateHost(input, {
+					machineId: getHostId(),
+					beginConnection: beginPrivateHostConnection,
+				}),
+			),
 		disconnectPrivateHost: publicProcedure
 			.input(z.object({ baseUrl: z.string() }))
 			.mutation(({ input }) => {

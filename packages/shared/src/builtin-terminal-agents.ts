@@ -183,7 +183,7 @@ export const BUILTIN_TERMINAL_AGENTS = [
 		description:
 			"Moonshot AI's coding agent for reading, editing, and running code from the terminal.",
 		command: "kimi --yolo",
-		promptCommand: "kimi --yolo -p",
+		promptCommand: "kimi -p",
 		resumeCommand: "kimi --yolo --session",
 		includeInDefaultTerminalPresets: true,
 	}),

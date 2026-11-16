@@ -557,13 +557,16 @@ test("Status keeps Leader first, preserves worker order, and distinguishes neutr
 	}
 });
 test("static controller pairs, sends, resolves and signs out through real M5 whitelist routes", async () => {
-	const { networkFixture } = await import("../../peers/test-fixture");
+	const { mailFixture } = await import("../../mail/test-fixture");
 	const { registerMobileHttp } = await import("../http");
 	const { Hono } = await import("hono");
 	const { createHostMemoryRuntime } = await import("../../memory/host-runtime");
 	const { ButlerService } = await import("../../butler/service");
 	const { ButlerTools } = await import("../../butler/tools");
-	const backend = networkFixture();
+	const backend = mailFixture();
+	backend.sqlite
+		.prepare("UPDATE teams SET status='paused' WHERE id=?")
+		.run(backend.teamId);
 	const { OutboxForwarder } = await import("../../peers/outbox-forwarder");
 	const outbox = new OutboxForwarder(backend.peers, { clock: backend.clock });
 	backend.ctx.runtime.teamwork = {
@@ -577,6 +580,7 @@ test("static controller pairs, sends, resolves and signs out through real M5 whi
 	const memory = createHostMemoryRuntime(backend.ctx, {
 		home: () => backend.root,
 		clock: { now: backend.clock.now, setInterval: () => () => {} },
+		listLiveTerminals: async () => [],
 	});
 	backend.ctx.runtime.memory = memory.runtime;
 	const butler = new ButlerService({
@@ -603,6 +607,7 @@ test("static controller pairs, sends, resolves and signs out through real M5 whi
 	const window = new Window({ url: `${endpoint}/mobile/` });
 	let disposeController = () => {};
 	let requestCounter = 0;
+	const resolutionStatuses: number[] = [];
 	try {
 		for (const asset of mobilePublicAssets.filter((a) =>
 			a.path.endsWith(".js"),
@@ -620,6 +625,7 @@ test("static controller pairs, sends, resolves and signs out through real M5 whi
 			if (init.method === "POST") headers.set("Origin", endpoint);
 			headers.set("Sec-Fetch-Site", "same-origin");
 			const response = await fetch(endpoint + path, { ...init, headers });
+			if (path.endsWith("/resolve")) resolutionStatuses.push(response.status);
 			const set = response.headers.get("set-cookie");
 			if (set) cookie = set.split(";")[0] ?? "";
 			return response;
@@ -683,14 +689,24 @@ test("static controller pairs, sends, resolves and signs out through real M5 whi
 		await memory.runtime.watchdog.scan();
 		await controller.actions.refresh(true);
 		controller.actions.screen("inbox");
+		expect(controller.state.groups).toHaveLength(0);
+		expect(controller.state.badge.count).toBe(0);
+		backend.sqlite
+			.prepare(
+				"UPDATE mail_deliveries SET nudge_state='failed',last_error='Isolated delivery failure' WHERE acked_at IS NULL",
+			)
+			.run();
+		await memory.runtime.watchdog.scan();
+		await controller.actions.refresh(true);
 		let group = controller.state.groups.find(
 			(item: { kind: string }) => item.kind === "mail_unacked",
 		);
 		expect(group.activeCount).toBe(3);
+		expect(group.severity).toBe("high");
 		expect(
 			window.document.querySelectorAll("article[data-group-key]"),
 		).toHaveLength(1);
-		expect(controller.state.badge.count).toBe(0);
+		expect(controller.state.badge.count).toBe(1);
 		const visible = window.document.querySelector("main").cloneNode(true);
 		for (const detail of visible.querySelectorAll("details")) detail.remove();
 		expect(visible.textContent).not.toContain(backend.teamId);
@@ -704,9 +720,17 @@ test("static controller pairs, sends, resolves and signs out through real M5 whi
 		await controller.actions.attentionView("handled");
 		expect(controller.state.groups[0].disposition).toBe("ignored");
 		let deliveries = backend.sqlite
-			.prepare("SELECT id,acked_at AS ackedAt FROM mail_deliveries")
-			.all() as { id: string; ackedAt: number | null }[];
-		expect(deliveries.every((item) => item.ackedAt === null)).toBe(true);
+			.prepare(
+				"SELECT id,read_at AS readAt,acked_at AS ackedAt FROM mail_deliveries",
+			)
+			.all() as {
+			id: string;
+			readAt: number | null;
+			ackedAt: number | null;
+		}[];
+		expect(
+			deliveries.every((item) => item.readAt === null && item.ackedAt === null),
+		).toBe(true);
 		backend.mail.send({
 			teamId: backend.teamId,
 			to: "leader",
@@ -715,19 +739,30 @@ test("static controller pairs, sends, resolves and signs out through real M5 whi
 			body: "Fourth mail",
 			dedupeKey: "phone-attention-fourth",
 		});
+		backend.sqlite
+			.prepare(
+				"UPDATE mail_deliveries SET nudge_state='failed',last_error='Isolated delivery failure' WHERE acked_at IS NULL",
+			)
+			.run();
 		backend.advance(6 * 60_000);
 		await memory.runtime.watchdog.scan();
 		await controller.actions.attentionView("open");
 		expect(controller.state.groups[0].activeCount).toBe(4);
 		expect(controller.state.groups[0].unread).toBe(true);
 		deliveries = backend.sqlite
-			.prepare("SELECT id,acked_at AS ackedAt FROM mail_deliveries")
-			.all() as { id: string; ackedAt: number | null }[];
-		for (const item of deliveries)
-			backend.mail.consume(
-				{ teamId: backend.teamId, member: "leader", deliveryId: item.id },
-				true,
-			);
+			.prepare(
+				"SELECT id,read_at AS readAt,acked_at AS ackedAt FROM mail_deliveries",
+			)
+			.all() as typeof deliveries;
+		for (const item of deliveries) {
+			const input = {
+				teamId: backend.teamId,
+				actor: backend.actor,
+				deliveryId: item.id,
+			};
+			backend.mail.consume(input, false);
+			backend.mail.consume(input, true);
+		}
 		await memory.runtime.watchdog.scan();
 		await controller.actions.attentionView("handled");
 		expect(controller.state.groups[0].disposition).toBe("resolved");
@@ -735,29 +770,97 @@ test("static controller pairs, sends, resolves and signs out through real M5 whi
 		expect(attentionKeyReads).toBe(0);
 		memory.runtime.secrets.readKey = originalReadKey;
 		await controller.actions.attentionView("open");
-		const approval = butler.createApproval(
+		const drifted = butler.createApproval(
 			{ actionType: "stopTeam", teamId: backend.teamId },
 			{
 				threadId: controller.state.threadId,
 				requestId: "real-mobile-request",
-				humanVerbatim: "Summarize this Team",
+				humanVerbatim: "Stop only after confirming the current target",
 			},
 		);
+		backend.team.rename({
+			teamId: backend.teamId,
+			name: "Renamed Network Team",
+		});
 		await controller.actions.refresh(true);
 		controller.actions.screen("inbox");
-		expect(controller.state.approvals[0].id).toBe(approval.id);
+		await controller.actions.resolve(drifted, "approve");
+		expect(resolutionStatuses).toEqual([412]);
+		expect(controller.state.error.key).toBe("approvalConflict");
+		expect(
+			window.document.querySelector(".banner.error")?.textContent,
+		).toContain(mobileCatalogs()["zh-CN"]?.approvalConflict);
+		expect(
+			butler
+				.listApprovals({ status: "all" })
+				.find((item) => item.id === drifted.id)?.status,
+		).toBe("pending");
 		expect(backend.team.team(backend.teamId).status).toBe("paused");
-		await controller.actions.resolve(controller.state.approvals[0], "approve");
-		expect(controller.state.approvals[0].status).toBe("executed");
+		await controller.actions.resolve(drifted, "approve");
+		await controller.actions.refresh(false);
+		expect(controller.state.uncertainApprovals.has(drifted.id)).toBe(true);
+		await controller.actions.refresh(true);
+		expect(controller.state.uncertainApprovals.has(drifted.id)).toBe(false);
+		expect(resolutionStatuses).toEqual([412]);
+		expect(
+			butler
+				.listApprovals({ status: "all" })
+				.find((item) => item.id === drifted.id)?.status,
+		).toBe("pending");
+		expect(backend.team.team(backend.teamId).status).toBe("paused");
+		await controller.actions.resolve(drifted, "reject");
+		const approval = butler.requestApproval({
+			action: { actionType: "stopTeam", teamId: backend.teamId },
+			threadId: controller.state.threadId,
+			requestId: "stable-target-approval",
+			humanText: "Stop the current Team after confirmation",
+		});
+		expect(approval.id).not.toBe(drifted.id);
+		await controller.actions.refresh(true);
+		controller.actions.screen("inbox");
+		expect(
+			controller.state.approvals.some(
+				(item: { id: string }) => item.id === approval.id,
+			),
+		).toBe(true);
+		expect(backend.team.team(backend.teamId).status).toBe("paused");
+		await controller.actions.resolve(approval, "approve");
+		expect(
+			butler
+				.listApprovals({ status: "all" })
+				.find((item) => item.id === approval.id)?.status,
+		).toBe("executed");
 		expect(backend.team.team(backend.teamId).status).toBe("stopped");
 		await controller.actions.refresh(true);
 		expect(controller.state.status.teams).toHaveLength(0);
-		expect(controller.state.knownTeams[0].name).toBe("Network Team");
+		expect(controller.state.knownTeams[0].name).toBe("Renamed Network Team");
+		await controller.actions.attentionView("handled");
+		const processedTarget = () =>
+			window.document.querySelector(
+				`article[data-approval-id="${approval.id}"] .card-body`,
+			);
+		expect(processedTarget()?.textContent).toContain("Renamed Network Team");
+		controller.state.knownTeams = [];
+		controller.actions.screen("inbox");
+		expect(processedTarget()?.textContent).toContain(
+			`${backend.teamId.slice(0, 8)}…`,
+		);
+		expect(processedTarget()?.textContent).not.toContain(
+			mobileCatalogs()["zh-CN"]?.stopTeam,
+		);
+		expect(
+			window.document.querySelector(
+				`article[data-approval-id="${approval.id}"] details`,
+			)?.textContent,
+		).toContain(backend.teamId);
+		expect(resolutionStatuses).toEqual([412, 200, 200]);
 		controller.actions.screen("butler");
 		const approvalTarget = window.document.querySelector(
-			"article[data-approval-id] .card-body",
+			`article[data-approval-id="${approval.id}"] .card-body`,
 		);
-		expect(approvalTarget?.textContent).toContain("Network Team");
+		expect(approvalTarget?.textContent).toContain(
+			`${backend.teamId.slice(0, 8)}…`,
+		);
 		const firstThread = controller.state.threadId;
 		await controller.actions.newTopic();
 		expect(butler.state().currentThreadId).toBe(firstThread);

@@ -156,6 +156,23 @@ export const notificationsRouter = router({
 		const preview = trimOrUndefined(input.preview);
 
 		const prior = ctx.terminalAgentStore.get(input.terminalId);
+		// The wrapper can report Start after a newer native hook has arrived.
+		// Discard that authenticated stale notice without granting it lifecycle
+		// authority or letting its missing session invalidate a clean input state.
+		if (
+			input.eventType === "Start" &&
+			agent?.sessionId === undefined &&
+			prior?.launchId !== undefined &&
+			prior.workspaceId === terminalSession.originWorkspaceId &&
+			prior.launchId === trimOrUndefined(input.launchId) &&
+			prior.agentId === agent?.agentId &&
+			verifyAttributionToken(input.terminalId, input.attributionToken) &&
+			Number.isSafeInteger(input.deliverySequence) &&
+			(input.deliverySequence ?? 0) > 0 &&
+			(input.deliverySequence ?? 0) <= (prior.deliverySequence ?? 0)
+		) {
+			return { success: true, ignored: true as const };
+		}
 		const account =
 			verifyAttributionToken(input.terminalId, input.attributionToken) &&
 			eventType === "Attached" &&

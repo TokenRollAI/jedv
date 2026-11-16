@@ -1,4 +1,5 @@
 import path from "node:path";
+import { buildAgentLaunchEvidenceExec } from "./agent-launch-status";
 import {
 	buildWrapperScript,
 	createWrapper,
@@ -103,8 +104,9 @@ export function createKimiConfigToml(): void {
 }
 
 export function getKimiWrapperScript(): string {
-	return buildWrapperScript("kimi", 'exec "$REAL_BIN" "$@"', {
+	return buildWrapperScript("kimi", buildAgentLaunchEvidenceExec(), {
 		agentId: "kimi",
+		onMissingBinary: buildAgentLaunchEvidenceExec(true),
 	});
 }
 

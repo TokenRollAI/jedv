@@ -14,7 +14,7 @@ import {
 } from "@jedv/shared/butler-attention";
 import { TRPCError } from "@trpc/server";
 import type { Hono } from "hono";
-import { ZodError, type z } from "zod";
+import { ZodError, z } from "zod";
 import { httpFailure } from "../http/errors";
 import { createOpenApiPaths } from "../http/openapi";
 import type { ButlerService } from "./service";
@@ -30,6 +30,21 @@ export function registerButlerHttp(options: {
 		return next();
 	});
 	const definitions = [
+		[
+			"get",
+			"/api/v1/butler/capabilities",
+			z.object({}),
+			() => ({
+				protocolVersion: 1,
+				features: {
+					requestApproval: true,
+					attention: true,
+					conversationState: true,
+					toolProgress: true,
+					historyByRequest: true,
+				},
+			}),
+		],
 		[
 			"get",
 			"/api/v1/butler/state",

@@ -39,6 +39,7 @@ test("read, ignore, genuine ACK and a new same-source instance remain separate",
 				recipientMemberId: "member",
 				createdAt: 1,
 				ackedAt: null,
+				nudgeState: "failed",
 				workspaceId: "workspace",
 				terminalId: "terminal",
 			});
@@ -50,7 +51,7 @@ test("read, ignore, genuine ACK and a new same-source instance remain separate",
 		expect(group.totalCount).toBe(3);
 		expect(group.items).toHaveLength(3);
 		expect(group.source.mailDeliveryId).toBe("delivery-2");
-		expect(f.dog.badgeSummary().count).toBe(0);
+		expect(f.dog.badgeSummary().count).toBe(1);
 		expect(
 			f.dog.markAttentionRead({ groupKey: group.groupKey }).updatedCount,
 		).toBe(3);
@@ -82,6 +83,7 @@ test("read, ignore, genuine ACK and a new same-source instance remain separate",
 			recipientMemberId: "member",
 			createdAt: 1,
 			ackedAt: null,
+			nudgeState: "failed",
 		});
 		await f.dog.scan();
 		group = (await f.dog.attention())[0];
@@ -338,7 +340,9 @@ test("legacy rows get metadata only from exact structured dedupe matches, never 
 		expect(old.items[0]?.automationRunId).toBe("real-run");
 		expect(old.items[0]?.automationId).toBe("real-cron");
 		expect(old.severity).toBe("high");
-		const unknown = groups.find((group) => group.groupKey === "opaque");
+		const unknown = (await f.dog.attention({ view: "handled" })).find(
+			(group) => group.groupKey === "opaque",
+		);
 		assert.ok(unknown);
 		expect(unknown.source.mailDeliveryId).toBeNull();
 		expect(unknown.source.terminalLive).toBe(false);

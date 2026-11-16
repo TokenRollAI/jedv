@@ -57,6 +57,7 @@ export function ButlerView({
 	const { client, hostUrl } = context;
 	const key = butlerQueryKey(hostUrl),
 		cache = useQueryClient();
+	const [diagnostics, setDiagnostics] = useState(false);
 	const [tab, setTab] = useState("pending"),
 		[chatOpen, setChatOpen] = useState(false),
 		[chatMounted, setChatMounted] = useState(false),
@@ -170,13 +171,21 @@ export function ButlerView({
 		).catch(() => {});
 	};
 	const feed = [
-		...(data?.groups ?? []).map((group) => ({
-			type: "group" as const,
-			id: group.groupKey,
-			time: group.latestCreatedAt,
-			rank: group.severity === "high" ? 1 : 3,
-			group,
-		})),
+		...(data?.groups ?? [])
+			.filter(
+				(group) =>
+					processed ||
+					diagnostics ||
+					group.kind !== "mail_unacked" ||
+					group.severity === "high",
+			)
+			.map((group) => ({
+				type: "group" as const,
+				id: group.groupKey,
+				time: group.latestCreatedAt,
+				rank: group.severity === "high" ? 1 : 3,
+				group,
+			})),
 		...(data?.approvals ?? []).map((approval) => ({
 			type: "approval" as const,
 			id: approval.id,
@@ -301,6 +310,22 @@ export function ButlerView({
 									? t({ message: "Unavailable on this host" })
 									: t({ message: "Unavailable" })}
 							</p>
+						)}
+						{!processed && (
+							<Button
+								type="button"
+								variant="ghost"
+								size="sm"
+								className="self-start text-xs"
+								aria-pressed={diagnostics}
+								onClick={() => setDiagnostics(!diagnostics)}
+							>
+								{diagnostics ? (
+									<Trans>Show decisions and exceptions</Trans>
+								) : (
+									<Trans>Internal mail diagnostics</Trans>
+								)}
+							</Button>
 						)}
 						<TabsContent value={tab} className="min-h-0 flex-1 overflow-y-auto">
 							<div className="mx-auto max-w-4xl space-y-3 py-3">
@@ -428,6 +453,13 @@ export function ButlerView({
 							supported={
 								index.supported &&
 								index.capabilities.data?.features?.conversationState === true
+							}
+							historyByRequest={
+								(
+									index.capabilities.data?.features as
+										| { historyByRequest?: boolean }
+										| undefined
+								)?.historyByRequest === true
 							}
 							active={chatOpen}
 							teams={teams}

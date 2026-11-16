@@ -23,6 +23,7 @@ code:
     - "apps/desktop/package.json"
     - "packages/cli/package.json"
     - "packages/host-service/package.json"
+    - scripts/test-node-isolated.mjs
 relations:
   related:
     - "runtime/local-persistence.mdx"
@@ -43,6 +44,8 @@ CLI 与 host-service 使用相同 plain MAJOR.MINOR.PATCH；发布准备保持 d
 ## standalone 与 Electron 的原生运行时
 
 独立分发将 Bun 编译的 CLI、Node host wrapper/runtime、原生依赖和 host/chat 迁移作为整体。只复制 bin/jedv 不能提供完整本地 host。目标 OS、architecture、Node ABI 与 native addon 必须匹配；在 Electron 下重建的 addon 不能直接替换独立 Node 分发依赖。
+
+开发 Node 集成测试也不能在共享 node_modules 上 rebuild 来修 ABI。隔离 runner 从已安装且打过补丁的源码复制 native addon，并实体复制会被 gyp 写入的依赖；它为本次 Node ABI 构建临时副本，将 resolver 传到测试子进程，同时隔离应用与 Agent 配置 home，结束只清理本次目录。仅父 runner 使用副本而子进程仍解析共享 addon 不构成隔离。
 
 桌面打包同时维护 bundler external、真实文件 materialization、打包 copy 和 ASAR unpack。通过文件系统动态加载的模块或迁移不能因 bundle 成功就省略。更新任一清单时需追踪实际运行时解析路径，否则开发 symlink 可用的依赖会在安装包中失效。
 

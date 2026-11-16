@@ -33,6 +33,13 @@ function fixture(mode: WorkspaceCreateMode = "new") {
 					query: async () => ({
 						worktrees: [
 							{
+								branch: "main",
+								path: "/fixture/main",
+								hasWorkspace: true,
+								workspaceId: "local",
+								isMainWorktree: true,
+							},
+							{
 								branch: "feature/imported",
 								path: "/fixture/imported",
 								hasWorkspace: false,
@@ -104,7 +111,7 @@ test("saved workspaces survive refresh failures and are not recreated", async ()
 	f.opened.mockImplementationOnce(async () => {
 		throw new Error("navigation interrupted");
 	});
-	fireEvent.change(f.screen.getByLabelText("Branch name"), {
+	fireEvent.change(f.screen.getByLabelText("New branch name"), {
 		target: { value: "feature/example" },
 	});
 	fireEvent.click(f.screen.getByRole("button", { name: "Create workspace" }));
@@ -181,4 +188,72 @@ test("plain folder workspace disables Git modes and makes no branch, PR or workt
 	expect(gitQuery).not.toHaveBeenCalled();
 	cleanup();
 	cache.clear();
+});
+
+test("shared checkout conflicts are field errors with a safe local checkout action", async () => {
+	const f = fixture();
+	const input = f.screen.getByLabelText("New branch name");
+	fireEvent.change(input, { target: { value: "main" } });
+	await f.screen.findByText(
+		"This branch is used by the shared checkout. Choose a new name or use the local checkout.",
+	);
+	expect(input.getAttribute("aria-invalid")).toBe("true");
+	expect(
+		(
+			f.screen.getByRole("button", {
+				name: "Create workspace",
+			}) as HTMLButtonElement
+		).disabled,
+	).toBe(true);
+	expect(f.create).not.toHaveBeenCalled();
+	fireEvent.click(f.screen.getByRole("button", { name: "Use local checkout" }));
+	fireEvent.click(f.screen.getByRole("button", { name: "Create workspace" }));
+	await waitFor(() => expect(f.create).toHaveBeenCalledTimes(1));
+	expect(f.create.mock.calls[0]?.[0]).toMatchObject({
+		checkout: "local",
+		runSetup: false,
+	});
+	expect(f.create.mock.calls[0]?.[0]).not.toHaveProperty("branch");
+	f.queryClient.clear();
+});
+test("new branch keeps the name distinct from base and detects occupied worktrees", async () => {
+	const f = fixture();
+	const input = f.screen.getByLabelText("New branch name");
+	expect((input as HTMLInputElement).value).toBe("");
+	await f.screen.findByText("main");
+	fireEvent.change(input, { target: { value: "feature/imported" } });
+	await f.screen.findByText(
+		"This branch already exists. Choose a new name or select Existing branch.",
+	);
+	fireEvent.change(input, { target: { value: "feature/fresh" } });
+	fireEvent.click(f.screen.getByRole("button", { name: "Create workspace" }));
+	await waitFor(() => expect(f.create).toHaveBeenCalledTimes(1));
+	expect(f.create.mock.calls[0]?.[0]).toMatchObject({
+		checkout: "worktree",
+		branch: "feature/fresh",
+	});
+	f.queryClient.clear();
+});
+
+test("a shared checkout race from the Host becomes a translated field error", async () => {
+	const f = fixture();
+	f.create.mockImplementationOnce(async () => {
+		throw new Error(
+			"This branch uses the project's shared checkout. Create a Local workspace or choose another branch for a worktree.",
+		);
+	});
+	fireEvent.change(f.screen.getByLabelText("New branch name"), {
+		target: { value: "fresh-before-race" },
+	});
+	fireEvent.click(f.screen.getByRole("button", { name: "Create workspace" }));
+	await f.screen.findByText(
+		"This branch is used by the shared checkout. Choose a new name or use the local checkout.",
+	);
+	expect(
+		f.screen.queryByText(/Create a Local workspace or choose another branch/),
+	).toBeNull();
+	expect(
+		f.screen.getByRole("button", { name: "Use local checkout" }),
+	).toBeTruthy();
+	f.queryClient.clear();
 });

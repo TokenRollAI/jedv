@@ -729,3 +729,33 @@ describe("September 2026 model launches", () => {
 		}
 	});
 });
+
+describe("Antigravity Carbon and provider-owned model catalog", () => {
+	it.each([
+		"gemini-4-carbon",
+		"gemini-4-carbon-low",
+		"gemini-4-carbon-medium",
+		"gemini-4-carbon-high",
+	])("preserves saved model %s and maps explicit effort", (model) => {
+		expect(buildAgentModelArgs("agy", model)).toEqual(["--model", model]);
+		expect(buildAgentModelArgs("agy", model, "high")).toEqual([
+			"--model",
+			"gemini-4-carbon",
+		]);
+		expect(buildAgentEffortArgs("agy", "high", model)).toEqual([
+			"--effort",
+			"high",
+		]);
+	});
+	it("passes safe newer provider IDs but rejects shell options and malformed IDs", () => {
+		expect(buildAgentModelArgs("agy", "future/account-model-v2")).toEqual([
+			"--model",
+			"future/account-model-v2",
+		]);
+		for (const model of ["--help", "x;touch /tmp/unsafe", "x y", "$(bad)"])
+			expect(buildAgentModelArgs("agy", model)).toEqual([]);
+		expect(buildAgentModelArgs("claude", "future/account-model-v2")).toEqual(
+			[],
+		);
+	});
+});

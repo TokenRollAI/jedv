@@ -13,6 +13,50 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#. js-lingui-explicit-id
+msgid "Delivery mode (default: queue); interrupt requires an explicit human action and safe native support"
+msgstr "Aflevermodus (standaard: queue); interrupt vereist een expliciete gebruikersactie en veilige native ondersteuning"
+
+#. js-lingui-explicit-id
+msgid "Do not request recipient acknowledgement; this never marks mail acknowledged"
+msgstr "Vraag geen ontvangstbevestiging; dit markeert het bericht nooit als bevestigd"
+
+#. js-lingui-explicit-id
+msgid "--delivery-mode interrupt requires --human and an explicit user request"
+msgstr "--delivery-mode interrupt vereist --human en een expliciet gebruikersverzoek"
+
+#. js-lingui-explicit-id
+msgid "This Host does not support Mail delivery modes; no mail was sent"
+msgstr "Deze host ondersteunt geen aflevermodi voor berichten; er is geen bericht verzonden"
+
+#. js-lingui-explicit-id
+msgid "Safe Mail interruption is unavailable on this Host; no mail was sent"
+msgstr "Veilig onderbreken voor berichtbezorging is niet beschikbaar op deze host; er is geen bericht verzonden"
+
+#. js-lingui-explicit-id
+msgid "Inspect launch evidence; starting or unknown does not mean the agent is ready"
+msgstr "Startbewijs bekijken; starten of onbekend betekent niet dat de agent gereed is"
+
+#. js-lingui-explicit-id
+msgid "Workspace ID"
+msgstr "Werkruimte-ID"
+
+#. js-lingui-explicit-id
+msgid "Host on this machine (default: local)"
+msgstr "Host op deze computer (standaard: local)"
+
+#. js-lingui-explicit-id
+msgid "The workspace is on this machine"
+msgstr "De werkruimte staat op deze computer"
+
+#. js-lingui-explicit-id
+msgid "Terminal sessionId returned by agents create"
+msgstr "Terminal-sessionId geretourneerd door agents create"
+
+#. js-lingui-explicit-id
+msgid "Launch runId returned by agents create"
+msgstr "Start-runId geretourneerd door agents create"
+
 msgid "./"
 msgstr "./"
 
@@ -180,6 +224,9 @@ msgstr "4,5:1 (AA)"
 msgid "7:1 (AAA)"
 msgstr "7:1 (AAA)"
 
+msgid "A connected host and workspace are required to save layout"
+msgstr "Een verbonden host en werkruimte zijn vereist om de indeling op te slaan"
+
 msgid "A daemon operation is already in progress"
 msgstr "Een daemon-bewerking is al bezig"
 
@@ -189,6 +236,9 @@ msgstr "Er bestaat al een bestand met de naam '{firstName}' in {where}. Wil je h
 msgid "A listening process changed. Cancel and review the current process list before trying again."
 msgstr "Een luisterend proces is gewijzigd. Annuleer en controleer de huidige proceslijst voordat u het opnieuw probeert."
 
+msgid "A new branch is separate from its base. Leave the name empty to generate a unique branch automatically."
+msgstr "Een nieuwe branch staat los van de basisbranch. Laat de naam leeg om automatisch een unieke branch te maken."
+
 msgid "A pull request already exists for this branch. Refresh the pull request list."
 msgstr "Er bestaat al een PR voor deze branch. Vernieuw de PR-lijst."
 
@@ -197,6 +247,9 @@ msgstr "Een tabblad kan maximaal acht deelvensters bevatten."
 
 msgid "A tab can contain at most eight terminal panes."
 msgstr "Een tabblad kan maximaal acht terminalpanelen bevatten."
+
+msgid "A workspace can contain at most 32 tabs and each tab at most eight panes."
+msgstr "Een werkruimte kan maximaal 32 tabbladen bevatten en elk tabblad maximaal acht panelen."
 
 msgid "A workspace is protected. Resolve its protection before removing this project."
 msgstr "Een werkruimte is beveiligd. Heb de beveiliging op voordat u dit project verwijdert."
@@ -357,6 +410,18 @@ msgstr "Het starten van de agent wacht op de voltooiing van de configuratie"
 
 msgid "Agent may be stalled"
 msgstr "Agent is mogelijk vastgelopen"
+
+msgid "Agent notified, awaiting consumption"
+msgstr "Agent geïnformeerd, wacht op verwerking"
+
+msgid "Agent progress report"
+msgstr "Voortgangsrapport van de agent"
+
+msgid "Agent reported a blocker"
+msgstr "Agent heeft een blokkade gemeld"
+
+msgid "Agent reports are not verified completion. Mail acknowledgement is separate from task acceptance."
+msgstr "Agentrapporten bevestigen niet dat een taak is voltooid. De ontvangstbevestiging van een bericht staat los van de acceptatie van de taak."
 
 msgid "Agent saved, but linked presets could not be updated."
 msgstr "Agent opgeslagen, maar gekoppelde voorinstellingen konden niet worden bijgewerkt."
@@ -605,8 +670,8 @@ msgstr "Automatisch (systeem)"
 msgid "Auto save"
 msgstr "Automatisch opslaan"
 
-msgid "Automatic branch"
-msgstr "Automatische branchnaam"
+msgid "Automatic delivery paused"
+msgstr "Automatische aflevering gepauzeerd"
 
 msgid "Automatic name"
 msgstr "Automatische naam"
@@ -671,6 +736,9 @@ msgstr "Terug naar automatiseringen"
 msgid "Back to current conversation"
 msgstr "Terug naar huidig gesprek"
 
+msgid "Background"
+msgstr "Op de achtergrond"
+
 msgid "Background processes"
 msgstr "Achtergrondprocessen"
 
@@ -682,6 +750,9 @@ msgstr "Basisbranch"
 
 msgid "Base branch (repository default)"
 msgstr "Basisbranch (repository-standaard)"
+
+msgid "Base branch to create from"
+msgstr "Basisbranch om vanaf te maken"
 
 msgid "Binary file"
 msgstr "Binair bestand"
@@ -907,6 +978,9 @@ msgstr "Kies hoe Jedv zich op dit apparaat gedraagt."
 msgid "Choose notification sounds and volume."
 msgstr "Kies meldingsgeluiden en volume."
 
+msgid "Choose two different panes."
+msgstr "Kies twee verschillende panelen."
+
 msgid "Clear"
 msgstr "Helder"
 
@@ -1036,6 +1110,9 @@ msgstr "Het huidige paneel sluiten"
 
 msgid "Close the current tab"
 msgstr "Het huidige tabblad sluiten"
+
+msgid "Close the files view in the desktop so unsaved changes can be checked."
+msgstr "Sluit de bestandsweergave in de desktopapp zodat niet-opgeslagen wijzigingen kunnen worden gecontroleerd."
 
 msgid "Close this CLI terminal and take control of the same session? The terminal process will stop. Other terminal work may be lost."
 msgstr "Deze CLI-terminal sluiten en dezelfde sessie overnemen? Het terminalproces wordt gestopt. Ander terminalwerk kan verloren gaan."
@@ -1306,6 +1383,9 @@ msgstr "localhost:{0} kopiëren"
 msgid "Copy on select"
 msgstr "Kopiëren bij selectie"
 
+msgid "Copy original instructions"
+msgstr "Oorspronkelijke instructies kopiëren"
+
 msgid "Copy path"
 msgstr "Pad kopiëren"
 
@@ -1359,6 +1439,9 @@ msgstr "Kon het resultaat op de doelhost niet bevestigen. Controleer de verbindi
 
 msgid "Could not confirm this session. Refresh before retrying."
 msgstr "Kan deze sessie niet bevestigen. Vernieuw voordat je het opnieuw probeert."
+
+msgid "Could not copy. Select the text below to copy it."
+msgstr "Kopiëren mislukt. Selecteer de onderstaande tekst om deze te kopiëren."
 
 msgid "Could not create team. Refresh the agents and retry."
 msgstr "Team kon niet worden gemaakt. Vernieuw de agenten en probeer opnieuw."
@@ -1756,6 +1839,21 @@ msgstr "Bezorgd"
 
 msgid "Delivered means the remote host stored the mail, not that a recipient read or acknowledged it."
 msgstr "Bezorgd betekent dat de externe host de mail heeft opgeslagen, niet dat de ontvanger deze heeft gelezen of de verwerking heeft bevestigd."
+
+msgid "Delivering"
+msgstr "Wordt afgeleverd"
+
+msgid "Delivery failed"
+msgstr "Aflevering mislukt"
+
+msgid "Delivery mode"
+msgstr "Aflevermodus"
+
+msgid "Delivery outcome is uncertain. Inspect the terminal before retrying."
+msgstr "Het afleverresultaat is onzeker. Controleer de terminal voordat u het opnieuw probeert."
+
+msgid "Delivery uncertain"
+msgstr "Aflevering onzeker"
 
 msgid "Describe a goal to start a new task."
 msgstr "Beschrijf een doel om een nieuwe taak te starten."
@@ -2398,6 +2496,9 @@ msgstr "Front matter verborgen. Schakel over naar de Markdown-weergave om die te
 msgid "Full Disk Access"
 msgstr "Volledige Schijftoegang"
 
+msgid "Full task instructions"
+msgstr "Volledige taakinstructies"
+
 msgid "Full-stack Turborepo with Next.js, Expo, and tRPC"
 msgstr "Full-stack Turborepo met Next.js, Expo en tRPC"
 
@@ -2572,6 +2673,9 @@ msgstr "https://github.com/owner/repo.git of /pad/naar/repo"
 msgid "Human"
 msgstr "Mens"
 
+msgid "Human instruction"
+msgstr "Gebruikersinstructie"
+
 msgid "I checked the attachments"
 msgstr "Ik heb de bijlagen gecontroleerd"
 
@@ -2690,6 +2794,12 @@ msgstr "Klik in het venster van Apple op Installeer. Dit duurt een paar minuten 
 msgid "In review"
 msgstr "In review"
 
+msgid "In right pane"
+msgstr "In het rechterpaneel"
+
+msgid "In tab"
+msgstr "In een tabblad"
+
 msgid "Inbound mail token"
 msgstr "Token voor inkomende mail"
 
@@ -2747,8 +2857,20 @@ msgstr "Update installeren…"
 msgid "Instructions"
 msgstr "Instructies"
 
+msgid "Instructions are available in the original mail."
+msgstr "De instructies zijn beschikbaar in het oorspronkelijke bericht."
+
+msgid "Internal mail and diagnostics"
+msgstr "Interne berichten en diagnose"
+
+msgid "Internal mail diagnostics"
+msgstr "Diagnose van interne berichten"
+
 msgid "Interrupt"
 msgstr "Onderbreken"
+
+msgid "Interrupt now"
+msgstr "Nu onderbreken"
 
 msgid "Interrupt requested"
 msgstr "Onderbreking aangevraagd"
@@ -2851,6 +2973,9 @@ msgstr "Blad"
 
 msgid "Leave a comment…"
 msgstr "Laat een opmerking achter…"
+
+msgid "Leave empty for a unique new branch"
+msgstr "Laat leeg voor een unieke nieuwe branch"
 
 msgid "Leave empty to use the workspace directory. Relative paths are resolved inside the workspace."
 msgstr "Laat leeg om de werkruimte-map te gebruiken. Relatieve paden worden binnen de werkruimte opgelost."
@@ -3025,11 +3150,17 @@ msgstr "Locatie"
 msgid "Location & checkout"
 msgstr "Locatie en checkout"
 
+msgid "Location unavailable"
+msgstr "Locatie niet beschikbaar"
+
 msgid "Mail awaiting acknowledgement: {activeCount}"
 msgstr "Berichten zonder ontvangstbevestiging: {activeCount}"
 
 msgid "Mail awaits acknowledgement"
 msgstr "Mail wacht op bevestiging"
+
+msgid "Mail delivery needs attention. Open diagnostics to inspect the delivery."
+msgstr "De berichtaflevering vereist aandacht. Open de diagnose om de aflevering te controleren."
 
 msgid "Mail has not been acknowledged. Reading it does not acknowledge it."
 msgstr "De mail is niet bevestigd. Lezen bevestigt de verwerking niet."
@@ -3275,6 +3406,9 @@ msgstr "Naar de vorige werkruimte in de zijbalk gaan"
 msgid "Navigation"
 msgstr "Navigatie"
 
+msgid "Navigation changed before the pane could be focused. Inspect the workspace before retrying."
+msgstr "De navigatie is gewijzigd voordat het paneel focus kon krijgen. Controleer de werkruimte voordat u het opnieuw probeert."
+
 msgid "Needs attention"
 msgstr "Vraagt aandacht"
 
@@ -3295,6 +3429,9 @@ msgstr "Nieuwe automatisering"
 
 msgid "New branch"
 msgstr "Nieuwe branch"
+
+msgid "New branch name"
+msgstr "Naam van de nieuwe branch"
 
 msgid "New Chat"
 msgstr "Nieuwe chat"
@@ -3448,6 +3585,12 @@ msgstr "Nog geen voltooid project gevonden. De host is mogelijk nog bezig met st
 msgid "No description provided"
 msgstr "Geen beschrijving opgegeven"
 
+msgid "No desktop pane consumer is connected."
+msgstr "Er is geen verwerker voor desktop-paneelverzoeken verbonden."
+
+msgid "No desktop window is open to apply the layout change."
+msgstr "Er is geen desktopvenster geopend om de indeling te wijzigen."
+
 msgid "No existing worktrees found."
 msgstr "Geen bestaande werkbomen gevonden."
 
@@ -3526,6 +3669,9 @@ msgstr "Geen prefix"
 msgid "No prefix could be resolved from this host's identity."
 msgstr "Geen voorvoegsel kon worden afgeleid van de identiteit van deze host."
 
+msgid "No progress reports or decisions yet. Internal communication is available in diagnostics."
+msgstr "Er zijn nog geen voortgangsrapporten of besluiten. Interne communicatie is beschikbaar in de diagnose."
+
 msgid "No projects match your filters"
 msgstr "Geen projecten komen overeen met uw filters"
 
@@ -3570,9 +3716,6 @@ msgstr "Geen taak toegewezen"
 
 msgid "No team"
 msgstr "Geen team"
-
-msgid "No team mail yet"
-msgstr "Nog geen teammail"
 
 msgid "No teams yet"
 msgstr "Nog geen teams"
@@ -3676,16 +3819,15 @@ msgstr "openen"
 msgid "Open"
 msgstr "Openen"
 
-#. placeholder {0}: binding.agentId
-msgid "Open {0} session"
-msgstr "{0}-sessie openen"
-
 #. placeholder {0}: member.name
 msgid "Open {0} terminal"
 msgstr "Terminal van {0} openen"
 
 msgid "Open {displayName}"
 msgstr "{displayName} openen"
+
+msgid "Open {name} session"
+msgstr "Sessie {name} openen"
 
 msgid "Open {path} in file pane"
 msgstr "{path} openen in bestandspaneel"
@@ -3866,6 +4008,9 @@ msgstr "Opent het wijzigingenpaneel in een nieuw tabblad, of focust het bestaand
 
 msgid "Open the global command palette"
 msgstr "Het globale opdrachtenpalet openen"
+
+msgid "Open the local host before focusing a local workspace pane."
+msgstr "Open de lokale host voordat u een paneel van een lokale werkruimte focus geeft."
 
 msgid "Open the main window to select this workspace"
 msgstr "Open het hoofdvenster om deze werkruimte te selecteren"
@@ -4110,6 +4255,9 @@ msgstr "Verwerkte tokens"
 msgid "Processing"
 msgstr "Bezig met verwerken"
 
+msgid "Progress and decisions"
+msgstr "Voortgang en besluiten"
+
 msgid "Project"
 msgstr "Project"
 
@@ -4206,8 +4354,14 @@ msgstr "px"
 msgid "Queue message"
 msgstr "Bericht in wachtrij zetten"
 
+msgid "Queue waits for the agent. Interrupt requires safe support from the current session. Both require recipient acknowledgement; sending is not consumption."
+msgstr "De wachtrij wacht op de agent. Onderbreken vereist veilige ondersteuning van de huidige sessie. Beide modi vereisen een ontvangstbevestiging; verzenden is geen verwerking."
+
 msgid "Queue; ⌘↩ to steer the running turn"
 msgstr "In wachtrij; ⌘↩ om de lopende beurt bij te sturen"
+
+msgid "Queued"
+msgstr "In wachtrij"
 
 msgid "Quick Create Workspace"
 msgstr "Werkruimte snel aanmaken"
@@ -4781,6 +4935,9 @@ msgstr "loopt"
 msgid "Running"
 msgstr "Bezig"
 
+msgid "Safe interruption is unavailable on this host. Queued mail waits for the agent; sending does not confirm consumption."
+msgstr "Veilig onderbreken is niet beschikbaar op deze host. Berichten in de wachtrij wachten op de agent; verzenden bevestigt niet dat ze zijn verwerkt."
+
 msgid "Same-session CLI control is unavailable. No new session was started."
 msgstr "CLI-beheer van dezelfde sessie is niet beschikbaar. Er is geen nieuwe sessie gestart."
 
@@ -5145,6 +5302,9 @@ msgstr "Toon agentopdrachten en vastgepinde terminalvoorinstellingen boven de we
 msgid "Show Apple's installer"
 msgstr "Toon het installatieprogramma van Apple"
 
+msgid "Show decisions and exceptions"
+msgstr "Besluiten en uitzonderingen tonen"
+
 msgid "Show deleted workspaces"
 msgstr "Verwijderde werkruimtes tonen"
 
@@ -5177,6 +5337,9 @@ msgstr "Toon lokaal resourcegebruik in de werkruimte."
 
 msgid "Show more"
 msgstr "Meer tonen"
+
+msgid "Show progress and decisions"
+msgstr "Voortgang en besluiten tonen"
 
 msgid "Show Scripts Bar"
 msgstr "Scriptbalk weergeven"
@@ -5656,6 +5819,15 @@ msgstr "De standaardlocatie voor nieuwe worktrees op de verbonden host."
 msgid "The definition and its run records will be deleted. Existing workspaces and sessions remain available."
 msgstr "De definitie en de bijbehorende runrecords worden verwijderd. Bestaande werkruimtes en sessies blijven beschikbaar."
 
+msgid "The desktop app did not confirm the layout change in time. Inspect the layout before retrying."
+msgstr "De desktopapp heeft de indelingswijziging niet op tijd bevestigd. Controleer de indeling voordat u het opnieuw probeert."
+
+msgid "The desktop could not apply the pane request."
+msgstr "De desktopapp kon het paneelverzoek niet uitvoeren."
+
+msgid "The desktop pane connection closed before the layout result was confirmed."
+msgstr "De verbinding met het desktoppaneel werd gesloten voordat het indelingsresultaat was bevestigd."
+
 msgid "The existing session identity could not be verified. Refresh before retrying."
 msgstr "De identiteit van de bestaande sessie kon niet worden geverifieerd. Vernieuw voordat je het opnieuw probeert."
 
@@ -5680,11 +5852,17 @@ msgstr "De Jedv-hostservice is onverwacht gestopt ({cause}) en kon niet automati
 msgid "The key stays on this host. It is never injected into terminals or returned to this screen."
 msgstr "De sleutel blijft op deze host. Deze wordt nooit in terminals geïnjecteerd of naar dit scherm teruggestuurd."
 
+msgid "The layout change failed."
+msgstr "De indelingswijziging is mislukt."
+
 msgid "The Leader terminal continues running."
 msgstr "De terminal van de leider blijft draaien."
 
 msgid "The linked local agent is unavailable on this host. Edit the preset or remove its agent link."
 msgstr "De gekoppelde lokale agent is niet beschikbaar op deze host. Bewerk de voorinstelling of verwijder de agentkoppeling."
+
+msgid "The local host connection changed. Inspect the layout before retrying."
+msgstr "De verbinding met de lokale host is gewijzigd. Controleer de indeling voordat u het opnieuw probeert."
 
 msgid "The local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
 msgstr "De lokale hostservice is niet beschikbaar voor {organization} op {device}. Status: {status}. {recovery}"
@@ -5700,6 +5878,12 @@ msgstr "De pagina die je zoekt bestaat niet."
 
 msgid "The pairing code expired or was already used. Request a new code on your computer."
 msgstr "De koppelcode is verlopen of al gebruikt. Vraag op je computer een nieuwe code aan."
+
+msgid "The pane or tab is not in this workspace."
+msgstr "Dit paneel of tabblad behoort niet tot deze werkruimte."
+
+msgid "The pane request expired. Inspect the layout before retrying."
+msgstr "Het paneelverzoek is verlopen. Controleer de indeling voordat u het opnieuw probeert."
 
 msgid "The previous token will stop working. Update the remote peer with the new token."
 msgstr "Het vorige token werkt niet meer. Werk de externe peer bij met het nieuwe token."
@@ -5727,6 +5911,9 @@ msgstr "Het resultaat is onzeker. Probeer dit bericht opnieuw met dezelfde aanvr
 
 msgid "The resumed session identity could not be verified. Refresh before retrying."
 msgstr "De identiteit van de hervatte sessie kon niet worden geverifieerd. Vernieuw voordat u het opnieuw probeert."
+
+msgid "The resumed terminal is not available yet. Refresh the workspace to retry."
+msgstr "De hervatte terminal is nog niet beschikbaar. Vernieuw de werkruimte om het opnieuw te proberen."
 
 msgid "The run command is still stopping. Wait, then restart."
 msgstr "De uitvoeringsopdracht wordt nog gestopt. Wacht en start vervolgens opnieuw."
@@ -5776,6 +5963,9 @@ msgstr "De doelwerkruimte is gewijzigd. Het resultaat behoort tot de oorspronkel
 msgid "The team becomes read-only. Its workspaces, files and terminals are kept."
 msgstr "Het team wordt alleen-lezen. Werkruimtes, bestanden en terminals blijven behouden."
 
+msgid "The terminal is not available in this workspace."
+msgstr "Deze terminal is niet beschikbaar in deze werkruimte."
+
 msgid "The terminal session changed. Refresh before inserting the prompt."
 msgstr "De terminalsessie is gewijzigd. Vernieuw voordat u de prompt invoegt."
 
@@ -5824,8 +6014,14 @@ msgstr "Deze API-aanmelding geeft geen abonnementsquota vrij."
 msgid "This automation is no longer available"
 msgstr "Deze automatisering is niet meer beschikbaar"
 
+msgid "This branch already exists. Choose a new name or select Existing branch."
+msgstr "Deze branch bestaat al. Kies een nieuwe naam of selecteer een bestaande branch."
+
 msgid "This branch has conflicts"
 msgstr "Deze branch heeft conflicten"
+
+msgid "This branch is used by the shared checkout. Choose a new name or use the local checkout."
+msgstr "Deze branch wordt gebruikt door de gedeelde checkout. Kies een nieuwe naam of gebruik de lokale checkout."
 
 msgid "This changes the pull request state on GitHub."
 msgstr "Hiermee wordt de status van de pull request op GitHub gewijzigd."
@@ -5911,8 +6107,14 @@ msgstr "Dit is een groot bestand. Het openen ervan kan de editor vertragen."
 msgid "This pane can't be shown"
 msgstr "Dit paneel kan niet worden weergegeven"
 
+msgid "This pane has no split to resize."
+msgstr "Dit paneel heeft geen splitsing waarvan de grootte kan worden aangepast."
+
 msgid "This pane hit an error"
 msgstr "Dit paneel liep tegen een fout aan"
+
+msgid "This pane operation is not supported by this desktop."
+msgstr "Deze paneelbewerking wordt niet ondersteund door deze desktopapp."
 
 msgid "This permanently deletes the removed project and workspace records and attempts to remove their clean worktree directories. Dirty worktree directories may remain untracked. The main repository directory is kept. This cannot be undone."
 msgstr "Dit verwijdert het verwijderde project en de werkruimterecords definitief en probeert de bijbehorende schone werkboommappen te verwijderen. Werkboommappen met wijzigingen kunnen onvoltooid blijven. De hoofdrepositorymap blijft behouden. Dit kan niet ongedaan worden gemaakt."
@@ -6088,17 +6290,29 @@ msgstr "Tokens"
 msgid "Too many background terminals. Reattach or end one before closing another view."
 msgstr "Te veel achtergrondterminals. Koppel er één opnieuw of beëindig er één voordat u een andere weergave sluit."
 
+msgid "Too many desktop pane subscriptions."
+msgstr "Te veel abonnementen op desktoppanelen."
+
 msgid "Too many dropped items. Add at most 5000 files and folders at a time."
 msgstr "Te veel neergezette items. Voeg maximaal 5000 bestanden en mappen tegelijk toe."
 
 msgid "Too many files. Some were not added."
 msgstr "Te veel bestanden. Sommige zijn niet toegevoegd."
 
+msgid "Too many pane requests are waiting. Try again after they finish."
+msgstr "Er wachten te veel paneelverzoeken. Probeer het opnieuw nadat ze zijn afgerond."
+
+msgid "Too many pending pane requests. Wait for the current requests to finish."
+msgstr "Er staan te veel paneelverzoeken open. Wacht totdat de huidige verzoeken zijn afgerond."
+
 msgid "Too many requests. Wait a moment and try again."
 msgstr "Te veel aanvragen. Wacht even en probeer opnieuw."
 
 msgid "Too many untitled items here already."
 msgstr "Er zijn hier al te veel naamloze items."
+
+msgid "Tool details are unavailable in this older record."
+msgstr "Tooldetails zijn niet beschikbaar in deze oudere registratie."
 
 msgid "Tool output"
 msgstr "Tooluitvoer"
@@ -6349,6 +6563,9 @@ msgstr "Bestaande sessie gebruiken"
 msgid "Use another local port"
 msgstr "Gebruik een andere lokale poort"
 
+msgid "Use existing branch"
+msgstr "Bestaande branch gebruiken"
+
 msgid "Use for new sessions"
 msgstr "Gebruiken voor nieuwe sessies"
 
@@ -6357,6 +6574,9 @@ msgstr "Globale standaard gebruiken"
 
 msgid "Use host default"
 msgstr "Gebruik de hoststandaard"
+
+msgid "Use local checkout"
+msgstr "Lokale checkout gebruiken"
 
 msgid "Use Move to group to move workspaces between groups."
 msgstr "Gebruik Verplaatsen naar groep om werkruimtes tussen groepen te verplaatsen."
@@ -6400,6 +6620,9 @@ msgstr "Weergave"
 
 msgid "View license"
 msgstr "Licentie bekijken"
+
+msgid "View original mail"
+msgstr "Oorspronkelijk bericht bekijken"
 
 msgid "View run"
 msgstr "Uitvoering bekijken"
@@ -6496,6 +6719,9 @@ msgstr "Bestanden van de werkruimte zijn niet beschikbaar"
 
 msgid "Workspace launcher"
 msgstr "Werkruimtestarter"
+
+msgid "Workspace layout could not be saved"
+msgstr "De werkruimte-indeling kon niet worden opgeslagen"
 
 msgid "Workspace name"
 msgstr "Naam van de workspace"

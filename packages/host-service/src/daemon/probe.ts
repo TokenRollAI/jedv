@@ -9,6 +9,7 @@ import {
 export interface DaemonProbeResult {
 	daemonVersion: string;
 	daemonPid?: number;
+	launchdGeneration?: string;
 	trustdHealthy?: boolean;
 }
 
@@ -95,6 +96,11 @@ export function probeDaemonHello(
 						cleanup({
 							daemonVersion,
 							daemonPid: msg.daemonPid,
+							launchdGeneration:
+								typeof msg.launchdGeneration === "string" &&
+								/^[0-9a-f]{32}$/.test(msg.launchdGeneration)
+									? msg.launchdGeneration
+									: undefined,
 							trustdHealthy: msg.trustdHealthy,
 						});
 						return;

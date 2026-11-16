@@ -5,11 +5,12 @@ import {
 	MessageContent,
 	MessageResponse,
 } from "@jedv/ui/ai-elements/message";
-import { Trans, useLingui } from "@lingui/react/macro";
+import { useLingui } from "@lingui/react/macro";
 import { LuWrench } from "react-icons/lu";
 import { ButlerIcon } from "../../../ButlerIcon";
 import { ButlerMarkdownLink } from "./components/ButlerMarkdownLink";
 import { ButlerMarkdownContext } from "./markdown-context";
+import { toolOutput } from "./tool-output";
 
 const components = { a: ButlerMarkdownLink };
 const disallowedElements = [
@@ -33,18 +34,44 @@ export function ButlerChatMessage({
 	onOpenUrl?: (url: string) => Promise<void>;
 }) {
 	const { t } = useLingui();
-	if (message.role === "tool")
+	if (message.role === "tool") {
+		const tool = toolOutput(message.content);
+		const status =
+			tool.status === "running"
+				? t({ message: "Running" })
+				: tool.status === "success"
+					? t({ message: "Succeeded" })
+					: tool.status === "error"
+						? t({ message: "Failed" })
+						: tool.status === "interrupted"
+							? t({ message: "Interrupted" })
+							: t({ message: "Status unavailable" });
 		return (
 			<details className="rounded-md border border-border/60 px-3 py-2 text-xs text-muted-foreground">
 				<summary className="flex cursor-pointer items-center gap-2 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
 					<LuWrench className="size-3.5" />
-					<Trans>Tool output</Trans>
+					<span className="min-w-0 flex-1 break-words">
+						{tool.name ?? t({ message: "Tool output" })}
+					</span>
+					<output
+						className={
+							tool.status === "error" || tool.status === "interrupted"
+								? "text-destructive"
+								: ""
+						}
+					>
+						{status}
+					</output>
 				</summary>
 				<pre className="mt-2 max-h-80 overflow-auto whitespace-pre-wrap break-words font-mono text-[11px]">
-					{message.content}
+					{tool.detail ??
+						t({
+							message: "Tool details are unavailable in this older record.",
+						})}
 				</pre>
 			</details>
 		);
+	}
 	const human = message.role === "human";
 	const content = human ? (
 		<p className="whitespace-pre-wrap break-words">{message.content}</p>

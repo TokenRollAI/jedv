@@ -13,6 +13,50 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#. js-lingui-explicit-id
+msgid "Delivery mode (default: queue); interrupt requires an explicit human action and safe native support"
+msgstr "Chế độ chuyển (mặc định: queue); interrupt yêu cầu hành động rõ ràng của người dùng và hỗ trợ gốc an toàn"
+
+#. js-lingui-explicit-id
+msgid "Do not request recipient acknowledgement; this never marks mail acknowledged"
+msgstr "Không yêu cầu người nhận xác nhận; thao tác này không bao giờ đánh dấu thư là đã xác nhận"
+
+#. js-lingui-explicit-id
+msgid "--delivery-mode interrupt requires --human and an explicit user request"
+msgstr "--delivery-mode interrupt yêu cầu --human và yêu cầu rõ ràng của người dùng"
+
+#. js-lingui-explicit-id
+msgid "This Host does not support Mail delivery modes; no mail was sent"
+msgstr "Máy chủ này không hỗ trợ các chế độ chuyển thư; chưa gửi thư nào"
+
+#. js-lingui-explicit-id
+msgid "Safe Mail interruption is unavailable on this Host; no mail was sent"
+msgstr "Máy chủ này không hỗ trợ ngắt an toàn để gửi thư; chưa có thư nào được gửi"
+
+#. js-lingui-explicit-id
+msgid "Inspect launch evidence; starting or unknown does not mean the agent is ready"
+msgstr "Kiểm tra bằng chứng khởi chạy; trạng thái đang khởi chạy hoặc không xác định không có nghĩa là tác nhân đã sẵn sàng"
+
+#. js-lingui-explicit-id
+msgid "Workspace ID"
+msgstr "ID không gian làm việc"
+
+#. js-lingui-explicit-id
+msgid "Host on this machine (default: local)"
+msgstr "Máy chủ trên máy này (mặc định: local)"
+
+#. js-lingui-explicit-id
+msgid "The workspace is on this machine"
+msgstr "Không gian làm việc nằm trên máy này"
+
+#. js-lingui-explicit-id
+msgid "Terminal sessionId returned by agents create"
+msgstr "sessionId của thiết bị đầu cuối do agents create trả về"
+
+#. js-lingui-explicit-id
+msgid "Launch runId returned by agents create"
+msgstr "runId khởi chạy do agents create trả về"
+
 msgid "./"
 msgstr "./"
 
@@ -180,6 +224,9 @@ msgstr "4.5:1 (AA)"
 msgid "7:1 (AAA)"
 msgstr "7:1 (AAA)"
 
+msgid "A connected host and workspace are required to save layout"
+msgstr "Cần máy chủ đã kết nối và không gian làm việc để lưu bố cục"
+
 msgid "A daemon operation is already in progress"
 msgstr "Một thao tác daemon đang được thực hiện"
 
@@ -189,6 +236,9 @@ msgstr "Đã có tệp tên '{firstName}' trong {where}. Bạn có muốn thay t
 msgid "A listening process changed. Cancel and review the current process list before trying again."
 msgstr "Một tiến trình đang lắng nghe đã thay đổi. Hãy hủy và xem lại danh sách tiến trình hiện tại trước khi thử lại."
 
+msgid "A new branch is separate from its base. Leave the name empty to generate a unique branch automatically."
+msgstr "Nhánh mới tách biệt với nhánh cơ sở. Để trống tên để tự động tạo một nhánh duy nhất."
+
 msgid "A pull request already exists for this branch. Refresh the pull request list."
 msgstr "Nhánh này đã có pull request. Hãy làm mới danh sách pull request."
 
@@ -197,6 +247,9 @@ msgstr "Một thẻ có thể chứa tối đa tám khung."
 
 msgid "A tab can contain at most eight terminal panes."
 msgstr "Một thẻ có thể chứa tối đa tám ngăn terminal."
+
+msgid "A workspace can contain at most 32 tabs and each tab at most eight panes."
+msgstr "Một không gian làm việc có thể chứa tối đa 32 thẻ, mỗi thẻ tối đa tám ngăn."
 
 msgid "A workspace is protected. Resolve its protection before removing this project."
 msgstr "Một không gian làm việc đang được bảo vệ. Hãy gỡ bỏ chế độ bảo vệ trước khi xóa dự án này."
@@ -357,6 +410,18 @@ msgstr "Việc khởi chạy tác tử đang chờ thiết lập"
 
 msgid "Agent may be stalled"
 msgstr "Tác tử có thể bị đình trệ"
+
+msgid "Agent notified, awaiting consumption"
+msgstr "Đã thông báo cho tác nhân, đang chờ xử lý"
+
+msgid "Agent progress report"
+msgstr "Báo cáo tiến độ của tác nhân"
+
+msgid "Agent reported a blocker"
+msgstr "Tác nhân đã báo cáo trở ngại"
+
+msgid "Agent reports are not verified completion. Mail acknowledgement is separate from task acceptance."
+msgstr "Báo cáo của tác nhân không có nghĩa là tác vụ đã được xác minh hoàn tất. Xác nhận nhận thư tách biệt với nghiệm thu tác vụ."
 
 msgid "Agent saved, but linked presets could not be updated."
 msgstr "Đã lưu tác tử nhưng không thể cập nhật các cấu hình định sẵn được liên kết."
@@ -605,8 +670,8 @@ msgstr "Tự động (theo hệ thống)"
 msgid "Auto save"
 msgstr "Tự động lưu"
 
-msgid "Automatic branch"
-msgstr "Nhánh tự động"
+msgid "Automatic delivery paused"
+msgstr "Đã tạm dừng chuyển tự động"
 
 msgid "Automatic name"
 msgstr "Tên tự động"
@@ -671,6 +736,9 @@ msgstr "Quay lại tự động hóa"
 msgid "Back to current conversation"
 msgstr "Về cuộc trò chuyện hiện tại"
 
+msgid "Background"
+msgstr "Chạy nền"
+
 msgid "Background processes"
 msgstr "Tiến trình nền"
 
@@ -682,6 +750,9 @@ msgstr "Nhánh gốc"
 
 msgid "Base branch (repository default)"
 msgstr "Branch cơ sở (mặc định của repository)"
+
+msgid "Base branch to create from"
+msgstr "Nhánh cơ sở để tạo"
 
 msgid "Binary file"
 msgstr "Tệp nhị phân"
@@ -907,6 +978,9 @@ msgstr "Chọn cách Jedv hoạt động trên thiết bị này."
 msgid "Choose notification sounds and volume."
 msgstr "Chọn âm thanh và âm lượng thông báo."
 
+msgid "Choose two different panes."
+msgstr "Chọn hai ngăn khác nhau."
+
 msgid "Clear"
 msgstr "Trong suốt"
 
@@ -1036,6 +1110,9 @@ msgstr "Đóng khung hiện tại"
 
 msgid "Close the current tab"
 msgstr "Đóng tab hiện tại"
+
+msgid "Close the files view in the desktop so unsaved changes can be checked."
+msgstr "Đóng chế độ xem tệp trong ứng dụng máy tính để kiểm tra các thay đổi chưa lưu."
 
 msgid "Close this CLI terminal and take control of the same session? The terminal process will stop. Other terminal work may be lost."
 msgstr "Đóng terminal CLI này và kiểm soát cùng phiên? Tiến trình terminal sẽ dừng. Công việc khác trong terminal có thể bị mất."
@@ -1306,6 +1383,9 @@ msgstr "Sao chép localhost:{0}"
 msgid "Copy on select"
 msgstr "Sao chép khi chọn"
 
+msgid "Copy original instructions"
+msgstr "Sao chép hướng dẫn gốc"
+
 msgid "Copy path"
 msgstr "Sao chép đường dẫn"
 
@@ -1359,6 +1439,9 @@ msgstr "Không thể xác nhận kết quả trên máy chủ đích. Hãy kiể
 
 msgid "Could not confirm this session. Refresh before retrying."
 msgstr "Không thể xác nhận phiên này. Hãy làm mới trước khi thử lại."
+
+msgid "Could not copy. Select the text below to copy it."
+msgstr "Không thể sao chép. Chọn văn bản bên dưới để sao chép."
 
 msgid "Could not create team. Refresh the agents and retry."
 msgstr "Không thể tạo nhóm. Làm mới tác tử rồi thử lại."
@@ -1756,6 +1839,21 @@ msgstr "Đã giao"
 
 msgid "Delivered means the remote host stored the mail, not that a recipient read or acknowledged it."
 msgstr "Đã giao nghĩa là máy chủ từ xa đã lưu thư, không có nghĩa người nhận đã đọc hoặc xác nhận xử lý."
+
+msgid "Delivering"
+msgstr "Đang chuyển"
+
+msgid "Delivery failed"
+msgstr "Chuyển thất bại"
+
+msgid "Delivery mode"
+msgstr "Chế độ chuyển"
+
+msgid "Delivery outcome is uncertain. Inspect the terminal before retrying."
+msgstr "Kết quả chuyển thư chưa chắc chắn. Kiểm tra thiết bị đầu cuối trước khi thử lại."
+
+msgid "Delivery uncertain"
+msgstr "Kết quả chuyển chưa chắc chắn"
 
 msgid "Describe a goal to start a new task."
 msgstr "Mô tả mục tiêu để bắt đầu nhiệm vụ mới."
@@ -2398,6 +2496,9 @@ msgstr "Đã ẩn front matter. Hãy chuyển sang chế độ xem Markdown đ�
 msgid "Full Disk Access"
 msgstr "Full Disk Access"
 
+msgid "Full task instructions"
+msgstr "Hướng dẫn tác vụ đầy đủ"
+
 msgid "Full-stack Turborepo with Next.js, Expo, and tRPC"
 msgstr "Turborepo full-stack với Next.js, Expo và tRPC"
 
@@ -2572,6 +2673,9 @@ msgstr "https://github.com/owner/repo.git hoặc /path/to/repo"
 msgid "Human"
 msgstr "Con người"
 
+msgid "Human instruction"
+msgstr "Chỉ dẫn của người dùng"
+
 msgid "I checked the attachments"
 msgstr "Tôi đã kiểm tra tệp đính kèm"
 
@@ -2690,6 +2794,12 @@ msgstr "Trong cửa sổ của Apple, bấm Cài đặt. Quá trình mất vài 
 msgid "In review"
 msgstr "Đang xem xét"
 
+msgid "In right pane"
+msgstr "Trong ngăn bên phải"
+
+msgid "In tab"
+msgstr "Trong thẻ"
+
 msgid "Inbound mail token"
 msgstr "Token thư đến"
 
@@ -2747,8 +2857,20 @@ msgstr "Đang cài đặt bản cập nhật…"
 msgid "Instructions"
 msgstr "Hướng dẫn"
 
+msgid "Instructions are available in the original mail."
+msgstr "Bạn có thể xem hướng dẫn trong thư gốc."
+
+msgid "Internal mail and diagnostics"
+msgstr "Thư nội bộ và chẩn đoán"
+
+msgid "Internal mail diagnostics"
+msgstr "Chẩn đoán thư nội bộ"
+
 msgid "Interrupt"
 msgstr "Ngắt lời"
+
+msgid "Interrupt now"
+msgstr "Ngắt ngay"
 
 msgid "Interrupt requested"
 msgstr "Đã yêu cầu ngắt"
@@ -2851,6 +2973,9 @@ msgstr "Chiếc lá"
 
 msgid "Leave a comment…"
 msgstr "Để lại bình luận…"
+
+msgid "Leave empty for a unique new branch"
+msgstr "Để trống để tạo nhánh mới có tên duy nhất"
 
 msgid "Leave empty to use the workspace directory. Relative paths are resolved inside the workspace."
 msgstr "Để trống để dùng thư mục không gian làm việc. Đường dẫn tương đối được xử lý bên trong không gian làm việc."
@@ -3025,11 +3150,17 @@ msgstr "Vị trí"
 msgid "Location & checkout"
 msgstr "Vị trí & checkout"
 
+msgid "Location unavailable"
+msgstr "Không có thông tin vị trí"
+
 msgid "Mail awaiting acknowledgement: {activeCount}"
 msgstr "Thư chờ xác nhận đã nhận: {activeCount}"
 
 msgid "Mail awaits acknowledgement"
 msgstr "Thư chờ xác nhận"
+
+msgid "Mail delivery needs attention. Open diagnostics to inspect the delivery."
+msgstr "Việc chuyển thư cần được xử lý. Mở chẩn đoán để kiểm tra."
 
 msgid "Mail has not been acknowledged. Reading it does not acknowledge it."
 msgstr "Thư chưa được xác nhận. Đọc thư không xác nhận việc xử lý thư."
@@ -3275,6 +3406,9 @@ msgstr "Chuyển tới workspace trước trong thanh bên"
 msgid "Navigation"
 msgstr "Điều hướng"
 
+msgid "Navigation changed before the pane could be focused. Inspect the workspace before retrying."
+msgstr "Điều hướng đã thay đổi trước khi có thể đặt tiêu điểm vào ngăn. Kiểm tra không gian làm việc trước khi thử lại."
+
 msgid "Needs attention"
 msgstr "Cần chú ý"
 
@@ -3295,6 +3429,9 @@ msgstr "Tự động hóa mới"
 
 msgid "New branch"
 msgstr "Nhánh mới"
+
+msgid "New branch name"
+msgstr "Tên nhánh mới"
 
 msgid "New Chat"
 msgstr "Chat mới"
@@ -3448,6 +3585,12 @@ msgstr "Chưa tìm thấy dự án đã hoàn tất. Máy chủ có thể vẫn 
 msgid "No description provided"
 msgstr "Chưa có mô tả"
 
+msgid "No desktop pane consumer is connected."
+msgstr "Chưa có bộ xử lý yêu cầu ngăn của ứng dụng máy tính được kết nối."
+
+msgid "No desktop window is open to apply the layout change."
+msgstr "Không có cửa sổ ứng dụng máy tính đang mở để áp dụng thay đổi bố cục."
+
 msgid "No existing worktrees found."
 msgstr "Không tìm thấy worktree hiện có."
 
@@ -3526,6 +3669,9 @@ msgstr "Không có tiền tố"
 msgid "No prefix could be resolved from this host's identity."
 msgstr "Không thể xác định tiền tố từ danh tính máy chủ này."
 
+msgid "No progress reports or decisions yet. Internal communication is available in diagnostics."
+msgstr "Chưa có báo cáo tiến độ hoặc quyết định. Bạn có thể xem trao đổi nội bộ trong phần chẩn đoán."
+
 msgid "No projects match your filters"
 msgstr "Không có dự án khớp với bộ lọc"
 
@@ -3570,9 +3716,6 @@ msgstr "Chưa có nhiệm vụ được giao"
 
 msgid "No team"
 msgstr "Không có nhóm"
-
-msgid "No team mail yet"
-msgstr "Chưa có thư nhóm"
 
 msgid "No teams yet"
 msgstr "Chưa có nhóm"
@@ -3676,16 +3819,15 @@ msgstr "mở"
 msgid "Open"
 msgstr "Mở"
 
-#. placeholder {0}: binding.agentId
-msgid "Open {0} session"
-msgstr "Mở phiên {0}"
-
 #. placeholder {0}: member.name
 msgid "Open {0} terminal"
 msgstr "Mở terminal của {0}"
 
 msgid "Open {displayName}"
 msgstr "Mở {displayName}"
+
+msgid "Open {name} session"
+msgstr "Mở phiên {name}"
 
 msgid "Open {path} in file pane"
 msgstr "Mở {path} trong khung tệp"
@@ -3866,6 +4008,9 @@ msgstr "Mở bảng thay đổi trong tab mới, hoặc chuyển tiêu điểm �
 
 msgid "Open the global command palette"
 msgstr "Mở bảng lệnh toàn cục"
+
+msgid "Open the local host before focusing a local workspace pane."
+msgstr "Mở máy chủ cục bộ trước khi đặt tiêu điểm vào ngăn của không gian làm việc cục bộ."
 
 msgid "Open the main window to select this workspace"
 msgstr "Mở cửa sổ chính để chọn workspace này"
@@ -4110,6 +4255,9 @@ msgstr "Token đã xử lý"
 msgid "Processing"
 msgstr "Đang xử lý"
 
+msgid "Progress and decisions"
+msgstr "Tiến độ và quyết định"
+
 msgid "Project"
 msgstr "Dự án"
 
@@ -4206,8 +4354,14 @@ msgstr "px"
 msgid "Queue message"
 msgstr "Đưa tin nhắn vào hàng đợi"
 
+msgid "Queue waits for the agent. Interrupt requires safe support from the current session. Both require recipient acknowledgement; sending is not consumption."
+msgstr "Hàng đợi sẽ chờ tác nhân. Việc ngắt cần được phiên hiện tại hỗ trợ an toàn. Cả hai chế độ đều yêu cầu người nhận xác nhận; gửi không có nghĩa là đã xử lý."
+
 msgid "Queue; ⌘↩ to steer the running turn"
 msgstr "Vào hàng đợi; ⌘↩ để dừng và gửi trong lượt đang chạy"
+
+msgid "Queued"
+msgstr "Đã vào hàng đợi"
 
 msgid "Quick Create Workspace"
 msgstr "Tạo nhanh workspace"
@@ -4781,6 +4935,9 @@ msgstr "đang chạy"
 msgid "Running"
 msgstr "Đang chạy"
 
+msgid "Safe interruption is unavailable on this host. Queued mail waits for the agent; sending does not confirm consumption."
+msgstr "Máy chủ này không hỗ trợ ngắt an toàn. Thư trong hàng đợi sẽ chờ tác nhân; gửi thư không xác nhận thư đã được xử lý."
+
 msgid "Same-session CLI control is unavailable. No new session was started."
 msgstr "Không thể điều khiển CLI trong cùng phiên. Không có phiên mới nào được khởi chạy."
 
@@ -5145,6 +5302,9 @@ msgstr "Hiển thị lệnh tác tử và cấu hình định sẵn terminal đ�
 msgid "Show Apple's installer"
 msgstr "Hiện trình cài đặt của Apple"
 
+msgid "Show decisions and exceptions"
+msgstr "Hiển thị quyết định và ngoại lệ"
+
 msgid "Show deleted workspaces"
 msgstr "Hiển thị không gian làm việc đã xóa"
 
@@ -5177,6 +5337,9 @@ msgstr "Hiển thị mức sử dụng tài nguyên cục bộ trong workspace."
 
 msgid "Show more"
 msgstr "Hiện thêm"
+
+msgid "Show progress and decisions"
+msgstr "Hiển thị tiến độ và quyết định"
 
 msgid "Show Scripts Bar"
 msgstr "Hiển thị thanh script"
@@ -5656,6 +5819,15 @@ msgstr "Vị trí mặc định cho worktree mới trên host đã kết nối."
 msgid "The definition and its run records will be deleted. Existing workspaces and sessions remain available."
 msgstr "Định nghĩa và các bản ghi lượt chạy sẽ bị xóa. Workspace và phiên hiện có vẫn khả dụng."
 
+msgid "The desktop app did not confirm the layout change in time. Inspect the layout before retrying."
+msgstr "Ứng dụng máy tính không xác nhận thay đổi bố cục kịp thời. Kiểm tra bố cục trước khi thử lại."
+
+msgid "The desktop could not apply the pane request."
+msgstr "Ứng dụng máy tính không thể áp dụng yêu cầu về ngăn."
+
+msgid "The desktop pane connection closed before the layout result was confirmed."
+msgstr "Kết nối ngăn của ứng dụng máy tính đã đóng trước khi kết quả bố cục được xác nhận."
+
 msgid "The existing session identity could not be verified. Refresh before retrying."
 msgstr "Không thể xác minh danh tính phiên hiện có. Hãy làm mới trước khi thử lại."
 
@@ -5680,11 +5852,17 @@ msgstr "Dịch vụ host Jedv đã dừng bất ngờ ({cause}) và không tự 
 msgid "The key stays on this host. It is never injected into terminals or returned to this screen."
 msgstr "Khóa được giữ trên máy chủ này. Khóa không bao giờ được chèn vào terminal hoặc trả về màn hình này."
 
+msgid "The layout change failed."
+msgstr "Thay đổi bố cục thất bại."
+
 msgid "The Leader terminal continues running."
 msgstr "Terminal của trưởng nhóm vẫn tiếp tục chạy."
 
 msgid "The linked local agent is unavailable on this host. Edit the preset or remove its agent link."
 msgstr "Tác tử cục bộ được liên kết không khả dụng trên máy chủ này. Hãy chỉnh sửa cấu hình định sẵn hoặc gỡ liên kết tác tử."
+
+msgid "The local host connection changed. Inspect the layout before retrying."
+msgstr "Kết nối máy chủ cục bộ đã thay đổi. Kiểm tra bố cục trước khi thử lại."
 
 msgid "The local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
 msgstr "Dịch vụ host cục bộ không khả dụng cho {organization} trên {device}. Trạng thái: {status}. {recovery}"
@@ -5700,6 +5878,12 @@ msgstr "Trang bạn tìm không tồn tại."
 
 msgid "The pairing code expired or was already used. Request a new code on your computer."
 msgstr "Mã ghép nối đã hết hạn hoặc đã được dùng. Yêu cầu mã mới trên máy tính."
+
+msgid "The pane or tab is not in this workspace."
+msgstr "Ngăn hoặc thẻ này không thuộc không gian làm việc này."
+
+msgid "The pane request expired. Inspect the layout before retrying."
+msgstr "Yêu cầu về ngăn đã hết hạn. Kiểm tra bố cục trước khi thử lại."
 
 msgid "The previous token will stop working. Update the remote peer with the new token."
 msgstr "Token cũ sẽ ngừng hoạt động. Cập nhật máy ngang hàng từ xa bằng token mới."
@@ -5727,6 +5911,9 @@ msgstr "Kết quả chưa chắc chắn. Thử lại tin nhắn này với cùng
 
 msgid "The resumed session identity could not be verified. Refresh before retrying."
 msgstr "Không thể xác minh danh tính phiên được tiếp tục. Hãy làm mới trước khi thử lại."
+
+msgid "The resumed terminal is not available yet. Refresh the workspace to retry."
+msgstr "Thiết bị đầu cuối được tiếp tục chưa sẵn sàng. Hãy làm mới không gian làm việc để thử lại."
 
 msgid "The run command is still stopping. Wait, then restart."
 msgstr "Lệnh chạy vẫn đang dừng. Hãy đợi rồi khởi động lại."
@@ -5776,6 +5963,9 @@ msgstr "Không gian làm việc đích đã thay đổi. Kết quả thuộc v�
 msgid "The team becomes read-only. Its workspaces, files and terminals are kept."
 msgstr "Nhóm chuyển sang chỉ đọc. Không gian làm việc, tệp và terminal của nhóm được giữ lại."
 
+msgid "The terminal is not available in this workspace."
+msgstr "Thiết bị đầu cuối này không khả dụng trong không gian làm việc này."
+
 msgid "The terminal session changed. Refresh before inserting the prompt."
 msgstr "Phiên terminal đã thay đổi. Hãy làm mới trước khi chèn prompt."
 
@@ -5824,8 +6014,14 @@ msgstr "Thông tin đăng nhập API này không cung cấp hạn mức thuê ba
 msgid "This automation is no longer available"
 msgstr "Automation này không còn khả dụng"
 
+msgid "This branch already exists. Choose a new name or select Existing branch."
+msgstr "Nhánh này đã tồn tại. Chọn tên mới hoặc chọn nhánh hiện có."
+
 msgid "This branch has conflicts"
 msgstr "Branch này có xung đột"
+
+msgid "This branch is used by the shared checkout. Choose a new name or use the local checkout."
+msgstr "Nhánh này đang được bản checkout dùng chung sử dụng. Chọn tên mới hoặc dùng bản checkout cục bộ."
 
 msgid "This changes the pull request state on GitHub."
 msgstr "Thao tác này thay đổi trạng thái pull request trên GitHub."
@@ -5911,8 +6107,14 @@ msgstr "Đây là tệp lớn. Mở tệp có thể làm trình chỉnh sửa ch
 msgid "This pane can't be shown"
 msgstr "Không thể hiển thị ngăn này"
 
+msgid "This pane has no split to resize."
+msgstr "Ngăn này không có phần chia nào để đổi kích thước."
+
 msgid "This pane hit an error"
 msgstr "Ngăn này gặp lỗi"
+
+msgid "This pane operation is not supported by this desktop."
+msgstr "Ứng dụng máy tính này không hỗ trợ thao tác ngăn này."
 
 msgid "This permanently deletes the removed project and workspace records and attempts to remove their clean worktree directories. Dirty worktree directories may remain untracked. The main repository directory is kept. This cannot be undone."
 msgstr "Thao tác này xóa vĩnh viễn bản ghi dự án và không gian làm việc đã xóa, đồng thời cố gắng xóa thư mục worktree sạch. Thư mục worktree có thay đổi có thể vẫn còn và không được theo dõi. Thư mục kho mã chính được giữ lại. Không thể hoàn tác thao tác này."
@@ -6088,17 +6290,29 @@ msgstr "Token"
 msgid "Too many background terminals. Reattach or end one before closing another view."
 msgstr "Quá nhiều terminal chạy nền. Hãy gắn lại hoặc kết thúc một terminal trước khi đóng chế độ xem khác."
 
+msgid "Too many desktop pane subscriptions."
+msgstr "Có quá nhiều đăng ký ngăn của ứng dụng máy tính."
+
 msgid "Too many dropped items. Add at most 5000 files and folders at a time."
 msgstr "Quá nhiều mục được thả. Mỗi lần chỉ thêm tối đa 5000 tệp và thư mục."
 
 msgid "Too many files. Some were not added."
 msgstr "Quá nhiều tệp. Một số tệp không được thêm."
 
+msgid "Too many pane requests are waiting. Try again after they finish."
+msgstr "Có quá nhiều yêu cầu về ngăn đang chờ. Hãy thử lại sau khi chúng hoàn tất."
+
+msgid "Too many pending pane requests. Wait for the current requests to finish."
+msgstr "Có quá nhiều yêu cầu về ngăn đang chờ. Hãy đợi các yêu cầu hiện tại hoàn tất."
+
 msgid "Too many requests. Wait a moment and try again."
 msgstr "Quá nhiều yêu cầu. Chờ một lát rồi thử lại."
 
 msgid "Too many untitled items here already."
 msgstr "Đã có quá nhiều mục chưa đặt tên ở đây."
+
+msgid "Tool details are unavailable in this older record."
+msgstr "Chi tiết công cụ không có trong bản ghi cũ này."
 
 msgid "Tool output"
 msgstr "Output tool"
@@ -6349,6 +6563,9 @@ msgstr "Dùng phiên hiện có"
 msgid "Use another local port"
 msgstr "Dùng cổng cục bộ khác"
 
+msgid "Use existing branch"
+msgstr "Dùng nhánh hiện có"
+
 msgid "Use for new sessions"
 msgstr "Dùng cho phiên mới"
 
@@ -6357,6 +6574,9 @@ msgstr "Dùng mặc định toàn cục"
 
 msgid "Use host default"
 msgstr "Dùng mặc định của máy chủ"
+
+msgid "Use local checkout"
+msgstr "Dùng bản checkout cục bộ"
 
 msgid "Use Move to group to move workspaces between groups."
 msgstr "Dùng Di chuyển vào nhóm để di chuyển không gian làm việc giữa các nhóm."
@@ -6400,6 +6620,9 @@ msgstr "Xem"
 
 msgid "View license"
 msgstr "Xem giấy phép"
+
+msgid "View original mail"
+msgstr "Xem thư gốc"
 
 msgid "View run"
 msgstr "Xem lần chạy"
@@ -6496,6 +6719,9 @@ msgstr "Tệp workspace không khả dụng"
 
 msgid "Workspace launcher"
 msgstr "Trình khởi chạy không gian làm việc"
+
+msgid "Workspace layout could not be saved"
+msgstr "Không thể lưu bố cục không gian làm việc"
 
 msgid "Workspace name"
 msgstr "Tên không gian làm việc"

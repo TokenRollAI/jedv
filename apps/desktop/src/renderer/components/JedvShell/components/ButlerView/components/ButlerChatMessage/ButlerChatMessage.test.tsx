@@ -54,3 +54,59 @@ test("human text stays verbatim and tool output is a disclosure, never an approv
 	expect(summary.closest("details")?.open).toBe(true);
 	expect(screen.queryByRole("button", { name: /approve|confirm/i })).toBeNull();
 });
+
+test("tool lifecycle names the running call, updates failure and redacts credentials", () => {
+	const screen = render(
+		<ButlerChatMessage
+			message={message(
+				"tool",
+				JSON.stringify({
+					version: 1,
+					tool: "listProjects",
+					callId: "call",
+					status: "running",
+					parametersSummary: { token: "fixture-secret", project: "project" },
+				}),
+			)}
+		/>,
+	);
+	expect(screen.getByText("listProjects")).toBeTruthy();
+	expect(screen.getByRole("status").textContent).toBe("Running");
+	expect(screen.container.textContent).not.toContain("fixture-secret");
+	screen.rerender(
+		<ButlerChatMessage
+			message={message(
+				"tool",
+				JSON.stringify({
+					version: 1,
+					tool: "listProjects",
+					callId: "call",
+					status: "failed",
+					error: "Host unavailable",
+				}),
+			)}
+		/>,
+	);
+	expect(screen.getByRole("status").textContent).toBe("Failed");
+	fireEvent.click(screen.getByText("listProjects"));
+	expect(screen.container.textContent).toContain("Host unavailable");
+	expect(screen.container.querySelector("details")?.open).toBe(true);
+	screen.rerender(
+		<ButlerChatMessage
+			message={message(
+				"tool",
+				JSON.stringify({ tool: "listProjects", result: { count: 3 } }),
+			)}
+		/>,
+	);
+	expect(screen.getByRole("status").textContent).toBe("Succeeded");
+});
+test("malformed legacy output does not claim success or expose raw sensitive fragments", () => {
+	const screen = render(
+		<ButlerChatMessage
+			message={message("tool", '{"token":"secret-fragment')}
+		/>,
+	);
+	expect(screen.getByRole("status").textContent).toBe("Status unavailable");
+	expect(screen.container.textContent).not.toContain("secret-fragment");
+});

@@ -18,7 +18,16 @@ export function defaultAppHomeDir(): string {
 }
 
 export function isDefaultAppHomeDir(dir: string | undefined): boolean {
-	return !dir?.trim() || path.resolve(dir) === defaultAppHomeDir();
+	// The legacy daemon namespace belongs to the OS user's real home. A test
+	// user-home override must never make its temporary .jedv share that socket.
+	const nativeHome =
+		process.platform === "win32"
+			? os.homedir()
+			: process.env.HOME || os.homedir();
+	return (
+		!dir?.trim() ||
+		path.resolve(dir) === path.join(nativeHome, APP_HOME_DIR_NAME)
+	);
 }
 
 /**

@@ -28,6 +28,7 @@ const DAEMON_VERSION: string = packageJson.version;
 interface CliArgs {
 	socket: string;
 	bufferBytes?: number;
+	launchdGeneration?: string;
 }
 
 function parseArgs(argv: string[]): CliArgs {
@@ -35,7 +36,13 @@ function parseArgs(argv: string[]): CliArgs {
 	for (const arg of argv) {
 		if (arg.startsWith("--socket="))
 			args.socket = arg.slice("--socket=".length);
-		else if (arg.startsWith("--buffer-bytes=")) {
+		else if (arg.startsWith("--launchd-generation=")) {
+			const generation = arg.slice("--launchd-generation=".length);
+			if (!/^[0-9a-f]{32}$/.test(generation)) {
+				throw new Error("Invalid launchd generation");
+			}
+			args.launchdGeneration = generation;
+		} else if (arg.startsWith("--buffer-bytes=")) {
 			const raw = arg.slice("--buffer-bytes=".length);
 			const parsed = Number.parseInt(raw, 10);
 			if (!Number.isFinite(parsed) || parsed <= 0) {
@@ -76,6 +83,7 @@ async function runFresh(): Promise<void> {
 	const server = new Server({
 		socketPath: args.socket,
 		daemonVersion,
+		launchdGeneration: args.launchdGeneration,
 		bufferCap: args.bufferBytes,
 	});
 	await server.listen();
@@ -150,6 +158,7 @@ async function runHandoffReceiver(): Promise<void> {
 	const server = new Server({
 		socketPath,
 		daemonVersion,
+		launchdGeneration: parseArgs(process.argv.slice(2)).launchdGeneration,
 		bufferCap: bufferBytes,
 	});
 

@@ -32,7 +32,7 @@ const TEST_HOOKS_DIR = path.join(TEST_JEDV_HOME_DIR, "hooks");
 const TEST_HOME_DIR = path.join(TEST_ROOT, "home");
 
 const originalJedvHomeDir = process.env.JEDV_HOME_DIR;
-const originalHome = process.env.HOME;
+const originalUserHome = process.env.JEDV_USER_HOME_DIR;
 
 let managedClaudeHookCommand: string;
 let managedArtifactGuardCommand: string;
@@ -42,7 +42,7 @@ let managedMastraHookCommand: string;
 
 beforeAll(() => {
 	process.env.JEDV_HOME_DIR = TEST_JEDV_HOME_DIR;
-	process.env.HOME = TEST_HOME_DIR;
+	process.env.JEDV_USER_HOME_DIR = TEST_HOME_DIR;
 	managedClaudeHookCommand = getClaudeManagedHookCommand();
 	managedArtifactGuardCommand = getManagedArtifactGuardHookCommand();
 	managedDroidHookCommand = getManagedNotifyHookCommand("droid");
@@ -56,10 +56,10 @@ afterAll(() => {
 	} else {
 		process.env.JEDV_HOME_DIR = originalJedvHomeDir;
 	}
-	if (originalHome === undefined) {
-		delete process.env.HOME;
+	if (originalUserHome === undefined) {
+		delete process.env.JEDV_USER_HOME_DIR;
 	} else {
-		process.env.HOME = originalHome;
+		process.env.JEDV_USER_HOME_DIR = originalUserHome;
 	}
 });
 

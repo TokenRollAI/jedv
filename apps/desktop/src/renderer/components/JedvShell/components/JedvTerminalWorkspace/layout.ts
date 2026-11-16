@@ -128,6 +128,44 @@ export function reconcileTerminalPanes(
 	info.initialized = true;
 }
 
+export function openNewAgentTab(
+	store: TerminalLayoutStore,
+	session: TerminalSession,
+): boolean {
+	if (findTerminalPane(store, session.terminalId)) return false;
+	if (
+		workspaceAreaStores(store).some((area) =>
+			terminalLayoutMetadata(area).detached.has(session.terminalId),
+		)
+	)
+		return false;
+	try {
+		assertTabCapacity(store);
+	} catch {
+		return false;
+	}
+	const temporary = createTerminalWorkspaceStore();
+	temporary.getState().addTab({
+		id: session.terminalId,
+		panes: [
+			{
+				id: session.terminalId,
+				kind: "terminal",
+				data: { terminalId: session.terminalId },
+				pinned: true,
+			},
+		],
+		focus: false,
+		reuse: false,
+	});
+	const tab = temporary.getState().tabs[0];
+	store.setState((state) => ({
+		tabs: [...state.tabs, tab],
+		activeTabId: state.activeTabId ?? tab.id,
+	}));
+	return true;
+}
+
 function rememberClosedTab(
 	store: TerminalLayoutStore,
 	tab: Tab<WorkspacePaneData>,

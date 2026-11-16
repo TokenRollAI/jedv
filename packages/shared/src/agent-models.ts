@@ -56,6 +56,8 @@ export function splitModelCatalog(models: readonly AgentModelOption[]): {
 export interface AgentModelSupport {
 	presetId: string;
 	modelFlag: string | null;
+	/** The provider owns a changing/account-specific catalog; accept explicit IDs. */
+	allowCustomModel?: boolean;
 	/**
 	 * Env var that carries the model when the CLI has no model flag (e.g. Vibe's
 	 * `VIBE_ACTIVE_MODEL`). Mutually exclusive with `modelFlag` in practice.
@@ -180,12 +182,14 @@ export const AGENT_MODEL_SUPPORT: readonly AgentModelSupport[] = [
 	{
 		presetId: "agy",
 		modelFlag: "--model",
+		allowCustomModel: true,
 		models: [
 			// Family ids; `--effort` picks the level. The catalog is
 			// account-dependent and agy rejects ids the account lacks. Verified
 			// against `agy models` (agy 1.4.10, 2026-10-29) except Gemini 4 Argon,
 			// whose family and level ids ship in the binary but need a plan that
 			// includes it.
+			{ id: "gemini-4-carbon", label: "Gemini 4 Carbon" },
 			{ id: "gemini-4-argon", label: "Gemini 4 Argon" },
 			{ id: "gemini-3.8-flash", label: "Gemini 3.8 Flash" },
 			{ id: "claude-sonnet-4-6", label: "Claude Sonnet 4.6" },
@@ -582,7 +586,11 @@ const CURSOR_EFFORT_VARIANTS: Readonly<
 	"glm-5.2-high": cursorEffortVariants("glm-5.2", ["high", "max"]),
 };
 
-const AGY_EFFORT_MODELS = ["gemini-4-argon", "gemini-3.8-flash"] as const;
+const AGY_EFFORT_MODELS = [
+	"gemini-4-carbon",
+	"gemini-4-argon",
+	"gemini-3.8-flash",
+] as const;
 
 const PI_THINKING_LEVELS: AgentModelOption[] = [
 	{ id: "off", label: "Off" },
@@ -773,10 +781,11 @@ export function getAgentEfforts(
 ): AgentEffortOption[] {
 	const support = getAgentEffortSupport(presetId);
 	if (!support) return [];
+	const family = agyModelFamily(presetId, model);
 	const selected = getAgentModelSupport(presetId)?.models.some(
-		(option) => option.id === model,
+		(option) => option.id === family,
 	)
-		? model
+		? family
 		: undefined;
 	if (support.requiresModel && !selected) return [];
 	if (support.modelVariants) {
@@ -835,10 +844,29 @@ export function isCuratedAgentModel(presetId: string, model: string): boolean {
 	const support = getAgentModelSupport(presetId);
 	if (!support) return false;
 	if (support.models.some((option) => option.id === model)) return true;
+	if (agyModelFamily(presetId, model) !== model) return true;
 	const variants = getAgentEffortSupport(presetId)?.modelVariants;
 	if (!variants) return false;
 	return Object.values(variants).some((ladder) =>
 		Object.values(ladder).includes(model),
+	);
+}
+
+function agyModelFamily(presetId: string, model: string | undefined) {
+	if (presetId !== "agy" || !model) return model;
+	const family = model.replace(/-(low|medium|high)$/, "");
+	return AGY_EFFORT_MODELS.some((id) => id === family) ? family : model;
+}
+
+/** Custom IDs are passed as one argv token; the provider validates availability. */
+export function isSupportedAgentModel(
+	presetId: string,
+	model: string,
+): boolean {
+	return (
+		isCuratedAgentModel(presetId, model) ||
+		(getAgentModelSupport(presetId)?.allowCustomModel === true &&
+			/^[a-zA-Z0-9][a-zA-Z0-9._:/-]*$/.test(model))
 	);
 }
 
@@ -860,11 +888,17 @@ export function buildAgentModelArgs(
 	if (!model) return [];
 	const support = getAgentModelSupport(presetId);
 	if (!support?.modelFlag) return [];
-	if (!isCuratedAgentModel(presetId, model)) return [];
+	if (!isSupportedAgentModel(presetId, model)) return [];
 	const variant = effort
 		? getAgentEffortSupport(presetId)?.modelVariants?.[model]?.[effort]
 		: undefined;
-	return [support.modelFlag, variant ?? model];
+	// An explicit effort replaces a saved level rather than sending conflicting
+	// level-in-model and --effort choices to agy.
+	const selected =
+		effort && getAgentEfforts(presetId, model).some((e) => e.id === effort)
+			? agyModelFamily(presetId, model)
+			: model;
+	return [support.modelFlag, variant ?? selected ?? model];
 }
 
 /**

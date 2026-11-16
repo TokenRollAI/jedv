@@ -13,6 +13,50 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#. js-lingui-explicit-id
+msgid "Delivery mode (default: queue); interrupt requires an explicit human action and safe native support"
+msgstr "Mode de remise (par défaut : queue) ; interrupt nécessite une action humaine explicite et une prise en charge native sûre"
+
+#. js-lingui-explicit-id
+msgid "Do not request recipient acknowledgement; this never marks mail acknowledged"
+msgstr "Ne pas demander d’accusé de réception ; cela ne marque jamais le message comme confirmé"
+
+#. js-lingui-explicit-id
+msgid "--delivery-mode interrupt requires --human and an explicit user request"
+msgstr "--delivery-mode interrupt nécessite --human et une demande explicite de l’utilisateur"
+
+#. js-lingui-explicit-id
+msgid "This Host does not support Mail delivery modes; no mail was sent"
+msgstr "Cet hôte ne prend pas en charge les modes de remise du courrier ; aucun message n’a été envoyé"
+
+#. js-lingui-explicit-id
+msgid "Safe Mail interruption is unavailable on this Host; no mail was sent"
+msgstr "L’interruption sécurisée pour la remise du courrier n’est pas disponible sur cet hôte ; aucun message n’a été envoyé"
+
+#. js-lingui-explicit-id
+msgid "Inspect launch evidence; starting or unknown does not mean the agent is ready"
+msgstr "Vérifier les preuves de démarrage ; un état « démarrage » ou « inconnu » ne signifie pas que l’agent est prêt"
+
+#. js-lingui-explicit-id
+msgid "Workspace ID"
+msgstr "ID de l’espace de travail"
+
+#. js-lingui-explicit-id
+msgid "Host on this machine (default: local)"
+msgstr "Hôte sur cette machine (par défaut : local)"
+
+#. js-lingui-explicit-id
+msgid "The workspace is on this machine"
+msgstr "L’espace de travail se trouve sur cette machine"
+
+#. js-lingui-explicit-id
+msgid "Terminal sessionId returned by agents create"
+msgstr "sessionId du terminal renvoyé par agents create"
+
+#. js-lingui-explicit-id
+msgid "Launch runId returned by agents create"
+msgstr "runId du lancement renvoyé par agents create"
+
 msgid "./"
 msgstr "./"
 
@@ -180,6 +224,9 @@ msgstr "4.5:1 (AA)"
 msgid "7:1 (AAA)"
 msgstr "7:1 (AAA)"
 
+msgid "A connected host and workspace are required to save layout"
+msgstr "Un hôte connecté et un espace de travail sont nécessaires pour enregistrer la disposition"
+
 msgid "A daemon operation is already in progress"
 msgstr "Une opération du démon est déjà en cours"
 
@@ -189,6 +236,9 @@ msgstr "Un fichier nommé « {firstName} » existe déjà dans {where}. Voulez-v
 msgid "A listening process changed. Cancel and review the current process list before trying again."
 msgstr "Un processus d’écoute a changé. Annulez et examinez la liste actuelle des processus avant de réessayer."
 
+msgid "A new branch is separate from its base. Leave the name empty to generate a unique branch automatically."
+msgstr "Une nouvelle branche est distincte de sa branche de base. Laissez le nom vide pour générer automatiquement une branche unique."
+
 msgid "A pull request already exists for this branch. Refresh the pull request list."
 msgstr "Une PR existe déjà pour cette branche. Actualisez la liste des PR."
 
@@ -197,6 +247,9 @@ msgstr "Un onglet peut contenir au maximum huit volets."
 
 msgid "A tab can contain at most eight terminal panes."
 msgstr "Un onglet peut contenir au maximum huit panneaux de terminal."
+
+msgid "A workspace can contain at most 32 tabs and each tab at most eight panes."
+msgstr "Un espace de travail peut contenir au maximum 32 onglets, et chaque onglet huit volets."
 
 msgid "A workspace is protected. Resolve its protection before removing this project."
 msgstr "Un espace de travail est protégé. Levez cette protection avant de supprimer ce projet."
@@ -357,6 +410,18 @@ msgstr "Le lancement de l’agent attend la fin de la configuration"
 
 msgid "Agent may be stalled"
 msgstr "L’agent semble bloqué"
+
+msgid "Agent notified, awaiting consumption"
+msgstr "Agent notifié, en attente de prise en compte"
+
+msgid "Agent progress report"
+msgstr "Rapport d’avancement de l’agent"
+
+msgid "Agent reported a blocker"
+msgstr "L’agent a signalé un blocage"
+
+msgid "Agent reports are not verified completion. Mail acknowledgement is separate from task acceptance."
+msgstr "Le rapport d’un agent ne constitue pas une validation de fin de tâche. L’accusé de réception d’un message est distinct de l’acceptation de la tâche."
 
 msgid "Agent saved, but linked presets could not be updated."
 msgstr "Agent enregistré, mais les préréglages liés n’ont pas pu être mis à jour."
@@ -605,8 +670,8 @@ msgstr "Auto (système)"
 msgid "Auto save"
 msgstr "Enregistrement automatique"
 
-msgid "Automatic branch"
-msgstr "Nom de branche automatique"
+msgid "Automatic delivery paused"
+msgstr "Remise automatique suspendue"
 
 msgid "Automatic name"
 msgstr "Nom automatique"
@@ -671,6 +736,9 @@ msgstr "Retour aux automatisations"
 msgid "Back to current conversation"
 msgstr "Revenir à la conversation actuelle"
 
+msgid "Background"
+msgstr "En arrière-plan"
+
 msgid "Background processes"
 msgstr "Processus en arrière-plan"
 
@@ -682,6 +750,9 @@ msgstr "Branche de base"
 
 msgid "Base branch (repository default)"
 msgstr "Branche de base (valeur par défaut du dépôt)"
+
+msgid "Base branch to create from"
+msgstr "Branche de base pour la création"
 
 msgid "Binary file"
 msgstr "Fichier binaire"
@@ -907,6 +978,9 @@ msgstr "Choisissez le comportement de Jedv sur cet appareil."
 msgid "Choose notification sounds and volume."
 msgstr "Choisissez les sons et le volume des notifications."
 
+msgid "Choose two different panes."
+msgstr "Choisissez deux volets différents."
+
 msgid "Clear"
 msgstr "Transparent"
 
@@ -1036,6 +1110,9 @@ msgstr "Fermer le volet actuel"
 
 msgid "Close the current tab"
 msgstr "Fermer l'onglet actuel"
+
+msgid "Close the files view in the desktop so unsaved changes can be checked."
+msgstr "Fermez la vue des fichiers dans l’application de bureau afin de vérifier les modifications non enregistrées."
 
 msgid "Close this CLI terminal and take control of the same session? The terminal process will stop. Other terminal work may be lost."
 msgstr "Fermer ce terminal CLI et prendre le contrôle de la même session ? Le processus du terminal s’arrêtera. D’autres travaux du terminal peuvent être perdus."
@@ -1306,6 +1383,9 @@ msgstr "Copier localhost:{0}"
 msgid "Copy on select"
 msgstr "Copier lors de la sélection"
 
+msgid "Copy original instructions"
+msgstr "Copier les instructions d’origine"
+
 msgid "Copy path"
 msgstr "Copier le chemin"
 
@@ -1359,6 +1439,9 @@ msgstr "Impossible de confirmer le résultat sur l’hôte cible. Vérifiez sa c
 
 msgid "Could not confirm this session. Refresh before retrying."
 msgstr "Impossible de confirmer cette session. Actualisez avant de réessayer."
+
+msgid "Could not copy. Select the text below to copy it."
+msgstr "Copie impossible. Sélectionnez le texte ci-dessous pour le copier."
 
 msgid "Could not create team. Refresh the agents and retry."
 msgstr "Impossible de créer l’équipe. Actualisez les agents et réessayez."
@@ -1756,6 +1839,21 @@ msgstr "Distribué"
 
 msgid "Delivered means the remote host stored the mail, not that a recipient read or acknowledged it."
 msgstr "Distribué signifie que l’hôte distant a enregistré le message, pas que son destinataire l’a lu ou en a confirmé le traitement."
+
+msgid "Delivering"
+msgstr "Remise en cours"
+
+msgid "Delivery failed"
+msgstr "Échec de la remise"
+
+msgid "Delivery mode"
+msgstr "Mode de remise"
+
+msgid "Delivery outcome is uncertain. Inspect the terminal before retrying."
+msgstr "Le résultat de la remise est incertain. Vérifiez le terminal avant de réessayer."
+
+msgid "Delivery uncertain"
+msgstr "Remise incertaine"
 
 msgid "Describe a goal to start a new task."
 msgstr "Décrivez un objectif pour commencer une nouvelle tâche."
@@ -2398,6 +2496,9 @@ msgstr "Front matter masqué. Passez à la vue Markdown pour le modifier"
 msgid "Full Disk Access"
 msgstr "Accès complet au disque"
 
+msgid "Full task instructions"
+msgstr "Instructions complètes de la tâche"
+
 msgid "Full-stack Turborepo with Next.js, Expo, and tRPC"
 msgstr "Turborepo full-stack avec Next.js, Expo et tRPC"
 
@@ -2572,6 +2673,9 @@ msgstr "https://github.com/owner/repo.git ou /path/to/repo"
 msgid "Human"
 msgstr "Humain"
 
+msgid "Human instruction"
+msgstr "Instruction de l’utilisateur"
+
 msgid "I checked the attachments"
 msgstr "J’ai vérifié les pièces jointes"
 
@@ -2690,6 +2794,12 @@ msgstr "Dans la fenêtre d'Apple, cliquez sur Installer. Cela prend quelques min
 msgid "In review"
 msgstr "En révision"
 
+msgid "In right pane"
+msgstr "Dans le volet droit"
+
+msgid "In tab"
+msgstr "Dans un onglet"
+
 msgid "Inbound mail token"
 msgstr "Jeton de courrier entrant"
 
@@ -2747,8 +2857,20 @@ msgstr "Installation de la mise à jour…"
 msgid "Instructions"
 msgstr "Instructions"
 
+msgid "Instructions are available in the original mail."
+msgstr "Les instructions sont disponibles dans le message d’origine."
+
+msgid "Internal mail and diagnostics"
+msgstr "Messages internes et diagnostics"
+
+msgid "Internal mail diagnostics"
+msgstr "Diagnostics des messages internes"
+
 msgid "Interrupt"
 msgstr "Interrompre"
+
+msgid "Interrupt now"
+msgstr "Interrompre maintenant"
 
 msgid "Interrupt requested"
 msgstr "Interruption demandée"
@@ -2851,6 +2973,9 @@ msgstr "Feuille"
 
 msgid "Leave a comment…"
 msgstr "Laissez un commentaire…"
+
+msgid "Leave empty for a unique new branch"
+msgstr "Laissez vide pour créer une nouvelle branche unique"
 
 msgid "Leave empty to use the workspace directory. Relative paths are resolved inside the workspace."
 msgstr "Laissez vide pour utiliser le répertoire de l’espace de travail. Les chemins relatifs sont résolus dans l’espace de travail."
@@ -3025,11 +3150,17 @@ msgstr "Emplacement"
 msgid "Location & checkout"
 msgstr "Emplacement et checkout"
 
+msgid "Location unavailable"
+msgstr "Emplacement indisponible"
+
 msgid "Mail awaiting acknowledgement: {activeCount}"
 msgstr "Courriers en attente de confirmation : {activeCount}"
 
 msgid "Mail awaits acknowledgement"
 msgstr "Mail en attente de confirmation"
+
+msgid "Mail delivery needs attention. Open diagnostics to inspect the delivery."
+msgstr "La remise du message nécessite votre attention. Ouvrez les diagnostics pour la vérifier."
 
 msgid "Mail has not been acknowledged. Reading it does not acknowledge it."
 msgstr "Le traitement du mail n’a pas été confirmé. Le lire ne le confirme pas."
@@ -3275,6 +3406,9 @@ msgstr "Aller à l'espace de travail précédent dans la barre latérale"
 msgid "Navigation"
 msgstr "Navigation"
 
+msgid "Navigation changed before the pane could be focused. Inspect the workspace before retrying."
+msgstr "La navigation a changé avant que le volet puisse recevoir le focus. Vérifiez l’espace de travail avant de réessayer."
+
 msgid "Needs attention"
 msgstr "Nécessite votre attention"
 
@@ -3295,6 +3429,9 @@ msgstr "Nouvelle automatisation"
 
 msgid "New branch"
 msgstr "Nouvelle branche"
+
+msgid "New branch name"
+msgstr "Nom de la nouvelle branche"
 
 msgid "New Chat"
 msgstr "Nouveau chat"
@@ -3448,6 +3585,12 @@ msgstr "Aucun projet terminé n’a encore été trouvé. L’hôte est peut-êt
 msgid "No description provided"
 msgstr "Aucune description fournie"
 
+msgid "No desktop pane consumer is connected."
+msgstr "Aucun gestionnaire de volets de l’application de bureau n’est connecté."
+
+msgid "No desktop window is open to apply the layout change."
+msgstr "Aucune fenêtre de l’application de bureau n’est ouverte pour appliquer la modification de disposition."
+
 msgid "No existing worktrees found."
 msgstr "Aucun arbre de travail existant trouvé."
 
@@ -3526,6 +3669,9 @@ msgstr "Aucun préfixe"
 msgid "No prefix could be resolved from this host's identity."
 msgstr "Aucun préfixe n’a pu être déduit de l’identité de cet hôte."
 
+msgid "No progress reports or decisions yet. Internal communication is available in diagnostics."
+msgstr "Aucun rapport d’avancement ni aucune décision pour le moment. Les échanges internes sont accessibles dans les diagnostics."
+
 msgid "No projects match your filters"
 msgstr "Aucun projet ne correspond à vos filtres"
 
@@ -3570,9 +3716,6 @@ msgstr "Aucune tâche attribuée"
 
 msgid "No team"
 msgstr "Aucune équipe"
-
-msgid "No team mail yet"
-msgstr "Aucun mail d’équipe pour le moment"
 
 msgid "No teams yet"
 msgstr "Aucune équipe pour le moment"
@@ -3676,16 +3819,15 @@ msgstr "ouvrir"
 msgid "Open"
 msgstr "Ouvrir"
 
-#. placeholder {0}: binding.agentId
-msgid "Open {0} session"
-msgstr "Ouvrir la session {0}"
-
 #. placeholder {0}: member.name
 msgid "Open {0} terminal"
 msgstr "Ouvrir le terminal de {0}"
 
 msgid "Open {displayName}"
 msgstr "Ouvrir {displayName}"
+
+msgid "Open {name} session"
+msgstr "Ouvrir la session {name}"
 
 msgid "Open {path} in file pane"
 msgstr "Ouvrir {path} dans le volet Fichier"
@@ -3866,6 +4008,9 @@ msgstr "Ouvre le panneau des modifications dans un nouvel onglet, ou active celu
 
 msgid "Open the global command palette"
 msgstr "Ouvrir la palette de commandes globale"
+
+msgid "Open the local host before focusing a local workspace pane."
+msgstr "Ouvrez l’hôte local avant de donner le focus à un volet d’un espace de travail local."
 
 msgid "Open the main window to select this workspace"
 msgstr "Ouvrez la fenêtre principale pour sélectionner cet espace de travail"
@@ -4110,6 +4255,9 @@ msgstr "Tokens traités"
 msgid "Processing"
 msgstr "Traitement en cours"
 
+msgid "Progress and decisions"
+msgstr "Avancement et décisions"
+
 msgid "Project"
 msgstr "Projet"
 
@@ -4206,8 +4354,14 @@ msgstr "px"
 msgid "Queue message"
 msgstr "Mettre le message en file"
 
+msgid "Queue waits for the agent. Interrupt requires safe support from the current session. Both require recipient acknowledgement; sending is not consumption."
+msgstr "La file d’attente attend l’agent. L’interruption nécessite une prise en charge sûre par la session actuelle. Les deux modes exigent un accusé de réception ; l’envoi ne vaut pas prise en compte."
+
 msgid "Queue; ⌘↩ to steer the running turn"
 msgstr "En file ; ⌘↩ pour réorienter le tour en cours"
+
+msgid "Queued"
+msgstr "En file d’attente"
 
 msgid "Quick Create Workspace"
 msgstr "Créer un espace de travail"
@@ -4781,6 +4935,9 @@ msgstr "en cours"
 msgid "Running"
 msgstr "En cours"
 
+msgid "Safe interruption is unavailable on this host. Queued mail waits for the agent; sending does not confirm consumption."
+msgstr "L’interruption sûre n’est pas disponible sur cet hôte. Les messages en file attendent l’agent ; l’envoi ne confirme pas leur prise en compte."
+
 msgid "Same-session CLI control is unavailable. No new session was started."
 msgstr "Le contrôle CLI de la même session n’est pas disponible. Aucune nouvelle session n’a été démarrée."
 
@@ -5145,6 +5302,9 @@ msgstr "Affichez les commandes d’agent et les préréglages de terminal éping
 msgid "Show Apple's installer"
 msgstr "Afficher le programme d'installation d'Apple"
 
+msgid "Show decisions and exceptions"
+msgstr "Afficher les décisions et les exceptions"
+
 msgid "Show deleted workspaces"
 msgstr "Afficher les espaces de travail supprimés"
 
@@ -5177,6 +5337,9 @@ msgstr "Affichez l’utilisation des ressources locales dans l’espace de trava
 
 msgid "Show more"
 msgstr "Afficher plus"
+
+msgid "Show progress and decisions"
+msgstr "Afficher l’avancement et les décisions"
 
 msgid "Show Scripts Bar"
 msgstr "Afficher la barre de scripts"
@@ -5656,6 +5819,15 @@ msgstr "Emplacement par défaut des nouveaux worktrees sur l’hôte connecté."
 msgid "The definition and its run records will be deleted. Existing workspaces and sessions remain available."
 msgstr "La définition et ses enregistrements d’exécution seront supprimés. Les espaces de travail et sessions existants restent disponibles."
 
+msgid "The desktop app did not confirm the layout change in time. Inspect the layout before retrying."
+msgstr "L’application de bureau n’a pas confirmé la modification de disposition à temps. Vérifiez la disposition avant de réessayer."
+
+msgid "The desktop could not apply the pane request."
+msgstr "L’application de bureau n’a pas pu appliquer la demande concernant le volet."
+
+msgid "The desktop pane connection closed before the layout result was confirmed."
+msgstr "La connexion aux volets de l’application de bureau s’est fermée avant la confirmation du résultat."
+
 msgid "The existing session identity could not be verified. Refresh before retrying."
 msgstr "L’identité de la session existante n’a pas pu être vérifiée. Actualisez avant de réessayer."
 
@@ -5680,11 +5852,17 @@ msgstr "Le service hôte Jedv s'est arrêté de façon inattendue ({cause}) et n
 msgid "The key stays on this host. It is never injected into terminals or returned to this screen."
 msgstr "La clé reste sur cet hôte. Elle n’est jamais injectée dans les terminaux ni renvoyée à cet écran."
 
+msgid "The layout change failed."
+msgstr "La modification de disposition a échoué."
+
 msgid "The Leader terminal continues running."
 msgstr "Le terminal du leader continue de fonctionner."
 
 msgid "The linked local agent is unavailable on this host. Edit the preset or remove its agent link."
 msgstr "L’agent local lié n’est pas disponible sur cet hôte. Modifiez le préréglage ou supprimez son lien d’agent."
+
+msgid "The local host connection changed. Inspect the layout before retrying."
+msgstr "La connexion à l’hôte local a changé. Vérifiez la disposition avant de réessayer."
 
 msgid "The local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
 msgstr "Le service hôte local est indisponible pour {organization} sur {device}. Statut : {status}. {recovery}"
@@ -5700,6 +5878,12 @@ msgstr "La page que vous recherchez n'existe pas."
 
 msgid "The pairing code expired or was already used. Request a new code on your computer."
 msgstr "Le code d’association a expiré ou a déjà été utilisé. Demandez un nouveau code sur votre ordinateur."
+
+msgid "The pane or tab is not in this workspace."
+msgstr "Ce volet ou cet onglet n’appartient pas à cet espace de travail."
+
+msgid "The pane request expired. Inspect the layout before retrying."
+msgstr "La demande concernant le volet a expiré. Vérifiez la disposition avant de réessayer."
 
 msgid "The previous token will stop working. Update the remote peer with the new token."
 msgstr "L’ancien jeton ne fonctionnera plus. Configurez le pair distant avec le nouveau jeton."
@@ -5727,6 +5911,9 @@ msgstr "Le résultat est incertain. Réessayez ce message avec le même identifi
 
 msgid "The resumed session identity could not be verified. Refresh before retrying."
 msgstr "L’identité de la session reprise n’a pas pu être vérifiée. Actualisez avant de réessayer."
+
+msgid "The resumed terminal is not available yet. Refresh the workspace to retry."
+msgstr "Le terminal repris n’est pas encore disponible. Actualisez l’espace de travail pour réessayer."
 
 msgid "The run command is still stopping. Wait, then restart."
 msgstr "La commande d’exécution est encore en cours d’arrêt. Attendez, puis redémarrez."
@@ -5776,6 +5963,9 @@ msgstr "L’espace de travail cible a changé. Le résultat appartient à l’es
 msgid "The team becomes read-only. Its workspaces, files and terminals are kept."
 msgstr "L’équipe passe en lecture seule. Ses espaces de travail, fichiers et terminaux sont conservés."
 
+msgid "The terminal is not available in this workspace."
+msgstr "Ce terminal n’est pas disponible dans cet espace de travail."
+
 msgid "The terminal session changed. Refresh before inserting the prompt."
 msgstr "La session de terminal a changé. Actualisez avant d’insérer l’invite."
 
@@ -5824,8 +6014,14 @@ msgstr "Cette connexion API n’expose pas le quota de l’abonnement."
 msgid "This automation is no longer available"
 msgstr "Cette automatisation n’est plus disponible"
 
+msgid "This branch already exists. Choose a new name or select Existing branch."
+msgstr "Cette branche existe déjà. Choisissez un autre nom ou sélectionnez une branche existante."
+
 msgid "This branch has conflicts"
 msgstr "Cette branche présente des conflits"
+
+msgid "This branch is used by the shared checkout. Choose a new name or use the local checkout."
+msgstr "Cette branche est utilisée par le checkout partagé. Choisissez un autre nom ou utilisez le checkout local."
 
 msgid "This changes the pull request state on GitHub."
 msgstr "Cela modifie l’état de la pull request sur GitHub."
@@ -5911,8 +6107,14 @@ msgstr "Ce fichier est volumineux. Son ouverture peut ralentir l’éditeur."
 msgid "This pane can't be shown"
 msgstr "Ce volet ne peut pas être affiché"
 
+msgid "This pane has no split to resize."
+msgstr "Ce volet ne comporte aucune séparation à redimensionner."
+
 msgid "This pane hit an error"
 msgstr "Ce volet a rencontré une erreur"
+
+msgid "This pane operation is not supported by this desktop."
+msgstr "Cette opération sur les volets n’est pas prise en charge par cette application de bureau."
 
 msgid "This permanently deletes the removed project and workspace records and attempts to remove their clean worktree directories. Dirty worktree directories may remain untracked. The main repository directory is kept. This cannot be undone."
 msgstr "Ceci supprime définitivement les enregistrements du projet et des espaces de travail supprimés et tente de supprimer leurs répertoires d’arbres de travail propres. Des répertoires contenant des modifications peuvent rester non suivis. Le répertoire principal du dépôt est conservé. Cette action est irréversible."
@@ -6088,17 +6290,29 @@ msgstr "Tokens"
 msgid "Too many background terminals. Reattach or end one before closing another view."
 msgstr "Trop de terminaux en arrière-plan. Rattachez-en un ou terminez-en un avant de fermer une autre vue."
 
+msgid "Too many desktop pane subscriptions."
+msgstr "Trop d’abonnements aux volets de l’application de bureau."
+
 msgid "Too many dropped items. Add at most 5000 files and folders at a time."
 msgstr "Trop d’éléments déposés. Ajoutez au maximum 5000 fichiers et dossiers à la fois."
 
 msgid "Too many files. Some were not added."
 msgstr "Trop de fichiers. Certains n'ont pas été ajoutés."
 
+msgid "Too many pane requests are waiting. Try again after they finish."
+msgstr "Trop de demandes concernant les volets sont en attente. Réessayez une fois leur traitement terminé."
+
+msgid "Too many pending pane requests. Wait for the current requests to finish."
+msgstr "Trop de demandes concernant les volets sont en attente. Attendez la fin des demandes en cours."
+
 msgid "Too many requests. Wait a moment and try again."
 msgstr "Trop de requêtes. Patientez un instant et réessayez."
 
 msgid "Too many untitled items here already."
 msgstr "Il y a déjà trop d'éléments sans titre ici."
+
+msgid "Tool details are unavailable in this older record."
+msgstr "Les détails de l’outil ne sont pas disponibles dans cet ancien enregistrement."
 
 msgid "Tool output"
 msgstr "Sortie de l’outil"
@@ -6349,6 +6563,9 @@ msgstr "Utiliser une session existante"
 msgid "Use another local port"
 msgstr "Utiliser un autre port local"
 
+msgid "Use existing branch"
+msgstr "Utiliser une branche existante"
+
 msgid "Use for new sessions"
 msgstr "Utiliser pour les nouvelles sessions"
 
@@ -6357,6 +6574,9 @@ msgstr "Utiliser la valeur globale par défaut"
 
 msgid "Use host default"
 msgstr "Utiliser la valeur par défaut de l’hôte"
+
+msgid "Use local checkout"
+msgstr "Utiliser le checkout local"
 
 msgid "Use Move to group to move workspaces between groups."
 msgstr "Utilisez Déplacer dans un groupe pour déplacer les espaces de travail entre les groupes."
@@ -6400,6 +6620,9 @@ msgstr "Affichage"
 
 msgid "View license"
 msgstr "Afficher la licence"
+
+msgid "View original mail"
+msgstr "Voir le message d’origine"
 
 msgid "View run"
 msgstr "Voir l’exécution"
@@ -6496,6 +6719,9 @@ msgstr "Les fichiers de l’espace de travail ne sont pas disponibles"
 
 msgid "Workspace launcher"
 msgstr "Lanceur de l’espace de travail"
+
+msgid "Workspace layout could not be saved"
+msgstr "Impossible d’enregistrer la disposition de l’espace de travail"
 
 msgid "Workspace name"
 msgstr "Nom de l’espace de travail"

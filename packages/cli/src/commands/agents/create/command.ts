@@ -122,9 +122,14 @@ export default command({
 
 		return {
 			data: result,
-			message: options.fromTerminal
-				? `Handed ${options.fromTerminal} off to ${result.label} with ${prompt.length} characters of context (terminal ${result.sessionId})`
-				: `Launched ${result.label} (terminal ${result.sessionId}) in workspace ${options.workspace}`,
+			// A created PTY only queues the command. Render its runId and launchState
+			// as data so callers can query launch-status without inferring readiness.
+			message:
+				result.kind === "terminal"
+					? undefined
+					: options.fromTerminal
+						? `Handed ${options.fromTerminal} off to ${result.label} with ${prompt.length} characters of context (terminal ${result.sessionId})`
+						: `Launched ${result.label} (terminal ${result.sessionId}) in workspace ${options.workspace}`,
 		};
 	},
 });

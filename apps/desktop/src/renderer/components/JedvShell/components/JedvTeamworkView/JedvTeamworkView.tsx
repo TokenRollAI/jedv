@@ -70,6 +70,20 @@ export function JedvTeamworkView({
 				teamId={selected.id}
 				title={selected.name}
 				connected={index.supported && !failed}
+				interruptSupported={
+					(
+						index.capabilities.data?.features as
+							| { mailInterrupt?: boolean }
+							| undefined
+					)?.mailInterrupt === true
+				}
+				deliveryModesSupported={
+					(
+						index.capabilities.data?.features as
+							| { mailDeliveryModes?: boolean }
+							| undefined
+					)?.mailDeliveryModes === true
+				}
 			/>
 		);
 	return (

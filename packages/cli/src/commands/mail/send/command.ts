@@ -1,16 +1,32 @@
 import { randomUUID } from "node:crypto";
-import { CLIError, string } from "@jedv/cli-framework";
+import { boolean, CLIError, string } from "@jedv/cli-framework";
+import { i18n, initI18n } from "@jedv/i18n";
 import { command } from "../../../lib/command";
 import {
 	teamSelection,
 	teamworkClient,
 	teamworkOptions,
 } from "../../../lib/teamwork";
+
+if (!i18n.locale) initI18n();
+
 export default command({
 	description:
 		"Send durable mail to a member, leader, or Team; reading never implies acknowledgement",
 	options: {
 		...teamworkOptions(),
+		deliveryMode: string()
+			.enum("queue", "interrupt")
+			.desc(
+				i18n._(
+					"Delivery mode (default: queue); interrupt requires an explicit human action and safe native support",
+				),
+			),
+		noAck: boolean().desc(
+			i18n._(
+				"Do not request recipient acknowledgement; this never marks mail acknowledged",
+			),
+		),
 		peer: string().desc("Remote peer ID; requires --remote-team"),
 		remoteTeam: string().desc("Target Team ID on --peer"),
 		to: string().required().desc("Member name/ID, leader, or team"),
@@ -41,6 +57,34 @@ export default command({
 			}
 		}
 		const client = await teamworkClient(ctx, options);
+		if (options.deliveryMode === "interrupt" && !options.human)
+			throw new CLIError(
+				i18n._(
+					"--delivery-mode interrupt requires --human and an explicit user request",
+				),
+			);
+		if (options.deliveryMode === "interrupt" || options.noAck) {
+			const capabilities = await client.team.capabilities.query();
+			if (
+				!(capabilities.features as Record<string, unknown> | undefined)
+					?.mailDeliveryModes
+			)
+				throw new CLIError(
+					i18n._(
+						"This Host does not support Mail delivery modes; no mail was sent",
+					),
+				);
+			if (
+				options.deliveryMode === "interrupt" &&
+				!(capabilities.features as Record<string, unknown> | undefined)
+					?.mailInterrupt
+			)
+				throw new CLIError(
+					i18n._(
+						"Safe Mail interruption is unavailable on this Host; no mail was sent",
+					),
+				);
+		}
 		const dedupeKey = options.dedupeKey ?? randomUUID();
 		try {
 			return {
@@ -51,6 +95,8 @@ export default command({
 							? { peerId: options.peer, remoteTeamId: options.remoteTeam }
 							: undefined,
 					to: options.to,
+					deliveryMode: options.deliveryMode,
+					requiresAck: options.noAck ? false : undefined,
 					body: options.body,
 					subject: options.subject ?? "",
 					type: options.type,

@@ -38,6 +38,11 @@ export function TeamMemberCard({
 	onStop?: () => void;
 }) {
 	const { t } = useLingui();
+	const task = member.taskSummary?.trim() ?? "";
+	const firstLine = task.split(/\r?\n/, 1)[0] ?? "";
+	const preview =
+		firstLine.length > 160 ? `${firstLine.slice(0, 159)}…` : firstLine;
+	const taskExpandable = task !== firstLine || firstLine.length > 160;
 	const failed =
 		member.status === "failed" || member.binding?.lastEventType === "Failed";
 	const blocked =
@@ -104,12 +109,31 @@ export function TeamMemberCard({
 						<span className="sr-only">{label}</span>
 					</span>
 				</div>
-				<p
-					className="truncate text-xs leading-4 text-foreground/80"
-					title={member.taskSummary}
-				>
-					{member.taskSummary || t({ message: "No task assigned" })}
-				</p>
+				{taskExpandable ? (
+					<details className="group min-w-0 text-xs leading-4 text-foreground/80">
+						<summary
+							aria-label={t({ message: "Full task instructions" })}
+							title={preview}
+							className="flex cursor-pointer list-none items-start gap-1 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring [&::-webkit-details-marker]:hidden"
+						>
+							<LuChevronRight
+								className="mt-0.5 size-3 shrink-0 transition-transform group-open:rotate-90"
+								aria-hidden="true"
+							/>
+							<span className="min-w-0 flex-1 truncate">{preview}</span>
+						</summary>
+						<pre className="mt-2 max-h-48 overflow-auto whitespace-pre-wrap break-words font-sans text-xs leading-5 select-text">
+							{member.taskSummary}
+						</pre>
+					</details>
+				) : (
+					<p
+						className="truncate text-xs leading-4 text-foreground/80"
+						title={preview}
+					>
+						{preview || t({ message: "No task assigned" })}
+					</p>
+				)}
 				<p
 					className="truncate text-[11px] text-muted-foreground"
 					title={`${project?.name ?? ""} / ${workspace?.name || workspace?.branch || member.workspaceId || ""}`}

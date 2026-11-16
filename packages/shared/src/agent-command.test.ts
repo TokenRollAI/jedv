@@ -136,9 +136,7 @@ describe("kimi agent registration", () => {
 			agent: "kimi",
 		});
 
-		expect(command).toStartWith(
-			"kimi --yolo -p \"$(cat <<'JEDV_PROMPT_kimi1234'",
-		);
+		expect(command).toStartWith("kimi -p \"$(cat <<'JEDV_PROMPT_kimi1234'");
 		expect(command).toEndWith('\n)"');
 	});
 

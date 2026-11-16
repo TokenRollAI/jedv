@@ -5,9 +5,11 @@ import {
 	mailDeliveries,
 	projects,
 	teamMembers,
+	teams,
 	terminalSessions,
 	workspaces,
 } from "../db/schema";
+import { firstDelivery, mailFixture } from "../mail/test-fixture";
 import {
 	createHostMemoryRuntime,
 	readHostWatchdogSnapshot,
@@ -16,8 +18,49 @@ import { networkFixture } from "../peers/test-fixture";
 import { createAttentionSourceLocator } from "./host-source";
 import { RuleWatchdog } from "./service";
 
-test("real Mail ACK alone resolves grouped alerts; read/ignore leave underlying deliveries unchanged and no Key is read", async () => {
+test("host snapshot carries failed delivery evidence; reminder handling never ACKs the mail", async () => {
 	const f = networkFixture();
+	const adapter = createHostMemoryRuntime(f.ctx, {
+		home: () => f.root,
+		clock: { now: f.clock.now, setInterval: () => () => {} },
+		listLiveTerminals: async () => [],
+	});
+	try {
+		const sent = f.mail.send({
+			teamId: f.teamId,
+			to: "leader",
+			type: "message",
+			subject: "",
+			body: "work",
+			dedupeKey: "failed-delivery",
+		});
+		const delivery = firstDelivery(sent);
+		f.db
+			.update(mailDeliveries)
+			.set({ nudgeState: "failed", lastError: "isolated failure" })
+			.where(eq(mailDeliveries.id, delivery.id))
+			.run();
+		await adapter.runtime.watchdog.scan();
+		const group = (await adapter.runtime.watchdog.attention())[0];
+		assert.ok(group);
+		expect(group.severity).toBe("high");
+		expect(group.items[0]?.subject).toBe("Mail delivery failed");
+		adapter.runtime.watchdog.ignoreAttention({ groupKey: group.groupKey });
+		expect(
+			f.db
+				.select()
+				.from(mailDeliveries)
+				.where(eq(mailDeliveries.id, delivery.id))
+				.get()?.ackedAt,
+		).toBeNull();
+	} finally {
+		await adapter.dispose();
+		await f.dispose();
+	}
+});
+
+test("recipient consumption resolves grouped delivery faults; read/ignore leave underlying deliveries unchanged and no Key is read", async () => {
+	const f = mailFixture();
 	let keyReads = 0,
 		modelCalls = 0;
 	const adapter = createHostMemoryRuntime(f.ctx, {
@@ -36,6 +79,12 @@ test("real Mail ACK alone resolves grouped alerts; read/ignore leave underlying 
 		throw Error("Attention must not read secrets");
 	};
 	try {
+		f.db
+			.update(teams)
+			.set({ status: "active" })
+			.where(eq(teams.id, f.teamId))
+			.run();
+
 		for (let i = 0; i < 3; i++)
 			f.mail.send({
 				teamId: f.teamId,
@@ -45,7 +94,8 @@ test("real Mail ACK alone resolves grouped alerts; read/ignore leave underlying 
 				type: "agent.message",
 				dedupeKey: `attention-${i}`,
 			});
-		f.advance(6 * 60_000);
+		f.db.update(mailDeliveries).set({ nudgeState: "failed" }).run();
+		f.advance(31 * 60_000);
 		await adapter.runtime.watchdog.scan();
 		let group = (await adapter.runtime.watchdog.attention())[0];
 		assert.ok(group);
@@ -75,16 +125,22 @@ test("real Mail ACK alone resolves grouped alerts; read/ignore leave underlying 
 			type: "agent.message",
 			dedupeKey: "attention-fourth",
 		});
-		f.advance(6 * 60_000);
+		f.db.update(mailDeliveries).set({ nudgeState: "failed" }).run();
+		f.advance(31 * 60_000);
 		await adapter.runtime.watchdog.scan();
 		group = (await adapter.runtime.watchdog.attention())[0];
 		assert.ok(group);
 		expect(group.activeCount).toBe(4);
-		for (const row of f.db.select().from(mailDeliveries).all())
+		for (const row of f.db.select().from(mailDeliveries).all()) {
 			f.mail.consume(
-				{ teamId: f.teamId, member: "leader", deliveryId: row.id },
+				{ teamId: f.teamId, actor: f.actor, deliveryId: row.id },
+				false,
+			);
+			f.mail.consume(
+				{ teamId: f.teamId, actor: f.actor, deliveryId: row.id },
 				true,
 			);
+		}
 		await adapter.runtime.watchdog.scan();
 		expect(
 			(await adapter.runtime.watchdog.attention({ view: "handled" }))[0]

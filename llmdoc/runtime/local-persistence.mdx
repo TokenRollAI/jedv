@@ -25,6 +25,8 @@ relations:
 
 桌面为开发 worktree 选择隔离 profile，并尊重显式自定义目录。目录与敏感文件权限采取限制性默认及 best-effort 修复。测试必须使用隔离目录和仓库，不能借验证初始化触碰真实 profile。
 
+`JEDV_HOME_DIR` 隔离应用数据，`JEDV_USER_HOME_DIR` 覆盖 Agent 配置 home；只设置前者不能证明全局 hooks 已隔离。两个 resolver 均懒读取，未设置时保留原语义。daemon 的 legacy 默认 namespace 只属于 OS 原始用户 home，不能把临时 user home 下的默认 `.jedv` 误判为生产目录；显式或由 user home 派生的自定义 app home 都参与 socket namespace。测试同时覆盖两个 home，不重赋系统 HOME。
+
 ## 多个本地库不互换权威
 
 host.db 拥有活项目、工作区和执行会话身份；desktop local.db 保留设备设置与兼容 schema。不能把 desktop 的历史实体行重新提升为 host 工作区事实，也不能因为某列仍有上游产品名称就重命名 SQL 字段。

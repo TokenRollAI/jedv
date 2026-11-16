@@ -27,6 +27,9 @@ code:
     - apps/desktop/src/renderer/components/JedvShell/components/ButlerView/components/ButlerChatHistory/ButlerChatHistory.tsx
     - apps/desktop/src/renderer/components/JedvShell/components/ButlerView/components/ButlerChatMessage/ButlerChatMessage.tsx
     - packages/host-service/src/mobile/http.ts
+    - packages/host-service/src/butler/tool-progress.ts
+    - apps/desktop/src/renderer/components/JedvShell/components/ButlerView/components/ButlerChatMessage/tool-output.ts
+    - apps/desktop/src/renderer/components/JedvShell/components/ButlerView/components/AttentionGroupCard/AttentionGroupCard.tsx
 relations:
   requires:
     - teamwork/execution.mdx
@@ -65,6 +68,10 @@ DeepSeek 请求受消息条数/字节、工具轮次、单次调用、响应大�
 
 同 thread 推理串行并受全局并发上限。Host 重启将 running turn 标为 interrupted，不确定结果先查历史与目标，不能盲发新请求。
 
+工具在真实调用前即持久化带 callId 的 running 消息，并用同一消息 ID 更新观察进度与成功、失败或中断；参数、结果和错误只保留安全结构摘要，不把任意 Mail/路径/异常字符串写入 UI 历史。观察超时或 Host 停止不证明工具未执行，晚结果不能把已中断观察伪装成确认成功，更不能自动重放工具。
+
+新话题首轮尚未返回 threadId 时，桌面可按已接纳 requestId 读取该 turn 的历史；未知 request 返回空，显式 thread 不匹配拒绝。客户端先探测 historyByRequest/toolProgress capability，旧 Host 不支持时不能让被剥离的 requestId 悄悄退回 current thread；断线恢复只读持久状态，不重发输入。
+
 ## 高风险动作只执行持久审批卡
 
 危险动作先由 `requestApproval` 生成绑定原 thread/request 的审批，记录 canonical payload hash、目标状态快照和到期时间。批准时重新核对 payload、pending/expiry 和目标状态，再以一次性 claim 执行；目标已变化必须请求新审批，并发 claim 不重复执行。模型不能直接把危险工具调用当授权。
@@ -75,7 +82,7 @@ DeepSeek 请求受消息条数/字节、工具轮次、单次调用、响应大�
 
 ## WatchDog 只观察，Attention 不改变业务状态
 
-WatchDog 用结构化 Host snapshot 和零模型规则发现疑似停滞、未 ACK Mail、Team 对账/失败及 automation 失败，不获得终端写或业务执行工具。activity unknown 不能变成停滞证据，snapshot 截断后的缺席也不能证明恢复；疑似停滞始终要求查看终端。
+WatchDog 用结构化 Host snapshot 和零模型规则发现疑似停滞、Team 对账/失败及 automation 失败，不获得终端写或业务执行工具。普通未 ACK 数量不再生成人工待办；仅已知投递失败、不确定结果、可信活动证据下通知长期未被观察或有效 Team 的接收者停止等异常升级。旧 age-only 提醒可退役到审计，但不改 Mail 消费事实。activity unknown 不能变成停滞证据，snapshot 截断后的缺席也不能证明恢复；疑似停滞始终要求查看终端。
 
 稳定 dedupe key 聚合同一问题，恢复需要正面状态证据。Attention 的 read/ignore 只改变提醒视图，不等于 Mail ACK、审批或故障恢复；徽章只计 pending approval 与未读高严重度故障组。来源定位优先真实 workspace/terminal，已结束终端降级到所属 workspace/team/automation/Memory，不复活旧 PTY。
 

@@ -1,0 +1,1 @@
+export { TeamGoal } from "./TeamGoal";

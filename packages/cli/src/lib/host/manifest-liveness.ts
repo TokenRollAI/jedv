@@ -3,11 +3,13 @@ import type { HostServiceManifest } from "./manifest";
 import { isProcessAlive } from "./manifest";
 import {
 	inspectProcessCommand,
+	inspectProcessExecutable,
 	looksLikeHostProcess,
 } from "./process-identity";
 
 export interface ManifestOwnerDeps {
 	inspectCommand?: (pid: number) => Promise<string | null>;
+	inspectExecutable?: (pid: number) => Promise<string | null>;
 	probeHealthy?: (endpoint: string, authToken: string) => Promise<boolean>;
 }
 
@@ -24,7 +26,12 @@ export async function verifyManifestOwner(
 ): Promise<boolean> {
 	const inspectCommand = deps.inspectCommand ?? inspectProcessCommand;
 	const command = await inspectCommand(manifest.pid);
-	if (command !== null) return looksLikeHostProcess(command);
+	if (command !== null) {
+		const executable = await (
+			deps.inspectExecutable ?? inspectProcessExecutable
+		)(manifest.pid);
+		return looksLikeHostProcess(command, undefined, executable);
+	}
 
 	const probeHealthy =
 		deps.probeHealthy ??

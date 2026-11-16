@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import { butlerQueryKey } from "../../../hooks/useButlerInbox";
 import type { JedvParityViewContext } from "../../../parity-types";
+import { toolOutput } from "../components/ButlerChatMessage/tool-output";
 
 type Request = {
 	requestId: string;
@@ -37,6 +38,7 @@ export function useButlerConversation({
 	supported,
 	active,
 	historyOpen,
+	historyByRequest = false,
 	askContext,
 }: {
 	context: JedvParityViewContext;
@@ -44,6 +46,7 @@ export function useButlerConversation({
 	supported: boolean;
 	active: boolean;
 	historyOpen: boolean;
+	historyByRequest?: boolean;
 	askContext?: { id: number; value?: ButlerTurnContext };
 }) {
 	const { client, hostUrl } = context;
@@ -124,13 +127,35 @@ export function useButlerConversation({
 		}
 	}, [askContext, state.isSuccess, key, ensure]);
 	const threadId = key.startsWith("thread:") ? key.slice(7) : undefined;
+	const requestId =
+		!threadId && historyByRequest ? draft.request?.requestId : undefined;
+	const historyRequested = !!threadId || !!requestId;
 	const history = useQuery({
-		queryKey: [...queryKey, "history", threadId],
-		queryFn: () => client.butler.history.query({ threadId, limit: 100 }),
-		enabled: connected && supported && active && !!threadId,
+		queryKey: [...queryKey, "history", threadId, requestId],
+		queryFn: async () => {
+			const input = {
+				...(threadId ? { threadId } : { requestId }),
+				limit: 100,
+			};
+			const messages = await client.butler.history.query(input);
+			return requestId
+				? messages.filter((message) => message.requestId === requestId)
+				: messages;
+		},
+		enabled: connected && supported && active && historyRequested,
 		retry: false,
 		gcTime: 30_000,
-		refetchInterval: active ? 5_000 : false,
+		refetchInterval: (query) =>
+			active
+				? draft.pending ||
+					query.state.data?.some(
+						(message) =>
+							message.role === "tool" &&
+							toolOutput(message.content).status === "running",
+					)
+					? 1_000
+					: 5_000
+				: false,
 	});
 	const approvals = useQuery({
 		queryKey: [...queryKey, "chat-approvals", threadId],
@@ -231,6 +256,7 @@ export function useButlerConversation({
 		drafts: drafts.current,
 		state,
 		history,
+		historyRequested,
 		approvals,
 		threads,
 		ai,
@@ -250,10 +276,10 @@ export function useButlerConversation({
 		send,
 		refresh: async () => {
 			await state.refetch({ throwOnError: true });
-			if (threadId)
+			if (historyRequested)
 				await Promise.all([
 					history.refetch({ throwOnError: true }),
-					approvals.refetch({ throwOnError: true }),
+					...(threadId ? [approvals.refetch({ throwOnError: true })] : []),
 				]);
 		},
 	};

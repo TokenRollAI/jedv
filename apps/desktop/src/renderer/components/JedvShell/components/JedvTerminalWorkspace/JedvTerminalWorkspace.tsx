@@ -124,6 +124,7 @@ export function JedvTerminalWorkspace(props: {
 	onLaunch(config: HostAgentConfig): void;
 	agentSessionByTerminal: Map<string, string>;
 	agentByTerminal: Map<string, string>;
+	agentSessionNames?: Map<string, string>;
 	agentProjectionReady?: boolean;
 	agentBindings?: readonly TerminalActivityEvent[];
 }) {
@@ -291,6 +292,7 @@ export function JedvTerminalWorkspace(props: {
 				keepAlive: true,
 				getTitle: (pane) =>
 					pane.titleOverride ??
+					props.agentSessionNames?.get(paneTerminalId(pane) ?? "") ??
 					latest.current.sessions?.find(
 						(session) => session.terminalId === paneTerminalId(pane),
 					)?.title ??
@@ -300,6 +302,9 @@ export function JedvTerminalWorkspace(props: {
 						<TerminalPaneSessionMenu
 							context={context}
 							menuProps={latest.current.sessionMenuProps}
+							displaySessionName={props.agentSessionNames?.get(
+								paneTerminalId(context.pane) ?? "",
+							)}
 							displayAgentId={
 								props.agentProjectionReady
 									? (props.agentByTerminal.get(
@@ -325,7 +330,10 @@ export function JedvTerminalWorkspace(props: {
 						? {
 								subscribe: (callback) =>
 									registry.onTitleChange(id, callback, pane.id),
-								getSnapshot: () => registry.getTitle(id, pane.id) ?? undefined,
+								getSnapshot: () =>
+									props.agentSessionNames?.get(id) ??
+									registry.getTitle(id, pane.id) ??
+									undefined,
 							}
 						: undefined;
 				},
@@ -432,6 +440,7 @@ export function JedvTerminalWorkspace(props: {
 			props.active,
 			props.agentByTerminal,
 			props.agentProjectionReady,
+			props.agentSessionNames,
 		],
 	);
 

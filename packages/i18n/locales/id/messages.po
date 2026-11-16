@@ -13,6 +13,50 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#. js-lingui-explicit-id
+msgid "Delivery mode (default: queue); interrupt requires an explicit human action and safe native support"
+msgstr "Mode pengiriman (default: queue); interrupt memerlukan tindakan pengguna yang eksplisit dan dukungan native yang aman"
+
+#. js-lingui-explicit-id
+msgid "Do not request recipient acknowledgement; this never marks mail acknowledged"
+msgstr "Jangan minta konfirmasi penerima; ini tidak pernah menandai pesan sebagai telah dikonfirmasi"
+
+#. js-lingui-explicit-id
+msgid "--delivery-mode interrupt requires --human and an explicit user request"
+msgstr "--delivery-mode interrupt memerlukan --human dan permintaan pengguna yang eksplisit"
+
+#. js-lingui-explicit-id
+msgid "This Host does not support Mail delivery modes; no mail was sent"
+msgstr "Host ini tidak mendukung mode pengiriman pesan; tidak ada pesan yang dikirim"
+
+#. js-lingui-explicit-id
+msgid "Safe Mail interruption is unavailable on this Host; no mail was sent"
+msgstr "Interupsi aman untuk pengiriman pesan tidak tersedia di host ini; tidak ada pesan yang dikirim"
+
+#. js-lingui-explicit-id
+msgid "Inspect launch evidence; starting or unknown does not mean the agent is ready"
+msgstr "Periksa bukti peluncuran; status memulai atau tidak diketahui bukan berarti agen sudah siap"
+
+#. js-lingui-explicit-id
+msgid "Workspace ID"
+msgstr "ID ruang kerja"
+
+#. js-lingui-explicit-id
+msgid "Host on this machine (default: local)"
+msgstr "Host di komputer ini (default: local)"
+
+#. js-lingui-explicit-id
+msgid "The workspace is on this machine"
+msgstr "Ruang kerja berada di komputer ini"
+
+#. js-lingui-explicit-id
+msgid "Terminal sessionId returned by agents create"
+msgstr "sessionId terminal yang dikembalikan oleh agents create"
+
+#. js-lingui-explicit-id
+msgid "Launch runId returned by agents create"
+msgstr "runId peluncuran yang dikembalikan oleh agents create"
+
 msgid "./"
 msgstr "./"
 
@@ -180,6 +224,9 @@ msgstr "4.5:1 (AA)"
 msgid "7:1 (AAA)"
 msgstr "7:1 (AAA)"
 
+msgid "A connected host and workspace are required to save layout"
+msgstr "Host yang terhubung dan ruang kerja diperlukan untuk menyimpan tata letak"
+
 msgid "A daemon operation is already in progress"
 msgstr "Operasi daemon sedang berlangsung"
 
@@ -189,6 +236,9 @@ msgstr "File bernama '{firstName}' sudah ada di {where}. Ingin menggantinya?"
 msgid "A listening process changed. Cancel and review the current process list before trying again."
 msgstr "Proses pendengar berubah. Batalkan dan tinjau daftar proses saat ini sebelum mencoba lagi."
 
+msgid "A new branch is separate from its base. Leave the name empty to generate a unique branch automatically."
+msgstr "Branch baru terpisah dari branch dasarnya. Biarkan nama kosong untuk membuat branch unik secara otomatis."
+
 msgid "A pull request already exists for this branch. Refresh the pull request list."
 msgstr "PR sudah ada untuk cabang ini. Segarkan daftar PR."
 
@@ -197,6 +247,9 @@ msgstr "Satu tab dapat berisi maksimal delapan panel."
 
 msgid "A tab can contain at most eight terminal panes."
 msgstr "Satu tab dapat berisi maksimal delapan panel terminal."
+
+msgid "A workspace can contain at most 32 tabs and each tab at most eight panes."
+msgstr "Satu ruang kerja dapat memuat maksimal 32 tab, dan setiap tab maksimal delapan panel."
 
 msgid "A workspace is protected. Resolve its protection before removing this project."
 msgstr "Ruang kerja dilindungi. Hapus perlindungan sebelum menghapus proyek ini."
@@ -357,6 +410,18 @@ msgstr "Peluncuran agen menunggu konfigurasi selesai"
 
 msgid "Agent may be stalled"
 msgstr "Agen mungkin macet"
+
+msgid "Agent notified, awaiting consumption"
+msgstr "Agen telah diberi tahu, menunggu diproses"
+
+msgid "Agent progress report"
+msgstr "Laporan kemajuan agen"
+
+msgid "Agent reported a blocker"
+msgstr "Agen melaporkan hambatan"
+
+msgid "Agent reports are not verified completion. Mail acknowledgement is separate from task acceptance."
+msgstr "Laporan agen bukan bukti penyelesaian yang terverifikasi. Konfirmasi penerimaan pesan terpisah dari penerimaan hasil tugas."
 
 msgid "Agent saved, but linked presets could not be updated."
 msgstr "Agen disimpan, tetapi prasetel tertaut tidak dapat diperbarui."
@@ -605,8 +670,8 @@ msgstr "Otomatis (sistem)"
 msgid "Auto save"
 msgstr "Simpan otomatis"
 
-msgid "Automatic branch"
-msgstr "Nama cabang otomatis"
+msgid "Automatic delivery paused"
+msgstr "Pengiriman otomatis dijeda"
 
 msgid "Automatic name"
 msgstr "Nama otomatis"
@@ -671,6 +736,9 @@ msgstr "Kembali ke otomatisasi"
 msgid "Back to current conversation"
 msgstr "Kembali ke percakapan saat ini"
 
+msgid "Background"
+msgstr "Di latar belakang"
+
 msgid "Background processes"
 msgstr "Proses latar belakang"
 
@@ -682,6 +750,9 @@ msgstr "Branch dasar"
 
 msgid "Base branch (repository default)"
 msgstr "Branch dasar (default repositori)"
+
+msgid "Base branch to create from"
+msgstr "Branch dasar untuk pembuatan"
 
 msgid "Binary file"
 msgstr "Berkas biner"
@@ -907,6 +978,9 @@ msgstr "Pilih perilaku Jedv di perangkat ini."
 msgid "Choose notification sounds and volume."
 msgstr "Pilih suara dan volume notifikasi."
 
+msgid "Choose two different panes."
+msgstr "Pilih dua panel yang berbeda."
+
 msgid "Clear"
 msgstr "Bening"
 
@@ -1036,6 +1110,9 @@ msgstr "Tutup panel saat ini"
 
 msgid "Close the current tab"
 msgstr "Tutup tab saat ini"
+
+msgid "Close the files view in the desktop so unsaved changes can be checked."
+msgstr "Tutup tampilan berkas di aplikasi desktop agar perubahan yang belum disimpan dapat diperiksa."
 
 msgid "Close this CLI terminal and take control of the same session? The terminal process will stop. Other terminal work may be lost."
 msgstr "Tutup terminal CLI ini dan ambil alih kontrol sesi yang sama? Proses terminal akan berhenti. Pekerjaan terminal lainnya mungkin hilang."
@@ -1306,6 +1383,9 @@ msgstr "Salin localhost:{0}"
 msgid "Copy on select"
 msgstr "Salin saat memilih"
 
+msgid "Copy original instructions"
+msgstr "Salin instruksi asli"
+
 msgid "Copy path"
 msgstr "Salin path"
 
@@ -1359,6 +1439,9 @@ msgstr "Tidak dapat mengonfirmasi hasil di host tujuan. Periksa koneksi dan izin
 
 msgid "Could not confirm this session. Refresh before retrying."
 msgstr "Tidak dapat mengonfirmasi sesi ini. Muat ulang sebelum mencoba lagi."
+
+msgid "Could not copy. Select the text below to copy it."
+msgstr "Tidak dapat menyalin. Pilih teks di bawah untuk menyalinnya."
 
 msgid "Could not create team. Refresh the agents and retry."
 msgstr "Tidak dapat membuat tim. Segarkan agen lalu coba lagi."
@@ -1756,6 +1839,21 @@ msgstr "Terkirim"
 
 msgid "Delivered means the remote host stored the mail, not that a recipient read or acknowledged it."
 msgstr "Terkirim berarti host jarak jauh menyimpan surat, bukan penerima telah membaca atau mengonfirmasi penanganannya."
+
+msgid "Delivering"
+msgstr "Sedang dikirim"
+
+msgid "Delivery failed"
+msgstr "Pengiriman gagal"
+
+msgid "Delivery mode"
+msgstr "Mode pengiriman"
+
+msgid "Delivery outcome is uncertain. Inspect the terminal before retrying."
+msgstr "Hasil pengiriman belum pasti. Periksa terminal sebelum mencoba lagi."
+
+msgid "Delivery uncertain"
+msgstr "Pengiriman belum pasti"
 
 msgid "Describe a goal to start a new task."
 msgstr "Jelaskan tujuan untuk memulai tugas baru."
@@ -2398,6 +2496,9 @@ msgstr "Front matter disembunyikan. Beralih ke tampilan Markdown untuk mengeditn
 msgid "Full Disk Access"
 msgstr "Full Disk Access"
 
+msgid "Full task instructions"
+msgstr "Instruksi tugas lengkap"
+
 msgid "Full-stack Turborepo with Next.js, Expo, and tRPC"
 msgstr "Turborepo full-stack dengan Next.js, Expo, dan tRPC"
 
@@ -2572,6 +2673,9 @@ msgstr "https://github.com/owner/repo.git atau /path/to/repo"
 msgid "Human"
 msgstr "Manusia"
 
+msgid "Human instruction"
+msgstr "Instruksi pengguna"
+
 msgid "I checked the attachments"
 msgstr "Saya telah memeriksa lampiran"
 
@@ -2690,6 +2794,12 @@ msgstr "Di jendela Apple, klik Instal. Prosesnya beberapa menit, dan halaman ini
 msgid "In review"
 msgstr "Dalam review"
 
+msgid "In right pane"
+msgstr "Di panel kanan"
+
+msgid "In tab"
+msgstr "Di tab"
+
 msgid "Inbound mail token"
 msgstr "Token surat masuk"
 
@@ -2747,8 +2857,20 @@ msgstr "Menginstal pembaruan…"
 msgid "Instructions"
 msgstr "Instruksi"
 
+msgid "Instructions are available in the original mail."
+msgstr "Instruksi tersedia dalam pesan asli."
+
+msgid "Internal mail and diagnostics"
+msgstr "Pesan internal dan diagnostik"
+
+msgid "Internal mail diagnostics"
+msgstr "Diagnostik pesan internal"
+
 msgid "Interrupt"
 msgstr "Sela"
+
+msgid "Interrupt now"
+msgstr "Interupsi sekarang"
 
 msgid "Interrupt requested"
 msgstr "Penyelaan diminta"
@@ -2851,6 +2973,9 @@ msgstr "Daun"
 
 msgid "Leave a comment…"
 msgstr "Tinggalkan komentar…"
+
+msgid "Leave empty for a unique new branch"
+msgstr "Biarkan kosong untuk membuat branch baru yang unik"
 
 msgid "Leave empty to use the workspace directory. Relative paths are resolved inside the workspace."
 msgstr "Kosongkan untuk menggunakan direktori ruang kerja. Jalur relatif diselesaikan di dalam ruang kerja."
@@ -3025,11 +3150,17 @@ msgstr "Lokasi"
 msgid "Location & checkout"
 msgstr "Lokasi & checkout"
 
+msgid "Location unavailable"
+msgstr "Lokasi tidak tersedia"
+
 msgid "Mail awaiting acknowledgement: {activeCount}"
 msgstr "Surat menunggu konfirmasi penerimaan: {activeCount}"
 
 msgid "Mail awaits acknowledgement"
 msgstr "Surat menunggu konfirmasi"
+
+msgid "Mail delivery needs attention. Open diagnostics to inspect the delivery."
+msgstr "Pengiriman pesan memerlukan perhatian. Buka diagnostik untuk memeriksa pengiriman."
 
 msgid "Mail has not been acknowledged. Reading it does not acknowledge it."
 msgstr "Surat belum dikonfirmasi. Membacanya tidak mengonfirmasi penanganannya."
@@ -3275,6 +3406,9 @@ msgstr "Pindah ke workspace sebelumnya di sidebar"
 msgid "Navigation"
 msgstr "Navigasi"
 
+msgid "Navigation changed before the pane could be focused. Inspect the workspace before retrying."
+msgstr "Navigasi berubah sebelum panel dapat difokuskan. Periksa ruang kerja sebelum mencoba lagi."
+
 msgid "Needs attention"
 msgstr "Perlu perhatian"
 
@@ -3295,6 +3429,9 @@ msgstr "Otomatisasi baru"
 
 msgid "New branch"
 msgstr "Cabang baru"
+
+msgid "New branch name"
+msgstr "Nama branch baru"
 
 msgid "New Chat"
 msgstr "Chat Baru"
@@ -3448,6 +3585,12 @@ msgstr "Belum ada proyek selesai yang ditemukan. Host mungkin masih menghentikan
 msgid "No description provided"
 msgstr "Tidak ada deskripsi"
 
+msgid "No desktop pane consumer is connected."
+msgstr "Tidak ada penangan permintaan panel desktop yang terhubung."
+
+msgid "No desktop window is open to apply the layout change."
+msgstr "Tidak ada jendela desktop terbuka untuk menerapkan perubahan tata letak."
+
 msgid "No existing worktrees found."
 msgstr "Tidak ada pohon kerja yang ditemukan."
 
@@ -3526,6 +3669,9 @@ msgstr "Tanpa prefix"
 msgid "No prefix could be resolved from this host's identity."
 msgstr "Tidak ada prefiks yang dapat diselesaikan dari identitas host ini."
 
+msgid "No progress reports or decisions yet. Internal communication is available in diagnostics."
+msgstr "Belum ada laporan kemajuan atau keputusan. Komunikasi internal tersedia di diagnostik."
+
 msgid "No projects match your filters"
 msgstr "Tidak ada proyek yang cocok dengan filter Anda"
 
@@ -3570,9 +3716,6 @@ msgstr "Belum ada tugas"
 
 msgid "No team"
 msgstr "Tanpa tim"
-
-msgid "No team mail yet"
-msgstr "Belum ada surat tim"
 
 msgid "No teams yet"
 msgstr "Belum ada tim"
@@ -3676,16 +3819,15 @@ msgstr "buka"
 msgid "Open"
 msgstr "Buka"
 
-#. placeholder {0}: binding.agentId
-msgid "Open {0} session"
-msgstr "Buka sesi {0}"
-
 #. placeholder {0}: member.name
 msgid "Open {0} terminal"
 msgstr "Buka terminal {0}"
 
 msgid "Open {displayName}"
 msgstr "Buka {displayName}"
+
+msgid "Open {name} session"
+msgstr "Buka sesi {name}"
 
 msgid "Open {path} in file pane"
 msgstr "Buka {path} di panel file"
@@ -3866,6 +4008,9 @@ msgstr "Buka panel Perubahan di tab baru, atau fokuskan yang sudah ada"
 
 msgid "Open the global command palette"
 msgstr "Buka command palette global"
+
+msgid "Open the local host before focusing a local workspace pane."
+msgstr "Buka host lokal sebelum memfokuskan panel ruang kerja lokal."
 
 msgid "Open the main window to select this workspace"
 msgstr "Buka jendela utama untuk memilih workspace ini"
@@ -4110,6 +4255,9 @@ msgstr "Token yang diproses"
 msgid "Processing"
 msgstr "Memproses"
 
+msgid "Progress and decisions"
+msgstr "Kemajuan dan keputusan"
+
 msgid "Project"
 msgstr "Proyek"
 
@@ -4206,8 +4354,14 @@ msgstr "px"
 msgid "Queue message"
 msgstr "Antrekan pesan"
 
+msgid "Queue waits for the agent. Interrupt requires safe support from the current session. Both require recipient acknowledgement; sending is not consumption."
+msgstr "Antrean menunggu agen. Interupsi memerlukan dukungan aman dari sesi saat ini. Kedua mode memerlukan konfirmasi penerima; mengirim bukan berarti telah diproses."
+
 msgid "Queue; ⌘↩ to steer the running turn"
 msgstr "Antrekan; ⌘↩ untuk mengarahkan giliran yang berjalan"
+
+msgid "Queued"
+msgstr "Dalam antrean"
 
 msgid "Quick Create Workspace"
 msgstr "Buat Workspace Cepat"
@@ -4781,6 +4935,9 @@ msgstr "berjalan"
 msgid "Running"
 msgstr "Berjalan"
 
+msgid "Safe interruption is unavailable on this host. Queued mail waits for the agent; sending does not confirm consumption."
+msgstr "Interupsi aman tidak tersedia di host ini. Pesan dalam antrean menunggu agen; pengiriman tidak mengonfirmasi bahwa pesan telah diproses."
+
 msgid "Same-session CLI control is unavailable. No new session was started."
 msgstr "Kontrol CLI sesi yang sama tidak tersedia. Tidak ada sesi baru yang dimulai."
 
@@ -5145,6 +5302,9 @@ msgstr "Tampilkan perintah agen dan prasetel terminal yang disematkan di atas ru
 msgid "Show Apple's installer"
 msgstr "Tampilkan penginstal Apple"
 
+msgid "Show decisions and exceptions"
+msgstr "Tampilkan keputusan dan pengecualian"
+
 msgid "Show deleted workspaces"
 msgstr "Tampilkan ruang kerja yang dihapus"
 
@@ -5177,6 +5337,9 @@ msgstr "Tampilkan penggunaan sumber daya lokal di workspace."
 
 msgid "Show more"
 msgstr "Tampilkan selengkapnya"
+
+msgid "Show progress and decisions"
+msgstr "Tampilkan kemajuan dan keputusan"
 
 msgid "Show Scripts Bar"
 msgstr "Tampilkan Bilah Skrip"
@@ -5656,6 +5819,15 @@ msgstr "Lokasi default untuk worktree baru di host yang terhubung."
 msgid "The definition and its run records will be deleted. Existing workspaces and sessions remain available."
 msgstr "Definisi dan catatan run-nya akan dihapus. Workspace dan sesi yang ada tetap tersedia."
 
+msgid "The desktop app did not confirm the layout change in time. Inspect the layout before retrying."
+msgstr "Aplikasi desktop tidak mengonfirmasi perubahan tata letak tepat waktu. Periksa tata letak sebelum mencoba lagi."
+
+msgid "The desktop could not apply the pane request."
+msgstr "Aplikasi desktop tidak dapat menerapkan permintaan panel."
+
+msgid "The desktop pane connection closed before the layout result was confirmed."
+msgstr "Koneksi panel desktop ditutup sebelum hasil tata letak dikonfirmasi."
+
 msgid "The existing session identity could not be verified. Refresh before retrying."
 msgstr "Identitas sesi yang ada tidak dapat diverifikasi. Muat ulang sebelum mencoba lagi."
 
@@ -5680,11 +5852,17 @@ msgstr "Layanan host Jedv berhenti tak terduga ({cause}) dan tidak bisa dimulai 
 msgid "The key stays on this host. It is never injected into terminals or returned to this screen."
 msgstr "Kunci tetap berada pada host ini. Kunci tidak pernah disuntikkan ke terminal atau dikembalikan ke layar ini."
 
+msgid "The layout change failed."
+msgstr "Perubahan tata letak gagal."
+
 msgid "The Leader terminal continues running."
 msgstr "Terminal pemimpin tetap berjalan."
 
 msgid "The linked local agent is unavailable on this host. Edit the preset or remove its agent link."
 msgstr "Agen lokal tertaut tidak tersedia di host ini. Edit prasetel atau hapus tautan agennya."
+
+msgid "The local host connection changed. Inspect the layout before retrying."
+msgstr "Koneksi host lokal telah berubah. Periksa tata letak sebelum mencoba lagi."
 
 msgid "The local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
 msgstr "Layanan host lokal tidak tersedia untuk {organization} di {device}. Status: {status}. {recovery}"
@@ -5700,6 +5878,12 @@ msgstr "Halaman yang Anda cari tidak ada."
 
 msgid "The pairing code expired or was already used. Request a new code on your computer."
 msgstr "Kode pemasangan kedaluwarsa atau sudah digunakan. Minta kode baru di komputer."
+
+msgid "The pane or tab is not in this workspace."
+msgstr "Panel atau tab ini tidak berada di ruang kerja ini."
+
+msgid "The pane request expired. Inspect the layout before retrying."
+msgstr "Permintaan panel telah kedaluwarsa. Periksa tata letak sebelum mencoba lagi."
 
 msgid "The previous token will stop working. Update the remote peer with the new token."
 msgstr "Token lama akan berhenti berfungsi. Perbarui peer jarak jauh dengan token baru."
@@ -5727,6 +5911,9 @@ msgstr "Hasil tidak pasti. Coba pesan ini lagi dengan ID permintaan yang sama."
 
 msgid "The resumed session identity could not be verified. Refresh before retrying."
 msgstr "Identitas sesi yang dilanjutkan tidak dapat diverifikasi. Segarkan sebelum mencoba lagi."
+
+msgid "The resumed terminal is not available yet. Refresh the workspace to retry."
+msgstr "Terminal yang dilanjutkan belum tersedia. Muat ulang ruang kerja untuk mencoba lagi."
 
 msgid "The run command is still stopping. Wait, then restart."
 msgstr "Perintah eksekusi masih dalam proses berhenti. Tunggu, lalu mulai ulang."
@@ -5776,6 +5963,9 @@ msgstr "Ruang kerja target berubah. Hasilnya milik ruang kerja asli."
 msgid "The team becomes read-only. Its workspaces, files and terminals are kept."
 msgstr "Tim menjadi hanya baca. Ruang kerja, berkas, dan terminalnya tetap disimpan."
 
+msgid "The terminal is not available in this workspace."
+msgstr "Terminal ini tidak tersedia di ruang kerja ini."
+
 msgid "The terminal session changed. Refresh before inserting the prompt."
 msgstr "Sesi terminal berubah. Segarkan sebelum menyisipkan prompt."
 
@@ -5824,8 +6014,14 @@ msgstr "Login API ini tidak menyediakan kuota langganan."
 msgid "This automation is no longer available"
 msgstr "Otomatisasi ini tidak lagi tersedia"
 
+msgid "This branch already exists. Choose a new name or select Existing branch."
+msgstr "Branch ini sudah ada. Pilih nama baru atau pilih branch yang sudah ada."
+
 msgid "This branch has conflicts"
 msgstr "Branch ini memiliki konflik"
+
+msgid "This branch is used by the shared checkout. Choose a new name or use the local checkout."
+msgstr "Branch ini sedang digunakan oleh checkout bersama. Pilih nama baru atau gunakan checkout lokal."
 
 msgid "This changes the pull request state on GitHub."
 msgstr "Ini mengubah status pull request di GitHub."
@@ -5911,8 +6107,14 @@ msgstr "Ini adalah file besar. Membukanya dapat memperlambat editor."
 msgid "This pane can't be shown"
 msgstr "Panel ini tidak dapat ditampilkan"
 
+msgid "This pane has no split to resize."
+msgstr "Panel ini tidak memiliki pembagian yang dapat diubah ukurannya."
+
 msgid "This pane hit an error"
 msgstr "Panel ini mengalami kesalahan"
+
+msgid "This pane operation is not supported by this desktop."
+msgstr "Operasi panel ini tidak didukung oleh aplikasi desktop ini."
 
 msgid "This permanently deletes the removed project and workspace records and attempts to remove their clean worktree directories. Dirty worktree directories may remain untracked. The main repository directory is kept. This cannot be undone."
 msgstr "Ini menghapus catatan proyek dan ruang kerja yang dihapus secara permanen dan mencoba menghapus direktori pohon kerja yang bersih. Direktori pohon kerja dengan perubahan mungkin tetap tidak terlacak. Direktori repositori utama dipertahankan. Ini tidak dapat dibatalkan."
@@ -6088,17 +6290,29 @@ msgstr "Token"
 msgid "Too many background terminals. Reattach or end one before closing another view."
 msgstr "Terlalu banyak terminal latar belakang. Lampirkan kembali atau akhiri satu sebelum menutup tampilan lain."
 
+msgid "Too many desktop pane subscriptions."
+msgstr "Terlalu banyak langganan panel desktop."
+
 msgid "Too many dropped items. Add at most 5000 files and folders at a time."
 msgstr "Terlalu banyak item yang dilepas. Tambahkan maksimal 5000 file dan folder sekaligus."
 
 msgid "Too many files. Some were not added."
 msgstr "Terlalu banyak file. Sebagian tidak ditambahkan."
 
+msgid "Too many pane requests are waiting. Try again after they finish."
+msgstr "Terlalu banyak permintaan panel yang menunggu. Coba lagi setelah selesai."
+
+msgid "Too many pending pane requests. Wait for the current requests to finish."
+msgstr "Terlalu banyak permintaan panel yang tertunda. Tunggu hingga permintaan saat ini selesai."
+
 msgid "Too many requests. Wait a moment and try again."
 msgstr "Terlalu banyak permintaan. Tunggu sebentar lalu coba lagi."
 
 msgid "Too many untitled items here already."
 msgstr "Sudah terlalu banyak item tanpa judul di sini."
+
+msgid "Tool details are unavailable in this older record."
+msgstr "Detail alat tidak tersedia dalam catatan lama ini."
 
 msgid "Tool output"
 msgstr "Output alat"
@@ -6349,6 +6563,9 @@ msgstr "Gunakan sesi yang ada"
 msgid "Use another local port"
 msgstr "Gunakan port lokal lain"
 
+msgid "Use existing branch"
+msgstr "Gunakan branch yang sudah ada"
+
 msgid "Use for new sessions"
 msgstr "Gunakan untuk sesi baru"
 
@@ -6357,6 +6574,9 @@ msgstr "Pakai bawaan global"
 
 msgid "Use host default"
 msgstr "Gunakan default host"
+
+msgid "Use local checkout"
+msgstr "Gunakan checkout lokal"
 
 msgid "Use Move to group to move workspaces between groups."
 msgstr "Gunakan Pindahkan ke grup untuk memindahkan ruang kerja antargrup."
@@ -6400,6 +6620,9 @@ msgstr "Tampilan"
 
 msgid "View license"
 msgstr "Lihat lisensi"
+
+msgid "View original mail"
+msgstr "Lihat pesan asli"
 
 msgid "View run"
 msgstr "Lihat eksekusi"
@@ -6496,6 +6719,9 @@ msgstr "File workspace tidak tersedia"
 
 msgid "Workspace launcher"
 msgstr "Peluncur ruang kerja"
+
+msgid "Workspace layout could not be saved"
+msgstr "Tata letak ruang kerja tidak dapat disimpan"
 
 msgid "Workspace name"
 msgstr "Nama workspace"

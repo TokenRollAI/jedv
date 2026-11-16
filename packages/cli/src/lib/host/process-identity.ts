@@ -1,5 +1,6 @@
 import { execFile } from "node:child_process";
-import { dirname, join, resolve } from "node:path";
+import { basename, dirname, join, resolve } from "node:path";
+import { readProcessExecutable } from "@jedv/agent-setup";
 
 const HOST_PROCESS_NAME = "jedv-host";
 const PS_TIMEOUT_MS = 2_000;
@@ -23,12 +24,29 @@ export async function inspectProcessCommand(
 	});
 }
 
+/** Unlike `command`, this field is not a flattened executable + argv string. */
+export async function inspectProcessExecutable(
+	pid: number,
+): Promise<string | null> {
+	return readProcessExecutable(pid);
+}
+
 export function looksLikeHostProcess(
 	command: string,
 	hostBinary = process.env.JEDV_HOST_BIN ??
 		join(dirname(process.execPath), HOST_PROCESS_NAME),
+	executable?: string | null,
 ): boolean {
-	if (/^(?:\S*\/)?jedv-host(?:\s|$)/.test(command)) return true;
+	// A readable argv is not executable identity: argv[0] can be forged.
+	if (!executable) return false;
+	if (
+		executable &&
+		basename(executable) === HOST_PROCESS_NAME &&
+		(command === executable || command.startsWith(`${executable} `))
+	)
+		return true;
+	if (executable && looksLikeDesktopHostProcess(command, executable))
+		return true;
 
 	// The standalone wrapper execs its sibling Node runtime. Match this install's
 	// fixed paths: ps flattens argv, so guessing arbitrary paths with spaces could
@@ -36,6 +54,34 @@ export function looksLikeHostProcess(
 	const binDir = dirname(resolve(hostBinary));
 	return [join(binDir, "../lib"), `${binDir}/../lib`].some((libDir) => {
 		const hostCommand = `${libDir}/node ${libDir}/host-service.js`;
-		return command === hostCommand || command.startsWith(`${hostCommand} `);
+		return (
+			resolve(executable) === resolve(libDir, "node") &&
+			(command === hostCommand || command.startsWith(`${hostCommand} `))
+		);
 	});
+}
+
+function looksLikeDesktopHostProcess(
+	command: string,
+	executable: string,
+): boolean {
+	// Desktop launches exactly [Electron executable, sibling host-service bundle].
+	// Require the whole pair, including its shared installation/worktree root;
+	// an arbitrary script or an argument mentioning host-service is not ownership.
+	const packaged = executable.match(/^(\/.*\.app)\/Contents\/MacOS\/Jedv$/);
+	if (packaged) {
+		const app = packaged[1];
+		return (
+			command ===
+			`${app}/Contents/MacOS/Jedv ${app}/Contents/Resources/app.asar/dist/main/host-service.js`
+		);
+	}
+	const development = executable.match(
+		/^(\/.*?)(?:\/apps\/desktop)?\/node_modules\/(?:\.bun\/electron@[^/ ]+\/node_modules\/)?electron\/dist\/(Electron\.app\/Contents\/MacOS\/Electron|electron)$/,
+	);
+	if (!development) return false;
+	return (
+		command ===
+		`${executable} ${development[1]}/apps/desktop/dist/main/host-service.js`
+	);
 }

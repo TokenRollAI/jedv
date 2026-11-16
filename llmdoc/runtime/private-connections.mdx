@@ -1,9 +1,10 @@
 ---
-description: "Tailscale PSK 私网连接、直连端口转发与 relaySocket 重连：origin 凭证边界、每次拨号取 token、事件重订阅和断线输入不重放。"
+description: "Tailscale PSK 与独立 loopback 私网连接、coordinator/鉴权来源、握手撤销；origin 端口转发与 relaySocket 重连、每次拨号取 token、断线输入不重放。"
 kind: architecture
 code:
   paths:
     - "apps/desktop/src/lib/trpc/routers/host-service-coordinator/index.ts"
+    - "apps/desktop/src/lib/trpc/routers/host-service-coordinator/connect-private-host.ts"
     - "apps/desktop/src/main/lib/port-forward/private-endpoint.ts"
     - "apps/desktop/src/main/lib/port-forward/direct-forward-transport.ts"
     - "packages/host-service/src/providers/host-auth/PskHostAuthProvider/PskHostAuthProvider.ts"
@@ -32,7 +33,9 @@ relations:
 
 用户连接入口只接受不含路径、查询、fragment 或内嵌凭证的 origin。127.0.0.1 可用 HTTP，其他入口要求 HTTPS 的 Tailscale `.ts.net` 地址。PSK 不含空白。HTTP Bearer 与 WS token 都由 host 的同一 PSK provider 做等长、恒时比较；机器标识用于调用上下文，不代替认证。
 
-main 按 origin 保存 ForwardTokens。回环连接仍需匹配 coordinator 当前活连接与 secret，不能仅因 token 缓存存在而视为有效。disconnect 要一起撤销 token、关闭该 origin 的 mux 会话并释放转发 lease，避免 UI 断开后旧流仍可访问。
+main 按 origin 保存 ForwardTokens，并区分 coordinator 与 authenticated-private 来源。coordinator 登记仍须实时匹配其当前 endpoint/secret；显式私网连接则只有真实 workspace.list 鉴权握手成功后才能登记，包括独立 loopback Host。不能把所有回环地址强制归属于 coordinator，也不能仅凭未经握手的 token 缓存授予连接权限。
+
+每次私网握手拥有独立 generation；disconnect、clear、coordinator 重新登记或同 origin 新握手都会撤销旧 attempt，晚到成功不能重新授权。重连先撤销旧来源、关闭该 origin 的 transport/mux 并释放转发 lease，再进行新握手；失败不恢复旧授权。disconnect 同样撤销来源和 pending attempt、关闭流并释放 lease，避免 UI 断开后旧流仍可访问。
 
 ## 端口转发是工作区能力
 

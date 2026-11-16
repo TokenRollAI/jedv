@@ -13,6 +13,50 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#. js-lingui-explicit-id
+msgid "Delivery mode (default: queue); interrupt requires an explicit human action and safe native support"
+msgstr "配信方法（既定: queue）。interrupt にはユーザーの明示的な操作と安全なネイティブ対応が必要です"
+
+#. js-lingui-explicit-id
+msgid "Do not request recipient acknowledgement; this never marks mail acknowledged"
+msgstr "受信者の確認を要求しません。メールが確認済みになることはありません"
+
+#. js-lingui-explicit-id
+msgid "--delivery-mode interrupt requires --human and an explicit user request"
+msgstr "--delivery-mode interrupt には --human とユーザーの明示的な要求が必要です"
+
+#. js-lingui-explicit-id
+msgid "This Host does not support Mail delivery modes; no mail was sent"
+msgstr "このホストはメールの配信方法に対応していません。メールは送信されませんでした"
+
+#. js-lingui-explicit-id
+msgid "Safe Mail interruption is unavailable on this Host; no mail was sent"
+msgstr "このホストではメール配信のための安全な割り込みを利用できません。メールは送信されていません"
+
+#. js-lingui-explicit-id
+msgid "Inspect launch evidence; starting or unknown does not mean the agent is ready"
+msgstr "起動の証拠を確認します。「起動中」や「不明」はエージェントの準備完了を意味しません"
+
+#. js-lingui-explicit-id
+msgid "Workspace ID"
+msgstr "ワークスペースID"
+
+#. js-lingui-explicit-id
+msgid "Host on this machine (default: local)"
+msgstr "このマシン上のホスト（既定: local）"
+
+#. js-lingui-explicit-id
+msgid "The workspace is on this machine"
+msgstr "ワークスペースはこのマシン上にあります"
+
+#. js-lingui-explicit-id
+msgid "Terminal sessionId returned by agents create"
+msgstr "agents create が返したターミナルの sessionId"
+
+#. js-lingui-explicit-id
+msgid "Launch runId returned by agents create"
+msgstr "agents create が返した起動の runId"
+
 msgid "./"
 msgstr "./"
 
@@ -180,6 +224,9 @@ msgstr "4.5:1 (AA)"
 msgid "7:1 (AAA)"
 msgstr "7:1 (AAA)"
 
+msgid "A connected host and workspace are required to save layout"
+msgstr "レイアウトを保存するには、接続済みのホストとワークスペースが必要です"
+
 msgid "A daemon operation is already in progress"
 msgstr "デーモン操作はすでに実行中です"
 
@@ -189,6 +236,9 @@ msgstr "{where}には「{firstName}」という名前のファイルがすでに
 msgid "A listening process changed. Cancel and review the current process list before trying again."
 msgstr "リスニングプロセスが変更されました。キャンセルして現在のプロセス一覧を確認してから、もう一度お試しください。"
 
+msgid "A new branch is separate from its base. Leave the name empty to generate a unique branch automatically."
+msgstr "新しいブランチはベースブランチとは別のものです。名前を空欄にすると、一意のブランチが自動生成されます。"
+
 msgid "A pull request already exists for this branch. Refresh the pull request list."
 msgstr "このブランチにはすでに PR があります。PR 一覧を更新してください。"
 
@@ -197,6 +247,9 @@ msgstr "1 つのタブには最大 8 つのペインを配置できます。"
 
 msgid "A tab can contain at most eight terminal panes."
 msgstr "1つのタブに含められるターミナルペインは最大8つです。"
+
+msgid "A workspace can contain at most 32 tabs and each tab at most eight panes."
+msgstr "ワークスペースには最大32個のタブ、各タブには最大8個のペインを配置できます。"
 
 msgid "A workspace is protected. Resolve its protection before removing this project."
 msgstr "ワークスペースが保護されています。このプロジェクトを削除する前に保護を解除してください。"
@@ -357,6 +410,18 @@ msgstr "エージェントの起動はセットアップの完了を待ってい
 
 msgid "Agent may be stalled"
 msgstr "エージェントが停滞している可能性があります"
+
+msgid "Agent notified, awaiting consumption"
+msgstr "エージェントに通知済み、処理待ち"
+
+msgid "Agent progress report"
+msgstr "エージェントの進捗報告"
+
+msgid "Agent reported a blocker"
+msgstr "エージェントが障害を報告"
+
+msgid "Agent reports are not verified completion. Mail acknowledgement is separate from task acceptance."
+msgstr "エージェントの報告だけでは完了確認になりません。メールの確認とタスクの受け入れは別です。"
 
 msgid "Agent saved, but linked presets could not be updated."
 msgstr "エージェントを保存しましたが、リンクされたプリセットを更新できませんでした。"
@@ -605,8 +670,8 @@ msgstr "自動(システム)"
 msgid "Auto save"
 msgstr "自動保存"
 
-msgid "Automatic branch"
-msgstr "ブランチ名を自動生成"
+msgid "Automatic delivery paused"
+msgstr "自動配信は一時停止中"
 
 msgid "Automatic name"
 msgstr "名前を自動生成"
@@ -671,6 +736,9 @@ msgstr "オートメーションに戻る"
 msgid "Back to current conversation"
 msgstr "現在の会話に戻る"
 
+msgid "Background"
+msgstr "バックグラウンド"
+
 msgid "Background processes"
 msgstr "バックグラウンドプロセス"
 
@@ -682,6 +750,9 @@ msgstr "ベースブランチ"
 
 msgid "Base branch (repository default)"
 msgstr "ベースブランチ（リポジトリのデフォルト）"
+
+msgid "Base branch to create from"
+msgstr "作成元のベースブランチ"
 
 msgid "Binary file"
 msgstr "バイナリファイル"
@@ -907,6 +978,9 @@ msgstr "このデバイスでのJedvの動作を選択します。"
 msgid "Choose notification sounds and volume."
 msgstr "通知音と音量を選択します。"
 
+msgid "Choose two different panes."
+msgstr "異なる2つのペインを選択してください。"
+
 msgid "Clear"
 msgstr "クリア"
 
@@ -1036,6 +1110,9 @@ msgstr "現在のペインを閉じる"
 
 msgid "Close the current tab"
 msgstr "現在のタブを閉じる"
+
+msgid "Close the files view in the desktop so unsaved changes can be checked."
+msgstr "未保存の変更を確認できるよう、デスクトップでファイルビューを閉じてください。"
 
 msgid "Close this CLI terminal and take control of the same session? The terminal process will stop. Other terminal work may be lost."
 msgstr "この CLI ターミナルを閉じて、同じセッションのコントロールを引き継ぎますか？ターミナルプロセスは停止し、他のターミナルでの作業が失われる場合があります。"
@@ -1306,6 +1383,9 @@ msgstr "localhost:{0}をコピー"
 msgid "Copy on select"
 msgstr "選択でコピー"
 
+msgid "Copy original instructions"
+msgstr "元の指示をコピー"
+
 msgid "Copy path"
 msgstr "パスをコピー"
 
@@ -1359,6 +1439,9 @@ msgstr "ターゲットホストで結果を確認できませんでした。接
 
 msgid "Could not confirm this session. Refresh before retrying."
 msgstr "このセッションを確認できませんでした。再試行する前に更新してください。"
+
+msgid "Could not copy. Select the text below to copy it."
+msgstr "コピーできませんでした。下のテキストを選択してコピーしてください。"
 
 msgid "Could not create team. Refresh the agents and retry."
 msgstr "チームを作成できませんでした。エージェントを更新して再試行してください。"
@@ -1756,6 +1839,21 @@ msgstr "配信済み"
 
 msgid "Delivered means the remote host stored the mail, not that a recipient read or acknowledged it."
 msgstr "配信済みは、リモートホストがメールを保存したことを示します。受信者の既読や処理完了を意味しません。"
+
+msgid "Delivering"
+msgstr "配信中"
+
+msgid "Delivery failed"
+msgstr "配信に失敗"
+
+msgid "Delivery mode"
+msgstr "配信方法"
+
+msgid "Delivery outcome is uncertain. Inspect the terminal before retrying."
+msgstr "配信結果が不明です。再試行する前にターミナルを確認してください。"
+
+msgid "Delivery uncertain"
+msgstr "配信結果が不明"
 
 msgid "Describe a goal to start a new task."
 msgstr "目標を入力して新しいタスクを開始します。"
@@ -2398,6 +2496,9 @@ msgstr "フロントマターは非表示です。編集するにはMarkdownビ�
 msgid "Full Disk Access"
 msgstr "フルディスクアクセス"
 
+msgid "Full task instructions"
+msgstr "タスクの指示全文"
+
 msgid "Full-stack Turborepo with Next.js, Expo, and tRPC"
 msgstr "Next.js、Expo、tRPC を使用したフルスタック Turborepo"
 
@@ -2572,6 +2673,9 @@ msgstr "https://github.com/owner/repo.git または /path/to/repo"
 msgid "Human"
 msgstr "人間"
 
+msgid "Human instruction"
+msgstr "ユーザーからの指示"
+
 msgid "I checked the attachments"
 msgstr "添付ファイルを確認しました"
 
@@ -2690,6 +2794,12 @@ msgstr "Apple のウインドウで「インストール」をクリックして
 msgid "In review"
 msgstr "レビュー中"
 
+msgid "In right pane"
+msgstr "右ペイン内"
+
+msgid "In tab"
+msgstr "タブ内"
+
 msgid "Inbound mail token"
 msgstr "受信メール用トークン"
 
@@ -2747,8 +2857,20 @@ msgstr "更新をインストールしています…"
 msgid "Instructions"
 msgstr "指示"
 
+msgid "Instructions are available in the original mail."
+msgstr "指示は元のメールで確認できます。"
+
+msgid "Internal mail and diagnostics"
+msgstr "内部メールと診断"
+
+msgid "Internal mail diagnostics"
+msgstr "内部メールの診断"
+
 msgid "Interrupt"
 msgstr "中断"
+
+msgid "Interrupt now"
+msgstr "今すぐ中断"
 
 msgid "Interrupt requested"
 msgstr "中断をリクエストしました"
@@ -2851,6 +2973,9 @@ msgstr "葉"
 
 msgid "Leave a comment…"
 msgstr "コメントを入力…"
+
+msgid "Leave empty for a unique new branch"
+msgstr "空欄にすると一意の新しいブランチを生成"
 
 msgid "Leave empty to use the workspace directory. Relative paths are resolved inside the workspace."
 msgstr "ワークスペースディレクトリを使用する場合は空のままにします。相対パスはワークスペース内で解決されます。"
@@ -3025,11 +3150,17 @@ msgstr "場所"
 msgid "Location & checkout"
 msgstr "場所とチェックアウト"
 
+msgid "Location unavailable"
+msgstr "場所を取得できません"
+
 msgid "Mail awaiting acknowledgement: {activeCount}"
 msgstr "確認待ちのメール：{activeCount}"
 
 msgid "Mail awaits acknowledgement"
 msgstr "メールの確認待ち"
+
+msgid "Mail delivery needs attention. Open diagnostics to inspect the delivery."
+msgstr "メール配信に対応が必要です。診断を開いて配信状況を確認してください。"
 
 msgid "Mail has not been acknowledged. Reading it does not acknowledge it."
 msgstr "メールは未確認です。読むだけでは処理の確認になりません。"
@@ -3275,6 +3406,9 @@ msgstr "サイドバーの前のワークスペースに移動する"
 msgid "Navigation"
 msgstr "ナビゲーション"
 
+msgid "Navigation changed before the pane could be focused. Inspect the workspace before retrying."
+msgstr "ペインにフォーカスする前に移動先が変わりました。再試行する前にワークスペースを確認してください。"
+
 msgid "Needs attention"
 msgstr "要対応"
 
@@ -3295,6 +3429,9 @@ msgstr "新規オートメーション"
 
 msgid "New branch"
 msgstr "新しいブランチ"
+
+msgid "New branch name"
+msgstr "新しいブランチ名"
 
 msgid "New Chat"
 msgstr "新規チャット"
@@ -3448,6 +3585,12 @@ msgstr "完了したプロジェクトはまだ見つかりません。ホスト
 msgid "No description provided"
 msgstr "説明が提供されていません"
 
+msgid "No desktop pane consumer is connected."
+msgstr "デスクトップのペイン処理先が接続されていません。"
+
+msgid "No desktop window is open to apply the layout change."
+msgstr "レイアウト変更を適用できるデスクトップウィンドウが開いていません。"
+
 msgid "No existing worktrees found."
 msgstr "既存のワークツリーが見つかりません。"
 
@@ -3526,6 +3669,9 @@ msgstr "プレフィックスなし"
 msgid "No prefix could be resolved from this host's identity."
 msgstr "このホストの ID からプレフィックスを解決できませんでした。"
 
+msgid "No progress reports or decisions yet. Internal communication is available in diagnostics."
+msgstr "進捗報告や決定事項はまだありません。内部通信は診断で確認できます。"
+
 msgid "No projects match your filters"
 msgstr "フィルターに一致するプロジェクトはありません"
 
@@ -3570,9 +3716,6 @@ msgstr "タスク未割り当て"
 
 msgid "No team"
 msgstr "チームなし"
-
-msgid "No team mail yet"
-msgstr "チームのメールはまだありません"
 
 msgid "No teams yet"
 msgstr "チームはまだありません"
@@ -3676,16 +3819,15 @@ msgstr "開く"
 msgid "Open"
 msgstr "開く"
 
-#. placeholder {0}: binding.agentId
-msgid "Open {0} session"
-msgstr "{0} セッションを開く"
-
 #. placeholder {0}: member.name
 msgid "Open {0} terminal"
 msgstr "{0} のターミナルを開く"
 
 msgid "Open {displayName}"
 msgstr "{displayName}を開く"
+
+msgid "Open {name} session"
+msgstr "{name} のセッションを開く"
 
 msgid "Open {path} in file pane"
 msgstr "{path}をファイルペインで開く"
@@ -3866,6 +4008,9 @@ msgstr "変更ペインを新しいタブで開くか、既存のペインにフ
 
 msgid "Open the global command palette"
 msgstr "グローバルコマンドパレットを開く"
+
+msgid "Open the local host before focusing a local workspace pane."
+msgstr "ローカルワークスペースのペインにフォーカスする前に、ローカルホストを開いてください。"
 
 msgid "Open the main window to select this workspace"
 msgstr "メインウィンドウを開いてこのワークスペースを選択"
@@ -4110,6 +4255,9 @@ msgstr "処理トークン"
 msgid "Processing"
 msgstr "処理中"
 
+msgid "Progress and decisions"
+msgstr "進捗と決定事項"
+
 msgid "Project"
 msgstr "プロジェクト"
 
@@ -4206,8 +4354,14 @@ msgstr "px"
 msgid "Queue message"
 msgstr "メッセージをキューに追加"
 
+msgid "Queue waits for the agent. Interrupt requires safe support from the current session. Both require recipient acknowledgement; sending is not consumption."
+msgstr "キューではエージェントを待ちます。中断には現在のセッションによる安全な対応が必要です。どちらも受信者の確認が必要で、送信は処理完了を意味しません。"
+
 msgid "Queue; ⌘↩ to steer the running turn"
 msgstr "キューに追加。⌘↩で実行中のターンを軌道修正"
+
+msgid "Queued"
+msgstr "キューに登録済み"
 
 msgid "Quick Create Workspace"
 msgstr "ワークスペースをクイック作成"
@@ -4781,6 +4935,9 @@ msgstr "実行中"
 msgid "Running"
 msgstr "実行中"
 
+msgid "Safe interruption is unavailable on this host. Queued mail waits for the agent; sending does not confirm consumption."
+msgstr "このホストでは安全な中断を利用できません。キュー内のメールはエージェントを待ちます。送信しても処理されたことにはなりません。"
+
 msgid "Same-session CLI control is unavailable. No new session was started."
 msgstr "同じセッションの CLI コントロールを利用できません。新しいセッションは開始されませんでした。"
 
@@ -5145,6 +5302,9 @@ msgstr "ワークスペースの上にエージェントコマンドとピン留
 msgid "Show Apple's installer"
 msgstr "Apple のインストーラを表示"
 
+msgid "Show decisions and exceptions"
+msgstr "決定事項と例外を表示"
+
 msgid "Show deleted workspaces"
 msgstr "削除されたワークスペースを表示"
 
@@ -5177,6 +5337,9 @@ msgstr "ワークスペースにローカルリソースの使用量を表示し
 
 msgid "Show more"
 msgstr "もっと見る"
+
+msgid "Show progress and decisions"
+msgstr "進捗と決定事項を表示"
 
 msgid "Show Scripts Bar"
 msgstr "スクリプトバーを表示"
@@ -5656,6 +5819,15 @@ msgstr "接続されたホストでの新しいワークツリーのデフォル
 msgid "The definition and its run records will be deleted. Existing workspaces and sessions remain available."
 msgstr "定義とその実行記録が削除されます。既存のワークスペースとセッションは引き続き利用できます。"
 
+msgid "The desktop app did not confirm the layout change in time. Inspect the layout before retrying."
+msgstr "デスクトップアプリがレイアウト変更を時間内に確認しませんでした。再試行する前にレイアウトを確認してください。"
+
+msgid "The desktop could not apply the pane request."
+msgstr "デスクトップでペインのリクエストを適用できませんでした。"
+
+msgid "The desktop pane connection closed before the layout result was confirmed."
+msgstr "レイアウトの結果が確認される前に、デスクトップのペイン接続が閉じられました。"
+
 msgid "The existing session identity could not be verified. Refresh before retrying."
 msgstr "既存セッションの同一性を確認できませんでした。再試行する前に更新してください。"
 
@@ -5680,11 +5852,17 @@ msgstr "Jedvのホストサービスが予期せず停止し ({cause})、自動�
 msgid "The key stays on this host. It is never injected into terminals or returned to this screen."
 msgstr "キーはこのホストにのみ保存されます。ターミナルに注入されたり、この画面に返されたりすることはありません。"
 
+msgid "The layout change failed."
+msgstr "レイアウト変更に失敗しました。"
+
 msgid "The Leader terminal continues running."
 msgstr "リーダーのターミナルは実行を続けます。"
 
 msgid "The linked local agent is unavailable on this host. Edit the preset or remove its agent link."
 msgstr "リンクされたローカルエージェントはこのホストでは利用できません。プリセットを編集するか、エージェントのリンクを解除してください。"
+
+msgid "The local host connection changed. Inspect the layout before retrying."
+msgstr "ローカルホストへの接続が変わりました。再試行する前にレイアウトを確認してください。"
 
 msgid "The local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
 msgstr "{device}の{organization}でローカルのホストサービスが利用できません。ステータス: {status}。{recovery}"
@@ -5700,6 +5878,12 @@ msgstr "お探しのページは存在しません。"
 
 msgid "The pairing code expired or was already used. Request a new code on your computer."
 msgstr "ペアリングコードは期限切れか使用済みです。コンピューターで新しいコードを発行してください。"
+
+msgid "The pane or tab is not in this workspace."
+msgstr "このペインまたはタブはこのワークスペースにありません。"
+
+msgid "The pane request expired. Inspect the layout before retrying."
+msgstr "ペインのリクエストは期限切れです。再試行する前にレイアウトを確認してください。"
 
 msgid "The previous token will stop working. Update the remote peer with the new token."
 msgstr "以前のトークンは無効になります。リモートピアを新しいトークンに更新してください。"
@@ -5727,6 +5911,9 @@ msgstr "結果が不確定です。同じリクエスト ID でこのメッセ�
 
 msgid "The resumed session identity could not be verified. Refresh before retrying."
 msgstr "再開したセッションの ID を検証できませんでした。更新してから再試行してください。"
+
+msgid "The resumed terminal is not available yet. Refresh the workspace to retry."
+msgstr "再開したターミナルはまだ利用できません。ワークスペースを再読み込みして再試行してください。"
 
 msgid "The run command is still stopping. Wait, then restart."
 msgstr "実行コマンドはまだ停止中です。待機してから再起動してください。"
@@ -5776,6 +5963,9 @@ msgstr "対象ワークスペースが変わりました。結果は元のワー
 msgid "The team becomes read-only. Its workspaces, files and terminals are kept."
 msgstr "チームは読み取り専用になります。ワークスペース、ファイル、ターミナルは保持されます。"
 
+msgid "The terminal is not available in this workspace."
+msgstr "このターミナルはこのワークスペースでは利用できません。"
+
 msgid "The terminal session changed. Refresh before inserting the prompt."
 msgstr "ターミナルセッションが変更されました。プロンプトを挿入する前に更新してください。"
 
@@ -5824,8 +6014,14 @@ msgstr "このAPIログインではサブスクリプションクォータは公
 msgid "This automation is no longer available"
 msgstr "この自動化は利用できなくなりました"
 
+msgid "This branch already exists. Choose a new name or select Existing branch."
+msgstr "このブランチは既に存在します。別の名前を選ぶか、「既存のブランチ」を選択してください。"
+
 msgid "This branch has conflicts"
 msgstr "このブランチには競合があります"
+
+msgid "This branch is used by the shared checkout. Choose a new name or use the local checkout."
+msgstr "このブランチは共有チェックアウトで使用中です。別の名前を選ぶか、ローカルチェックアウトを使用してください。"
 
 msgid "This changes the pull request state on GitHub."
 msgstr "GitHubでプルリクエストの状態を変更します。"
@@ -5911,8 +6107,14 @@ msgstr "これは大きなファイルです。開くとエディターの動作
 msgid "This pane can't be shown"
 msgstr "このペインは表示できません"
 
+msgid "This pane has no split to resize."
+msgstr "このペインにはサイズ変更できる分割がありません。"
+
 msgid "This pane hit an error"
 msgstr "このペインでエラーが発生しました"
+
+msgid "This pane operation is not supported by this desktop."
+msgstr "このデスクトップでは、このペイン操作はサポートされていません。"
 
 msgid "This permanently deletes the removed project and workspace records and attempts to remove their clean worktree directories. Dirty worktree directories may remain untracked. The main repository directory is kept. This cannot be undone."
 msgstr "削除されたプロジェクトとワークスペースのレコードを完全に削除し、クリーンなワークツリーディレクトリの削除を試みます。変更を含むワークツリーディレクトリは追跡されないまま残る場合があります。メインのリポジトリディレクトリは保持されます。この操作は元に戻せません。"
@@ -6088,17 +6290,29 @@ msgstr "トークン"
 msgid "Too many background terminals. Reattach or end one before closing another view."
 msgstr "バックグラウンドターミナルが多すぎます。別のビューを閉じる前に、1 つを再アタッチするか終了してください。"
 
+msgid "Too many desktop pane subscriptions."
+msgstr "デスクトップのペイン購読が多すぎます。"
+
 msgid "Too many dropped items. Add at most 5000 files and folders at a time."
 msgstr "ドロップされた項目が多すぎます。一度に追加できるファイルとフォルダーは最大 5000 個です。"
 
 msgid "Too many files. Some were not added."
 msgstr "ファイルが多すぎます。一部は追加されませんでした。"
 
+msgid "Too many pane requests are waiting. Try again after they finish."
+msgstr "待機中のペインリクエストが多すぎます。処理が完了してから再試行してください。"
+
+msgid "Too many pending pane requests. Wait for the current requests to finish."
+msgstr "待機中のペインリクエストが多すぎます。現在のリクエストが完了するまでお待ちください。"
+
 msgid "Too many requests. Wait a moment and try again."
 msgstr "リクエストが多すぎます。しばらくしてから再試行してください。"
 
 msgid "Too many untitled items here already."
 msgstr "ここには無題のアイテムが多すぎます。"
+
+msgid "Tool details are unavailable in this older record."
+msgstr "この古い記録ではツールの詳細を確認できません。"
 
 msgid "Tool output"
 msgstr "ツール出力"
@@ -6349,6 +6563,9 @@ msgstr "既存のセッションを使用"
 msgid "Use another local port"
 msgstr "別のローカルポートを使用"
 
+msgid "Use existing branch"
+msgstr "既存のブランチを使用"
+
 msgid "Use for new sessions"
 msgstr "新しいセッションに使用"
 
@@ -6357,6 +6574,9 @@ msgstr "グローバルのデフォルトを使用"
 
 msgid "Use host default"
 msgstr "ホストのデフォルトを使用"
+
+msgid "Use local checkout"
+msgstr "ローカルチェックアウトを使用"
 
 msgid "Use Move to group to move workspaces between groups."
 msgstr "「グループに移動」を使用して、ワークスペースをグループ間で移動します。"
@@ -6400,6 +6620,9 @@ msgstr "表示"
 
 msgid "View license"
 msgstr "ライセンスを表示"
+
+msgid "View original mail"
+msgstr "元のメールを表示"
 
 msgid "View run"
 msgstr "実行を表示"
@@ -6496,6 +6719,9 @@ msgstr "ワークスペースのファイルを利用できません"
 
 msgid "Workspace launcher"
 msgstr "ワークスペースランチャー"
+
+msgid "Workspace layout could not be saved"
+msgstr "ワークスペースのレイアウトを保存できませんでした"
 
 msgid "Workspace name"
 msgstr "ワークスペース名"

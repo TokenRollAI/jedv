@@ -2,6 +2,7 @@ import { Database } from "bun:sqlite";
 import { describe, expect, it, mock } from "bun:test";
 import { homedir } from "node:os";
 import { resolve } from "node:path";
+import { resolveUserHomeDir } from "@jedv/agent-setup";
 import type { AgentIdentity } from "@jedv/shared/agent-identity";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/bun-sqlite";
@@ -556,7 +557,7 @@ describe("reported transcript path", () => {
 	it("keeps the main session's transcript path on its binding", async () => {
 		const { ctx, db } = createPersistedContext();
 		const transcriptPath = resolve(
-			homedir(),
+			resolveUserHomeDir(),
 			".claude/projects/-tmp-workspace-1/s-1.jsonl",
 		);
 		await notificationsRouter.createCaller(ctx).hook({
@@ -581,18 +582,22 @@ describe("reported transcript path", () => {
 });
 
 describe("automatic delivery hook boundary", () => {
-	function setup() {
-		const { ctx, terminalAgentStore: store } = createContext("workspace-1");
+	function setup(agentId: "claude" | "codex" = "claude") {
+		const {
+			ctx,
+			terminalAgentStore: store,
+			broadcastAgentLifecycle,
+		} = createContext("workspace-1");
 		const identity = {
 			terminalId: "terminal-1",
 			launchId: "launch-1",
-			agent: { agentId: "claude", sessionId: "session-1" },
+			agent: { agentId, sessionId: "session-1" },
 			attributionToken: issueAttributionToken("terminal-1"),
 		};
 		store.recordEvent({
 			terminalId: identity.terminalId,
 			workspaceId: "workspace-1",
-			agentId: "claude",
+			agentId,
 			agentSessionId: "session-1",
 			launchId: identity.launchId,
 			eventType: "Attached",
@@ -602,10 +607,119 @@ describe("automatic delivery hook boundary", () => {
 		if (!expected) throw new Error("Missing fixture binding");
 		return {
 			caller: notificationsRouter.createCaller(ctx),
+			broadcastAgentLifecycle,
 			store,
 			identity,
 			expected,
 		};
+	}
+
+	for (const manualDraft of [false, true]) {
+		it(`ignores an authenticated stale wrapper Start while preserving ${manualDraft ? "manual draft protection" : "native idle evidence"}`, async () => {
+			const { caller, store, identity, expected, broadcastAgentLifecycle } =
+				setup("codex");
+			await caller.hook({
+				...identity,
+				eventType: "Start",
+				deliverySequence: 16,
+			});
+			if (manualDraft) store.invalidateAutomaticDelivery(expected);
+			const before = store.get(identity.terminalId);
+			const beforeInput = store.getNativeInputStatus(expected);
+			const broadcasts = broadcastAgentLifecycle.mock.calls.length;
+			for (const deliverySequence of [15, 16]) {
+				expect(
+					await caller.hook({
+						...identity,
+						agent: { agentId: "codex" },
+						eventType: "Start",
+						deliverySequence,
+					}),
+				).toEqual({ success: true, ignored: true });
+			}
+			expect(store.get(identity.terminalId)).toEqual(before);
+			expect(store.getNativeInputStatus(expected)).toBe(beforeInput);
+			expect(broadcastAgentLifecycle.mock.calls.length).toBe(broadcasts);
+			for (
+				let deliverySequence = 17;
+				deliverySequence <= 20;
+				deliverySequence++
+			) {
+				await caller.hook({
+					...identity,
+					eventType: "PostToolUse",
+					deliverySequence,
+				});
+			}
+			await caller.hook({
+				...identity,
+				eventType: "Stop",
+				deliverySequence: 21,
+			});
+			expect(store.getNativeInputStatus(expected)).toBe(
+				manualDraft ? "manual-input" : "clean",
+			);
+			expect(store.getAutomaticDeliveryState(expected)).toBe(
+				manualDraft ? "unknown" : "idle",
+			);
+			expect(store.acquireAutomaticDelivery(expected)?.isValid() ?? false).toBe(
+				!manualDraft,
+			);
+		});
+	}
+
+	for (const boundary of [
+		"missing-token",
+		"wrong-token",
+		"launch",
+		"provider",
+		"workspace",
+		"new-sequence",
+		"missing-sequence",
+		"other-event",
+	] as const) {
+		it(`does not discard a no-session hook at the ${boundary} boundary`, async () => {
+			const { caller, store, identity } = setup("codex");
+			await caller.hook({
+				...identity,
+				eventType: "Start",
+				deliverySequence: 16,
+			});
+			if (boundary === "workspace") {
+				const binding = store.get(identity.terminalId);
+				if (!binding) throw new Error("Missing fixture binding");
+				store.recordEvent({
+					...binding,
+					workspaceId: "different-workspace",
+					eventType: "Attached",
+					occurredAt: 2,
+				});
+			}
+			const result = await caller.hook({
+				...identity,
+				agent: { agentId: boundary === "provider" ? "claude" : "codex" },
+				eventType: boundary === "other-event" ? "PostToolUse" : "Start",
+				deliverySequence:
+					boundary === "missing-sequence"
+						? undefined
+						: boundary === "new-sequence"
+							? 17
+							: 15,
+				attributionToken:
+					boundary === "missing-token"
+						? undefined
+						: boundary === "wrong-token"
+							? issueAttributionToken("other-terminal")
+							: identity.attributionToken,
+				launchId:
+					boundary === "launch" ? "different-launch" : identity.launchId,
+			});
+			expect(result.ignored).toBe(false);
+			const current = store.get(identity.terminalId);
+			if (!current) throw new Error("Missing current binding");
+			expect(store.getNativeInputStatus(current)).not.toBe("clean");
+			expect(store.acquireAutomaticDelivery(current)).toBeNull();
+		});
 	}
 
 	it("validates a real terminal token and consumes ordered hook idle once", async () => {

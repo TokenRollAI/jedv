@@ -18,6 +18,7 @@ test("stop never signals a live PID that belongs to another process", async () =
 			isManifestLive(value, {
 				isAlive: () => true,
 				inspectCommand: async () => "/usr/bin/unrelated-process",
+				inspectExecutable: async () => "/usr/bin/unrelated-process",
 			}),
 		terminate,
 	});
@@ -32,6 +33,7 @@ test("stop signals only the host whose manifest ownership was verified", async (
 			isManifestLive(value, {
 				isAlive: () => true,
 				inspectCommand: async () => "/opt/jedv/bin/jedv-host",
+				inspectExecutable: async () => "/opt/jedv/bin/jedv-host",
 			}),
 		terminate,
 	});
@@ -49,6 +51,7 @@ test("stop recognizes the standalone host after its wrapper execs Node", async (
 			isManifestLive(value, {
 				isAlive: () => true,
 				inspectCommand: async () => `${libDir}/node ${libDir}/host-service.js`,
+				inspectExecutable: async () => `${libDir}/node`,
 			}),
 		terminate,
 	});
@@ -68,6 +71,7 @@ test.each([
 			isManifestLive(value, {
 				isAlive: () => true,
 				inspectCommand: async () => command,
+				inspectExecutable: async () => "/usr/bin/unrelated",
 				probeHealthy,
 			}),
 		terminate,
@@ -75,4 +79,44 @@ test.each([
 	expect(stopped).toBe(false);
 	expect(terminate).not.toHaveBeenCalled();
 	expect(probeHealthy).not.toHaveBeenCalled();
+});
+
+test.each([
+	"/opt/jedv/bin/jedv-host",
+	`${dirname(process.execPath)}/../lib/node ${dirname(process.execPath)}/../lib/host-service.js`,
+	"/Applications/Jedv.app/Contents/MacOS/Jedv /Applications/Jedv.app/Contents/Resources/app.asar/dist/main/host-service.js",
+])("forged argv never authorizes termination: %s", async (command) => {
+	const terminate = mock(async (_pid: number) => {});
+	const probeHealthy = mock(async () => true);
+	const stopped = await stopOwnedHost(manifest, {
+		isLive: (value) =>
+			isManifestLive(value, {
+				isAlive: () => true,
+				inspectCommand: async () => command,
+				inspectExecutable: async () => "/usr/bin/unrelated",
+				probeHealthy,
+			}),
+		terminate,
+	});
+	expect(stopped).toBe(false);
+	expect(terminate).not.toHaveBeenCalled();
+	expect(probeHealthy).not.toHaveBeenCalled();
+});
+
+test("desktop ownership uses the executable and matching bundle before signaling", async () => {
+	const executable = "/Applications/Jedv Dev.app/Contents/MacOS/Jedv";
+	const terminate = mock(async (_pid: number) => {});
+	expect(
+		await stopOwnedHost(manifest, {
+			isLive: (value) =>
+				isManifestLive(value, {
+					isAlive: () => true,
+					inspectCommand: async () =>
+						`${executable} /Applications/Jedv Dev.app/Contents/Resources/app.asar/dist/main/host-service.js`,
+					inspectExecutable: async () => executable,
+				}),
+			terminate,
+		}),
+	).toBe(true);
+	expect(terminate.mock.calls).toEqual([[42]]);
 });

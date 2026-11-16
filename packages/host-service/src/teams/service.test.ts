@@ -18,6 +18,7 @@ import * as schema from "../db/schema";
 import { type MailDependencies, MailService } from "../mail/service";
 import type { createTerminalSessionInternal } from "../terminal/terminal";
 import { TerminalAgentStore } from "../terminal-agents/store";
+import { teamRouter } from "../trpc/router/team";
 import type { HostServiceContext } from "../types";
 import { TeamService, type TeamServiceDependencies } from "./service";
 
@@ -181,6 +182,7 @@ function fixture(
 			...extra,
 		});
 	return {
+		ctx,
 		db,
 		sqlite,
 		store,
@@ -229,6 +231,171 @@ const newTask = {
 	prompt: "  code starts indented\n    keep this indentation\n",
 };
 describe("atomic Team start", () => {
+	test.each([
+		"fresh",
+		"native-codex",
+		"adopted",
+		"wrong-workspace",
+		"wrong-terminal",
+		"manual-before-hook",
+		"failed-after-fresh",
+	])("managed input cleanliness comes only from the fresh callback: %s", async (kind) => {
+		let f: ReturnType<typeof fixture>;
+		let launchIdentity:
+			| { terminalId: string; workspaceId: string; launchId: string }
+			| undefined;
+		f = fixture({
+			team: {
+				launch: async (input) => {
+					const member = f.db
+						.select()
+						.from(schema.teamMembers)
+						.where(eq(schema.teamMembers.plannedTerminalId, input.terminalId))
+						.get();
+					if (!member?.expectedLaunchId)
+						throw new Error("Missing launch intent");
+					launchIdentity = {
+						terminalId: input.terminalId,
+						workspaceId: input.workspaceId,
+						launchId: member.expectedLaunchId,
+					};
+					if (kind === "native-codex")
+						expect(input.nativeInterruptLaunch).toMatchObject({
+							command: "/fixture/codex",
+							launchId: member.expectedLaunchId,
+						});
+					f.db
+						.insert(schema.terminalSessions)
+						.values({
+							id: input.terminalId,
+							originWorkspaceId: input.workspaceId,
+						})
+						.run();
+					if (kind !== "adopted")
+						input.onFreshCreated?.({
+							terminalId:
+								kind === "wrong-terminal" ? "unrelated" : input.terminalId,
+							workspaceId:
+								kind === "wrong-workspace" ? "w2" : input.workspaceId,
+							createdAt: 1,
+							pid: 123,
+						});
+					if (kind === "failed-after-fresh")
+						throw new Error("fixture launch failed");
+					if (kind === "manual-before-hook")
+						input.onManualInput?.(input.terminalId);
+					f.store.recordEvent({
+						...launchIdentity,
+						agentId: kind === "native-codex" ? "codex" : "claude",
+						agentSessionId: "native",
+						eventType: "Attached",
+						occurredAt: 2,
+					});
+					return { terminalId: input.terminalId } as Awaited<
+						ReturnType<typeof createTerminalSessionInternal>
+					>;
+				},
+			},
+		});
+		if (kind === "native-codex")
+			f.db
+				.update(schema.hostAgentConfigs)
+				.set({ presetId: "codex", command: "/fixture/codex" })
+				.where(eq(schema.hostAgentConfigs.id, "config"))
+				.run();
+		if (kind === "failed-after-fresh") {
+			await expect(f.team.start(newTask)).rejects.toThrow(
+				"fixture launch failed",
+			);
+			if (!launchIdentity) throw new Error("Missing launch identity");
+			f.store.recordEvent({
+				...launchIdentity,
+				agentId: "claude",
+				agentSessionId: "native",
+				eventType: "Attached",
+				occurredAt: 2,
+			});
+		} else await f.team.start(newTask);
+		if (!launchIdentity) throw new Error("Missing launch identity");
+		const binding = f.store.get(launchIdentity.terminalId);
+		if (!binding) throw new Error("Missing fixture binding");
+		expect(f.store.getNativeInputStatus(binding)).toBe(
+			kind === "fresh" || kind === "native-codex"
+				? "clean"
+				: kind === "manual-before-hook"
+					? "manual-input"
+					: "unknown",
+		);
+	});
+	test.each([
+		"active",
+		"paused",
+	])("native members of a %s Team cannot start a duplicate Task through the router", async (status) => {
+		const f = fixture();
+		const existing = await f.init();
+		const worker = await f.spawn(existing.team.id, { workspaceId: "w1" });
+		if (status === "paused")
+			f.team.setPaused({ teamId: existing.team.id }, true);
+		const caller = teamRouter.createCaller({
+			...f.ctx,
+			isAuthenticated: true,
+			runtime: {
+				...f.ctx.runtime,
+				teamwork: { team: f.team, ready: Promise.resolve() } as never,
+			},
+		});
+		expect((await caller.capabilities()).features?.startCaller).toBe(true);
+		for (const terminalId of [f.actor.terminalId, worker.terminalId ?? ""]) {
+			await expect(
+				caller.start({
+					...newTask,
+					workspaceId: "w2",
+					actor: { workspaceId: "w1", terminalId },
+				}),
+			).rejects.toMatchObject({ code: "CONFLICT" });
+		}
+		expect(f.db.select().from(schema.teams).all()).toHaveLength(1);
+		expect(f.launches).toHaveLength(1); // Only the explicitly spawned worker.
+		const humanTask = await caller.start(newTask);
+		expect(humanTask.team.id).not.toBe(existing.team.id);
+		expect(f.launches).toHaveLength(2);
+	});
+	test("lost or changed native caller identity cannot bypass existing Team membership", async () => {
+		const f = fixture();
+		const existing = await f.init();
+		f.store.markTerminalExited(f.actor.terminalId);
+		await expect(
+			f.team.start({
+				...newTask,
+				actor: { ...f.actor, launchId: "different-launch" },
+			}),
+		).rejects.toThrow("already belongs to Team");
+		expect(f.team.member(existing.members[0]?.id ?? "").status).toBe(
+			"reconcile_required",
+		);
+		expect(f.db.select().from(schema.teams).all()).toHaveLength(1);
+		expect(f.launches).toHaveLength(0);
+		f.db
+			.update(schema.teamMembers)
+			.set({ status: "failed" })
+			.where(eq(schema.teamMembers.id, existing.members[0]?.id ?? ""))
+			.run();
+		await expect(f.team.start({ ...newTask, actor: f.actor })).rejects.toThrow(
+			"already belongs to Team",
+		);
+	});
+	test("an unbound caller may start and an identical retry keeps its original operation identity", async () => {
+		const f = fixture();
+		const actor = {
+			workspaceId: "w1",
+			terminalId: "unbound-terminal",
+			launchId: "unbound-launch",
+		};
+		const started = await f.team.start({ ...newTask, actor });
+		const retried = await f.team.start(newTask);
+		expect(retried.team.id).toBe(started.team.id);
+		expect(f.launches).toHaveLength(1);
+	});
 	test.each([
 		"existing project",
 		"Host session",
@@ -641,6 +808,39 @@ describe("Team persistence and lifecycle", () => {
 });
 
 describe("Mail transactions and delivery", () => {
+	test("Team counters follow recipient receipts and requiresAck, never a human's legacy readAt", async () => {
+		const f = fixture();
+		const { team } = await f.init();
+		const required = f.send(team.id, { dedupeKey: "requires-ack" });
+		const noAck = f.send(team.id, {
+			dedupeKey: "read-only",
+			requiresAck: false,
+		});
+		const requiredId = required.deliveries[0]?.id,
+			noAckId = noAck.deliveries[0]?.id;
+		if (!requiredId || !noAckId) throw new Error("Missing deliveries");
+		const counts = () => {
+			const member = f.team.status({ teamId: team.id }).members[0];
+			return { unread: member?.unreadCount, unacked: member?.unackedCount };
+		};
+		expect(counts()).toEqual({ unread: 2, unacked: 1 });
+		f.mail.consume({ teamId: team.id, deliveryId: noAckId }, false);
+		f.db
+			.update(schema.mailDeliveries)
+			.set({ readAt: 2 })
+			.where(eq(schema.mailDeliveries.id, noAckId))
+			.run();
+		expect(counts()).toEqual({ unread: 2, unacked: 1 });
+		expect(() =>
+			f.mail.consume({ teamId: team.id, deliveryId: requiredId }, true),
+		).toThrow("Only the current recipient Agent");
+		f.mail.consume({ actor: f.actor, deliveryId: noAckId }, false);
+		expect(counts()).toEqual({ unread: 1, unacked: 1 });
+		f.mail.consume({ actor: f.actor, deliveryId: requiredId }, false);
+		expect(counts()).toEqual({ unread: 0, unacked: 1 });
+		f.mail.consume({ actor: f.actor, deliveryId: requiredId }, true);
+		expect(counts()).toEqual({ unread: 0, unacked: 0 });
+	});
 	test("dedupe is transactional; read and ack are independent and recipient rows remain unique", async () => {
 		const f = fixture();
 		const { team } = await f.init();

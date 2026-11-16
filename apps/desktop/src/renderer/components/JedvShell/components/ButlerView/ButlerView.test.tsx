@@ -28,6 +28,7 @@ test("attention uses authoritative counts and real read/ignore semantics without
 		ignoredAt: number | null = null;
 	let ignoreReason: string | null = null;
 	let reopened = false;
+	let severity: "normal" | "high" = "normal";
 	const source: AttentionSourceTarget = {
 		kind: "mail_delivery",
 		teamId: "team",
@@ -44,7 +45,7 @@ test("attention uses authoritative counts and real read/ignore semantics without
 	const group = (): AttentionGroupShape => ({
 		groupKey: "mail:team:member",
 		kind: "mail_unacked",
-		severity: "normal",
+		severity,
 		subject: "Mail needs attention",
 		body: "Evidence",
 		disposition: ignoredAt ? "ignored" : "open",
@@ -60,7 +61,7 @@ test("attention uses authoritative counts and real read/ignore semantics without
 				groupKey: "mail:team:member",
 				dedupeKey: "mail",
 				kind: "mail_unacked",
-				severity: "normal",
+				severity,
 				subject: "Mail needs attention",
 				body: "Evidence",
 				teamId: "team",
@@ -210,6 +211,36 @@ test("attention uses authoritative counts and real read/ignore semantics without
 				<Harness />
 			</electronTrpc.Provider>
 		</QueryClientProvider>,
+	);
+	await waitFor(() => expect(attention).toHaveBeenCalled());
+	expect(
+		screen.queryByRole("heading", { name: "Mail awaiting acknowledgement: 3" }),
+	).toBeNull();
+	expect(ack).not.toHaveBeenCalled();
+	severity = "high";
+	await act(async () => {
+		await cache.invalidateQueries({
+			queryKey: ["jedv", context.hostUrl, "butler"],
+		});
+	});
+	await screen.findByRole("heading", {
+		name: "Mail awaiting acknowledgement: 3",
+	});
+	severity = "normal";
+	await act(async () => {
+		await cache.invalidateQueries({
+			queryKey: ["jedv", context.hostUrl, "butler"],
+		});
+	});
+	await waitFor(() =>
+		expect(
+			screen.queryByRole("heading", {
+				name: "Mail awaiting acknowledgement: 3",
+			}),
+		).toBeNull(),
+	);
+	fireEvent.click(
+		screen.getByRole("button", { name: "Internal mail diagnostics" }),
 	);
 	await screen.findByRole("heading", {
 		name: "Mail awaiting acknowledgement: 3",

@@ -98,6 +98,11 @@ export function AttentionGroupCard({
 				</p>
 			)}
 
+			{group.severity === "high" && group.body && (
+				<p className="line-clamp-4 whitespace-pre-wrap break-words text-xs leading-5 text-foreground/80">
+					{group.body}
+				</p>
+			)}
 			<details className="text-[11px] text-muted-foreground">
 				<summary className="w-fit cursor-pointer rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
 					<Trans>Details</Trans>

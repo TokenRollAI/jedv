@@ -5,6 +5,10 @@ import { tmpdir } from "node:os";
 import { basename, isAbsolute, join } from "node:path";
 import { StringDecoder } from "node:string_decoder";
 import type { NodeWebSocket } from "@hono/node-ws";
+import {
+	removeAgentLaunchEvidence,
+	resolveCodexNativeExecutable,
+} from "@jedv/agent-setup";
 import { resolveAppHomeDir } from "@jedv/agent-setup/paths";
 import { hasRunningForegroundProcess } from "@jedv/pty-daemon/process-tree";
 import {
@@ -72,9 +76,14 @@ import {
 	waitForTerminalBaseEnv,
 } from "./env.ts";
 import {
+	type InterruptDeliveryResult,
+	interruptAndDeliver,
+} from "./interrupt-agent";
+import {
 	TerminalLifecycleOperations,
 	terminalLifecycleState,
 } from "./lifecycle/lifecycle.ts";
+import { inspectNativeInterruptForeground } from "./native-interrupt-identity";
 import { listTerminalResourceSessions } from "./resource-sessions.ts";
 import {
 	getShellReadyMarkerEvidence,
@@ -536,6 +545,14 @@ type ShellReadyState =
 	| "cancelled";
 
 interface TerminalSession {
+	onManualInput?: () => void;
+	nativeInterruptLaunch?: Readonly<{
+		command: string;
+		path: string;
+		cwd: string;
+		managedBinDirs: readonly string[];
+		launchId: string;
+	}>;
 	terminalId: string;
 	workspaceId: string;
 	/** Handle for db writes from module-scope handlers (daemon disconnect). */
@@ -1065,6 +1082,7 @@ export function writeInputToSession({
 		return { kind: "SESSION_EXITED", error: "Terminal session has exited" };
 	}
 
+	session.onManualInput?.();
 	session.pty.write(data);
 	return { success: true };
 }
@@ -1191,9 +1209,15 @@ interface SessionMessageInput {
 
 interface AgentMessageTarget {
 	store: Pick<TerminalAgentStore, "get"> &
-		Partial<Pick<TerminalAgentStore, "invalidateAutomaticDelivery">>;
+		Partial<
+			Pick<
+				TerminalAgentStore,
+				"invalidateAutomaticDelivery" | "invalidateTerminalInput"
+			>
+		>;
 	binding: TerminalAgentBinding;
 	acquireDelivery?: () => Promise<{ isValid: () => boolean } | null>;
+	verifyTarget?: () => Promise<boolean>;
 }
 
 export async function isAgentTerminalAlive(input: {
@@ -1246,6 +1270,106 @@ export async function sendAutomaticAgentMessage({
 	});
 }
 
+/** Only the original in-memory launch snapshot may resolve an interrupt target. */
+export async function resolveTerminalInterruptExecutable(input: {
+	terminalId: string;
+	workspaceId: string;
+	launchId?: string;
+}): Promise<string | null> {
+	const session = sessions.get(input.terminalId);
+	const snapshot = session?.nativeInterruptLaunch;
+	if (
+		!session ||
+		session.workspaceId !== input.workspaceId ||
+		session.exited ||
+		!isCurrentLiveSession(session) ||
+		!input.launchId ||
+		snapshot?.launchId !== input.launchId
+	)
+		return null;
+	const result = await resolveCodexNativeExecutable(snapshot);
+	if (
+		!result.supported ||
+		sessions.get(input.terminalId) !== session ||
+		session.exited ||
+		!isCurrentLiveSession(session)
+	)
+		return null;
+	return result.executable;
+}
+
+/** Explicit human interruption: same queue lock covers cancel, confirmation and Mail. */
+export async function sendInterruptingAgentMessage(
+	input: SessionMessageInput & {
+		terminalAgentStore: TerminalAgentStore;
+		expectedAgent: TerminalAgentBinding;
+		expectedExecutable: string;
+		expectedSourceSequence: number;
+		acquireDelivery: NonNullable<AgentMessageTarget["acquireDelivery"]>;
+		isDeliveryCurrent: () => boolean;
+	},
+): Promise<InterruptDeliveryResult> {
+	const { terminalAgentStore: store, expectedAgent: binding } = input;
+	const session = await getOrAdoptSession(input);
+	if ("error" in session) return session;
+	const current = () =>
+		!session.exited &&
+		isCurrentLiveSession(session) &&
+		matchesAgentBinding(store.get(binding.terminalId), binding) &&
+		input.isDeliveryCurrent();
+	const previous = session.followUpWriteChain ?? Promise.resolve();
+	const task = previous.then(async (): Promise<InterruptDeliveryResult> => {
+		const proof = current()
+			? await inspectNativeInterruptForeground({
+					shellPid: session.pty.pid,
+					expectedAgent: binding,
+					expectedExecutable: input.expectedExecutable,
+				})
+			: null;
+		if (!proof)
+			return {
+				kind: "SESSION_NOT_ACTIVE",
+				error:
+					"The verified native Codex executable is not the current foreground Agent; no cancellation was sent",
+			};
+		return interruptAndDeliver({
+			prepare: () =>
+				store.get(binding.terminalId)?.deliverySequence ===
+				input.expectedSourceSequence
+					? store.prepareNativeInterrupt(binding)
+					: null,
+			current,
+			foreground: () => proof.isCurrent(),
+			claim: input.acquireDelivery,
+			cancel: () => session.pty.writeOrThrow("\x1b"),
+			deliver: (isValid) =>
+				writeMessageAtQueueHead(session, input, {
+					store,
+					binding,
+					acquireDelivery: async () => ({ isValid }),
+					verifyTarget: () => proof.isCurrent(),
+				}),
+			observe: (callback) => {
+				const changed = (terminalId: string) => {
+					if (terminalId === binding.terminalId) callback();
+				};
+				store.on("native-interrupt", changed);
+				const exit = session.pty.onExit(callback);
+				return () => {
+					store.off("native-interrupt", changed);
+					exit.dispose();
+				};
+			},
+			signal: input.signal,
+		});
+	});
+	session.followUpWriteChain = task.then(
+		() => undefined,
+		() => undefined,
+	);
+	return task;
+}
+
 export async function sendAgentMessage({
 	terminalAgentStore,
 	expectedAgent,
@@ -1253,7 +1377,12 @@ export async function sendAgentMessage({
 	...input
 }: SessionMessageInput & {
 	terminalAgentStore: Pick<TerminalAgentStore, "get"> &
-		Partial<Pick<TerminalAgentStore, "invalidateAutomaticDelivery">>;
+		Partial<
+			Pick<
+				TerminalAgentStore,
+				"invalidateAutomaticDelivery" | "invalidateTerminalInput"
+			>
+		>;
 	expectedAgent?: TerminalAgentBinding;
 	acquireDelivery?: AgentMessageTarget["acquireDelivery"];
 }): Promise<{ success: true } | TerminalSessionError> {
@@ -1275,8 +1404,11 @@ export async function sendAgentMessage({
 			error: "Agent does not belong to this workspace",
 		};
 	}
-	if (!acquireDelivery)
-		terminalAgentStore.invalidateAutomaticDelivery?.(binding);
+	if (!acquireDelivery) {
+		if (terminalAgentStore.invalidateTerminalInput)
+			terminalAgentStore.invalidateTerminalInput(binding.terminalId);
+		else terminalAgentStore.invalidateAutomaticDelivery?.(binding);
+	}
 	return writeSessionMessage(input, {
 		store: terminalAgentStore,
 		binding,
@@ -1321,86 +1453,111 @@ async function writeSessionMessage(
 	// concurrent send's text (even a submit: false draft) would land between
 	// this text and its Enter and get submitted by it.
 	const previous = session.followUpWriteChain ?? Promise.resolve();
-	const task = previous.then(
-		async (): Promise<{ success: true } | TerminalSessionError> => {
-			if (
-				signal?.aborted ||
-				!isCurrentLiveSession(session) ||
-				(agent && !isCurrentAgent(agent))
-			) {
-				return {
-					kind: "SESSION_NOT_ACTIVE",
-					error: "Terminal input target is no longer current",
-				};
-			}
-			if (session.exited) {
-				return { kind: "SESSION_EXITED", error: "Terminal session has exited" };
-			}
-			if (agent && !agent.acquireDelivery)
-				agent.store.invalidateAutomaticDelivery?.(agent.binding);
-			let inputStaged: true | undefined;
-			try {
-				const permit = await agent?.acquireDelivery?.();
-				const targetIsCurrent = () =>
-					!signal?.aborted &&
-					isCurrentLiveSession(session) &&
-					(!agent || isCurrentAgent(agent)) &&
-					(!agent?.acquireDelivery || permit?.isValid() === true);
-				if (!targetIsCurrent()) {
-					return {
-						kind: "SESSION_NOT_ACTIVE",
-						error: "Terminal input target is no longer current",
-					};
-				}
-				const message = agent ? sanitizePromptForPty(text) : text;
-				const framed =
-					agent || session.modeTracker.isBracketedPasteActive()
-						? `\x1b[200~${message}\x1b[201~`
-						: message;
-				const write = (data: string) =>
-					agent ? session.pty.writeOrThrow(data) : session.pty.write(data);
-				if (!submit) {
-					inputStaged = true;
-					write(framed);
-					return { success: true };
-				}
-				if (text.length > 0) {
-					inputStaged = true;
-					write(framed);
-					await new Promise((r) => setTimeout(r, FOLLOW_UP_ENTER_DELAY_MS));
-					if (session.exited) {
-						return {
-							kind: "SESSION_EXITED",
-							error: "Terminal session has exited",
-							inputStaged,
-						};
-					}
-				}
-				if (!targetIsCurrent()) {
-					return {
-						kind: "SESSION_NOT_ACTIVE",
-						error: "Terminal input target is no longer current",
-						inputStaged,
-					};
-				}
-				inputStaged = true;
-				write("\r");
-				return { success: true };
-			} catch (error) {
-				return {
-					kind: "SESSION_NOT_ACTIVE",
-					error:
-						error instanceof Error ? error.message : "Terminal input failed",
-					inputStaged,
-				};
-			}
-		},
+	const task = previous.then(() =>
+		writeMessageAtQueueHead(
+			session,
+			{ terminalId, workspaceId, text, submit, signal, db, eventBus },
+			agent,
+		),
 	);
 	session.followUpWriteChain = task.then(
 		() => undefined,
 		() => undefined,
 	);
 	return task;
+}
+
+async function writeMessageAtQueueHead(
+	session: TerminalSession,
+	{ text, submit, signal }: SessionMessageInput,
+	agent?: AgentMessageTarget,
+): Promise<{ success: true } | TerminalSessionError> {
+	if (
+		signal?.aborted ||
+		!isCurrentLiveSession(session) ||
+		(agent && !isCurrentAgent(agent))
+	) {
+		return {
+			kind: "SESSION_NOT_ACTIVE",
+			error: "Terminal input target is no longer current",
+		};
+	}
+	if (session.exited) {
+		return { kind: "SESSION_EXITED", error: "Terminal session has exited" };
+	}
+	if (!agent?.acquireDelivery) {
+		session.onManualInput?.();
+		if (agent?.store.invalidateTerminalInput)
+			agent.store.invalidateTerminalInput(agent.binding.terminalId);
+		else if (agent) agent.store.invalidateAutomaticDelivery?.(agent.binding);
+	}
+	let inputStaged: true | undefined;
+	try {
+		const permit = await agent?.acquireDelivery?.();
+		const targetIsCurrent = () =>
+			!signal?.aborted &&
+			isCurrentLiveSession(session) &&
+			(!agent || isCurrentAgent(agent)) &&
+			(!agent?.acquireDelivery || permit?.isValid() === true);
+		if (agent?.verifyTarget && !(await agent.verifyTarget()))
+			return {
+				kind: "SESSION_NOT_ACTIVE",
+				error: "Native Agent foreground identity changed",
+				inputStaged,
+			};
+		if (!targetIsCurrent()) {
+			return {
+				kind: "SESSION_NOT_ACTIVE",
+				error: "Terminal input target is no longer current",
+			};
+		}
+		const message = agent ? sanitizePromptForPty(text) : text;
+		const framed =
+			agent || session.modeTracker.isBracketedPasteActive()
+				? `\x1b[200~${message}\x1b[201~`
+				: message;
+		const write = (data: string) =>
+			agent ? session.pty.writeOrThrow(data) : session.pty.write(data);
+		if (!submit) {
+			inputStaged = true;
+			write(framed);
+			return { success: true };
+		}
+		if (text.length > 0) {
+			inputStaged = true;
+			write(framed);
+			await new Promise((r) => setTimeout(r, FOLLOW_UP_ENTER_DELAY_MS));
+			if (session.exited) {
+				return {
+					kind: "SESSION_EXITED",
+					error: "Terminal session has exited",
+					inputStaged,
+				};
+			}
+		}
+		if (agent?.verifyTarget && !(await agent.verifyTarget()))
+			return {
+				kind: "SESSION_NOT_ACTIVE",
+				error: "Native Agent foreground identity changed",
+				inputStaged,
+			};
+		if (!targetIsCurrent()) {
+			return {
+				kind: "SESSION_NOT_ACTIVE",
+				error: "Terminal input target is no longer current",
+				inputStaged,
+			};
+		}
+		inputStaged = true;
+		write("\r");
+		return { success: true };
+	} catch (error) {
+		return {
+			kind: "SESSION_NOT_ACTIVE",
+			error: error instanceof Error ? error.message : "Terminal input failed",
+			inputStaged,
+		};
+	}
 }
 
 /**
@@ -2898,6 +3055,7 @@ async function disposeSessionUnlocked(
 		: { attempted: false, succeeded: true };
 
 	if (closeResult.succeeded) {
+		removeAgentLaunchEvidence(terminalId);
 		const endedAt = Date.now();
 		db.update(terminalSessions)
 			.set({ status: "disposed", endedAt })
@@ -3002,6 +3160,15 @@ export async function disposeSessionsByWorktreePath(
 }
 
 interface CreateTerminalSessionOptions {
+	onFreshCreated?: (proof: {
+		terminalId: string;
+		workspaceId: string;
+		createdAt: number;
+		pid: number;
+	}) => void;
+	onManualInput?: (terminalId: string) => void;
+	/** Captured by the launch builder; never reconstructed from command text or a later config. */
+	nativeInterruptLaunch?: { command: string; path?: string; launchId: string };
 	terminalId: string;
 	workspaceId: string;
 	themeType?: "dark" | "light";
@@ -3091,6 +3258,9 @@ export function createTerminalSessionInternal(
 }
 
 async function createTerminalSessionUnlocked({
+	onFreshCreated,
+	onManualInput,
+	nativeInterruptLaunch,
 	terminalId,
 	workspaceId,
 	themeType,
@@ -3223,7 +3393,7 @@ async function createTerminalSessionUnlocked({
 		];
 		shell = "/bin/sh";
 	}
-	const ptyEnv = {
+	const ptyEnv: Record<string, string> = {
 		...buildHostLaunchEnv({
 			themeType,
 			cwd,
@@ -3409,6 +3579,22 @@ async function createTerminalSessionUnlocked({
 	);
 
 	const session: TerminalSession = {
+		onManualInput: onManualInput ? () => onManualInput(terminalId) : undefined,
+		...(!isAdopted &&
+		nativeInterruptLaunch?.launchId &&
+		(nativeInterruptLaunch.path ?? ptyEnv.PATH)
+			? {
+					nativeInterruptLaunch: Object.freeze({
+						command: nativeInterruptLaunch.command,
+						path: nativeInterruptLaunch.path ?? ptyEnv.PATH ?? "",
+						launchId: nativeInterruptLaunch.launchId,
+						cwd,
+						managedBinDirs: Object.freeze(
+							ptyEnv.JEDV_HOME_DIR ? [join(ptyEnv.JEDV_HOME_DIR, "bin")] : [],
+						),
+					}),
+				}
+			: {}),
 		terminalId,
 		workspaceId,
 		db,
@@ -3466,6 +3652,8 @@ async function createTerminalSessionUnlocked({
 		clientDims: new Map(),
 		hiddenSockets: new Map(),
 	};
+	if (!isAdopted && !adoptOnly && !record && !currentRecord)
+		onFreshCreated?.({ terminalId, workspaceId, createdAt, pid: pty.pid });
 	reclaimSession = session;
 	sessions.set(terminalId, session);
 	if (oneShotSetup) setupExitObservers.set(session, oneShotSetup);
@@ -3991,7 +4179,8 @@ export function registerWorkspaceTerminalRoute({
 					}
 
 					if (message.type === "input") {
-						onInput?.(session.terminalId, session.workspaceId);
+						if (session.onManualInput) session.onManualInput();
+						else onInput?.(session.terminalId, session.workspaceId);
 						session.pty.write(message.data);
 						return;
 					}

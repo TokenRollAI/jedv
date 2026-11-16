@@ -15,6 +15,7 @@ import {
 	isDefaultAppHomeDir,
 	resolveAppHomeDir,
 } from "@jedv/agent-setup/paths";
+import { isMacosDaemonJob, type MacosDaemonJob } from "./macos-launch.ts";
 
 export interface PtyDaemonManifest {
 	pid: number;
@@ -22,6 +23,8 @@ export interface PtyDaemonManifest {
 	protocolVersions: number[];
 	startedAt: number;
 	organizationId: string;
+	/** Optional for older direct-spawn daemons; retained across FD handoff. */
+	launchdJob?: MacosDaemonJob;
 	// ----- Phase 2 (daemon-binary upgrade fd-handoff) -----
 	// All present only during the brief handoff window. Older host-service
 	// builds that don't know these fields ignore them harmlessly.
@@ -120,6 +123,15 @@ export function readPtyDaemonManifest(
 			startedAt: data.startedAt,
 			organizationId: data.organizationId,
 		};
+		if (
+			isMacosDaemonJob(
+				data.launchdJob,
+				ptyDaemonManifestDir(organizationId),
+				process.getuid?.() ?? -1,
+			)
+		) {
+			out.launchdJob = data.launchdJob;
+		}
 		if (typeof data.handoffInProgress === "boolean") {
 			out.handoffInProgress = data.handoffInProgress;
 		}

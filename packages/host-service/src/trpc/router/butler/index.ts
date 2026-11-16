@@ -21,6 +21,8 @@ export const butlerRouter = router({
 			requestApproval: true,
 			attention: true,
 			conversationState: true,
+			toolProgress: true,
+			historyByRequest: true,
 		},
 	})),
 	state: protectedProcedure

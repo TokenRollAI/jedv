@@ -16,21 +16,37 @@ export const createPaneLayoutRouter = () => {
 		// main picked for each request.
 		onRequest: publicProcedure.subscription(({ ctx }) => {
 			return observable<PaneLayoutRendererRequest>((emit) => {
-				const webContentsId = ctx.senderWindow?.webContents.id;
-				if (webContentsId === undefined) return () => {};
+				const contents = ctx.senderWindow?.webContents;
+				const webContentsId = contents?.id;
+				if (!contents || webContentsId === undefined) return () => {};
+				const registration = paneLayoutRequests.addSubscriber(webContentsId);
 				const handler = (request: PaneLayoutRendererRequest) => {
-					if (request.targetWebContentsId === webContentsId) {
+					if (
+						request.targetWebContentsId === webContentsId &&
+						request.targetSubscriptionId === registration.subscriptionId
+					) {
 						emit.next(request);
 					}
 				};
-				paneLayoutRequests.addSubscriber(webContentsId);
 				paneLayoutRequests.on("request", handler);
-				return () => {
+				const cleanup = () => {
+					contents.removeListener("destroyed", cleanup);
 					paneLayoutRequests.off("request", handler);
-					paneLayoutRequests.removeSubscriber(webContentsId);
+					registration.unsubscribe();
 				};
+				contents.once("destroyed", cleanup);
+				return cleanup;
 			});
 		}),
+
+		bindWorkspace: publicProcedure
+			.input(z.object({ workspaceId: z.string().min(1).nullable() }))
+			.mutation(({ ctx, input }) => {
+				const id = ctx.senderWindow?.webContents.id;
+				if (id !== undefined)
+					paneLayoutRequests.setWorkspace(id, input.workspaceId);
+				return { success: true };
+			}),
 
 		respond: publicProcedure
 			.input(

@@ -9,6 +9,10 @@ import {
 	workspacePaneAreas,
 } from "../../components/JedvTerminalWorkspace/layout";
 import type { TerminalSession } from "../../types";
+import {
+	missingSavedTerminals,
+	resolveSavedTerminalSuccessors,
+} from "../useResumedTerminalPanes/restore";
 
 export interface LayoutPersistenceClient {
 	get(): Promise<JedvWorkspaceLayout | null>;
@@ -23,6 +27,7 @@ export function createLayoutPersistenceAdapter(input: {
 	store: TerminalLayoutStore;
 	client: LayoutPersistenceClient;
 	reconcile(store: TerminalLayoutStore, sessions: TerminalSession[]): void;
+	resolveResumedTerminal?(terminalId: string): Promise<string | null>;
 }) {
 	const { store, client } = input;
 	const areas = workspacePaneAreas(store);
@@ -34,6 +39,7 @@ export function createLayoutPersistenceAdapter(input: {
 	const listeners = new Set<() => void>();
 	let load: Promise<void> | null = null;
 	let loaded = false;
+	let restoring: Promise<void> | null = null;
 	let sessionsReady = false;
 	let sessions: TerminalSession[] = [];
 	let ownChange = false;
@@ -163,7 +169,7 @@ export function createLayoutPersistenceAdapter(input: {
 		}
 		queueSave();
 	}
-	function finishRestore() {
+	function applyRestore() {
 		if (!loaded || !sessionsReady || state.ready) return;
 		if (saved) {
 			const liveDetached = new Set(
@@ -235,6 +241,39 @@ export function createLayoutPersistenceAdapter(input: {
 		reconcile();
 		if (edited || saved) queueSave();
 	}
+	function finishRestore(): Promise<void> {
+		if (!loaded || !sessionsReady || state.ready) return Promise.resolve();
+		if (restoring) return restoring;
+		const resolveResumedTerminal = input.resolveResumedTerminal;
+		const missing =
+			saved && !edited ? missingSavedTerminals(saved, sessions) : [];
+		if (!saved || !resolveResumedTerminal || !missing.length) {
+			applyRestore();
+			return Promise.resolve();
+		}
+		const original = saved;
+		notify({ ready: false, status: "loading", error: null });
+		restoring = resolveSavedTerminalSuccessors({
+			layout: original,
+			missing,
+			resolveResumedTerminal,
+			getSessions: () => sessions,
+		})
+			.then((resolved) => {
+				// A late lookup never replaces a layout the user edited meanwhile.
+				if (!sessionsReady) return;
+				if (!edited) saved = resolved;
+				applyRestore();
+			})
+			.catch((error) => {
+				if (edited && sessionsReady) applyRestore();
+				else fail(error);
+			})
+			.finally(() => {
+				restoring = null;
+			});
+		return restoring;
+	}
 	let saveQueued = false;
 	const scheduleSave = () => {
 		if (ownChange || saveQueued) return;
@@ -264,10 +303,7 @@ export function createLayoutPersistenceAdapter(input: {
 	});
 
 	async function start() {
-		if (loaded) {
-			finishRestore();
-			return;
-		}
+		if (loaded) return finishRestore();
 		if (load) return load;
 		notify({ ready: false, status: "loading", error: null });
 		load = (async () => {
@@ -276,7 +312,7 @@ export function createLayoutPersistenceAdapter(input: {
 				saved = raw === null ? null : decodeWorkspaceLayout(raw);
 				lastSaved = saved === null ? null : JSON.stringify(saved);
 				loaded = true;
-				finishRestore();
+				await finishRestore();
 			} catch (error) {
 				fail(error);
 			}
@@ -303,7 +339,7 @@ export function createLayoutPersistenceAdapter(input: {
 				for (const key of known)
 					if (!live.has(key) && !attached.has(key)) known.delete(key);
 			}
-			finishRestore();
+			void finishRestore();
 			reconcile();
 		},
 		start,
@@ -313,6 +349,7 @@ export function createLayoutPersistenceAdapter(input: {
 		},
 		async retry() {
 			if (!loaded) await start();
+			else if (!state.ready) await finishRestore();
 			else {
 				queueSave();
 				await flush();

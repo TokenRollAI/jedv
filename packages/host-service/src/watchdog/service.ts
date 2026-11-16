@@ -51,6 +51,10 @@ export interface WatchdogSnapshot {
 		recipientMemberId?: string | null;
 		createdAt: number;
 		ackedAt: number | null;
+		nudgeState?: string;
+		nudgedAt?: number | null;
+		attemptCount?: number;
+		recipientReadAt?: number | null;
 	})[];
 	automationRuns: (SourceFields & {
 		id: string;
@@ -306,36 +310,135 @@ export class RuleWatchdog {
 							.run(now, fault.id);
 			}
 		}
+		// Retire the old age-only reminder policy without changing Mail read/ACK.
+		// These rows remain in handled audit history; they are not consumption proof.
+		this.deps.db
+			.prepare(
+				"UPDATE watchdog_alerts SET resolved_at=?,body=body || char(10) || char(10) || 'Routine Mail acknowledgement is handled by the recipient Agent. This reminder was retired; Mail consumption is unchanged.' WHERE kind='mail_unacked' AND resolved_at IS NULL AND dedupe_key NOT LIKE 'mail-exception:%'",
+			)
+			.run(now);
+		const membersById = new Map(
+			snapshot.members.map((member) => [member.id, member]),
+		);
 		for (const mail of snapshot.mail) {
-			const key = `mail:${mail.id}`,
-				group =
-					mail.teamId && mail.recipientMemberId
-						? `mail_unacked:${mail.teamId}:${mail.recipientMemberId}`
-						: key;
+			const member = mail.recipientMemberId
+				? membersById.get(mail.recipientMemberId)
+				: undefined;
+			const stopped =
+				member?.status === "stopped" &&
+				member.teamStatus === "active" &&
+				now - Math.max(mail.createdAt, member.lastAgentActivityAt) >=
+					(this.deps.mailAfterMs ?? 30 * 60000);
+			const unobserved =
+				mail.nudgeState === "nudged" &&
+				mail.recipientReadAt === null &&
+				mail.nudgedAt != null &&
+				now - mail.nudgedAt >= 120_000 &&
+				member?.activityKnown === true &&
+				member.lastAgentActivityAt <= mail.nudgedAt;
+			const problem = unobserved
+				? "notification_unobserved"
+				: mail.nudgeState === "failed"
+					? "failed"
+					: mail.nudgeState === "uncertain_staged"
+						? "uncertain"
+						: stopped
+							? "recipient_stopped"
+							: null;
+			const group =
+				mail.teamId && mail.recipientMemberId
+					? `mail_unacked:${mail.teamId}:${mail.recipientMemberId}`
+					: `mail:${mail.id}`;
 			const source: AttentionSourceInput = {
 				...mail,
 				kind: "mail_delivery",
 				memberId: mail.recipientMemberId,
 				mailDeliveryId: mail.id,
 			};
-			metadata(key, group, "normal", source);
-			if (mail.ackedAt !== null)
+			const prefix = `mail-exception:${mail.id}:`;
+			const recovered = [
+				...(mail.recipientReadAt != null ||
+				(mail.nudgeState !== undefined && mail.nudgeState !== "nudged") ||
+				(mail.nudgedAt != null &&
+					member?.activityKnown === true &&
+					member.lastAgentActivityAt > mail.nudgedAt)
+					? ["notification_unobserved"]
+					: []),
+				...(mail.nudgeState !== undefined && mail.nudgeState !== "failed"
+					? ["failed"]
+					: []),
+				...(mail.nudgeState !== undefined &&
+				mail.nudgeState !== "uncertain_staged"
+					? ["uncertain"]
+					: []),
+				...(member?.status !== undefined &&
+				member.teamStatus !== undefined &&
+				(member.status !== "stopped" || member.teamStatus !== "active")
+					? ["recipient_stopped"]
+					: []),
+			];
+			if (mail.ackedAt !== null) {
 				this.deps.db
 					.prepare(
-						"UPDATE watchdog_alerts SET resolved_at=? WHERE (mail_delivery_id=? OR dedupe_key=?) AND resolved_at IS NULL",
+						"UPDATE watchdog_alerts SET resolved_at=? WHERE substr(dedupe_key,1,?)=? AND resolved_at IS NULL",
 					)
-					.run(now, mail.id, key);
-			else if (now - mail.createdAt >= (this.deps.mailAfterMs ?? 5 * 60000))
-				insert(
-					key,
-					group,
-					"mail_unacked",
-					"normal",
-					"Mail awaits acknowledgement",
-					`Delivery ${mail.id} has not been acknowledged. Reading mail does not acknowledge it.`,
-					source,
-				);
+					.run(now, prefix.length, prefix);
+				continue;
+			}
+			for (const reason of recovered) {
+				const base = `${prefix}${reason}`;
+				this.deps.db
+					.prepare(
+						"UPDATE watchdog_alerts SET resolved_at=? WHERE (dedupe_key=? OR substr(dedupe_key,1,?)=?) AND resolved_at IS NULL",
+					)
+					.run(now, base, base.length + 9, `${base}:episode:`);
+			}
+			if (!problem || mail.ackedAt !== null) continue;
+			// The member fault already explains uncertain delivery; avoid a second card.
+			if (
+				problem === "uncertain" &&
+				member?.uncertainDeliveryIds?.includes(mail.id) &&
+				!["stopped", "ended"].includes(member.status ?? "") &&
+				(member.teamStatus === undefined ||
+					["active", "paused"].includes(member.teamStatus))
+			)
+				continue;
+			const base = `${prefix}${problem}`;
+			const previous = this.deps.db
+				.prepare(
+					"SELECT dedupe_key AS key,resolved_at AS resolvedAt FROM watchdog_alerts WHERE dedupe_key=? OR substr(dedupe_key,1,?)=? ORDER BY rowid DESC LIMIT 1",
+				)
+				.get(base, base.length + 9, `${base}:episode:`) as
+				| { key: string; resolvedAt: number | null }
+				| undefined;
+			const key = !previous
+				? base
+				: previous.resolvedAt === null
+					? previous.key
+					: `${base}:episode:${randomUUID()}`;
+			insert(
+				key,
+				group,
+				"mail_unacked",
+				"high",
+				problem === "notification_unobserved"
+					? "Mail notification has no Agent activity confirmation"
+					: problem === "uncertain"
+						? "Mail delivery outcome is uncertain"
+						: problem === "failed"
+							? "Mail delivery failed"
+							: "Mail recipient is no longer running",
+				problem === "notification_unobserved"
+					? "A Mail notification was submitted, but no subsequent activity was observed from this recipient. Inspect or restore the intended Agent; automatic input is withheld without a fresh safe turn boundary. Do not acknowledge on its behalf."
+					: problem === "uncertain"
+						? "The delivery may already have reached the Agent. Inspect the recipient terminal and Mail history before reconciling; automatic retry is withheld to avoid duplicate execution."
+						: problem === "failed"
+							? "Automatic delivery failed. Inspect the recipient session and delivery details, then retry only after confirming no input was staged. Do not acknowledge on the Agent's behalf."
+							: "The recipient has stopped while this Team remains active and Mail has waited at least 30 minutes. Resume the intended Agent or reassign the task; acknowledgement remains the recipient's responsibility.",
+				source,
+			);
 		}
+
 		const runs = new Map(snapshot.automationRuns.map((run) => [run.id, run]));
 		for (const run of snapshot.automationRuns) {
 			const key = `automation:${run.id}`,

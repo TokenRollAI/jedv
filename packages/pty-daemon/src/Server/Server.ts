@@ -34,6 +34,7 @@ import {
 export interface ServerOptions {
 	socketPath: string;
 	daemonVersion: string;
+	launchdGeneration?: string;
 	/** macOS trustd reachability, probed once at daemon startup; see main.ts. */
 	trustdHealthy?: boolean;
 	bufferCap?: number;
@@ -298,6 +299,9 @@ export class Server {
 					// default and a session's replay history silently shrinks on
 					// every daemon update.
 					`--buffer-bytes=${this.store.bufferCapBytes}`,
+					...(this.opts.launchdGeneration
+						? [`--launchd-generation=${this.opts.launchdGeneration}`]
+						: []),
 				],
 				{
 					stdio,
@@ -468,6 +472,7 @@ export class Server {
 				protocol: negotiated,
 				daemonVersion: this.opts.daemonVersion,
 				daemonPid: process.pid,
+				launchdGeneration: this.opts.launchdGeneration,
 				trustdHealthy: this.trustdHealthy,
 				supportsModeSnapshots: true,
 				supportsColorQueries: true,

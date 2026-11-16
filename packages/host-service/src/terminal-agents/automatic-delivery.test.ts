@@ -3,6 +3,7 @@ import { randomUUID } from "node:crypto";
 import { mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { resolveAppHomeDir } from "@jedv/agent-setup";
+import { mapEventType } from "../events/map-event-type";
 import { TerminalAgentStore } from "./store";
 import type { TerminalAgentBinding } from "./types";
 
@@ -21,13 +22,16 @@ function createStore() {
 	store.recordEvent({ ...identity, eventType: "Attached", occurredAt: 1 });
 	const expected = store.get(identity.terminalId);
 	if (!expected) throw new Error("Missing fixture binding");
-	const hook = (eventType: string, sequence: number, occurredAt = sequence) =>
+	const hook = (eventType: string, sequence: number, occurredAt = sequence) => {
+		const mapped = mapEventType(eventType);
+		if (!mapped) throw new Error("Unknown fixture hook");
 		store.recordEvent({
 			...identity,
-			eventType: eventType === "Interrupt" ? "Stop" : eventType,
+			eventType: mapped,
 			occurredAt,
 			hook: { eventType, trusted: true, sequence },
 		});
+	};
 	const idle = () => {
 		hook("Start", 1);
 		hook("Stop", 2);
@@ -36,6 +40,207 @@ function createStore() {
 }
 
 describe("automatic delivery authority", () => {
+	it("a Host-owned fresh launch may deliver after tool progress without falsely trusting agy PreInvocation as user input", () => {
+		const store = new TerminalAgentStore(undefined, {
+			readSourceSequence: () => 0,
+		});
+		const launch = { ...identity, agentId: "agy" as const };
+		expect(store.recordManagedAgentLaunch(launch)).toBe(true);
+		store.recordEvent({ ...launch, eventType: "Attached", occurredAt: 1 });
+		const binding = store.get(launch.terminalId);
+		if (!binding) throw new Error("Missing binding");
+		expect(store.getNativeInputStatus(binding)).toBe("clean");
+		store.recordEvent({
+			...launch,
+			eventType: "Start",
+			occurredAt: 2,
+			hook: { eventType: "Start", trusted: true, sequence: 1 },
+		});
+		store.recordEvent({
+			...launch,
+			eventType: "Start",
+			occurredAt: 3,
+			hook: { eventType: "PostToolUse", trusted: true, sequence: 2 },
+		});
+		store.recordEvent({
+			...launch,
+			eventType: "Stop",
+			occurredAt: 4,
+			hook: { eventType: "Stop", trusted: true, sequence: 3 },
+		});
+		expect(store.acquireAutomaticDelivery(binding)?.isValid()).toBe(true);
+		store.invalidateTerminalInput(launch.terminalId);
+		expect(store.recordManagedAgentLaunch(launch)).toBe(false);
+		store.recordEvent({
+			...launch,
+			eventType: "Start",
+			occurredAt: 5,
+			hook: { eventType: "Start", trusted: true, sequence: 4 },
+		});
+		store.recordEvent({
+			...launch,
+			eventType: "Stop",
+			occurredAt: 6,
+			hook: { eventType: "Stop", trusted: true, sequence: 5 },
+		});
+		expect(store.getNativeInputStatus(binding)).toBe("manual-input");
+		expect(store.acquireAutomaticDelivery(binding)).toBeNull();
+	});
+	it("input before the first binding revokes the Host-owned clean launch proof", () => {
+		const store = new TerminalAgentStore(undefined, {
+			readSourceSequence: () => 0,
+		});
+		const launch = { ...identity, agentId: "agy" as const };
+		store.recordManagedAgentLaunch(launch);
+		store.invalidateTerminalInput(launch.terminalId);
+		store.recordEvent({ ...launch, eventType: "Attached", occurredAt: 1 });
+		const binding = store.get(launch.terminalId);
+		if (!binding) throw new Error("Missing binding");
+		store.recordEvent({
+			...launch,
+			eventType: "Start",
+			occurredAt: 2,
+			hook: { eventType: "Start", trusted: true, sequence: 1 },
+		});
+		store.recordEvent({
+			...launch,
+			eventType: "Stop",
+			occurredAt: 3,
+			hook: { eventType: "Stop", trusted: true, sequence: 2 },
+		});
+		expect(store.getNativeInputStatus(binding)).toBe("manual-input");
+		expect(store.acquireAutomaticDelivery(binding)).toBeNull();
+	});
+	it.each([
+		"different-launch",
+		"evicted-proof",
+		"ended-proof",
+		"failed-launch",
+	])("%s cannot inherit a clean buffer from another launch", (change) => {
+		const store = new TerminalAgentStore(undefined, {
+			readSourceSequence: () => 0,
+		});
+		const launch = { ...identity, agentId: "agy" as const };
+		store.recordManagedAgentLaunch(launch);
+		if (change === "evicted-proof")
+			for (let i = 0; i < 256; i++)
+				store.recordManagedAgentLaunch({ ...launch, terminalId: `other-${i}` });
+		if (change === "ended-proof") store.markTerminalExited(launch.terminalId);
+		if (change === "failed-launch") store.forgetManagedAgentLaunch(launch);
+		const actual = {
+			...launch,
+			launchId: change === "different-launch" ? "replacement" : launch.launchId,
+		};
+		store.recordEvent({ ...actual, eventType: "Attached", occurredAt: 1 });
+		const binding = store.get(launch.terminalId);
+		if (!binding) throw new Error("Missing binding");
+		expect(store.getNativeInputStatus(binding)).toBe("unknown");
+		store.recordEvent({
+			...actual,
+			eventType: "Start",
+			occurredAt: 2,
+			hook: { eventType: "Start", trusted: true, sequence: 1 },
+		});
+		store.recordEvent({
+			...actual,
+			eventType: "Stop",
+			occurredAt: 3,
+			hook: { eventType: "Stop", trusted: true, sequence: 2 },
+		});
+		expect(store.acquireAutomaticDelivery(binding)).toBeNull();
+	});
+	it.each([
+		"agy",
+		"gemini",
+	] as const)("%s legacy per-tool Start cannot prove the input buffer is clean", (agentId) => {
+		const store = new TerminalAgentStore(undefined, {
+			readSourceSequence: () => 0,
+		});
+		const binding = {
+			...identity,
+			agentId,
+			startedAt: 1,
+			lastEventAt: 1,
+			lastEventType: "Attached",
+		};
+		store.recordEvent({ ...binding, eventType: "Attached", occurredAt: 1 });
+		store.recordEvent({
+			...binding,
+			eventType: "Start",
+			occurredAt: 2,
+			hook: { eventType: "Start", trusted: true, sequence: 1 },
+		});
+		store.invalidateAutomaticDelivery(binding);
+		store.recordEvent({
+			...binding,
+			eventType: "Start",
+			occurredAt: 3,
+			hook: { eventType: "Start", trusted: true, sequence: 2 },
+		});
+		store.recordEvent({
+			...binding,
+			eventType: "Stop",
+			occurredAt: 4,
+			hook: { eventType: "Stop", trusted: true, sequence: 3 },
+		});
+		expect(store.acquireAutomaticDelivery(binding)).toBeNull();
+	});
+	it.each([
+		"PostToolUse",
+		"PostToolUseFailure",
+		"PermissionResult",
+		"AfterTool",
+		"pre_tool",
+		"before_tool",
+	])("a hand-written draft survives fresh %s and Stop without authorizing a nudge", (toolEvent) => {
+		const { store, expected, hook } = createStore();
+		hook("Start", 1);
+		store.invalidateAutomaticDelivery(expected);
+		hook(toolEvent, 2);
+		hook("Stop", 3);
+		expect(store.getAutomaticDeliveryState(expected)).not.toBe("idle");
+		expect(store.acquireAutomaticDelivery(expected)).toBeNull();
+	});
+	it("a tool completion without a hand-written draft may complete its observed turn", () => {
+		const { store, expected, hook } = createStore();
+		hook("Start", 1);
+		hook("PostToolUse", 2);
+		hook("Stop", 3);
+		expect(store.acquireAutomaticDelivery(expected)?.isValid()).toBe(true);
+	});
+	it("a draft revokes a claimed permit and later tool progress cannot issue a replacement", () => {
+		const { store, expected, hook, idle } = createStore();
+		idle();
+		const original = store.acquireAutomaticDelivery(expected);
+		expect(original?.isValid()).toBe(true);
+		store.invalidateAutomaticDelivery(expected);
+		hook("PostToolUse", 3);
+		hook("Stop", 4);
+		expect(original?.isValid()).toBe(false);
+		expect(store.acquireAutomaticDelivery(expected)).toBeNull();
+	});
+	it("only a fresh genuine prompt submission clears a hand-written draft before later automatic delivery", () => {
+		const { store, expected, hook } = createStore();
+		hook("Start", 1);
+		store.invalidateAutomaticDelivery(expected);
+		hook("PostToolUse", 2);
+		hook("Stop", 3);
+		expect(store.acquireAutomaticDelivery(expected)).toBeNull();
+		hook("UserPromptSubmit", 4);
+		hook("PostToolUse", 5);
+		hook("Stop", 6);
+		expect(store.acquireAutomaticDelivery(expected)?.isValid()).toBe(true);
+	});
+	it("tool-only and legacy untrusted Start cannot establish a clean input buffer", () => {
+		const { store, expected, hook } = createStore();
+		hook("PostToolUse", 1);
+		hook("Stop", 2);
+		expect(store.acquireAutomaticDelivery(expected)).toBeNull();
+		store.recordEvent({ ...identity, eventType: "Start", occurredAt: 3 });
+		hook("PostToolUse", 4);
+		hook("Stop", 5);
+		expect(store.acquireAutomaticDelivery(expected)).toBeNull();
+	});
 	it("restores only the producer watermark and rejects hooks generated before host boot", () => {
 		const terminalId = randomUUID();
 		const directory = join(resolveAppHomeDir(), "state/hook-sequences");

@@ -3,6 +3,17 @@ import type { BackgroundTask } from "@jedv/chat/protocol";
 import type { AgentDefinitionId } from "@jedv/shared/agent-catalog";
 import { mapEventType } from "../events/map-event-type";
 import { matchesAgentBinding } from "./matches-agent-binding";
+import {
+	type ManagedNativeLaunch,
+	NativeInterruptGuard,
+} from "./native-interrupt";
+
+export type {
+	ManagedNativeLaunch,
+	NativeInputStatus,
+	NativeInterruptAttempt,
+} from "./native-interrupt";
+
 import { readSourceSequenceWatermark } from "./source-sequence";
 import {
 	getSubagentHarness,
@@ -158,6 +169,7 @@ export interface TerminalAgentBindingPersistence {
  * Emits `"change"` with the affected workspaceId after every mutation.
  */
 export class TerminalAgentStore extends EventEmitter {
+	private readonly nativeInterrupt: NativeInterruptGuard;
 	private readonly byTerminal = new Map<string, TerminalAgentBinding>();
 	// Never restore authority from persisted display state, including Stop.
 	private readonly automaticDelivery = new Map<
@@ -196,10 +208,22 @@ export class TerminalAgentStore extends EventEmitter {
 		this.persistence = persistence;
 		this.readSourceSequence =
 			options.readSourceSequence ?? readSourceSequenceWatermark;
+		this.nativeInterrupt = new NativeInterruptGuard({
+			binding: (terminalId) => this.get(terminalId),
+			working: (binding) =>
+				this.getAutomaticDeliveryState(binding) === "working",
+			watermark: (binding) => this.sourceWatermark(binding),
+			changed: (terminalId) => this.emit("native-interrupt", terminalId),
+		});
 
 		for (const binding of persistence?.load() ?? []) {
 			const source = this.sourceWatermark(binding);
 			this.byTerminal.set(binding.terminalId, binding);
+			this.nativeInterrupt.restore(
+				binding,
+				Math.max(binding.deliverySequence ?? 0, source ?? 0),
+				source === null,
+			);
 			this.automaticDelivery.set(binding.terminalId, {
 				binding,
 				state: "unknown",
@@ -307,6 +331,7 @@ export class TerminalAgentStore extends EventEmitter {
 		};
 
 		this.byTerminal.set(terminalId, next);
+		this.nativeInterrupt.observe(next, input);
 		this.observeAutomaticDelivery(
 			next,
 			input,
@@ -342,10 +367,6 @@ export class TerminalAgentStore extends EventEmitter {
 						: previousSequence,
 			});
 		};
-		if (input.hook?.eventType === "Interrupt") {
-			setState("interrupted");
-			return;
-		}
 		if (
 			!input.hook?.trusted ||
 			mapEventType(input.hook.eventType) !== input.eventType ||
@@ -376,6 +397,10 @@ export class TerminalAgentStore extends EventEmitter {
 			return;
 		}
 		const fresh = sequence > previousSequence;
+		if (input.hook.eventType === "Interrupt") {
+			if (fresh) setState("interrupted");
+			return;
+		}
 		if (input.eventType === "Start" && fresh) {
 			setState("working");
 		} else if (input.eventType === "Stop") {
@@ -657,11 +682,20 @@ export class TerminalAgentStore extends EventEmitter {
 		expected: TerminalAgentBinding,
 	): AutomaticDeliveryState {
 		const observation = this.automaticDelivery.get(expected.terminalId);
-		return observation &&
-			matchesAgentBinding(this.get(expected.terminalId), expected) &&
-			matchesAgentBinding(observation.binding, expected)
-			? observation.state
-			: "unknown";
+		if (
+			!observation ||
+			!matchesAgentBinding(this.get(expected.terminalId), expected) ||
+			!matchesAgentBinding(observation.binding, expected)
+		)
+			return "unknown";
+		// A fresh tool completion can restore the working indicator while the
+		// user's unsent text is still in the TUI. Stop must not submit that draft.
+		if (
+			(observation.state === "idle" || observation.state === "reserved") &&
+			!this.nativeInterrupt.inputIsClean(expected)
+		)
+			return "unknown";
+		return observation.state;
 	}
 
 	private revokeAutomaticDelivery(
@@ -681,8 +715,8 @@ export class TerminalAgentStore extends EventEmitter {
 		};
 		// Revoke even an already-claimed permit before performing local IO.
 		this.automaticDelivery.set(binding.terminalId, observation);
+		const watermark = this.nativeInterrupt.manualInput(binding);
 		this.emit("manual-input", binding.terminalId);
-		const watermark = this.sourceWatermark(binding);
 		if (watermark !== null) {
 			observation.sequence = Math.max(sequence, watermark);
 			observation.barrierPending = false;
@@ -705,6 +739,23 @@ export class TerminalAgentStore extends EventEmitter {
 			"unknown",
 		);
 	}
+	prepareNativeInterrupt(expected: TerminalAgentBinding) {
+		return this.nativeInterrupt.prepare(expected);
+	}
+	recordManagedAgentLaunch(launch: ManagedNativeLaunch): boolean {
+		return this.nativeInterrupt.registerManagedLaunch(launch);
+	}
+	forgetManagedAgentLaunch(launch: ManagedNativeLaunch): void {
+		this.nativeInterrupt.forgetManagedLaunch(launch);
+	}
+	invalidateTerminalInput(terminalId: string): void {
+		this.nativeInterrupt.terminalInput(terminalId);
+		const binding = this.get(terminalId);
+		if (binding) this.invalidateAutomaticDelivery(binding);
+	}
+	getNativeInputStatus(expected: TerminalAgentBinding) {
+		return this.nativeInterrupt.inputStatus(expected);
+	}
 
 	/**
 	 * Claim once at the send queue head. A failed/uncertain write does not
@@ -726,6 +777,7 @@ export class TerminalAgentStore extends EventEmitter {
 		return {
 			isValid: () =>
 				this.automaticDelivery.get(expected.terminalId) === observation &&
+				this.nativeInterrupt.inputIsClean(expected) &&
 				matchesAgentBinding(this.get(expected.terminalId), expected),
 		};
 	}
@@ -878,6 +930,7 @@ export class TerminalAgentStore extends EventEmitter {
 	): void {
 		const existing = this.byTerminal.get(terminalId);
 		this.byTerminal.delete(terminalId);
+		this.nativeInterrupt.end(terminalId);
 		this.automaticDelivery.delete(terminalId);
 		this.subagentsByTerminal.delete(terminalId);
 

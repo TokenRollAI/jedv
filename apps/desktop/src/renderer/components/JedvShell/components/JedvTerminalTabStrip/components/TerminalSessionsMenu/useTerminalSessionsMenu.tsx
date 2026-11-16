@@ -150,7 +150,6 @@ export function useTerminalSessionsMenu(
 						workspaceId: sessionPicker.workspaceId,
 					})
 				: Promise.resolve({ sessions: props.sessions }),
-		initialData: sessionPicker ? { sessions: props.sessions } : undefined,
 		enabled: open && !!sessionPicker,
 		refetchInterval: open && sessionPicker ? 2000 : false,
 		retry: false,

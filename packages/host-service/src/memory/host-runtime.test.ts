@@ -4,13 +4,54 @@ import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { runMigrations } from "@jedv/shared/sqlite-migrations";
+import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/bun-sqlite";
 import { LocalAutomations } from "../automations/automations";
 import type { HostDb } from "../db";
 import * as schema from "../db/schema";
+import { mailFixture } from "../mail/test-fixture";
 import { TerminalAgentStore } from "../terminal-agents/store";
 import type { HostServiceContext } from "../types";
-import { createHostMemoryRuntime } from "./host-runtime";
+import {
+	createHostMemoryRuntime,
+	readHostWatchdogSnapshot,
+} from "./host-runtime";
+
+test("watchdog snapshots distinguish recipient consumption from human inspection and preserve notification attempts", async () => {
+	const f = mailFixture();
+	try {
+		const sent = f.send("watchdog-receipt");
+		const id = sent.deliveries[0]?.id;
+		if (!id) throw new Error("Missing delivery");
+		f.db
+			.update(schema.mailDeliveries)
+			.set({
+				nudgeState: "nudged",
+				nudgedAt: 123,
+				attemptCount: 2,
+				readAt: 456,
+			})
+			.where(eq(schema.mailDeliveries.id, id))
+			.run();
+		const snapshot = () =>
+			readHostWatchdogSnapshot(f.ctx, new Map()).mail.find(
+				(row) => row.id === id,
+			);
+		expect(snapshot()).toMatchObject({
+			nudgeState: "nudged",
+			nudgedAt: 123,
+			attemptCount: 2,
+			recipientReadAt: null,
+		});
+		f.mail.consume({ teamId: f.teamId, deliveryId: id }, false);
+		expect(snapshot()?.recipientReadAt).toBeNull();
+		const received = f.mail.consume({ actor: f.actor, deliveryId: id }, false);
+		expect(snapshot()?.recipientReadAt).toBe(received.delivery.receipt?.readAt);
+		expect(snapshot()?.recipientReadAt).not.toBe(456);
+	} finally {
+		await f.dispose();
+	}
+});
 
 test("real Team/Mail/Automation state drives informational alerts, Git activity suppresses long-task suspicion", async () => {
 	const root = mkdtempSync(join(tmpdir(), "jedv-watchdog-host-")),
@@ -119,7 +160,8 @@ test("real Team/Mail/Automation state drives informational alerts, Git activity 
 				id: "d",
 				eventId: "e",
 				recipientMemberId: "m",
-				nudgeState: "not_applicable",
+				nudgeState: "failed",
+				attemptCount: 2,
 				readAt: 2,
 				createdAt: 1,
 			})

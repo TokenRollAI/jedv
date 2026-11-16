@@ -1,6 +1,12 @@
 import { Database } from "bun:sqlite";
-import { afterEach, beforeEach, describe, expect, it } from "bun:test";
-import { mkdirSync, mkdtempSync, realpathSync, rmSync } from "node:fs";
+import { afterEach, beforeEach, describe, expect, it, spyOn } from "bun:test";
+import {
+	mkdirSync,
+	mkdtempSync,
+	realpathSync,
+	rmSync,
+	writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { claudeProjectDirName } from "@jedv/agent-setup/claude-project-links";
@@ -24,6 +30,8 @@ import {
 	chatContinuationTarget,
 	chatLaunchTarget,
 	continuationTarget,
+	getAgentLaunchStatus,
+	runTerminalAgent,
 	validateAgentEffortSelection,
 	validateAgentForkSelection,
 	validateAgentLaunchOptions,
@@ -1322,5 +1330,389 @@ describe("attachments handed to an agent launch", () => {
 		expect(
 			readAttachmentMetadata(metadata.attachmentId)?.lastUsedAt,
 		).toBeGreaterThan(0);
+	});
+});
+
+describe("Kimi prompt compatibility", () => {
+	const config = {
+		...argvConfig,
+		presetId: "kimi",
+		command: "kimi",
+		args: ["--yolo", "--config", "custom.toml"],
+		promptArgs: ["-p"],
+	};
+	it("removes incompatible prompt approval flags without mutating stored config", () => {
+		expect(buildAgentCommandString(config, "go")).toBe(
+			"kimi --config custom.toml -p go",
+		);
+		expect(config.args).toEqual(["--yolo", "--config", "custom.toml"]);
+		expect(
+			buildAgentCommandString(
+				{ ...config, args: ["-y"], promptArgs: ["--prompt"] },
+				"go",
+			),
+		).toBe("kimi --prompt go");
+	});
+	it("preserves interactive, custom wrapper and custom prompt transport semantics", () => {
+		expect(buildAgentCommandString(config, "")).toBe(
+			"kimi --yolo --config custom.toml",
+		);
+		expect(
+			buildAgentCommandString({ ...config, command: "my-kimi" }, "go"),
+		).toBe("my-kimi --yolo --config custom.toml -p go");
+		expect(
+			buildAgentCommandString({ ...config, promptArgs: ["--custom"] }, "go"),
+		).toBe("kimi --yolo --config custom.toml --custom go");
+	});
+	it("allows Carbon and newer agy models while keeping other preset validation", () => {
+		const agy = { ...argvConfig, presetId: "agy", command: "agy" };
+		for (const model of ["gemini-4-carbon-high", "future/account-model-v2"])
+			expect(() =>
+				validateAgentModelSelection(agy.presetId, agy.label, model),
+			).not.toThrow();
+		expect(() =>
+			validateAgentEffortSelection(
+				agy.presetId,
+				agy.label,
+				"high",
+				"gemini-4-carbon-low",
+			),
+		).not.toThrow();
+		expect(() =>
+			validateAgentModelSelection(agy.presetId, agy.label, "--help"),
+		).toThrow();
+	});
+});
+
+describe("launch evidence query", () => {
+	let home: string;
+	let previous: string | undefined;
+	const input = {
+		workspaceId: "workspace",
+		sessionId: "terminal",
+		runId: "run",
+	};
+	beforeEach(() => {
+		previous = process.env.JEDV_HOME_DIR;
+		home = mkdtempSync(join(tmpdir(), "jedv-launch-status-"));
+		process.env.JEDV_HOME_DIR = home;
+		mkdirSync(join(home, "state/agent-launches"), { recursive: true });
+	});
+	afterEach(() => {
+		if (previous === undefined) delete process.env.JEDV_HOME_DIR;
+		else process.env.JEDV_HOME_DIR = previous;
+		rmSync(home, { recursive: true, force: true });
+	});
+	function fixture() {
+		const db = createTestDb();
+		db.insert(schema.terminalSessions)
+			.values({ id: "terminal", originWorkspaceId: "workspace" })
+			.run();
+		return { db, terminalAgentStore: new TerminalAgentStore() };
+	}
+	function evidence(exitCode?: number) {
+		writeFileSync(
+			join(home, "state/agent-launches/terminal.json"),
+			JSON.stringify({ runId: "run", launchId: "launch", exitCode }),
+		);
+	}
+	it("does not infer readiness from PTY, wrapper start, stale run or another workspace", () => {
+		const ctx = fixture();
+		expect(getAgentLaunchStatus(ctx, input)).toEqual({ state: "unknown" });
+		evidence();
+		expect(getAgentLaunchStatus(ctx, input)).toEqual({ state: "starting" });
+		expect(getAgentLaunchStatus(ctx, { ...input, runId: "old" })).toEqual({
+			state: "unknown",
+		});
+		expect(
+			getAgentLaunchStatus(ctx, { ...input, workspaceId: "other" }),
+		).toEqual({ state: "unknown" });
+	});
+	it.each([
+		0, 2, 127,
+	])("reports exit %s even if terminal shell remains active", (exitCode) => {
+		const ctx = fixture();
+		evidence(exitCode);
+		expect(getAgentLaunchStatus(ctx, input)).toEqual({
+			state: exitCode ? "failed" : "exited",
+			exitCode,
+		});
+	});
+	it("requires matching trusted lifecycle evidence for active", () => {
+		const ctx = fixture();
+		evidence();
+		ctx.terminalAgentStore.recordEvent({
+			terminalId: "terminal",
+			workspaceId: "workspace",
+			launchId: "launch",
+			agentId: "kimi",
+			eventType: "Attached",
+			occurredAt: 1,
+		});
+		expect(getAgentLaunchStatus(ctx, input)).toEqual({ state: "starting" });
+		ctx.terminalAgentStore.recordEvent({
+			terminalId: "terminal",
+			workspaceId: "workspace",
+			launchId: "launch",
+			agentId: "kimi",
+			eventType: "Start",
+			occurredAt: 2,
+			hook: { eventType: "UserPromptSubmit", trusted: true, sequence: 1 },
+		});
+		expect(getAgentLaunchStatus(ctx, input)).toEqual({ state: "active" });
+		evidence(2);
+		expect(getAgentLaunchStatus(ctx, input)).toEqual({
+			state: "failed",
+			exitCode: 2,
+		});
+	});
+});
+
+describe("managed native launch wiring", () => {
+	const workspaceId = "fresh-workspace";
+	const terminalId = "fresh-terminal";
+	const configId = "native-config";
+	function fixture(presetId = "codex", env: Record<string, string> = {}) {
+		const db = createTestDb();
+		db.insert(schema.hostAgentConfigs)
+			.values({
+				id: configId,
+				presetId,
+				label: presetId,
+				command: presetId,
+				argsJson: "[]",
+				promptTransport: "argv",
+				promptArgsJson: "[]",
+				resumeArgsJson: '["resume"]',
+				forkArgsJson: "[]",
+				envJson: JSON.stringify(env),
+				displayOrder: 0,
+			})
+			.run();
+		return {
+			db,
+			terminalAgentStore: new TerminalAgentStore(undefined, {
+				readSourceSequence: () => 0,
+			}),
+			eventBus: {} as Parameters<typeof runTerminalAgent>[0]["eventBus"],
+		};
+	}
+	const input = { workspaceId, agent: configId, prompt: "go" };
+	function attach(ctx: ReturnType<typeof fixture>, launchId: string) {
+		ctx.terminalAgentStore.recordEvent({
+			terminalId,
+			workspaceId,
+			agentId: "codex",
+			launchId,
+			agentSessionId: "provider-session",
+			eventType: "Attached",
+			occurredAt: 1,
+		});
+		const binding = ctx.terminalAgentStore.get(terminalId);
+		if (!binding) throw new Error("Missing fixture binding");
+		return binding;
+	}
+	it("captures only command, effective PATH and explicit Codex launchId", () => {
+		const ctx = fixture("codex", {
+			PATH: "/saved/config",
+			API_SECRET: "secret",
+		});
+		const launch = buildTerminalAgentLaunch(ctx.db, {
+			...input,
+			launchEnv: {
+				JEDV_AGENT_LAUNCH_ID: "launch",
+				PATH: "/launch/override",
+				OTHER_SECRET: "other",
+			},
+		});
+		expect(launch.nativeInterruptLaunch).toEqual({
+			command: "codex",
+			path: "/launch/override",
+			launchId: "launch",
+		});
+		expect(launch.fullCommand).toContain("PATH='/launch/override'");
+		expect(
+			buildTerminalAgentLaunch(ctx.db, {
+				...input,
+				launchEnv: { JEDV_AGENT_LAUNCH_ID: "launch" },
+			}).nativeInterruptLaunch?.path,
+		).toBe("/saved/config");
+		expect(
+			buildTerminalAgentLaunch(ctx.db, input).nativeInterruptLaunch,
+		).toBeUndefined();
+		const noPath = fixture();
+		expect(
+			buildTerminalAgentLaunch(noPath.db, {
+				...input,
+				launchEnv: { JEDV_AGENT_LAUNCH_ID: "launch" },
+			}).nativeInterruptLaunch,
+		).toEqual({ command: "codex", launchId: "launch" });
+		expect(
+			buildTerminalAgentLaunch(fixture("kimi").db, {
+				...input,
+				launchEnv: { JEDV_AGENT_LAUNCH_ID: "launch" },
+			}).nativeInterruptLaunch,
+		).toBeUndefined();
+	});
+	it("registers no clean state before fresh proof and keeps Host launch identity in argv", async () => {
+		const ctx = fixture();
+		const record = spyOn(ctx.terminalAgentStore, "recordManagedAgentLaunch");
+		try {
+			await runTerminalAgent(ctx, input, terminalId, async (options) => {
+				expect(record).not.toHaveBeenCalled();
+				const id = options.nativeInterruptLaunch?.launchId;
+				expect(id).toMatch(/^[a-f0-9-]{36}$/);
+				expect(options.initialCommand).toContain(
+					`JEDV_AGENT_LAUNCH_ID='${id}'`,
+				);
+				expect(options.initialCommand).toContain("JEDV_AGENT_ID='codex'");
+				options.onFreshCreated?.({
+					terminalId,
+					workspaceId,
+					createdAt: 1,
+					pid: 123,
+				});
+				expect(record).toHaveBeenCalledTimes(1);
+				const binding = attach(ctx, id ?? "missing");
+				expect(ctx.terminalAgentStore.getNativeInputStatus(binding)).toBe(
+					"clean",
+				);
+				options.onManualInput?.(terminalId);
+				expect(ctx.terminalAgentStore.getNativeInputStatus(binding)).toBe(
+					"manual-input",
+				);
+				return { terminalId };
+			});
+		} finally {
+			record.mockRestore();
+		}
+	});
+	it("manual input before binding dirties the pending fresh launch", async () => {
+		const ctx = fixture();
+		let id = "";
+		await runTerminalAgent(ctx, input, terminalId, async (options) => {
+			id = options.nativeInterruptLaunch?.launchId ?? "missing";
+			options.onFreshCreated?.({
+				terminalId,
+				workspaceId,
+				createdAt: 1,
+				pid: 123,
+			});
+			options.onManualInput?.(terminalId);
+			return { terminalId };
+		});
+		expect(ctx.terminalAgentStore.getNativeInputStatus(attach(ctx, id))).toBe(
+			"manual-input",
+		);
+	});
+	it("existing/adopted sessions and mismatched fresh proof never become clean", async () => {
+		for (const wrongProof of [false, true]) {
+			const ctx = fixture();
+			let id = "";
+			await runTerminalAgent(ctx, input, terminalId, async (options) => {
+				id = options.nativeInterruptLaunch?.launchId ?? "missing";
+				if (wrongProof)
+					options.onFreshCreated?.({
+						terminalId,
+						workspaceId: "other-workspace",
+						createdAt: 1,
+						pid: 123,
+					});
+				return { terminalId };
+			});
+			expect(ctx.terminalAgentStore.getNativeInputStatus(attach(ctx, id))).toBe(
+				"unknown",
+			);
+		}
+	});
+	it.each([
+		"throw",
+		"error-result",
+	])("forgets only this newly registered identity on %s", async (failure) => {
+		const ctx = fixture();
+		let id = "";
+		await expect(
+			runTerminalAgent(ctx, input, terminalId, async (options) => {
+				id = options.nativeInterruptLaunch?.launchId ?? "missing";
+				options.onFreshCreated?.({
+					terminalId,
+					workspaceId,
+					createdAt: 1,
+					pid: 123,
+				});
+				if (failure === "throw") throw new Error("fixture launch failed");
+				return {
+					kind: "TERMINAL_START_FAILED",
+					error: "fixture launch failed",
+				};
+			}),
+		).rejects.toThrow("fixture launch failed");
+		expect(ctx.terminalAgentStore.getNativeInputStatus(attach(ctx, id))).toBe(
+			"unknown",
+		);
+	});
+	it("failure cleanup cannot forget a replacement launch", async () => {
+		const ctx = fixture();
+		await expect(
+			runTerminalAgent(ctx, input, terminalId, async (options) => {
+				const launchId = options.nativeInterruptLaunch?.launchId ?? "missing";
+				options.onFreshCreated?.({
+					terminalId,
+					workspaceId,
+					createdAt: 1,
+					pid: 123,
+				});
+				ctx.terminalAgentStore.forgetManagedAgentLaunch({
+					terminalId,
+					workspaceId,
+					agentId: "codex",
+					launchId,
+				});
+				ctx.terminalAgentStore.recordManagedAgentLaunch({
+					terminalId,
+					workspaceId,
+					agentId: "codex",
+					launchId: "replacement",
+				});
+				throw new Error("fixture failed late");
+			}),
+		).rejects.toThrow("fixture failed late");
+		expect(
+			ctx.terminalAgentStore.getNativeInputStatus(attach(ctx, "replacement")),
+		).toBe("clean");
+	});
+	it("resumed Attached evidence retains the preallocated launchId", async () => {
+		const ctx = fixture();
+		let id = "";
+		await runTerminalAgent(
+			ctx,
+			{ ...input, prompt: "", resumeSessionId: "existing-provider-session" },
+			terminalId,
+			async (options) => {
+				id = options.nativeInterruptLaunch?.launchId ?? "missing";
+				options.onFreshCreated?.({
+					terminalId,
+					workspaceId,
+					createdAt: 1,
+					pid: 123,
+				});
+				return { terminalId };
+			},
+		);
+		const binding = ctx.terminalAgentStore.get(terminalId);
+		expect(binding).toMatchObject({
+			launchId: id,
+			agentSessionId: "existing-provider-session",
+		});
+		if (!binding) throw new Error("Missing binding");
+		expect(ctx.terminalAgentStore.getNativeInputStatus(binding)).toBe("clean");
+	});
+	it("unknown custom agents receive no clean-launch callback or native snapshot", async () => {
+		const ctx = fixture("custom");
+		await runTerminalAgent(ctx, input, terminalId, async (options) => {
+			expect(options.onFreshCreated).toBeUndefined();
+			expect(options.nativeInterruptLaunch).toBeUndefined();
+			return { terminalId };
+		});
 	});
 });

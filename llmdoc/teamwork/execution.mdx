@@ -1,5 +1,5 @@
 ---
-description: "Team start/init/spawn 与 Mail 的本地 Host 契约：终端身份、operationId/dedupe、recover CAS、read/ACK、logicalHostId 断线草稿和自动投递许可。"
+description: "Team 成员不能递归建队、同会话恢复链与 Mail 本人收件闭环：区分通知、阅读回执 receipt、ACK 与任务完成；有界重提醒、未知结果不重放和人类诊断边界。"
 kind: architecture
 code:
   paths:
@@ -12,6 +12,8 @@ code:
     - packages/host-service/src/teams/runtime.ts
     - packages/host-service/src/trpc/router/team/index.ts
     - packages/host-service/src/mail/service.ts
+    - packages/host-service/src/mail/policy.ts
+    - packages/host-service/src/mail/wake-batch.ts
     - packages/host-service/src/http/errors.ts
     - packages/host-service/src/http/openapi.ts
     - packages/host-service/src/http/contracts.test.ts
@@ -29,6 +31,10 @@ code:
     - apps/desktop/src/renderer/components/JedvShell/components/CreateTeamView/components/TeamTaskComposer/TeamTaskComposer.tsx
     - apps/desktop/src/renderer/components/JedvShell/components/JedvTeamworkView/components/TeamDetail/TeamDetail.tsx
     - apps/desktop/src/renderer/components/JedvShell/components/JedvTeamworkView/components/TeamMailTimeline/TeamMailTimeline.tsx
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvTeamworkView/components/TeamMailTimeline/mail-visibility.ts
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvTeamworkView/components/TeamMailTimeline/components/TeamMailRow/TeamMailRow.tsx
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvTeamworkView/components/TeamMailTimeline/components/TeamProgressRow/TeamProgressRow.tsx
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvTeamworkView/components/TeamGoal/TeamGoal.tsx
 relations:
   requires:
     - terminals/session-lifecycle.mdx
@@ -46,6 +52,8 @@ Host 拥有 Team、member、workspace/terminal 绑定和 Mail 持久记录；桌
 
 显式新 Task 使用 `team.start`：调用方先确认 Host `features.start`，Host 校验可用 workspace 和 Agent launch 配置后，先持久化 Team/Leader 及 planned terminal/launch 身份，再创建原生终端。它不要求 Git 元数据，普通 folder workspace 也可运行；只有新建 worktree 才进入 Git capability 与项目分支流程。不要用 `agents create` 串接 `team.init`，或让裸 Agent 自行 init 来冒充这一原子边界。
 
+原生调用方先查当前 membership，再决定是否建队。CLI 将 caller workspace/terminal/launch 与目标 workspace 分开传入，原生成员调用要求 `startCaller` capability；Host 在新资源分配前拒绝仍属于 active/paused Team 的未结束成员再次 start。原任务文字包含“创建 Team”不授权每一层重复创建。显式人类新任务保持可用；这是默认协作防护，不是新的账户安全边界，旧客户端缺 actor 不获得同样保证。
+
 `team.init` 只提升仍有真实 launch/agent session 证据的当前 native terminal，不替换或重启 Leader。start/spawn 等待真实 setup 与终端创建证据，不等于任务语义完成；成员身份漂移或 session 被替换进入 `reconcile_required`，不能另开资源掩盖。
 
 只有 `targetWorkspace.projectId === null` 的 Host session workspace 才会在 Leader/Worker 启动时预置 Agent folder trust；导入的已有 folder Project 即使没有 `.git` 也不自动获得信任写入。
@@ -56,16 +64,30 @@ start/spawn 都保存 operationId、规范化请求指纹和 planned 资源。�
 
 Host 恢复只重新附着 workspace、planned terminal 和实际 Agent 存活均匹配的既有资源；证据不足保留 `reconcile_required`，不重放终端或 worktree 创建。Git worktree 注册证据通过有界 worker task 在 Host 主事件循环外读取，超时或不可用只降级为注册证据不足，不能阻塞恢复循环或据此创建资源。liveness 与 Git 两条分支都在事务内重新比较 Team/member、完整 workspace/terminal rows 和 binding 身份，并以原 status/endedAt CAS 提交；stop/archive、正在 stop、session 替换或资源行变化都会使过期探测失效。adoption 保留既有 terminal createdAt；CAS 比较 id/originWorkspaceId/createdAt/status/endedAt/disposeRequestedAt，但不把 attach/rename 的 customTitle、lastAttachedAt 展示变化误判为终端替换。只有确定失败并明确开始新 attempt 才更换 operationId。
 
+已绑定成员失去 live binding 时不能仍报告 active/bound。成功的同会话恢复可沿持久旧 binding `endReason=resumed`/`resumedIntoTerminalId` 跟随新 terminal：旧成员身份、新旧 workspace/agent/config/native session、新 terminal 生命周期与实际存活都须一致，await 后事务重读并 CAS。它保留 member ID 和 Mail recipient，不创造 PTY，也不授予输入许可。仅用 `agents create --resume-session` 新开终端没有这条 provenance，不能据此改绑；stop/archive 或身份漂移仍拒绝跟随。
+
 ## Mail 持久化与终端注入分离
 
-Mail event 与每个 recipient 的 delivery 分开持久化。dedupe key 与来源及请求指纹共同防止重复事件，同 key 不同内容必须冲突。`read` 只写 readAt，`ack` 是处理后的独立确认；两者都不证明对应任务已经验收。成员状态中的未 ACK 计数来自 Host delivery 记录，不应由桌面最近一页 timeline 估算。
+Mail event 与每个 recipient 的 delivery 分开持久化。dedupe key 与来源及请求指纹共同防止重复事件，同 key 不同内容必须冲突。默认 queue 且要求 ACK，显式默认值保持旧请求指纹兼容；policy metadata 由 Host 保留，不接受正文 payload 冒充。投递、读取、ACK 与任务验收是不同事实，`nudged` 只证明固定提醒的终端提交结果，不证明正文已进入模型上下文。
+
+回信的 wake batch 因果归属依据持久成功通知记录，而非可变的 nudgeState。记录在既有 event payload 中按 delivery/批次保存，与通知成功结算同事务提交；本人 read/ACK 不撤销该归属，后续重提醒也不覆盖旧成功批次。新批次仅被认领、失败或结果不确定时，不能借旧 nudgedAt 冒充成功。legacy 只兼容已有正向通知时间、无 inflight 且已结算的证据，并在替换尝试前冻结，不能补造旧回执。回信仍核对同 Team、同 recipient 与精确成功批次，隐式继承还需当前 binding 匹配；这条因果关联只传递上下文和 hop，不授予输入或中断权限。
+
+只有当前 recipient actor 的正式 read 才建立本人阅读回执（receipt），并绑定到 member/launch 和有效期；inbox 预览、timeline 和人类诊断读取不消费邮件。ACK 要求同一当前绑定先正式 read，过期需重读；人类不能代 ACK。ACK 表示接单、拒绝或处理决定已记录，不代表任务完成，结果应另行回复。无需 ACK 的邮件在本人读取后派生关闭，不伪造 ackedAt。旧 read/ACK 保留为 legacy 事实，不补造其接收方证明；未读/未 ACK 计数从持久 policy/receipt 推导，而非最近一页 UI。
 
 自动 nudge 还要求 Team/member active、当前绑定可信以及 Host 内存中的 automatic-delivery idle permit。终端展示 Stop、Mail pending 或历史 idle 文本都不构成许可；permit 的 Start/Stop 区间、人工输入撤销和写入前复核由 `terminals/session-lifecycle` 强制。
 
 delivery 以 inflight token 和 wake batch 串行认领，自动投递受 hop/rate budget 限制。写入结果若为 `inputStaged`，或 Host 重启时仍有 inflight，状态是 `uncertain_staged`：文本可能已部分进入 PTY，必须检查终端并对账，不能自动重投。暂停只停自动 nudge，保留终端和手动 Mail；停止、归档又是不同生命周期操作。
 
+通知批次有界且与 CLI 分页相容。接收者须在启动、nudge 和结束 turn 前用 cursor drain 到空页，逐封正式 read、记录处置并按 policy ACK；watch 不替代这条流程。未读取的已通知 delivery 只可在新的可信 idle 机会有界重提醒固定通知，不能重放正文或业务动作；多次通知后仍不读进入可解释的失败。相同 member 经可信恢复重新获得绑定后，queue 的 not_applicable 可重新等待；已取消或不确定的 interrupt 不借恢复自动重放。managed skill 是消费者协议，不能把模型可能遵守的文字当成已证明的自治执行保证。
+
+共享提醒 timer 必须保留每条未读通知各自的未来到期时间；较早邮件先触发不能吞掉后发邮件的 deadline。pump 结束及服务恢复后，从持久状态重算最早仍需检查的期限；已到期但暂不安全时有界延后，无候选时取消 timer，不能零延时忙转。计时器只唤醒检查，不替代可信 idle、草稿保护、通知次数与 backoff 限制，也不因到期就重放正文或伪造 read/ACK。
+
+interrupt 与 queue 是不同意图，不静默降级；只允许明确人类动作针对一个本地成员，普通 member 发起仍拒绝，默认保持 queue。客户端分别探测投递模式与安全中断 capability；当前 mailInterrupt 仅在 Darwin arm64 声明可用，其他平台为 false。这只是已验证适配器的声明，每个目标仍须通过 Codex 原 launch/native executable/前台身份、可信 busy、clean draft 与取消确认；不能因平台 capability 或 Host 接受字段就跳过检查、宣称任意 provider 可用。取消确认后只发送固定 Mail nudge，收件人仍须本人 read/ACK，结果另发回信；取消观察和输入原语由终端 owner 约束。
+
 整队 stop 先 pause 并 fence 自动投递与 recover，再逐个确认 daemon close。false/throw 保留失败 Worker 的 binding、failed 证据和 endedAt=null，其余 Worker 继续停止，但整队保持 paused/stoppedAt=null 且拒绝 archive；只有全部确认成功才进入 stopped。失败向调用方传播，因此 Butler 审批记 failed 而不重放，显式 stop 重试可完成；Leader PTY 始终保留。
 
 桌面以 logicalHostId 区分本地 Host 与不同私网 origin，endpoint/client/provider 重挂不另造 Host 身份。Team Mail 使用 renderer 内存 store 按 `[logicalHostId, teamId]` 保存原文、收件人、dedupe/request 和 pending：最多 32 个 scope，非 pending 闲置 24 小时清理，pending 不因 TTL 失去请求身份；成功或手清回收空项，权威在线 all-Team 列表中的删除/归档立即清理，初始加载/失败不当作删除证据。旧回调不复活已清理条目，重连只恢复原文与 Send，不自动重放；未发送正文不写 localStorage/SQLite。已打开确认框也必须在 mutation 入口重新检查可用性。
+
+人类主视图展示短目标、成员状态、报告和需要决策的异常；完整执行 prompt、原始 Mail 和投递审计按需展开。Agent 的 DONE 报告仍只是报告，隐藏技术消息不产生 read/ACK，也不把正常内部积压变成人类逐封代办。
 
 源码锚点：`teams/service.ts`（身份、启动与恢复）、`mail/service.ts`（持久事件与自动投递）、`shared/teamwork.ts`（跨 CLI/Host 的输入与 capability 契约）、`http/openapi.ts`（GET schema 与 method 合并）。

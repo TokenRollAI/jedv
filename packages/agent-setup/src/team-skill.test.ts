@@ -25,7 +25,10 @@ test("the Team skill is installed idempotently without a marketplace and preserv
 	writeFileSync(owned, "My own skill");
 	provisionBuiltinTeamSkill({ homeDir });
 	const target = path.join(homeDir, ".agents/skills/jedv-team/SKILL.md");
-	expect(readFileSync(target, "utf8")).toContain("jedv mail ack");
+	const skill = readFileSync(target, "utf8");
+	expect(skill).toContain("jedv mail ack");
+	expect(skill).toContain("jedv team status --json");
+	expect(skill).toContain("Never repeat start/init at each delegation level");
 	const time = statSync(target).mtimeMs;
 	provisionBuiltinTeamSkill({ homeDir });
 	expect(statSync(target).mtimeMs).toBe(time);

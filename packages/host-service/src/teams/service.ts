@@ -6,16 +6,19 @@ import {
 	teamStartSchema,
 } from "@jedv/shared/teamwork";
 import { TRPCError } from "@trpc/server";
-import { and, eq, inArray, isNull, or } from "drizzle-orm";
+import { and, eq, inArray, isNull, ne, or } from "drizzle-orm";
 import type { z } from "zod";
 import {
 	mailDeliveries,
+	mailEvents,
 	projects,
 	teamMembers,
 	teams,
+	terminalAgentBindings,
 	terminalSessions,
 	workspaces,
 } from "../db/schema";
+import { mailPolicy, mailReceipt } from "../mail/policy";
 import { requireGitCapability } from "../projects/vcs-capabilities";
 import { createGitEnvResolver } from "../runtime/git/git";
 import {
@@ -108,6 +111,13 @@ export class TeamService extends EventEmitter {
 			(event) => {
 				if (event.eventType === "exit")
 					ctx.terminalAgentStore.markTerminalExited(event.terminalId);
+				else if (event.eventType === "resumed")
+					void this.followResumedTerminal(event.terminalId).catch((error) => {
+						console.warn(
+							"[team] could not follow resumed Agent session",
+							error,
+						);
+					});
 			},
 		);
 	}
@@ -232,7 +242,26 @@ export class TeamService extends EventEmitter {
 			this.changed(member.teamId);
 			return this.member(member.id);
 		}
-		if (!current) return member;
+		if (!current) {
+			if (member.status === "active" && member.boundStartedAt !== null) {
+				this.ctx.db
+					.update(teamMembers)
+					.set({
+						status: "reconcile_required",
+						lastError: "Agent session was replaced or detached",
+					})
+					.where(
+						and(
+							eq(teamMembers.id, member.id),
+							eq(teamMembers.status, "active"),
+						),
+					)
+					.run();
+				this.changed(member.teamId);
+				return this.member(member.id);
+			}
+			return member;
+		}
 		if (member.boundStartedAt === null) {
 			if (
 				this.ctx.terminalAgentStore.hasChat(member.terminalId) ||
@@ -358,7 +387,7 @@ export class TeamService extends EventEmitter {
 	}
 	async start(raw: z.input<typeof teamStartSchema>) {
 		const input = teamStartSchema.parse(raw),
-			hash = fingerprint(input);
+			hash = fingerprint({ ...input, actor: undefined });
 		if (input.operationId === "init")
 			fail("BAD_REQUEST", "init is reserved for existing-session promotion");
 		const existing = this.ctx.db
@@ -380,6 +409,32 @@ export class TeamService extends EventEmitter {
 			return (
 				this.starts.get(existing.id) ?? this.status({ teamId: existing.teamId })
 			);
+		}
+		if (input.actor) {
+			const membership = this.ctx.db
+				.select({ teamId: teams.id, name: teams.name })
+				.from(teamMembers)
+				.innerJoin(teams, eq(teams.id, teamMembers.teamId))
+				.where(
+					and(
+						eq(teamMembers.terminalId, input.actor.terminalId),
+						eq(teamMembers.workspaceId, input.actor.workspaceId),
+						inArray(teamMembers.status, [
+							"active",
+							"spawning",
+							"reconcile_required",
+							"failed",
+						]),
+						isNull(teamMembers.endedAt),
+						inArray(teams.status, ["active", "paused"]),
+					),
+				)
+				.get();
+			if (membership)
+				fail(
+					"CONFLICT",
+					`This Agent already belongs to Team "${membership.name}" (${membership.teamId}). Use team spawn and mail in that Team; reconcile a lost session before continuing.`,
+				);
 		}
 		this.requireReadyWorkspace(input.workspaceId);
 		const config =
@@ -569,8 +624,9 @@ export class TeamService extends EventEmitter {
 							.get()
 					: undefined;
 				const deliveries = this.ctx.db
-					.select()
+					.select({ delivery: mailDeliveries, event: mailEvents })
 					.from(mailDeliveries)
+					.innerJoin(mailEvents, eq(mailEvents.id, mailDeliveries.eventId))
 					.where(eq(mailDeliveries.recipientMemberId, member.id))
 					.all();
 				return {
@@ -593,9 +649,14 @@ export class TeamService extends EventEmitter {
 					projectName: project?.name ?? null,
 					workspaceName: workspace?.name ?? null,
 					unreadCount: deliveries.filter(
-						(row) => row.readAt === null && row.ackedAt === null,
+						({ delivery, event }) =>
+							delivery.ackedAt === null &&
+							mailReceipt(event, delivery.id) === null,
 					).length,
-					unackedCount: deliveries.filter((row) => row.ackedAt === null).length,
+					unackedCount: deliveries.filter(
+						({ delivery, event }) =>
+							delivery.ackedAt === null && mailPolicy(event).requiresAck,
+					).length,
 					binding: binding ?? null,
 					deliveryState: binding
 						? this.ctx.terminalAgentStore.getAutomaticDeliveryState(binding)
@@ -797,6 +858,12 @@ export class TeamService extends EventEmitter {
 		},
 	): Promise<TeamMember> {
 		const initial = this.member(memberId);
+		const managedLaunch = {
+			terminalId: initial.plannedTerminalId ?? "",
+			workspaceId: request.workspaceId,
+			agentId: initial.agentId as TerminalAgentBinding["agentId"],
+			launchId: initial.expectedLaunchId ?? undefined,
+		};
 		try {
 			if (request.newWorktree) {
 				const create =
@@ -873,6 +940,18 @@ export class TeamService extends EventEmitter {
 				db: this.ctx.db,
 				eventBus: this.ctx.eventBus,
 				initialCommand: command,
+				nativeInterruptLaunch: launch.nativeInterruptLaunch,
+				onFreshCreated: (proof) => {
+					if (
+						proof.terminalId === managedLaunch.terminalId &&
+						proof.workspaceId === managedLaunch.workspaceId
+					)
+						this.ctx.terminalAgentStore.recordManagedAgentLaunch(managedLaunch);
+				},
+				onManualInput: (terminalId) => {
+					if (terminalId === managedLaunch.terminalId)
+						this.ctx.terminalAgentStore.invalidateTerminalInput(terminalId);
+				},
 			});
 			if ("error" in result) throw new Error(String(result.error));
 			if (result.terminalId !== initial.plannedTerminalId)
@@ -884,6 +963,7 @@ export class TeamService extends EventEmitter {
 				this.member(memberId).status !== "spawning" ||
 				["stopped", "archived"].includes(this.team(initial.teamId).status)
 			) {
+				this.ctx.terminalAgentStore.forgetManagedAgentLaunch(managedLaunch);
 				await (this.deps.dispose ?? disposeSessionAndWait)(
 					result.terminalId,
 					this.ctx.db,
@@ -903,6 +983,7 @@ export class TeamService extends EventEmitter {
 			this.changed(initial.teamId);
 			return member;
 		} catch (error) {
+			this.ctx.terminalAgentStore.forgetManagedAgentLaunch(managedLaunch);
 			if (this.member(memberId).status === "stopped")
 				return this.member(memberId);
 			this.ctx.db
@@ -917,18 +998,231 @@ export class TeamService extends EventEmitter {
 			throw error;
 		}
 	}
-	async recover() {
-		for (const row of this.ctx.db
+	private resumedMemberSnapshot(member: TeamMember) {
+		if (
+			!member.terminalId ||
+			!member.workspaceId ||
+			!member.expectedLaunchId ||
+			member.boundStartedAt === null ||
+			!member.boundAgentSessionId ||
+			member.endedAt !== null ||
+			!["active", "reconcile_required"].includes(member.status) ||
+			this.stoppingTeams.has(member.teamId)
+		)
+			return undefined;
+		const team = this.team(member.teamId);
+		if (!["active", "paused"].includes(team.status)) return undefined;
+		const previous = this.ctx.db
+			.select()
+			.from(terminalAgentBindings)
+			.where(eq(terminalAgentBindings.terminalId, member.terminalId))
+			.get();
+		if (
+			!previous ||
+			previous.endedAt === null ||
+			previous.endReason !== "resumed" ||
+			!previous.resumedIntoTerminalId ||
+			previous.resumedIntoTerminalId === previous.terminalId ||
+			previous.workspaceId !== member.workspaceId ||
+			previous.agentId !== member.agentId ||
+			previous.definitionId !== member.definitionId ||
+			previous.launchId !== member.expectedLaunchId ||
+			previous.startedAt !== member.boundStartedAt ||
+			previous.agentSessionId !== member.boundAgentSessionId
+		)
+			return undefined;
+		const current = this.ctx.terminalAgentStore.get(
+			previous.resumedIntoTerminalId,
+		);
+		if (
+			!current?.launchId ||
+			current.endedAt !== undefined ||
+			this.ctx.terminalAgentStore.hasChat(current.terminalId) ||
+			current.workspaceId !== member.workspaceId ||
+			current.agentId !== member.agentId ||
+			(current.definitionId ?? null) !== member.definitionId ||
+			current.agentSessionId !== member.boundAgentSessionId
+		)
+			return undefined;
+		const successor = this.ctx.db
+			.select()
+			.from(terminalAgentBindings)
+			.where(eq(terminalAgentBindings.terminalId, current.terminalId))
+			.get();
+		if (
+			!successor ||
+			successor.endedAt !== null ||
+			successor.workspaceId !== current.workspaceId ||
+			successor.agentId !== current.agentId ||
+			successor.definitionId !== (current.definitionId ?? null) ||
+			successor.agentSessionId !== current.agentSessionId ||
+			successor.launchId !== current.launchId ||
+			successor.startedAt !== current.startedAt
+		)
+			return undefined;
+		const occupied = this.ctx.db
 			.select()
 			.from(teamMembers)
-			.where(inArray(teamMembers.status, ["spawning", "reconcile_required"]))
+			.where(
+				and(
+					eq(teamMembers.terminalId, current.terminalId),
+					ne(teamMembers.id, member.id),
+					inArray(teamMembers.status, [
+						"active",
+						"spawning",
+						"reconcile_required",
+					]),
+				),
+			)
+			.all()
+			.some((other) =>
+				["active", "paused"].includes(this.team(other.teamId).status),
+			);
+		if (occupied) return undefined;
+		const workspace = this.ctx.db
+			.select()
+			.from(workspaces)
+			.where(eq(workspaces.id, member.workspaceId))
+			.get();
+		const terminal = this.ctx.db
+			.select()
+			.from(terminalSessions)
+			.where(eq(terminalSessions.id, current.terminalId))
+			.get();
+		const previousTerminal = this.ctx.db
+			.select()
+			.from(terminalSessions)
+			.where(eq(terminalSessions.id, previous.terminalId))
+			.get();
+		if (
+			!workspace ||
+			workspace.archivedAt !== null ||
+			previousTerminal?.originWorkspaceId !== member.workspaceId ||
+			previousTerminal.status === "active" ||
+			terminal?.originWorkspaceId !== member.workspaceId ||
+			terminal.status !== "active" ||
+			terminal.endedAt !== null ||
+			terminal.disposeRequestedAt !== null
+		)
+			return undefined;
+		const terminalIdentity = (
+			record: typeof terminalSessions.$inferSelect,
+		) => ({
+			id: record.id,
+			originWorkspaceId: record.originWorkspaceId,
+			createdAt: record.createdAt,
+			status: record.status,
+			endedAt: record.endedAt,
+			disposeRequestedAt: record.disposeRequestedAt,
+		});
+		const bindingIdentity = (
+			record: typeof terminalAgentBindings.$inferSelect,
+		) => ({
+			terminalId: record.terminalId,
+			workspaceId: record.workspaceId,
+			agentId: record.agentId,
+			definitionId: record.definitionId,
+			agentSessionId: record.agentSessionId,
+			launchId: record.launchId,
+			startedAt: record.startedAt,
+			endedAt: record.endedAt,
+			endReason: record.endReason,
+			resumedIntoTerminalId: record.resumedIntoTerminalId,
+		});
+		return {
+			member,
+			team,
+			previous: bindingIdentity(previous),
+			successor: bindingIdentity(successor),
+			previousTerminal: terminalIdentity(previousTerminal),
+			current: {
+				terminalId: current.terminalId,
+				workspaceId: current.workspaceId,
+				agentId: current.agentId,
+				definitionId: current.definitionId,
+				agentSessionId: current.agentSessionId,
+				launchId: current.launchId,
+				startedAt: current.startedAt,
+			},
+			terminal: terminalIdentity(terminal),
+			workspace,
+		};
+	}
+	private async followResumedMember(member: TeamMember): Promise<boolean> {
+		// Only the successful resume path records this old-to-new link. A new
+		// Agent with a matching title, terminal id or transcript is not proof.
+		const snapshot = this.resumedMemberSnapshot(member);
+		if (!snapshot) return false;
+		if (
+			!(await (this.deps.alive ?? isAgentTerminalAlive)({
+				terminalId: snapshot.current.terminalId,
+				workspaceId: snapshot.current.workspaceId,
+				db: this.ctx.db,
+				eventBus: this.ctx.eventBus,
+			}))
+		)
+			return false;
+		const changed = this.ctx.db.transaction((tx) => {
+			const latest = this.resumedMemberSnapshot(this.member(member.id));
+			if (!latest || fingerprint(latest) !== fingerprint(snapshot))
+				return false;
+			return Boolean(
+				tx
+					.update(teamMembers)
+					.set({
+						terminalId: latest.current.terminalId,
+						plannedTerminalId: latest.current.terminalId,
+						expectedLaunchId: latest.current.launchId,
+						boundStartedAt: latest.current.startedAt,
+						boundAgentSessionId: latest.current.agentSessionId,
+						status: "active",
+						lastError: null,
+					})
+					.where(
+						and(
+							eq(teamMembers.id, member.id),
+							eq(teamMembers.status, member.status),
+							eq(teamMembers.terminalId, snapshot.previous.terminalId),
+							isNull(teamMembers.endedAt),
+						),
+					)
+					.returning({ id: teamMembers.id })
+					.get(),
+			);
+		});
+		if (changed) this.changed(member.teamId);
+		return changed;
+	}
+	private async followResumedTerminal(terminalId: string) {
+		for (const member of this.ctx.db
+			.select()
+			.from(teamMembers)
+			.where(eq(teamMembers.terminalId, terminalId))
 			.all()) {
+			await this.followResumedMember(member);
+		}
+	}
+	async recover() {
+		for (const candidate of this.ctx.db
+			.select()
+			.from(teamMembers)
+			.where(
+				inArray(teamMembers.status, [
+					"active",
+					"spawning",
+					"reconcile_required",
+				]),
+			)
+			.all()) {
+			const row = this.refresh(candidate);
+			if (row.status === "active") continue;
 			if (
 				this.spawns.has(row.id) ||
 				this.starts.has(row.id) ||
 				!row.plannedTerminalId
 			)
 				continue;
+			if (await this.followResumedMember(row)) continue;
 			const plannedTerminalId = row.plannedTerminalId;
 			const teamSnapshot = this.team(row.teamId);
 			if (

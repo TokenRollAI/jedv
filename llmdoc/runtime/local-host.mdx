@@ -12,6 +12,7 @@ code:
     - "apps/desktop/src/main/host-service/index.ts"
     - "apps/desktop/src/main/lib/host-service-manifest.ts"
     - "packages/cli/src/lib/host/process-identity.ts"
+    - "packages/agent-setup/src/process-executable.ts"
     - "packages/cli/src/lib/host/manifest-liveness.ts"
     - "packages/cli/src/commands/stop/command.ts"
     - "packages/cli/src/commands/stop/stop-host.ts"
@@ -47,7 +48,11 @@ host-service child 在监听成功后 claim manifest；对健康 holder 让位�
 
 CLI status 和 stop 共用 manifest liveness 核验：区分已死 PID、被复用为另一进程的 PID 与真正 host；无法读取命令身份时再用带凭证的端点探活。stop 只对通过核验的 holder 发送终止信号，不能凭 PID 存活就当作归属匹配。移除过期 manifest 仍须比较记录中的 holder，避免删掉后来建立的新 claim。额外停止 terminal daemon 是显式选项，会结束其中终端与 Agent，区别于只停止 host。
 
-独立 host wrapper 会 exec 为 Node 与 host-service.js，不能只在整条命令里搜索 wrapper 名称。直接 wrapper 必须匹配 executable；Node 形态只认可当前 CLI 安装目录（或 JEDV_HOST_BIN 指定位置）内配套 runtime 与脚本的固定组合。ps 展平后的命令文本不能证明任意参数中的路径属于可终止的 host，因此其他安装位置的 Node host 保守判为不归属，也不对明确不匹配的进程回退健康探测。修改 wrapper 或分发目录布局时，必须同步审阅身份核验和 stop 回归保护。
+signal 0 返回 EPERM 表示探测者没有发信号权限，不能把仍存活的进程判死并丢弃其 manifest。它只保留存活候选，后续归属核验、认证探活和 stop 的独立 executable 证明仍须执行；sandbox 中能发现 Host 不意味着有权终止该 PID。
+
+独立 host wrapper 会 exec 为 Node 与 host-service.js，不能只在整条命令里搜索 wrapper 名称。可读命令还须与同 PID 的独立 executable 证据核对：standalone 只认可当前 CLI 安装位置的配套 Node/script；桌面认可同一 app/worktree 的 Electron 与 Host 入口组合。ps command 是展平 argv，macOS ps comm 也可受 argv[0] 伪装影响，两者都不是独立可执行文件身份；不能从中捕获一段“安装根”就授权终止。明确不匹配或缺少必要 executable 证据时保守拒绝，不以另一健康端点替代 PID 归属。OS inspection 与后续 signal 仍非原子；修改启动布局必须同步评审这些保护。
+
+CLI 与原生前台核验共用内核 executable 路径读取：Darwin 通过系统 osascript 的固定 JXA 脚本调用 libproc proc_pidpath，PID 作为独立参数；JSON 分帧结果还须是绝对路径且不含 NUL/换行。子进程有时间和输出大小上限，Linux 读取 `/proc/<pid>/exe`；不可用、拒绝或格式异常均返回 null，不回退到 ps comm/argv 猜测。该路径不依赖新 native addon ABI、运行时 Python 或 Xcode 编译工具，打包与运行时变化仍须用真实内核路径验收。
 
 PTY 存续由独立 pty-daemon 承担；host 重启与 terminal detach 不等同杀 shell。修改 host 退出顺序时必须同时评审终端恢复与 chat 的未完成工作记录。
 

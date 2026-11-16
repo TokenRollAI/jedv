@@ -37,6 +37,160 @@ function fixture() {
 		stopped: () => stopped,
 	};
 }
+test("routine mail never becomes a human ACK task; retiring legacy alerts preserves consumption facts", async () => {
+	const f = fixture();
+	const dog = new RuleWatchdog({
+		db: f.db,
+		snapshot: () => f.snapshot,
+		clock: f.clock,
+	});
+	try {
+		f.snapshot.mail.push({
+			id: "normal",
+			teamId: "t",
+			recipientMemberId: "active",
+			createdAt: 0,
+			ackedAt: null,
+			nudgeState: "nudged",
+		});
+		f.snapshot.members.push({
+			id: "active",
+			teamId: "t",
+			status: "active",
+			teamStatus: "active",
+			activityKnown: true,
+			working: true,
+			startedAt: 0,
+			lastAgentActivityAt: f.clock.now(),
+			lastGitActivityAt: null,
+		});
+		f.db
+			.prepare(
+				"INSERT INTO watchdog_alerts(id,dedupe_key,kind,subject,body,team_id,created_at) VALUES('legacy-mail','mail:normal','mail_unacked','Old','Unacked','t',1)",
+			)
+			.run();
+		await dog.scan();
+		expect(await dog.attention()).toEqual([]);
+		expect((await dog.attention({ view: "handled" }))[0]?.disposition).toBe(
+			"resolved",
+		);
+		expect(f.snapshot.mail[0]?.ackedAt).toBeNull();
+		f.snapshot.members = [];
+		await dog.scan();
+		expect(await dog.attention()).toEqual([]);
+	} finally {
+		await dog.dispose();
+		await f.dispose();
+	}
+});
+
+test("missing member is not stopped-recipient recovery evidence; explicit live state recovers without ACK", async () => {
+	const f = fixture();
+	const dog = new RuleWatchdog({
+		db: f.db,
+		snapshot: () => f.snapshot,
+		clock: f.clock,
+		mailAfterMs: 100,
+	});
+	try {
+		const member = {
+			id: "stopped",
+			teamId: "t",
+			status: "stopped",
+			teamStatus: "active",
+			working: false,
+			startedAt: 0,
+			lastAgentActivityAt: 0,
+			lastGitActivityAt: null,
+		};
+		f.snapshot.members = [member];
+		f.snapshot.mail = [
+			{
+				id: "pending",
+				teamId: "t",
+				recipientMemberId: "stopped",
+				createdAt: 0,
+				ackedAt: null,
+				nudgeState: "pending",
+			},
+		];
+		await dog.scan();
+		expect(await dog.attention()).toHaveLength(1);
+		f.snapshot.members = [];
+		await dog.scan();
+		expect(await dog.attention()).toHaveLength(1);
+		f.snapshot.members = [{ ...member, status: "active" }];
+		await dog.scan();
+		expect(await dog.attention()).toHaveLength(0);
+		expect(f.snapshot.mail[0]?.ackedAt).toBeNull();
+	} finally {
+		await dog.dispose();
+		await f.dispose();
+	}
+});
+
+test("submitted notification without subsequent Agent activity is an explicit recovery exception, not an ACK-age reminder", async () => {
+	const f = fixture();
+	const dog = new RuleWatchdog({
+		db: f.db,
+		snapshot: () => f.snapshot,
+		clock: f.clock,
+	});
+	try {
+		f.snapshot.members = [
+			{
+				id: "member",
+				teamId: "t",
+				status: "active",
+				teamStatus: "active",
+				working: false,
+				activityKnown: true,
+				startedAt: 1,
+				lastAgentActivityAt: 1,
+				lastGitActivityAt: null,
+			},
+		];
+		f.snapshot.mail = [
+			{
+				id: "unobserved",
+				teamId: "t",
+				recipientMemberId: "member",
+				createdAt: 0,
+				ackedAt: null,
+				nudgeState: "nudged",
+				nudgedAt: 10,
+				attemptCount: 1,
+				recipientReadAt: null,
+			},
+		];
+		await dog.scan();
+		expect((await dog.attention())[0]?.items[0]?.subject).toBe(
+			"Mail notification has no Agent activity confirmation",
+		);
+		f.snapshot.members = [];
+		await dog.scan();
+		expect(await dog.attention()).toHaveLength(1);
+		f.snapshot.members = [
+			{
+				id: "member",
+				teamId: "t",
+				status: "active",
+				teamStatus: "active",
+				working: true,
+				activityKnown: true,
+				startedAt: 1,
+				lastAgentActivityAt: f.clock.now(),
+				lastGitActivityAt: null,
+			},
+		];
+		await dog.scan();
+		expect(await dog.attention()).toHaveLength(0);
+		expect(f.snapshot.mail[0]?.ackedAt).toBeNull();
+	} finally {
+		await dog.dispose();
+		await f.dispose();
+	}
+});
 test("30s rules with manual Clock dedupe mail and failure, read remains unacked", async () => {
 	const f = fixture();
 	try {
@@ -56,6 +210,7 @@ test("30s rules with manual Clock dedupe mail and failure, read remains unacked"
 			teamId: "t",
 			createdAt: 0,
 			ackedAt: null,
+			nudgeState: "failed",
 		});
 		f.snapshot.automationRuns.push({
 			id: "run1",
@@ -150,6 +305,7 @@ test("failed alert transport retries stable dedupe key and survives watchdog res
 			teamId: null,
 			createdAt: 0,
 			ackedAt: null,
+			nudgeState: "failed",
 		});
 		let attempts = 0;
 		const keys: string[] = [];

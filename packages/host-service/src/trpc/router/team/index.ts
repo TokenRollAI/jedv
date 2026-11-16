@@ -18,7 +18,15 @@ export const teamRouter = router({
 		(): TeamworkCapabilities => ({
 			protocolVersion: TEAMWORK_PROTOCOL_VERSION,
 			localOnly: true as const,
-			features: { start: true },
+			features: {
+				start: true,
+				startCaller: true,
+				mailDeliveryModes: true,
+				// Advertise only the platform with a verified native cancel path.
+				// Each target still needs its own launch/foreground/input proof.
+				mailInterrupt:
+					process.platform === "darwin" && process.arch === "arm64",
+			},
 			orderedHooks: true as const,
 		}),
 	),

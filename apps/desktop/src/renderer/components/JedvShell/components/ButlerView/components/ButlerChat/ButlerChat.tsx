@@ -32,6 +32,7 @@ export function ButlerChat({
 	context,
 	connected,
 	supported,
+	historyByRequest = false,
 	active,
 	teams,
 	actionable,
@@ -46,6 +47,7 @@ export function ButlerChat({
 	context: JedvParityViewContext;
 	connected: boolean;
 	supported: boolean;
+	historyByRequest?: boolean;
 	active: boolean;
 	teams: Team[];
 	actionable: number;
@@ -68,6 +70,7 @@ export function ButlerChat({
 		supported,
 		active,
 		historyOpen,
+		historyByRequest,
 		askContext,
 	});
 	const scroll = useRef<HTMLDivElement>(null);
@@ -87,7 +90,7 @@ export function ButlerChat({
 		)
 			scroll.current.scrollTop = scroll.current.scrollHeight;
 	}, [chat.key, chat.history.data, chat.approvals.data, chat.draft.pending]);
-	const messages = chat.threadId ? (chat.history.data ?? []) : [];
+	const messages = chat.historyRequested ? (chat.history.data ?? []) : [];
 	const approvals = chat.threadId ? (chat.approvals.data ?? []) : [];
 	const timeline = [
 		...messages.map((message) => ({
@@ -109,7 +112,8 @@ export function ButlerChat({
 	);
 	const fault =
 		chat.unavailable ||
-		(chat.threadId && (chat.history.isError || chat.approvals.isError));
+		(chat.historyRequested && chat.history.isError) ||
+		(chat.threadId && chat.approvals.isError);
 	return (
 		<>
 			<WindowChrome primary className="gap-2 border-b border-border pr-3">
@@ -214,7 +218,7 @@ export function ButlerChat({
 					aria-live="polite"
 				>
 					{(chat.state.isPending ||
-						(chat.threadId && chat.history.isPending)) &&
+						(chat.historyRequested && chat.history.isPending)) &&
 						connected &&
 						supported && (
 							<output className="text-xs text-muted-foreground">

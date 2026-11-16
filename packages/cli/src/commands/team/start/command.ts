@@ -1,6 +1,10 @@
 import { CLIError, string } from "@jedv/cli-framework";
 import { command } from "../../../lib/command";
-import { teamworkClient, teamworkOptions } from "../../../lib/teamwork";
+import {
+	teamworkActor,
+	teamworkClient,
+	teamworkOptions,
+} from "../../../lib/teamwork";
 export default command({
 	description:
 		"Start a new Team task with one host-owned native Leader; retries reuse the same operation ID",
@@ -24,14 +28,22 @@ export default command({
 	},
 	run: async ({ ctx, options }) => {
 		const client = await teamworkClient(ctx, options);
-		if (!(await client.team.capabilities.query()).features?.start)
+		const capabilities = await client.team.capabilities.query();
+		if (!capabilities.features?.start)
 			throw new CLIError(
 				"Team start is unsupported by this host",
 				"Update the host before starting a new Team task.",
 			);
+		const actor = teamworkActor(options);
+		if (actor && !capabilities.features?.startCaller)
+			throw new CLIError(
+				"This host cannot check existing Team membership for Agent callers",
+				"Update the host before starting a new Team from an Agent terminal.",
+			);
 		return {
 			data: await client.team.start.mutate({
 				operationId: options.operationId,
+				...(actor ? { actor } : {}),
 				workspaceId: options.workspace,
 				agent: options.agent,
 				prompt: options.prompt,

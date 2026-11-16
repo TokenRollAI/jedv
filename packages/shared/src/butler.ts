@@ -43,6 +43,7 @@ export const butlerSendSchema = z
 		"newTopic cannot specify threadId",
 	);
 export const butlerHistorySchema = z.object({
+	requestId: id.optional(),
 	threadId: id.optional(),
 	limit: z.number().int().min(1).max(200).default(100),
 	before: z.number().optional(),

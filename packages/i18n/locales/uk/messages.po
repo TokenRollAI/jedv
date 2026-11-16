@@ -7,6 +7,50 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: uk\n"
 
+#. js-lingui-explicit-id
+msgid "Delivery mode (default: queue); interrupt requires an explicit human action and safe native support"
+msgstr "Режим доставки (типово: queue); interrupt вимагає явної дії користувача та безпечної нативної підтримки"
+
+#. js-lingui-explicit-id
+msgid "Do not request recipient acknowledgement; this never marks mail acknowledged"
+msgstr "Не вимагати підтвердження одержувача; це не позначає повідомлення як підтверджене"
+
+#. js-lingui-explicit-id
+msgid "--delivery-mode interrupt requires --human and an explicit user request"
+msgstr "--delivery-mode interrupt вимагає --human та явного запиту користувача"
+
+#. js-lingui-explicit-id
+msgid "This Host does not support Mail delivery modes; no mail was sent"
+msgstr "Цей хост не підтримує режими доставки повідомлень; жодного повідомлення не надіслано"
+
+#. js-lingui-explicit-id
+msgid "Safe Mail interruption is unavailable on this Host; no mail was sent"
+msgstr "Безпечне переривання для доставки повідомлень недоступне на цьому хості; повідомлення не надіслано"
+
+#. js-lingui-explicit-id
+msgid "Inspect launch evidence; starting or unknown does not mean the agent is ready"
+msgstr "Перевірити свідчення запуску; стан запуску або невідомий стан не означає, що агент готовий"
+
+#. js-lingui-explicit-id
+msgid "Workspace ID"
+msgstr "ID робочого простору"
+
+#. js-lingui-explicit-id
+msgid "Host on this machine (default: local)"
+msgstr "Хост на цьому комп’ютері (типово: local)"
+
+#. js-lingui-explicit-id
+msgid "The workspace is on this machine"
+msgstr "Робочий простір розташований на цьому комп’ютері"
+
+#. js-lingui-explicit-id
+msgid "Terminal sessionId returned by agents create"
+msgstr "sessionId термінала, повернений agents create"
+
+#. js-lingui-explicit-id
+msgid "Launch runId returned by agents create"
+msgstr "runId запуску, повернений agents create"
+
 msgid "./"
 msgstr "./"
 
@@ -174,6 +218,9 @@ msgstr "4.5:1 (AA)"
 msgid "7:1 (AAA)"
 msgstr "7:1 (AAA)"
 
+msgid "A connected host and workspace are required to save layout"
+msgstr "Для збереження компонування потрібні підключений хост і робочий простір"
+
 msgid "A daemon operation is already in progress"
 msgstr "Операція демона вже виконується"
 
@@ -183,6 +230,9 @@ msgstr "У {where} уже є файл з назвою «{firstName}». Замі�
 msgid "A listening process changed. Cancel and review the current process list before trying again."
 msgstr "Процес, що прослуховує порт, змінився. Скасуйте й перегляньте поточний список процесів, перш ніж повторити спробу."
 
+msgid "A new branch is separate from its base. Leave the name empty to generate a unique branch automatically."
+msgstr "Нова гілка відокремлена від базової. Залиште назву порожньою, щоб автоматично створити гілку з унікальною назвою."
+
 msgid "A pull request already exists for this branch. Refresh the pull request list."
 msgstr "Для цієї гілки вже існує пул-реквест. Оновіть список пул-реквестів."
 
@@ -191,6 +241,9 @@ msgstr "Вкладка може містити щонайбільше вісім
 
 msgid "A tab can contain at most eight terminal panes."
 msgstr "Вкладка може містити не більше ніж вісім панелей термінала."
+
+msgid "A workspace can contain at most 32 tabs and each tab at most eight panes."
+msgstr "Робочий простір може містити щонайбільше 32 вкладки, а кожна вкладка — щонайбільше вісім панелей."
 
 msgid "A workspace is protected. Resolve its protection before removing this project."
 msgstr "Робочий простір захищено. Зніміть захист перед видаленням цього проєкту."
@@ -351,6 +404,18 @@ msgstr "Запуск агента очікує на налаштування"
 
 msgid "Agent may be stalled"
 msgstr "Агент міг зависнути"
+
+msgid "Agent notified, awaiting consumption"
+msgstr "Агента сповіщено, очікується опрацювання"
+
+msgid "Agent progress report"
+msgstr "Звіт агента про перебіг роботи"
+
+msgid "Agent reported a blocker"
+msgstr "Агент повідомив про перешкоду"
+
+msgid "Agent reports are not verified completion. Mail acknowledgement is separate from task acceptance."
+msgstr "Звіт агента не підтверджує завершення завдання. Підтвердження отримання повідомлення та приймання завдання — різні дії."
 
 msgid "Agent saved, but linked presets could not be updated."
 msgstr "Агента збережено, але пов'язані пресети не вдалося оновити."
@@ -599,8 +664,8 @@ msgstr "Авто (як у системі)"
 msgid "Auto save"
 msgstr "Автоматичне збереження"
 
-msgid "Automatic branch"
-msgstr "Автоматична гілка"
+msgid "Automatic delivery paused"
+msgstr "Автоматичну доставку призупинено"
 
 msgid "Automatic name"
 msgstr "Автоматична назва"
@@ -665,6 +730,9 @@ msgstr "Назад до автоматизацій"
 msgid "Back to current conversation"
 msgstr "Повернутися до поточної розмови"
 
+msgid "Background"
+msgstr "У фоні"
+
 msgid "Background processes"
 msgstr "Фонові процеси"
 
@@ -676,6 +744,9 @@ msgstr "Базова гілка"
 
 msgid "Base branch (repository default)"
 msgstr "Базова гілка (типова для репозиторію)"
+
+msgid "Base branch to create from"
+msgstr "Базова гілка для створення"
 
 msgid "Binary file"
 msgstr "Бінарний файл"
@@ -901,6 +972,9 @@ msgstr "Виберіть, як Jedv має працювати на цьому п
 msgid "Choose notification sounds and volume."
 msgstr "Виберіть звуки та гучність сповіщень."
 
+msgid "Choose two different panes."
+msgstr "Виберіть дві різні панелі."
+
 msgid "Clear"
 msgstr "Очистити"
 
@@ -1030,6 +1104,9 @@ msgstr "Закрити поточну панель"
 
 msgid "Close the current tab"
 msgstr "Закрити поточну вкладку"
+
+msgid "Close the files view in the desktop so unsaved changes can be checked."
+msgstr "Закрийте подання файлів у настільному застосунку, щоб перевірити незбережені зміни."
 
 msgid "Close this CLI terminal and take control of the same session? The terminal process will stop. Other terminal work may be lost."
 msgstr "Закрити цей термінал CLI й отримати керування тим самим сеансом? Процес термінала зупиниться. Іншу роботу в терміналі може бути втрачено."
@@ -1300,6 +1377,9 @@ msgstr "Копіювати localhost:{0}"
 msgid "Copy on select"
 msgstr "Копіювати під час виділення"
 
+msgid "Copy original instructions"
+msgstr "Копіювати початкові інструкції"
+
 msgid "Copy path"
 msgstr "Копіювати шлях"
 
@@ -1353,6 +1433,9 @@ msgstr "Не вдалося підтвердити результат на ці�
 
 msgid "Could not confirm this session. Refresh before retrying."
 msgstr "Не вдалося підтвердити цей сеанс. Оновіть дані перед повторною спробою."
+
+msgid "Could not copy. Select the text below to copy it."
+msgstr "Не вдалося скопіювати. Виділіть текст нижче, щоб скопіювати його."
 
 msgid "Could not create team. Refresh the agents and retry."
 msgstr "Не вдалося створити команду. Оновіть агентів і повторіть спробу."
@@ -1750,6 +1833,21 @@ msgstr "Доставлено"
 
 msgid "Delivered means the remote host stored the mail, not that a recipient read or acknowledged it."
 msgstr "Доставлено означає, що віддалений хост зберіг лист, а не що одержувач його прочитав або підтвердив обробку."
+
+msgid "Delivering"
+msgstr "Доставляється"
+
+msgid "Delivery failed"
+msgstr "Не вдалося доставити"
+
+msgid "Delivery mode"
+msgstr "Режим доставки"
+
+msgid "Delivery outcome is uncertain. Inspect the terminal before retrying."
+msgstr "Результат доставки невідомий. Перевірте термінал перед повторною спробою."
+
+msgid "Delivery uncertain"
+msgstr "Результат доставки невідомий"
 
 msgid "Describe a goal to start a new task."
 msgstr "Опишіть мету, щоб почати нове завдання."
@@ -2392,6 +2490,9 @@ msgstr "Front matter приховано. Перейдіть у режим Markdo
 msgid "Full Disk Access"
 msgstr "Повний доступ до диска"
 
+msgid "Full task instructions"
+msgstr "Повні інструкції завдання"
+
 msgid "Full-stack Turborepo with Next.js, Expo, and tRPC"
 msgstr "Full-stack Turborepo з Next.js, Expo і tRPC"
 
@@ -2566,6 +2667,9 @@ msgstr "https://github.com/owner/repo.git або /path/to/repo"
 msgid "Human"
 msgstr "Людина"
 
+msgid "Human instruction"
+msgstr "Інструкція користувача"
+
 msgid "I checked the attachments"
 msgstr "Я перевірив вкладення"
 
@@ -2684,6 +2788,12 @@ msgstr "У вікні Apple натисніть «Встановити». Це з
 msgid "In review"
 msgstr "На рев'ю"
 
+msgid "In right pane"
+msgstr "У правій панелі"
+
+msgid "In tab"
+msgstr "На вкладці"
+
 msgid "Inbound mail token"
 msgstr "Токен вхідної пошти"
 
@@ -2741,8 +2851,20 @@ msgstr "Встановлення оновлення…"
 msgid "Instructions"
 msgstr "Інструкції"
 
+msgid "Instructions are available in the original mail."
+msgstr "Інструкції доступні в початковому повідомленні."
+
+msgid "Internal mail and diagnostics"
+msgstr "Внутрішні повідомлення та діагностика"
+
+msgid "Internal mail diagnostics"
+msgstr "Діагностика внутрішніх повідомлень"
+
 msgid "Interrupt"
 msgstr "Перервати"
+
+msgid "Interrupt now"
+msgstr "Перервати зараз"
 
 msgid "Interrupt requested"
 msgstr "Запитано переривання"
@@ -2845,6 +2967,9 @@ msgstr "Листок"
 
 msgid "Leave a comment…"
 msgstr "Залиште коментар…"
+
+msgid "Leave empty for a unique new branch"
+msgstr "Залиште порожнім для створення нової гілки з унікальною назвою"
 
 msgid "Leave empty to use the workspace directory. Relative paths are resolved inside the workspace."
 msgstr "Залиште порожнім, щоб використовувати теку робочого простору. Відносні шляхи розв'язуються всередині робочого простору."
@@ -3019,11 +3144,17 @@ msgstr "Розташування"
 msgid "Location & checkout"
 msgstr "Розташування й чекаут"
 
+msgid "Location unavailable"
+msgstr "Розташування недоступне"
+
 msgid "Mail awaiting acknowledgement: {activeCount}"
 msgstr "Листів без підтвердження отримання: {activeCount}"
 
 msgid "Mail awaits acknowledgement"
 msgstr "Лист очікує підтвердження"
+
+msgid "Mail delivery needs attention. Open diagnostics to inspect the delivery."
+msgstr "Доставка повідомлення потребує уваги. Відкрийте діагностику, щоб перевірити її."
 
 msgid "Mail has not been acknowledged. Reading it does not acknowledge it."
 msgstr "Лист не підтверджено. Читання не підтверджує його обробку."
@@ -3269,6 +3400,9 @@ msgstr "Перейти до попереднього робочого прост
 msgid "Navigation"
 msgstr "Навігація"
 
+msgid "Navigation changed before the pane could be focused. Inspect the workspace before retrying."
+msgstr "Навігація змінилася до перемикання фокуса на панель. Перевірте робочий простір перед повторною спробою."
+
 msgid "Needs attention"
 msgstr "Потребує уваги"
 
@@ -3289,6 +3423,9 @@ msgstr "Нова автоматизація"
 
 msgid "New branch"
 msgstr "Нова гілка"
+
+msgid "New branch name"
+msgstr "Назва нової гілки"
 
 msgid "New Chat"
 msgstr "Новий чат"
@@ -3442,6 +3579,12 @@ msgstr "Завершеного проєкту ще не знайдено. Хос
 msgid "No description provided"
 msgstr "Немає опису"
 
+msgid "No desktop pane consumer is connected."
+msgstr "Не підключено обробник запитів панелей настільного застосунку."
+
+msgid "No desktop window is open to apply the layout change."
+msgstr "Немає відкритого вікна настільного застосунку для зміни компонування."
+
 msgid "No existing worktrees found."
 msgstr "Наявних worktree не знайдено."
 
@@ -3520,6 +3663,9 @@ msgstr "Без префікса"
 msgid "No prefix could be resolved from this host's identity."
 msgstr "Не вдалося визначити префікс з ідентичності цього хоста."
 
+msgid "No progress reports or decisions yet. Internal communication is available in diagnostics."
+msgstr "Звітів про перебіг роботи чи рішень поки немає. Внутрішнє листування доступне в діагностиці."
+
 msgid "No projects match your filters"
 msgstr "Жоден проєкт не відповідає вашим фільтрам"
 
@@ -3564,9 +3710,6 @@ msgstr "Завдання не призначено"
 
 msgid "No team"
 msgstr "Без команди"
-
-msgid "No team mail yet"
-msgstr "Листів команди поки немає"
 
 msgid "No teams yet"
 msgstr "Команд поки немає"
@@ -3670,16 +3813,15 @@ msgstr "відкрити"
 msgid "Open"
 msgstr "Відкрити"
 
-#. placeholder {0}: binding.agentId
-msgid "Open {0} session"
-msgstr "Відкрити сеанс {0}"
-
 #. placeholder {0}: member.name
 msgid "Open {0} terminal"
 msgstr "Відкрити термінал {0}"
 
 msgid "Open {displayName}"
 msgstr "Відкрити {displayName}"
+
+msgid "Open {name} session"
+msgstr "Відкрити сеанс {name}"
 
 msgid "Open {path} in file pane"
 msgstr "Відкрити {path} на панелі файлів"
@@ -3860,6 +4002,9 @@ msgstr "Відкрити панель «Зміни» в новій вкладц�
 
 msgid "Open the global command palette"
 msgstr "Відкрити глобальну палітру команд"
+
+msgid "Open the local host before focusing a local workspace pane."
+msgstr "Відкрийте локальний хост перед перемиканням фокуса на панель локального робочого простору."
 
 msgid "Open the main window to select this workspace"
 msgstr "Відкрийте головне вікно, щоб вибрати цей робочий простір"
@@ -4104,6 +4249,9 @@ msgstr "Оброблені токени"
 msgid "Processing"
 msgstr "Обробка"
 
+msgid "Progress and decisions"
+msgstr "Перебіг роботи та рішення"
+
 msgid "Project"
 msgstr "Проєкт"
 
@@ -4200,8 +4348,14 @@ msgstr "px"
 msgid "Queue message"
 msgstr "Додати повідомлення в чергу"
 
+msgid "Queue waits for the agent. Interrupt requires safe support from the current session. Both require recipient acknowledgement; sending is not consumption."
+msgstr "Черга чекає на агента. Переривання потребує безпечної підтримки поточного сеансу. Обидва режими вимагають підтвердження одержувача; надсилання не означає опрацювання."
+
 msgid "Queue; ⌘↩ to steer the running turn"
 msgstr "У чергу; ⌘↩, щоб скерувати поточний хід"
+
+msgid "Queued"
+msgstr "У черзі"
 
 msgid "Quick Create Workspace"
 msgstr "Швидко створити робочий простір"
@@ -4775,6 +4929,9 @@ msgstr "працює"
 msgid "Running"
 msgstr "Виконується"
 
+msgid "Safe interruption is unavailable on this host. Queued mail waits for the agent; sending does not confirm consumption."
+msgstr "Безпечне переривання недоступне на цьому хості. Повідомлення в черзі чекають на агента; надсилання не підтверджує їх опрацювання."
+
 msgid "Same-session CLI control is unavailable. No new session was started."
 msgstr "Керування CLI в тому самому сеансі недоступне. Новий сеанс не запущено."
 
@@ -5139,6 +5296,9 @@ msgstr "Показувати команди агентів і закріплен
 msgid "Show Apple's installer"
 msgstr "Показати інсталятор Apple"
 
+msgid "Show decisions and exceptions"
+msgstr "Показати рішення та винятки"
+
 msgid "Show deleted workspaces"
 msgstr "Показати видалені робочі простори"
 
@@ -5171,6 +5331,9 @@ msgstr "Показувати використання локальних рес�
 
 msgid "Show more"
 msgstr "Показати більше"
+
+msgid "Show progress and decisions"
+msgstr "Показати перебіг роботи та рішення"
 
 msgid "Show Scripts Bar"
 msgstr "Показати панель скриптів"
@@ -5650,6 +5813,15 @@ msgstr "Розташування за замовчуванням для нови
 msgid "The definition and its run records will be deleted. Existing workspaces and sessions remain available."
 msgstr "Визначення та записи його запусків будуть видалені. Наявні робочі простори й сеанси залишаться доступними."
 
+msgid "The desktop app did not confirm the layout change in time. Inspect the layout before retrying."
+msgstr "Настільний застосунок не підтвердив зміну компонування вчасно. Перевірте компонування перед повторною спробою."
+
+msgid "The desktop could not apply the pane request."
+msgstr "Настільному застосунку не вдалося виконати запит панелі."
+
+msgid "The desktop pane connection closed before the layout result was confirmed."
+msgstr "З’єднання з панелями настільного застосунку закрилося до підтвердження результату компонування."
+
 msgid "The existing session identity could not be verified. Refresh before retrying."
 msgstr "Не вдалося перевірити ідентичність наявного сеансу. Оновіть дані перед повторною спробою."
 
@@ -5674,11 +5846,17 @@ msgstr "Служба хоста Jedv неочікувано зупинилася
 msgid "The key stays on this host. It is never injected into terminals or returned to this screen."
 msgstr "Ключ залишається на цьому хості. Він ніколи не передається до терміналів і не повертається на цей екран."
 
+msgid "The layout change failed."
+msgstr "Не вдалося змінити компонування."
+
 msgid "The Leader terminal continues running."
 msgstr "Термінал лідера продовжує працювати."
 
 msgid "The linked local agent is unavailable on this host. Edit the preset or remove its agent link."
 msgstr "Пов'язаний локальний агент недоступний на цьому хості. Відредагуйте пресет або видаліть його зв'язок з агентом."
+
+msgid "The local host connection changed. Inspect the layout before retrying."
+msgstr "З’єднання з локальним хостом змінилося. Перевірте компонування перед повторною спробою."
 
 msgid "The local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
 msgstr "Локальна служба хоста недоступна для {organization} на {device}. Стан: {status}. {recovery}"
@@ -5694,6 +5872,12 @@ msgstr "Сторінки, яку ви шукаєте, не існує."
 
 msgid "The pairing code expired or was already used. Request a new code on your computer."
 msgstr "Код сполучення прострочений або вже використаний. Запросіть новий код на комп’ютері."
+
+msgid "The pane or tab is not in this workspace."
+msgstr "Ця панель або вкладка не належить до цього робочого простору."
+
+msgid "The pane request expired. Inspect the layout before retrying."
+msgstr "Термін дії запиту панелі минув. Перевірте компонування перед повторною спробою."
 
 msgid "The previous token will stop working. Update the remote peer with the new token."
 msgstr "Попередній токен припинить працювати. Оновіть віддалений вузол новим токеном."
@@ -5721,6 +5905,9 @@ msgstr "Результат невизначений. Повторіть пові
 
 msgid "The resumed session identity could not be verified. Refresh before retrying."
 msgstr "Не вдалося перевірити ідентичність відновленого сеансу. Оновіть дані перед повторною спробою."
+
+msgid "The resumed terminal is not available yet. Refresh the workspace to retry."
+msgstr "Відновлений термінал поки недоступний. Оновіть робочий простір і спробуйте ще раз."
 
 msgid "The run command is still stopping. Wait, then restart."
 msgstr "Команда запуску ще зупиняється. Зачекайте, потім перезапустіть."
@@ -5770,6 +5957,9 @@ msgstr "Цільовий робочий простір змінився. Рез�
 msgid "The team becomes read-only. Its workspaces, files and terminals are kept."
 msgstr "Команда стане доступною лише для читання. Її робочі простори, файли й термінали збережуться."
 
+msgid "The terminal is not available in this workspace."
+msgstr "Цей термінал недоступний у цьому робочому просторі."
+
 msgid "The terminal session changed. Refresh before inserting the prompt."
 msgstr "Сеанс термінала змінився. Оновіть дані перед вставленням промпта."
 
@@ -5818,8 +6008,14 @@ msgstr "Цей вхід через API не надає даних про кво�
 msgid "This automation is no longer available"
 msgstr "Ця автоматизація більше недоступна"
 
+msgid "This branch already exists. Choose a new name or select Existing branch."
+msgstr "Така гілка вже існує. Виберіть нову назву або наявну гілку."
+
 msgid "This branch has conflicts"
 msgstr "Ця гілка має конфлікти"
+
+msgid "This branch is used by the shared checkout. Choose a new name or use the local checkout."
+msgstr "Ця гілка використовується спільною робочою копією. Виберіть нову назву або скористайтеся локальною робочою копією."
 
 msgid "This changes the pull request state on GitHub."
 msgstr "Це змінить стан пул-реквесту на GitHub."
@@ -5905,8 +6101,14 @@ msgstr "Це великий файл. Його відкриття може сп�
 msgid "This pane can't be shown"
 msgstr "Цю панель неможливо показати"
 
+msgid "This pane has no split to resize."
+msgstr "Ця панель не має поділу, розмір якого можна змінити."
+
 msgid "This pane hit an error"
 msgstr "У цій панелі сталася помилка"
+
+msgid "This pane operation is not supported by this desktop."
+msgstr "Цей настільний застосунок не підтримує цю операцію з панеллю."
 
 msgid "This permanently deletes the removed project and workspace records and attempts to remove their clean worktree directories. Dirty worktree directories may remain untracked. The main repository directory is kept. This cannot be undone."
 msgstr "Це назавжди видаляє записи видаленого проєкту й робочих просторів і намагається видалити їхні чисті теки worktree. Брудні теки worktree можуть залишитися невідстежуваними. Основна тека репозиторія зберігається. Цю дію неможливо скасувати."
@@ -6082,17 +6284,29 @@ msgstr "Токени"
 msgid "Too many background terminals. Reattach or end one before closing another view."
 msgstr "Забагато фонових терміналів. Повторно приєднайте або завершіть один перед закриттям іншого представлення."
 
+msgid "Too many desktop pane subscriptions."
+msgstr "Забагато підписок на панелі настільного застосунку."
+
 msgid "Too many dropped items. Add at most 5000 files and folders at a time."
 msgstr "Забагато перетягнутих елементів. Додавайте щонайбільше 5000 файлів і тек за раз."
 
 msgid "Too many files. Some were not added."
 msgstr "Забагато файлів. Деякі не додано."
 
+msgid "Too many pane requests are waiting. Try again after they finish."
+msgstr "Забагато запитів панелей очікують виконання. Спробуйте знову після їх завершення."
+
+msgid "Too many pending pane requests. Wait for the current requests to finish."
+msgstr "Забагато запитів панелей очікують виконання. Дочекайтеся завершення поточних запитів."
+
 msgid "Too many requests. Wait a moment and try again."
 msgstr "Забагато запитів. Трохи зачекайте та повторіть спробу."
 
 msgid "Too many untitled items here already."
 msgstr "Тут уже забагато елементів без назви."
+
+msgid "Tool details are unavailable in this older record."
+msgstr "Відомості про інструмент недоступні в цьому старішому записі."
 
 msgid "Tool output"
 msgstr "Вивід інструмента"
@@ -6343,6 +6557,9 @@ msgstr "Використати наявний сеанс"
 msgid "Use another local port"
 msgstr "Використати інший локальний порт"
 
+msgid "Use existing branch"
+msgstr "Використати наявну гілку"
+
 msgid "Use for new sessions"
 msgstr "Використовувати для нових сеансів"
 
@@ -6351,6 +6568,9 @@ msgstr "Використовувати глобальне значення за 
 
 msgid "Use host default"
 msgstr "Використати типове значення хоста"
+
+msgid "Use local checkout"
+msgstr "Використати локальну робочу копію"
 
 msgid "Use Move to group to move workspaces between groups."
 msgstr "Скористайтеся «Перемістити до групи», щоб переміщувати робочі простори між групами."
@@ -6394,6 +6614,9 @@ msgstr "Вигляд"
 
 msgid "View license"
 msgstr "Переглянути ліцензію"
+
+msgid "View original mail"
+msgstr "Переглянути початкове повідомлення"
 
 msgid "View run"
 msgstr "Переглянути запуск"
@@ -6490,6 +6713,9 @@ msgstr "Файли робочого простору недоступні"
 
 msgid "Workspace launcher"
 msgstr "Панель запуску робочого простору"
+
+msgid "Workspace layout could not be saved"
+msgstr "Не вдалося зберегти компонування робочого простору"
 
 msgid "Workspace name"
 msgstr "Назва робочого простору"

@@ -7,11 +7,13 @@ import {
 	createTerminalWorkspaceStore,
 	detachTerminalTab,
 	openChangesTab,
+	openNewAgentTab,
 	paneTerminalId,
 	reconcileTerminalPanes,
 	reopenTerminalTab,
 	switchTerminalSession,
 	terminalWorkspaceStore,
+	workspacePaneAreas,
 } from "./layout";
 
 const session = (terminalId: string, title = terminalId) =>
@@ -135,4 +137,28 @@ test("switching a detached session reuses the current pane and parks its previou
 	).toEqual(["current"]);
 	switchTerminalSession(store, session("detached"));
 	expect(store.getState().tabs).toHaveLength(1);
+});
+
+test("new agent tabs preserve focus and right area, while explicit background stays hidden", () => {
+	const store = createTerminalWorkspaceStore();
+	attachTerminalSession(store, session("original"));
+	const areas = workspacePaneAreas(store);
+	attachTerminalSession(areas.right, session("right"));
+	areas.state.setState({ rightAreaOpen: true, focusedArea: "right" });
+	const before = areas.state.getState();
+	expect(openNewAgentTab(store, session("new"))).toBe(true);
+	expect(store.getState().activeTabId).toBe("original");
+	expect(areas.right.getState().activeTabId).toBe("right");
+	expect(areas.state.getState()).toEqual(before);
+	detachTerminalTab(store, "new");
+	expect(openNewAgentTab(store, session("new"))).toBe(false);
+	expect(openNewAgentTab(store, session("right"))).toBe(false);
+});
+test("new agent remains background at the combined area tab limit", () => {
+	const store = createTerminalWorkspaceStore();
+	for (let i = 0; i < 32; i++) attachTerminalSession(store, session(`s${i}`));
+	expect(openNewAgentTab(store, session("overflow"))).toBe(false);
+	expect(backgroundTerminalSessions(store, [session("overflow")])).toHaveLength(
+		1,
+	);
 });

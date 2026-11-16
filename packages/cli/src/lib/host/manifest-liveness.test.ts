@@ -28,6 +28,7 @@ describe("isManifestLive", () => {
 		const alive = await isManifestLive(manifestFor(42), {
 			isAlive: () => true,
 			inspectCommand: async () => "/opt/jedv/bin/jedv-host",
+			inspectExecutable: async () => "/opt/jedv/bin/jedv-host",
 		});
 		expect(alive).toBe(true);
 	});
@@ -41,6 +42,8 @@ describe("isManifestLive", () => {
 		const alive = await isManifestLive(manifestFor(865), {
 			isAlive: () => true,
 			inspectCommand: async () => "/usr/libexec/some-unrelated-system-daemon",
+			inspectExecutable: async () =>
+				"/usr/libexec/some-unrelated-system-daemon",
 			probeHealthy,
 		});
 		expect(alive).toBe(false);

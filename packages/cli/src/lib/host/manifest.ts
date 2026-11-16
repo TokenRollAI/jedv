@@ -73,13 +73,18 @@ export function removeManifestIfOwnedBy(
 	if (readManifest(organizationId)?.pid === pid) removeManifest(organizationId);
 }
 
-export function isProcessAlive(pid: number): boolean {
+export function isProcessAlive(
+	pid: number,
+	probe: (pid: number, signal: 0) => unknown = process.kill,
+): boolean {
 	if (!pid) return false;
 	try {
-		process.kill(pid, 0);
+		probe(pid, 0);
 		return true;
-	} catch {
-		return false;
+	} catch (error) {
+		// Sandboxed callers may see a live host without permission to signal it.
+		// This only establishes liveness; manifest ownership is checked separately.
+		return (error as NodeJS.ErrnoException | null)?.code === "EPERM";
 	}
 }
 

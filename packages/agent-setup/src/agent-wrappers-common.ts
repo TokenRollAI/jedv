@@ -201,6 +201,7 @@ export interface BuildWrapperScriptOptions {
 	 */
 	agentId?: string;
 	beforeLaunch?: string;
+	onMissingBinary?: string;
 }
 
 /**
@@ -263,7 +264,7 @@ ${buildRealBinaryResolver()}
 REAL_BIN="$(find_real_binary "${binaryName}")"
 if [ -z "$REAL_BIN" ]; then
   echo "${getMissingBinaryMessage(binaryName)}" >&2
-  exit 127
+  ${options.onMissingBinary ?? "exit 127"}
 fi
 
 ${options.beforeLaunch ?? ""}${identity}${execLine}

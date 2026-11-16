@@ -304,9 +304,33 @@ describe("shouldKillStaleDaemonForDev", () => {
 		expect(shouldKillStaleDaemonForDev({ NODE_ENV: "production" })).toBe(false);
 	});
 
-	test("kills stale daemons only in explicit dev mode", () => {
-		expect(shouldKillStaleDaemonForDev({ NODE_ENV: "development" })).toBe(true);
+	test("preserves daemons by default in dev mode", () => {
+		expect(shouldKillStaleDaemonForDev({ NODE_ENV: "development" })).toBe(
+			false,
+		);
 		expect(shouldKillStaleDaemonForDev({})).toBe(false);
+	});
+
+	test("requires an explicit restart request in development only", () => {
+		expect(
+			shouldKillStaleDaemonForDev({
+				NODE_ENV: "development",
+				JEDV_PTY_DAEMON_RESTART_IN_DEV: "1",
+			}),
+		).toBe(true);
+		expect(
+			shouldKillStaleDaemonForDev({
+				NODE_ENV: "production",
+				JEDV_PTY_DAEMON_RESTART_IN_DEV: "1",
+			}),
+		).toBe(false);
+		expect(
+			shouldKillStaleDaemonForDev({
+				NODE_ENV: "development",
+				JEDV_PTY_DAEMON_RESTART_IN_DEV: "1",
+				JEDV_PTY_DAEMON_ADOPT_IN_DEV: "1",
+			}),
+		).toBe(false);
 	});
 
 	test("allows production-like adoption in dev for handoff testing", () => {
@@ -1435,6 +1459,21 @@ describe("ptyDaemonSocketPath", () => {
 				JEDV_HOME_DIR: path.join(os.homedir(), ".jedv"),
 			}),
 		).toBe(legacyPath());
+	});
+
+	test("a user-home override never shares the real legacy daemon socket", () => {
+		const userHome = path.join(os.tmpdir(), "isolated-user-home");
+		const implicit = ptyDaemonSocketPath(ORG, {
+			NODE_ENV: "production",
+			JEDV_USER_HOME_DIR: userHome,
+		});
+		const explicit = ptyDaemonSocketPath(ORG, {
+			NODE_ENV: "production",
+			JEDV_USER_HOME_DIR: userHome,
+			JEDV_HOME_DIR: path.join(userHome, ".jedv"),
+		});
+		expect(implicit).not.toBe(legacyPath());
+		expect(implicit).toBe(explicit);
 	});
 
 	test("equivalent spellings of one custom home share a socket", () => {

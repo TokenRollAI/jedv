@@ -9,6 +9,7 @@ import { teamworkClient } from "./teamwork";
 
 let protocol = 1;
 let startFeature: boolean | undefined;
+let startCallerFeature: boolean | undefined;
 const calls: Array<{ path: string; input: Record<string, unknown> }> = [];
 const procedure = (path: string) => (input: Record<string, unknown>) => {
 	calls.push({ path, input });
@@ -19,7 +20,7 @@ withLocalHostService("teamwork-test", {
 		protocolVersion: protocol,
 		...(startFeature === undefined
 			? {}
-			: { features: { start: startFeature } }),
+			: { features: { start: startFeature, startCaller: startCallerFeature } }),
 	}),
 	"team.start": procedure("team.start"),
 	"team.init": procedure("team.init"),
@@ -32,6 +33,7 @@ const signal = new AbortController().signal;
 afterEach(() => {
 	protocol = 1;
 	startFeature = undefined;
+	startCallerFeature = undefined;
 	calls.length = 0;
 });
 
@@ -118,6 +120,7 @@ test("new task start preserves raw prompt and operationId only after the optiona
 		signal,
 		args: {} as never,
 		options: {
+			human: true,
 			workspace: "folder-ws",
 			agent: "claude",
 			operationId: "start-once",
@@ -143,6 +146,55 @@ test("new task start preserves raw prompt and operationId only after the optiona
 			},
 		},
 	]);
+});
+test("start forwards calling identity separately from the target workspace", async () => {
+	startFeature = true;
+	startCallerFeature = true;
+	await start.run({
+		ctx,
+		signal,
+		args: {} as never,
+		options: {
+			callerWorkspace: "calling-workspace",
+			terminal: "calling-terminal",
+			launch: "calling-launch",
+			workspace: "target-workspace",
+			agent: "codex",
+			operationId: "native-start",
+			prompt: "new task",
+		} as never,
+	});
+	expect(calls).toHaveLength(1);
+	expect(calls[0]).toMatchObject({
+		path: "team.start",
+		input: {
+			workspaceId: "target-workspace",
+			actor: {
+				workspaceId: "calling-workspace",
+				terminalId: "calling-terminal",
+				launchId: "calling-launch",
+			},
+		},
+	});
+});
+test("native start fails closed against an old Host that cannot check caller membership", async () => {
+	startFeature = true;
+	await expect(
+		start.run({
+			ctx,
+			signal,
+			args: {} as never,
+			options: {
+				callerWorkspace: "calling-workspace",
+				terminal: "calling-terminal",
+				workspace: "target-workspace",
+				agent: "codex",
+				operationId: "native-start",
+				prompt: "new task",
+			} as never,
+		}),
+	).rejects.toThrow("cannot check existing Team membership");
+	expect(calls).toHaveLength(0);
 });
 test("an old protocol 1 host without start feature is rejected before launching a task", async () => {
 	await expect(

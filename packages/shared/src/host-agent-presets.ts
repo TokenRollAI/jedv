@@ -29,7 +29,14 @@ function deriveSuffixArgs(
 	variantCommand: string | undefined,
 ): string[] {
 	if (!variantCommand) return [];
-	return tokenize(variantCommand).slice(commandTokens.length);
+	const variant = tokenize(variantCommand);
+	let shared = 0;
+	while (
+		shared < commandTokens.length &&
+		commandTokens[shared] === variant[shared]
+	)
+		shared++;
+	return variant.slice(shared);
 }
 
 /**

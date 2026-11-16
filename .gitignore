@@ -35,6 +35,8 @@ yarn.lock
 /test-results/
 /playwright-report/
 /playwright/.cache/
+/.playwright-cli/
+/output/playwright/
 
 # Env variables
 .env

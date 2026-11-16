@@ -1,13 +1,22 @@
 ---
-description: "关闭窗口后终端继续运行、尚无输出不等于 shell 就绪、terminal reanchor replay detach、端口 PID 复用误杀；PTY 所有权、启动 echo 验证与直连恢复、Agent Stop 展示与自动投递许可分离。"
+description: "关闭应用后终端存续、macOS coalition 与 LaunchAgent generation、PTY handoff；生产者序号与迟到通知、手写草稿和自动输入许可，恢复与中断不能补造授权。"
 kind: architecture
 code:
   paths:
     - packages/pty-daemon/src/protocol/messages.ts
     - packages/pty-daemon/src/Server/Server.ts
+    - packages/pty-daemon/src/main.ts
     - packages/pty-daemon/src/SessionStore/SessionStore.ts
+    - packages/host-service/src/daemon/DaemonSupervisor.ts
+    - packages/host-service/src/daemon/macos-launch.ts
+    - packages/host-service/src/daemon/manifest.ts
+    - packages/host-service/src/daemon/probe.ts
     - packages/host-service/src/terminal/terminal.ts
+    - packages/host-service/src/terminal/interrupt-agent.ts
+    - packages/host-service/src/terminal/native-interrupt-identity.ts
+    - packages/agent-setup/src/process-executable.ts
     - packages/host-service/src/terminal-agents/store.ts
+    - packages/host-service/src/terminal-agents/native-interrupt.ts
     - packages/host-service/src/terminal-agents/source-sequence.ts
     - packages/host-service/src/terminal-agents/manual-barrier.test.ts
     - packages/agent-setup/templates/notify-hook.template.sh
@@ -48,6 +57,12 @@ daemon 保存有界内存 replay ring，不负责完整持久 scrollback。Daemo
 
 Unix socket 协议分开 JSON header 与 binary PTY payload，并有版本协商、socket 权限与受信 supervisor。FD handoff 成功后 predecessor 必须以 killSessions=false 退出，避免杀死已经转移的用户 shell；普通 daemon shutdown 才清理自身 PTY。
 
+macOS 的 `detached`/`unref` 不会解除应用 coalition 责任，另一个 Host adopt 也不会改变系统归属。新 daemon 因此由独立的临时 LaunchAgent job 承载，不写登录自启目录；KeepAlive 关闭，由 Supervisor 保持重启权限。job 的 AbandonProcessGroup 保护 handoff 后仍活着的 successor。当前默认依赖 `gui/<uid>` 登录域，没有可用域时明确失败，不回落到可能随旧应用退出的 detached 启动；不能据此承诺无 GUI 登录的纯 SSH 路径。
+
+job 以 profile/org namespace、UID/domain 和 generation 共同标识，manifest 的可选 job identity 与 hello 中的 generation 用于交叉核对。启动结果不确定时保留记录，禁止换 label 重试。stop、清理与 handoff 都复核同代资源；只有确认目标 PID 已死、socket 不活且没有 handoff claim 才卸载该 job。predecessor 退出至 successor 重绑间以持久 handoff 屏障保护，不能把这段空窗当死资源清理。既有活 daemon 只 adopt，不为升级启动机制强制迁移。
+
+开发主进程重载默认也 adopt 活 daemon。强制重建是显式开发开关，具有结束终端的后果；不能把每次重载当作清理“残留”的授权。
+
 显式 dispose 先持久化 disposeRequestedAt 再尝试 kill；失败保留可重试意图，未知 session 可幂等视作已清理。reaper 区分 exited（Agent 可能恢复）与用户 disposed（不得复活），以 grace 与重复 missing 观察防止把 spawn/adoption 竞态当退出。
 
 默认 shell close 使用 SIGHUP；交互 shell 可 trap SIGTERM。关闭须同时处理进程与 master fd；部分 open 失败也不能仅删除 store 而留下进程或 fd。
@@ -56,17 +71,25 @@ Unix socket 协议分开 JSON header 与 binary PTY payload，并有版本协商
 
 terminal binding 的持久化生命周期（包括 Stop）用于展示，不构成自动输入授权。自动投递许可只存在于 Host 内存；接收方必须同时验证 terminal attribution token、当前 launch 与 agent session 绑定，以及 producer 在 launch 内单调递增的 source deliverySequence。旧 hook 缺少序号时仍可保持展示兼容，但自动投递状态必须视为 unknown，不能仅凭 Stop 补发许可。
 
-源序号必须在事件发生时同步预分配，再交给 detached sender；不能等后台进程调度后取号。端点 failover 与同请求重试复用原序号和 payload，预分配缺失或失败的 adapter 只能 display-only，禁止 sender 晚补号制造新因果顺序。
+生产者序号必须在事件发生时同步预分配，再交给 detached sender；不能等后台进程调度后取号。端点 failover 与同请求重试复用原序号和 payload，预分配缺失或失败的 adapter 只能 display-only，禁止 sender 晚补号制造新因果顺序。
 
-可信且新鲜的 Start 建立工作区间，只有同一绑定中其后的新鲜 Stop 才能结束该区间并允许一次自动投递。permit 在发送队列头部一次性 claim，随后不能重复使用；Host 重启不从持久化展示状态恢复许可。
+入口可忽略已被更新证据超越的无 native session 原始 Start，但必须同时满足 terminal attribution token 有效、当前 binding 的 workspace/launch/provider 一致，以及正安全整数 deliverySequence 不大于已记录序号。忽略发生在 Store/Guard mutation 和生命周期广播之前，既不恢复 clean/idle，也不授予原生生命周期或输入权限；它只防止认证的旧通知抹掉较新证据。不同身份、无效 token、更新序号或带不同 native session 的事件仍走原有保护，不能泛化为忽略所有不可信事件或让工具事件清除草稿。
+
+可信且新鲜的 Start 建立工作区间，同一绑定中其后的新鲜 Stop 只有在输入缓冲仍有 clean 证明时才允许一次自动投递。permit 在发送队列头部一次性 claim，随后不能重复使用；Host 重启不从持久化展示状态恢复许可。
 
 人工输入和 clear 除撤销已有 claim 外，还在同一 launch 以非等待锁采样 producer watermark 作为 cutoff。采样前已生成的迟到 Start/Stop 只能更新展示，不能恢复许可；采样失败保持 barrierPending fail closed，成功恢复也必须等待其后完整可信的新 Start→Stop。持久 floor 只防止旧事件回潮，不是重启后的许可，替换 launch 不继承旧 cutoff。
 
-人工终端 WS `input` 与 tRPC `writeInput` 在各自写入路径撤销当前绑定的自动许可；手动 `send` 在入队前撤销，并在队头实际写入前再次撤销。因此即使排队期间出现新的 idle，手动草稿到达队头后也会将其撤销，不会把它留给后续自动发送。撤销针对当前匹配的 agent binding，不能拿旧 binding 去改写替换后的会话状态。
+独立 draft latch 同时约束自动投递和明确人工中断。工具完成、PermissionResult 或下一次模型调用可更新 working 展示，却不能证明用户已提交草稿；尤其 agy PreInvocation 和旧 Gemini AfterTool 都可能被扁平化为 Start。只有可信且越过人工输入水位的真正用户提交才可清除 dirty，不能只按归一后的 Start 名称判断。
+
+Host 仅在 daemon 真正新建 PTY、尚未向手工输入暴露的同步 fresh 回调中登记初始 clean，并绑定本次预分配 launch 身份。existing/adopt/旧记录重试和 Host 恢复都没有这份证明；登记有界、首绑定消费、失败或退出精确清理，重复登记不能抹掉草稿。人工 WS `input`、`writeInput`、手动 `send` 在首 hook 前也要撤销 pending clean；send 在入队前及队头再次撤销，不能因当时没有 binding 而漏掉输入。
 
 自动与手动发送都在入队前、队头及延迟 Enter 前复核当前 session registry；自动发送还在这些边界复核绑定和许可，且组合许可在等待 Mail reservation 后、任何字节写入前再次检查。session 被替换、adoption 后 registry 不再指向原实例，或许可失效时停止后续写入。串行与复核只能收窄交错窗口，不构成绝对零竞态或安全隔离保证。
 
 错误返回中的 `inputStaged: true` 表示文本或 Enter 可能已经部分或全部进入 PTY，不代表完整提交成功。写入后许可失效、session 更换、部分写入失败，甚至单独 Enter 的传输失败都可能返回此标记；自动许可已经被消费，调用方必须核对终端现状，不能盲目重试文本或 Enter。
+
+明确人工中断使用独立 attempt，不复用 idle permit 或抢 broker writer。它要求可信 busy 区间、clean draft、producer 水位与同 launch 的前台 native executable/进程启动身份；取消后须等新鲜可信的 Interrupt 证据，再复核身份与输入状态。取消键写入起结果就可能不确定，超时或断线不自动重发。具备这些内部原语不等于所有 provider 可用；公开 Mail 的平台 capability 由 `teamwork/execution` 约束，`mailInterrupt=true` 也不替代逐目标证明，更不表示收件人已 read/ACK 或任务完成。
+
+前台 executable 与 CLI stop 共用内核路径读取，不以可伪装的 ps comm/argv[0] 作为身份。可执行路径匹配仍须结合当前 PTY 的前台组、进程启动身份和 launch 归属，并在受保护写入旁重新核验；内核路径快照本身不授予输入许可，也不消除 PID 复用竞态。平台读取机制与失败关闭规则由 `runtime/local-host` 约束。
 
 ## 尚无输出不等于就绪
 

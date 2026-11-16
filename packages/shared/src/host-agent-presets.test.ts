@@ -13,6 +13,7 @@ test("new hosts seed only the four supported native agents", () => {
 	expect(kimi).toMatchObject({
 		command: "kimi",
 		args: ["--yolo"],
+		promptArgs: ["-p"],
 		resumeArgs: ["--session"],
 	});
 	presets[0]?.args.push("mutated");

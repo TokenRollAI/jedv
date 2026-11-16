@@ -29,6 +29,7 @@ import {
 	ptyDaemonManifestDir,
 	writePtyDaemonManifest,
 } from "./manifest.ts";
+import { probeDaemonHello } from "./probe.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // packages/host-service/src/daemon → packages/pty-daemon/dist/pty-daemon.js
@@ -96,6 +97,13 @@ describe("DaemonSupervisor.ensure (real spawn)", () => {
 		assert.equal(inst.runningVersion, inst.expectedVersion);
 		assert.equal(inst.updatePending, false);
 		assert.equal(await isReachable(inst.socketPath), true);
+		if (process.platform === "darwin") {
+			assert.ok(inst.launchdJob);
+			assert.equal(
+				(await probeDaemonHello(inst.socketPath, 1_000))?.launchdGeneration,
+				inst.launchdJob.generation,
+			);
+		}
 	});
 
 	test("adopts a running daemon across supervisor instances", async () => {
@@ -122,6 +130,43 @@ describe("DaemonSupervisor.ensure (real spawn)", () => {
 			throw err;
 		}
 	});
+
+	test(
+		"recovers the launchd generation after a Host loses the kickstart PID",
+		{ skip: process.platform !== "darwin" },
+		async () => {
+			const orgId = "org-lost-launch-pid";
+			const first = new DaemonSupervisor({ scriptPath: DAEMON_BUNDLE });
+			const running = await first.ensure(orgId);
+			assert.ok(running.launchdJob);
+			const directory = ptyDaemonManifestDir(orgId);
+			const recordPath = path.join(directory, "pty-daemon-launchd.json");
+			const record = JSON.parse(fs.readFileSync(recordPath, "utf8"));
+			try {
+				// Only this isolated fixture's files are changed: simulate the first
+				// Host dying after launchctl started the daemon but before PID commit.
+				fs.writeFileSync(recordPath, JSON.stringify({ ...record, pid: null }));
+				fs.unlinkSync(path.join(directory, "pty-daemon-manifest.json"));
+				const next = new DaemonSupervisor({ scriptPath: DAEMON_BUNDLE });
+				supervisorsToCleanup.push({ sup: next, orgId });
+				const recovered = await next.ensure(orgId);
+				assert.equal(recovered.pid, running.pid);
+				assert.equal(
+					recovered.launchdJob?.generation,
+					running.launchdJob.generation,
+				);
+				assert.equal(
+					JSON.parse(fs.readFileSync(recordPath, "utf8")).pid,
+					running.pid,
+				);
+				dropSupervisorInstance(first, orgId);
+			} catch (error) {
+				fs.writeFileSync(recordPath, JSON.stringify(record));
+				await first.stop(orgId).catch(() => {});
+				throw error;
+			}
+		},
+	);
 
 	test("flags updatePending when running daemon is older than expected", async () => {
 		// We spawn the daemon DIRECTLY (not via supervisor.ensure), pinning
@@ -360,6 +405,14 @@ describe("DaemonSupervisor.update (Phase 2 fd-handoff)", () => {
 		).instances.get(orgId);
 		assert.ok(successorInst, "supervisor should have a successor instance");
 		assert.equal(successorInst.pid, result.successorPid);
+		if (process.platform === "darwin") {
+			assert.ok(a.launchdJob);
+			assert.equal(
+				(await probeDaemonHello(successorInst.socketPath, 1_000))
+					?.launchdGeneration,
+				a.launchdJob.generation,
+			);
+		}
 
 		const client2 = new DaemonClient({ socketPath: successorInst.socketPath });
 		await client2.connect();

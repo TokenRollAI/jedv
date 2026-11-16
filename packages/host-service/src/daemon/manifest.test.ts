@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
+import { createHash } from "node:crypto";
 import * as fs from "node:fs";
 import * as os from "node:os";
 import * as path from "node:path";
@@ -52,6 +53,31 @@ describe("PtyDaemonManifest", () => {
 		};
 		writePtyDaemonManifest(manifest);
 		expect(readPtyDaemonManifest(TEST_ORG)).toEqual(manifest);
+	});
+
+	test("retains an owned LaunchAgent generation across handoff and drops foreign ownership", () => {
+		const directory = path.resolve(TEST_HOME, "host", TEST_ORG);
+		const generation = "a".repeat(32);
+		const hash = createHash("sha256")
+			.update(directory)
+			.digest("hex")
+			.slice(0, 20);
+		const launchdJob = {
+			label: `dev.jedv.pty.${hash}.${generation}`,
+			generation,
+			plistPath: path.join(directory, `pty-daemon-${generation}.plist`),
+			uid: process.getuid?.() ?? -1,
+			domain: "user" as const,
+		};
+		const manifest = { ...baseManifest(), launchdJob, handoffInProgress: true };
+		writePtyDaemonManifest(manifest);
+		expect(readPtyDaemonManifest(TEST_ORG)).toEqual(manifest);
+		writePtyDaemonManifest({
+			...manifest,
+			launchdJob: { ...launchdJob, plistPath: "/other/profile/job.plist" },
+		});
+		expect(readPtyDaemonManifest(TEST_ORG)?.launchdJob).toBeUndefined();
+		expect(readPtyDaemonManifest(TEST_ORG)?.pid).toBe(manifest.pid);
 	});
 
 	test("read tolerates extra unknown fields (forward-compat)", () => {

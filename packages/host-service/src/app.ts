@@ -328,11 +328,8 @@ export function createApp(options: CreateAppOptions): CreateAppResult {
 		db,
 		eventBus,
 		upgradeWebSocket,
-		onInput: (terminalId, workspaceId) => {
-			const binding = terminalAgentStore.get(terminalId);
-			if (binding?.workspaceId === workspaceId)
-				terminalAgentStore.invalidateAutomaticDelivery(binding);
-		},
+		onInput: (terminalId) =>
+			terminalAgentStore.invalidateTerminalInput(terminalId),
 	});
 	registerChatV3Routes({ app, db, mount: chatV3, upgradeWebSocket });
 	runtime.teamwork = new TeamworkRuntime(chatAgentContext, {

@@ -68,3 +68,22 @@ test("TTL and authoritative Host reconciliation clean entries without resurrecti
 	store.clear();
 	expect(store.size).toBe(0);
 });
+
+test("delivery mode and required ACK belong to the durable retry identity", () => {
+	const store = new TeamMailDraftStore();
+	const scope = { hostId: "host", teamId: "team" };
+	store.edit(scope, { body: "urgent work" });
+	const queued = store.begin(scope, true);
+	if (!queued) throw new Error("Missing request");
+	expect(queued.options).toEqual({ deliveryMode: "queue", requiresAck: true });
+	store.settle(scope, queued, false);
+	expect(store.begin(scope, true)).toBe(queued);
+	store.settle(scope, queued, false);
+	store.edit(scope, { deliveryMode: "interrupt" });
+	const urgent = store.begin(scope, true);
+	expect(urgent?.options).toEqual({
+		deliveryMode: "interrupt",
+		requiresAck: true,
+	});
+	expect(urgent?.key).not.toBe(queued.key);
+});

@@ -23,7 +23,13 @@ withLocalHostService("org-1", {
 	],
 	"agents.run": (input) => {
 		runInput = input;
-		return { kind: "terminal", sessionId: "terminal-1", label: "Codex" };
+		return {
+			kind: "terminal",
+			sessionId: "terminal-1",
+			label: "Codex",
+			launchState: "starting",
+			runId: "run-1",
+		};
 	},
 });
 
@@ -57,6 +63,16 @@ afterEach(() => {
 });
 
 describe("agents create", () => {
+	test("returns starting and run identity without claiming the Agent launched", async () => {
+		const result = await invoke();
+		expect(result).toMatchObject({
+			data: {
+				launchState: "starting",
+				runId: "run-1",
+			},
+			message: undefined,
+		});
+	});
 	test("forwards an explicit model to the host", async () => {
 		await invoke(undefined, {
 			prompt: "Review this diff",

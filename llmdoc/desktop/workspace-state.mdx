@@ -1,5 +1,5 @@
 ---
-description: "pane/terminal 身份、logicalHostId 与 endpoint 重挂、布局恢复不覆盖编辑、看板未读和有界持久化；Mail 草稿不自动重放。"
+description: "pane/terminal 身份、新 Agent 标签不抢焦点、strict successor 同会话布局恢复、共享查询缓存与右侧面板；logicalHostId、看板未读和有界持久化，Mail 草稿不自动重放。"
 kind: architecture
 code:
   paths:
@@ -18,6 +18,22 @@ code:
     - "apps/desktop/src/renderer/components/JedvShell/parity-types.ts"
     - "apps/desktop/src/renderer/components/JedvShell/components/JedvTeamworkView/team-mail-drafts.ts"
     - "apps/desktop/src/renderer/components/JedvShell/components/JedvTeamworkView/team-mail-drafts.test.ts"
+    - apps/desktop/src/lib/trpc/routers/pane-layout/pane-layout.ts
+    - apps/desktop/src/main/lib/pane-layout/pane-layout-requests.ts
+    - apps/desktop/src/main/lib/pane-layout/request-dispatcher.ts
+    - apps/desktop/src/renderer/components/JedvShell/hooks/usePaneLayoutBridge/controller.ts
+    - apps/desktop/src/renderer/components/JedvShell/hooks/usePaneLayoutBridge/operations.ts
+    - apps/desktop/src/renderer/components/JedvShell/hooks/usePaneLayoutBridge/usePaneLayoutBridge.ts
+    - apps/desktop/src/renderer/components/JedvShell/hooks/useJedvLayoutPersistence/useJedvLayoutPersistence.ts
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvWorkspaceActivity/hooks/useWorkspaceActivity/useWorkspaceActivity.ts
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvTerminalWorkspace/layout.ts
+    - apps/desktop/src/renderer/components/JedvShell/hooks/useNewAgentTabs/useNewAgentTabs.ts
+    - apps/desktop/src/renderer/components/JedvShell/hooks/useNewAgentTabs/discovery.ts
+    - apps/desktop/src/renderer/components/JedvShell/hooks/useResumedTerminalPanes/useResumedTerminalPanes.ts
+    - apps/desktop/src/renderer/components/JedvShell/hooks/useResumedTerminalPanes/controller.ts
+    - apps/desktop/src/renderer/components/JedvShell/hooks/useResumedTerminalPanes/rebind.ts
+    - apps/desktop/src/renderer/components/JedvShell/hooks/useResumedTerminalPanes/restore.ts
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvTerminalTabStrip/components/TerminalSessionsMenu/useTerminalSessionsMenu.tsx
 relations:
   requires:
     - "terminals/session-lifecycle.mdx"
@@ -39,7 +55,17 @@ panes store 用 close 表示需要发出资源关闭回调的用户操作，用 
 
 布局 adapter 等待 saved layout 和 live terminal 列表都 ready 才恢复。恢复前用户已经编辑的布局不能被旧 snapshot 覆盖；同样不能将尚未加载的空会话列表当作“全部终端死亡”。有意从布局移出的活 terminal 以 detached identity 记住，避免 reconcile 又自动加回。
 
+共享 terminal query 的成功状态必须来自实际查询；关闭菜单中的空 props 只是局部显示 fallback，不能以 initialData 写成全局成功快照。否则布局消费者会把尚未取得的会话列表误当权威空集，删除 saved pane 或 detached 记录。侧栏位置来自对应工作区的布局投影，不从 transport attached 推断已在标签或右区；未加载布局时保持位置未知。
+
+新 Agent 标签发现先等待 sessions/bindings 就绪并建立基线，只为同 Host/workspace 后续出现且有 live binding 的新 terminal 添加视图。既有后台或显式 detached 终端不会被重新打开，身份与双区容量预算耗尽时保持后台。追加必须保留 active Tab 和输入焦点；panes 的 focus:false 只抑制 focusRequest，不能据此假设活动标签未切换。右区 open 状态还须在实际 panel handle 挂载后同步尺寸，不能以位置元数据代替可见区域。
+
+发现器还以有界的 provider/config/native session 记忆跨越 terminal 消失与替换，防止后台会话的继任者被误当全新 Agent 自动开 Tab。已有 terminal 的身份优先，不因 binding/list 到达顺序反转而改变；预算耗尽时停止自动发现，不淘汰旧身份后将其重开。这份记忆只抑制自动呈现，不授权旧→新 rebind；原位恢复仍必须走 strict successor 查询。
+
+resumed 事件只触发重查，旧→新 terminal 映射由同 Host/workspace 的 strict successor 查询确认，且后继须已出现在会话列表中。迟到结果还要复核连接、store、旧 pane 对象与 Tab；用户已关闭、移动或改绑的视图不被覆盖。已有后继的重复 pane 只 remove，不 close PTY。重连补查和 saved layout 恢复都只读取这条映射，不触发 resume mutation 或新建进程；查询失败或已知后继暂未可见时保留 saved 并提供重试，期间用户编辑优先。Host 的列表查询成功不等于完整 daemon 快照，单次缺席不授予创建替代会话的权限。
+
 保存按顺序合并 pending snapshot；失败保留可重试的数据与显式错误，不能把本地内存已更新当作已持久化。主进程按注册 window key、host identity、workspace 分区；回环端口变化规范为同一本地 host，私网 origin 则保持独立身份。
+
+本地 pane CLI 经 main 定向到一个已注册 renderer subscription，无需云登录。main 的 pending/subscriber 与 renderer 队列/去重均有界，关闭窗口、退订、连接更换或过期请求显式失败；同窗口重复订阅不能双执行。renderer 从本机 Host 核对 workspace/terminal，按 host/workspace retain 布局 store，实际操作前复核并等待保存 flush；失联或超时可能结果未知，需查看布局而非盲重试。focus 不能切离私网 Host 或绕过未保存文件守卫。keepTerminal/move 仅 remove，普通 close 的资源终止仍由既有 Host 入口唯一负责；不支持的旧 browser/chat/pages 或细粒度文件动作明确拒绝。
 
 ## logicalHostId 与 transport endpoint 分开
 

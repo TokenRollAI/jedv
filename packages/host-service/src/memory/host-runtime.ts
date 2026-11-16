@@ -10,6 +10,7 @@ import {
 	terminalAgentBindings,
 	workspaces,
 } from "../db/schema";
+import { mailReceipt } from "../mail/policy";
 import { matchesAgentBinding } from "../terminal-agents/matches-agent-binding";
 import type { TerminalAgentBinding } from "../terminal-agents/types";
 import type { HostServiceContext } from "../types";
@@ -194,6 +195,10 @@ export function readHostWatchdogSnapshot(
 			teamId: event.teamId,
 			createdAt: delivery.createdAt,
 			ackedAt: delivery.ackedAt,
+			nudgeState: delivery.nudgeState,
+			nudgedAt: delivery.nudgedAt,
+			attemptCount: delivery.attemptCount,
+			recipientReadAt: mailReceipt(event, delivery.id)?.readAt ?? null,
 			recipientMemberId: delivery.recipientMemberId,
 			workspaceId,
 			terminalId: member?.terminalId ?? member?.plannedTerminalId ?? null,

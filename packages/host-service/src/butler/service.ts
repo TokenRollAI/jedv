@@ -33,6 +33,15 @@ import { readApprovalCards } from "./approval-query";
 import { canonical, digest } from "./canonical";
 import { buildConversationContext } from "./conversation-context";
 import {
+	type ButlerToolProgress,
+	observeTool,
+	scheduleToolProgress,
+	ToolObservationInterrupted,
+	type ToolProgressClock,
+	toolFailureSummary,
+	toolValueSummary,
+} from "./tool-progress";
+import {
 	type ButlerTools,
 	butlerToolDefinitions,
 	type HumanTurn,
@@ -84,19 +93,48 @@ export class ButlerService {
 	private readonly active = new Map<string, Promise<ButlerSendResult>>();
 	private readonly busyThreads = new Set<string>();
 	private disposed = false;
+	private readonly toolController = new AbortController();
 	private readonly approvalJobs = new Set<Promise<ButlerApprovalShape>>();
+	private readonly toolJobs = new Set<Promise<unknown>>();
 	constructor(
 		private readonly deps: {
 			db: MemorySqlite;
 			ai: DeepseekClient;
 			tools: ButlerTools;
 			now?: () => number;
+			toolSchedule?: ToolProgressClock["schedule"];
+			toolTimeoutMs?: number;
 			alerts?: () => unknown[];
 			watchdog?: RuleWatchdog;
 		},
 	) {
 		this.db = deps.db;
 		this.now = deps.now ?? Date.now;
+		const stranded = this.db
+			.prepare(
+				"SELECT id,content FROM butler_messages WHERE role='tool' AND request_id IN (SELECT id FROM butler_turns WHERE status='running')",
+			)
+			.all() as { id: string; content: string }[];
+		for (const row of stranded) {
+			try {
+				const progress = JSON.parse(row.content) as ButlerToolProgress;
+				if (progress.version !== 1 || progress.status !== "running") continue;
+				this.db.prepare("UPDATE butler_messages SET content=? WHERE id=?").run(
+					JSON.stringify({
+						...progress,
+						status: "interrupted",
+						updatedAt: this.now(),
+						finishedAt: this.now(),
+						outcomeUnknown: true,
+						error:
+							"Host restarted during tool execution; inspect the target before retrying.",
+					}),
+					row.id,
+				);
+			} catch {
+				/* Legacy tool messages remain readable. */
+			}
+		}
 		this.db
 			.prepare(
 				"UPDATE butler_approvals SET status='failed',error='Host restarted during execution; inspect target before retrying',resolved_at=? WHERE status='claimed'",
@@ -107,6 +145,13 @@ export class ButlerService {
 				"UPDATE butler_turns SET status='interrupted' WHERE status='running'",
 			)
 			.run();
+	}
+	private trackToolJob<T>(run: () => Promise<T>): Promise<T> {
+		const job = run();
+		this.toolJobs.add(job);
+		return job.finally(() => {
+			this.toolJobs.delete(job);
+		});
 	}
 	private currentState(): ButlerConversationStateShape {
 		const row = this.db
@@ -164,7 +209,19 @@ export class ButlerService {
 	}
 	history(raw: z.input<typeof butlerHistorySchema> = {}) {
 		const x = butlerHistorySchema.parse(raw);
-		const threadId = x.threadId ?? this.state().currentThreadId;
+		const request = x.requestId
+			? (this.db
+					.prepare("SELECT thread_id AS threadId FROM butler_turns WHERE id=?")
+					.get(x.requestId) as { threadId: string } | undefined)
+			: undefined;
+		if (x.requestId && !request) return [];
+		if (request && x.threadId && request.threadId !== x.threadId)
+			throw new TRPCError({
+				code: "CONFLICT",
+				message: "Request does not belong to this Butler thread",
+			});
+		const threadId =
+			request?.threadId ?? x.threadId ?? this.state().currentThreadId;
 		if (!threadId) return [];
 		this.requireThread(threadId);
 		const rows = this.db
@@ -205,12 +262,13 @@ export class ButlerService {
 		role: ButlerMessageShape["role"],
 		content: string,
 	) {
+		const id = randomUUID();
 		this.db
 			.prepare(
 				"INSERT INTO butler_messages(id,thread_id,request_id,role,content,created_at) VALUES(?,?,?,?,?,?)",
 			)
 			.run(
-				randomUUID(),
+				id,
 				turn.threadId,
 				turn.requestId,
 				role,
@@ -220,6 +278,7 @@ export class ButlerService {
 		this.db
 			.prepare("UPDATE butler_threads SET updated_at=? WHERE id=?")
 			.run(this.now(), turn.threadId);
+		return id;
 	}
 	sendMessage(
 		raw: z.input<typeof butlerSendSchema>,
@@ -353,7 +412,7 @@ export class ButlerService {
 			{ role: "user", content: turn.humanVerbatim },
 		];
 		const approvals: ButlerApprovalShape[] = [];
-		const operations = new Map<string, unknown>();
+		const operations = new Map<string, { output: unknown; failed: boolean }>();
 		let reply = "",
 			reason: ButlerSendResult["reason"] = null;
 		try {
@@ -381,39 +440,103 @@ export class ButlerService {
 				});
 				for (const call of result.toolCalls) {
 					let output: unknown;
+					const knownName = butlerToolDefinitions.some(
+						(definition) => definition.function.name === call.function.name,
+					)
+						? call.function.name
+						: "unknown";
+					let messageId: string | undefined;
+					let operationKey: string | undefined;
+					const progress: ButlerToolProgress = {
+						version: 1,
+						tool: knownName,
+						callId: call.id.slice(0, 128),
+						status: "running",
+						startedAt: this.now(),
+						updatedAt: this.now(),
+						elapsedMs: 0,
+						parametersSummary: "Invalid parameters",
+					};
+					const write = (value: ButlerToolProgress) => {
+						if (!messageId)
+							messageId = this.message(turn, "tool", JSON.stringify(value));
+						else
+							this.db
+								.prepare("UPDATE butler_messages SET content=? WHERE id=?")
+								.run(JSON.stringify(value), messageId);
+					};
 					try {
 						const args = JSON.parse(call.function.arguments);
+						progress.parametersSummary = toolValueSummary(args);
 						const key = digest({ name: call.function.name, args });
-						if (operations.has(key)) output = operations.get(key);
-						else {
-							output = await this.deps.tools.run(
-								call.function.name,
-								args,
-								turn,
-							);
-							if (call.function.name === "requestApproval") {
-								const action = guardedActionSchema.parse(
-									(output as { approvalIntent: unknown }).approvalIntent,
-								);
-								const approval = this.createApproval(action, turn);
-								approvals.push(approval);
-								output = { approval };
-							}
-							operations.set(key, output);
+						operationKey = key;
+						const previous = operations.get(key);
+						if (previous) {
+							output = previous.output;
+							write({
+								...progress,
+								status: previous.failed ? "failed" : "succeeded",
+								...(previous.failed
+									? {
+											error:
+												"Previous tool execution failed; no automatic retry was performed.",
+										}
+									: {}),
+								finishedAt: this.now(),
+								resultSummary: toolValueSummary(output),
+								reused: true,
+							});
+						} else {
+							output = await observeTool({
+								progress,
+								write,
+								signal: this.toolController.signal,
+								timeoutMs: this.deps.toolTimeoutMs ?? 60_000,
+								clock: {
+									now: this.now,
+									schedule: this.deps.toolSchedule ?? scheduleToolProgress,
+								},
+								run: (signal) =>
+									this.trackToolJob(async () => {
+										let value = await this.deps.tools.run(
+											call.function.name,
+											args,
+											turn,
+										);
+										if (signal.aborted)
+											throw new ToolObservationInterrupted(
+												"Tool observation stopped",
+											);
+										if (call.function.name === "requestApproval") {
+											const action = guardedActionSchema.parse(
+												(value as { approvalIntent: unknown }).approvalIntent,
+											);
+											const approval = this.createApproval(action, turn);
+											approvals.push(approval);
+											value = { approval };
+										}
+										return value;
+									}),
+							});
+							operations.set(key, { output, failed: false });
 						}
 					} catch (error) {
-						output = {
-							error:
-								error instanceof TRPCError
-									? error.message
-									: "Tool input or execution failed",
-						};
+						if (error instanceof ToolObservationInterrupted) throw error;
+						output = { error: toolFailureSummary(error) };
+						if (operationKey)
+							operations.set(operationKey, { output, failed: true });
+						if (!messageId)
+							write({
+								...progress,
+								status: "failed",
+								finishedAt: this.now(),
+								error: toolFailureSummary(error),
+							});
 					}
 					const content = JSON.stringify({
 						tool: call.function.name,
 						result: output,
 					}).slice(0, 5000);
-					this.message(turn, "tool", content);
 					messages.push({ role: "tool", tool_call_id: call.id, content });
 				}
 			}
@@ -777,7 +900,12 @@ export class ButlerService {
 	}
 	async dispose() {
 		this.disposed = true;
+		this.toolController.abort();
 		this.deps.ai.dispose();
-		await Promise.allSettled([...this.active.values(), ...this.approvalJobs]);
+		await Promise.allSettled([
+			...this.active.values(),
+			...this.approvalJobs,
+			...this.toolJobs,
+		]);
 	}
 }

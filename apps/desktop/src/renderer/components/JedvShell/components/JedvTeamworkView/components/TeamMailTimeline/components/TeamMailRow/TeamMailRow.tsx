@@ -5,22 +5,52 @@ import { useState } from "react";
 import { LuChevronDown, LuEye, LuMail } from "react-icons/lu";
 import type { MailItem, TeamMember } from "../../../../../../hooks/useTeamwork";
 import { TeamIconButton } from "../../../TeamIconButton";
+import { deliveryNeedsAttention, isWorkerReport } from "../../mail-visibility";
 export function TeamMailRow({
 	item,
+	initiallyExpanded = false,
 	members,
 	pending,
 	readOnly,
 	onConsume,
 }: {
 	item: MailItem;
+	initiallyExpanded?: boolean;
 	members: TeamMember[];
 	pending: boolean;
 	readOnly: boolean;
 	onConsume(id: string, ack: boolean): void;
 }) {
 	const { t, i18n } = useLingui();
-	const [expanded, setExpanded] = useState(false);
+	const [expanded, setExpanded] = useState(initiallyExpanded);
 	const { event, deliveries } = item;
+	const requiresAck = event.requiresAck !== false;
+	const report = isWorkerReport(event.body)
+		? event.body.match(/^(?:summary|reason):\s*(.+)$/m)?.[1]
+		: undefined;
+	const deliveryErrors = deliveries.filter(deliveryNeedsAttention);
+	const deliveryState = (delivery: MailItem["deliveries"][number]) => {
+		if (delivery.ackedAt != null) return t({ message: "Acknowledged" });
+		if (delivery.nudgeState === "uncertain_staged")
+			return t({ message: "Delivery uncertain" });
+		if (delivery.nudgeState === "failed")
+			return t({ message: "Delivery failed" });
+		if (
+			delivery.nudgeState === "suppressed_hop_limit" ||
+			delivery.nudgeState === "suppressed_budget"
+		)
+			return t({ message: "Automatic delivery paused" });
+		if (delivery.readAt != null)
+			return requiresAck
+				? t({ message: "Read, awaiting acknowledgement" })
+				: t({ message: "Read" });
+		if (delivery.nudgeState === "inflight") return t({ message: "Delivering" });
+		if (delivery.nudgeState === "nudged")
+			return t({ message: "Agent notified, awaiting consumption" });
+		if (delivery.nudgeState === "pending") return t({ message: "Queued" });
+		return t({ message: "Unread" });
+	};
+
 	const name = (id: string) =>
 		members.find((member) => member.id === id)?.name ?? `#${id.slice(0, 8)}`;
 	const ackedCount = deliveries.filter(
@@ -47,19 +77,21 @@ export function TeamMailRow({
 							<LuEye className="size-3.5" />
 						</TeamIconButton>
 					)}
-					<Button
-						type="button"
-						size="sm"
-						variant="ghost"
-						className="h-6 px-1.5 text-[11px]"
-						disabled={pending || readOnly}
-						aria-label={t({
-							message: `Acknowledge mail to ${name(delivery.recipientMemberId)}`,
-						})}
-						onClick={() => onConsume(delivery.id, true)}
-					>
-						<Trans>Confirm receipt</Trans>
-					</Button>
+					{requiresAck && (
+						<Button
+							type="button"
+							size="sm"
+							variant="ghost"
+							className="h-6 px-1.5 text-[11px]"
+							disabled={pending || readOnly}
+							aria-label={t({
+								message: `Acknowledge mail to ${name(delivery.recipientMemberId)}`,
+							})}
+							onClick={() => onConsume(delivery.id, true)}
+						>
+							<Trans>Confirm receipt</Trans>
+						</Button>
+					)}
 				</>
 			)}
 		</div>
@@ -79,10 +111,22 @@ export function TeamMailRow({
 						),
 					].join(", ")}
 				</span>
-				{total === 1 && deliveries[0] && actions(deliveries[0])}
+				{total === 1 && !expanded && deliveries[0] && (
+					<span className="shrink-0">{deliveryState(deliveries[0])}</span>
+				)}
 				{total > 1 && (
-					<span className="shrink-0" title={t({ message: "Acknowledged" })}>
-						{ackedCount}/{total}
+					<span
+						className="shrink-0"
+						title={
+							requiresAck
+								? t({ message: "Acknowledged" })
+								: t({ message: "Read" })
+						}
+					>
+						{requiresAck
+							? ackedCount
+							: deliveries.filter((delivery) => delivery.readAt != null).length}
+						/{total}
 					</span>
 				)}
 				<time
@@ -113,13 +157,32 @@ export function TeamMailRow({
 					{event.subject && (
 						<strong className="mr-2 font-medium">{event.subject}</strong>
 					)}
-					{event.body}
+					{expanded ? event.body : (report ?? event.body)}
 				</span>
 				<LuChevronDown
 					className={`mt-1 size-3 shrink-0 text-muted-foreground transition-transform ${expanded ? "rotate-180" : ""}`}
 				/>
 			</button>
-			{expanded && total > 1 && (
+			{deliveryErrors.map((delivery) => (
+				<p
+					key={delivery.id}
+					role="alert"
+					className="mt-2 break-words text-xs text-destructive"
+				>
+					{delivery.nudgeState === "uncertain_staged" ? (
+						<Trans>
+							Delivery outcome is uncertain. Inspect the terminal before
+							retrying.
+						</Trans>
+					) : (
+						<Trans>
+							Mail delivery needs attention. Open diagnostics to inspect the
+							delivery.
+						</Trans>
+					)}
+				</p>
+			))}
+			{expanded && total > 0 && (
 				<div className="mt-2 space-y-1 border-t border-border/60 pt-2">
 					{deliveries.map((delivery) => (
 						<div
@@ -133,11 +196,7 @@ export function TeamMailRow({
 								{name(delivery.recipientMemberId)}
 							</span>
 							<span className="text-muted-foreground">
-								{delivery.ackedAt != null
-									? t({ message: "Acknowledged" })
-									: delivery.readAt != null
-										? t({ message: "Read, awaiting acknowledgement" })
-										: t({ message: "Unread" })}
+								{deliveryState(delivery)}
 							</span>
 							{actions(delivery)}
 						</div>
