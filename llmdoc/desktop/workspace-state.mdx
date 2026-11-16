@@ -15,6 +15,8 @@ code:
     - "apps/desktop/src/main/lib/main-events/window-access.ts"
     - "apps/desktop/src/renderer/lib/persisted-keys/persisted-key-registry.test-data.ts"
     - "apps/desktop/src/renderer/components/JedvShell/JedvShell.tsx"
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvProjectTree/components/ProjectTreeWorkspace/ProjectTreeWorkspace.tsx
+    - apps/desktop/src/renderer/components/JedvShell/components/JedvProjectTree/components/WorkspaceAgentsChip/WorkspaceAgentsChip.tsx
     - "apps/desktop/src/renderer/components/JedvShell/parity-types.ts"
     - "apps/desktop/src/renderer/components/JedvShell/components/JedvTeamworkView/team-mail-drafts.ts"
     - "apps/desktop/src/renderer/components/JedvShell/components/JedvTeamworkView/team-mail-drafts.test.ts"
@@ -66,6 +68,10 @@ resumed 事件只触发重查，旧→新 terminal 映射由同 Host/workspace �
 保存按顺序合并 pending snapshot；失败保留可重试的数据与显式错误，不能把本地内存已更新当作已持久化。主进程按注册 window key、host identity、workspace 分区；回环端口变化规范为同一本地 host，私网 origin 则保持独立身份。
 
 本地 pane CLI 经 main 定向到一个已注册 renderer subscription，无需云登录。main 的 pending/subscriber 与 renderer 队列/去重均有界，关闭窗口、退订、连接更换或过期请求显式失败；同窗口重复订阅不能双执行。renderer 从本机 Host 核对 workspace/terminal，按 host/workspace retain 布局 store，实际操作前复核并等待保存 flush；失联或超时可能结果未知，需查看布局而非盲重试。focus 不能切离私网 Host 或绕过未保存文件守卫。keepTerminal/move 仅 remove，普通 close 的资源终止仍由既有 Host 入口唯一负责；不支持的旧 browser/chat/pages 或细粒度文件动作明确拒绝。
+
+## 侧栏摘要与会话详情
+
+侧栏以工作区为导航单位，Agent 会话详情按需展示。单个无子 Agent 的会话不另占一行；多个会话或存在子 Agent 时显示汇总徽标，点击或悬停展开有限高度的会话浮层。隐藏明细只改变呈现，不停止会话、不删除 binding，也不修改其后台/标签页位置。打开会话仍携带对应 workspace 与 terminal 身份，不能把汇总徽标当成任意恢复或新启动的授权。
 
 ## logicalHostId 与 transport endpoint 分开
 

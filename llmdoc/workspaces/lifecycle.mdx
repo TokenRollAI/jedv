@@ -26,6 +26,9 @@ code:
     - packages/cli/src/commands/projects/create/command.ts
     - apps/desktop/src/renderer/components/JedvShell/components/JedvProjectActions/FolderProjectForm/FolderProjectForm.tsx
     - apps/desktop/src/renderer/components/JedvShell/components/CreateWorkspaceDialog/CreateWorkspaceDialog.tsx
+    - apps/desktop/src/renderer/components/JedvShell/components/NewWorkspaceScreen/NewWorkspaceScreen.tsx
+    - packages/host-service/src/trpc/router/workspace-creation/utils/workspace-naming-job.ts
+    - packages/host-service/src/trpc/router/workspace-creation/utils/ai-workspace-names.ts
 relations:
   related:
     - workspaces/setup-contract.mdx
@@ -60,6 +63,12 @@ Git hook 返回非零不一定意味着 checkout 未发生。重试前核对已�
 导入按 canonical repository path 复用或恢复身份，并保留用户已定制字段。项目可以没有工作区。导入用户已有目录后数据库失败，不授权删除该目录；只有本次 clone/init 独占分配的路径才属于创建操作的回滚写集。
 
 并发创建按 operationId 和请求内容绑定，同一请求共享操作；不能用同一个操作标识执行另一组参数。optimistic workspace id 重试返回既有身份，避免重复资源。
+
+## 需求创建、自动命名与部分成功
+
+需求创建页将 prompt 与所选 Agent 配置交给 Host，默认不填写名称和新分支，由 Host 分配身份并在后台命名。命名失败不应阻塞已有工作；手动命名优先，自动改分支只处理仍受自动命名控制的分支，运行中的 worktree 目录保持不变，避免破坏终端 cwd 和已记录路径。
+
+创建成功与 Agent 启动成功分别判断。renderer 在通信结果未知时保留不可变请求与同一 workspace ID；Host 以该 ID 串行创建，已有 worktree 直接返回身份且不重派 Agent，local 重入也抑制派发。已有行返回空 Agent 结果不证明最初启动失败，UI 只能引导打开工作区检查，不另发 prompt。已知部分启动失败同样保留工作区和需求，不能重建整个任务。
 
 ## 删除是持久化 saga
 

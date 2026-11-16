@@ -1,5 +1,5 @@
 ---
-description: "Team 成员不能递归建队、同会话恢复链与 Mail 本人收件闭环：区分通知、阅读回执 receipt、ACK 与任务完成；有界重提醒、未知结果不重放和人类诊断边界。"
+description: "Team 成员不能递归建队、同会话恢复链与 Mail 本人收件闭环：区分通知、阅读回执 receipt、ACK 与任务完成；有界重提醒、未知结果不重放、团队删除清理与共享终端保护。"
 kind: architecture
 code:
   paths:
@@ -7,6 +7,10 @@ code:
     - packages/host-service/src/teams/service.ts
     - packages/host-service/src/teams/recovery-git.test.ts
     - packages/host-service/src/teams/stop-recovery.test.ts
+    - packages/host-service/src/teams/delete.test.ts
+    - packages/host-service/src/teams/http.ts
+    - apps/desktop/src/renderer/components/JedvShell/components/TeamworkDirectory/TeamworkDirectory.tsx
+    - apps/desktop/src/renderer/components/JedvShell/components/TeamworkDirectory/components/TeamDirectoryActions/TeamDirectoryActions.tsx
     - packages/host-service/src/trpc/router/workspace-creation/shared/seed-agent-trust.ts
     - packages/host-service/src/workers/tasks/git.ts
     - packages/host-service/src/teams/runtime.ts
@@ -91,6 +95,10 @@ delivery 以 inflight token 和 wake batch 串行认领，自动投递受 hop/ra
 interrupt 与 queue 是不同意图，不静默降级；只允许明确人类动作针对一个本地成员，普通 member 发起仍拒绝，默认保持 queue。客户端分别探测投递模式与安全中断 capability；当前 mailInterrupt 仅在 Darwin arm64 声明可用，其他平台为 false。这只是已验证适配器的声明，每个目标仍须通过 Codex 原 launch/native executable/前台身份、可信 busy、clean draft 与取消确认；不能因平台 capability 或 Host 接受字段就跳过检查、宣称任意 provider 可用。取消确认后只发送固定 Mail nudge，收件人仍须本人 read/ACK，结果另发回信；取消观察和输入原语由终端 owner 约束。
 
 整队 stop 先 pause 并 fence 自动投递与 recover，再逐个确认 daemon close。false/throw 保留失败 Worker 的 binding、failed 证据和 endedAt=null，其余 Worker 继续停止，但整队保持 paused/stoppedAt=null 且拒绝 archive；只有全部确认成功才进入 stopped。失败向调用方传播，因此 Butler 审批记 failed 而不重放，显式 stop 重试可完成；Leader PTY 始终保留。
+
+永久删除与归档是不同操作。删除先阻止并发 start/spawn/stop，并复用 stop 确认 Worker 关闭；团队 start 创建的 Leader 也须按原 launch/binding 身份确认关闭，init 提升的既有 Leader 保留。身份漂移、被其他团队使用、关闭结果不确定或 Mail 仍在途时拒绝删除记录；停止进程与数据库删除不是同一事务，失败可能已停止部分成员，不能宣称全部回滚。
+
+资源确认后，在数据库事务内清理 Team 专属 Memory 与 WatchDog 告警，并依赖外键清理团队、成员操作身份、Mail/投递、peer receipts/outbox 与 provider tokens；清理 Memory 前解除对被删版本的 supersede 引用。成功事件清除 Mail 的内存调度记录。工作区、仓库文件与其他团队记录不属于此删除写集。客户端须探测删除 capability，确认框明示永久清理及资源保留范围，不能把 archive 改名为 delete。
 
 桌面以 logicalHostId 区分本地 Host 与不同私网 origin，endpoint/client/provider 重挂不另造 Host 身份。Team Mail 使用 renderer 内存 store 按 `[logicalHostId, teamId]` 保存原文、收件人、dedupe/request 和 pending：最多 32 个 scope，非 pending 闲置 24 小时清理，pending 不因 TTL 失去请求身份；成功或手清回收空项，权威在线 all-Team 列表中的删除/归档立即清理，初始加载/失败不当作删除证据。旧回调不复活已清理条目，重连只恢复原文与 Send，不自动重放；未发送正文不写 localStorage/SQLite。已打开确认框也必须在 mutation 入口重新检查可用性。
 

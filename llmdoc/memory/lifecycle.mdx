@@ -25,7 +25,7 @@ relations:
 ---
 # Memory 生命周期与有界注入
 
-Memory 是 Host 持久知识，不是聊天历史或模型上下文本身。global、project、Team 是不同作用域；外部写入先验证目标存在，归档 Team 的 Memory 封存。桌面、CLI、Team launch 与 Butler 都调用同一服务，不能各自维护不可对账的副本。Project settings 的 ProjectMemorySection 复用同一 MemoryPanel，以当前 project 和 global scopes 读取与编辑，不建立另一份项目记忆存储。Memory HTTP 同样使用共享 tRPC 状态映射和由 Zod 生成的 GET 参数，保留同 path GET/POST。
+Memory 是 Host 持久知识，不是聊天历史或模型上下文本身。global、project、Team 是不同作用域；外部写入先验证目标存在，归档 Team 的 Memory 封存；显式永久删除 Team 则在团队删除事务内清除该 Team 作用域的 Memory，并解除指向这些版本的 supersede 引用，project/global 条目保留。桌面、CLI、Team launch 与 Butler 都调用同一服务，不能各自维护不可对账的副本。Project settings 的 ProjectMemorySection 复用同一 MemoryPanel，以当前 project 和 global scopes 读取与编辑，不建立另一份项目记忆存储。Memory HTTP 同样使用共享 tRPC 状态映射和由 Zod 生成的 GET 参数，保留同 path GET/POST。
 
 ## active、candidate 与 supersede
 

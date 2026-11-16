@@ -11,6 +11,7 @@ code:
     - packages/host-service/src/runtime/teardown/teardown.ts
     - packages/host-service/src/runtime/setup/project-config-toml.ts
     - packages/host-service/src/trpc/router/workspace-creation/shared/setup-terminal.ts
+    - apps/desktop/src/renderer/components/JedvShell/components/NewWorkspaceScreen/NewWorkspaceScreen.tsx
 relations:
   requires:
     - terminals/session-lifecycle.mdx
@@ -35,6 +36,8 @@ install 与 setup 用成功链连接，各 phase 的 cwd 在独立 subshell 切�
 tracked setup 使用 one-shot terminal 的真实 exit code/signal，并同时匹配 workspaceId、terminalId 和 running 状态；迟到的旧终端退出不得覆盖后续 setup。终端创建、命令发送、窗口关闭和固定延迟都不是成功信号。
 
 tracked setup 不允许附加 Agent chained command，否则 Agent 的长生命周期会污染安装完成证据。不支持 one-shot 的 shell 必须在执行前拒绝。
+
+需求输入创建页沿用非 tracked 的 Agent launch 路径，并读取桌面的 wait-for-setup 设置。单 terminal Agent 可链接为 setup 成功后运行；该链接失败会回退并行派发，多 Agent 也不能据此宣称已等待全部 setup。它不产生 tracked setup 的退出证据，不能为了接上需求输入而移除 tracked 与 Agent 同请求的互斥校验。手工创建仍使用 tracked 契约。
 
 host 重启只 adopt 已存在的 running setup terminal，不重新发送命令。丢失原终端结果时状态是 unknown；不能通过“进程现在不存在”推定曾成功。恢复观察与重跑 setup 是不同授权动作。
 
