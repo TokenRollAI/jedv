@@ -23,7 +23,7 @@ afterEach(() => {
 	cleanup();
 	for (const cache of caches.splice(0)) cache.clear();
 });
-test("attention uses authoritative counts and real read/ignore semantics without reading Key or ACKing mail", async () => {
+async function createHarness() {
 	let readAt: number | null = null,
 		ignoredAt: number | null = null;
 	let ignoreReason: string | null = null;
@@ -213,11 +213,44 @@ test("attention uses authoritative counts and real read/ignore semantics without
 		</QueryClientProvider>,
 	);
 	await waitFor(() => expect(attention).toHaveBeenCalled());
+	return {
+		screen,
+		cache,
+		context,
+		ai,
+		send,
+		read,
+		ignore,
+		resolve,
+		legacy,
+		ack,
+		setSeverity(value: "normal" | "high") {
+			severity = value;
+		},
+		reopen() {
+			reopened = true;
+		},
+	};
+}
+
+async function openDiagnostics(
+	screen: Awaited<ReturnType<typeof createHarness>>["screen"],
+) {
+	fireEvent.click(
+		screen.getByRole("button", { name: "Internal mail diagnostics" }),
+	);
+	await screen.findByRole("heading", {
+		name: "Mail awaiting acknowledgement: 3",
+	});
+}
+
+test("attention hides normal mail diagnostics and always shows high severity", async () => {
+	const { screen, cache, context, ack, setSeverity } = await createHarness();
 	expect(
 		screen.queryByRole("heading", { name: "Mail awaiting acknowledgement: 3" }),
 	).toBeNull();
 	expect(ack).not.toHaveBeenCalled();
-	severity = "high";
+	setSeverity("high");
 	await act(async () => {
 		await cache.invalidateQueries({
 			queryKey: ["jedv", context.hostUrl, "butler"],
@@ -226,7 +259,7 @@ test("attention uses authoritative counts and real read/ignore semantics without
 	await screen.findByRole("heading", {
 		name: "Mail awaiting acknowledgement: 3",
 	});
-	severity = "normal";
+	setSeverity("normal");
 	await act(async () => {
 		await cache.invalidateQueries({
 			queryKey: ["jedv", context.hostUrl, "butler"],
@@ -239,12 +272,14 @@ test("attention uses authoritative counts and real read/ignore semantics without
 			}),
 		).toBeNull(),
 	);
-	fireEvent.click(
-		screen.getByRole("button", { name: "Internal mail diagnostics" }),
-	);
-	await screen.findByRole("heading", {
-		name: "Mail awaiting acknowledgement: 3",
-	});
+	await openDiagnostics(screen);
+	expect(ack).not.toHaveBeenCalled();
+});
+
+test("attention uses authoritative counts and read receipts without ACKing mail", async () => {
+	const { screen, ai, send, read, ignore, resolve, legacy, ack } =
+		await createHarness();
+	await openDiagnostics(screen);
 	expect(ai).not.toHaveBeenCalled();
 	expect(send).not.toHaveBeenCalled();
 	expect(read).not.toHaveBeenCalled();
@@ -280,6 +315,11 @@ test("attention uses authoritative counts and real read/ignore semantics without
 		button: 0,
 		ctrlKey: false,
 	});
+});
+
+test("ignored attention remains distinct from resolved and reopens for new mail", async () => {
+	const { screen, cache, context, ignore, ack, reopen } = await createHarness();
+	await openDiagnostics(screen);
 	fireEvent.click(await screen.findByRole("button", { name: "Ignore" }));
 	const dialog = screen.getByRole("dialog");
 	expect(ignore).not.toHaveBeenCalled();
@@ -312,7 +352,7 @@ test("attention uses authoritative counts and real read/ignore semantics without
 	expect(
 		screen.getByRole("heading", { name: "Mail awaiting acknowledgement: 3" }),
 	).toBeTruthy();
-	reopened = true;
+	reopen();
 	await act(async () => {
 		await cache.invalidateQueries({
 			queryKey: ["jedv", context.hostUrl, "butler", "attention"],
@@ -328,6 +368,10 @@ test("attention uses authoritative counts and real read/ignore semantics without
 	});
 	expect(screen.getByRole("button", { name: "Mark as read" })).toBeTruthy();
 	expect(ack).not.toHaveBeenCalled();
+});
+
+test("failed approval cannot be repeated and AI settings load only when chat opens", async () => {
+	const { screen, resolve, ai, send } = await createHarness();
 	const confirm = await screen.findByRole("button", { name: "Confirm stop" });
 	fireEvent.click(confirm);
 	await waitFor(() =>
