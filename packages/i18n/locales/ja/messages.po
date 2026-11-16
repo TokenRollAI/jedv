@@ -282,6 +282,10 @@ msgstr "確認済み"
 msgid "Actions"
 msgstr "アクション"
 
+#. placeholder {0}: team.name
+msgid "Actions for {0}"
+msgstr "{0} の操作"
+
 msgid "Active"
 msgstr "有効"
 
@@ -341,6 +345,9 @@ msgstr "フォルダからプロジェクトを追加"
 
 msgid "Add Project from Folder..."
 msgstr "フォルダからプロジェクトを追加..."
+
+msgid "Add tests where coverage is missing"
+msgstr "テストが不足している箇所に追加する"
 
 msgid "Add to Dictionary"
 msgstr "辞書に追加"
@@ -923,6 +930,9 @@ msgstr "ワークスペースと実行中のセッションを確認していま
 
 msgid "Checklist"
 msgstr "チェックリスト"
+
+msgid "Checkout"
+msgstr "チェックアウト"
 
 msgid "Checks"
 msgstr "チェック"
@@ -1678,6 +1688,9 @@ msgstr "コミット {0} を作成しました"
 msgid "Creating directory and initializing Git…"
 msgstr "ディレクトリを作成し、Git を初期化しています…"
 
+msgid "Creating workspace…"
+msgstr "ワークスペースを作成中…"
+
 msgid "Creating…"
 msgstr "作成中…"
 
@@ -1813,11 +1826,17 @@ msgstr "プロジェクトを完全に削除しますか？"
 msgid "Delete session \"{workspaceName}\"?"
 msgstr "セッション「{workspaceName}」を削除しますか?"
 
+msgid "Delete team"
+msgstr "チームを削除"
+
 msgid "Delete this custom agent?"
 msgstr "このカスタムエージェントを削除しますか？"
 
 msgid "Delete this preset?"
 msgstr "このプリセットを削除しますか？"
+
+msgid "Delete this team?"
+msgstr "このチームを削除しますか？"
 
 msgid "Delete workspace \"{workspaceName}\"?"
 msgstr "ワークスペース「{workspaceName}」を削除しますか?"
@@ -2364,6 +2383,9 @@ msgstr "エージェントを絞り込む…"
 msgid "Find"
 msgstr "検索"
 
+msgid "Find and fix a bug"
+msgstr "バグを見つけて修正する"
+
 msgid "Find in Changes"
 msgstr "変更内を検索"
 
@@ -2785,6 +2807,9 @@ msgstr "選択したワークスペースをインポートしています…"
 msgid "Importing..."
 msgstr "インポート中..."
 
+msgid "Improve agent instructions"
+msgstr "エージェントの指示を改善する"
+
 msgid "In"
 msgstr "場所"
 
@@ -3194,6 +3219,9 @@ msgstr "手作業"
 
 msgid "Manual only"
 msgstr "手動のみ"
+
+msgid "Manual workspace creation"
+msgstr "ワークスペースを手動で作成"
 
 msgid "Manually"
 msgstr "手動"
@@ -4146,6 +4174,9 @@ msgstr "保留中"
 
 msgid "Pending approvals and unread important faults"
 msgstr "保留中の承認と未読の重要な障害"
+
+msgid "Permanently delete this team, its members, mail, shared team memory and alerts. Team-created agents will be stopped. Existing terminals added to the team, workspaces and files are kept. This cannot be undone."
+msgstr "このチーム、メンバー、メール、チーム共有メモリ、通知を完全に削除します。チームが作成したエージェントは停止します。チームに追加された既存のターミナル、ワークスペース、ファイルは保持されます。この操作は取り消せません。"
 
 msgid "Permissions"
 msgstr "権限"
@@ -6513,6 +6544,9 @@ msgstr "更新状態を利用できません"
 msgid "update the branch prefix"
 msgstr "ブランチのプレフィックスを更新する"
 
+msgid "Update the host to delete teams."
+msgstr "チームを削除するにはホストを更新してください。"
+
 #. placeholder {0}: event.version ?? event.currentVersion
 msgid "Updated to v{0}"
 msgstr "v{0} に更新しました"
@@ -6675,8 +6709,14 @@ msgstr "毎週 {time}"
 msgid "Welcome to Jedv"
 msgstr "Jedv へようこそ"
 
+msgid "What do you want to do?"
+msgstr "何をしたいですか？"
+
 msgid "What should the team accomplish?"
 msgstr "チームに何を達成してほしいですか？"
+
+msgid "What should we build next?"
+msgstr "次に何を作りましょうか？"
 
 msgid "What would you like to know?"
 msgstr "何を知りたいですか?"
@@ -6710,6 +6750,9 @@ msgstr "ワークスペースのアクティビティ"
 
 msgid "Workspace configuration"
 msgstr "ワークスペース構成"
+
+msgid "Workspace created. Open it to check the agent before trying again."
+msgstr "ワークスペースを作成しました。開いてエージェントの状態を確認してから再試行してください。"
 
 msgid "Workspace deletion results"
 msgstr "ワークスペースの削除結果"

@@ -282,6 +282,10 @@ msgstr "처리 확인됨"
 msgid "Actions"
 msgstr "동작"
 
+#. placeholder {0}: team.name
+msgid "Actions for {0}"
+msgstr "{0} 작업"
+
 msgid "Active"
 msgstr "활성"
 
@@ -341,6 +345,9 @@ msgstr "폴더에서 프로젝트 추가"
 
 msgid "Add Project from Folder..."
 msgstr "폴더에서 프로젝트 추가..."
+
+msgid "Add tests where coverage is missing"
+msgstr "테스트가 부족한 곳에 테스트 추가"
 
 msgid "Add to Dictionary"
 msgstr "사전에 추가"
@@ -923,6 +930,9 @@ msgstr "워크스페이스와 실행 중인 세션 확인 중…"
 
 msgid "Checklist"
 msgstr "체크리스트"
+
+msgid "Checkout"
+msgstr "체크아웃"
 
 msgid "Checks"
 msgstr "검사"
@@ -1678,6 +1688,9 @@ msgstr "커밋 {0}을(를) 만들었습니다"
 msgid "Creating directory and initializing Git…"
 msgstr "디렉터리를 만들고 Git을 초기화하는 중…"
 
+msgid "Creating workspace…"
+msgstr "워크스페이스 생성 중…"
+
 msgid "Creating…"
 msgstr "생성 중…"
 
@@ -1813,11 +1826,17 @@ msgstr "프로젝트를 영구적으로 삭제하시겠습니까?"
 msgid "Delete session \"{workspaceName}\"?"
 msgstr "세션 \"{workspaceName}\"을(를) 삭제할까요?"
 
+msgid "Delete team"
+msgstr "팀 삭제"
+
 msgid "Delete this custom agent?"
 msgstr "이 사용자 지정 에이전트를 삭제하시겠습니까?"
 
 msgid "Delete this preset?"
 msgstr "이 프리셋을 삭제하시겠습니까?"
+
+msgid "Delete this team?"
+msgstr "이 팀을 삭제하시겠습니까?"
 
 msgid "Delete workspace \"{workspaceName}\"?"
 msgstr "워크스페이스 \"{workspaceName}\"을(를) 삭제할까요?"
@@ -2364,6 +2383,9 @@ msgstr "에이전트 필터…"
 msgid "Find"
 msgstr "찾기"
 
+msgid "Find and fix a bug"
+msgstr "버그를 찾아 수정하기"
+
 msgid "Find in Changes"
 msgstr "변경 사항에서 찾기"
 
@@ -2785,6 +2807,9 @@ msgstr "선택한 워크스페이스 가져오는 중…"
 msgid "Importing..."
 msgstr "가져오는 중..."
 
+msgid "Improve agent instructions"
+msgstr "에이전트 지침 개선"
+
 msgid "In"
 msgstr "위치"
 
@@ -3194,6 +3219,9 @@ msgstr "수동"
 
 msgid "Manual only"
 msgstr "수동 전용"
+
+msgid "Manual workspace creation"
+msgstr "워크스페이스 수동 생성"
 
 msgid "Manually"
 msgstr "수동"
@@ -4146,6 +4174,9 @@ msgstr "대기 중"
 
 msgid "Pending approvals and unread important faults"
 msgstr "대기 중인 승인 및 읽지 않은 중요 오류"
+
+msgid "Permanently delete this team, its members, mail, shared team memory and alerts. Team-created agents will be stopped. Existing terminals added to the team, workspaces and files are kept. This cannot be undone."
+msgstr "이 팀과 구성원, 메일, 팀 공유 메모리 및 알림을 영구 삭제합니다. 팀에서 생성한 에이전트는 중지됩니다. 팀에 추가한 기존 터미널, 작업 공간 및 파일은 유지됩니다. 이 작업은 취소할 수 없습니다."
 
 msgid "Permissions"
 msgstr "권한"
@@ -5961,7 +5992,7 @@ msgid "The target workspace changed. The result belongs to the original workspac
 msgstr "대상 워크스페이스가 변경되었으며 결과는 원래 워크스페이스에 속합니다."
 
 msgid "The team becomes read-only. Its workspaces, files and terminals are kept."
-msgstr "팀이 읽기 전용으로 전환됩니다. 워크스페이스, 파일, 터미널은 유지됩니다."
+msgstr "팀이 읽기 전용으로 변경됩니다. 작업 공간, 파일 및 터미널은 유지됩니다."
 
 msgid "The terminal is not available in this workspace."
 msgstr "현재 워크스페이스에서 이 터미널을 사용할 수 없습니다."
@@ -6513,6 +6544,9 @@ msgstr "업데이트 상태를 사용할 수 없음"
 msgid "update the branch prefix"
 msgstr "브랜치 접두사를 업데이트할"
 
+msgid "Update the host to delete teams."
+msgstr "팀을 삭제하려면 호스트를 업데이트하세요."
+
 #. placeholder {0}: event.version ?? event.currentVersion
 msgid "Updated to v{0}"
 msgstr "v{0}(으)로 업데이트됨"
@@ -6675,8 +6709,14 @@ msgstr "매주 {time}"
 msgid "Welcome to Jedv"
 msgstr "Jedv에 오신 것을 환영합니다"
 
+msgid "What do you want to do?"
+msgstr "무엇을 하고 싶으신가요?"
+
 msgid "What should the team accomplish?"
 msgstr "팀이 무엇을 달성하길 원하시나요?"
+
+msgid "What should we build next?"
+msgstr "다음에는 무엇을 만들까요?"
 
 msgid "What would you like to know?"
 msgstr "무엇을 알고 싶으신가요?"
@@ -6710,6 +6750,9 @@ msgstr "워크스페이스 활동"
 
 msgid "Workspace configuration"
 msgstr "워크스페이스 구성"
+
+msgid "Workspace created. Open it to check the agent before trying again."
+msgstr "워크스페이스가 생성되었습니다. 다시 시도하기 전에 열어서 에이전트 상태를 확인하세요."
 
 msgid "Workspace deletion results"
 msgstr "워크스페이스 삭제 결과"

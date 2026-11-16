@@ -282,6 +282,10 @@ msgstr "Bevestigd"
 msgid "Actions"
 msgstr "Acties"
 
+#. placeholder {0}: team.name
+msgid "Actions for {0}"
+msgstr "Acties voor {0}"
+
 msgid "Active"
 msgstr "Actief"
 
@@ -341,6 +345,9 @@ msgstr "Project toevoegen uit map"
 
 msgid "Add Project from Folder..."
 msgstr "Project toevoegen uit map..."
+
+msgid "Add tests where coverage is missing"
+msgstr "Tests toevoegen waar dekking ontbreekt"
 
 msgid "Add to Dictionary"
 msgstr "Toevoegen aan woordenboek"
@@ -923,6 +930,9 @@ msgstr "Werkruimtes en actieve sessies controleren…"
 
 msgid "Checklist"
 msgstr "Checklist"
+
+msgid "Checkout"
+msgstr "Checkout"
 
 msgid "Checks"
 msgstr "Checks"
@@ -1678,6 +1688,9 @@ msgstr "Commit {0} gemaakt"
 msgid "Creating directory and initializing Git…"
 msgstr "Map maken en Git initialiseren…"
 
+msgid "Creating workspace…"
+msgstr "Werkruimte aanmaken…"
+
 msgid "Creating…"
 msgstr "Aanmaken…"
 
@@ -1813,11 +1826,17 @@ msgstr "Project permanent verwijderen?"
 msgid "Delete session \"{workspaceName}\"?"
 msgstr "Sessie \"{workspaceName}\" verwijderen?"
 
+msgid "Delete team"
+msgstr "Team verwijderen"
+
 msgid "Delete this custom agent?"
 msgstr "Deze aangepaste agent verwijderen?"
 
 msgid "Delete this preset?"
 msgstr "Deze voorinstelling verwijderen?"
+
+msgid "Delete this team?"
+msgstr "Dit team verwijderen?"
 
 msgid "Delete workspace \"{workspaceName}\"?"
 msgstr "Werkruimte \"{workspaceName}\" verwijderen?"
@@ -2364,6 +2383,9 @@ msgstr "Agents filteren…"
 msgid "Find"
 msgstr "Zoeken"
 
+msgid "Find and fix a bug"
+msgstr "Een bug vinden en oplossen"
+
 msgid "Find in Changes"
 msgstr "Zoeken in wijzigingen"
 
@@ -2785,6 +2807,9 @@ msgstr "Geselecteerde werkruimtes importeren…"
 msgid "Importing..."
 msgstr "Importeren..."
 
+msgid "Improve agent instructions"
+msgstr "Agentinstructies verbeteren"
+
 msgid "In"
 msgstr "In"
 
@@ -3194,6 +3219,9 @@ msgstr "Handmatig"
 
 msgid "Manual only"
 msgstr "Alleen handmatig"
+
+msgid "Manual workspace creation"
+msgstr "Werkruimte handmatig aanmaken"
 
 msgid "Manually"
 msgstr "Handmatig"
@@ -4146,6 +4174,9 @@ msgstr "In behandeling"
 
 msgid "Pending approvals and unread important faults"
 msgstr "Openstaande goedkeuringen en ongelezen belangrijke fouten"
+
+msgid "Permanently delete this team, its members, mail, shared team memory and alerts. Team-created agents will be stopped. Existing terminals added to the team, workspaces and files are kept. This cannot be undone."
+msgstr "Verwijder dit team, de leden, berichten, het gedeelde teamgeheugen en meldingen permanent. Door het team aangemaakte agents worden gestopt. Bestaande terminals die aan het team zijn toegevoegd, werkruimten en bestanden blijven behouden. Dit kan niet ongedaan worden gemaakt."
 
 msgid "Permissions"
 msgstr "Machtigingen"
@@ -5961,7 +5992,7 @@ msgid "The target workspace changed. The result belongs to the original workspac
 msgstr "De doelwerkruimte is gewijzigd. Het resultaat behoort tot de oorspronkelijke werkruimte."
 
 msgid "The team becomes read-only. Its workspaces, files and terminals are kept."
-msgstr "Het team wordt alleen-lezen. Werkruimtes, bestanden en terminals blijven behouden."
+msgstr "Het team wordt alleen-lezen. De werkruimten, bestanden en terminals blijven behouden."
 
 msgid "The terminal is not available in this workspace."
 msgstr "Deze terminal is niet beschikbaar in deze werkruimte."
@@ -6513,6 +6544,9 @@ msgstr "Updatestatus niet beschikbaar"
 msgid "update the branch prefix"
 msgstr "de branchprefix bijwerken"
 
+msgid "Update the host to delete teams."
+msgstr "Werk de host bij om teams te verwijderen."
+
 #. placeholder {0}: event.version ?? event.currentVersion
 msgid "Updated to v{0}"
 msgstr "Bijgewerkt naar v{0}"
@@ -6675,8 +6709,14 @@ msgstr "Wekelijks om {time}"
 msgid "Welcome to Jedv"
 msgstr "Welkom bij Jedv"
 
+msgid "What do you want to do?"
+msgstr "Wat wil je doen?"
+
 msgid "What should the team accomplish?"
 msgstr "Wat moet het team bereiken?"
+
+msgid "What should we build next?"
+msgstr "Wat zullen we hierna bouwen?"
 
 msgid "What would you like to know?"
 msgstr "Wat wil je weten?"
@@ -6710,6 +6750,9 @@ msgstr "Werkruimte-activiteit"
 
 msgid "Workspace configuration"
 msgstr "Werkruimteconfiguratie"
+
+msgid "Workspace created. Open it to check the agent before trying again."
+msgstr "Werkruimte aangemaakt. Open deze om de agent te controleren voordat je het opnieuw probeert."
 
 msgid "Workspace deletion results"
 msgstr "Resultaten van werkruimteverwijdering"

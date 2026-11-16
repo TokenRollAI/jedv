@@ -4,6 +4,7 @@ import {
 	mailSendSchema,
 	mailWatchSchema,
 	teamArchiveSchema,
+	teamDeleteSchema,
 	teamInitSchema,
 	teamRenameSchema,
 	teamSelectorSchema,
@@ -33,6 +34,13 @@ export function registerTeamworkHttp(options: {
 		return next();
 	});
 	const definitions = [
+		[
+			"post",
+			"/api/v1/teams/delete",
+			teamDeleteSchema,
+			async (input: z.infer<typeof teamDeleteSchema>) =>
+				(await requireTeamwork(context)).team.delete(input),
+		],
 		[
 			"post",
 			"/api/v1/teams/start",

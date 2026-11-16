@@ -86,6 +86,7 @@ export class MailService extends EventEmitter {
 		super();
 		this.now = deps.now ?? team.now;
 		team.on("change", this.onTeamChange);
+		team.on("deleted", this.onTeamDeleted);
 		team.on("bindings", this.onBindings);
 		team.ctx.terminalAgentStore.on("manual-input", this.onManualInput);
 		// A crash can occur on either side of the PTY write; inflight is never replayable.
@@ -123,11 +124,20 @@ export class MailService extends EventEmitter {
 		this.controller.abort();
 		this.cancelBudgetTimer?.();
 		this.team.off("change", this.onTeamChange);
+		this.team.off("deleted", this.onTeamDeleted);
 		this.team.off("bindings", this.onBindings);
 		this.team.ctx.terminalAgentStore.off("manual-input", this.onManualInput);
 		this.emit("close");
 		await this.pumping;
 	}
+	private onTeamDeleted = (_teamId: string, memberIds: string[]) => {
+		for (const id of memberIds) {
+			this.dirty.delete(id);
+			this.batches.delete(id);
+			this.humanEpoch.delete(id);
+		}
+		this.budgetTimer();
+	};
 	private onTeamChange = (teamId: string) => {
 		for (const member of this.team.members(teamId)) this.schedule(member.id);
 	};

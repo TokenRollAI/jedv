@@ -52,6 +52,7 @@ import { ButlerNavigation } from "./components/ButlerNavigation";
 import { ButlerView } from "./components/ButlerView";
 import { CreateTeamView } from "./components/CreateTeamView";
 import { CreateWorkspaceDialog } from "./components/CreateWorkspaceDialog";
+import type { WorkspaceCreateMode } from "./components/CreateWorkspaceDialog/types";
 import { DeclarativeDataSlots } from "./components/DeclarativeDataSlots";
 import {
 	AgentSetupGuard,
@@ -122,6 +123,7 @@ import {
 	type ExistingAgentSelection,
 	NativeAgentControls,
 } from "./components/NativeAgentControls";
+import { NewWorkspaceScreen } from "./components/NewWorkspaceScreen";
 import { PrivateConnectionDialog } from "./components/PrivateConnectionDialog";
 import { ProjectSettings } from "./components/ProjectSettings";
 import { ProjectSortMenu } from "./components/ProjectSortMenu";
@@ -433,7 +435,7 @@ export function JedvShell() {
 		projects: (Pick<Project, "id" | "name"> &
 			Partial<Pick<Project, "vcsKind" | "capabilities">>)[];
 		projectId?: string;
-		mode?: "new" | "local" | "import";
+		mode?: WorkspaceCreateMode;
 	} | null>(null);
 	const setCreatingProjectId = (id: string | null | undefined) => {
 		if (id === undefined) setWorkspaceCreation(null);
@@ -2428,734 +2430,790 @@ export function JedvShell() {
 					<ResizablePanel defaultSize={79} minSize={40}>
 						<section
 							ref={setWorkspaceElement}
-							className="flex h-full min-w-0 flex-col bg-background"
+							className="relative flex h-full min-w-0 flex-col bg-background"
 						>
-							{!viewContext &&
-								surface !== "terminal" &&
-								surface !== "files" && (
-									<WindowChrome primary>
-										<WindowChromeLeading
-											leftmost={
-												surface === "settings" || navigation.sidebarCollapsed
-											}
-											expand={
-												navigation.sidebarCollapsed && surface !== "settings"
-											}
-										/>
-										<div className="drag min-w-4 flex-1" />
-										<WindowControlsInset />
-									</WindowChrome>
-								)}
-							{!viewContext &&
-								(surface === "teamwork" ||
-									surface === "create-team" ||
-									surface === "butler") && (
-									<div
-										role="alert"
-										className="m-5 flex items-center gap-2 rounded border border-destructive/30 p-3 text-xs text-destructive"
-									>
-										<span className="flex-1">
-											<Trans>
-												Host offline. Team actions are unavailable until the
-												connection is restored.
-											</Trans>
-										</span>
-										<Button
-											size="sm"
-											variant="ghost"
-											onClick={() => void connection.refetch()}
-										>
-											<Trans>Retry</Trans>
-										</Button>
-									</div>
-								)}
-							{viewContext && surface === "butler" && (
-								<ContentBoundary key={`${viewContext.hostUrl}:butler`}>
-									<ButlerView
-										key={viewContext.hostUrl}
-										context={viewContext}
-										index={butler}
-										teams={teamwork.list.data ?? []}
-										connected={connected}
-										onSettings={() => {
-											setSettingsSection("system-agents");
-											navigate("settings");
+							{workspaceCreation?.mode &&
+								!["new", "local"].includes(workspaceCreation.mode) && (
+									<CreateWorkspaceDialog
+										context={workspaceCreation.context}
+										projects={workspaceCreation.projects}
+										initialProjectId={workspaceCreation.projectId}
+										initialMode={workspaceCreation.mode}
+										onRefresh={refreshProjectContext}
+										onCreated={async ({
+											context,
+											workspaceId: createdId,
+											terminalId: createdTerminal,
+										}) => {
+											if (
+												currentHost.current.client === context.client &&
+												currentHost.current.hostUrl === context.hostUrl
+											)
+												await openWorkspace(createdId, createdTerminal);
 										}}
-										onOpenTeam={openTeam}
-										onOpenAutomations={() => navigate("automations")}
+										onClose={() => setWorkspaceCreation(null)}
 									/>
-								</ContentBoundary>
-							)}
-							{viewContext && surface === "board" && (
-								<JedvWorkspacesBoard
-									{...viewContext}
-									getHasUnsavedFiles={(context, id) =>
-										filesDirtyRef.current &&
-										fileTargetRef.current?.hostUrl === context.hostUrl &&
-										fileTargetRef.current?.workspaceId === id
-									}
-									onWorkspaceDeleted={async ({
-										context,
-										workspaceId: id,
-										warnings,
-									}) => {
-										if (
-											currentHost.current.hostUrl === context.hostUrl &&
-											currentHost.current.client === context.client &&
-											currentTerminalContext.current?.workspaceId === id
-										) {
-											setWorkspaceId(null);
-											selectTerminal(null);
+								)}
+							{workspaceCreation &&
+								(!workspaceCreation.mode ||
+									["new", "local"].includes(workspaceCreation.mode)) && (
+									<NewWorkspaceScreen
+										readWaitForSetup={() =>
+											electronTrpcClient.settings.getWaitForSetupBeforeAgent.query()
 										}
-										if (
+										context={workspaceCreation.context}
+										projects={workspaceCreation.projects}
+										initialProjectId={workspaceCreation.projectId}
+										initialMode={workspaceCreation.mode}
+										onRefresh={refreshProjectContext}
+										onCreated={async ({
+											context,
+											workspaceId: createdId,
+											terminalId: createdTerminal,
+										}) => {
+											if (
+												currentHost.current.client === context.client &&
+												currentHost.current.hostUrl === context.hostUrl
+											)
+												await openWorkspace(createdId, createdTerminal);
+										}}
+										onClose={() => setWorkspaceCreation(null)}
+									/>
+								)}
+							<div className="contents" inert={!!workspaceCreation}>
+								{!viewContext &&
+									surface !== "terminal" &&
+									surface !== "files" && (
+										<WindowChrome primary>
+											<WindowChromeLeading
+												leftmost={
+													surface === "settings" || navigation.sidebarCollapsed
+												}
+												expand={
+													navigation.sidebarCollapsed && surface !== "settings"
+												}
+											/>
+											<div className="drag min-w-4 flex-1" />
+											<WindowControlsInset />
+										</WindowChrome>
+									)}
+								{!viewContext &&
+									(surface === "teamwork" ||
+										surface === "create-team" ||
+										surface === "butler") && (
+										<div
+											role="alert"
+											className="m-5 flex items-center gap-2 rounded border border-destructive/30 p-3 text-xs text-destructive"
+										>
+											<span className="flex-1">
+												<Trans>
+													Host offline. Team actions are unavailable until the
+													connection is restored.
+												</Trans>
+											</span>
+											<Button
+												size="sm"
+												variant="ghost"
+												onClick={() => void connection.refetch()}
+											>
+												<Trans>Retry</Trans>
+											</Button>
+										</div>
+									)}
+								{viewContext && surface === "butler" && (
+									<ContentBoundary key={`${viewContext.hostUrl}:butler`}>
+										<ButlerView
+											key={viewContext.hostUrl}
+											context={viewContext}
+											index={butler}
+											teams={teamwork.list.data ?? []}
+											connected={connected}
+											onSettings={() => {
+												setSettingsSection("system-agents");
+												navigate("settings");
+											}}
+											onOpenTeam={openTeam}
+											onOpenAutomations={() => navigate("automations")}
+										/>
+									</ContentBoundary>
+								)}
+								{viewContext && surface === "board" && (
+									<JedvWorkspacesBoard
+										{...viewContext}
+										getHasUnsavedFiles={(context, id) =>
+											filesDirtyRef.current &&
 											fileTargetRef.current?.hostUrl === context.hostUrl &&
 											fileTargetRef.current?.workspaceId === id
-										)
-											setFileTarget(null);
-										for (const warning of warnings) toast.warning(warning);
-									}}
-									onOpenWorkspaceInContext={async ({
-										context,
-										workspaceId: id,
-									}) => {
-										if (
-											currentHost.current.hostUrl === context.hostUrl &&
-											currentHost.current.client === context.client
-										)
-											await openWorkspace(id);
-									}}
-								/>
-							)}
-							{viewContext && surface === "create-team" && (
-								<ContentBoundary>
-									<CreateTeamView
-										initialWorkspaceId={workspaceId}
-										key={viewContext.hostUrl}
-										context={viewContext}
-										index={teamwork}
-										connected={connected}
-										onCreated={(id) => {
+										}
+										onWorkspaceDeleted={async ({
+											context,
+											workspaceId: id,
+											warnings,
+										}) => {
 											if (
-												currentHost.current.client === viewContext.client &&
-												currentHost.current.hostUrl === viewContext.hostUrl
+												currentHost.current.hostUrl === context.hostUrl &&
+												currentHost.current.client === context.client &&
+												currentTerminalContext.current?.workspaceId === id
+											) {
+												setWorkspaceId(null);
+												selectTerminal(null);
+											}
+											if (
+												fileTargetRef.current?.hostUrl === context.hostUrl &&
+												fileTargetRef.current?.workspaceId === id
 											)
-												openTeam(id);
+												setFileTarget(null);
+											for (const warning of warnings) toast.warning(warning);
+										}}
+										onOpenWorkspaceInContext={async ({
+											context,
+											workspaceId: id,
+										}) => {
+											if (
+												currentHost.current.hostUrl === context.hostUrl &&
+												currentHost.current.client === context.client
+											)
+												await openWorkspace(id);
 										}}
 									/>
-								</ContentBoundary>
-							)}
-							{viewContext && surface === "teamwork" && (
-								<ContentBoundary>
-									<JedvTeamworkView
-										key={viewContext.hostUrl}
-										context={viewContext}
-										index={teamwork}
-										connected={connected}
-										selectedId={selectedTeamId}
-										onCreate={() => navigate("create-team")}
-									/>
-								</ContentBoundary>
-							)}
-							{viewContext && surface === "automations" && (
-								<JedvAutomationsView {...viewContext} />
-							)}
-							{viewContext && surface === "pull-requests" && (
-								<JedvPullRequestsView
-									{...viewContext}
-									initialTarget={
-										activityPullRequest?.hostUrl === hostUrl
-											? activityPullRequest.target
-											: undefined
-									}
-								/>
-							)}
-							{viewContext && surface === "usage" && (
-								<JedvUsageView {...viewContext} />
-							)}
-							{viewContext && surface === "settings" && (
-								<JedvSettingsView
-									{...viewContext}
-									initialSection={settingsSection}
-									onBack={() => setSurface(priorSurface.current)}
-								/>
-							)}
-							{viewContext &&
-								fileTarget &&
-								fileTarget.hostUrl === hostUrl &&
-								createPortal(
-									<div className="flex min-h-0 flex-1">
-										<JedvFilesView
-											key={`${fileTarget.hostUrl}:${fileTarget.workspaceId}`}
-											context={viewContext}
-											workspaceId={fileTarget.workspaceId}
-											initialPath={fileTarget.path}
-											initialPinned={fileTarget.pinned}
-											initialRequestId={fileTarget.requestId}
-											getWsToken={() => activeConnection?.secret ?? null}
-											active={
-												(surface === "terminal" || surface === "files") &&
-												filesSurfaceMatches(
-													fileTarget,
-													hostUrl ?? "",
-													workspaceId ?? "",
-												) &&
-												(areaState.focusedArea === "right"
-													? areaState.rightAreaOpen &&
-														rightTabs.some(
-															(tab) =>
-																tab.id === rightActiveTabId &&
-																tab.panes[tab.activePaneId ?? ""]?.kind ===
-																	"files",
-														)
-													: terminalTabs.some(
-															(tab) =>
-																tab.id === activeTabId &&
-																tab.panes[tab.activePaneId ?? ""]?.kind ===
-																	"files",
-														))
-											}
-											onDirtyChange={setFilesDirty}
-											onOpenUrl={(url) => openConfiguredUrl(url)}
-										/>
-									</div>,
-									filesHost,
 								)}
-							<div
-								id="jedv-files-parking"
-								hidden
-								ref={(node) => {
-									if (node && !filesHost.parentElement)
-										node.appendChild(filesHost);
-								}}
-							/>
-							<div
-								hidden={surface !== "terminal" && surface !== "files"}
-								className="flex min-h-0 min-w-0 flex-1"
-							>
-								<ResizablePanelGroup direction="horizontal">
-									<ResizablePanel
-										ref={leftPanelRef}
-										defaultSize={areaState.rightAreaOpen ? 60 : 100}
-										minSize={25}
-										collapsible
-										collapsedSize={0}
-									>
-										<div
-											className="relative flex h-full min-h-0 min-w-0 flex-1 flex-col"
-											inert={rightMaximized}
+								{viewContext && surface === "create-team" && (
+									<ContentBoundary>
+										<CreateTeamView
+											initialWorkspaceId={workspaceId}
+											key={viewContext.hostUrl}
+											context={viewContext}
+											index={teamwork}
+											connected={connected}
+											onCreated={(id) => {
+												if (
+													currentHost.current.client === viewContext.client &&
+													currentHost.current.hostUrl === viewContext.hostUrl
+												)
+													openTeam(id);
+											}}
+										/>
+									</ContentBoundary>
+								)}
+								{viewContext && surface === "teamwork" && (
+									<ContentBoundary>
+										<JedvTeamworkView
+											key={viewContext.hostUrl}
+											context={viewContext}
+											index={teamwork}
+											connected={connected}
+											selectedId={selectedTeamId}
+											onCreate={() => navigate("create-team")}
+										/>
+									</ContentBoundary>
+								)}
+								{viewContext && surface === "automations" && (
+									<JedvAutomationsView {...viewContext} />
+								)}
+								{viewContext && surface === "pull-requests" && (
+									<JedvPullRequestsView
+										{...viewContext}
+										initialTarget={
+											activityPullRequest?.hostUrl === hostUrl
+												? activityPullRequest.target
+												: undefined
+										}
+									/>
+								)}
+								{viewContext && surface === "usage" && (
+									<JedvUsageView {...viewContext} />
+								)}
+								{viewContext && surface === "settings" && (
+									<JedvSettingsView
+										{...viewContext}
+										initialSection={settingsSection}
+										onBack={() => setSurface(priorSurface.current)}
+									/>
+								)}
+								{viewContext &&
+									fileTarget &&
+									fileTarget.hostUrl === hostUrl &&
+									createPortal(
+										<div className="flex min-h-0 flex-1">
+											<JedvFilesView
+												key={`${fileTarget.hostUrl}:${fileTarget.workspaceId}`}
+												context={viewContext}
+												workspaceId={fileTarget.workspaceId}
+												initialPath={fileTarget.path}
+												initialPinned={fileTarget.pinned}
+												initialRequestId={fileTarget.requestId}
+												getWsToken={() => activeConnection?.secret ?? null}
+												active={
+													(surface === "terminal" || surface === "files") &&
+													filesSurfaceMatches(
+														fileTarget,
+														hostUrl ?? "",
+														workspaceId ?? "",
+													) &&
+													(areaState.focusedArea === "right"
+														? areaState.rightAreaOpen &&
+															rightTabs.some(
+																(tab) =>
+																	tab.id === rightActiveTabId &&
+																	tab.panes[tab.activePaneId ?? ""]?.kind ===
+																		"files",
+															)
+														: terminalTabs.some(
+																(tab) =>
+																	tab.id === activeTabId &&
+																	tab.panes[tab.activePaneId ?? ""]?.kind ===
+																		"files",
+															))
+												}
+												onDirtyChange={setFilesDirty}
+												onOpenUrl={(url) => openConfiguredUrl(url)}
+											/>
+										</div>,
+										filesHost,
+									)}
+								<div
+									id="jedv-files-parking"
+									hidden
+									ref={(node) => {
+										if (node && !filesHost.parentElement)
+											node.appendChild(filesHost);
+									}}
+								/>
+								<div
+									hidden={surface !== "terminal" && surface !== "files"}
+									className="flex min-h-0 min-w-0 flex-1"
+								>
+									<ResizablePanelGroup direction="horizontal">
+										<ResizablePanel
+											ref={leftPanelRef}
+											defaultSize={areaState.rightAreaOpen ? 60 : 100}
+											minSize={25}
+											collapsible
+											collapsedSize={0}
 										>
 											<div
-												hidden={surface !== "terminal" && surface !== "files"}
+												className="relative flex h-full min-h-0 min-w-0 flex-1 flex-col"
+												inert={rightMaximized}
 											>
-												<JedvTerminalTabStrip
-													editorContext={viewContext ?? undefined}
-													enabled={
-														!!workspace &&
-														connected &&
-														!busy &&
-														layoutPersistence.ready
-													}
-													connected={terminalConnected}
-													store={terminalStore}
-													sessions={terminals.data?.sessions ?? []}
-													onTabBarMount={setTabBarMount}
-													onAttach={(id) => {
-														selectTerminal(id);
-														setSurface("terminal");
-													}}
-													onKill={requestClose}
-													showPresetsBar={showPresetsBar.data ?? true}
-													presets={matchingPresets}
-													onRunPreset={(preset) =>
-														void run(() => runPreset(preset))
-													}
-													sessionPicker={
-														client && hostUrl && workspaceId
-															? {
-																	client,
-																	hostUrl,
-																	workspaceId,
-																	onSelectSession: selectExistingAgent,
-																}
-															: undefined
-													}
-													agentConfigs={configuredAgents}
-													onSettings={() => {
-														setSettingsSection("terminal");
-														navigate("settings");
-													}}
-													onLaunch={(config) =>
-														void run(() => launchConfiguredAgent(config))
-													}
-													changes={
-														client && hostUrl && workspaceId ? (
-															<JedvWorkspaceActivity
-																gitEnabled={supportsGit(workspace)}
-																pullRequestsEnabled={supportsPullRequests(
-																	workspace,
-																)}
-																shipContext={viewContext ?? undefined}
-																onOpenFile={openFiles}
-																getHasUnsavedFiles={() => filesDirtyRef.current}
-																dockTarget={activityDockTarget}
-																dockFits={activityFits}
-																dockHidden={areaState.activityDockHidden}
-																onDockHiddenChange={(activityDockHidden) =>
-																	areas.state.setState({ activityDockHidden })
-																}
-																isChangesOpen={changesOpen}
-																key={`${hostUrl}:${workspaceId}`}
-																client={client}
-																hostUrl={hostUrl}
-																workspaceId={workspaceId}
-																onOpenChanges={() => {
-																	showChanges(true);
-																}}
-																workspaceName={
-																	workspace?.name ?? workspace?.branch ?? ""
-																}
-																getWsToken={() =>
-																	activeConnection?.secret ?? null
-																}
-																attachedTerminalIds={[
-																	...terminalTabs,
-																	...rightTabs,
-																].flatMap((tab) =>
-																	Object.values(tab.panes)
-																		.filter(isTerminalPane)
-																		.map((pane) => pane.data.terminalId),
-																)}
-																agentSource={island.agentSource}
-																onOpenTerminal={async (id) => {
-																	selectTerminal(id);
-																	setSurface("terminal");
-																}}
-																onOpenAgent={(entry) =>
-																	island.focusEntry(entry.entryId)
-																}
-																onOpenPullRequests={(pr) => {
-																	setActivityPullRequest(
-																		pr
-																			? {
-																					hostUrl,
-																					target: {
-																						projectId: project?.id ?? "",
-																						owner: pr.repoOwner,
-																						repo: pr.repoName,
-																						number: pr.number,
-																						title: pr.title,
-																					},
-																				}
-																			: null,
-																	);
-																	navigate("pull-requests");
-																}}
-															/>
-														) : null
-													}
-													ports={
-														client &&
-														hostUrl &&
-														workspaceId && (
-															<WorkspaceForwards
-																openRef={forwardsOpenRef}
-																anchorRef={workspaceActionsRef}
-																onOpenUrl={(url) =>
-																	openConfiguredUrl(url, true)
-																}
-																client={client}
-																remote={!!remote}
-																getWsToken={() =>
-																	activeConnection?.secret ?? null
-																}
-																hostUrl={hostUrl}
-																workspaceId={workspaceId}
-															/>
-														)
-													}
-													showWindowControls={!areaState.rightAreaOpen}
-													tools={
-														!areaState.rightAreaOpen ? (
-															<WorkspaceToolbarSlot host={toolbarHost} />
-														) : null
-													}
-												/>
-											</div>
-											<ActivityPanelAside
-												top={(showPresetsBar.data ?? true) ? 84 : 48}
-												hidden={!activityFits || areaState.activityDockHidden}
-												onTarget={setActivityDockTarget}
-												onFits={setActivityFits}
-											/>
-											{!drawer &&
-												nativeState?.activeWriter === "control" &&
-												nativeState.pendingApprovals.length > 0 && (
-													<div className="flex h-8 shrink-0 items-center gap-2 border-b border-warning/30 bg-warning/10 px-3 text-xs">
-														<span className="flex-1">
-															<Trans>Approval required</Trans>
-														</span>
-														{(["accept", "decline"] as const).map(
-															(decision) => (
-																<Button
-																	key={decision}
-																	size="sm"
-																	variant="ghost"
-																	onClick={() =>
-																		void run(async () => {
-																			if (
-																				!client ||
-																				!nativeState.nativeSessionId ||
-																				!workspaceId
-																			)
-																				return;
-																			await client.terminalAgents.controlNativeSession.mutate(
-																				{
-																					workspaceId,
-																					provider: nativeState.provider,
-																					nativeSessionId:
-																						nativeState.nativeSessionId,
-																					expectedLeaseEpoch:
-																						nativeState.leaseEpoch,
-																					action: {
-																						type: "approve",
-																						requestId:
-																							nativeState.pendingApprovals[0]
-																								.requestId,
-																						decision,
-																					},
-																				},
-																			);
-																		})
+												<div
+													hidden={surface !== "terminal" && surface !== "files"}
+												>
+													<JedvTerminalTabStrip
+														editorContext={viewContext ?? undefined}
+														enabled={
+															!!workspace &&
+															connected &&
+															!busy &&
+															layoutPersistence.ready
+														}
+														connected={terminalConnected}
+														store={terminalStore}
+														sessions={terminals.data?.sessions ?? []}
+														onTabBarMount={setTabBarMount}
+														onAttach={(id) => {
+															selectTerminal(id);
+															setSurface("terminal");
+														}}
+														onKill={requestClose}
+														showPresetsBar={showPresetsBar.data ?? true}
+														presets={matchingPresets}
+														onRunPreset={(preset) =>
+															void run(() => runPreset(preset))
+														}
+														sessionPicker={
+															client && hostUrl && workspaceId
+																? {
+																		client,
+																		hostUrl,
+																		workspaceId,
+																		onSelectSession: selectExistingAgent,
 																	}
-																>
-																	{decision === "accept" ? (
-																		<Trans>Accept</Trans>
-																	) : (
-																		<Trans>Decline</Trans>
+																: undefined
+														}
+														agentConfigs={configuredAgents}
+														onSettings={() => {
+															setSettingsSection("terminal");
+															navigate("settings");
+														}}
+														onLaunch={(config) =>
+															void run(() => launchConfiguredAgent(config))
+														}
+														changes={
+															client && hostUrl && workspaceId ? (
+																<JedvWorkspaceActivity
+																	gitEnabled={supportsGit(workspace)}
+																	pullRequestsEnabled={supportsPullRequests(
+																		workspace,
 																	)}
-																</Button>
-															),
+																	shipContext={viewContext ?? undefined}
+																	onOpenFile={openFiles}
+																	getHasUnsavedFiles={() =>
+																		filesDirtyRef.current
+																	}
+																	dockTarget={activityDockTarget}
+																	dockFits={activityFits}
+																	dockHidden={areaState.activityDockHidden}
+																	onDockHiddenChange={(activityDockHidden) =>
+																		areas.state.setState({ activityDockHidden })
+																	}
+																	isChangesOpen={changesOpen}
+																	key={`${hostUrl}:${workspaceId}`}
+																	client={client}
+																	hostUrl={hostUrl}
+																	workspaceId={workspaceId}
+																	onOpenChanges={() => {
+																		showChanges(true);
+																	}}
+																	workspaceName={
+																		workspace?.name ?? workspace?.branch ?? ""
+																	}
+																	getWsToken={() =>
+																		activeConnection?.secret ?? null
+																	}
+																	attachedTerminalIds={[
+																		...terminalTabs,
+																		...rightTabs,
+																	].flatMap((tab) =>
+																		Object.values(tab.panes)
+																			.filter(isTerminalPane)
+																			.map((pane) => pane.data.terminalId),
+																	)}
+																	agentSource={island.agentSource}
+																	onOpenTerminal={async (id) => {
+																		selectTerminal(id);
+																		setSurface("terminal");
+																	}}
+																	onOpenAgent={(entry) =>
+																		island.focusEntry(entry.entryId)
+																	}
+																	onOpenPullRequests={(pr) => {
+																		setActivityPullRequest(
+																			pr
+																				? {
+																						hostUrl,
+																						target: {
+																							projectId: project?.id ?? "",
+																							owner: pr.repoOwner,
+																							repo: pr.repoName,
+																							number: pr.number,
+																							title: pr.title,
+																						},
+																					}
+																				: null,
+																		);
+																		navigate("pull-requests");
+																	}}
+																/>
+															) : null
+														}
+														ports={
+															client &&
+															hostUrl &&
+															workspaceId && (
+																<WorkspaceForwards
+																	openRef={forwardsOpenRef}
+																	anchorRef={workspaceActionsRef}
+																	onOpenUrl={(url) =>
+																		openConfiguredUrl(url, true)
+																	}
+																	client={client}
+																	remote={!!remote}
+																	getWsToken={() =>
+																		activeConnection?.secret ?? null
+																	}
+																	hostUrl={hostUrl}
+																	workspaceId={workspaceId}
+																/>
+															)
+														}
+														showWindowControls={!areaState.rightAreaOpen}
+														tools={
+															!areaState.rightAreaOpen ? (
+																<WorkspaceToolbarSlot host={toolbarHost} />
+															) : null
+														}
+													/>
+												</div>
+												<ActivityPanelAside
+													top={(showPresetsBar.data ?? true) ? 84 : 48}
+													hidden={!activityFits || areaState.activityDockHidden}
+													onTarget={setActivityDockTarget}
+													onFits={setActivityFits}
+												/>
+												{!drawer &&
+													nativeState?.activeWriter === "control" &&
+													nativeState.pendingApprovals.length > 0 && (
+														<div className="flex h-8 shrink-0 items-center gap-2 border-b border-warning/30 bg-warning/10 px-3 text-xs">
+															<span className="flex-1">
+																<Trans>Approval required</Trans>
+															</span>
+															{(["accept", "decline"] as const).map(
+																(decision) => (
+																	<Button
+																		key={decision}
+																		size="sm"
+																		variant="ghost"
+																		onClick={() =>
+																			void run(async () => {
+																				if (
+																					!client ||
+																					!nativeState.nativeSessionId ||
+																					!workspaceId
+																				)
+																					return;
+																				await client.terminalAgents.controlNativeSession.mutate(
+																					{
+																						workspaceId,
+																						provider: nativeState.provider,
+																						nativeSessionId:
+																							nativeState.nativeSessionId,
+																						expectedLeaseEpoch:
+																							nativeState.leaseEpoch,
+																						action: {
+																							type: "approve",
+																							requestId:
+																								nativeState.pendingApprovals[0]
+																									.requestId,
+																							decision,
+																						},
+																					},
+																				);
+																			})
+																		}
+																	>
+																		{decision === "accept" ? (
+																			<Trans>Accept</Trans>
+																		) : (
+																			<Trans>Decline</Trans>
+																		)}
+																	</Button>
+																),
+															)}
+															<Button
+																size="sm"
+																variant="ghost"
+																onClick={() => setDrawer(true)}
+															>
+																<Trans>Details</Trans>
+															</Button>
+														</div>
+													)}
+												{workspace &&
+												workspaceId &&
+												client &&
+												activeConnection &&
+												hostUrl &&
+												layoutPersistence.ready ? (
+													<JedvTerminalWorkspace
+														sessionsMenu={leftSessionMenu.menu}
+														sessionMenuProps={leftSessionMenu.props}
+														area="left"
+														contentInsetRight={
+															activityFits && !areaState.activityDockHidden
+																? 340
+																: undefined
+														}
+														filesHost={
+															hostUrl &&
+															workspaceId &&
+															filesSurfaceMatches(
+																fileTarget,
+																hostUrl,
+																workspaceId,
+															)
+																? filesHost
+																: null
+														}
+														otherArea={rightStore}
+														focused={
+															!(
+																areaState.rightAreaOpen &&
+																areaState.focusedArea === "right"
+															)
+														}
+														onAreaFocus={() =>
+															areas.state.setState({ focusedArea: "left" })
+														}
+														key={`${hostUrl}:${workspaceId}`}
+														connection={activeConnection}
+														hostUrl={hostUrl}
+														onOpenUrl={(url) => openConfiguredUrl(url)}
+														workspaceId={workspaceId}
+														activeId={terminalId}
+														store={terminalStore}
+														active={surface === "terminal"}
+														tabBarMount={tabBarMount}
+														emptyState={empty}
+														onNew={() =>
+															void run(() =>
+																createTerminal(workspaceId, terminalStore),
+															)
+														}
+														agentConfigs={configuredAgents}
+														agentByTerminal={agentByTerminal}
+														agentSessionNames={agentSessionNames}
+														agentProjectionReady={bindings.data !== undefined}
+														agentBindings={currentBindings}
+														agentSessionByTerminal={
+															new Map(
+																currentBindings
+																	.filter(
+																		(binding) =>
+																			typeof binding.agentSessionId ===
+																			"string",
+																	)
+																	.map((binding) => [
+																		binding.terminalId,
+																		binding.agentSessionId ?? "",
+																	]),
+															)
+														}
+														onLaunch={(config) =>
+															void run(() => launchConfiguredAgent(config))
+														}
+														sessions={terminals.data?.sessions}
+														onCreated={async () => {
+															await refreshTerminals(workspaceId);
+														}}
+														onConnectionChange={setTerminalConnected}
+														client={client}
+														onSelect={selectTerminal}
+														onKill={requestClose}
+														onOpenFile={openFiles}
+														getHasUnsavedFiles={() =>
+															filesDirtyRef.current &&
+															fileTargetRef.current?.hostUrl === hostUrl &&
+															fileTargetRef.current?.workspaceId === workspaceId
+														}
+														actionsRef={leftLayoutRef}
+														remote={!!remote}
+													/>
+												) : workspace && !layoutPersistence.ready ? (
+													<div className="m-auto space-y-2 p-4 text-sm text-muted-foreground">
+														<p>
+															<Trans>Restoring workspace layout…</Trans>
+														</p>
+														{layoutPersistence.error && (
+															<Button
+																variant="outline"
+																onClick={() => void layoutPersistence.retry()}
+															>
+																<Trans>Retry</Trans>
+															</Button>
 														)}
-														<Button
-															size="sm"
-															variant="ghost"
-															onClick={() => setDrawer(true)}
-														>
-															<Trans>Details</Trans>
-														</Button>
 													</div>
+												) : (
+													empty
 												)}
-											{workspace &&
-											workspaceId &&
-											client &&
-											activeConnection &&
-											hostUrl &&
-											layoutPersistence.ready ? (
-												<JedvTerminalWorkspace
-													sessionsMenu={leftSessionMenu.menu}
-													sessionMenuProps={leftSessionMenu.props}
-													area="left"
-													contentInsetRight={
-														activityFits && !areaState.activityDockHidden
-															? 340
-															: undefined
-													}
-													filesHost={
-														hostUrl &&
-														workspaceId &&
-														filesSurfaceMatches(
-															fileTarget,
-															hostUrl,
-															workspaceId,
-														)
-															? filesHost
-															: null
-													}
-													otherArea={rightStore}
-													focused={
-														!(
+											</div>
+										</ResizablePanel>
+										<ResizableHandle
+											className={areaState.rightAreaOpen ? "" : "hidden"}
+										/>
+										<ResizablePanel
+											ref={setRightPanel}
+											defaultSize={areaState.rightAreaOpen ? 40 : 0}
+											minSize={Math.min(
+												75,
+												(262 / Math.max(workspaceWidth, 350)) * 100,
+											)}
+											collapsible
+											collapsedSize={0}
+											onCollapse={() =>
+												areas.state.setState({
+													rightAreaOpen: false,
+													focusedArea: "left",
+												})
+											}
+											onExpand={() =>
+												areas.state.setState({ rightAreaOpen: true })
+											}
+										>
+											<div
+												className="flex h-full min-h-0 flex-col"
+												inert={!areaState.rightAreaOpen}
+												style={{
+													visibility: areaState.rightAreaOpen
+														? "visible"
+														: "hidden",
+												}}
+											>
+												<WindowChrome
+													height={48}
+													className="bg-muted/45 shadow-[inset_0_-1px_0_var(--border)] dark:bg-muted/35"
+												>
+													{rightMaximized && navigation.sidebarCollapsed && (
+														<WindowChromeLeading leftmost expand />
+													)}
+													<div
+														ref={setRightTabBarMount}
+														className="no-drag flex min-w-0 flex-1 self-stretch"
+													/>
+													<div className="drag min-w-4" />
+													<WindowChromeControls className="shrink-0 pr-2">
+														<div className="flex items-center gap-1">
+															<button
+																type="button"
+																aria-label={
+																	rightMaximized
+																		? t({ message: "Restore pane area" })
+																		: t({ message: "Expand pane area" })
+																}
+																aria-pressed={rightMaximized}
+																className="grid size-7 shrink-0 place-items-center self-center rounded-md text-muted-foreground hover:bg-accent/50 hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring"
+																onClick={() => {
+																	areas.state.setState({
+																		focusedArea: "right",
+																	});
+																	setMaximizedStore((value) =>
+																		value === rightStore ? null : rightStore,
+																	);
+																}}
+															>
+																{rightMaximized ? (
+																	<LuMinimize2 className="size-4" />
+																) : (
+																	<LuMaximize2 className="size-4" />
+																)}
+															</button>
+															{areaState.rightAreaOpen && (
+																<WorkspaceToolbarSlot host={toolbarHost} />
+															)}
+														</div>
+													</WindowChromeControls>
+													<WindowControlsInset />
+												</WindowChrome>
+												{client &&
+												hostUrl &&
+												workspaceId &&
+												activeConnection &&
+												layoutPersistence.ready ? (
+													<JedvTerminalWorkspace
+														sessionsMenu={rightSessionMenu.menu}
+														sessionMenuProps={rightSessionMenu.props}
+														area="right"
+														filesHost={
+															hostUrl &&
+															workspaceId &&
+															filesSurfaceMatches(
+																fileTarget,
+																hostUrl,
+																workspaceId,
+															)
+																? filesHost
+																: null
+														}
+														otherArea={terminalStore}
+														focused={
 															areaState.rightAreaOpen &&
 															areaState.focusedArea === "right"
-														)
-													}
-													onAreaFocus={() =>
-														areas.state.setState({ focusedArea: "left" })
-													}
-													key={`${hostUrl}:${workspaceId}`}
-													connection={activeConnection}
-													hostUrl={hostUrl}
-													onOpenUrl={(url) => openConfiguredUrl(url)}
-													workspaceId={workspaceId}
-													activeId={terminalId}
-													store={terminalStore}
-													active={surface === "terminal"}
-													tabBarMount={tabBarMount}
-													emptyState={empty}
-													onNew={() =>
-														void run(() =>
-															createTerminal(workspaceId, terminalStore),
-														)
-													}
-													agentConfigs={configuredAgents}
-													agentByTerminal={agentByTerminal}
-													agentSessionNames={agentSessionNames}
-													agentProjectionReady={bindings.data !== undefined}
-													agentBindings={currentBindings}
-													agentSessionByTerminal={
-														new Map(
-															currentBindings
-																.filter(
-																	(binding) =>
-																		typeof binding.agentSessionId === "string",
-																)
-																.map((binding) => [
-																	binding.terminalId,
-																	binding.agentSessionId ?? "",
-																]),
-														)
-													}
-													onLaunch={(config) =>
-														void run(() => launchConfiguredAgent(config))
-													}
-													sessions={terminals.data?.sessions}
-													onCreated={async () => {
-														await refreshTerminals(workspaceId);
-													}}
-													onConnectionChange={setTerminalConnected}
-													client={client}
-													onSelect={selectTerminal}
-													onKill={requestClose}
-													onOpenFile={openFiles}
-													getHasUnsavedFiles={() =>
-														filesDirtyRef.current &&
-														fileTargetRef.current?.hostUrl === hostUrl &&
-														fileTargetRef.current?.workspaceId === workspaceId
-													}
-													actionsRef={leftLayoutRef}
-													remote={!!remote}
-												/>
-											) : workspace && !layoutPersistence.ready ? (
-												<div className="m-auto space-y-2 p-4 text-sm text-muted-foreground">
-													<p>
-														<Trans>Restoring workspace layout…</Trans>
-													</p>
-													{layoutPersistence.error && (
-														<Button
-															variant="outline"
-															onClick={() => void layoutPersistence.retry()}
-														>
-															<Trans>Retry</Trans>
-														</Button>
-													)}
-												</div>
-											) : (
-												empty
-											)}
-										</div>
-									</ResizablePanel>
-									<ResizableHandle
-										className={areaState.rightAreaOpen ? "" : "hidden"}
-									/>
-									<ResizablePanel
-										ref={setRightPanel}
-										defaultSize={areaState.rightAreaOpen ? 40 : 0}
-										minSize={Math.min(
-											75,
-											(262 / Math.max(workspaceWidth, 350)) * 100,
-										)}
-										collapsible
-										collapsedSize={0}
-										onCollapse={() =>
-											areas.state.setState({
-												rightAreaOpen: false,
-												focusedArea: "left",
-											})
-										}
-										onExpand={() =>
-											areas.state.setState({ rightAreaOpen: true })
-										}
-									>
-										<div
-											className="flex h-full min-h-0 flex-col"
-											inert={!areaState.rightAreaOpen}
-											style={{
-												visibility: areaState.rightAreaOpen
-													? "visible"
-													: "hidden",
-											}}
-										>
-											<WindowChrome
-												height={48}
-												className="bg-muted/45 shadow-[inset_0_-1px_0_var(--border)] dark:bg-muted/35"
-											>
-												{rightMaximized && navigation.sidebarCollapsed && (
-													<WindowChromeLeading leftmost expand />
+														}
+														onAreaFocus={() =>
+															areas.state.setState({ focusedArea: "right" })
+														}
+														key={`${hostUrl}:${workspaceId}`}
+														connection={activeConnection}
+														hostUrl={hostUrl}
+														onOpenUrl={(url) => openConfiguredUrl(url)}
+														workspaceId={workspaceId}
+														activeId={terminalId}
+														store={rightStore}
+														active={
+															(surface === "terminal" || surface === "files") &&
+															areaState.rightAreaOpen
+														}
+														tabBarMount={rightTabBarMount}
+														emptyState={empty}
+														onNew={() =>
+															void run(() =>
+																createTerminal(workspaceId, rightStore),
+															)
+														}
+														agentConfigs={configuredAgents}
+														agentByTerminal={agentByTerminal}
+														agentSessionNames={agentSessionNames}
+														agentProjectionReady={bindings.data !== undefined}
+														agentBindings={currentBindings}
+														agentSessionByTerminal={
+															new Map(
+																currentBindings
+																	.filter(
+																		(binding) =>
+																			typeof binding.agentSessionId ===
+																			"string",
+																	)
+																	.map((binding) => [
+																		binding.terminalId,
+																		binding.agentSessionId ?? "",
+																	]),
+															)
+														}
+														onLaunch={(config) =>
+															void run(() => launchConfiguredAgent(config))
+														}
+														sessions={terminals.data?.sessions}
+														onCreated={async () => {
+															await refreshTerminals(workspaceId);
+														}}
+														onConnectionChange={setTerminalConnected}
+														client={client}
+														onSelect={selectTerminal}
+														onKill={requestClose}
+														onOpenFile={openFiles}
+														getHasUnsavedFiles={() =>
+															filesDirtyRef.current &&
+															fileTargetRef.current?.hostUrl === hostUrl &&
+															fileTargetRef.current?.workspaceId === workspaceId
+														}
+														actionsRef={rightLayoutRef}
+														remote={!!remote}
+													/>
+												) : (
+													empty
 												)}
-												<div
-													ref={setRightTabBarMount}
-													className="no-drag flex min-w-0 flex-1 self-stretch"
-												/>
-												<div className="drag min-w-4" />
-												<WindowChromeControls className="shrink-0 pr-2">
-													<div className="flex items-center gap-1">
-														<button
-															type="button"
-															aria-label={
-																rightMaximized
-																	? t({ message: "Restore pane area" })
-																	: t({ message: "Expand pane area" })
-															}
-															aria-pressed={rightMaximized}
-															className="grid size-7 shrink-0 place-items-center self-center rounded-md text-muted-foreground hover:bg-accent/50 hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring"
-															onClick={() => {
-																areas.state.setState({ focusedArea: "right" });
-																setMaximizedStore((value) =>
-																	value === rightStore ? null : rightStore,
-																);
-															}}
-														>
-															{rightMaximized ? (
-																<LuMinimize2 className="size-4" />
-															) : (
-																<LuMaximize2 className="size-4" />
-															)}
-														</button>
-														{areaState.rightAreaOpen && (
-															<WorkspaceToolbarSlot host={toolbarHost} />
-														)}
-													</div>
-												</WindowChromeControls>
-												<WindowControlsInset />
-											</WindowChrome>
-											{client &&
-											hostUrl &&
-											workspaceId &&
-											activeConnection &&
-											layoutPersistence.ready ? (
-												<JedvTerminalWorkspace
-													sessionsMenu={rightSessionMenu.menu}
-													sessionMenuProps={rightSessionMenu.props}
-													area="right"
-													filesHost={
-														hostUrl &&
-														workspaceId &&
-														filesSurfaceMatches(
-															fileTarget,
-															hostUrl,
-															workspaceId,
+											</div>
+										</ResizablePanel>
+									</ResizablePanelGroup>
+									{client && hostUrl && workspaceId && (
+										<aside hidden>
+											<NativeAgentControls
+												remote={!!remote}
+												key={`${hostUrl}:${workspaceId}`}
+												client={client}
+												hostUrl={hostUrl}
+												workspaceId={workspaceId}
+												terminalId={terminalId}
+												launched={launched}
+												popoverOpen={drawer}
+												onStateChange={(state) => {
+													if (
+														isCurrentTerminalContext(
+															currentTerminalContext.current,
+															{ client, hostUrl, workspaceId },
 														)
-															? filesHost
-															: null
-													}
-													otherArea={terminalStore}
-													focused={
-														areaState.rightAreaOpen &&
-														areaState.focusedArea === "right"
-													}
-													onAreaFocus={() =>
-														areas.state.setState({ focusedArea: "right" })
-													}
-													key={`${hostUrl}:${workspaceId}`}
-													connection={activeConnection}
-													hostUrl={hostUrl}
-													onOpenUrl={(url) => openConfiguredUrl(url)}
-													workspaceId={workspaceId}
-													activeId={terminalId}
-													store={rightStore}
-													active={
-														(surface === "terminal" || surface === "files") &&
-														areaState.rightAreaOpen
-													}
-													tabBarMount={rightTabBarMount}
-													emptyState={empty}
-													onNew={() =>
-														void run(() =>
-															createTerminal(workspaceId, rightStore),
-														)
-													}
-													agentConfigs={configuredAgents}
-													agentByTerminal={agentByTerminal}
-													agentSessionNames={agentSessionNames}
-													agentProjectionReady={bindings.data !== undefined}
-													agentBindings={currentBindings}
-													agentSessionByTerminal={
-														new Map(
-															currentBindings
-																.filter(
-																	(binding) =>
-																		typeof binding.agentSessionId === "string",
-																)
-																.map((binding) => [
-																	binding.terminalId,
-																	binding.agentSessionId ?? "",
-																]),
-														)
-													}
-													onLaunch={(config) =>
-														void run(() => launchConfiguredAgent(config))
-													}
-													sessions={terminals.data?.sessions}
-													onCreated={async () => {
-														await refreshTerminals(workspaceId);
-													}}
-													onConnectionChange={setTerminalConnected}
-													client={client}
-													onSelect={selectTerminal}
-													onKill={requestClose}
-													onOpenFile={openFiles}
-													getHasUnsavedFiles={() =>
-														filesDirtyRef.current &&
-														fileTargetRef.current?.hostUrl === hostUrl &&
-														fileTargetRef.current?.workspaceId === workspaceId
-													}
-													actionsRef={rightLayoutRef}
-													remote={!!remote}
-												/>
-											) : (
-												empty
-											)}
-										</div>
-									</ResizablePanel>
-								</ResizablePanelGroup>
-								{client && hostUrl && workspaceId && (
-									<aside hidden>
-										<NativeAgentControls
-											remote={!!remote}
-											key={`${hostUrl}:${workspaceId}`}
-											client={client}
-											hostUrl={hostUrl}
-											workspaceId={workspaceId}
-											terminalId={terminalId}
-											launched={launched}
-											popoverOpen={drawer}
-											onStateChange={(state) => {
-												if (
-													isCurrentTerminalContext(
-														currentTerminalContext.current,
-														{ client, hostUrl, workspaceId },
 													)
-												)
-													setNativeState(state);
-											}}
-											onTerminal={(id) =>
-												openCompletedTerminal(
-													{ client, hostUrl, workspaceId },
-													id,
-												)
-											}
-										/>
-									</aside>
-								)}
+														setNativeState(state);
+												}}
+												onTerminal={(id) =>
+													openCompletedTerminal(
+														{ client, hostUrl, workspaceId },
+														id,
+													)
+												}
+											/>
+										</aside>
+									)}
+								</div>
+								<JedvResourceSummary
+									client={client ?? undefined}
+									remote={!!remote}
+									workspaces={workspaces.data ?? []}
+									open={resourcesOpen}
+									onOpenChange={setResourcesOpen}
+									showSummary={resourcesVisible.data ?? false}
+									onOpenWorkspace={openWorkspace}
+								/>
 							</div>
-							<JedvResourceSummary
-								client={client ?? undefined}
-								remote={!!remote}
-								workspaces={workspaces.data ?? []}
-								open={resourcesOpen}
-								onOpenChange={setResourcesOpen}
-								showSummary={resourcesVisible.data ?? false}
-								onOpenWorkspace={openWorkspace}
-							/>
 						</section>
 					</ResizablePanel>
 				</ResizablePanelGroup>
@@ -3470,27 +3528,7 @@ export function JedvShell() {
 						}}
 					/>
 				)}
-				{workspaceCreation && (
-					<CreateWorkspaceDialog
-						context={workspaceCreation.context}
-						projects={workspaceCreation.projects}
-						initialProjectId={workspaceCreation.projectId}
-						initialMode={workspaceCreation.mode}
-						onRefresh={refreshProjectContext}
-						onCreated={async ({
-							context,
-							workspaceId: createdId,
-							terminalId: createdTerminal,
-						}) => {
-							if (
-								currentHost.current.client === context.client &&
-								currentHost.current.hostUrl === context.hostUrl
-							)
-								await openWorkspace(createdId, createdTerminal);
-						}}
-						onClose={() => setWorkspaceCreation(null)}
-					/>
-				)}
+
 				{deleteTarget && (
 					<JedvDeleteWorkspaceDialog
 						context={deleteTarget.context}

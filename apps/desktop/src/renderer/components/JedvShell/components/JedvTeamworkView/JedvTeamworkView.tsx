@@ -70,6 +70,7 @@ export function JedvTeamworkView({
 				teamId={selected.id}
 				title={selected.name}
 				connected={index.supported && !failed}
+				deleteSupported={index.capabilities.data?.features?.delete === true}
 				interruptSupported={
 					(
 						index.capabilities.data?.features as

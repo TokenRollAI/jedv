@@ -26,6 +26,7 @@ import {
 	LuPlay,
 	LuRefreshCw,
 	LuSquare,
+	LuTrash2,
 	LuUsers,
 	LuX,
 } from "react-icons/lu";
@@ -60,6 +61,7 @@ export function TeamDetail({
 	title,
 	deliveryModesSupported = false,
 	interruptSupported = false,
+	deleteSupported = false,
 }: {
 	context: JedvParityViewContext;
 	teamId: string;
@@ -67,6 +69,7 @@ export function TeamDetail({
 	title: string;
 	deliveryModesSupported?: boolean;
 	interruptSupported?: boolean;
+	deleteSupported?: boolean;
 }) {
 	const { client, hostUrl } = context;
 	const { t } = useLingui();
@@ -129,7 +132,7 @@ export function TeamDetail({
 		cache.invalidateQueries({ queryKey: teamworkKey(hostUrl) });
 	const action = useMutation({
 		mutationFn: async (input: {
-			kind: "pause" | "resume" | "stop" | "archive" | "rename";
+			kind: "pause" | "resume" | "stop" | "archive" | "rename" | "delete";
 			member?: string;
 			name?: string;
 		}) => {
@@ -144,7 +147,11 @@ export function TeamDetail({
 				await client.team.rename.mutate({ teamId, name: input.name ?? "" });
 			else if (input.kind === "stop")
 				await client.team.stop.mutate({ teamId, member: input.member });
-			else if (input.kind === "archive")
+			else if (input.kind === "delete") {
+				if (!deleteSupported)
+					throw new Error(t({ message: "Update the host to delete teams." }));
+				await client.team.delete.mutate({ teamId });
+			} else if (input.kind === "archive")
 				await client.team.archive.mutate({ teamId });
 			else await client.team[input.kind].mutate({ teamId });
 		},
@@ -378,6 +385,29 @@ export function TeamDetail({
 									<Trans>Archive team</Trans>
 								</DropdownMenuItem>
 							)}
+							<DropdownMenuItem
+								disabled={!deleteSupported}
+								onSelect={() =>
+									setConfirmation({
+										title: t({ message: "Delete this team?" }),
+										description: t({
+											message:
+												"Permanently delete this team, its members, mail, shared team memory and alerts. Team-created agents will be stopped. Existing terminals added to the team, workspaces and files are kept. This cannot be undone.",
+										}),
+										detail: team?.name ?? teamId,
+										execute: () => action.mutateAsync({ kind: "delete" }),
+									})
+								}
+								className="text-destructive"
+								title={
+									!deleteSupported
+										? t({ message: "Update the host to delete teams." })
+										: undefined
+								}
+							>
+								<LuTrash2 className="size-3.5" />
+								<Trans>Delete team</Trans>
+							</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</WindowChromeControls>

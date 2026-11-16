@@ -11,6 +11,7 @@ import {
 import type { useTeamwork } from "../../hooks/useTeamwork";
 import { JedvIconButton } from "../JedvIconButton";
 import { SidebarSectionHeading } from "../SidebarSectionHeading";
+import { TeamDirectoryActions } from "./components/TeamDirectoryActions";
 export function TeamworkDirectory({
 	index,
 	selectedId,
@@ -104,24 +105,33 @@ export function TeamworkDirectory({
 									? LuArchive
 									: LuSquare;
 					return (
-						<button
-							key={team.id}
-							type="button"
-							aria-current={
-								active && selectedId === team.id ? "page" : undefined
-							}
-							title={`${team.name} · ${status}`}
-							onClick={() => onSelect(team.id)}
-							className={`flex h-7 w-full items-center gap-2 rounded-md px-3 text-left text-[13px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${active && selectedId === team.id ? "bg-fill-selected text-foreground" : "text-muted-foreground hover:bg-fill-hover hover:text-foreground"}`}
-						>
-							<LuUsers className="size-3.5 shrink-0" />
-							<span className="min-w-0 flex-1 truncate">{team.name}</span>
-							<Icon
-								className={`size-3 shrink-0 ${team.status === "active" ? "text-success" : team.status === "paused" ? "text-warning" : "text-muted-foreground"}`}
-								aria-hidden="true"
+						<div key={team.id} className="flex items-center gap-0.5">
+							<button
+								type="button"
+								aria-current={
+									active && selectedId === team.id ? "page" : undefined
+								}
+								title={`${team.name} · ${status}`}
+								onClick={() => onSelect(team.id)}
+								className={`flex h-7 min-w-0 flex-1 items-center gap-2 rounded-md px-3 text-left text-[13px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${active && selectedId === team.id ? "bg-fill-selected text-foreground" : "text-muted-foreground hover:bg-fill-hover hover:text-foreground"}`}
+							>
+								<LuUsers className="size-3.5 shrink-0" />
+								<span className="min-w-0 flex-1 truncate">{team.name}</span>
+								<Icon
+									className={`size-3 shrink-0 ${team.status === "active" ? "text-success" : team.status === "paused" ? "text-warning" : "text-muted-foreground"}`}
+									aria-hidden="true"
+								/>
+								<span className="sr-only">{status}</span>
+							</button>
+							<TeamDirectoryActions
+								team={team}
+								disabled={!index.supported || failed || !index.list.isSuccess}
+								onDelete={index.deleteTeam}
+								deleteSupported={
+									index.capabilities.data?.features?.delete === true
+								}
 							/>
-							<span className="sr-only">{status}</span>
-						</button>
+						</div>
 					);
 				})}
 				{index.list.isSuccess && teams.length === 0 && (

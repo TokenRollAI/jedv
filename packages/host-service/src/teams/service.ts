@@ -6,16 +6,19 @@ import {
 	teamStartSchema,
 } from "@jedv/shared/teamwork";
 import { TRPCError } from "@trpc/server";
-import { and, eq, inArray, isNull, ne, or } from "drizzle-orm";
+import { and, eq, inArray, isNotNull, isNull, ne, or } from "drizzle-orm";
 import type { z } from "zod";
 import {
 	mailDeliveries,
 	mailEvents,
+	mailOutbox,
+	memories,
 	projects,
 	teamMembers,
 	teams,
 	terminalAgentBindings,
 	terminalSessions,
+	watchdogAlerts,
 	workspaces,
 } from "../db/schema";
 import { mailPolicy, mailReceipt } from "../mail/policy";
@@ -98,6 +101,7 @@ export class TeamService extends EventEmitter {
 	>();
 	private readonly spawns = new Map<string, Promise<TeamMember>>();
 	private readonly stoppingTeams = new Set<string>();
+	private readonly deletingTeams = new Set<string>();
 	private readonly removeTerminalListener: (() => void) | undefined;
 	constructor(
 		readonly ctx: HostServiceContext,
@@ -691,6 +695,8 @@ export class TeamService extends EventEmitter {
 		paused: boolean,
 	) {
 		const team = this.resolve(input);
+		if (this.deletingTeams.has(team.id))
+			fail("CONFLICT", "Team deletion is in progress");
 		if (!["active", "paused"].includes(team.status))
 			fail("PRECONDITION_FAILED", "Stopped or archived Teams cannot resume");
 		this.ctx.db
@@ -703,6 +709,8 @@ export class TeamService extends EventEmitter {
 	}
 	async spawn(input: TeamSpawnInput): Promise<TeamMember> {
 		const team = this.resolve(input);
+		if (this.deletingTeams.has(team.id))
+			fail("CONFLICT", "Team deletion is in progress");
 		if (team.status !== "active")
 			fail("PRECONDITION_FAILED", "Team must be active to spawn");
 		const hash = fingerprint({ ...input, teamId: team.id, actor: undefined });
@@ -1410,12 +1418,17 @@ export class TeamService extends EventEmitter {
 			{ timeoutMs: 15000 },
 		);
 	}
-	async stop(input: {
-		teamId?: string;
-		actor?: TeamworkActor;
-		member?: string;
-	}) {
+	async stop(
+		input: {
+			teamId?: string;
+			actor?: TeamworkActor;
+			member?: string;
+		},
+		deleting = false,
+	) {
 		const team = this.resolve(input);
+		if (!deleting && this.deletingTeams.has(team.id))
+			fail("CONFLICT", "Team deletion is in progress");
 		if (this.stoppingTeams.has(team.id))
 			fail("CONFLICT", "Team stop is already in progress");
 		const targets = input.member
@@ -1534,12 +1547,181 @@ export class TeamService extends EventEmitter {
 			this.stoppingTeams.delete(team.id);
 		}
 	}
+	async delete(input: { teamId: string }) {
+		const team = this.team(input.teamId);
+		const members = this.members(team.id);
+		if (
+			this.deletingTeams.has(team.id) ||
+			this.stoppingTeams.has(team.id) ||
+			members.some(
+				(member) => this.starts.has(member.id) || this.spawns.has(member.id),
+			)
+		)
+			fail(
+				"CONFLICT",
+				"Team operations are still running. Wait for them to finish before deleting the team.",
+			);
+		for (const member of members) {
+			const terminalId = member.terminalId ?? member.plannedTerminalId;
+			if (
+				!terminalId ||
+				(member.role === "leader" && member.operationId === "init")
+			)
+				continue;
+			if (
+				this.ctx.db
+					.select()
+					.from(teamMembers)
+					.where(
+						and(
+							eq(teamMembers.terminalId, terminalId),
+							ne(teamMembers.teamId, team.id),
+							isNull(teamMembers.endedAt),
+						),
+					)
+					.get()
+			)
+				fail(
+					"CONFLICT",
+					"A team terminal belongs to another team. Resolve its ownership before deleting this team.",
+				);
+		}
+		this.deletingTeams.add(team.id);
+		try {
+			await this.stop({ teamId: team.id }, true);
+			// A promoted terminal belongs to the user. A team.start leader was created for this team.
+			for (const leader of members.filter(
+				(member) => member.role === "leader" && member.operationId !== "init",
+			)) {
+				const terminalId = leader.terminalId ?? leader.plannedTerminalId;
+				if (!terminalId) continue;
+				const terminal = this.ctx.db
+					.select()
+					.from(terminalSessions)
+					.where(eq(terminalSessions.id, terminalId))
+					.get();
+				if (
+					!terminal ||
+					terminal.status === "disposed" ||
+					terminal.endedAt !== null
+				)
+					continue;
+				const current = this.ctx.terminalAgentStore.get(terminalId);
+				if (
+					!current ||
+					!leader.expectedLaunchId ||
+					current.launchId !== leader.expectedLaunchId ||
+					(leader.boundStartedAt !== null &&
+						!matchesAgentBinding(current, this.expected(leader) ?? current))
+				)
+					fail(
+						"PRECONDITION_FAILED",
+						"Leader terminal identity changed. Inspect and close it before deleting the team.",
+					);
+				const otherMember = this.ctx.db
+					.select()
+					.from(teamMembers)
+					.where(
+						and(
+							eq(teamMembers.terminalId, terminalId),
+							ne(teamMembers.teamId, team.id),
+							isNull(teamMembers.endedAt),
+						),
+					)
+					.get();
+				if (otherMember)
+					fail(
+						"CONFLICT",
+						"Leader terminal belongs to another team. Close it before deleting this team.",
+					);
+				this.ctx.terminalAgentStore.invalidateAutomaticDelivery(current);
+				const result = await (this.deps.dispose ?? disposeSessionAndWait)(
+					terminalId,
+					this.ctx.db,
+				);
+				if (result.daemonCloseSucceeded !== true)
+					fail(
+						"PRECONDITION_FAILED",
+						"Could not confirm leader terminal closure. Inspect and retry deleting the team.",
+					);
+				const latest = this.ctx.terminalAgentStore.get(terminalId);
+				if (latest && !matchesAgentBinding(latest, current))
+					fail(
+						"CONFLICT",
+						"Leader terminal identity changed while closing. Inspect before retrying.",
+					);
+				this.ctx.terminalAgentStore.markTerminalDisposed(terminalId);
+			}
+			this.ctx.db.transaction((tx) => {
+				const eventIds = tx
+					.select({ id: mailEvents.id })
+					.from(mailEvents)
+					.where(eq(mailEvents.teamId, team.id));
+				const inflightMail = tx
+					.select()
+					.from(mailDeliveries)
+					.where(
+						and(
+							inArray(mailDeliveries.eventId, eventIds),
+							isNotNull(mailDeliveries.inflightToken),
+						),
+					)
+					.get();
+				const inflightOutbox = tx
+					.select()
+					.from(mailOutbox)
+					.where(
+						and(
+							inArray(mailOutbox.eventId, eventIds),
+							isNotNull(mailOutbox.inflightToken),
+						),
+					)
+					.get();
+				if (inflightMail || inflightOutbox)
+					fail(
+						"CONFLICT",
+						"Mail delivery is still in progress. Wait for it to settle before retrying deletion.",
+					);
+				const memoryIds = tx
+					.select({ id: memories.id })
+					.from(memories)
+					.where(
+						and(eq(memories.scopeKind, "team"), eq(memories.scopeId, team.id)),
+					);
+				tx.update(memories)
+					.set({ supersededById: null })
+					.where(inArray(memories.supersededById, memoryIds))
+					.run();
+				tx.delete(memories)
+					.where(
+						and(eq(memories.scopeKind, "team"), eq(memories.scopeId, team.id)),
+					)
+					.run();
+				tx.delete(watchdogAlerts)
+					.where(eq(watchdogAlerts.teamId, team.id))
+					.run();
+				// Foreign keys cascade members/operation identities, mail, deliveries, peer receipts/outbox and provider tokens.
+				tx.delete(teams).where(eq(teams.id, team.id)).run();
+			});
+			this.emit(
+				"deleted",
+				team.id,
+				members.map((member) => member.id),
+			);
+			this.changed(team.id);
+			return { deleted: true as const, teamId: team.id };
+		} finally {
+			this.deletingTeams.delete(team.id);
+		}
+	}
 	async archive(input: {
 		teamId?: string;
 		actor?: TeamworkActor;
 		stop: boolean;
 	}) {
 		const team = this.resolve(input);
+		if (this.deletingTeams.has(team.id))
+			fail("CONFLICT", "Team deletion is in progress");
 		if (input.stop && ["active", "paused"].includes(team.status))
 			await this.stop({ teamId: team.id });
 		if (!["stopped", "archived"].includes(this.team(team.id).status))

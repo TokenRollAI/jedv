@@ -15,7 +15,7 @@ import { WorkspaceForwards } from "../../../WorkspaceForwards";
 import type { useProjectTreeData } from "../../hooks/useProjectTreeData";
 import type { JedvProjectTreeProps } from "../../types";
 import type { TreeGroup } from "../../utils/tree-layout";
-import { WorkspaceAgentSessionRow } from "../WorkspaceAgentSessionRow";
+import { WorkspaceAgentsChip } from "../WorkspaceAgentsChip";
 export function ProjectTreeWorkspace({
 	workspace,
 	project,
@@ -156,30 +156,17 @@ export function ProjectTreeWorkspace({
 				</>
 			}
 			agentChips={
-				bindings.length > 0 || props.workspaceTeams?.has(workspace.id) ? (
-					<div className="ml-10 mr-3 flex flex-col items-stretch gap-1 py-0.5">
-						<div className="flex min-w-0 flex-1 flex-col items-stretch gap-0.5">
-							{bindings.map((binding) => (
-								<WorkspaceAgentSessionRow
-									key={binding.terminalId}
-									session={
-										props.agentSessions?.get(binding.terminalId) ?? {
-											terminalId: binding.terminalId,
-											name: `${binding.agentId} · ${binding.terminalId.slice(0, 8)}`,
-											provider: binding.agentId,
-											location: "unknown",
-										}
-									}
-									onOpen={() =>
-										void props.onOpenWorkspace(
-											context,
-											workspace.id,
-											binding.terminalId,
-										)
-									}
-								/>
-							))}
-						</div>
+				bindings.length > 1 ||
+				bindings.some((binding) => binding.subagents?.length) ||
+				props.workspaceTeams?.has(workspace.id) ? (
+					<div className="ml-[50px] mr-3 flex h-7 items-center gap-1">
+						<WorkspaceAgentsChip
+							bindings={bindings}
+							sessions={props.agentSessions}
+							onOpen={(terminalId) =>
+								void props.onOpenWorkspace(context, workspace.id, terminalId)
+							}
+						/>
 						{props.onOpenTeam && (
 							<TeamworkBadge
 								teams={props.workspaceTeams?.get(workspace.id) ?? []}

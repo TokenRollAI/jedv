@@ -282,6 +282,10 @@ msgstr "Đã xác nhận"
 msgid "Actions"
 msgstr "Hành động"
 
+#. placeholder {0}: team.name
+msgid "Actions for {0}"
+msgstr "Thao tác cho {0}"
+
 msgid "Active"
 msgstr "Đang hoạt động"
 
@@ -341,6 +345,9 @@ msgstr "Thêm dự án từ thư mục"
 
 msgid "Add Project from Folder..."
 msgstr "Thêm dự án từ thư mục..."
+
+msgid "Add tests where coverage is missing"
+msgstr "Thêm kiểm thử ở những nơi còn thiếu"
 
 msgid "Add to Dictionary"
 msgstr "Thêm vào từ điển"
@@ -923,6 +930,9 @@ msgstr "Đang kiểm tra không gian làm việc và các phiên đang chạy…
 
 msgid "Checklist"
 msgstr "Danh sách kiểm"
+
+msgid "Checkout"
+msgstr "Bản làm việc"
 
 msgid "Checks"
 msgstr "Check"
@@ -1678,6 +1688,9 @@ msgstr "Đã tạo commit {0}"
 msgid "Creating directory and initializing Git…"
 msgstr "Đang tạo thư mục và khởi tạo Git…"
 
+msgid "Creating workspace…"
+msgstr "Đang tạo không gian làm việc…"
+
 msgid "Creating…"
 msgstr "Đang tạo…"
 
@@ -1813,11 +1826,17 @@ msgstr "Xóa vĩnh viễn dự án?"
 msgid "Delete session \"{workspaceName}\"?"
 msgstr "Xóa phiên \"{workspaceName}\"?"
 
+msgid "Delete team"
+msgstr "Xóa nhóm"
+
 msgid "Delete this custom agent?"
 msgstr "Xóa agent tùy chỉnh này?"
 
 msgid "Delete this preset?"
 msgstr "Xóa cấu hình định sẵn này?"
+
+msgid "Delete this team?"
+msgstr "Xóa nhóm này?"
 
 msgid "Delete workspace \"{workspaceName}\"?"
 msgstr "Xóa workspace \"{workspaceName}\"?"
@@ -2364,6 +2383,9 @@ msgstr "Lọc agent…"
 msgid "Find"
 msgstr "Tìm"
 
+msgid "Find and fix a bug"
+msgstr "Tìm và sửa lỗi"
+
 msgid "Find in Changes"
 msgstr "Tìm trong Thay đổi"
 
@@ -2785,6 +2807,9 @@ msgstr "Đang nhập không gian làm việc đã chọn…"
 msgid "Importing..."
 msgstr "Đang nhập..."
 
+msgid "Improve agent instructions"
+msgstr "Cải thiện hướng dẫn cho tác nhân"
+
 msgid "In"
 msgstr "Trong"
 
@@ -3194,6 +3219,9 @@ msgstr "Thủ công"
 
 msgid "Manual only"
 msgstr "Chỉ thủ công"
+
+msgid "Manual workspace creation"
+msgstr "Tạo không gian làm việc thủ công"
 
 msgid "Manually"
 msgstr "Thủ công"
@@ -4146,6 +4174,9 @@ msgstr "Đang chờ"
 
 msgid "Pending approvals and unread important faults"
 msgstr "Phê duyệt chờ xử lý và lỗi quan trọng chưa đọc"
+
+msgid "Permanently delete this team, its members, mail, shared team memory and alerts. Team-created agents will be stopped. Existing terminals added to the team, workspaces and files are kept. This cannot be undone."
+msgstr "Xóa vĩnh viễn nhóm này, các thành viên, thư, bộ nhớ dùng chung và cảnh báo. Các tác nhân do nhóm tạo sẽ bị dừng. Các cửa sổ dòng lệnh có sẵn được thêm vào nhóm, không gian làm việc và tệp sẽ được giữ lại. Không thể hoàn tác thao tác này."
 
 msgid "Permissions"
 msgstr "Quyền"
@@ -5961,7 +5992,7 @@ msgid "The target workspace changed. The result belongs to the original workspac
 msgstr "Không gian làm việc đích đã thay đổi. Kết quả thuộc về không gian làm việc ban đầu."
 
 msgid "The team becomes read-only. Its workspaces, files and terminals are kept."
-msgstr "Nhóm chuyển sang chỉ đọc. Không gian làm việc, tệp và terminal của nhóm được giữ lại."
+msgstr "Nhóm chuyển sang chế độ chỉ đọc. Không gian làm việc, tệp và cửa sổ dòng lệnh được giữ lại."
 
 msgid "The terminal is not available in this workspace."
 msgstr "Thiết bị đầu cuối này không khả dụng trong không gian làm việc này."
@@ -6513,6 +6544,9 @@ msgstr "Trạng thái cập nhật không khả dụng"
 msgid "update the branch prefix"
 msgstr "cập nhật tiền tố nhánh"
 
+msgid "Update the host to delete teams."
+msgstr "Cập nhật máy chủ để xóa nhóm."
+
 #. placeholder {0}: event.version ?? event.currentVersion
 msgid "Updated to v{0}"
 msgstr "Đã cập nhật lên v{0}"
@@ -6675,8 +6709,14 @@ msgstr "Hằng tuần lúc {time}"
 msgid "Welcome to Jedv"
 msgstr "Chào mừng đến với Jedv"
 
+msgid "What do you want to do?"
+msgstr "Bạn muốn làm gì?"
+
 msgid "What should the team accomplish?"
 msgstr "Bạn muốn nhóm hoàn thành điều gì?"
+
+msgid "What should we build next?"
+msgstr "Tiếp theo chúng ta sẽ xây dựng gì?"
 
 msgid "What would you like to know?"
 msgstr "Bạn muốn biết điều gì?"
@@ -6710,6 +6750,9 @@ msgstr "Hoạt động của không gian làm việc"
 
 msgid "Workspace configuration"
 msgstr "Cấu hình không gian làm việc"
+
+msgid "Workspace created. Open it to check the agent before trying again."
+msgstr "Đã tạo không gian làm việc. Hãy mở để kiểm tra tác nhân trước khi thử lại."
 
 msgid "Workspace deletion results"
 msgstr "Kết quả xóa không gian làm việc"

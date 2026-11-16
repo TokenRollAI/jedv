@@ -282,6 +282,10 @@ msgstr "Bestätigt"
 msgid "Actions"
 msgstr "Aktionen"
 
+#. placeholder {0}: team.name
+msgid "Actions for {0}"
+msgstr "Aktionen für {0}"
+
 msgid "Active"
 msgstr "Aktiv"
 
@@ -341,6 +345,9 @@ msgstr "Projekt aus Ordner hinzufügen"
 
 msgid "Add Project from Folder..."
 msgstr "Projekt aus Ordner hinzufügen..."
+
+msgid "Add tests where coverage is missing"
+msgstr "Tests für ungetestete Bereiche ergänzen"
 
 msgid "Add to Dictionary"
 msgstr "Zum Wörterbuch hinzufügen"
@@ -923,6 +930,9 @@ msgstr "Arbeitsbereiche und laufende Sitzungen werden geprüft…"
 
 msgid "Checklist"
 msgstr "Checkliste"
+
+msgid "Checkout"
+msgstr "Checkout"
 
 msgid "Checks"
 msgstr "Prüfungen"
@@ -1678,6 +1688,9 @@ msgstr "Commit {0} erstellt"
 msgid "Creating directory and initializing Git…"
 msgstr "Verzeichnis wird erstellt und Git wird initialisiert…"
 
+msgid "Creating workspace…"
+msgstr "Arbeitsbereich wird erstellt…"
+
 msgid "Creating…"
 msgstr "Wird erstellt…"
 
@@ -1813,11 +1826,17 @@ msgstr "Projekt endgültig löschen?"
 msgid "Delete session \"{workspaceName}\"?"
 msgstr "Sitzung \"{workspaceName}\" löschen?"
 
+msgid "Delete team"
+msgstr "Team löschen"
+
 msgid "Delete this custom agent?"
 msgstr "Diesen benutzerdefinierten Agenten löschen?"
 
 msgid "Delete this preset?"
 msgstr "Diese Voreinstellung löschen?"
+
+msgid "Delete this team?"
+msgstr "Dieses Team löschen?"
 
 msgid "Delete workspace \"{workspaceName}\"?"
 msgstr "Arbeitsbereich \"{workspaceName}\" löschen?"
@@ -2364,6 +2383,9 @@ msgstr "Agenten filtern…"
 msgid "Find"
 msgstr "Suchen"
 
+msgid "Find and fix a bug"
+msgstr "Einen Fehler finden und beheben"
+
 msgid "Find in Changes"
 msgstr "In Änderungen suchen"
 
@@ -2785,6 +2807,9 @@ msgstr "Ausgewählte Arbeitsbereiche werden importiert…"
 msgid "Importing..."
 msgstr "Wird importiert..."
 
+msgid "Improve agent instructions"
+msgstr "Agent-Anweisungen verbessern"
+
 msgid "In"
 msgstr "In"
 
@@ -3194,6 +3219,9 @@ msgstr "Manuell"
 
 msgid "Manual only"
 msgstr "Nur manuell"
+
+msgid "Manual workspace creation"
+msgstr "Arbeitsbereich manuell erstellen"
 
 msgid "Manually"
 msgstr "Manuell"
@@ -4146,6 +4174,9 @@ msgstr "Ausstehend"
 
 msgid "Pending approvals and unread important faults"
 msgstr "Offene Genehmigungen und ungelesene wichtige Fehler"
+
+msgid "Permanently delete this team, its members, mail, shared team memory and alerts. Team-created agents will be stopped. Existing terminals added to the team, workspaces and files are kept. This cannot be undone."
+msgstr "Dieses Team, seine Mitglieder, Nachrichten, den gemeinsamen Teamspeicher und Hinweise dauerhaft löschen. Vom Team erstellte Agenten werden gestoppt. Hinzugefügte bestehende Terminals, Arbeitsbereiche und Dateien bleiben erhalten. Dies kann nicht rückgängig gemacht werden."
 
 msgid "Permissions"
 msgstr "Berechtigungen"
@@ -6513,6 +6544,9 @@ msgstr "Updatestatus nicht verfügbar"
 msgid "update the branch prefix"
 msgstr "das Branch-Präfix aktualisieren"
 
+msgid "Update the host to delete teams."
+msgstr "Aktualisiere den Host, um Teams zu löschen."
+
 #. placeholder {0}: event.version ?? event.currentVersion
 msgid "Updated to v{0}"
 msgstr "Auf v{0} aktualisiert"
@@ -6675,8 +6709,14 @@ msgstr "Wöchentlich um {time}"
 msgid "Welcome to Jedv"
 msgstr "Willkommen bei Jedv"
 
+msgid "What do you want to do?"
+msgstr "Was möchtest du tun?"
+
 msgid "What should the team accomplish?"
 msgstr "Was soll das Team erreichen?"
+
+msgid "What should we build next?"
+msgstr "Was sollen wir als Nächstes entwickeln?"
 
 msgid "What would you like to know?"
 msgstr "Was möchtest du wissen?"
@@ -6710,6 +6750,9 @@ msgstr "Arbeitsbereichsaktivität"
 
 msgid "Workspace configuration"
 msgstr "Arbeitsbereichskonfiguration"
+
+msgid "Workspace created. Open it to check the agent before trying again."
+msgstr "Arbeitsbereich erstellt. Öffne ihn, um den Agenten vor einem erneuten Versuch zu prüfen."
 
 msgid "Workspace deletion results"
 msgstr "Ergebnisse der Arbeitsbereichslöschung"

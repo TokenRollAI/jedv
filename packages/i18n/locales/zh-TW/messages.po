@@ -282,6 +282,10 @@ msgstr "已確認"
 msgid "Actions"
 msgstr "操作"
 
+#. placeholder {0}: team.name
+msgid "Actions for {0}"
+msgstr "{0} 的操作"
+
 msgid "Active"
 msgstr "啟用中"
 
@@ -341,6 +345,9 @@ msgstr "從資料夾新增專案"
 
 msgid "Add Project from Folder..."
 msgstr "從資料夾新增專案..."
+
+msgid "Add tests where coverage is missing"
+msgstr "為缺少測試的地方補上測試"
 
 msgid "Add to Dictionary"
 msgstr "新增到詞典"
@@ -923,6 +930,9 @@ msgstr "正在檢查工作區與執行中的工作階段…"
 
 msgid "Checklist"
 msgstr "清單"
+
+msgid "Checkout"
+msgstr "簽出方式"
 
 msgid "Checks"
 msgstr "檢查"
@@ -1678,6 +1688,9 @@ msgstr "已建立提交 {0}"
 msgid "Creating directory and initializing Git…"
 msgstr "正在建立目錄並初始化 Git…"
 
+msgid "Creating workspace…"
+msgstr "正在建立工作區…"
+
 msgid "Creating…"
 msgstr "建立中…"
 
@@ -1813,11 +1826,17 @@ msgstr "永久刪除專案？"
 msgid "Delete session \"{workspaceName}\"?"
 msgstr "刪除會話「{workspaceName}」？"
 
+msgid "Delete team"
+msgstr "刪除團隊"
+
 msgid "Delete this custom agent?"
 msgstr "刪除此自訂代理程式？"
 
 msgid "Delete this preset?"
 msgstr "刪除此預設？"
+
+msgid "Delete this team?"
+msgstr "刪除此團隊？"
 
 msgid "Delete workspace \"{workspaceName}\"?"
 msgstr "刪除工作區「{workspaceName}」？"
@@ -2364,6 +2383,9 @@ msgstr "篩選代理程式…"
 msgid "Find"
 msgstr "尋找"
 
+msgid "Find and fix a bug"
+msgstr "尋找並修正一個問題"
+
 msgid "Find in Changes"
 msgstr "在更改中查詢"
 
@@ -2785,6 +2807,9 @@ msgstr "正在匯入選取的工作區…"
 msgid "Importing..."
 msgstr "正在匯入..."
 
+msgid "Improve agent instructions"
+msgstr "改善代理程式說明"
+
 msgid "In"
 msgstr "在"
 
@@ -3194,6 +3219,9 @@ msgstr "手動"
 
 msgid "Manual only"
 msgstr "僅手動"
+
+msgid "Manual workspace creation"
+msgstr "手動建立工作區"
 
 msgid "Manually"
 msgstr "手動"
@@ -4146,6 +4174,9 @@ msgstr "待處理"
 
 msgid "Pending approvals and unread important faults"
 msgstr "待審批與未讀重要故障"
+
+msgid "Permanently delete this team, its members, mail, shared team memory and alerts. Team-created agents will be stopped. Existing terminals added to the team, workspaces and files are kept. This cannot be undone."
+msgstr "永久刪除此團隊及其成員、郵件、團隊共用記憶和提醒。團隊建立的智慧代理將停止。加入團隊的既有終端機、工作區和檔案會保留。此操作無法復原。"
 
 msgid "Permissions"
 msgstr "權限"
@@ -5961,7 +5992,7 @@ msgid "The target workspace changed. The result belongs to the original workspac
 msgstr "目標工作區已變更，結果屬於原工作區。"
 
 msgid "The team becomes read-only. Its workspaces, files and terminals are kept."
-msgstr "團隊將變為唯讀，其工作區、檔案和終端機會保留。"
+msgstr "團隊將變為唯讀。其工作區、檔案和終端機會保留。"
 
 msgid "The terminal is not available in this workspace."
 msgstr "此終端機在目前的工作區中無法使用。"
@@ -6513,6 +6544,9 @@ msgstr "更新狀態無法使用"
 msgid "update the branch prefix"
 msgstr "更新分支字首"
 
+msgid "Update the host to delete teams."
+msgstr "請更新主機以刪除團隊。"
+
 #. placeholder {0}: event.version ?? event.currentVersion
 msgid "Updated to v{0}"
 msgstr "已更新至 v{0}"
@@ -6675,8 +6709,14 @@ msgstr "每週{time}"
 msgid "Welcome to Jedv"
 msgstr "歡迎使用 Jedv"
 
+msgid "What do you want to do?"
+msgstr "你想做什麼？"
+
 msgid "What should the team accomplish?"
 msgstr "想讓團隊完成什麼？"
+
+msgid "What should we build next?"
+msgstr "接下來做點什麼？"
 
 msgid "What would you like to know?"
 msgstr "你想了解什麼？"
@@ -6710,6 +6750,9 @@ msgstr "工作區活動"
 
 msgid "Workspace configuration"
 msgstr "工作區組態"
+
+msgid "Workspace created. Open it to check the agent before trying again."
+msgstr "工作區已建立。請開啟並檢查代理程式狀態後再重試。"
 
 msgid "Workspace deletion results"
 msgstr "工作區刪除結果"

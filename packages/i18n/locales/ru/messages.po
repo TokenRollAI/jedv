@@ -282,6 +282,10 @@ msgstr "Подтверждено"
 msgid "Actions"
 msgstr "Действия"
 
+#. placeholder {0}: team.name
+msgid "Actions for {0}"
+msgstr "Действия для {0}"
+
 msgid "Active"
 msgstr "Активна"
 
@@ -341,6 +345,9 @@ msgstr "Добавить проект из папки"
 
 msgid "Add Project from Folder..."
 msgstr "Добавить проект из папки..."
+
+msgid "Add tests where coverage is missing"
+msgstr "Добавить тесты там, где их не хватает"
 
 msgid "Add to Dictionary"
 msgstr "Добавить в словарь"
@@ -923,6 +930,9 @@ msgstr "Проверка рабочих областей и запущенных
 
 msgid "Checklist"
 msgstr "Чек-лист"
+
+msgid "Checkout"
+msgstr "Получение рабочей копии"
 
 msgid "Checks"
 msgstr "Проверки"
@@ -1678,6 +1688,9 @@ msgstr "Создан коммит {0}"
 msgid "Creating directory and initializing Git…"
 msgstr "Создание каталога и инициализация Git…"
 
+msgid "Creating workspace…"
+msgstr "Создание рабочего пространства…"
+
 msgid "Creating…"
 msgstr "Создание…"
 
@@ -1813,11 +1826,17 @@ msgstr "Удалить проект безвозвратно?"
 msgid "Delete session \"{workspaceName}\"?"
 msgstr "Удалить сессию «{workspaceName}»?"
 
+msgid "Delete team"
+msgstr "Удалить команду"
+
 msgid "Delete this custom agent?"
 msgstr "Удалить этого своего агента?"
 
 msgid "Delete this preset?"
 msgstr "Удалить этот пресет?"
+
+msgid "Delete this team?"
+msgstr "Удалить эту команду?"
 
 msgid "Delete workspace \"{workspaceName}\"?"
 msgstr "Удалить рабочую область «{workspaceName}»?"
@@ -2364,6 +2383,9 @@ msgstr "Фильтровать агентов…"
 msgid "Find"
 msgstr "Найти"
 
+msgid "Find and fix a bug"
+msgstr "Найти и исправить ошибку"
+
 msgid "Find in Changes"
 msgstr "Найти в изменениях"
 
@@ -2785,6 +2807,9 @@ msgstr "Импортирование выбранных рабочих обла�
 msgid "Importing..."
 msgstr "Импорт..."
 
+msgid "Improve agent instructions"
+msgstr "Улучшить инструкции агента"
+
 msgid "In"
 msgstr "В"
 
@@ -3194,6 +3219,9 @@ msgstr "Вручную"
 
 msgid "Manual only"
 msgstr "Только вручную"
+
+msgid "Manual workspace creation"
+msgstr "Создать рабочее пространство вручную"
 
 msgid "Manually"
 msgstr "Вручную"
@@ -4146,6 +4174,9 @@ msgstr "Ожидание"
 
 msgid "Pending approvals and unread important faults"
 msgstr "Ожидающие подтверждения и непрочитанные важные сбои"
+
+msgid "Permanently delete this team, its members, mail, shared team memory and alerts. Team-created agents will be stopped. Existing terminals added to the team, workspaces and files are kept. This cannot be undone."
+msgstr "Безвозвратно удалить эту команду, её участников, почту, общую память и оповещения. Созданные командой агенты будут остановлены. Существующие терминалы, добавленные в команду, рабочие пространства и файлы сохранятся. Это действие нельзя отменить."
 
 msgid "Permissions"
 msgstr "Разрешения"
@@ -5961,7 +5992,7 @@ msgid "The target workspace changed. The result belongs to the original workspac
 msgstr "Целевая рабочая область изменилась. Результат принадлежит исходной рабочей области."
 
 msgid "The team becomes read-only. Its workspaces, files and terminals are kept."
-msgstr "Команда перейдёт в режим чтения. Её рабочие пространства, файлы и терминалы сохранятся."
+msgstr "Команда станет доступна только для чтения. Её рабочие пространства, файлы и терминалы сохранятся."
 
 msgid "The terminal is not available in this workspace."
 msgstr "Этот терминал недоступен в текущей рабочей области."
@@ -6513,6 +6544,9 @@ msgstr "Статус обновления недоступен"
 msgid "update the branch prefix"
 msgstr "обновить префикс ветки"
 
+msgid "Update the host to delete teams."
+msgstr "Обновите хост, чтобы удалять команды."
+
 #. placeholder {0}: event.version ?? event.currentVersion
 msgid "Updated to v{0}"
 msgstr "Обновлено до v{0}"
@@ -6675,8 +6709,14 @@ msgstr "Еженедельно в {time}"
 msgid "Welcome to Jedv"
 msgstr "Добро пожаловать в Jedv"
 
+msgid "What do you want to do?"
+msgstr "Что вы хотите сделать?"
+
 msgid "What should the team accomplish?"
 msgstr "Чего должна достичь команда?"
+
+msgid "What should we build next?"
+msgstr "Что создадим дальше?"
 
 msgid "What would you like to know?"
 msgstr "Что вы хотите узнать?"
@@ -6710,6 +6750,9 @@ msgstr "Активность рабочего пространства"
 
 msgid "Workspace configuration"
 msgstr "Конфигурация рабочей области"
+
+msgid "Workspace created. Open it to check the agent before trying again."
+msgstr "Рабочее пространство создано. Откройте его и проверьте агента перед повторной попыткой."
 
 msgid "Workspace deletion results"
 msgstr "Результаты удаления рабочей области"

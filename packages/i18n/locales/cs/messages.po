@@ -282,6 +282,10 @@ msgstr "Potvrzeno"
 msgid "Actions"
 msgstr "Akce"
 
+#. placeholder {0}: team.name
+msgid "Actions for {0}"
+msgstr "Akce pro {0}"
+
 msgid "Active"
 msgstr "Aktivní"
 
@@ -341,6 +345,9 @@ msgstr "Přidat projekt ze složky"
 
 msgid "Add Project from Folder..."
 msgstr "Přidat projekt ze složky..."
+
+msgid "Add tests where coverage is missing"
+msgstr "Doplnit testy tam, kde chybí pokrytí"
 
 msgid "Add to Dictionary"
 msgstr "Přidat do slovníku"
@@ -923,6 +930,9 @@ msgstr "Kontrola pracovních prostorů a běžících relací…"
 
 msgid "Checklist"
 msgstr "Zaškrtávací seznam"
+
+msgid "Checkout"
+msgstr "Pracovní kopie"
 
 msgid "Checks"
 msgstr "Kontroly"
@@ -1678,6 +1688,9 @@ msgstr "Commit {0} byl vytvořen"
 msgid "Creating directory and initializing Git…"
 msgstr "Vytváří se adresář a inicializuje Git…"
 
+msgid "Creating workspace…"
+msgstr "Vytváření pracovního prostoru…"
+
 msgid "Creating…"
 msgstr "Vytváří se…"
 
@@ -1813,11 +1826,17 @@ msgstr "Trvale odstranit projekt?"
 msgid "Delete session \"{workspaceName}\"?"
 msgstr "Smazat relaci „{workspaceName}“?"
 
+msgid "Delete team"
+msgstr "Smazat tým"
+
 msgid "Delete this custom agent?"
 msgstr "Smazat tohoto vlastního agenta?"
 
 msgid "Delete this preset?"
 msgstr "Odstranit tuto předvolbu?"
+
+msgid "Delete this team?"
+msgstr "Smazat tento tým?"
 
 msgid "Delete workspace \"{workspaceName}\"?"
 msgstr "Smazat pracovní prostor „{workspaceName}“?"
@@ -2364,6 +2383,9 @@ msgstr "Filtrovat agenty…"
 msgid "Find"
 msgstr "Najít"
 
+msgid "Find and fix a bug"
+msgstr "Najít a opravit chybu"
+
 msgid "Find in Changes"
 msgstr "Najít ve změnách"
 
@@ -2785,6 +2807,9 @@ msgstr "Import vybraných pracovních prostorů…"
 msgid "Importing..."
 msgstr "Importuji..."
 
+msgid "Improve agent instructions"
+msgstr "Vylepšit pokyny agenta"
+
 msgid "In"
 msgstr "V"
 
@@ -3194,6 +3219,9 @@ msgstr "Manuální"
 
 msgid "Manual only"
 msgstr "Pouze ručně"
+
+msgid "Manual workspace creation"
+msgstr "Vytvořit pracovní prostor ručně"
 
 msgid "Manually"
 msgstr "Ručně"
@@ -4146,6 +4174,9 @@ msgstr "Čeká na zpracování"
 
 msgid "Pending approvals and unread important faults"
 msgstr "Čekající schválení a nepřečtené důležité chyby"
+
+msgid "Permanently delete this team, its members, mail, shared team memory and alerts. Team-created agents will be stopped. Existing terminals added to the team, workspaces and files are kept. This cannot be undone."
+msgstr "Trvale smaže tento tým, jeho členy, zprávy, sdílenou paměť týmu a upozornění. Agenti vytvoření týmem budou zastaveni. Existující terminály přidané do týmu, pracovní prostory a soubory zůstanou zachovány. Tuto akci nelze vrátit zpět."
 
 msgid "Permissions"
 msgstr "Oprávnění"
@@ -5961,7 +5992,7 @@ msgid "The target workspace changed. The result belongs to the original workspac
 msgstr "Cílový pracovní prostor se změnil. Výsledek patří původnímu pracovnímu prostoru."
 
 msgid "The team becomes read-only. Its workspaces, files and terminals are kept."
-msgstr "Tým přejde do režimu jen pro čtení. Jeho pracovní prostory, soubory a terminály zůstanou zachovány."
+msgstr "Tým bude pouze pro čtení. Jeho pracovní prostory, soubory a terminály zůstanou zachovány."
 
 msgid "The terminal is not available in this workspace."
 msgstr "Tento terminál není v tomto pracovním prostoru dostupný."
@@ -6513,6 +6544,9 @@ msgstr "Stav aktualizace není dostupný"
 msgid "update the branch prefix"
 msgstr "aktualizovat prefix větve"
 
+msgid "Update the host to delete teams."
+msgstr "Pro mazání týmů aktualizujte hostitele."
+
 #. placeholder {0}: event.version ?? event.currentVersion
 msgid "Updated to v{0}"
 msgstr "Aktualizováno na v{0}"
@@ -6675,8 +6709,14 @@ msgstr "Týdně v {time}"
 msgid "Welcome to Jedv"
 msgstr "Vítejte v Jedv"
 
+msgid "What do you want to do?"
+msgstr "Co chcete udělat?"
+
 msgid "What should the team accomplish?"
 msgstr "Čeho má tým dosáhnout?"
+
+msgid "What should we build next?"
+msgstr "Co vytvoříme dál?"
 
 msgid "What would you like to know?"
 msgstr "Co byste chtěli vědět?"
@@ -6710,6 +6750,9 @@ msgstr "Aktivita pracovního prostoru"
 
 msgid "Workspace configuration"
 msgstr "Konfigurace pracovního prostoru"
+
+msgid "Workspace created. Open it to check the agent before trying again."
+msgstr "Pracovní prostor byl vytvořen. Před dalším pokusem jej otevřete a zkontrolujte agenta."
 
 msgid "Workspace deletion results"
 msgstr "Výsledky odstranění pracovních prostorů"

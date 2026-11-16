@@ -121,6 +121,18 @@ export function useTeamwork(
 		return () => socket.close();
 	}, [hostUrl, supported, cache]);
 	return {
+		deleteTeam: async (teamId: string) => {
+			if (
+				!client ||
+				!hostUrl ||
+				!supported ||
+				list.isError ||
+				!capabilities.data?.features?.delete
+			)
+				throw new Error("Teamwork is unavailable");
+			await client.team.delete.mutate({ teamId });
+			await cache.invalidateQueries({ queryKey: teamworkKey(hostUrl) });
+		},
 		capabilities,
 		supported,
 		list,

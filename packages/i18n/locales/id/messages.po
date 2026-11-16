@@ -282,6 +282,10 @@ msgstr "Dikonfirmasi"
 msgid "Actions"
 msgstr "Aksi"
 
+#. placeholder {0}: team.name
+msgid "Actions for {0}"
+msgstr "Tindakan untuk {0}"
+
 msgid "Active"
 msgstr "Aktif"
 
@@ -341,6 +345,9 @@ msgstr "Tambah Proyek dari Folder"
 
 msgid "Add Project from Folder..."
 msgstr "Tambah Proyek dari Folder..."
+
+msgid "Add tests where coverage is missing"
+msgstr "Tambahkan tes di bagian yang belum tercakup"
 
 msgid "Add to Dictionary"
 msgstr "Tambahkan ke Kamus"
@@ -923,6 +930,9 @@ msgstr "Memeriksa ruang kerja dan sesi yang berjalan…"
 
 msgid "Checklist"
 msgstr "Daftar centang"
+
+msgid "Checkout"
+msgstr "Checkout"
 
 msgid "Checks"
 msgstr "Check"
@@ -1678,6 +1688,9 @@ msgstr "Commit {0} dibuat"
 msgid "Creating directory and initializing Git…"
 msgstr "Membuat direktori dan menginisialisasi Git…"
 
+msgid "Creating workspace…"
+msgstr "Membuat ruang kerja…"
+
 msgid "Creating…"
 msgstr "Membuat…"
 
@@ -1813,11 +1826,17 @@ msgstr "Hapus proyek secara permanen?"
 msgid "Delete session \"{workspaceName}\"?"
 msgstr "Hapus sesi \"{workspaceName}\"?"
 
+msgid "Delete team"
+msgstr "Hapus tim"
+
 msgid "Delete this custom agent?"
 msgstr "Hapus agen kustom ini?"
 
 msgid "Delete this preset?"
 msgstr "Hapus prasetel ini?"
+
+msgid "Delete this team?"
+msgstr "Hapus tim ini?"
 
 msgid "Delete workspace \"{workspaceName}\"?"
 msgstr "Hapus workspace \"{workspaceName}\"?"
@@ -2364,6 +2383,9 @@ msgstr "Filter agen…"
 msgid "Find"
 msgstr "Cari"
 
+msgid "Find and fix a bug"
+msgstr "Temukan dan perbaiki bug"
+
 msgid "Find in Changes"
 msgstr "Cari di Perubahan"
 
@@ -2785,6 +2807,9 @@ msgstr "Mengimpor ruang kerja terpilih…"
 msgid "Importing..."
 msgstr "Mengimpor..."
 
+msgid "Improve agent instructions"
+msgstr "Perbaiki instruksi agen"
+
 msgid "In"
 msgstr "Di"
 
@@ -3194,6 +3219,9 @@ msgstr "Manual"
 
 msgid "Manual only"
 msgstr "Manual saja"
+
+msgid "Manual workspace creation"
+msgstr "Buat ruang kerja secara manual"
 
 msgid "Manually"
 msgstr "Secara manual"
@@ -4146,6 +4174,9 @@ msgstr "Menunggu"
 
 msgid "Pending approvals and unread important faults"
 msgstr "Persetujuan tertunda dan gangguan penting yang belum dibaca"
+
+msgid "Permanently delete this team, its members, mail, shared team memory and alerts. Team-created agents will be stopped. Existing terminals added to the team, workspaces and files are kept. This cannot be undone."
+msgstr "Hapus tim ini, anggotanya, pesan, memori bersama tim, dan peringatan secara permanen. Agen yang dibuat oleh tim akan dihentikan. Terminal yang sudah ada dan ditambahkan ke tim, ruang kerja, serta berkas akan tetap disimpan. Tindakan ini tidak dapat dibatalkan."
 
 msgid "Permissions"
 msgstr "Izin"
@@ -6513,6 +6544,9 @@ msgstr "Status pembaruan tidak tersedia"
 msgid "update the branch prefix"
 msgstr "memperbarui prefix branch"
 
+msgid "Update the host to delete teams."
+msgstr "Perbarui host untuk menghapus tim."
+
 #. placeholder {0}: event.version ?? event.currentVersion
 msgid "Updated to v{0}"
 msgstr "Diperbarui ke v{0}"
@@ -6675,8 +6709,14 @@ msgstr "Mingguan pukul {time}"
 msgid "Welcome to Jedv"
 msgstr "Selamat datang di Jedv"
 
+msgid "What do you want to do?"
+msgstr "Apa yang ingin Anda lakukan?"
+
 msgid "What should the team accomplish?"
 msgstr "Apa yang harus dicapai tim?"
+
+msgid "What should we build next?"
+msgstr "Apa yang akan kita buat selanjutnya?"
 
 msgid "What would you like to know?"
 msgstr "Apa yang ingin Anda ketahui?"
@@ -6710,6 +6750,9 @@ msgstr "Aktivitas workspace"
 
 msgid "Workspace configuration"
 msgstr "Konfigurasi ruang kerja"
+
+msgid "Workspace created. Open it to check the agent before trying again."
+msgstr "Ruang kerja dibuat. Buka untuk memeriksa agen sebelum mencoba lagi."
 
 msgid "Workspace deletion results"
 msgstr "Hasil penghapusan ruang kerja"

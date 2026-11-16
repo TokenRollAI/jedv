@@ -95,6 +95,7 @@ export const teamStopSchema = teamSelectorSchema.extend({
 export const teamArchiveSchema = teamSelectorSchema.extend({
 	stop: z.boolean().default(false),
 });
+export const teamDeleteSchema = z.object({ teamId: id }).strict();
 export const teamRenameSchema = teamSelectorSchema.extend({
 	name: z.string().trim().min(1).max(120),
 });
@@ -134,6 +135,7 @@ export interface TeamworkCapabilities {
 	features?: {
 		start?: boolean;
 		startCaller?: boolean;
+		delete?: boolean;
 		mailDeliveryModes?: boolean;
 		mailInterrupt?: boolean;
 	};

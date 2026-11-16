@@ -2,6 +2,7 @@ import {
 	TEAMWORK_PROTOCOL_VERSION,
 	type TeamworkCapabilities,
 	teamArchiveSchema,
+	teamDeleteSchema,
 	teamInitSchema,
 	teamRenameSchema,
 	teamSelectorSchema,
@@ -21,6 +22,7 @@ export const teamRouter = router({
 			features: {
 				start: true,
 				startCaller: true,
+				delete: true,
 				mailDeliveryModes: true,
 				// Advertise only the platform with a verified native cancel path.
 				// Each target still needs its own launch/foreground/input proof.
@@ -83,6 +85,11 @@ export const teamRouter = router({
 		.input(teamArchiveSchema)
 		.mutation(async ({ ctx, input }) =>
 			(await requireTeamwork(ctx)).team.archive(input),
+		),
+	delete: protectedProcedure
+		.input(teamDeleteSchema)
+		.mutation(async ({ ctx, input }) =>
+			(await requireTeamwork(ctx)).team.delete(input),
 		),
 	reconcile: protectedProcedure
 		.input(teamSelectorSchema)

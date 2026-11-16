@@ -282,6 +282,10 @@ msgstr "Acknowledged"
 msgid "Actions"
 msgstr "Actions"
 
+#. placeholder {0}: team.name
+msgid "Actions for {0}"
+msgstr "Actions for {0}"
+
 msgid "Active"
 msgstr "Active"
 
@@ -341,6 +345,9 @@ msgstr "Add Project from Folder"
 
 msgid "Add Project from Folder..."
 msgstr "Add Project from Folder..."
+
+msgid "Add tests where coverage is missing"
+msgstr "Add tests where coverage is missing"
 
 msgid "Add to Dictionary"
 msgstr "Add to Dictionary"
@@ -923,6 +930,9 @@ msgstr "Checking workspaces and running sessions…"
 
 msgid "Checklist"
 msgstr "Checklist"
+
+msgid "Checkout"
+msgstr "Checkout"
 
 msgid "Checks"
 msgstr "Checks"
@@ -1678,6 +1688,9 @@ msgstr "Created commit {0}"
 msgid "Creating directory and initializing Git…"
 msgstr "Creating directory and initializing Git…"
 
+msgid "Creating workspace…"
+msgstr "Creating workspace…"
+
 msgid "Creating…"
 msgstr "Creating…"
 
@@ -1813,11 +1826,17 @@ msgstr "Delete project permanently?"
 msgid "Delete session \"{workspaceName}\"?"
 msgstr "Delete session \"{workspaceName}\"?"
 
+msgid "Delete team"
+msgstr "Delete team"
+
 msgid "Delete this custom agent?"
 msgstr "Delete this custom agent?"
 
 msgid "Delete this preset?"
 msgstr "Delete this preset?"
+
+msgid "Delete this team?"
+msgstr "Delete this team?"
 
 msgid "Delete workspace \"{workspaceName}\"?"
 msgstr "Delete workspace \"{workspaceName}\"?"
@@ -2364,6 +2383,9 @@ msgstr "Filter agents…"
 msgid "Find"
 msgstr "Find"
 
+msgid "Find and fix a bug"
+msgstr "Find and fix a bug"
+
 msgid "Find in Changes"
 msgstr "Find in Changes"
 
@@ -2785,6 +2807,9 @@ msgstr "Importing selected workspaces…"
 msgid "Importing..."
 msgstr "Importing..."
 
+msgid "Improve agent instructions"
+msgstr "Improve agent instructions"
+
 msgid "In"
 msgstr "In"
 
@@ -3194,6 +3219,9 @@ msgstr "Manual"
 
 msgid "Manual only"
 msgstr "Manual only"
+
+msgid "Manual workspace creation"
+msgstr "Manual workspace creation"
 
 msgid "Manually"
 msgstr "Manually"
@@ -4146,6 +4174,9 @@ msgstr "Pending"
 
 msgid "Pending approvals and unread important faults"
 msgstr "Pending approvals and unread important faults"
+
+msgid "Permanently delete this team, its members, mail, shared team memory and alerts. Team-created agents will be stopped. Existing terminals added to the team, workspaces and files are kept. This cannot be undone."
+msgstr "Permanently delete this team, its members, mail, shared team memory and alerts. Team-created agents will be stopped. Existing terminals added to the team, workspaces and files are kept. This cannot be undone."
 
 msgid "Permissions"
 msgstr "Permissions"
@@ -6513,6 +6544,9 @@ msgstr "Update status unavailable"
 msgid "update the branch prefix"
 msgstr "update the branch prefix"
 
+msgid "Update the host to delete teams."
+msgstr "Update the host to delete teams."
+
 #. placeholder {0}: event.version ?? event.currentVersion
 msgid "Updated to v{0}"
 msgstr "Updated to v{0}"
@@ -6675,8 +6709,14 @@ msgstr "Weekly at {time}"
 msgid "Welcome to Jedv"
 msgstr "Welcome to Jedv"
 
+msgid "What do you want to do?"
+msgstr "What do you want to do?"
+
 msgid "What should the team accomplish?"
 msgstr "What should the team accomplish?"
+
+msgid "What should we build next?"
+msgstr "What should we build next?"
 
 msgid "What would you like to know?"
 msgstr "What would you like to know?"
@@ -6710,6 +6750,9 @@ msgstr "Workspace activity"
 
 msgid "Workspace configuration"
 msgstr "Workspace configuration"
+
+msgid "Workspace created. Open it to check the agent before trying again."
+msgstr "Workspace created. Open it to check the agent before trying again."
 
 msgid "Workspace deletion results"
 msgstr "Workspace deletion results"

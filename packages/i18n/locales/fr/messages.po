@@ -282,6 +282,10 @@ msgstr "Traitement confirmé"
 msgid "Actions"
 msgstr "Actions"
 
+#. placeholder {0}: team.name
+msgid "Actions for {0}"
+msgstr "Actions pour {0}"
+
 msgid "Active"
 msgstr "Actives"
 
@@ -341,6 +345,9 @@ msgstr "Ajouter un projet depuis un dossier"
 
 msgid "Add Project from Folder..."
 msgstr "Ajouter un projet depuis un dossier..."
+
+msgid "Add tests where coverage is missing"
+msgstr "Ajouter des tests là où il en manque"
 
 msgid "Add to Dictionary"
 msgstr "Ajouter au dictionnaire"
@@ -923,6 +930,9 @@ msgstr "Vérification des espaces de travail et des sessions en cours…"
 
 msgid "Checklist"
 msgstr "Liste de cases à cocher"
+
+msgid "Checkout"
+msgstr "Extraction"
 
 msgid "Checks"
 msgstr "Vérifications"
@@ -1678,6 +1688,9 @@ msgstr "Commit {0} créé"
 msgid "Creating directory and initializing Git…"
 msgstr "Création du répertoire et initialisation de Git…"
 
+msgid "Creating workspace…"
+msgstr "Création de l’espace de travail…"
+
 msgid "Creating…"
 msgstr "Création…"
 
@@ -1813,11 +1826,17 @@ msgstr "Supprimer définitivement le projet ?"
 msgid "Delete session \"{workspaceName}\"?"
 msgstr "Supprimer la session \"{workspaceName}\" ?"
 
+msgid "Delete team"
+msgstr "Supprimer l’équipe"
+
 msgid "Delete this custom agent?"
 msgstr "Supprimer cet agent personnalisé ?"
 
 msgid "Delete this preset?"
 msgstr "Supprimer ce préréglage ?"
+
+msgid "Delete this team?"
+msgstr "Supprimer cette équipe ?"
 
 msgid "Delete workspace \"{workspaceName}\"?"
 msgstr "Supprimer l'espace de travail \"{workspaceName}\" ?"
@@ -2364,6 +2383,9 @@ msgstr "Filtrer les agents…"
 msgid "Find"
 msgstr "Rechercher"
 
+msgid "Find and fix a bug"
+msgstr "Trouver et corriger un bug"
+
 msgid "Find in Changes"
 msgstr "Rechercher dans les modifications"
 
@@ -2785,6 +2807,9 @@ msgstr "Importation des espaces de travail sélectionnés…"
 msgid "Importing..."
 msgstr "Import en cours..."
 
+msgid "Improve agent instructions"
+msgstr "Améliorer les instructions de l’agent"
+
 msgid "In"
 msgstr "Dans"
 
@@ -3194,6 +3219,9 @@ msgstr "Manuel"
 
 msgid "Manual only"
 msgstr "Manuel uniquement"
+
+msgid "Manual workspace creation"
+msgstr "Créer un espace de travail manuellement"
 
 msgid "Manually"
 msgstr "Manuellement"
@@ -4146,6 +4174,9 @@ msgstr "En attente"
 
 msgid "Pending approvals and unread important faults"
 msgstr "Approbations en attente et incidents importants non lus"
+
+msgid "Permanently delete this team, its members, mail, shared team memory and alerts. Team-created agents will be stopped. Existing terminals added to the team, workspaces and files are kept. This cannot be undone."
+msgstr "Supprime définitivement cette équipe, ses membres, ses messages, sa mémoire partagée et ses alertes. Les agents créés par l’équipe seront arrêtés. Les terminaux existants ajoutés à l’équipe, les espaces de travail et les fichiers sont conservés. Cette action est irréversible."
 
 msgid "Permissions"
 msgstr "Autorisations"
@@ -6513,6 +6544,9 @@ msgstr "État de la mise à jour indisponible"
 msgid "update the branch prefix"
 msgstr "mettre à jour le préfixe de branche"
 
+msgid "Update the host to delete teams."
+msgstr "Mettez à jour l’hôte pour supprimer des équipes."
+
 #. placeholder {0}: event.version ?? event.currentVersion
 msgid "Updated to v{0}"
 msgstr "Mis à jour vers v{0}"
@@ -6675,8 +6709,14 @@ msgstr "Hebdomadaire à {time}"
 msgid "Welcome to Jedv"
 msgstr "Bienvenue dans Jedv"
 
+msgid "What do you want to do?"
+msgstr "Que voulez-vous faire ?"
+
 msgid "What should the team accomplish?"
 msgstr "Que doit accomplir l’équipe ?"
+
+msgid "What should we build next?"
+msgstr "Que construire ensuite ?"
 
 msgid "What would you like to know?"
 msgstr "Que souhaitez-vous savoir ?"
@@ -6710,6 +6750,9 @@ msgstr "Activité de l'espace de travail"
 
 msgid "Workspace configuration"
 msgstr "Configuration de l’espace de travail"
+
+msgid "Workspace created. Open it to check the agent before trying again."
+msgstr "Espace de travail créé. Ouvrez-le pour vérifier l’agent avant de réessayer."
 
 msgid "Workspace deletion results"
 msgstr "Résultats de la suppression de l’espace de travail"

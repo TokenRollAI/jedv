@@ -41,6 +41,8 @@ export interface CreateWorkspaceDialogProps {
 		Partial<Pick<Project, "vcsKind" | "capabilities">>)[];
 	initialProjectId?: string;
 	initialMode?: WorkspaceCreateMode;
+	initialBranch?: string;
+	initialWorktreePath?: string;
 	onRefresh(context: ProjectActionContext): Promise<void>;
 	onCreated(result: CreatedWorkspaceResult): Promise<void> | void;
 	onClose(): void;
@@ -59,11 +61,13 @@ export function CreateWorkspaceDialog(props: CreateWorkspaceDialogProps) {
 	const gitEnabled = supportsWorktrees(project);
 	const mode = gitEnabled ? requestedMode : "local";
 	const [name, setName] = useState("");
-	const [branch, setBranch] = useState("");
+	const [branch, setBranch] = useState(props.initialBranch ?? "");
 	const [conflictFromServer, setConflictFromServer] = useState(false);
 	const [baseBranch, setBaseBranch] = useState<string | null>(null);
 	const [pr, setPr] = useState<number | null>(null);
-	const [worktreePath, setWorktreePath] = useState("");
+	const [worktreePath, setWorktreePath] = useState(
+		props.initialWorktreePath ?? "",
+	);
 	const [runSetup, setRunSetup] = useState(
 		props.initialMode !== "import" && props.initialMode !== "local",
 	);

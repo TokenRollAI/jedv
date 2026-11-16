@@ -276,6 +276,10 @@ msgstr "Підтверджено"
 msgid "Actions"
 msgstr "Дії"
 
+#. placeholder {0}: team.name
+msgid "Actions for {0}"
+msgstr "Дії для {0}"
+
 msgid "Active"
 msgstr "Активний"
 
@@ -335,6 +339,9 @@ msgstr "Додати проєкт із папки"
 
 msgid "Add Project from Folder..."
 msgstr "Додати проєкт із папки..."
+
+msgid "Add tests where coverage is missing"
+msgstr "Додати тести там, де бракує покриття"
 
 msgid "Add to Dictionary"
 msgstr "Додати до словника"
@@ -917,6 +924,9 @@ msgstr "Перевірка робочих просторів і запущени
 
 msgid "Checklist"
 msgstr "Чекліст"
+
+msgid "Checkout"
+msgstr "Робоча копія"
 
 msgid "Checks"
 msgstr "Перевірки"
@@ -1672,6 +1682,9 @@ msgstr "Створено коміт {0}"
 msgid "Creating directory and initializing Git…"
 msgstr "Створення теки й ініціалізація Git…"
 
+msgid "Creating workspace…"
+msgstr "Створення робочого простору…"
+
 msgid "Creating…"
 msgstr "Створення…"
 
@@ -1807,11 +1820,17 @@ msgstr "Видалити проєкт назавжди?"
 msgid "Delete session \"{workspaceName}\"?"
 msgstr "Видалити сеанс «{workspaceName}»?"
 
+msgid "Delete team"
+msgstr "Видалити команду"
+
 msgid "Delete this custom agent?"
 msgstr "Видалити цього власного агента?"
 
 msgid "Delete this preset?"
 msgstr "Видалити цей пресет?"
+
+msgid "Delete this team?"
+msgstr "Видалити цю команду?"
 
 msgid "Delete workspace \"{workspaceName}\"?"
 msgstr "Видалити робочий простір «{workspaceName}»?"
@@ -2358,6 +2377,9 @@ msgstr "Фільтрувати агентів…"
 msgid "Find"
 msgstr "Знайти"
 
+msgid "Find and fix a bug"
+msgstr "Знайти й виправити помилку"
+
 msgid "Find in Changes"
 msgstr "Знайти в змінах"
 
@@ -2779,6 +2801,9 @@ msgstr "Імпортування вибраних робочих простор�
 msgid "Importing..."
 msgstr "Імпорт..."
 
+msgid "Improve agent instructions"
+msgstr "Покращити інструкції агента"
+
 msgid "In"
 msgstr "У"
 
@@ -3188,6 +3213,9 @@ msgstr "Вручну"
 
 msgid "Manual only"
 msgstr "Лише вручну"
+
+msgid "Manual workspace creation"
+msgstr "Створити робочий простір вручну"
 
 msgid "Manually"
 msgstr "Вручну"
@@ -4140,6 +4168,9 @@ msgstr "Очікує"
 
 msgid "Pending approvals and unread important faults"
 msgstr "Очікувані схвалення та непрочитані важливі збої"
+
+msgid "Permanently delete this team, its members, mail, shared team memory and alerts. Team-created agents will be stopped. Existing terminals added to the team, workspaces and files are kept. This cannot be undone."
+msgstr "Назавжди видалити цю команду, її учасників, пошту, спільну пам’ять та сповіщення. Створені командою агенти будуть зупинені. Наявні термінали, додані до команди, робочі простори та файли збережуться. Цю дію неможливо скасувати."
 
 msgid "Permissions"
 msgstr "Дозволи"
@@ -6507,6 +6538,9 @@ msgstr "Стан оновлення недоступний"
 msgid "update the branch prefix"
 msgstr "оновити префікс гілки"
 
+msgid "Update the host to delete teams."
+msgstr "Оновіть хост, щоб видаляти команди."
+
 #. placeholder {0}: event.version ?? event.currentVersion
 msgid "Updated to v{0}"
 msgstr "Оновлено до v{0}"
@@ -6669,8 +6703,14 @@ msgstr "Щотижня о {time}"
 msgid "Welcome to Jedv"
 msgstr "Ласкаво просимо до Jedv"
 
+msgid "What do you want to do?"
+msgstr "Що ви хочете зробити?"
+
 msgid "What should the team accomplish?"
 msgstr "Чого має досягти команда?"
+
+msgid "What should we build next?"
+msgstr "Що створимо далі?"
 
 msgid "What would you like to know?"
 msgstr "Що ви хочете дізнатися?"
@@ -6704,6 +6744,9 @@ msgstr "Активність робочого простору"
 
 msgid "Workspace configuration"
 msgstr "Конфігурація робочого простору"
+
+msgid "Workspace created. Open it to check the agent before trying again."
+msgstr "Робочий простір створено. Відкрийте його й перевірте агента перед повторною спробою."
 
 msgid "Workspace deletion results"
 msgstr "Результати видалення робочих просторів"

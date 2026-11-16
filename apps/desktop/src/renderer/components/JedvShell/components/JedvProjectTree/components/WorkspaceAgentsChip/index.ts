@@ -1,0 +1,1 @@
+export { WorkspaceAgentsChip } from "./WorkspaceAgentsChip";

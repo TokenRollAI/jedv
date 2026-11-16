@@ -282,6 +282,10 @@ msgstr "Onaylandı"
 msgid "Actions"
 msgstr "Eylemler"
 
+#. placeholder {0}: team.name
+msgid "Actions for {0}"
+msgstr "{0} için işlemler"
+
 msgid "Active"
 msgstr "Etkin"
 
@@ -341,6 +345,9 @@ msgstr "Klasörden proje ekle"
 
 msgid "Add Project from Folder..."
 msgstr "Klasörden proje ekle..."
+
+msgid "Add tests where coverage is missing"
+msgstr "Kapsamın eksik olduğu yerlere test ekle"
 
 msgid "Add to Dictionary"
 msgstr "Sözlüğe ekle"
@@ -923,6 +930,9 @@ msgstr "Çalışma alanları ve çalışan oturumlar kontrol ediliyor…"
 
 msgid "Checklist"
 msgstr "Kontrol listesi"
+
+msgid "Checkout"
+msgstr "Çalışma kopyası"
 
 msgid "Checks"
 msgstr "Kontroller"
@@ -1678,6 +1688,9 @@ msgstr "{0} commit'i oluşturuldu"
 msgid "Creating directory and initializing Git…"
 msgstr "Dizin oluşturuluyor ve Git başlatılıyor…"
 
+msgid "Creating workspace…"
+msgstr "Çalışma alanı oluşturuluyor…"
+
 msgid "Creating…"
 msgstr "Oluşturuluyor…"
 
@@ -1813,11 +1826,17 @@ msgstr "Proje kalıcı olarak silinsin mi?"
 msgid "Delete session \"{workspaceName}\"?"
 msgstr "\"{workspaceName}\" oturumu silinsin mi?"
 
+msgid "Delete team"
+msgstr "Takımı sil"
+
 msgid "Delete this custom agent?"
 msgstr "Bu özel ajan silinsin mi?"
 
 msgid "Delete this preset?"
 msgstr "Bu ön ayar silinsin mi?"
+
+msgid "Delete this team?"
+msgstr "Bu takım silinsin mi?"
 
 msgid "Delete workspace \"{workspaceName}\"?"
 msgstr "\"{workspaceName}\" çalışma alanı silinsin mi?"
@@ -2364,6 +2383,9 @@ msgstr "Ajanları filtrele…"
 msgid "Find"
 msgstr "Bul"
 
+msgid "Find and fix a bug"
+msgstr "Bir hata bul ve düzelt"
+
 msgid "Find in Changes"
 msgstr "Değişikliklerde bul"
 
@@ -2785,6 +2807,9 @@ msgstr "Seçilen çalışma alanları içe aktarılıyor…"
 msgid "Importing..."
 msgstr "İçe aktarılıyor..."
 
+msgid "Improve agent instructions"
+msgstr "Ajan talimatlarını iyileştir"
+
 msgid "In"
 msgstr "İçinde"
 
@@ -3194,6 +3219,9 @@ msgstr "Elle"
 
 msgid "Manual only"
 msgstr "Yalnızca manuel"
+
+msgid "Manual workspace creation"
+msgstr "Çalışma alanını elle oluştur"
 
 msgid "Manually"
 msgstr "Manuel olarak"
@@ -4146,6 +4174,9 @@ msgstr "Beklemede"
 
 msgid "Pending approvals and unread important faults"
 msgstr "Bekleyen onaylar ve okunmamış önemli hatalar"
+
+msgid "Permanently delete this team, its members, mail, shared team memory and alerts. Team-created agents will be stopped. Existing terminals added to the team, workspaces and files are kept. This cannot be undone."
+msgstr "Bu takımı, üyelerini, iletilerini, paylaşılan takım belleğini ve uyarılarını kalıcı olarak siler. Takımın oluşturduğu aracılar durdurulur. Takıma eklenen mevcut terminaller, çalışma alanları ve dosyalar korunur. Bu işlem geri alınamaz."
 
 msgid "Permissions"
 msgstr "İzinler"
@@ -5961,7 +5992,7 @@ msgid "The target workspace changed. The result belongs to the original workspac
 msgstr "Hedef çalışma alanı değişti. Sonuç özgün çalışma alanına ait."
 
 msgid "The team becomes read-only. Its workspaces, files and terminals are kept."
-msgstr "Ekip salt okunur olur. Çalışma alanları, dosyaları ve terminalleri korunur."
+msgstr "Takım salt okunur olur. Çalışma alanları, dosyaları ve terminalleri korunur."
 
 msgid "The terminal is not available in this workspace."
 msgstr "Bu terminal bu çalışma alanında kullanılamıyor."
@@ -6513,6 +6544,9 @@ msgstr "Güncelleme durumu kullanılamıyor"
 msgid "update the branch prefix"
 msgstr "dal ön ekini güncelleme"
 
+msgid "Update the host to delete teams."
+msgstr "Takımları silmek için ana makineyi güncelleyin."
+
 #. placeholder {0}: event.version ?? event.currentVersion
 msgid "Updated to v{0}"
 msgstr "v{0} sürümüne güncellendi"
@@ -6675,8 +6709,14 @@ msgstr "Her hafta saat {time}"
 msgid "Welcome to Jedv"
 msgstr "Jedv'ye hoş geldiniz"
 
+msgid "What do you want to do?"
+msgstr "Ne yapmak istiyorsunuz?"
+
 msgid "What should the team accomplish?"
 msgstr "Ekip neyi başarmalı?"
+
+msgid "What should we build next?"
+msgstr "Sırada ne geliştirelim?"
 
 msgid "What would you like to know?"
 msgstr "Ne öğrenmek istersiniz?"
@@ -6710,6 +6750,9 @@ msgstr "Çalışma alanı etkinliği"
 
 msgid "Workspace configuration"
 msgstr "Çalışma alanı yapılandırması"
+
+msgid "Workspace created. Open it to check the agent before trying again."
+msgstr "Çalışma alanı oluşturuldu. Yeniden denemeden önce açıp ajanı kontrol edin."
 
 msgid "Workspace deletion results"
 msgstr "Çalışma alanı silme sonuçları"
