@@ -205,14 +205,15 @@ async function createHarness() {
 			/>
 		);
 	}
-	const screen = render(
+	const view = render(
 		<QueryClientProvider client={cache}>
 			<electronTrpc.Provider client={ipc} queryClient={cache}>
 				<Harness />
 			</electronTrpc.Provider>
 		</QueryClientProvider>,
 	);
-	await waitFor(() => expect(attention).toHaveBeenCalled());
+	const screen = within(view.container);
+	await screen.findByRole("button", { name: "Confirm stop" });
 	return {
 		screen,
 		cache,
@@ -237,7 +238,7 @@ async function openDiagnostics(
 	screen: Awaited<ReturnType<typeof createHarness>>["screen"],
 ) {
 	fireEvent.click(
-		screen.getByRole("button", { name: "Internal mail diagnostics" }),
+		await screen.findByRole("button", { name: "Internal mail diagnostics" }),
 	);
 	await screen.findByRole("heading", {
 		name: "Mail awaiting acknowledgement: 3",
@@ -247,8 +248,10 @@ async function openDiagnostics(
 test("attention hides normal mail diagnostics and always shows high severity", async () => {
 	const { screen, cache, context, ack, setSeverity } = await createHarness();
 	expect(
-		screen.queryByRole("heading", { name: "Mail awaiting acknowledgement: 3" }),
-	).toBeNull();
+		screen.queryAllByRole("heading", {
+			name: "Mail awaiting acknowledgement: 3",
+		}).length,
+	).toBe(0);
 	expect(ack).not.toHaveBeenCalled();
 	setSeverity("high");
 	await act(async () => {
@@ -265,12 +268,13 @@ test("attention hides normal mail diagnostics and always shows high severity", a
 			queryKey: ["jedv", context.hostUrl, "butler"],
 		});
 	});
+	// Retried assertions compare counts to avoid formatting the React DOM graph.
 	await waitFor(() =>
 		expect(
-			screen.queryByRole("heading", {
+			screen.queryAllByRole("heading", {
 				name: "Mail awaiting acknowledgement: 3",
-			}),
-		).toBeNull(),
+			}).length,
+		).toBe(0),
 	);
 	await openDiagnostics(screen);
 	expect(ack).not.toHaveBeenCalled();
@@ -294,7 +298,9 @@ test("attention uses authoritative counts and read receipts without ACKing mail"
 		expect(read).toHaveBeenCalledWith({ groupKey: "mail:team:member" }),
 	);
 	await waitFor(() =>
-		expect(screen.queryByRole("button", { name: "Mark as read" })).toBeNull(),
+		expect(
+			screen.queryAllByRole("button", { name: "Mark as read" }).length,
+		).toBe(0),
 	);
 	expect(
 		screen.getByRole("heading", { name: "Mail awaiting acknowledgement: 3" }),
@@ -306,10 +312,10 @@ test("attention uses authoritative counts and read receipts without ACKing mail"
 	});
 	await waitFor(() =>
 		expect(
-			screen.queryByRole("heading", {
+			screen.queryAllByRole("heading", {
 				name: "Mail awaiting acknowledgement: 3",
-			}),
-		).toBeNull(),
+			}).length,
+		).toBe(0),
 	);
 	fireEvent.mouseDown(screen.getByRole("tab", { name: /Pending/ }), {
 		button: 0,
@@ -321,7 +327,7 @@ test("ignored attention remains distinct from resolved and reopens for new mail"
 	const { screen, cache, context, ignore, ack, reopen } = await createHarness();
 	await openDiagnostics(screen);
 	fireEvent.click(await screen.findByRole("button", { name: "Ignore" }));
-	const dialog = screen.getByRole("dialog");
+	const dialog = within(document.body).getByRole("dialog");
 	expect(ignore).not.toHaveBeenCalled();
 	fireEvent.change(
 		within(dialog).getByRole("textbox", { name: "Reason (optional)" }),
@@ -334,13 +340,15 @@ test("ignored attention remains distinct from resolved and reopens for new mail"
 			reason: "Known failure",
 		}),
 	);
-	await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
+	await waitFor(() =>
+		expect(within(document.body).queryAllByRole("dialog").length).toBe(0),
+	);
 	await waitFor(() =>
 		expect(
-			screen.queryByRole("heading", {
+			screen.queryAllByRole("heading", {
 				name: "Mail awaiting acknowledgement: 3",
-			}),
-		).toBeNull(),
+			}).length,
+		).toBe(0),
 	);
 	expect(ack).not.toHaveBeenCalled();
 	fireEvent.mouseDown(screen.getByRole("tab", { name: "Processed" }), {
