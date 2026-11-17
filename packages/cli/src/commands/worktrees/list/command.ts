@@ -1,7 +1,8 @@
-import { boolean, string, table } from "@jedv/cli-framework";
+import { boolean, string } from "@jedv/cli-framework";
 import { getHostId } from "@jedv/shared/host-info";
 import { command } from "../../../lib/command";
 import { resolveHostFilter, resolveHostTarget } from "../../../lib/host-target";
+import { table } from "../../../lib/table";
 import { listProjectWorktrees } from "../projectWorktrees";
 
 export default command({

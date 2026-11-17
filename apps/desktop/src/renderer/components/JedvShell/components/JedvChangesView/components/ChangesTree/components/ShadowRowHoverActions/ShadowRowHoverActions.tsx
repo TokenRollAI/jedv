@@ -26,6 +26,7 @@ interface ShadowRowHoverActionsProps {
 	findFileRow: (e: React.MouseEvent) => HTMLElement | null;
 	renderInlineActions?: (treePath: string) => ReactNode;
 	renderMenuContent: (treePath: string) => ReactNode;
+	active?: boolean;
 	children: ReactNode;
 }
 
@@ -33,6 +34,7 @@ export function ShadowRowHoverActions({
 	findFileRow,
 	renderInlineActions,
 	renderMenuContent,
+	active = true,
 	children,
 }: ShadowRowHoverActionsProps) {
 	const { t } = useLingui();
@@ -43,6 +45,14 @@ export function ShadowRowHoverActions({
 	const [menuOpen, setMenuOpen] = useState(false);
 	const hoverRowRef = useRef<HTMLElement | null>(null);
 	const overlayRef = useRef<HTMLDivElement | null>(null);
+
+	useEffect(() => {
+		if (!active) {
+			setMenuOpen(false);
+			hoverRowRef.current = null;
+			setHover(null);
+		}
+	}, [active]);
 
 	useEffect(() => {
 		const row = hoverRowRef.current;

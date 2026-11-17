@@ -1,90 +1,11 @@
 import { describe, expect, it } from "bun:test";
-import { getListeningPortsForPids, getProcessTreesForPids } from "./scanner.ts";
-
-/**
- * Tests for lsof output parsing logic.
- *
- * The lsof output format is:
- * COMMAND PID USER FD TYPE DEVICE SIZE/OFF NODE NAME
- * Example: node 12345 user 23u IPv4 0x1234 0t0 TCP *:3000 (LISTEN)
- *
- * The NAME column (e.g., "*:3000") is the second-to-last column,
- * with "(LISTEN)" being the last column.
- */
-
-interface PortInfo {
-	port: number;
-	pid: number;
-	address: string;
-	processName: string;
-}
-
-/**
- * Parse lsof output to extract port information.
- * Extracted from getListeningPortsLsof for testability.
- *
- * @param output - Raw lsof output
- * @param allowedPids - Set of PIDs to filter by. If provided, only ports from these PIDs are returned.
- *                      This is critical because lsof ignores -p filter when PIDs don't exist,
- *                      returning ALL listening ports instead.
- */
-function parseLsofOutput(
-	output: string,
-	allowedPids?: Set<number>,
-): PortInfo[] {
-	if (!output.trim()) return [];
-
-	const ports: PortInfo[] = [];
-	const lines = output.trim().split("\n").slice(1); // Skip header
-
-	for (const line of lines) {
-		if (!line.trim()) continue;
-
-		// Format: COMMAND PID USER FD TYPE DEVICE SIZE/OFF NODE NAME (LISTEN)
-		// Example: node 12345 user 23u IPv4 0x1234 0t0 TCP *:3000 (LISTEN)
-		const columns = line.split(/\s+/);
-		if (columns.length < 10) continue;
-
-		const processName = columns[0];
-		const pidStr = columns[1];
-		const name = columns[columns.length - 2]; // NAME column (e.g., *:3000), before (LISTEN)
-		if (
-			processName === undefined ||
-			pidStr === undefined ||
-			name === undefined
-		) {
-			continue;
-		}
-
-		const pid = Number.parseInt(pidStr, 10);
-
-		// Filter by allowed PIDs if provided
-		// This guards against lsof returning all ports when -p filter is ignored
-		if (allowedPids && !allowedPids.has(pid)) continue;
-
-		// Parse address:port from NAME column
-		// Formats: *:3000, 127.0.0.1:3000, [::1]:3000, [::]:3000
-		const match = name.match(/^(?:\[([^\]]+)\]|([^:]+)):(\d+)$/);
-		if (match) {
-			const address = match[1] || match[2] || "*";
-			const portStr = match[3];
-			if (portStr === undefined) continue;
-			const port = Number.parseInt(portStr, 10);
-
-			// Skip invalid ports
-			if (port < 1 || port > 65535) continue;
-
-			ports.push({
-				port,
-				pid,
-				address: address === "*" ? "0.0.0.0" : address,
-				processName,
-			});
-		}
-	}
-
-	return ports;
-}
+import {
+	filterListeningPorts,
+	getListeningPortsForPids,
+	getProcessTreesForPids,
+	isInternalAgentLoopbackPort,
+	parseLsofOutput,
+} from "./scanner.ts";
 
 describe("getProcessTreesForPids (real process table)", () => {
 	it("returns an empty map for no roots", async () => {
@@ -134,6 +55,53 @@ describe("getListeningPortsForPids (real sockets)", () => {
 	it("returns nothing for a pid that is not running", async () => {
 		const ports = await getListeningPortsForPids([99_999_999]);
 		expect(ports).toHaveLength(0);
+	});
+
+	it("filters out ephemeral loopback listeners opened on 127.0.0.1", async () => {
+		const server = Bun.serve({
+			hostname: "127.0.0.1",
+			port: 0,
+			fetch: () => new Response("ok"),
+		});
+		try {
+			const listeningPort = server.port;
+			if (listeningPort === undefined) throw new Error("server has no port");
+			expect(listeningPort).toBeGreaterThanOrEqual(49152);
+			const ports = await getListeningPortsForPids([process.pid]);
+			expect(ports.map((info) => info.port)).not.toContain(listeningPort);
+		} finally {
+			server.stop(true);
+		}
+	});
+});
+
+describe("filterListeningPorts (internal agent CLI loopback filter)", () => {
+	it("filters loopback ephemeral ports and agent CLI loopback ports while preserving user dev servers", () => {
+		const input = [
+			{ port: 54321, pid: 1, address: "127.0.0.1", processName: "agy" },
+			{ port: 35000, pid: 1, address: "127.0.0.1", processName: "agy" },
+			{ port: 41000, pid: 2, address: "::1", processName: "claude" },
+			{ port: 42000, pid: 3, address: "127.0.0.1", processName: "codex" },
+			{ port: 43000, pid: 4, address: "127.0.0.1", processName: "kimi" },
+			{ port: 55000, pid: 5, address: "127.0.0.1", processName: "node" },
+			{ port: 3000, pid: 6, address: "127.0.0.1", processName: "node" },
+			{ port: 5173, pid: 7, address: "::1", processName: "vite" },
+			{ port: 55000, pid: 8, address: "0.0.0.0", processName: "bun" },
+		];
+
+		expect(filterListeningPorts(input)).toEqual([
+			{ port: 3000, pid: 6, address: "127.0.0.1", processName: "node" },
+			{ port: 5173, pid: 7, address: "::1", processName: "vite" },
+			{ port: 55000, pid: 8, address: "0.0.0.0", processName: "bun" },
+		]);
+		expect(
+			isInternalAgentLoopbackPort({
+				port: 54321,
+				pid: 1,
+				address: "0:0:0:0:0:0:0:1",
+				processName: "node",
+			}),
+		).toBe(true);
 	});
 });
 

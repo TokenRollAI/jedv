@@ -1,3 +1,4 @@
+import { presetForAcpHarness } from "@jedv/chat/core";
 import type { TerminalPreset } from "@jedv/local-db/schema/zod";
 import { getPresetById } from "@jedv/shared/host-agent-presets";
 import { Button } from "@jedv/ui/button";
@@ -24,8 +25,14 @@ import { Trans, useLingui } from "@lingui/react/macro";
 import { skipToken, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { LuMaximize2, LuMinimize2, LuSearch, LuX } from "react-icons/lu";
-import { VscFolderOpened, VscNewFolder } from "react-icons/vsc";
+import {
+	LuFolderTree,
+	LuMaximize2,
+	LuMinimize2,
+	LuPlus,
+	LuSearch,
+	LuX,
+} from "react-icons/lu";
 import type { ImperativePanelHandle } from "react-resizable-panels";
 import { ContentBoundary } from "renderer/components/ContentBoundary";
 import { ThemedToaster } from "renderer/components/ThemedToaster";
@@ -59,6 +66,7 @@ import {
 	useAgentLaunchGuard,
 } from "./components/JedvAgentLaunchBar";
 import { JedvAutomationsView } from "./components/JedvAutomationsView";
+import { JedvChangesSummary } from "./components/JedvChangesSummary";
 import { JedvCommandPalette } from "./components/JedvCommandPalette";
 import { rememberPaletteFile } from "./components/JedvCommandPalette/recent";
 import { JedvConfirmDialog } from "./components/JedvConfirmDialog";
@@ -103,8 +111,11 @@ import {
 	focusWorkspacePane,
 	isTerminalPane,
 	openChangesTab,
+	openChatTab,
 	openFilesTab,
+	paneChatSessionId,
 	paneTerminalId,
+	reconcileChatPanes,
 	retainTerminalWorkspaceStore,
 	terminalWorkspaceStore,
 	workspacePaneAreas,
@@ -259,18 +270,16 @@ export function JedvShell() {
 		if (oldest) knownConnections.current.delete(oldest);
 	}
 	const [settingsSection, setSettingsSection] =
-		useState<JedvSettingsSection>("agents");
+		useState<JedvSettingsSection>("general");
 	const [resourcesOpen, setResourcesOpen] = useState(false);
 	const [activeSwitcherOpen, setActiveSwitcherOpen] = useState(false);
 	const [welcomeReplay, setWelcomeReplay] = useState(false);
-	const onboarding = electronTrpc.uiState.onboarding.get.useQuery(undefined, {
-		retry: false,
-	});
 	const finishWelcome = async () => {
 		await electronTrpcClient.uiState.onboarding.complete.mutate();
 		await utils.uiState.onboarding.get.invalidate();
 		setWelcomeReplay(false);
 	};
+	const [homeExplicit, setHomeExplicit] = useState(false);
 	const history = useRef<ShellHistory>({ entries: [], index: -1 });
 	const [, setHistoryRevision] = useState(0);
 	const replayLocation = useRef<ShellLocation | null>(null);
@@ -321,6 +330,7 @@ export function JedvShell() {
 	filesDirtyRef.current = filesDirty;
 	const navigate = (next: JedvSurface) => {
 		navigationSequence.current += 1;
+		setWorkspaceCreation(null);
 		if (next === "settings" && surface !== "settings")
 			priorSurface.current = surface;
 		setSurface(next);
@@ -331,6 +341,49 @@ export function JedvShell() {
 	const [terminalId, setTerminalId] = useState<string | null>(
 		navigation.terminalId,
 	);
+	useEffect(() => {
+		if (workspaceId) setHomeExplicit(false);
+	}, [workspaceId]);
+	const goHome = () => {
+		navigationSequence.current += 1;
+		setHomeExplicit(true);
+		setWorkspaceCreation(null);
+		setWorkspaceId(null);
+		setTerminalId(null);
+		setTerminalConnected(false);
+		setNativeState(null);
+		setLaunched(null);
+		setSurface("terminal");
+	};
+	const wasNarrowRef = useRef<boolean | null>(null);
+	useEffect(() => {
+		if (!navigationApplied) return;
+		const syncResponsiveSidebar = () => {
+			const narrow = window.innerWidth < 1100;
+			if (wasNarrowRef.current === null) {
+				wasNarrowRef.current = narrow;
+				if (narrow) {
+					setNavigation((previous) =>
+						previous.sidebarCollapsed
+							? previous
+							: { ...previous, sidebarCollapsed: true },
+					);
+				}
+				return;
+			}
+			if (narrow && !wasNarrowRef.current) {
+				setNavigation((previous) =>
+					previous.sidebarCollapsed
+						? previous
+						: { ...previous, sidebarCollapsed: true },
+				);
+			}
+			wasNarrowRef.current = narrow;
+		};
+		syncResponsiveSidebar();
+		window.addEventListener("resize", syncResponsiveSidebar);
+		return () => window.removeEventListener("resize", syncResponsiveSidebar);
+	}, [navigationApplied, setNavigation]);
 	const terminalStore = useMemo(
 		() =>
 			terminalWorkspaceStore(
@@ -347,6 +400,16 @@ export function JedvShell() {
 	const areaState = useStore(areas.state);
 	const rightTabs = useStore(rightStore, (state) => state.tabs);
 	const rightActiveTabId = useStore(rightStore, (state) => state.activeTabId);
+	const leftActiveChatId = useStore(terminalStore, (state) =>
+		paneChatSessionId(state.getActivePane()?.pane),
+	);
+	const rightActiveChatId = useStore(rightStore, (state) =>
+		paneChatSessionId(state.getActivePane()?.pane),
+	);
+	const activeChatId =
+		areaState.rightAreaOpen && areaState.focusedArea === "right"
+			? rightActiveChatId
+			: leftActiveChatId;
 	const priorRightTabs = useRef({ store: rightStore, count: rightTabs.length });
 	useEffect(() => {
 		const previous = priorRightTabs.current;
@@ -416,9 +479,15 @@ export function JedvShell() {
 	const [activityFits, setActivityFits] = useState(false);
 	const [rightTabBarMount, setRightTabBarMount] =
 		useState<HTMLDivElement | null>(null);
+	const [rightChangesHeaderMount, setRightChangesHeaderMount] =
+		useState<HTMLDivElement | null>(null);
 	const [tabBarMount, setTabBarMount] = useState<HTMLDivElement | null>(null);
 	const terminalTabs = useStore(terminalStore, (state) => state.tabs);
 	const activeTabId = useStore(terminalStore, (state) => state.activeTabId);
+	const rightOnlyPanes =
+		rightTabs.length === 1 ? Object.values(rightTabs[0]?.panes ?? {}) : [];
+	const isSingleChangesInspector =
+		rightOnlyPanes.length === 1 && rightOnlyPanes[0]?.kind === "changes";
 
 	const currentTerminalContext = useRef<TerminalResultContext | null>(null);
 	const launchGuard = useAgentLaunchGuard({ client, hostUrl });
@@ -579,6 +648,48 @@ export function JedvShell() {
 		queryFn: client ? () => client.terminalAgents.list.query() : skipToken,
 		refetchInterval: 3_000,
 	});
+	const workspaceChats = useQuery({
+		queryKey: ["jedv", hostUrl, workspaceId, "existing-chat-sessions"],
+		queryFn:
+			client && workspaceId
+				? () => client.sessions.list.query({ workspaceId, limit: 200 })
+				: skipToken,
+		refetchInterval: 3_000,
+		retry: false,
+	});
+	useEffect(() => {
+		if (
+			!layoutPersistence.ready ||
+			!workspaceChats.isSuccess ||
+			workspaceChats.isPlaceholderData
+		)
+			return;
+		reconcileChatPanes(terminalStore, workspaceChats.data);
+	}, [
+		terminalStore,
+		layoutPersistence.ready,
+		workspaceChats.isSuccess,
+		workspaceChats.isPlaceholderData,
+		workspaceChats.data,
+	]);
+	const chatSessionTitles = useMemo(
+		() =>
+			new Map(
+				(workspaceChats.data ?? []).flatMap((chat) =>
+					chat.title ? [[chat.sessionId, chat.title] as const] : [],
+				),
+			),
+		[workspaceChats.data],
+	);
+	const chatSessionHarnesses = useMemo(
+		() =>
+			new Map(
+				(workspaceChats.data ?? []).map(
+					(chat) => [chat.sessionId, chat.harness] as const,
+				),
+			),
+		[workspaceChats.data],
+	);
 	useNewAgentTabs({
 		store: terminalStore,
 		hostUrl,
@@ -713,6 +824,7 @@ export function JedvShell() {
 
 	useEffect(() => {
 		if (
+			homeExplicit ||
 			!client ||
 			!navigationApplied ||
 			connecting ||
@@ -754,6 +866,7 @@ export function JedvShell() {
 		queryClient,
 		navigationApplied,
 		connecting,
+		homeExplicit,
 	]);
 
 	useEffect(() => {
@@ -893,6 +1006,9 @@ export function JedvShell() {
 			setTerminalId(id);
 			setTerminalConnected(false);
 			setNativeState(null);
+			setLaunched((previous) =>
+				previous?.terminalId === id ? previous : null,
+			);
 		}
 		if (id) focusTerminal();
 	};
@@ -916,6 +1032,24 @@ export function JedvShell() {
 		const commit = (id: string | null) => {
 			if (!isCurrentTerminalContext(currentTerminalContext.current, expected))
 				return;
+			if (selection.source === "chat-session" && selection.chatSessionId) {
+				openChatTab(focusedStore, {
+					chatSessionId: selection.chatSessionId,
+					title: chatSessionTitles.get(selection.chatSessionId),
+					focus: true,
+				});
+				setSurface("terminal");
+				setLaunched(
+					selection.provider
+						? {
+								...selection,
+								provider: selection.provider,
+								terminalId: undefined,
+							}
+						: null,
+				);
+				return;
+			}
 			selectTerminal(id);
 			setLaunched(
 				selection.provider
@@ -927,7 +1061,6 @@ export function JedvShell() {
 					: null,
 			);
 			setSurface("terminal");
-			if (selection.source === "chat-session") setDrawer(true);
 		};
 		if (selection.source === "chat-session") commit(null);
 		else
@@ -992,6 +1125,8 @@ export function JedvShell() {
 				}),
 			);
 		if (explicit) attachTerminalSession(store, explicit);
+		setHomeExplicit(false);
+		setWorkspaceCreation(null);
 		setWorkspaceId(id);
 		setTerminalId(
 			explicit?.terminalId ??
@@ -1056,18 +1191,30 @@ export function JedvShell() {
 					: null,
 		onFocus: async (event) => {
 			if (!client || event.hostId !== hostUrl) return;
+			setWorkspaceCreation(null);
 			setSurface("terminal");
 			const sessions = await refreshTerminals(event.workspaceId);
 			if (!sessions) return;
 			setWorkspaceId(event.workspaceId);
-			selectTerminal(
-				event.terminalId &&
-					sessions.sessions.some(
-						(session) => session.terminalId === event.terminalId,
-					)
-					? event.terminalId
-					: null,
-			);
+			if (event.chatSessionId) {
+				const targetStore = terminalWorkspaceStore(
+					`${hostUrl}:${event.workspaceId}`,
+				);
+				openChatTab(targetStore, {
+					chatSessionId: event.chatSessionId,
+					title: chatSessionTitles.get(event.chatSessionId),
+					focus: true,
+				});
+			} else {
+				selectTerminal(
+					event.terminalId &&
+						sessions.sessions.some(
+							(session) => session.terminalId === event.terminalId,
+						)
+						? event.terminalId
+						: null,
+				);
+			}
 			setLaunched({
 				provider: event.provider,
 				agentConfigId: event.agentConfigId,
@@ -1076,7 +1223,7 @@ export function JedvShell() {
 				nativeSessionId: event.nativeSessionId ?? undefined,
 				terminalId: event.terminalId ?? undefined,
 			});
-			if (!event.terminalId) setDrawer(true);
+			if (!event.terminalId && !event.chatSessionId) setDrawer(true);
 			if (event.unavailable)
 				toast.error(
 					t({
@@ -1419,6 +1566,7 @@ export function JedvShell() {
 			currentHost.current.hostUrl !== hostUrl
 		)
 			return;
+		setWorkspaceCreation(null);
 		setWorkspaceId(id);
 		setSurface("terminal");
 		selectTerminal(session.terminalId);
@@ -1659,6 +1807,7 @@ export function JedvShell() {
 			currentHost.current.hostUrl !== original.hostUrl
 		)
 			return;
+		setWorkspaceCreation(null);
 		setWorkspaceId(id);
 		setSurface("terminal");
 		setLaunched(selected);
@@ -1828,9 +1977,7 @@ export function JedvShell() {
 					);
 				});
 			else if (action.startsWith("preset-")) {
-				const preset = matchingPresets.filter(
-					(item) => item.pinnedToBar !== false,
-				)[Number(action.slice(7)) - 1];
+				const preset = matchingPresets[Number(action.slice(7)) - 1];
 				if (preset) void run(() => runPreset(preset));
 			} else if (action === "run-workspace")
 				void run(async () => {
@@ -1861,7 +2008,7 @@ export function JedvShell() {
 				);
 			else if (action.startsWith("zoom-"))
 				void run(() => zoom(action.slice(5) as "in" | "out" | "reset"));
-			else if (action === ".") {
+			else if (action === "." && workspaceId) {
 				setSurface("terminal");
 				areas.state.setState({
 					rightAreaOpen: !areaState.rightAreaOpen,
@@ -1935,12 +2082,7 @@ export function JedvShell() {
 		setSurface("terminal");
 	};
 
-	const showWelcome =
-		welcomeReplay ||
-		(onboarding.data?.completed === false &&
-			projects.isSuccess &&
-			projects.data.length === 0 &&
-			!remote);
+	const showWelcome = welcomeReplay;
 	const leftSessionMenu = useTerminalSessionsMenu({
 		store: terminalStore,
 		sessions: terminals.data?.sessions ?? [],
@@ -2038,15 +2180,17 @@ export function JedvShell() {
 					}
 				/>
 			)}
-			<RightSidebarToggle
-				isOpen={areaState.rightAreaOpen}
-				onToggle={() =>
-					areas.state.setState({
-						rightAreaOpen: !areaState.rightAreaOpen,
-						focusedArea: "left",
-					})
-				}
-			/>
+			{workspaceId && (
+				<RightSidebarToggle
+					isOpen={areaState.rightAreaOpen}
+					onToggle={() =>
+						areas.state.setState({
+							rightAreaOpen: !areaState.rightAreaOpen,
+							focusedArea: "left",
+						})
+					}
+				/>
+			)}
 			{workspace && (
 				<Popover open={drawer} onOpenChange={setDrawer}>
 					<PopoverAnchor virtualRef={workspaceActionsAnchor} />
@@ -2159,8 +2303,9 @@ export function JedvShell() {
 										}
 										onBack={() => void run(() => moveHistory(-1))}
 										onForward={() => void run(() => moveHistory(1))}
+										onHome={goHome}
 										collapsed={false}
-										height={48}
+										height={40}
 										onToggle={() =>
 											setNavigation((value) => ({
 												...value,
@@ -2200,18 +2345,21 @@ export function JedvShell() {
 										usageVisible={usageVisible.data ?? false}
 										onSelect={navigate}
 										onSearch={() => setPalette("commands")}
+										inbox={
+											<ButlerNavigation
+												active={surface === "butler"}
+												count={butler.actionable}
+												onSelect={() => navigate("butler")}
+											/>
+										}
 									>
-										<ButlerNavigation
-											active={surface === "butler"}
-											count={butler.actionable}
-											onSelect={() => navigate("butler")}
-										/>
-										<div className="min-h-0 flex-1 overflow-y-auto">
+										<div className="min-h-0 flex-1 overflow-y-auto pt-1.5">
 											<TeamworkDirectory
 												index={teamwork}
 												selectedId={selectedTeamId}
 												active={surface === "teamwork"}
 												onSelect={openTeam}
+												onCreateTeam={() => navigate("create-team")}
 											/>
 											<SidebarSectionHeading
 												label={<Trans>Projects</Trans>}
@@ -2250,10 +2398,9 @@ export function JedvShell() {
 														<button
 															type="button"
 															aria-label={t({ message: "Add project" })}
-															className="group grid size-6 place-items-center rounded hover:bg-fill-hover focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+															className="grid size-6 place-items-center rounded hover:bg-fill-hover focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
 														>
-															<VscNewFolder className="size-3.5 group-hover:hidden" />
-															<VscFolderOpened className="hidden size-3.5 group-hover:block" />
+															<LuPlus className="size-3.5" />
 														</button>
 													</DropdownMenuTrigger>
 													<DropdownMenuContent align="end">
@@ -2383,14 +2530,27 @@ export function JedvShell() {
 														onOpenFolder={(context, path) => {
 															if (!context.isRemote) openFolder(path);
 														}}
-														onProjectAction={(context, item, mode) =>
+														onProjectAction={(context, item, mode) => {
+															if (mode === "local") {
+																void run(async () => {
+																	if (
+																		currentHost.current.client !==
+																			context.client ||
+																		currentHost.current.hostUrl !==
+																			context.hostUrl
+																	)
+																		return;
+																	await openCheckout(item.id);
+																});
+																return;
+															}
 															setWorkspaceCreation({
 																context,
 																projects: projects.data ?? [],
 																projectId: item.id,
 																mode,
-															})
-														}
+															});
+														}}
 														onAppearance={(context, project) =>
 															setAppearanceTarget({ context, project })
 														}
@@ -2532,6 +2692,10 @@ export function JedvShell() {
 												setSettingsSection("system-agents");
 												navigate("settings");
 											}}
+											onOpenSettings={() => {
+												setSettingsSection("system-agents");
+												navigate("settings");
+											}}
 											onOpenTeam={openTeam}
 											onOpenAutomations={() => navigate("automations")}
 										/>
@@ -2634,7 +2798,7 @@ export function JedvShell() {
 									fileTarget &&
 									fileTarget.hostUrl === hostUrl &&
 									createPortal(
-										<div className="flex min-h-0 flex-1">
+										<div className="flex h-full min-h-0 min-w-0 w-full flex-1">
 											<JedvFilesView
 												key={`${fileTarget.hostUrl}:${fileTarget.workspaceId}`}
 												context={viewContext}
@@ -2738,72 +2902,113 @@ export function JedvShell() {
 														onLaunch={(config) =>
 															void run(() => launchConfiguredAgent(config))
 														}
+														files={
+															client && hostUrl && workspaceId ? (
+																<button
+																	type="button"
+																	disabled={!connected || busy}
+																	aria-label={t({ message: "Files" })}
+																	title={t({ message: "Files" })}
+																	onClick={() => openFiles()}
+																	className="no-drag flex size-7 shrink-0 items-center justify-center rounded-md border border-border/70 bg-card/40 text-muted-foreground transition-colors hover:bg-accent/50 hover:text-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-40"
+																>
+																	<LuFolderTree className="size-3.5" />
+																</button>
+															) : null
+														}
 														changes={
 															client && hostUrl && workspaceId ? (
-																<JedvWorkspaceActivity
-																	gitEnabled={supportsGit(workspace)}
-																	pullRequestsEnabled={supportsPullRequests(
-																		workspace,
+																<>
+																	{supportsGit(workspace) && (
+																		<JedvChangesSummary
+																			client={client}
+																			hostUrl={hostUrl}
+																			workspaceId={workspaceId}
+																			active={
+																				surface === "terminal" ||
+																				surface === "files"
+																			}
+																			isOpen={changesOpen}
+																			onOpenChanges={() => showChanges(true)}
+																		/>
 																	)}
-																	shipContext={viewContext ?? undefined}
-																	onOpenFile={openFiles}
-																	getHasUnsavedFiles={() =>
-																		filesDirtyRef.current
-																	}
-																	dockTarget={activityDockTarget}
-																	dockFits={activityFits}
-																	dockHidden={areaState.activityDockHidden}
-																	onDockHiddenChange={(activityDockHidden) =>
-																		areas.state.setState({ activityDockHidden })
-																	}
-																	isChangesOpen={changesOpen}
-																	key={`${hostUrl}:${workspaceId}`}
-																	client={client}
-																	hostUrl={hostUrl}
-																	workspaceId={workspaceId}
-																	onOpenChanges={() => {
-																		showChanges(true);
-																	}}
-																	workspaceName={
-																		workspace?.name ?? workspace?.branch ?? ""
-																	}
-																	getWsToken={() =>
-																		activeConnection?.secret ?? null
-																	}
-																	attachedTerminalIds={[
-																		...terminalTabs,
-																		...rightTabs,
-																	].flatMap((tab) =>
-																		Object.values(tab.panes)
-																			.filter(isTerminalPane)
-																			.map((pane) => pane.data.terminalId),
-																	)}
-																	agentSource={island.agentSource}
-																	onOpenTerminal={async (id) => {
-																		selectTerminal(id);
-																		setSurface("terminal");
-																	}}
-																	onOpenAgent={(entry) =>
-																		island.focusEntry(entry.entryId)
-																	}
-																	onOpenPullRequests={(pr) => {
-																		setActivityPullRequest(
-																			pr
-																				? {
-																						hostUrl,
-																						target: {
-																							projectId: project?.id ?? "",
-																							owner: pr.repoOwner,
-																							repo: pr.repoName,
-																							number: pr.number,
-																							title: pr.title,
-																						},
-																					}
-																				: null,
-																		);
-																		navigate("pull-requests");
-																	}}
-																/>
+																	<JedvWorkspaceActivity
+																		gitEnabled={supportsGit(workspace)}
+																		pullRequestsEnabled={supportsPullRequests(
+																			workspace,
+																		)}
+																		shipContext={viewContext ?? undefined}
+																		onOpenFile={openFiles}
+																		getHasUnsavedFiles={() =>
+																			filesDirtyRef.current
+																		}
+																		dockTarget={activityDockTarget}
+																		dockFits={activityFits}
+																		dockHidden={areaState.activityDockHidden}
+																		onDockHiddenChange={(activityDockHidden) =>
+																			areas.state.setState({
+																				activityDockHidden,
+																			})
+																		}
+																		isChangesOpen={changesOpen}
+																		key={`${hostUrl}:${workspaceId}`}
+																		client={client}
+																		hostUrl={hostUrl}
+																		workspaceId={workspaceId}
+																		showChangesPill={false}
+																		chatSessions={workspaceChats.data ?? []}
+																		onOpenChat={(chat) => {
+																			openChatTab(focusedStore, {
+																				chatSessionId: chat.sessionId,
+																				title: chat.title ?? undefined,
+																				focus: true,
+																			});
+																			setSurface("terminal");
+																		}}
+																		onOpenChanges={() => {
+																			showChanges(true);
+																		}}
+																		workspaceName={
+																			workspace?.name ?? workspace?.branch ?? ""
+																		}
+																		getWsToken={() =>
+																			activeConnection?.secret ?? null
+																		}
+																		attachedTerminalIds={[
+																			...terminalTabs,
+																			...rightTabs,
+																		].flatMap((tab) =>
+																			Object.values(tab.panes)
+																				.filter(isTerminalPane)
+																				.map((pane) => pane.data.terminalId),
+																		)}
+																		agentSource={island.agentSource}
+																		onOpenTerminal={async (id) => {
+																			selectTerminal(id);
+																			setSurface("terminal");
+																		}}
+																		onOpenAgent={(entry) =>
+																			island.focusEntry(entry.entryId)
+																		}
+																		onOpenPullRequests={(pr) => {
+																			setActivityPullRequest(
+																				pr
+																					? {
+																							hostUrl,
+																							target: {
+																								projectId: project?.id ?? "",
+																								owner: pr.repoOwner,
+																								repo: pr.repoName,
+																								number: pr.number,
+																								title: pr.title,
+																							},
+																						}
+																					: null,
+																			);
+																			navigate("pull-requests");
+																		}}
+																	/>
+																</>
 															) : null
 														}
 														ports={
@@ -2835,7 +3040,14 @@ export function JedvShell() {
 													/>
 												</div>
 												<ActivityPanelAside
-													top={(showPresetsBar.data ?? true) ? 84 : 48}
+													top={
+														(showPresetsBar.data ?? true) &&
+														Boolean(client && hostUrl && workspaceId) &&
+														(matchingPresets.length > 0 ||
+															configuredAgents.length > 0)
+															? 72
+															: 40
+													}
 													hidden={!activityFits || areaState.activityDockHidden}
 													onTarget={setActivityDockTarget}
 													onFits={setActivityFits}
@@ -2987,6 +3199,16 @@ export function JedvShell() {
 														}
 														actionsRef={leftLayoutRef}
 														remote={!!remote}
+														presets={matchingPresets}
+														onRunPreset={(preset) =>
+															void run(() => runPreset(preset))
+														}
+														onSettings={() => {
+															setSettingsSection("terminal");
+															navigate("settings");
+														}}
+														chatSessionTitles={chatSessionTitles}
+														chatSessionHarnesses={chatSessionHarnesses}
 													/>
 												) : workspace && !layoutPersistence.ready ? (
 													<div className="m-auto space-y-2 p-4 text-sm text-muted-foreground">
@@ -3039,17 +3261,31 @@ export function JedvShell() {
 												}}
 											>
 												<WindowChrome
-													height={48}
-													className="bg-muted/45 shadow-[inset_0_-1px_0_var(--border)] dark:bg-muted/35"
+													height={40}
+													className="bg-sidebar/60 shadow-[inset_0_-1px_0_var(--border)]"
 												>
 													{rightMaximized && navigation.sidebarCollapsed && (
 														<WindowChromeLeading leftmost expand />
 													)}
-													<div
-														ref={setRightTabBarMount}
-														className="no-drag flex min-w-0 flex-1 self-stretch"
-													/>
-													<div className="drag min-w-4" />
+													{isSingleChangesInspector ? (
+														<>
+															<WindowChromeControls className="min-w-0 flex-1 pl-2 pr-1">
+																<div
+																	ref={setRightChangesHeaderMount}
+																	className="no-drag flex min-w-0 flex-1 items-center"
+																/>
+															</WindowChromeControls>
+															<div className="drag min-w-2" />
+														</>
+													) : (
+														<>
+															<div
+																ref={setRightTabBarMount}
+																className="no-drag flex min-w-0 flex-1 self-stretch"
+															/>
+															<div className="drag min-w-4" />
+														</>
+													)}
 													<WindowChromeControls className="shrink-0 pr-2">
 														<div className="flex items-center gap-1">
 															<button
@@ -3060,7 +3296,7 @@ export function JedvShell() {
 																		: t({ message: "Expand pane area" })
 																}
 																aria-pressed={rightMaximized}
-																className="grid size-7 shrink-0 place-items-center self-center rounded-md text-muted-foreground hover:bg-accent/50 hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring"
+																className="grid size-7 shrink-0 place-items-center self-center rounded-md text-muted-foreground hover:bg-fill-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring"
 																onClick={() => {
 																	areas.state.setState({
 																		focusedArea: "right",
@@ -3071,9 +3307,9 @@ export function JedvShell() {
 																}}
 															>
 																{rightMaximized ? (
-																	<LuMinimize2 className="size-4" />
+																	<LuMinimize2 className="size-3.5" />
 																) : (
-																	<LuMaximize2 className="size-4" />
+																	<LuMaximize2 className="size-3.5" />
 																)}
 															</button>
 															{areaState.rightAreaOpen && (
@@ -3122,7 +3358,14 @@ export function JedvShell() {
 															(surface === "terminal" || surface === "files") &&
 															areaState.rightAreaOpen
 														}
-														tabBarMount={rightTabBarMount}
+														tabBarMount={
+															isSingleChangesInspector ? null : rightTabBarMount
+														}
+														changesHeaderMount={
+															isSingleChangesInspector
+																? rightChangesHeaderMount
+																: undefined
+														}
 														emptyState={empty}
 														onNew={() =>
 															void run(() =>
@@ -3167,6 +3410,16 @@ export function JedvShell() {
 														}
 														actionsRef={rightLayoutRef}
 														remote={!!remote}
+														presets={matchingPresets}
+														onRunPreset={(preset) =>
+															void run(() => runPreset(preset))
+														}
+														onSettings={() => {
+															setSettingsSection("terminal");
+															navigate("settings");
+														}}
+														chatSessionTitles={chatSessionTitles}
+														chatSessionHarnesses={chatSessionHarnesses}
 													/>
 												) : (
 													empty
@@ -3183,7 +3436,18 @@ export function JedvShell() {
 												hostUrl={hostUrl}
 												workspaceId={workspaceId}
 												terminalId={terminalId}
-												launched={launched}
+												launched={
+													activeChatId
+														? {
+																provider:
+																	(presetForAcpHarness(
+																		chatSessionHarnesses.get(activeChatId) ??
+																			"",
+																	) as NativeProvider | undefined) ?? "claude",
+																chatSessionId: activeChatId,
+															}
+														: launched
+												}
 												popoverOpen={drawer}
 												onStateChange={(state) => {
 													if (

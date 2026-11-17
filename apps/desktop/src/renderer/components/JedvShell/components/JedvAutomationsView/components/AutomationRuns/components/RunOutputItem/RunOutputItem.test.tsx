@@ -73,3 +73,44 @@ test("the themed approval pickers preserve false, nullable and multi-choice valu
 		values: { permission: "false", target: "", files: ["b"] },
 	});
 });
+
+test("approval option buttons map standard English ACP labels and preserve custom labels", () => {
+	const approve = mock(() => {});
+	const item: ApprovalRequest = {
+		id: "opts",
+		startedAtMs: 1,
+		kind: "approval_request",
+		targetItemId: null,
+		title: "Run command",
+		status: "pending",
+		options: [
+			{ optionId: "allow", label: "Allow", kind: "allow_once" },
+			{ optionId: "allow-once", label: "Allow once", kind: "allow_once" },
+			{ optionId: "deny", label: "Deny", kind: "reject_once" },
+			{ optionId: "reject", label: "Reject", kind: "reject_once" },
+			{ optionId: "custom", label: "Custom action", kind: "allow_once" },
+		],
+	};
+	const screen = render(
+		<RunOutputItem
+			item={item}
+			pending={false}
+			canControl
+			onApprove={approve}
+		/>,
+	);
+	for (const label of [
+		"Allow",
+		"Allow once",
+		"Deny",
+		"Reject",
+		"Custom action",
+	]) {
+		expect(screen.getByRole("button", { name: label })).toBeTruthy();
+	}
+	fireEvent.click(screen.getByRole("button", { name: "Allow once" }));
+	expect(approve).toHaveBeenCalledWith({
+		type: "option",
+		optionId: "allow-once",
+	});
+});

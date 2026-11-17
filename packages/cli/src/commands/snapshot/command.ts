@@ -1,4 +1,4 @@
-import { CLIError, string } from "@jedv/cli-framework";
+import { boolean, CLIError, string } from "@jedv/cli-framework";
 import { command } from "../../lib/command";
 import {
 	buildSnapshot,
@@ -15,6 +15,7 @@ export default command({
 		host: string().desc(
 			"Host to read (default: this machine), or `cloud` with --workspace",
 		),
+		local: boolean().desc("Target this machine (the default)"),
 		workspace: string().desc("Only this workspace"),
 	},
 	run: async ({ ctx, options }) => {

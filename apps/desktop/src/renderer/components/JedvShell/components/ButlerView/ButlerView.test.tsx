@@ -191,6 +191,7 @@ async function createHarness() {
 				}),
 		],
 	});
+	const onSettings = mock(() => {});
 	function Harness() {
 		const index = useButlerInbox(context.client, context.hostUrl, true);
 		return (
@@ -199,7 +200,7 @@ async function createHarness() {
 				index={index}
 				teams={[]}
 				connected
-				onSettings={() => {}}
+				onSettings={onSettings}
 				onOpenTeam={() => {}}
 				onOpenAutomations={() => {}}
 			/>
@@ -225,6 +226,7 @@ async function createHarness() {
 		resolve,
 		legacy,
 		ack,
+		onSettings,
 		setSeverity(value: "normal" | "high") {
 			severity = value;
 		},
@@ -238,7 +240,7 @@ async function openDiagnostics(
 	screen: Awaited<ReturnType<typeof createHarness>>["screen"],
 ) {
 	fireEvent.click(
-		await screen.findByRole("button", { name: "Internal mail diagnostics" }),
+		await screen.findByRole("switch", { name: "Include internal mail" }),
 	);
 	await screen.findByRole("heading", {
 		name: "Mail awaiting acknowledgement: 3",
@@ -379,7 +381,7 @@ test("ignored attention remains distinct from resolved and reopens for new mail"
 });
 
 test("failed approval cannot be repeated and AI settings load only when chat opens", async () => {
-	const { screen, resolve, ai, send } = await createHarness();
+	const { screen, resolve, ai, send, onSettings } = await createHarness();
 	const confirm = await screen.findByRole("button", { name: "Confirm stop" });
 	fireEvent.click(confirm);
 	await waitFor(() =>
@@ -401,5 +403,82 @@ test("failed approval cannot be repeated and AI settings load only when chat ope
 	await screen.findByText(
 		"DeepSeek is not configured. Status and Inbox still work.",
 	);
+	const textarea = screen.getByRole("textbox", {
+		name: "Ask Butler…",
+	}) as HTMLTextAreaElement;
+	expect(textarea.disabled).toBe(false);
+	const sendButton = screen.getByRole("button", {
+		name: "Send",
+	}) as HTMLButtonElement;
+	expect(sendButton.disabled).toBe(true);
+	fireEvent.submit(textarea.closest("form") as HTMLFormElement);
 	expect(send).not.toHaveBeenCalled();
+	fireEvent.click(
+		screen.getByRole("button", { name: /Settings.*System agents/i }),
+	);
+	expect(onSettings).toHaveBeenCalledTimes(1);
+	expect(send).not.toHaveBeenCalled();
+});
+
+test("empty inbox renders a centered empty state across the full content width", async () => {
+	const context = {
+		hostUrl: "http://butler-empty.fixture",
+		projects: [],
+		workspaces: [],
+		client: {
+			butler: {
+				capabilities: {
+					query: async () => ({
+						protocolVersion: 1,
+						features: { attention: true, conversationState: true },
+					}),
+				},
+				attention: {
+					query: async () => ({
+						badge: { pendingApprovals: 0, unreadHighFaultGroups: 0, count: 0 },
+						groups: [],
+						approvals: [],
+					}),
+				},
+			},
+		},
+	} as unknown as JedvParityViewContext;
+	const cache = new QueryClient({
+		defaultOptions: { queries: { retry: false } },
+	});
+	caches.push(cache);
+	const ipc = electronTrpc.createClient({
+		links: [
+			() => () =>
+				observable((emit) => {
+					emit.next({ result: { data: 1 } });
+					emit.complete();
+				}),
+		],
+	});
+	function EmptyHarness() {
+		const index = useButlerInbox(context.client, context.hostUrl, true);
+		return (
+			<ButlerView
+				context={context}
+				index={index}
+				teams={[]}
+				connected
+				onSettings={() => {}}
+				onOpenTeam={() => {}}
+				onOpenAutomations={() => {}}
+			/>
+		);
+	}
+	const view = render(
+		<QueryClientProvider client={cache}>
+			<electronTrpc.Provider client={ipc} queryClient={cache}>
+				<EmptyHarness />
+			</electronTrpc.Provider>
+		</QueryClientProvider>,
+	);
+	const empty = await within(view.container).findByText("No items");
+	const wrapper = empty.closest("div");
+	expect(wrapper?.className).toContain("m-auto");
+	expect(wrapper?.className).toContain("text-center");
 });

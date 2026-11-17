@@ -23,11 +23,11 @@ export function TeamworkBadge({
 		<button
 			type="button"
 			aria-label={`${label}: ${names}`}
-			className="ml-auto flex h-5 shrink-0 items-center gap-1 rounded bg-fill-selected px-1.5 text-[10px] text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+			className="inline-flex h-[18px] shrink-0 items-center gap-1 rounded border border-sidebar-border/80 bg-sidebar-accent/70 px-1 font-mono text-[10.5px] font-medium tabular-nums text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
 			onClick={teams.length === 1 ? () => onSelect(teams[0].id) : undefined}
 		>
-			<LuUsers className="size-3" />
-			<span>{teams.length === 1 ? teams[0].count : teams.length}</span>
+			<LuUsers className="size-2.5 shrink-0" />
+			{teams.length > 1 && <span className="tabular-nums">{teams.length}</span>}
 		</button>
 	);
 	return teams.length === 1 ? (

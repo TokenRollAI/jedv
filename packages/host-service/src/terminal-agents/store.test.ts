@@ -352,6 +352,43 @@ describe("TerminalAgentStore", () => {
 		expect(binding?.startedAt).toBe(200);
 	});
 
+	it("clears Start/working state when an untrusted wrapper exit Stop arrives", () => {
+		store.recordEvent({
+			terminalId: "t1",
+			workspaceId: WORKSPACE,
+			eventType: "Attached",
+			agentId: "kimi",
+			launchId: "l1",
+			agentSessionId: "s1",
+			occurredAt: 100,
+		});
+		store.recordEvent({
+			terminalId: "t1",
+			workspaceId: WORKSPACE,
+			eventType: "Start",
+			agentId: "kimi",
+			launchId: "l1",
+			agentSessionId: "s1",
+			hook: { eventType: "UserPromptSubmit", trusted: true, sequence: 1 },
+			occurredAt: 200,
+		});
+		const working = store.get("t1");
+		expect(working?.lastEventType).toBe("Start");
+		expect(working && store.getAutomaticDeliveryState(working)).toBe("working");
+
+		store.recordEvent({
+			terminalId: "t1",
+			workspaceId: WORKSPACE,
+			eventType: "Stop",
+			agentId: "kimi",
+			launchId: "l1",
+			occurredAt: 300,
+		});
+		const stopped = store.get("t1");
+		expect(stopped?.lastEventType).toBe("Stop");
+		expect(stopped && store.getAutomaticDeliveryState(stopped)).toBe("unknown");
+	});
+
 	it("deletes the binding on Detached/exit/error", () => {
 		store.recordEvent({
 			terminalId: "t1",

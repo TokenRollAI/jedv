@@ -1,8 +1,11 @@
 import { Tooltip, TooltipContent, TooltipTrigger } from "@jedv/ui/tooltip";
+import { cn } from "@jedv/ui/utils";
 import type { ComponentProps } from "react";
+
 export function JedvIconButton({
 	label,
 	children,
+	className,
 	...props
 }: ComponentProps<"button"> & { label: string }) {
 	return (
@@ -13,7 +16,10 @@ export function JedvIconButton({
 					aria-label={label}
 					title={label}
 					{...props}
-					className={`grid size-7 shrink-0 place-items-center rounded-md text-muted-foreground hover:bg-fill-hover hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-40 ${props.className ?? ""}`}
+					className={cn(
+						"inline-flex size-7 shrink-0 items-center justify-center gap-1.5 rounded-md text-muted-foreground transition-colors hover:bg-fill-hover hover:text-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-40",
+						className,
+					)}
 				>
 					{children}
 				</button>

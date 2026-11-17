@@ -6,6 +6,7 @@ import {
 	oneLight,
 } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { useTheme } from "renderer/stores/theme";
+import { withMonospaceFallback } from "../../font-utils";
 import { FontNotFoundBanner } from "./components/FontNotFoundBanner";
 
 const CODE_PREVIEW = `// Strings, numbers, booleans & symbols
@@ -64,7 +65,9 @@ export function FontPreview({
 	const theme = useTheme();
 	const isDark = theme?.type !== "light";
 	const isTerminal = variant === "terminal";
-	const fontFamilyStyle = fontFamily || undefined;
+	const fontFamilyStyle = fontFamily
+		? withMonospaceFallback(fontFamily)
+		: undefined;
 	const cursorDimensions =
 		cursorStyle === "bar"
 			? { width: "2px", height: "1em" }

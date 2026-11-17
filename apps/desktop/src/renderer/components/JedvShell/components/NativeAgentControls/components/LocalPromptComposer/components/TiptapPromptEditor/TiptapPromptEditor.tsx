@@ -201,7 +201,10 @@ export function TiptapPromptEditor({
 			HardBreak,
 			History,
 
-			Placeholder.configure({ placeholder: resolvedPlaceholder }),
+			Placeholder.configure({
+				placeholder: resolvedPlaceholder,
+				showOnlyWhenEditable: false,
+			}),
 
 			FileMentionNode,
 			SlashCommandNode,

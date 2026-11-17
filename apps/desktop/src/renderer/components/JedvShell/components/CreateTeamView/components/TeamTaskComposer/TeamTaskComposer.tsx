@@ -13,7 +13,7 @@ import { Button } from "@jedv/ui/button";
 import { Trans, useLingui } from "@lingui/react/macro";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { TRPCClientError } from "@trpc/client";
-import { useRef, useState } from "react";
+import { useId, useRef, useState } from "react";
 import {
 	LuArrowRight,
 	LuArrowUp,
@@ -23,6 +23,7 @@ import {
 } from "react-icons/lu";
 import { teamworkKey } from "../../../../hooks/useTeamwork";
 import type { CreateTeamViewProps } from "../../CreateTeamView";
+import { taskTeamName } from "../../task-name";
 import { ExistingTeamSessionDialog } from "../ExistingTeamSessionDialog";
 import { TaskAgentPicker } from "../TaskAgentPicker/TaskAgentPicker";
 import {
@@ -38,9 +39,11 @@ export function TeamTaskComposer({
 	onCreated,
 }: CreateTeamViewProps) {
 	const { t } = useLingui();
+	const teamNameId = useId();
 	const { client, hostUrl } = context;
 	const cache = useQueryClient();
 	const controller = usePromptInputController();
+	const derivedName = taskTeamName(controller.textInput.value);
 	const [workspaceId, setWorkspaceId] = useState(initialWorkspaceId ?? ""),
 		[agentId, setAgentId] = useState("");
 	const [options, setOptions] = useState<TaskConfiguration>({
@@ -114,6 +117,7 @@ export function TeamTaskComposer({
 					setPending(false);
 				}}
 				onSubmit={async ({ text }) => {
+					const resolvedName = taskTeamName(text, options.name);
 					const request =
 						attempt.current ??
 						(workspace && agent
@@ -123,7 +127,7 @@ export function TeamTaskComposer({
 									agent: agent.id,
 									prompt: text,
 									leaderName: "leader",
-									...(options.name.trim() ? { name: options.name.trim() } : {}),
+									...(resolvedName ? { name: resolvedName } : {}),
 									...(options.model ? { model: options.model } : {}),
 									...(options.effort ? { effort: options.effort } : {}),
 								}
@@ -159,8 +163,30 @@ export function TeamTaskComposer({
 						throw cause;
 					}
 				}}
-				className="rounded-[13px] bg-background [&>[data-slot=input-group]]:rounded-[13px] [&>[data-slot=input-group]]:bg-foreground/[0.02] [&>[data-slot=input-group]]:shadow-none"
+				className="rounded-xl border border-border/80 bg-card/90 shadow-sm transition-shadow focus-within:border-ring focus-within:ring-1 focus-within:ring-ring [&>[data-slot=input-group]]:h-auto [&>[data-slot=input-group]]:flex-col [&>[data-slot=input-group]]:items-stretch [&>[data-slot=input-group]]:rounded-xl [&>[data-slot=input-group]]:border-0 [&>[data-slot=input-group]]:bg-transparent [&>[data-slot=input-group]]:shadow-none"
 			>
+				<div className="flex w-full items-center gap-2.5 border-b border-border/60 px-3.5 py-2.5">
+					<label
+						htmlFor={teamNameId}
+						className="shrink-0 text-[11px] font-medium text-muted-foreground"
+					>
+						<Trans>Team name</Trans>
+					</label>
+					<input
+						id={teamNameId}
+						type="text"
+						value={options.name}
+						maxLength={120}
+						disabled={locked}
+						placeholder={
+							derivedName || t({ message: "Auto-derived from task (optional)" })
+						}
+						onChange={(e) =>
+							setOptions((old) => ({ ...old, name: e.target.value }))
+						}
+						className="min-w-0 flex-1 bg-transparent text-xs outline-none placeholder:text-muted-foreground/70 disabled:opacity-50"
+					/>
+				</div>
 				<PromptInputBody>
 					<PromptInputTextarea
 						autoFocus
@@ -168,11 +194,11 @@ export function TeamTaskComposer({
 						placeholder={t({ message: "Describe the task…" })}
 						disabled={locked}
 						maxLength={32_000}
-						className="min-h-36 resize-none p-3 text-sm"
+						className="min-h-36 resize-none px-3.5 py-3 text-sm"
 					/>
 				</PromptInputBody>
-				<PromptInputFooter className="flex-wrap gap-2 p-2">
-					<div className="flex min-w-0 flex-wrap items-center gap-1.5">
+				<PromptInputFooter className="flex-wrap gap-2 px-3 pb-3 pt-1.5">
+					<div className="flex min-w-0 flex-wrap items-center gap-2">
 						<TaskWorkspacePicker
 							context={context}
 							value={workspace?.id ?? workspaceId}
@@ -196,10 +222,11 @@ export function TeamTaskComposer({
 						/>
 					</div>
 					<PromptInputSubmit
+						size="sm"
 						disabled={pending || !allowed || !controller.textInput.value.trim()}
 						aria-label={t({ message: "Start task" })}
 						title={t({ message: "Start task" })}
-						className="ml-auto h-8 w-auto gap-2 rounded-md px-3 text-xs"
+						className="ml-auto h-8 w-auto gap-2 rounded-lg px-4 text-xs font-medium shadow-2xs"
 					>
 						<Trans>Start task</Trans>
 						<LuArrowUp className="size-3.5" />
@@ -271,7 +298,7 @@ export function TeamTaskComposer({
 				type="button"
 				variant="ghost"
 				size="sm"
-				className="h-7 gap-2 px-0 text-xs text-muted-foreground"
+				className="-ml-2.5 h-8 gap-2 rounded-lg px-2.5 text-xs text-muted-foreground hover:text-foreground"
 				disabled={locked || !connected || !index.supported}
 				onClick={() => setExisting(true)}
 			>

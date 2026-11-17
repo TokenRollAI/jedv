@@ -356,3 +356,165 @@ test("an old in-flight rejection keeps its exact dedupe for the new Host client 
 		teamMailDrafts.read({ hostId: logicalHostId, teamId: "team-a" }).request,
 	).toBeNull();
 });
+
+test("TeamDetail defaults to All activity, supports Key reports -> View original mail drill-down, and hides duplicate TeamGoal title", async () => {
+	const team = {
+		id: "team-tabs",
+		name: "Review PR #42",
+		goal: "Review PR #42",
+		status: "active",
+	};
+	const timeline = [
+		{
+			event: {
+				id: "evt-worker",
+				teamId: team.id,
+				type: "message",
+				sourceKind: "member",
+				sourceId: "kimi-id",
+				subject: "",
+				body: "Checking auth edge cases now",
+				requiresAck: true,
+				createdAt: 1000,
+			},
+			deliveries: [
+				{
+					id: "del-1",
+					recipientMemberId: "leader-id",
+					nudgeState: "pending",
+					readAt: null,
+					ackedAt: null,
+					lastError: null,
+				},
+			],
+		},
+		{
+			event: {
+				id: "evt-human",
+				teamId: team.id,
+				type: "message",
+				sourceKind: "human",
+				sourceId: "human",
+				subject: "",
+				body: "Please check mobile layout too",
+				requiresAck: true,
+				createdAt: 2000,
+			},
+			deliveries: [
+				{
+					id: "del-2",
+					recipientMemberId: "kimi-id",
+					nudgeState: "pending",
+					readAt: null,
+					ackedAt: null,
+					lastError: null,
+				},
+			],
+		},
+	];
+	const context = {
+		hostUrl: "http://host-tabs.fixture",
+		projects: [],
+		workspaces: [],
+		client: {
+			team: {
+				status: {
+					query: async () => ({
+						team,
+						members: [
+							{
+								id: "leader-id",
+								teamId: team.id,
+								name: "leader",
+								role: "leader",
+								status: "active",
+								agentId: "codex",
+								taskSummary: "",
+								joinedAt: 1,
+								binding: null,
+								deliveryState: "idle",
+							},
+							{
+								id: "kimi-id",
+								teamId: team.id,
+								name: "kimi-reviewer",
+								role: "worker",
+								status: "active",
+								agentId: "kimi",
+								taskSummary: "",
+								joinedAt: 2,
+								binding: null,
+								deliveryState: "idle",
+							},
+						],
+					}),
+				},
+			},
+			mail: { timeline: { query: async () => timeline } },
+			declarativeSlots: {
+				capabilities: { query: async () => ({ protocolVersion: 1 }) },
+				resolveView: { query: async () => [] },
+			},
+		},
+	} as unknown as JedvParityViewContext;
+	const index = {
+		list: { data: [team], isError: false, isPending: false },
+		supported: true,
+		capabilities: {
+			data: { protocolVersion: 1 },
+			isError: false,
+			isSuccess: true,
+			isPending: false,
+		},
+	} as unknown as ReturnType<typeof useTeamwork>;
+	const cache = new QueryClient({
+		defaultOptions: { queries: { retry: false } },
+	});
+	caches.push(cache);
+	const ipc = electronTrpc.createClient({
+		links: [
+			() => () =>
+				observable((emit) => {
+					emit.next({ result: { data: 1 } });
+					emit.complete();
+				}),
+		],
+	});
+	const screen = render(
+		<QueryClientProvider client={cache}>
+			<electronTrpc.Provider client={ipc} queryClient={cache}>
+				<JedvTeamworkView
+					context={context}
+					index={index}
+					connected
+					selectedId={team.id}
+					onCreate={() => {}}
+				/>
+			</electronTrpc.Provider>
+		</QueryClientProvider>,
+	);
+	const allTab = await screen.findByRole("tab", { name: "All activity" });
+	expect(allTab.getAttribute("aria-selected")).toBe("true");
+	expect(screen.getByRole("tab", { name: "Key reports" })).toBeTruthy();
+	expect(screen.getByRole("tab", { name: "Shared memory" })).toBeTruthy();
+	await screen.findByText("Checking auth edge cases now");
+	expect(screen.getAllByText("Review PR #42").length).toBe(1);
+	fireEvent.mouseDown(screen.getByRole("tab", { name: "Key reports" }), {
+		button: 0,
+		ctrlKey: false,
+	});
+	const reportsPanel = await screen.findByRole("tabpanel", {
+		name: "Key reports",
+	});
+	await within(reportsPanel).findByText("You → kimi-reviewer");
+	fireEvent.click(
+		within(reportsPanel).getByRole("button", { name: "View original mail" }),
+	);
+	await waitFor(() =>
+		expect(
+			screen
+				.getByRole("tab", { name: "All activity" })
+				.getAttribute("aria-selected"),
+		).toBe("true"),
+	);
+});

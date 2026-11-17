@@ -7,6 +7,14 @@ export type ActivityAgentSource =
 export type ActivityPullRequest = Awaited<
 	ReturnType<LocalClient["pullRequests"]["historyByWorkspaces"]["query"]>
 >["workspaces"][number]["pullRequests"][number];
+export interface ActivityChatSession {
+	sessionId: string;
+	harness: string;
+	title: string | null;
+	live: boolean;
+	status?: string;
+	harnessSessionId?: string | null;
+}
 export interface JedvWorkspaceActivityProps {
 	client: LocalClient;
 	hostUrl: string;
@@ -27,8 +35,11 @@ export interface JedvWorkspaceActivityProps {
 	getWsToken?: () => string | null;
 	attachedTerminalIds?: readonly string[];
 	agentSource: ActivityAgentSource;
+	chatSessions?: readonly ActivityChatSession[];
+	showChangesPill?: boolean;
 	onOpenChanges(): void | Promise<void>;
 	onOpenPullRequests(pr?: ActivityPullRequest): void | Promise<void>;
 	onOpenTerminal(id: string): void | Promise<void>;
 	onOpenAgent?(entry: AgentIslandEntry): void | Promise<void>;
+	onOpenChat?(chat: ActivityChatSession): void | Promise<void>;
 }

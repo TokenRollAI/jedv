@@ -1341,9 +1341,9 @@ describe("Kimi prompt compatibility", () => {
 		args: ["--yolo", "--config", "custom.toml"],
 		promptArgs: ["-p"],
 	};
-	it("removes incompatible prompt approval flags without mutating stored config", () => {
+	it("removes incompatible prompt approval flags without mutating stored config and chains interactive continuation", () => {
 		expect(buildAgentCommandString(config, "go")).toBe(
-			"kimi --config custom.toml -p go",
+			"kimi --config custom.toml -p go ; kimi --yolo --config custom.toml -c",
 		);
 		expect(config.args).toEqual(["--yolo", "--config", "custom.toml"]);
 		expect(
@@ -1351,7 +1351,7 @@ describe("Kimi prompt compatibility", () => {
 				{ ...config, args: ["-y"], promptArgs: ["--prompt"] },
 				"go",
 			),
-		).toBe("kimi --prompt go");
+		).toBe("kimi --prompt go ; kimi -y -c");
 	});
 	it("preserves interactive, custom wrapper and custom prompt transport semantics", () => {
 		expect(buildAgentCommandString(config, "")).toBe(
@@ -1363,6 +1363,44 @@ describe("Kimi prompt compatibility", () => {
 		expect(
 			buildAgentCommandString({ ...config, promptArgs: ["--custom"] }, "go"),
 		).toBe("kimi --yolo --config custom.toml --custom go");
+	});
+	it("propagates launch env and workspace trust to both prompt and continuation phases", () => {
+		const db = createTestDb();
+		db.insert(schema.hostAgentConfigs)
+			.values({
+				id: "kimi-config",
+				presetId: "kimi",
+				label: "Kimi Code",
+				command: "kimi",
+				argsJson: '["--yolo"]',
+				promptTransport: "argv",
+				promptArgsJson: '["-p"]',
+				resumeArgsJson: '["--session"]',
+				forkArgsJson: "[]",
+				envJson: "{}",
+				displayOrder: 0,
+			})
+			.run();
+		const launch = buildTerminalAgentLaunch(db, {
+			workspaceId: "ws",
+			agent: "kimi-config",
+			prompt: "fix ; keep",
+			launchEnv: {
+				JEDV_TEAM_ID: "team-1",
+				JEDV_AGENT_LAUNCH_ID: "launch-1",
+			},
+		});
+		const parts = launch.fullCommand.split("'fix ; keep' ; ");
+		expect(parts).toHaveLength(2);
+		expect(parts[0]).toContain("KIMI_CODE_TRUST_WORKSPACE='1'");
+		expect(parts[0]).toContain("JEDV_KIMI_CHAIN_CONTINUE='1'");
+		expect(parts[0]).toContain("JEDV_TEAM_ID='team-1'");
+		expect(parts[0]).toContain("kimi -p ");
+		expect(parts[1]).toContain("JEDV_TEAM_ID='team-1'");
+		expect(parts[1]).toContain("JEDV_AGENT_LAUNCH_ID='launch-1'");
+		expect(parts[1]).toContain("KIMI_CODE_TRUST_WORKSPACE='1'");
+		expect(parts[1]).not.toContain("JEDV_KIMI_CHAIN_CONTINUE");
+		expect(parts[1]).toEndWith("kimi --yolo -c");
 	});
 	it("allows Carbon and newer agy models while keeping other preset validation", () => {
 		const agy = { ...argvConfig, presetId: "agy", command: "agy" };

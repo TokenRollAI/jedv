@@ -108,16 +108,51 @@ export function NativeAgentControls({
 		queryFn: () => client.terminalAgents.listByWorkspace.query({ workspaceId }),
 		refetchInterval: 3_000,
 	});
-	const binding = bindings.data?.find((item) => item.terminalId === terminalId);
-	const boundProvider =
-		binding && isProvider(binding.agentId) ? binding.agentId : null;
+	const directBinding = useQuery({
+		queryKey: ["jedv", hostUrl, workspaceId, "terminal-binding", terminalId],
+		queryFn: terminalId
+			? () => client.terminalAgents.get.query({ workspaceId, terminalId })
+			: skipToken,
+		refetchInterval: popoverOpen ? 2_000 : false,
+		retry: false,
+	});
+	const agentConfigs = useQuery({
+		queryKey: ["jedv", hostUrl, "agent-configs"],
+		queryFn: () => client.settings.agentConfigs.list.query(),
+		retry: false,
+	});
+	useEffect(() => {
+		if (!popoverOpen) return;
+		void bindings.refetch();
+		if (terminalId) void directBinding.refetch();
+	}, [popoverOpen, terminalId, bindings.refetch, directBinding.refetch]);
+	const binding =
+		bindings.data?.find(
+			(item) => item.terminalId === terminalId && !item.endedAt,
+		) ??
+		directBinding.data ??
+		bindings.data?.find((item) => item.terminalId === terminalId);
+	const resolvedPresetId = binding?.definitionId
+		? agentConfigs.data?.find((item) => item.id === binding.definitionId)
+				?.presetId
+		: undefined;
+	const boundProvider = binding
+		? isProvider(binding.agentId)
+			? binding.agentId
+			: resolvedPresetId && isProvider(resolvedPresetId)
+				? resolvedPresetId
+				: null
+		: null;
 	const selected =
-		selection && (selection.terminalId === terminalId || terminalId === null)
+		selection &&
+		(selection.terminalId === terminalId ||
+			(terminalId === null && !!selection.chatSessionId))
 			? selection
 			: null;
 	const provider = boundProvider ?? selected?.provider;
 	const nativeSessionId = binding?.agentSessionId ?? selected?.nativeSessionId;
 	const agentConfigId = binding?.definitionId ?? selected?.agentConfigId;
+	const directChatSessionId = binding?.chatSessionId ?? selected?.chatSessionId;
 	const session = useQuery({
 		queryKey: [
 			"jedv",
@@ -130,7 +165,7 @@ export function NativeAgentControls({
 			terminalId,
 		],
 		queryFn:
-			provider && !selected?.chatSessionId
+			provider && !directChatSessionId
 				? () =>
 						client.terminalAgents.queryNativeSession.query({
 							workspaceId,
@@ -140,19 +175,20 @@ export function NativeAgentControls({
 							terminalId: terminalId ?? selected?.bindingTerminalId,
 						})
 				: skipToken,
-		refetchInterval: provider && !selected?.chatSessionId ? 2_000 : false,
+		refetchInterval: provider && !directChatSessionId ? 2_000 : false,
 		retry: false,
 	});
-	const state = selected?.chatSessionId ? undefined : session.data;
+	const state = directChatSessionId ? undefined : session.data;
 	const onStateRef = useRef(onStateChange);
 	onStateRef.current = onStateChange;
 	useEffect(() => {
 		onStateRef.current?.(state ?? null);
 	}, [state]);
 	const chatSessionId =
-		state && "source" in state && state.source === "chat-session"
+		directChatSessionId ??
+		(state && "source" in state && state.source === "chat-session"
 			? state.chatSessionId
-			: selected?.chatSessionId;
+			: undefined);
 	const identity =
 		state?.nativeSessionId && !chatSessionId
 			? {
@@ -188,12 +224,12 @@ export function NativeAgentControls({
 			setError(cause instanceof Error ? cause.message : String(cause));
 		} finally {
 			setPending(false);
-			if (provider && !selected?.chatSessionId) await session.refetch();
+			if (provider && !directChatSessionId) await session.refetch();
 		}
 	};
 	const refreshCapabilities = async () => {
 		await capabilities.refetch();
-		if (provider && !selected?.chatSessionId) await session.refetch();
+		if (provider && !directChatSessionId) await session.refetch();
 	};
 	const capable = !!state?.supported && !!identity;
 	const initialDraftKey = !draftOwner.owned
@@ -205,12 +241,28 @@ export function NativeAgentControls({
 			className="border-b border-border px-3 py-2 text-xs"
 			aria-label={t({ message: "Agent control" })}
 		>
-			{!state && (
+			{!state && !binding && (
 				<p className="text-sm text-muted-foreground">
 					<Trans>
 						Select an agent terminal to inspect or control its current session.
 					</Trans>
 				</p>
+			)}
+			{!state && binding && (
+				<div className="space-y-1">
+					<p className="text-sm font-medium">
+						{provider ? labels[provider] : binding.agentId}
+					</p>
+					<p className="text-xs text-muted-foreground">
+						{provider && session.isPending ? (
+							<Trans>Loading agent session…</Trans>
+						) : binding.endedAt ? (
+							<Trans>Ended</Trans>
+						) : (
+							<Trans>Terminal owns this session</Trans>
+						)}
+					</p>
+				</div>
 			)}
 
 			{state && (

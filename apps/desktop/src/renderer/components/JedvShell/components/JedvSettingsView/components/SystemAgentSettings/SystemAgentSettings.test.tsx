@@ -35,6 +35,7 @@ test("settings never refill a stored key; saving stores only the masked status i
 	const input = screen.getByLabelText("DeepSeek API Key") as HTMLInputElement;
 	expect(input.type).toBe("password");
 	expect(input.value).toBe("");
+	expect(input.placeholder).toBe("Enter a new API key to replace it");
 	const secret = "test-secret-key-1234";
 	fireEvent.change(input, { target: { value: secret } });
 	const form = input.closest("form");
@@ -56,4 +57,32 @@ test("settings never refill a stored key; saving stores only the masked status i
 	expect(save).toHaveBeenCalledTimes(1);
 	fireEvent.click(screen.getByRole("button", { name: "Confirm" }));
 	await waitFor(() => expect(save).toHaveBeenLastCalledWith({ apiKey: null }));
+});
+
+test("shows 'Enter DeepSeek API Key' placeholder when unconfigured", async () => {
+	const client = {
+		aiSettings: {
+			get: {
+				query: async () => ({ configured: false, maskedHint: null }),
+			},
+			setDeepseekKey: {
+				mutate: mock(async () => ({ configured: false, maskedHint: null })),
+			},
+		},
+	} as unknown as LocalClient;
+	const cache = new QueryClient({
+		defaultOptions: { queries: { retry: false } },
+	});
+	caches.push(cache);
+	const screen = render(
+		<QueryClientProvider client={cache}>
+			<SystemAgentSettings
+				client={client}
+				hostUrl="http://unconfigured.fixture"
+			/>
+		</QueryClientProvider>,
+	);
+	await screen.findByText("Not configured");
+	const input = screen.getByLabelText("DeepSeek API Key") as HTMLInputElement;
+	expect(input.placeholder).toBe("Enter DeepSeek API Key");
 });

@@ -7,7 +7,7 @@ import {
 import { useLingui } from "@lingui/react/macro";
 import type { ContextMenuAnchorRect } from "@pierre/trees";
 import { ChevronDown, Loader2, Minus, Plus, Undo2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PierreRowContextMenu } from "../../../JedvFilesView/components/PierreRowContextMenu";
 import {
 	resolveChangesSidebarFileIntent,
@@ -29,6 +29,7 @@ export function ChangesRow({
 	onExternal,
 	remote,
 	rootPath,
+	active = true,
 }: {
 	file: ChangedFile;
 	category: Category;
@@ -42,9 +43,17 @@ export function ChangesRow({
 	onExternal(path: string): void;
 	remote: boolean;
 	rootPath?: string;
+	active?: boolean;
 }) {
 	const { t } = useLingui();
 	const [anchor, setAnchor] = useState<ContextMenuAnchorRect | null>(null);
+	const [menuOpen, setMenuOpen] = useState(false);
+	useEffect(() => {
+		if (!active) {
+			setMenuOpen(false);
+			setAnchor(null);
+		}
+	}, [active]);
 	const menu = (
 		<ChangesFileMenu
 			remote={remote}
@@ -141,7 +150,7 @@ export function ChangesRow({
 						)}
 					</Button>
 				)}
-				<DropdownMenu>
+				<DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
 					<DropdownMenuTrigger asChild>
 						<Button
 							variant="ghost"

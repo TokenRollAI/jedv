@@ -1,4 +1,4 @@
-export const WINDOW_CONTROLS_ROW_TOP = 7;
+export const WINDOW_CONTROLS_ROW_TOP = 4;
 export const WINDOW_CONTROLS_ROW_HEIGHT = 32;
 export const MAC_TRAFFIC_SAFE_WIDTH = 96;
 export const WINDOW_CONTROLS_INSET_WIDTH =

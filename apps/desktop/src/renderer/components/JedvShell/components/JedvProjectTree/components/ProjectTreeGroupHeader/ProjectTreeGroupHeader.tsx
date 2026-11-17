@@ -37,7 +37,7 @@ export function ProjectTreeGroupHeader({
 	const content = (
 		<button
 			type="button"
-			className="flex h-6 min-w-0 flex-1 items-center gap-1.5 rounded pl-6 pr-7 text-left text-[11px] text-muted-foreground hover:bg-fill-hover focus-visible:ring-1 focus-visible:ring-ring"
+			className="flex h-7 min-w-0 flex-1 items-center gap-1.5 rounded pl-6 pr-7 text-left text-[11px] text-muted-foreground hover:bg-fill-hover focus-visible:ring-1 focus-visible:ring-ring"
 			onClick={onToggle}
 			aria-expanded={!collapsed}
 			disabled={disabled}
@@ -59,7 +59,7 @@ export function ProjectTreeGroupHeader({
 	);
 	return group ? (
 		<JedvRowMenu
-			className="mx-2 h-6 rounded"
+			className="mx-2 h-7 rounded"
 			actions={[
 				{
 					label: t({ message: "Edit group" }),

@@ -389,8 +389,12 @@ export function WorkspaceFileTree({
 			}}
 		>
 			<div className="flex h-9 shrink-0 items-center gap-0.5 px-2 text-xs text-muted-foreground">
-				<span className="mr-auto truncate">
-					<Trans>Files</Trans>
+				<span
+					className="mr-auto truncate pl-1 font-mono text-[11.5px] font-medium text-muted-foreground"
+					title={rootPath}
+				>
+					{rootPath.split(/[\\/]/).filter(Boolean).pop() ||
+						t({ message: "Files" })}
 				</span>
 				{[
 					{
@@ -434,12 +438,15 @@ export function WorkspaceFileTree({
 						}
 						onClick={action}
 					>
-						<Icon className="size-3.5" />
+						<Icon className="size-3.5" aria-hidden="true" />
 					</Button>
 				))}
 			</div>
 			<div className="relative mx-2 mb-2">
-				<Search className="absolute left-2 top-2 size-3.5 text-muted-foreground" />
+				<Search
+					aria-hidden="true"
+					className="absolute left-2 top-2 size-3.5 text-muted-foreground"
+				/>
 				<Input
 					aria-label={t({ message: "Search files" })}
 					placeholder={t({ message: "Search files" })}
@@ -460,7 +467,7 @@ export function WorkspaceFileTree({
 						onClick={() => setQuery("")}
 						className="absolute right-1 top-1 size-5"
 					>
-						<X className="size-3" />
+						<X className="size-3" aria-hidden="true" />
 					</button>
 				)}
 			</div>
@@ -519,7 +526,7 @@ export function WorkspaceFileTree({
 				<>
 					{bridge.loading && (
 						<output className="flex items-center gap-1 px-3 text-xs text-muted-foreground">
-							<Loader2 className="size-3 animate-spin" />
+							<Loader2 className="size-3 animate-spin" aria-hidden="true" />
 							<Trans>Loading files…</Trans>
 						</output>
 					)}

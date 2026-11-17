@@ -1,4 +1,5 @@
 import { errorMessage } from "@jedv/i18n/errors";
+import { getPresetById } from "@jedv/shared/host-agent-presets";
 import { Button } from "@jedv/ui/button";
 import {
 	Command,
@@ -137,10 +138,14 @@ export function ExistingTeamSessionDialog({
 				throw new Error(
 					t({
 						message:
-							"This agent is no longer available. Choose another leader.",
+							"This session is no longer available. Choose another leader.",
 					}),
 				);
 			}
+			const fallbackAgentLabel =
+				getPresetById(valid.binding.agentId)?.label ?? valid.binding.agentId;
+			const fallbackWorkspace =
+				valid.workspace.name || valid.workspace.branch || valid.workspace.id;
 			const result = await client.team.init.mutate({
 				actor: {
 					workspaceId: valid.binding.workspaceId,
@@ -152,7 +157,7 @@ export function ExistingTeamSessionDialog({
 					name,
 					valid.session.customTitle ||
 						valid.session.title ||
-						valid.binding.agentId,
+						`${fallbackAgentLabel} · ${fallbackWorkspace}`,
 				),
 				goal,
 			});
@@ -163,7 +168,7 @@ export function ExistingTeamSessionDialog({
 				errorMessage(
 					cause,
 					t({
-						message: "Could not create team. Refresh the agents and retry.",
+						message: "Could not create team. Refresh the sessions and retry.",
 					}),
 				),
 			);
@@ -175,12 +180,13 @@ export function ExistingTeamSessionDialog({
 	return (
 		<Dialog
 			open
+			modal
 			onOpenChange={(open) => {
 				if (!open && !busy.current) onClose();
 			}}
 		>
 			<DialogContent
-				className="max-h-[85vh] overflow-y-auto sm:max-w-lg"
+				className="fixed top-1/2 left-1/2 flex max-h-[85vh] w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 flex-col gap-4 overflow-hidden sm:max-w-lg"
 				showCloseButton={!pending}
 				onInteractOutside={(e) => {
 					if (pending) e.preventDefault();
@@ -195,25 +201,25 @@ export function ExistingTeamSessionDialog({
 					</DialogTitle>
 					<DialogDescription>
 						<Trans>
-							Choose a running agent as leader to start collaborating.
+							Choose a running session as leader to start collaborating.
 						</Trans>
 					</DialogDescription>
 				</DialogHeader>
 				<div className="flex items-center justify-end">
 					<JedvIconButton
-						label={t({ message: "Refresh agents" })}
+						label={t({ message: "Refresh sessions" })}
 						disabled={pending || !connected}
 						onClick={() => void refresh()}
 					>
 						<LuRefreshCw className="size-3.5" />
 					</JedvIconButton>
 				</div>
-				<Command>
+				<Command className="h-auto min-w-0 rounded-md border border-border">
 					<CommandInput
-						placeholder={t({ message: "Search agents…" })}
+						placeholder={t({ message: "Search sessions…" })}
 						disabled={pending}
 					/>
-					<CommandList className="max-h-64">
+					<CommandList className="max-h-64 min-h-0">
 						{!ready ? (
 							<output className="block p-3 text-xs text-muted-foreground">
 								{!connected ||
@@ -223,22 +229,32 @@ export function ExistingTeamSessionDialog({
 								index.capabilities.isError
 									? t({
 											message:
-												"Could not create team. Refresh the agents and retry.",
+												"Could not create team. Refresh the sessions and retry.",
 										})
-									: t({ message: "Loading agents…" })}
+									: t({ message: "Loading sessions…" })}
 							</output>
 						) : (
 							<>
 								<CommandEmpty>
 									<Trans>
-										Start an agent in a workspace, then create a team.
+										Start a session in a workspace, then create a team.
 									</Trans>
 								</CommandEmpty>
 								{candidates.map((candidate) => {
+									const agentLabel =
+										getPresetById(candidate.binding.agentId)?.label ??
+										candidate.binding.agentId;
+									const workspaceName =
+										candidate.workspace.name ||
+										candidate.workspace.branch ||
+										candidate.workspace.id;
+									const shortId = `#${candidate.binding.terminalId.slice(0, 8)}`;
+									const explicitTitle =
+										candidate.session.customTitle?.trim() ||
+										candidate.session.title?.trim();
 									const title =
-										candidate.session.customTitle ||
-										candidate.session.title ||
-										`#${candidate.binding.terminalId.slice(0, 8)}`;
+										explicitTitle ||
+										`${agentLabel} · ${workspaceName} (${shortId})`;
 									const project =
 										context.projects.find(
 											(p) => p.id === candidate.workspace.projectId,
@@ -249,9 +265,11 @@ export function ExistingTeamSessionDialog({
 											value={candidate.id}
 											keywords={[
 												title,
+												agentLabel,
 												candidate.binding.agentId,
 												project,
-												candidate.workspace.name || candidate.workspace.branch,
+												workspaceName,
+												shortId,
 											]}
 											disabled={pending}
 											onSelect={() => setSelected(candidate.id)}
@@ -259,7 +277,7 @@ export function ExistingTeamSessionDialog({
 										>
 											<AgentIcon
 												presetId={candidate.binding.agentId}
-												className="size-5"
+												className="size-5 shrink-0"
 											/>
 											<span
 												className="min-w-0 flex-1"
@@ -267,13 +285,11 @@ export function ExistingTeamSessionDialog({
 											>
 												<span className="block truncate text-xs">{title}</span>
 												<span className="block truncate text-[11px] text-muted-foreground">
-													{project} /{" "}
-													{candidate.workspace.name ||
-														candidate.workspace.branch}
+													{project} / {workspaceName}
 												</span>
 											</span>
 											{selected === candidate.id && (
-												<LuCheck className="size-4" />
+												<LuCheck className="size-4 shrink-0" />
 											)}
 										</CommandItem>
 									);

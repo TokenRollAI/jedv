@@ -29,6 +29,7 @@ interface ChangesToolbarProps {
 	currentBranchName: string;
 	canRenameBranch: boolean;
 	onRenameBranch: (newName: string) => void;
+	active?: boolean;
 }
 
 export function ChangesToolbar({
@@ -48,6 +49,7 @@ export function ChangesToolbar({
 	currentBranchName,
 	canRenameBranch,
 	onRenameBranch,
+	active = true,
 }: ChangesToolbarProps) {
 	const { t } = useLingui();
 	const label = collapsed
@@ -72,6 +74,7 @@ export function ChangesToolbar({
 				currentBranchName={currentBranchName}
 				canRenameBranch={canRenameBranch}
 				onRenameBranch={onRenameBranch}
+				active={active}
 			/>
 			<div className="ml-auto flex shrink-0 items-center gap-0.5">
 				<Tooltip>

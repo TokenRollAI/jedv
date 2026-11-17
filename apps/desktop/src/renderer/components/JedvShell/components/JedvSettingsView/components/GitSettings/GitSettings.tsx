@@ -13,7 +13,6 @@ import { Trans, useLingui } from "@lingui/react/macro";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import type { JedvParityViewContext } from "../../../../parity-types";
-import { ProjectSettingsSection } from "../ProjectSettingsSection/ProjectSettingsSection";
 import { SettingRow } from "../SettingRow";
 import { HostDirectoryPicker } from "./components/HostDirectoryPicker/HostDirectoryPicker";
 
@@ -271,7 +270,6 @@ export function GitSettings(context: JedvParityViewContext) {
 					/>
 				)}
 			</div>
-			<ProjectSettingsSection key={hostUrl} {...context} />
 		</div>
 	);
 }

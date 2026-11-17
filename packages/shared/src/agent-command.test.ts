@@ -129,7 +129,7 @@ describe("kimi agent registration", () => {
 		expect(AGENT_LABELS.kimi).toBe("Kimi Code");
 	});
 
-	it("passes the prompt to the native Kimi session", () => {
+	it("passes the prompt to the native Kimi session and continues interactively", () => {
 		const command = buildAgentPromptCommand({
 			prompt: "hello",
 			randomId: "kimi-1234",
@@ -137,7 +137,7 @@ describe("kimi agent registration", () => {
 		});
 
 		expect(command).toStartWith("kimi -p \"$(cat <<'JEDV_PROMPT_kimi1234'");
-		expect(command).toEndWith('\n)"');
+		expect(command).toEndWith('\n)" ; kimi --yolo -c');
 	});
 
 	it("derives the host prompt flag from the distinct prompt command", () => {
@@ -190,7 +190,7 @@ describe("agy agent registration", () => {
 		});
 
 		expect(command).toStartWith(
-			"agy --mode accept-edits -i \"$(cat <<'JEDV_PROMPT_agy1234'",
+			"agy --dangerously-skip-permissions -i \"$(cat <<'JEDV_PROMPT_agy1234'",
 		);
 		expect(command).toEndWith('\n)"');
 	});
@@ -198,7 +198,7 @@ describe("agy agent registration", () => {
 	it("derives host preset args and id-based resume from the base command", () => {
 		const preset = getPresetById("agy");
 		expect(preset?.command).toBe("agy");
-		expect(preset?.args).toEqual(["--mode", "accept-edits"]);
+		expect(preset?.args).toEqual(["--dangerously-skip-permissions"]);
 		expect(preset?.promptArgs).toEqual(["-i"]);
 		expect(preset?.resumeArgs).toEqual(["--conversation"]);
 	});

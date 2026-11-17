@@ -7,6 +7,7 @@ import {
 	rmSync,
 } from "node:fs";
 import { join } from "node:path";
+import { MANAGED_NOTIFY_RELATIVE_PATH } from "./agent-wrappers-common";
 import { resolveAppHomeDir } from "./paths";
 
 export interface AgentLaunchEvidence {
@@ -101,6 +102,12 @@ _jedv_write_evidence ""
 ${missingBinary ? "(exit 127)" : '"$REAL_BIN" "$@"'}
 _jedv_exit_code=$?
 _jedv_write_evidence ",\\"exitCode\\":$_jedv_exit_code"
+if [ -n "$JEDV_TERMINAL_ID" ] && [ -n "$JEDV_HOME_DIR" ] && [ -x "$JEDV_HOME_DIR/${MANAGED_NOTIFY_RELATIVE_PATH}" ]; then
+  "$JEDV_HOME_DIR/${MANAGED_NOTIFY_RELATIVE_PATH}" '{"hook_event_name":"Stop"}' >/dev/null 2>&1 || true
+  if [ -z "$JEDV_KIMI_CHAIN_CONTINUE" ] && [ "$_jedv_exit_code" -lt 128 ]; then
+    "$JEDV_HOME_DIR/${MANAGED_NOTIFY_RELATIVE_PATH}" '{"hook_event_name":"SessionEnd"}' >/dev/null 2>&1 || true
+  fi
+fi
 exit "$_jedv_exit_code"
 `;
 }

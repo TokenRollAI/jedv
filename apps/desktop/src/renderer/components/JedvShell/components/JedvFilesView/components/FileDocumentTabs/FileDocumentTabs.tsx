@@ -31,17 +31,18 @@ export function FileDocumentTabs({
 }) {
 	const { t } = useLingui();
 	const refs = useRef(new Map<string, HTMLButtonElement>());
+	if (documents.length === 0) return null;
 	return (
 		<div
 			role="tablist"
 			aria-label={t({ message: "Files" })}
-			className="flex h-9 shrink-0 items-stretch overflow-x-auto border-b"
+			className="flex h-9 shrink-0 items-stretch overflow-x-auto border-b border-border bg-sidebar/35"
 		>
 			{documents.map((document, index) => (
 				<ContextMenu key={document.id}>
 					<ContextMenuTrigger asChild>
 						<div
-							className={`flex shrink-0 items-center border-r px-2 text-xs ${document.id === selectedId ? "bg-fill-selected" : "text-muted-foreground"}`}
+							className={`flex shrink-0 items-center border-r border-border/70 px-2 text-xs transition-colors ${document.id === selectedId ? "bg-background font-medium text-foreground" : "text-muted-foreground hover:bg-fill-hover hover:text-foreground"}`}
 						>
 							<button
 								type="button"

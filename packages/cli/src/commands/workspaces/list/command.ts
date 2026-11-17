@@ -1,4 +1,4 @@
-import { boolean, CLIError, string, table } from "@jedv/cli-framework";
+import { boolean, CLIError, string } from "@jedv/cli-framework";
 import { normalizeWorkspaceTag } from "@jedv/shared/workspace-tags";
 import { command } from "../../../lib/command";
 import {
@@ -6,6 +6,7 @@ import {
 	resolveWorkspaceHost,
 } from "../../../lib/host-workspaces";
 import { workspaceLinks } from "../../../lib/open-url";
+import { table } from "../../../lib/table";
 
 export default command({
 	description: "List workspaces on this machine",

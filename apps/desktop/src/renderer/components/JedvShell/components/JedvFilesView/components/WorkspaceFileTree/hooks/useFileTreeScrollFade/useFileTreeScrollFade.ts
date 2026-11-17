@@ -50,11 +50,22 @@ export function useFileTreeScrollFade<T extends HTMLElement>(enabled: boolean) {
 			}
 		};
 
+		const hideDecorativeShadowCopies = (shadowRoot: ShadowRoot) => {
+			for (const node of shadowRoot.querySelectorAll(
+				'[data-truncate-content="overflow"], [data-truncate-marker-cell]',
+			)) {
+				if (node.getAttribute("aria-hidden") !== "true") {
+					node.setAttribute("aria-hidden", "true");
+				}
+			}
+		};
+
 		const mutationObserver = new MutationObserver(() => {
 			const shadowRoot = container.querySelector(
 				"file-tree-container",
 			)?.shadowRoot;
 			if (!shadowRoot) return;
+			hideDecorativeShadowCopies(shadowRoot);
 			attach(shadowRoot.querySelector<HTMLElement>(SCROLLER_SELECTOR));
 			update();
 		});
@@ -72,6 +83,7 @@ export function useFileTreeScrollFade<T extends HTMLElement>(enabled: boolean) {
 				raf = requestAnimationFrame(init);
 				return;
 			}
+			hideDecorativeShadowCopies(shadowRoot);
 			attach(shadowRoot.querySelector<HTMLElement>(SCROLLER_SELECTOR));
 			mutationObserver.observe(shadowRoot, { childList: true, subtree: true });
 		};

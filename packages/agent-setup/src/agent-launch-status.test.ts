@@ -4,6 +4,7 @@ import {
 	existsSync,
 	mkdirSync,
 	mkdtempSync,
+	readFileSync,
 	rmSync,
 	symlinkSync,
 	writeFileSync,
@@ -113,4 +114,55 @@ test("missing Kimi binary records exit 127 instead of leaving readiness ambiguou
 	expect(readAgentLaunchEvidence("terminal", "run")).toMatchObject({
 		exitCode: 127,
 	});
+});
+
+test("Kimi wrapper emits Stop and SessionEnd on clean exit, and skips SessionEnd when chaining or signaled", () => {
+	const bin = join(root, "real");
+	const wrappers = join(root, "bin");
+	const hooksDir = join(root, "hooks");
+	mkdirSync(bin);
+	mkdirSync(wrappers);
+	mkdirSync(hooksDir);
+	const logPath = join(root, "notify-events.log");
+	writeFileSync(
+		join(hooksDir, "notify.sh"),
+		`#!/bin/bash\nprintf '%s\\n' "$1" >> "${logPath}"\n`,
+		{ mode: 0o755 },
+	);
+	const wrapper = join(wrappers, "kimi");
+	writeFileSync(wrapper, getKimiWrapperScript(), { mode: 0o755 });
+
+	const runWithCode = (code: number, extraEnv: Record<string, string> = {}) => {
+		rmSync(logPath, { force: true });
+		writeFileSync(join(bin, "kimi"), `#!/bin/bash\nexit ${code}\n`, {
+			mode: 0o755,
+		});
+		const result = spawnSync(wrapper, ["-p", "go"], {
+			encoding: "utf8",
+			env: {
+				...process.env,
+				PATH: `${wrappers}:${bin}:/usr/bin:/bin`,
+				JEDV_HOME_DIR: root,
+				JEDV_USER_HOME_DIR: join(root, "user"),
+				JEDV_TERMINAL_ID: "terminal",
+				JEDV_AGENT_RUN_ID: "run",
+				JEDV_AGENT_ID: "",
+				JEDV_AGENT_LAUNCH_ID: "",
+				...extraEnv,
+			},
+		});
+		expect(result.status).toBe(code);
+		return existsSync(logPath)
+			? readFileSync(logPath, "utf8").trim().split("\n").filter(Boolean)
+			: [];
+	};
+
+	expect(runWithCode(0)).toEqual([
+		'{"hook_event_name":"Stop"}',
+		'{"hook_event_name":"SessionEnd"}',
+	]);
+	expect(runWithCode(0, { JEDV_KIMI_CHAIN_CONTINUE: "1" })).toEqual([
+		'{"hook_event_name":"Stop"}',
+	]);
+	expect(runWithCode(130)).toEqual(['{"hook_event_name":"Stop"}']);
 });

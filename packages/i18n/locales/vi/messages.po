@@ -346,9 +346,6 @@ msgstr "Thêm dự án từ thư mục"
 msgid "Add Project from Folder..."
 msgstr "Thêm dự án từ thư mục..."
 
-msgid "Add tests where coverage is missing"
-msgstr "Thêm kiểm thử ở những nơi còn thiếu"
-
 msgid "Add to Dictionary"
 msgstr "Thêm vào từ điển"
 
@@ -464,6 +461,9 @@ msgstr "Đang hoạt động"
 msgid "All"
 msgstr "Tất cả"
 
+msgid "All activity"
+msgstr "Tất cả hoạt động"
+
 msgid "All commits"
 msgstr "Tất cả commit"
 
@@ -491,11 +491,17 @@ msgstr "Cho phép"
 msgid "Allow microphone access to use dictation"
 msgstr "Cho phép truy cập micro để dùng đọc chính tả"
 
+msgid "Allow once"
+msgstr "Cho phép một lần"
+
 msgid "Already open"
 msgstr "Đã mở"
 
 msgid "Also delete local branch"
 msgstr "Xóa luôn nhánh cục bộ"
+
+msgid "Ambiguous upstream branch configuration"
+msgstr "Cấu hình nhánh upstream bị mơ hồ"
 
 msgid "An automation did not complete. Inspect its run on your computer."
 msgstr "Tự động hóa chưa hoàn tất. Kiểm tra lần chạy trên máy tính."
@@ -633,6 +639,9 @@ msgstr "Yêu cầu thay đổi, @nhắc đến tệp, chạy /commands"
 msgid "Associated provider tokens will be revoked."
 msgstr "Các token nhà cung cấp liên quan sẽ bị thu hồi."
 
+msgid "At most {MAX_ATTACHMENTS} attachments can be added."
+msgstr "Chỉ có thể thêm tối đa {MAX_ATTACHMENTS} tệp đính kèm."
+
 msgid "Attach"
 msgstr "Đính kèm"
 
@@ -652,6 +661,9 @@ msgstr "Tệp đính kèm"
 #. placeholder {1}: cause.problem
 msgid "Attachment {0} could not be copied: {1}"
 msgstr "Không thể sao chép tệp đính kèm {0}: {1}"
+
+msgid "Attachment is too large (maximum 10 MB)."
+msgstr "Tệp đính kèm quá lớn (tối đa 10 MB)."
 
 msgid "Attachment limits exceeded"
 msgstr "Đã vượt quá giới hạn tệp đính kèm"
@@ -676,6 +688,9 @@ msgstr "Tự động (theo hệ thống)"
 
 msgid "Auto save"
 msgstr "Tự động lưu"
+
+msgid "Auto-derived from task (optional)"
+msgstr "Tự suy ra từ tác vụ (tùy chọn)"
 
 msgid "Automatic delivery paused"
 msgstr "Đã tạm dừng chuyển tự động"
@@ -739,6 +754,9 @@ msgstr "Quay lại"
 
 msgid "Back to automations"
 msgstr "Quay lại tự động hóa"
+
+msgid "Back to changes"
+msgstr "Quay lại thay đổi"
 
 msgid "Back to current conversation"
 msgstr "Về cuộc trò chuyện hiện tại"
@@ -850,6 +868,9 @@ msgstr "Không thể {action}: chưa chọn tổ chức nào đang hoạt độn
 msgid "Cannot {action}: the local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
 msgstr "Không thể {action}: dịch vụ host cục bộ không khả dụng cho {organization} trên {device}. Trạng thái: {status}. {recovery}"
 
+msgid "Cascading URL rewrite is not supported"
+msgstr "Không hỗ trợ viết lại URL theo tầng"
+
 msgid "Category"
 msgstr "Danh mục"
 
@@ -888,6 +909,9 @@ msgstr "Chat"
 
 msgid "Chat is being reworked"
 msgstr "Chat đang được làm lại"
+
+msgid "Chat session"
+msgstr "Phiên trò chuyện"
 
 msgid "Check for updates"
 msgstr "Kiểm tra cập nhật"
@@ -964,8 +988,8 @@ msgstr "Chọn một dự án hoặc workspace"
 msgid "Choose a project to start working."
 msgstr "Chọn một dự án để bắt đầu làm việc."
 
-msgid "Choose a running agent as leader to start collaborating."
-msgstr "Chọn một tác tử đang chạy làm trưởng nhóm để bắt đầu cộng tác."
+msgid "Choose a running session as leader to start collaborating."
+msgstr "Chọn một phiên đang chạy làm trưởng nhóm để bắt đầu cộng tác."
 
 msgid "Choose a saved screenshot to attach. Files are copied only when you submit the prompt."
 msgstr "Chọn ảnh chụp màn hình đã lưu để đính kèm. Tệp chỉ được sao chép khi bạn gửi prompt."
@@ -999,6 +1023,9 @@ msgstr "Xóa khóa API"
 
 msgid "Clear API key?"
 msgstr "Xóa khóa API?"
+
+msgid "Clear filters"
+msgstr "Xóa bộ lọc"
 
 msgid "Clear saved screenshots?"
 msgstr "Xóa ảnh chụp màn hình đã lưu?"
@@ -1236,6 +1263,12 @@ msgstr "Cấu hình"
 msgid "Configure agent commands for the connected host."
 msgstr "Cấu hình các lệnh agent cho host đã kết nối."
 
+msgid "Configure how URLs, files, and folders open when clicked in terminals."
+msgstr "Cấu hình cách mở URL, tệp và thư mục khi nhấp trong terminal."
+
+msgid "Configure in Files & editor"
+msgstr "Cấu hình trong Tệp & trình soạn thảo"
+
 msgid "Configured"
 msgstr "Đã cấu hình"
 
@@ -1453,8 +1486,8 @@ msgstr "Không thể xác nhận phiên này. Hãy làm mới trước khi thử
 msgid "Could not copy. Select the text below to copy it."
 msgstr "Không thể sao chép. Chọn văn bản bên dưới để sao chép."
 
-msgid "Could not create team. Refresh the agents and retry."
-msgstr "Không thể tạo nhóm. Làm mới tác tử rồi thử lại."
+msgid "Could not create team. Refresh the sessions and retry."
+msgstr "Không thể tạo nhóm. Hãy làm mới danh sách phiên rồi thử lại."
 
 msgid "Could not create workspace. Check the target host and retry."
 msgstr "Không thể tạo không gian làm việc. Hãy kiểm tra máy chủ đích và thử lại."
@@ -1718,11 +1751,20 @@ msgstr "Tùy chỉnh"
 msgid "Custom branch prefix"
 msgstr "Tiền tố branch tùy chỉnh"
 
+msgid "Custom fetch refspec is not supported"
+msgstr "Không hỗ trợ fetch refspec tùy chỉnh"
+
 msgid "Custom notification sound"
 msgstr "Âm thanh thông báo tùy chỉnh"
 
 msgid "Custom prefix"
 msgstr "Tiền tố tùy chỉnh"
+
+msgid "Custom push refspec is not supported"
+msgstr "Không hỗ trợ push refspec tùy chỉnh"
+
+msgid "Custom receive-pack is not supported"
+msgstr "Không hỗ trợ receive-pack tùy chỉnh"
 
 msgid "Custom sound"
 msgstr "Âm thanh tùy chỉnh"
@@ -1874,6 +1916,9 @@ msgstr "Kết quả chuyển thư chưa chắc chắn. Kiểm tra thiết bị �
 msgid "Delivery uncertain"
 msgstr "Kết quả chuyển chưa chắc chắn"
 
+msgid "Deny"
+msgstr "Từ chối"
+
 msgid "Describe a goal to start a new task."
 msgstr "Mô tả mục tiêu để bắt đầu nhiệm vụ mới."
 
@@ -1897,6 +1942,9 @@ msgstr "Đường dẫn đích"
 
 msgid "Detached"
 msgstr "Đã tách"
+
+msgid "Detached HEAD"
+msgstr "HEAD tách rời (Detached HEAD)"
 
 msgid "Details"
 msgstr "Chi tiết"
@@ -1958,10 +2006,11 @@ msgstr "Không thể hủy thay đổi của tệp đã đổi tên hoặc sao c
 msgid "Disconnected"
 msgstr "Đã ngắt kết nối"
 
-#. placeholder {0}: formatNumber(logins.data.claude.length)
-#. placeholder {1}: formatNumber(logins.data.codex.length)
-msgid "Discovered {0} Claude Code and {1} Codex login profiles on this host."
-msgstr "Đã tìm thấy {0} hồ sơ đăng nhập Claude Code và {1} Codex trên host này."
+#. placeholder {0}: formatNumber(claudeCount)
+#. placeholder {1}: formatNumber(codexCount)
+#. placeholder {2}: formatNumber(agyCount)
+msgid "Discovered {0} Claude Code, {1} Codex, and {2} Antigravity accounts on this host. Kimi Code does not expose local account discovery."
+msgstr "Đã phát hiện {0} tài khoản Claude Code, {1} Codex và {2} Antigravity trên máy chủ này. Kimi Code không hỗ trợ phát hiện tài khoản cục bộ."
 
 msgid "Disk version"
 msgstr "Phiên bản trên đĩa"
@@ -2062,11 +2111,17 @@ msgstr "Kiểu chữ trình soạn thảo"
 msgid "Effort"
 msgstr "Mức suy luận"
 
+msgid "Effort:"
+msgstr "Mức suy luận:"
+
 msgid "Enable"
 msgstr "Bật"
 
 msgid "Enabled"
 msgstr "Đã bật"
+
+msgid "Ended"
+msgstr "Đã kết thúc"
 
 msgid "Endpoint"
 msgstr "Điểm cuối"
@@ -2100,6 +2155,9 @@ msgstr "Nhập đường dẫn thư mục tuyệt đối trên máy chủ đích
 
 msgid "Enter an agent name."
 msgstr "Nhập tên agent."
+
+msgid "Enter DeepSeek API Key"
+msgstr "Nhập Khóa API DeepSeek"
 
 msgid "Enter the pairing code shown in Jedv on your computer."
 msgstr "Nhập mã ghép nối hiển thị trong Jedv trên máy tính."
@@ -2383,9 +2441,6 @@ msgstr "Lọc agent…"
 msgid "Find"
 msgstr "Tìm"
 
-msgid "Find and fix a bug"
-msgstr "Tìm và sửa lỗi"
-
 msgid "Find in Changes"
 msgstr "Tìm trong Thay đổi"
 
@@ -2508,9 +2563,6 @@ msgstr "Thứ Sáu"
 
 msgid "From"
 msgstr "Từ"
-
-msgid "From the task’s first sentence"
-msgstr "Từ câu đầu tiên của nhiệm vụ"
 
 msgid "Front matter hidden. Switch to the Markdown view to edit it"
 msgstr "Đã ẩn front matter. Hãy chuyển sang chế độ xem Markdown để sửa"
@@ -2807,12 +2859,6 @@ msgstr "Đang nhập không gian làm việc đã chọn…"
 msgid "Importing..."
 msgstr "Đang nhập..."
 
-msgid "Improve agent instructions"
-msgstr "Cải thiện hướng dẫn cho tác nhân"
-
-msgid "In"
-msgstr "Trong"
-
 msgid "In Apple's window, click Install. It takes a few minutes, and this page updates when it's done."
 msgstr "Trong cửa sổ của Apple, bấm Cài đặt. Quá trình mất vài phút và trang này sẽ cập nhật khi xong."
 
@@ -2833,6 +2879,9 @@ msgstr "Hộp thư đến"
 
 msgid "Include archived teams"
 msgstr "Bao gồm nhóm đã lưu trữ"
+
+msgid "Include internal mail"
+msgstr "Bao gồm thư nội bộ"
 
 msgid "Include the Linear ticket id from the prompt in the branch name (e.g. bin-344-fix-login). Prefix branches with fix/ or feat/ based on the task."
 msgstr "Đưa id ticket Linear từ prompt vào tên nhánh (ví dụ bin-344-fix-login). Thêm tiền tố fix/ hoặc feat/ cho nhánh tùy theo tác vụ."
@@ -2885,12 +2934,6 @@ msgstr "Hướng dẫn"
 msgid "Instructions are available in the original mail."
 msgstr "Bạn có thể xem hướng dẫn trong thư gốc."
 
-msgid "Internal mail and diagnostics"
-msgstr "Thư nội bộ và chẩn đoán"
-
-msgid "Internal mail diagnostics"
-msgstr "Chẩn đoán thư nội bộ"
-
 msgid "Interrupt"
 msgstr "Ngắt lời"
 
@@ -2905,6 +2948,9 @@ msgstr "Đã ngắt"
 
 msgid "Invalid memory JSON"
 msgstr "JSON bộ nhớ không hợp lệ"
+
+msgid "Invalid target branch name"
+msgstr "Tên nhánh đích không hợp lệ"
 
 msgid "Italic"
 msgstr "Nghiêng"
@@ -2941,6 +2987,9 @@ msgstr "Đã giữ tệp mới, nó đã thay đổi sau khi được tạo"
 
 msgid "Kept the new folder because it is no longer empty"
 msgstr "Đã giữ thư mục mới, nó không còn rỗng"
+
+msgid "Key reports"
+msgstr "Báo cáo chính"
 
 msgid "Keyboard"
 msgstr "Bàn phím"
@@ -3040,6 +3089,9 @@ msgstr "Chiều cao dòng"
 msgid "Link"
 msgstr "Liên kết"
 
+msgid "Link behavior"
+msgstr "Hành vi liên kết"
+
 msgid "Linked agent"
 msgstr "Tác tử được liên kết"
 
@@ -3069,6 +3121,9 @@ msgstr "Tải thêm"
 
 msgid "Loading"
 msgstr "Đang tải"
+
+msgid "Loading agent session…"
+msgstr "Đang tải phiên tác nhân…"
 
 msgid "Loading agents…"
 msgstr "Đang tải agent…"
@@ -3184,8 +3239,14 @@ msgstr "Thư chờ xác nhận đã nhận: {activeCount}"
 msgid "Mail awaits acknowledgement"
 msgstr "Thư chờ xác nhận"
 
-msgid "Mail delivery needs attention. Open diagnostics to inspect the delivery."
-msgstr "Việc chuyển thư cần được xử lý. Mở chẩn đoán để kiểm tra."
+msgid "Mail delivery info"
+msgstr "Thông tin gửi thư"
+
+msgid "Mail delivery needs attention. Expand to inspect the delivery."
+msgstr "Việc gửi thư cần chú ý. Mở rộng để kiểm tra chi tiết."
+
+msgid "Mail delivery needs attention. View original mail to inspect the delivery."
+msgstr "Việc gửi thư cần chú ý. Xem thư gốc để kiểm tra chi tiết."
 
 msgid "Mail has not been acknowledged. Reading it does not acknowledge it."
 msgstr "Thư chưa được xác nhận. Đọc thư không xác nhận việc xử lý thư."
@@ -3317,6 +3378,9 @@ msgstr "Tin nhắn cho nhóm"
 msgid "Minimum contrast"
 msgstr "Độ tương phản tối thiểu"
 
+msgid "Mirror remotes are not supported"
+msgstr "Không hỗ trợ remote phản chiếu (mirror)"
+
 msgid "Mobile"
 msgstr "Di động"
 
@@ -3325,6 +3389,9 @@ msgstr "Địa chỉ truy cập di động"
 
 msgid "Model"
 msgstr "Mô hình"
+
+msgid "Model:"
+msgstr "Mô hình:"
 
 msgid "Models"
 msgstr "Mô hình"
@@ -3406,6 +3473,9 @@ msgstr "Nhiều dự án khớp với kho mã này. Hãy mở dự án trước 
 
 msgid "Multiple projects use this directory. Choose the project in the sidebar."
 msgstr "Nhiều dự án sử dụng thư mục này. Hãy chọn dự án trong thanh bên."
+
+msgid "Multiple push URLs are not supported"
+msgstr "Không hỗ trợ nhiều URL push"
 
 msgid "Mute notification sounds"
 msgstr "Tắt âm thanh thông báo"
@@ -3607,6 +3677,9 @@ msgstr "Không có check"
 msgid "No checks reported"
 msgstr "Không có check nào"
 
+msgid "No commits to push yet"
+msgstr "Chưa có commit nào để push"
+
 msgid "No completed project was found yet. The host may still be stopping or finishing the operation. Check again before retrying at this location."
 msgstr "Chưa tìm thấy dự án đã hoàn tất. Máy chủ có thể vẫn đang dừng hoặc hoàn tất thao tác. Hãy kiểm tra lại trước khi thử lại tại vị trí này."
 
@@ -3648,6 +3721,9 @@ msgstr "Không có mục nào"
 
 msgid "No items."
 msgstr "Không có mục nào."
+
+msgid "No key reports or instructions yet. Check All activity for full worker mail."
+msgstr "Chưa có báo cáo chính hay chỉ dẫn nào. Xem Tất cả hoạt động để đọc toàn bộ thư."
 
 msgid "No linked pull requests"
 msgstr "Không có pull request được liên kết"
@@ -3697,9 +3773,6 @@ msgstr "Không có tiền tố"
 msgid "No prefix could be resolved from this host's identity."
 msgstr "Không thể xác định tiền tố từ danh tính máy chủ này."
 
-msgid "No progress reports or decisions yet. Internal communication is available in diagnostics."
-msgstr "Chưa có báo cáo tiến độ hoặc quyết định. Bạn có thể xem trao đổi nội bộ trong phần chẩn đoán."
-
 msgid "No projects match your filters"
 msgstr "Không có dự án khớp với bộ lọc"
 
@@ -3720,6 +3793,9 @@ msgstr "Không có pull request nào khớp với bộ lọc"
 
 msgid "No recent Agent or Git activity was observed. Inspect the terminal before acting."
 msgstr "Không thấy hoạt động gần đây của tác tử hoặc Git. Kiểm tra terminal trước khi thao tác."
+
+msgid "No remote configured"
+msgstr "Chưa cấu hình remote"
 
 msgid "No removed projects"
 msgstr "Không có dự án đã xóa"
@@ -3744,6 +3820,9 @@ msgstr "Chưa có nhiệm vụ được giao"
 
 msgid "No team"
 msgstr "Không có nhóm"
+
+msgid "No team activity yet."
+msgstr "Chưa có hoạt động nhóm nào."
 
 msgid "No teams yet"
 msgstr "Chưa có nhóm"
@@ -4172,6 +4251,9 @@ msgstr "ID máy chủ ngang hàng"
 msgid "Pending"
 msgstr "Đang chờ"
 
+msgid "Pending approvals and important team updates will appear here."
+msgstr "Các yêu cầu phê duyệt và cập nhật quan trọng của nhóm sẽ hiển thị tại đây."
+
 msgid "Pending approvals and unread important faults"
 msgstr "Phê duyệt chờ xử lý và lỗi quan trọng chưa đọc"
 
@@ -4241,6 +4323,9 @@ msgstr "Đang chuẩn bị không gian làm việc trên máy chủ đích…"
 msgid "Preset association could not be confirmed. Refresh and try again."
 msgstr "Không thể xác nhận liên kết cấu hình định sẵn. Hãy làm mới và thử lại."
 
+msgid "Presets"
+msgstr "Cấu hình định sẵn"
+
 msgid "Presets are stored on this device. Run them explicitly from the workspace launcher."
 msgstr "Cấu hình định sẵn được lưu trên thiết bị này. Hãy chạy chúng một cách rõ ràng từ trình khởi chạy không gian làm việc."
 
@@ -4285,9 +4370,6 @@ msgstr "Token đã xử lý"
 
 msgid "Processing"
 msgstr "Đang xử lý"
-
-msgid "Progress and decisions"
-msgstr "Tiến độ và quyết định"
 
 msgid "Project"
 msgstr "Dự án"
@@ -4379,14 +4461,20 @@ msgstr "Đã hoàn tất push"
 msgid "Push this commit to the reviewed remote branch. A changed target requires a new confirmation."
 msgstr "Push commit này lên nhánh từ xa đã xem xét. Đích thay đổi sẽ yêu cầu xác nhận mới."
 
+msgid "Push with follow-tags is not supported"
+msgstr "Không hỗ trợ push kèm follow-tags"
+
+msgid "Push with submodule recursion is not supported"
+msgstr "Không hỗ trợ push đệ quy submodule"
+
 msgid "px"
 msgstr "px"
 
 msgid "Queue message"
 msgstr "Đưa tin nhắn vào hàng đợi"
 
-msgid "Queue waits for the agent. Interrupt requires safe support from the current session. Both require recipient acknowledgement; sending is not consumption."
-msgstr "Hàng đợi sẽ chờ tác nhân. Việc ngắt cần được phiên hiện tại hỗ trợ an toàn. Cả hai chế độ đều yêu cầu người nhận xác nhận; gửi không có nghĩa là đã xử lý."
+msgid "Queue waits for the agent. Interrupt requires safe support from the current Codex session. Both require recipient acknowledgement; sending is not consumption."
+msgstr "Hàng đợi sẽ chờ tác nhân. Ngắt ngay cần phiên Codex hiện tại hỗ trợ an toàn. Cả hai đều cần người nhận xác nhận; gửi đi không đồng nghĩa với đã xử lý."
 
 msgid "Queue; ⌘↩ to steer the running turn"
 msgstr "Vào hàng đợi; ⌘↩ để dừng và gửi trong lượt đang chạy"
@@ -4491,9 +4579,6 @@ msgstr "Đỏ"
 msgid "Refresh"
 msgstr "Làm mới"
 
-msgid "Refresh agents"
-msgstr "Làm mới tác tử"
-
 msgid "Refresh capabilities"
 msgstr "Làm mới khả năng"
 
@@ -4565,6 +4650,9 @@ msgstr "remote"
 
 msgid "Remote"
 msgstr "Từ xa"
+
+msgid "Remote helper is not supported"
+msgstr "Không hỗ trợ remote helper"
 
 msgid "Remote port"
 msgstr "Cổng từ xa"
@@ -4745,6 +4833,9 @@ msgstr "Đặt lại sau {countdown} · {absolute}"
 
 msgid "Resets now"
 msgstr "Đặt lại ngay bây giờ"
+
+msgid "Resolve conflicts before pushing"
+msgstr "Giải quyết xung đột trước khi push"
 
 msgid "Resolve conversation"
 msgstr "Giải quyết cuộc thảo luận"
@@ -4966,6 +5057,9 @@ msgstr "đang chạy"
 msgid "Running"
 msgstr "Đang chạy"
 
+msgid "Safe interruption is only supported for Codex sessions. Messages to other agents or the whole team are queued."
+msgstr "Chỉ phiên Codex mới hỗ trợ ngắt an toàn. Tin nhắn gửi tới tác nhân khác hoặc cả nhóm sẽ được xếp vào hàng đợi."
+
 msgid "Safe interruption is unavailable on this host. Queued mail waits for the agent; sending does not confirm consumption."
 msgstr "Máy chủ này không hỗ trợ ngắt an toàn. Thư trong hàng đợi sẽ chờ tác nhân; gửi thư không xác nhận thư đã được xử lý."
 
@@ -5135,6 +5229,9 @@ msgstr "Tìm pull request…"
 
 msgid "Search repositories..."
 msgstr "Tìm repository..."
+
+msgid "Search sessions…"
+msgstr "Tìm kiếm phiên…"
 
 msgid "Search settings"
 msgstr "Tìm cài đặt"
@@ -5333,9 +5430,6 @@ msgstr "Hiển thị lệnh tác tử và cấu hình định sẵn terminal đ�
 msgid "Show Apple's installer"
 msgstr "Hiện trình cài đặt của Apple"
 
-msgid "Show decisions and exceptions"
-msgstr "Hiển thị quyết định và ngoại lệ"
-
 msgid "Show deleted workspaces"
 msgstr "Hiển thị không gian làm việc đã xóa"
 
@@ -5369,9 +5463,6 @@ msgstr "Hiển thị mức sử dụng tài nguyên cục bộ trong workspace."
 msgid "Show more"
 msgstr "Hiện thêm"
 
-msgid "Show progress and decisions"
-msgstr "Hiển thị tiến độ và quyết định"
-
 msgid "Show Scripts Bar"
 msgstr "Hiển thị thanh script"
 
@@ -5398,6 +5489,9 @@ msgstr "Chỉ hiện một lần. Sao chép trước khi đóng."
 
 msgid "Side by side"
 msgstr "So sánh song song"
+
+msgid "Side-by-side diff requires a wider pane"
+msgstr "Chế độ diff song song cần khung rộng hơn"
 
 msgid "Sidebar extensions"
 msgstr "Tiện ích thanh bên"
@@ -5465,6 +5559,9 @@ msgstr "Chia theo cạnh dài hơn"
 msgid "Split diff"
 msgstr "Diff chia đôi"
 
+msgid "Split down"
+msgstr "Chia xuống"
+
 msgid "Split Down"
 msgstr "Chia xuống"
 
@@ -5479,6 +5576,9 @@ msgstr "Chia khung"
 
 msgid "Split panes"
 msgstr "Chia khung"
+
+msgid "Split right"
+msgstr "Chia sang phải"
 
 msgid "Split Right"
 msgstr "Chia sang phải"
@@ -5528,8 +5628,8 @@ msgstr "Gắn sao"
 msgid "Start a new agent, or choose an existing session from Sessions."
 msgstr "Bắt đầu tác tử mới hoặc chọn phiên hiện có từ Phiên."
 
-msgid "Start an agent in a workspace, then create a team."
-msgstr "Khởi động tác tử trong không gian làm việc, sau đó tạo nhóm."
+msgid "Start a session in a workspace, then create a team."
+msgstr "Hãy bắt đầu một phiên trong Workspace rồi tạo nhóm."
 
 msgid "Start from a template"
 msgstr "Bắt đầu từ mẫu"
@@ -5723,6 +5823,9 @@ msgstr "Đích"
 #. placeholder {0}: session.context.hostLabel
 msgid "Target host: {0}"
 msgstr "Máy chủ đích: {0}"
+
+msgid "Target workspace"
+msgstr "Workspace đích"
 
 msgid "Task"
 msgstr "Nhiệm vụ"
@@ -6036,9 +6139,6 @@ msgstr "Các ghi chú này được cung cấp cùng ứng dụng. Chi tiết b�
 msgid "This action is irreversible."
 msgstr "Không thể hoàn tác thao tác này."
 
-msgid "This agent is no longer available. Choose another leader."
-msgstr "Tác tử này không còn khả dụng. Chọn trưởng nhóm khác."
-
 msgid "This API login does not expose subscription quota."
 msgstr "Thông tin đăng nhập API này không cung cấp hạn mức thuê bao."
 
@@ -6200,6 +6300,9 @@ msgstr "Lượt chạy này không có phiên agent"
 
 msgid "This session could not be resumed. No new session was started."
 msgstr "Không thể tiếp tục phiên này. Không có phiên mới nào được khởi chạy."
+
+msgid "This session is no longer available. Choose another leader."
+msgstr "Phiên này không còn khả dụng. Hãy chọn trưởng nhóm khác."
 
 msgid "This session is not active, or you are viewing earlier output. Refresh to check its current state."
 msgstr "Phiên này không hoạt động hoặc bạn đang xem output trước đó. Làm mới để kiểm tra trạng thái hiện tại."
@@ -6363,6 +6466,9 @@ msgstr "Đang chuyển thành văn bản…"
 msgid "Tree view"
 msgstr "Xem dạng cây"
 
+msgid "Trigger"
+msgstr "Trigger"
+
 msgid "Triggers"
 msgstr "Trigger"
 
@@ -6396,11 +6502,11 @@ msgstr "TypeScript"
 msgid "Typography"
 msgstr "Kiểu chữ"
 
-msgid "Typography and cursor behavior used in V2 terminal panels."
-msgstr "Kiểu chữ và hành vi con trỏ dùng trong khung terminal V2."
+msgid "Typography and cursor behavior used in terminal panels."
+msgstr "Kiểu chữ và hành vi con trỏ dùng trong bảng terminal."
 
-msgid "Typography used in V2 editors and diff views."
-msgstr "Kiểu chữ dùng trong trình soạn thảo và khung diff V2."
+msgid "Typography used in editors and diff views."
+msgstr "Kiểu chữ dùng trong trình soạn thảo và chế độ xem diff."
 
 msgid "Unable to check for updates."
 msgstr "Không thể kiểm tra bản cập nhật."
@@ -6513,6 +6619,15 @@ msgstr "Bỏ stage tệp"
 msgid "Unstaged"
 msgstr "Chưa stage"
 
+msgid "Unsupported push URL"
+msgstr "URL push không được hỗ trợ"
+
+msgid "Unsupported push.default configuration"
+msgstr "Cấu hình push.default không được hỗ trợ"
+
+msgid "Unsupported remote configuration"
+msgstr "Cấu hình remote không được hỗ trợ"
+
 msgid "Untitled automation"
 msgstr "Automation chưa có tiêu đề"
 
@@ -6565,6 +6680,9 @@ msgstr "Tải tệp lên"
 
 msgid "Upload image…"
 msgstr "Tải ảnh lên…"
+
+msgid "Upstream remote does not match push remote"
+msgstr "Remote upstream không khớp với remote push"
 
 msgid "URL copied"
 msgstr "Đã sao chép URL"
@@ -6774,6 +6892,9 @@ msgstr "Điều hướng workspace"
 
 msgid "Workspace not found"
 msgstr "Không tìm thấy workspace"
+
+msgid "Workspace or branch name (optional)"
+msgstr "Tên Workspace hoặc nhánh (tùy chọn)"
 
 msgid "Workspace or running session state changed. Review the updated checks and confirm again."
 msgstr "Trạng thái không gian làm việc hoặc phiên đang chạy đã thay đổi. Hãy xem lại các bước kiểm tra đã cập nhật và xác nhận lại."

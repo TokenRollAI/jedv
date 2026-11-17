@@ -1,4 +1,8 @@
 import { errorMessage } from "@jedv/i18n/errors";
+import {
+	ACTIVE_AGENT_STATUSES,
+	agentStatusFromEvent,
+} from "@jedv/shared/agent-status";
 import { Button } from "@jedv/ui/button";
 import {
 	DropdownMenu,
@@ -17,6 +21,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import {
 	LuCircle,
+	LuFolderGit2,
 	LuListFilter,
 	LuPlus,
 	LuRefreshCw,
@@ -50,11 +55,28 @@ import {
 } from "./stores/read-receipts";
 import type { JedvWorkspacesBoardProps } from "./types";
 import {
+	type Binding,
 	boardColumn,
 	columnColors,
 	columnLabels,
 	columns,
 } from "./utils/board-state";
+
+function primaryWorkspaceAgentId(bindings: Binding[]): string | undefined {
+	const live = bindings.filter((binding) => binding.endedAt == null);
+	if (live.length === 0) return undefined;
+	const priority = (binding: Binding) => {
+		const status = agentStatusFromEvent(binding.lastEventType);
+		return status ? ACTIVE_AGENT_STATUSES.indexOf(status) : -1;
+	};
+	return live.reduce((best, candidate) =>
+		priority(candidate) > priority(best) ||
+		(priority(candidate) === priority(best) &&
+			candidate.lastEventAt > best.lastEventAt)
+			? candidate
+			: best,
+	).agentId;
+}
 export function JedvWorkspacesBoard({
 	client,
 	hostUrl,
@@ -221,6 +243,7 @@ export function JedvWorkspacesBoard({
 			return {
 				workspace,
 				pr,
+				agentId: primaryWorkspaceAgentId(bindings),
 				column: boardColumn(
 					workspace,
 					bindings,
@@ -289,20 +312,20 @@ export function JedvWorkspacesBoard({
 			aria-label={t({ message: "Workspaces" })}
 		>
 			<div className="shrink-0 border-b border-border">
-				<WindowChrome primary className="gap-2 pr-3">
+				<WindowChrome primary className="gap-2 border-b border-border/60 pr-3">
 					<WindowChromeLeading />
 					<WindowChromeControls className="min-w-0 pl-3">
-						<h1 className="truncate text-lg font-semibold">
+						<h1 className="truncate text-[13.5px] font-medium">
 							<Trans>Workspaces</Trans>
 						</h1>
 					</WindowChromeControls>
 					<div className="drag min-w-4 flex-1" />
 					<WindowChromeControls className="jedv-chrome-toolbar">
-						<div className="no-drag flex items-center gap-2">
-							<div className="relative w-56">
-								<LuSearch className="absolute left-2 top-2 size-3.5 text-muted-foreground" />
+						<div className="no-drag flex items-center gap-1.5">
+							<div className="relative w-52">
+								<LuSearch className="absolute left-2 top-1.5 size-3.5 text-muted-foreground" />
 								<Input
-									className="h-8 border-none bg-muted/40 pl-7 text-xs"
+									className="h-7 border-border/60 bg-card/50 pl-7 text-xs shadow-none"
 									aria-label={t({ message: "Search workspaces" })}
 									placeholder={t({ message: "Search workspaces…" })}
 									value={search}
@@ -311,6 +334,7 @@ export function JedvWorkspacesBoard({
 							</div>
 							<Button
 								size="sm"
+								className="h-7 gap-1.5 px-2.5 text-xs"
 								onClick={() => onOpenCreateWorkspace(projectId || undefined)}
 							>
 								<LuPlus className="size-3.5" />
@@ -379,7 +403,7 @@ export function JedvWorkspacesBoard({
 					<Button
 						variant="ghost"
 						size="sm"
-						className="ml-auto mr-3 text-xs"
+						className="ml-auto mr-1.5 h-7.5 text-xs"
 						disabled={
 							!getHasUnsavedFiles ||
 							!states.some(({ workspace }) => workspace.archivedAt == null)
@@ -409,7 +433,7 @@ export function JedvWorkspacesBoard({
 							<Button
 								size="sm"
 								variant="ghost"
-								className="h-7 px-0 text-xs text-muted-foreground"
+								className="h-7.5 gap-1.5 px-2.5 text-xs text-muted-foreground hover:text-foreground"
 							>
 								<LuSettings2 className="size-3.5" />
 								<Trans>Display</Trans>
@@ -483,104 +507,149 @@ export function JedvWorkspacesBoard({
 					<Trans>Loading workspace status…</Trans>
 				</output>
 			)}
-			{states.length === 0 && !all.isPending && (
-				<p className="px-6 pt-5 text-sm text-muted-foreground">
-					{search || projectId || view !== "all" ? (
-						<Trans>No workspaces match your filters</Trans>
-					) : (
-						<Trans>No workspaces yet. Create a workspace to get started.</Trans>
-					)}
-				</p>
-			)}
-			<div className="flex min-h-0 flex-1 gap-3 overflow-x-auto p-6">
-				{columns
-					.filter((column) => showArchived || column !== "deleted")
-					.map((column) => (
-						<div
-							key={column}
-							className="flex w-[280px] min-w-[280px] shrink-0 flex-col rounded-lg bg-muted/30"
+			{states.length === 0 && !all.isPending ? (
+				<div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-3 p-6 text-center">
+					<LuFolderGit2 className="size-8 text-muted-foreground/40" />
+					<h2 className="text-sm font-medium">
+						{search || projectId || view !== "all" ? (
+							<Trans>No workspaces match your filters</Trans>
+						) : (
+							<Trans>No workspaces yet</Trans>
+						)}
+					</h2>
+					<p className="max-w-sm text-xs text-muted-foreground">
+						{search || projectId || view !== "all" ? (
+							<Trans>Try changing the search or status filter.</Trans>
+						) : (
+							<Trans>
+								No workspaces yet. Create a workspace to get started.
+							</Trans>
+						)}
+					</p>
+					<div className="flex items-center gap-2">
+						{(search || projectId || view !== "all") && (
+							<Button
+								size="sm"
+								variant="ghost"
+								onClick={() => {
+									setSearch("");
+									setProjectId("");
+									setView("all");
+								}}
+							>
+								<Trans>Clear filters</Trans>
+							</Button>
+						)}
+						<Button
+							size="sm"
+							variant="outline"
+							onClick={() => onOpenCreateWorkspace(projectId || undefined)}
 						>
-							<div className="flex items-center gap-2 px-3 pb-2 pt-2.5">
-								<LuCircle className={cn("size-3", columnColors[column])} />
-								<span className="truncate text-[13px] font-medium">
-									{i18n._(columnLabels[column])}
-								</span>
-								<span className="text-xs tabular-nums text-muted-foreground">
-									{states.filter((w) => w.column === column).length}
-								</span>
-							</div>
-							<div className="flex min-h-[60px] flex-1 flex-col gap-2 overflow-y-auto px-2 pb-2">
-								{states
-									.filter((w) => w.column === column)
-									.map(({ workspace, pr, lastEvent }) => (
-										<WorkspaceBoardActions
-											key={`${hostUrl}:${workspace.id}`}
-											context={context}
-											workspace={workspace}
-											pinned={presentation.pinnedIds.has(workspace.id)}
-											pinAvailable={presentation.available}
-											pinPending={presentation.pending}
-											onTogglePin={() =>
-												presentation.setPinned(
-													workspace.id,
-													!presentation.pinnedIds.has(workspace.id),
-												)
-											}
-											onDelete={() =>
-												setDeleting({ context: { ...context }, workspace })
-											}
-											canDelete={!!getHasUnsavedFiles}
-											onChanged={changed}
-											onRestored={async (result) => {
-												await changed(result.context);
-												await opened(result);
-											}}
-											unread={
-												workspaceReadThrough(receipts, hostUrl, workspace.id) <
-													0 ||
-												workspaceReadThrough(receipts, hostUrl, workspace.id) <
-													lastEvent
-											}
-											onMarkUnread={() =>
-												markWorkspaceUnread(hostUrl, workspace.id)
-											}
-											onMarkRead={() =>
-												markWorkspaceRead(hostUrl, workspace.id, lastEvent)
-											}
-											hasPullRequest={!!pr?.pullRequest}
-										>
-											<WorkspaceBoardCard
-												diffStats={diffStats.data?.find(
-													(stats) => stats.workspaceId === workspace.id,
-												)}
-												workspace={workspace}
-												project={projects.find(
-													(row) => row.id === workspace.projectId,
-												)}
-												pr={pr}
-												column={column}
-												pinned={presentation.pinnedIds.has(workspace.id)}
-												onOpen={() => {
-													setOpenError(null);
-													void opened({
-														context: { ...context },
-														workspaceId: workspace.id,
-													}).catch((cause) =>
-														setOpenError(
-															errorMessage(
-																cause,
-																t({ message: "Failed to open workspace" }),
-															),
-														),
-													);
-												}}
-											/>
-										</WorkspaceBoardActions>
-									))}
-							</div>
-						</div>
-					))}
-			</div>
+							<LuPlus className="size-3.5" />
+							<Trans>Create workspace</Trans>
+						</Button>
+					</div>
+				</div>
+			) : (
+				states.length > 0 && (
+					<div className="flex min-h-0 flex-1 gap-3 overflow-x-auto p-6">
+						{columns
+							.filter((column) => showArchived || column !== "deleted")
+							.map((column) => (
+								<div
+									key={column}
+									className="flex w-[280px] min-w-[280px] shrink-0 flex-col rounded-lg bg-muted/30"
+								>
+									<div className="flex items-center gap-2 px-3 pb-2 pt-2.5">
+										<LuCircle className={cn("size-3", columnColors[column])} />
+										<span className="truncate text-[13px] font-medium">
+											{i18n._(columnLabels[column])}
+										</span>
+										<span className="text-xs tabular-nums text-muted-foreground">
+											{states.filter((w) => w.column === column).length}
+										</span>
+									</div>
+									<div className="flex min-h-[60px] flex-1 flex-col gap-2 overflow-y-auto px-2 pb-2">
+										{states
+											.filter((w) => w.column === column)
+											.map(({ workspace, pr, agentId, lastEvent }) => (
+												<WorkspaceBoardActions
+													key={`${hostUrl}:${workspace.id}`}
+													context={context}
+													workspace={workspace}
+													pinned={presentation.pinnedIds.has(workspace.id)}
+													pinAvailable={presentation.available}
+													pinPending={presentation.pending}
+													onTogglePin={() =>
+														presentation.setPinned(
+															workspace.id,
+															!presentation.pinnedIds.has(workspace.id),
+														)
+													}
+													onDelete={() =>
+														setDeleting({ context: { ...context }, workspace })
+													}
+													canDelete={!!getHasUnsavedFiles}
+													onChanged={changed}
+													onRestored={async (result) => {
+														await changed(result.context);
+														await opened(result);
+													}}
+													unread={
+														workspaceReadThrough(
+															receipts,
+															hostUrl,
+															workspace.id,
+														) < 0 ||
+														workspaceReadThrough(
+															receipts,
+															hostUrl,
+															workspace.id,
+														) < lastEvent
+													}
+													onMarkUnread={() =>
+														markWorkspaceUnread(hostUrl, workspace.id)
+													}
+													onMarkRead={() =>
+														markWorkspaceRead(hostUrl, workspace.id, lastEvent)
+													}
+													hasPullRequest={!!pr?.pullRequest}
+												>
+													<WorkspaceBoardCard
+														diffStats={diffStats.data?.find(
+															(stats) => stats.workspaceId === workspace.id,
+														)}
+														workspace={workspace}
+														project={projects.find(
+															(row) => row.id === workspace.projectId,
+														)}
+														pr={pr}
+														agentId={agentId}
+														column={column}
+														pinned={presentation.pinnedIds.has(workspace.id)}
+														onOpen={() => {
+															setOpenError(null);
+															void opened({
+																context: { ...context },
+																workspaceId: workspace.id,
+															}).catch((cause) =>
+																setOpenError(
+																	errorMessage(
+																		cause,
+																		t({ message: "Failed to open workspace" }),
+																	),
+																),
+															);
+														}}
+													/>
+												</WorkspaceBoardActions>
+											))}
+									</div>
+								</div>
+							))}
+					</div>
+				)
+			)}
 			{deleting && (
 				<JedvDeleteWorkspaceDialog
 					key={`${deleting.context.hostUrl}:${deleting.workspace.id}`}

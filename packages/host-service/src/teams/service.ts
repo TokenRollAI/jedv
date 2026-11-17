@@ -905,21 +905,19 @@ export class TeamService extends EventEmitter {
 				this.team(initial.teamId).status !== "active"
 			)
 				return this.member(memberId);
-			if (targetWorkspace.projectId === null) {
-				const config =
-					resolveHostAgentConfig(this.ctx.db, request.agent) ??
-					fail("NOT_FOUND", "Agent config not found");
-				await (this.deps.trust ?? seedAgentFolderTrust)(
-					this.ctx.db,
-					targetWorkspace.worktreePath,
-					config,
-				);
-				if (
-					this.member(memberId).status !== "spawning" ||
-					this.team(initial.teamId).status !== "active"
-				)
-					return this.member(memberId);
-			}
+			const config =
+				resolveHostAgentConfig(this.ctx.db, request.agent) ??
+				fail("NOT_FOUND", "Agent config not found");
+			await (this.deps.trust ?? seedAgentFolderTrust)(
+				this.ctx.db,
+				targetWorkspace.worktreePath,
+				config,
+			);
+			if (
+				this.member(memberId).status !== "spawning" ||
+				this.team(initial.teamId).status !== "active"
+			)
+				return this.member(memberId);
 
 			const memory = this.ctx.runtime.memory?.memory.injection({
 				projectId: targetWorkspace.projectId,

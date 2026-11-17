@@ -1,3 +1,4 @@
+import { Badge } from "@jedv/ui/badge";
 import { Button } from "@jedv/ui/button";
 import { Trans, useLingui } from "@lingui/react/macro";
 import type { MailItem, TeamMember } from "../../../../../../hooks/useTeamwork";
@@ -24,15 +25,31 @@ export function TeamProgressRow({
 			!/(?:task:|workspace:|dedupe|\/Users\/|```)/i.test(first)
 				? first
 				: undefined);
+	const memberName = (id: string) =>
+		members.find((member) => member.id === id)?.name ?? `#${id.slice(0, 8)}`;
 	const author =
 		event.sourceKind === "human"
 			? t({ message: "You" })
 			: (members.find((member) => member.id === event.sourceId)?.name ??
 				t({ message: "Agent" }));
+	const recipients = [
+		...new Set(
+			item.deliveries.map((delivery) => memberName(delivery.recipientMemberId)),
+		),
+	].join(", ");
 	return (
 		<article className="space-y-1 border-b border-border py-3">
 			<div className="flex flex-wrap items-center gap-2 text-[11px] text-muted-foreground">
-				<span className="max-w-48 truncate">{author}</span>
+				{event.sourceKind === "human" ? (
+					<Badge
+						variant="secondary"
+						className="h-4 max-w-64 truncate px-1.5 text-[10px] font-normal"
+					>
+						{t({ message: "You" })} → {recipients || t({ message: "Team" })}
+					</Badge>
+				) : (
+					<span className="max-w-48 truncate">{author}</span>
+				)}
 				<span>
 					{blocked
 						? t({ message: "Agent reported a blocker" })
@@ -49,7 +66,7 @@ export function TeamProgressRow({
 			{exception && (
 				<p role="alert" className="text-xs text-destructive">
 					<Trans>
-						Mail delivery needs attention. Open diagnostics to inspect the
+						Mail delivery needs attention. View original mail to inspect the
 						delivery.
 					</Trans>
 				</p>

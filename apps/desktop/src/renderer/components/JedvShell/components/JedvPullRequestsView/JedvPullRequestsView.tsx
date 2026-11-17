@@ -10,6 +10,7 @@ import {
 	DropdownMenuTrigger,
 } from "@jedv/ui/dropdown-menu";
 import { Input } from "@jedv/ui/input";
+import { Skeleton } from "@jedv/ui/skeleton";
 import { cn } from "@jedv/ui/utils";
 import { Trans, useLingui } from "@lingui/react/macro";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -17,8 +18,10 @@ import { useState } from "react";
 import {
 	LuGitPullRequest,
 	LuListFilter,
+	LuPlus,
 	LuRefreshCw,
 	LuSearch,
+	LuUsers,
 } from "react-icons/lu";
 import type { JedvParityViewContext } from "../../parity-types";
 import { supportsPullRequests } from "../../vcs-capabilities";
@@ -135,131 +138,133 @@ export function JedvPullRequestsView(
 						.toLowerCase()
 						.includes(search.toLowerCase()),
 			)
-			.sort(
-				(a, b) =>
-					new Date(b.pr.updated_at).getTime() -
-					new Date(a.pr.updated_at).getTime(),
-			) ?? [];
+			.sort((a, b) => {
+				const bTime = new Date(b.pr.updated_at).getTime();
+				const aTime = new Date(a.pr.updated_at).getTime();
+				return (
+					(Number.isNaN(bTime) ? 0 : bTime) - (Number.isNaN(aTime) ? 0 : aTime)
+				);
+			}) ?? [];
 	const failures = list.data?.pages.flatMap((page) => page.errors) ?? [];
+	const canCreatePullRequest = context.workspaces.some(
+		(workspace) =>
+			supportsPullRequests(workspace) &&
+			projects.some(
+				(project) =>
+					project.id === workspace.projectId &&
+					supportsPullRequests(project) &&
+					project.repoOwner &&
+					project.repoName,
+			),
+	);
 	return (
 		<section
 			className="flex h-full min-h-0 flex-col bg-background"
 			aria-label={t({ message: "Pull requests" })}
 		>
-			<WindowChrome primary className="gap-2 border-b border-border pr-3">
-				<WindowChromeLeading />
-				<WindowChromeControls className="min-w-0 pl-3">
-					<h1 className="truncate text-lg font-semibold">
-						<Trans>Pull requests</Trans>
-					</h1>
-				</WindowChromeControls>
-				<div className="drag min-w-4 flex-1" />
-
-				<WindowControlsInset />
-			</WindowChrome>
-			<div className="border-b border-border px-3 py-2">
-				<div className="no-drag flex flex-wrap items-center gap-2">
-					<Button
-						size="sm"
-						variant="outline"
-						className="h-7 text-xs"
-						disabled={
-							!context.workspaces.some(
-								(workspace) =>
-									supportsPullRequests(workspace) &&
-									projects.some(
-										(project) =>
-											project.id === workspace.projectId &&
-											supportsPullRequests(project) &&
-											project.repoOwner &&
-											project.repoName,
-									),
-							)
-						}
-						onClick={() => setCreating(true)}
-					>
-						<Trans>Create pull request</Trans>
-					</Button>
-					<div className="relative min-w-32 flex-1 sm:max-w-xs">
-						<LuSearch className="absolute left-2 top-2 size-3.5 text-muted-foreground" />
-						<Input
-							value={search}
-							onChange={(e) => setSearch(e.target.value)}
-							aria-label={t({ message: "Search pull requests" })}
-							placeholder={t({ message: "Search pull requests…" })}
-							className="h-8 border-none bg-muted/40 pl-7 text-xs"
-						/>
-					</div>
-					<Button
-						size="icon"
-						variant="ghost"
-						className="size-7"
-						disabled={list.isFetching || targets.length === 0}
-						onClick={() => void list.refetch()}
-						aria-label={t({ message: "Refresh pull requests" })}
-					>
-						<LuRefreshCw
-							className={cn("size-3.5", list.isFetching && "animate-spin")}
-						/>
-					</Button>
+			<div className="shrink-0 border-b border-border">
+				<WindowChrome primary className="gap-2 border-b border-border/60 pr-3">
+					<WindowChromeLeading />
+					<WindowChromeControls className="min-w-0 pl-3">
+						<h1 className="truncate text-[13.5px] font-medium">
+							<Trans>Pull requests</Trans>
+						</h1>
+					</WindowChromeControls>
+					<div className="drag min-w-4 flex-1" />
+					<WindowChromeControls className="jedv-chrome-toolbar">
+						<div className="no-drag flex items-center gap-1.5">
+							<div className="relative w-52">
+								<LuSearch className="absolute left-2 top-1.5 size-3.5 text-muted-foreground" />
+								<Input
+									value={search}
+									onChange={(e) => setSearch(e.target.value)}
+									aria-label={t({ message: "Search pull requests" })}
+									placeholder={t({ message: "Search pull requests…" })}
+									className="h-7 border-border/60 bg-card/50 pl-7 text-xs shadow-none"
+								/>
+							</div>
+							<Button
+								size="icon"
+								variant="ghost"
+								className="size-7"
+								disabled={list.isFetching || targets.length === 0}
+								onClick={() => void list.refetch()}
+								aria-label={t({ message: "Refresh pull requests" })}
+							>
+								<LuRefreshCw
+									className={cn("size-3.5", list.isFetching && "animate-spin")}
+								/>
+							</Button>
+							<Button
+								size="sm"
+								className="h-7.5 gap-1.5 px-3 text-xs"
+								disabled={!canCreatePullRequest}
+								onClick={() => setCreating(true)}
+							>
+								<LuPlus className="size-3.5" />
+								<Trans>Create pull request</Trans>
+							</Button>
+						</div>
+					</WindowChromeControls>
+					<WindowControlsInset />
+				</WindowChrome>
+				<div className="flex shrink-0 flex-wrap items-center gap-1 px-6 py-2">
+					{[
+						{ id: "open", label: t({ message: "Open" }) },
+						{ id: "merged", label: t({ message: "Merged" }) },
+						{ id: "all", label: t({ message: "All" }) },
+					].map((item) => (
+						<button
+							type="button"
+							key={item.id}
+							onClick={() => setState(item.id)}
+							aria-pressed={state === item.id}
+							className={cn(
+								"h-8 rounded-lg px-3 text-[13px] transition-colors",
+								state === item.id
+									? "bg-secondary font-medium"
+									: "text-muted-foreground hover:bg-accent/60",
+							)}
+						>
+							{item.label}
+						</button>
+					))}
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button
+								size="sm"
+								variant="ghost"
+								className="ml-auto h-7 text-xs text-muted-foreground"
+							>
+								<LuListFilter className="size-3.5" />
+								{projects.find((p) => p.id === projectId)?.name ??
+									t({ message: "Filter" })}
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align="end">
+							<DropdownMenuLabel>
+								<Trans>Project</Trans>
+							</DropdownMenuLabel>
+							<DropdownMenuRadioGroup
+								value={projectId}
+								onValueChange={setProjectId}
+							>
+								<DropdownMenuRadioItem value="">
+									<Trans>All projects</Trans>
+								</DropdownMenuRadioItem>
+								{projects
+									.filter(
+										(p) => supportsPullRequests(p) && p.repoOwner && p.repoName,
+									)
+									.map((project) => (
+										<DropdownMenuRadioItem key={project.id} value={project.id}>
+											{project.name}
+										</DropdownMenuRadioItem>
+									))}
+							</DropdownMenuRadioGroup>
+						</DropdownMenuContent>
+					</DropdownMenu>
 				</div>
-			</div>
-			<div className="flex shrink-0 flex-wrap items-center gap-1 border-b border-border px-6 py-2">
-				{[
-					{ id: "open", label: t({ message: "Open" }) },
-					{ id: "merged", label: t({ message: "Merged" }) },
-					{ id: "all", label: t({ message: "All" }) },
-				].map((item) => (
-					<button
-						type="button"
-						key={item.id}
-						onClick={() => setState(item.id)}
-						aria-pressed={state === item.id}
-						className={cn(
-							"h-8 rounded-lg px-3 text-[13px]",
-							state === item.id
-								? "bg-secondary font-medium"
-								: "text-muted-foreground hover:bg-accent/60",
-						)}
-					>
-						{item.label}
-					</button>
-				))}
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button
-							size="sm"
-							variant="ghost"
-							className="ml-auto h-7 text-xs text-muted-foreground"
-						>
-							<LuListFilter className="size-3.5" />
-							{projects.find((p) => p.id === projectId)?.name ??
-								t({ message: "Filter" })}
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent align="end">
-						<DropdownMenuLabel>
-							<Trans>Project</Trans>
-						</DropdownMenuLabel>
-						<DropdownMenuRadioGroup
-							value={projectId}
-							onValueChange={setProjectId}
-						>
-							<DropdownMenuRadioItem value="">
-								<Trans>All projects</Trans>
-							</DropdownMenuRadioItem>
-							{projects
-								.filter(
-									(p) => supportsPullRequests(p) && p.repoOwner && p.repoName,
-								)
-								.map((project) => (
-									<DropdownMenuRadioItem key={project.id} value={project.id}>
-										{project.name}
-									</DropdownMenuRadioItem>
-								))}
-						</DropdownMenuRadioGroup>
-					</DropdownMenuContent>
-				</DropdownMenu>
 			</div>
 			{notice && (
 				<output className="border-b border-border px-6 py-2 text-xs text-muted-foreground">
@@ -304,8 +309,23 @@ export function JedvPullRequestsView(
 					)}
 				>
 					{list.isPending && targets.length > 0 && (
-						<output className="px-6 py-4 text-xs text-muted-foreground">
-							<Trans>Loading pull requests…</Trans>
+						<output
+							aria-label={t({ message: "Loading pull requests…" })}
+							className="space-y-2 p-3"
+						>
+							{["s1", "s2", "s3", "s4", "s5"].map((id) => (
+								<div
+									key={id}
+									className="flex items-center gap-3 rounded-lg border border-border/40 p-2.5"
+								>
+									<Skeleton className="size-4 shrink-0 rounded-full" />
+									<div className="flex min-w-0 flex-1 flex-col gap-1.5">
+										<Skeleton className="h-3.5 w-3/5" />
+										<Skeleton className="h-3 w-2/5" />
+									</div>
+									<Skeleton className="h-3 w-8 shrink-0" />
+								</div>
+							))}
 						</output>
 					)}
 					<div className="min-h-0 flex-1 overflow-y-auto p-3">
@@ -315,6 +335,7 @@ export function JedvPullRequestsView(
 								selected?.number === pr.number &&
 								selected.owner === project.repoOwner &&
 								selected.repo === project.repoName;
+							const reviewerCount = pr.requested_reviewers?.length ?? 0;
 							return (
 								<button
 									type="button"
@@ -339,16 +360,28 @@ export function JedvPullRequestsView(
 										draft={pr.draft}
 									/>
 									<div className="flex min-w-0 flex-1 flex-col gap-0.5">
-										<span className="truncate text-[13px] font-medium">
-											{pr.title}
-										</span>
-										<div className="flex min-w-0 items-center gap-2 text-muted-foreground/70">
+										<div className="flex min-w-0 items-center gap-2">
+											<span className="truncate text-[13px] font-medium">
+												{pr.title}
+											</span>
+											{pr.draft && (
+												<span className="inline-flex shrink-0 items-center rounded border border-border px-1.5 py-0.5 text-[10px] font-medium leading-none text-muted-foreground">
+													<Trans>Draft</Trans>
+												</span>
+											)}
+										</div>
+										<div className="flex min-w-0 items-center gap-2 text-muted-foreground/80">
 											{pr.user?.avatar_url && (
 												<img
 													src={pr.user.avatar_url}
 													alt={pr.user.login}
-													className="size-4 rounded-full ring-1 ring-border/50"
+													className="size-4 shrink-0 rounded-full ring-1 ring-border/50"
 												/>
+											)}
+											{pr.user?.login && (
+												<span className="truncate text-[11px] font-medium">
+													{pr.user.login}
+												</span>
 											)}
 											<span className="truncate text-[10px]">
 												{project.repoName}
@@ -357,12 +390,24 @@ export function JedvPullRequestsView(
 												#{pr.number}
 											</span>
 											<span className="text-[11px]">·</span>
-											<span className="truncate text-[11px]">
+											<span className="truncate font-mono text-[11px]">
 												{pr.head.ref}
 											</span>
+											{reviewerCount > 0 && (
+												<span
+													className="inline-flex shrink-0 items-center gap-0.5 text-[10px] tabular-nums text-muted-foreground"
+													title={pr.requested_reviewers
+														?.map((r) => r.login)
+														.filter(Boolean)
+														.join(", ")}
+												>
+													<LuUsers className="size-3" />
+													{reviewerCount}
+												</span>
+											)}
 										</div>
 									</div>
-									<div className="shrink-0 text-[11px] text-muted-foreground">
+									<div className="shrink-0 text-[11px] tabular-nums text-muted-foreground">
 										{formatCompactRelativeTime(new Date(pr.updated_at))}
 									</div>
 								</button>

@@ -1,4 +1,5 @@
 import { Trans, useLingui } from "@lingui/react/macro";
+import { useState } from "react";
 import type { Project, Workspace } from "../../../../types";
 import { supportsWorktrees } from "../../../../vcs-capabilities";
 import { JedvProjectRow } from "../../../JedvProjectRow";
@@ -64,6 +65,7 @@ export function ProjectTreeSection({
 	onOpenEditor(path: string): void;
 }) {
 	const { t } = useLingui();
+	const [emptyExpanded, setEmptyExpanded] = useState(false);
 	const context = { ...props.context };
 	const scope = project?.id ?? "sessions";
 	const name = project?.name ?? t({ message: "Sessions" });
@@ -71,10 +73,12 @@ export function ProjectTreeSection({
 	const groupKey = (key: string) =>
 		JSON.stringify([context.hostUrl, scope, key]);
 	const filtered = !!props.filter.trim();
-	const collapsed =
-		!filtered &&
-		!!project &&
-		props.navigation.collapsedProjects.includes(project.id);
+	const isEmptyProject = !!project && rows.length === 0 && !filtered;
+	const collapsed = isEmptyProject
+		? !emptyExpanded
+		: !filtered &&
+			!!project &&
+			props.navigation.collapsedProjects.includes(project.id);
 	const sort = props.navigation.workspaceSortMode ?? "manual";
 	const lanes = projectTreeLanes(rows, groups, {
 		sort,
@@ -128,7 +132,7 @@ export function ProjectTreeSection({
 	);
 	return (
 		<div
-			className="space-y-0.5 [&_[data-tree-group-heading]~button]:top-[30px]"
+			className="space-y-0.5 [&_[data-tree-group-heading]~button]:top-[35px]"
 			data-project-tree-scope={project?.id ?? "sessions"}
 		>
 			{project ? (
@@ -136,7 +140,11 @@ export function ProjectTreeSection({
 					project={project}
 					collapsed={collapsed}
 					disabled={props.disabled}
-					onToggle={() =>
+					onToggle={() => {
+						if (isEmptyProject) {
+							setEmptyExpanded((value) => !value);
+							return;
+						}
 						props.navigation.setCollapsedProjects(
 							props.navigation.collapsedProjects.includes(project.id)
 								? props.navigation.collapsedProjects.filter(
@@ -145,8 +153,8 @@ export function ProjectTreeSection({
 								: [...props.navigation.collapsedProjects, project.id].slice(
 										-64,
 									),
-						)
-					}
+						);
+					}}
 					onNew={() => props.onProjectAction(context, project, "new")}
 					onCheckout={() => props.onProjectAction(context, project, "local")}
 					onImportWorktrees={

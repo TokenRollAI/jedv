@@ -95,7 +95,7 @@ export function JedvTeamworkView({
 			<WindowChrome primary className="gap-2 border-b border-border pr-3">
 				<WindowChromeLeading />
 				<WindowChromeControls className="min-w-0 pl-3">
-					<h1 className="flex items-center gap-2 text-[13px] font-medium">
+					<h1 className="flex items-center gap-2 text-[13.5px] font-medium">
 						<LuUsers className="size-4 text-muted-foreground" />
 						<Trans>Teamwork</Trans>
 					</h1>

@@ -1,6 +1,6 @@
 import { Popover, PopoverContent, PopoverTrigger } from "@jedv/ui/popover";
 import { ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Branch } from "../../types";
 import { BranchList } from "./components/BranchList";
 
@@ -8,14 +8,20 @@ interface BaseBranchSelectorProps {
 	branches: Branch[];
 	currentValue: string;
 	onChange: (branchName: string) => void;
+	active?: boolean;
 }
 
 export function BaseBranchSelector({
 	branches,
 	currentValue,
 	onChange,
+	active = true,
 }: BaseBranchSelectorProps) {
 	const [open, setOpen] = useState(false);
+
+	useEffect(() => {
+		if (!active) setOpen(false);
+	}, [active]);
 
 	return (
 		<Popover open={open} onOpenChange={setOpen}>

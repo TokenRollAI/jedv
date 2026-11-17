@@ -1,6 +1,7 @@
-import { boolean, string, table } from "@jedv/cli-framework";
+import { boolean, string } from "@jedv/cli-framework";
 import { command } from "../../../lib/command";
 import { requireHostTarget, resolveHostTarget } from "../../../lib/host-target";
+import { table } from "../../../lib/table";
 
 export default command({
 	description: "List agents configured on a host",

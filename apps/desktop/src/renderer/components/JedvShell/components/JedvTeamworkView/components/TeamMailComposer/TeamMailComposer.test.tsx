@@ -5,8 +5,9 @@ import { TeamMailComposer } from "./TeamMailComposer";
 
 afterEach(cleanup);
 const members = [
-	{ id: "leader-id", name: "leader", status: "active" },
-	{ id: "worker-id", name: "worker", status: "active" },
+	{ id: "leader-id", name: "leader", agentId: "codex", status: "active" },
+	{ id: "worker-id", name: "worker", agentId: "codex", status: "active" },
+	{ id: "kimi-id", name: "kimi-reviewer", agentId: "kimi", status: "active" },
 ] as TeamMember[];
 test("failed human mail retains its verbatim draft and retry identity; edited mail gets a new identity", async () => {
 	const send = mock(async (_to: string, _body: string, _dedupeKey: string) => {
@@ -188,4 +189,48 @@ test("delivery mode support alone cannot enable interruption or send a retained 
 	fireEvent.click(screen.getByRole("button", { name: "Send mail" }));
 	await waitFor(() => expect(send).toHaveBeenCalledTimes(2));
 	expect(send.mock.calls[1]).toEqual(send.mock.calls[0]);
+});
+
+test("safe interruption resets to queue and disables interrupt for non-Codex recipients and team broadcasts", async () => {
+	const send = mock(async (..._args: unknown[]) => {});
+	const screen = render(
+		<TeamMailComposer
+			members={members}
+			disabled={false}
+			pending={false}
+			deliveryModesSupported
+			interruptSupported
+			onSend={send}
+		/>,
+	);
+	expect(
+		screen.getByRole("button", { name: "Mail delivery info" }),
+	).toBeTruthy();
+	const modeSelect = screen.getByRole("combobox", {
+		name: "Delivery mode",
+	}) as HTMLSelectElement;
+	fireEvent.change(modeSelect, { target: { value: "interrupt" } });
+	expect(modeSelect.value).toBe("interrupt");
+	fireEvent.click(screen.getByRole("combobox", { name: "Mail recipient" }));
+	fireEvent.click(await screen.findByRole("option", { name: "kimi-reviewer" }));
+	await waitFor(() => expect(modeSelect.value).toBe("queue"));
+	expect(
+		(screen.getByRole("option", { name: "Interrupt now" }) as HTMLOptionElement)
+			.disabled,
+	).toBe(true);
+	fireEvent.change(screen.getByRole("textbox", { name: "Message to team" }), {
+		target: { value: "Review PR" },
+	});
+	fireEvent.click(screen.getByRole("button", { name: "Send mail" }));
+	await waitFor(() => expect(send).toHaveBeenCalledTimes(1));
+	expect(send.mock.calls[0]?.[3]).toEqual({
+		deliveryMode: "queue",
+		requiresAck: true,
+	});
+	fireEvent.click(screen.getByRole("combobox", { name: "Mail recipient" }));
+	fireEvent.click(await screen.findByRole("option", { name: "Whole team" }));
+	expect(
+		(screen.getByRole("option", { name: "Interrupt now" }) as HTMLOptionElement)
+			.disabled,
+	).toBe(true);
 });

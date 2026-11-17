@@ -6,9 +6,13 @@ import {
 	backgroundTerminalSessions,
 	createTerminalWorkspaceStore,
 	detachTerminalTab,
+	findChatPane,
 	openChangesTab,
+	openChatTab,
 	openNewAgentTab,
+	paneChatSessionId,
 	paneTerminalId,
+	reconcileChatPanes,
 	reconcileTerminalPanes,
 	reopenTerminalTab,
 	switchTerminalSession,
@@ -45,14 +49,15 @@ test("host refresh preserves split membership, titles, and ended scrollback with
 		session("c", "Server"),
 	]);
 	expect(store.getState().getPane("b")?.tabId).toBe(original);
-	expect(store.getState().tabs).toHaveLength(1);
+	expect(store.getState().tabs).toHaveLength(2);
+	expect(store.getState().activeTabId).toBe(original ?? null);
 	expect(
 		backgroundTerminalSessions(store, [
 			session("a"),
 			session("b"),
 			session("c"),
-		]).map((s) => s.terminalId),
-	).toEqual(["c"]);
+		]),
+	).toEqual([]);
 	expect(store.getState().getPane("a")?.pane.titleOverride).toBe(
 		"Preset label",
 	);
@@ -160,5 +165,64 @@ test("new agent remains background at the combined area tab limit", () => {
 	expect(openNewAgentTab(store, session("overflow"))).toBe(false);
 	expect(backgroundTerminalSessions(store, [session("overflow")])).toHaveLength(
 		1,
+	);
+});
+
+test("subsequently spawned sub-terminals auto-mount as background tabs without stealing focus, while detached stay parked", () => {
+	const store = createTerminalWorkspaceStore();
+	reconcileTerminalPanes(store, [session("main")]);
+	expect(store.getState().activeTabId).toBe("main");
+
+	reconcileTerminalPanes(store, [session("main"), session("sub-1")]);
+	expect(store.getState().tabs.map((tab) => tab.id)).toEqual(["main", "sub-1"]);
+	expect(store.getState().activeTabId).toBe("main");
+
+	detachTerminalTab(store, "sub-1");
+	expect(store.getState().tabs.map((tab) => tab.id)).toEqual(["main"]);
+
+	reconcileTerminalPanes(store, [
+		session("main"),
+		session("sub-1"),
+		session("sub-2"),
+	]);
+	expect(store.getState().tabs.map((tab) => tab.id)).toEqual(["main", "sub-2"]);
+	expect(store.getState().activeTabId).toBe("main");
+});
+
+test("chat sessions mount as first-class tabs, respect focus, and stay detached once closed", () => {
+	const store = createTerminalWorkspaceStore();
+	reconcileTerminalPanes(store, [session("main")]);
+	reconcileChatPanes(store, [
+		{ sessionId: "chat-live", title: "Review PR", live: true },
+		{ sessionId: "chat-old", title: "Archived", live: false },
+	]);
+	expect(store.getState().activeTabId).toBe("main");
+	expect(findChatPane(store, "chat-live")?.pane.kind).toBe("chat");
+	expect(findChatPane(store, "chat-old")).toBeNull();
+
+	const paneId = openChatTab(store, {
+		chatSessionId: "chat-live",
+		title: "Review PR #2",
+	});
+	expect(paneChatSessionId(store.getState().getActivePane()?.pane)).toBe(
+		"chat-live",
+	);
+	expect(store.getState().getPane(paneId)?.pane.data).toEqual({
+		chatSessionId: "chat-live",
+		title: "Review PR #2",
+	});
+
+	const closedPane = store.getState().getPane(paneId);
+	expect(closedPane).not.toBeNull();
+	if (closedPane) detachTerminalTab(store, closedPane.tabId);
+	expect(findChatPane(store, "chat-live")).toBeNull();
+	reconcileChatPanes(store, [
+		{ sessionId: "chat-live", title: "Review PR #2", live: true },
+	]);
+	expect(findChatPane(store, "chat-live")).toBeNull();
+
+	openChatTab(store, { chatSessionId: "chat-old", title: "Archived" });
+	expect(paneChatSessionId(store.getState().getActivePane()?.pane)).toBe(
+		"chat-old",
 	);
 });

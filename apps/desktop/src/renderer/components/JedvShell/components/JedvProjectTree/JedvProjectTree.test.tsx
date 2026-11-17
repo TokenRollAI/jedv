@@ -252,3 +252,50 @@ test("listening process menu opens an explicit original-host PID confirmation an
 	cleanup();
 	f.cache.clear();
 });
+
+test("empty projects stay collapsed without No workspaces row until expanded", () => {
+	const f = fixture();
+	const screen = render(f.view({ ...f.props, workspaces: [] }));
+	expect(screen.queryByText("No workspaces yet")).toBeNull();
+	const projectButton = screen.getByRole("button", { name: /Fixture/ });
+	expect(projectButton.getAttribute("aria-expanded")).toBe("false");
+	fireEvent.click(projectButton);
+	expect(projectButton.getAttribute("aria-expanded")).toBe("true");
+	expect(screen.getByText("No workspaces yet")).toBeTruthy();
+	cleanup();
+	f.cache.clear();
+});
+
+test("TeamworkBadge renders inline without headcount spam when workspace belongs to one team", async () => {
+	const f = fixture();
+	const onOpenTeam = mock((_id: string) => {});
+	const teams = new Map([
+		["first", [{ id: "team-1", name: "Review Team", count: 3 }]],
+		[
+			"second",
+			[
+				{ id: "team-1", name: "Review Team", count: 3 },
+				{ id: "team-2", name: "Docs Team", count: 2 },
+			],
+		],
+	]);
+	const screen = render(
+		f.view({
+			...f.props,
+			workspaceTeams: teams,
+			onOpenTeam,
+		}),
+	);
+	const singleTeamBtn = await screen.findByRole("button", {
+		name: "Open Teamwork: Review Team",
+	});
+	expect(singleTeamBtn.textContent).toBe("");
+	fireEvent.click(singleTeamBtn);
+	expect(onOpenTeam).toHaveBeenCalledWith("team-1");
+	const multiTeamBtn = screen.getByRole("button", {
+		name: "Open Teamwork: Review Team, Docs Team",
+	});
+	expect(multiTeamBtn.textContent).toBe("2");
+	cleanup();
+	f.cache.clear();
+});

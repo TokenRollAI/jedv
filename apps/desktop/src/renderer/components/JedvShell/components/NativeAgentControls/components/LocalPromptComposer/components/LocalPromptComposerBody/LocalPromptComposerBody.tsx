@@ -259,7 +259,7 @@ export function LocalPromptComposerBody({
 				}}
 				onError={(cause) => setError(cause.message)}
 				onSubmit={submit}
-				className="rounded-[13px] bg-background [&>[data-slot=input-group]]:rounded-[13px] [&>[data-slot=input-group]]:border-[0.5px] [&>[data-slot=input-group]]:shadow-none [&>[data-slot=input-group]]:bg-foreground/[0.02]"
+				className="rounded-xl border border-border/80 bg-card/90 shadow-sm transition-shadow focus-within:border-ring focus-within:ring-1 focus-within:ring-ring [&>[data-slot=input-group]]:h-auto [&>[data-slot=input-group]]:flex-col [&>[data-slot=input-group]]:items-stretch [&>[data-slot=input-group]]:rounded-xl [&>[data-slot=input-group]]:border-0 [&>[data-slot=input-group]]:bg-transparent [&>[data-slot=input-group]]:shadow-none"
 			>
 				<fieldset disabled={locked} className="contents">
 					<PromptInputAttachments>
@@ -307,6 +307,7 @@ export function LocalPromptComposerBody({
 							</Button>
 						</div>
 						<PromptInputSubmit
+							size="sm"
 							disabled={
 								locked ||
 								(!controller.textInput.value.trim() &&
@@ -314,7 +315,7 @@ export function LocalPromptComposerBody({
 							}
 							aria-label={submitLabel}
 							title={submitLabel}
-							className="h-7 w-auto rounded-md px-2 text-xs"
+							className="h-8 w-auto gap-1.5 rounded-lg px-3.5 text-xs font-medium"
 						>
 							{submitLabel}
 						</PromptInputSubmit>

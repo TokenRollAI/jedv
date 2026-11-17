@@ -18,6 +18,20 @@ export function RunOutputItem({
 }) {
 	const { t } = useLingui();
 	const [values, setValues] = useState<Record<string, string | string[]>>({});
+	const optionLabel = (label: string) => {
+		switch (label.trim().toLowerCase()) {
+			case "allow":
+				return t({ message: "Allow" });
+			case "deny":
+				return t({ message: "Deny" });
+			case "allow once":
+				return t({ message: "Allow once" });
+			case "reject":
+				return t({ message: "Reject" });
+			default:
+				return label;
+		}
+	};
 	const requiredMissing =
 		isKnownItem(item) &&
 		item.kind === "approval_request" &&
@@ -39,7 +53,7 @@ export function RunOutputItem({
 		);
 	if (item.kind === "approval_request")
 		return (
-			<div className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-3 text-xs">
+			<div className="rounded-xl border border-warning/35 bg-warning/[0.06] p-3.5 text-xs">
 				<div className="font-medium">{item.title}</div>
 				{item.reason && (
 					<p className="mt-1 whitespace-pre-wrap text-muted-foreground">
@@ -211,7 +225,7 @@ export function RunOutputItem({
 												onApprove({ type: "option", optionId: option.optionId })
 											}
 										>
-											{option.label}
+											{optionLabel(option.label)}
 										</Button>
 									))
 								) : (
@@ -294,7 +308,7 @@ export function RunOutputItem({
 			</ul>
 		);
 	return (
-		<details className="rounded-lg border border-border/50 px-3 py-2 text-xs">
+		<details className="rounded-xl border border-border/60 bg-card/60 px-3.5 py-2.5 text-xs">
 			<summary className="cursor-pointer">
 				{item.title}{" "}
 				<span className="text-muted-foreground">

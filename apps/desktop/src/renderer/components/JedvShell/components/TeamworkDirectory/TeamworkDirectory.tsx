@@ -4,6 +4,7 @@ import {
 	LuArchive,
 	LuCircle,
 	LuPause,
+	LuPlus,
 	LuRefreshCw,
 	LuSquare,
 	LuUsers,
@@ -17,11 +18,13 @@ export function TeamworkDirectory({
 	selectedId,
 	active,
 	onSelect,
+	onCreateTeam,
 }: {
 	index: ReturnType<typeof useTeamwork>;
 	selectedId: string | null;
 	active: boolean;
 	onSelect(id: string): void;
+	onCreateTeam?(): void;
 }) {
 	const { t } = useLingui();
 	const [collapsed, setCollapsed] = useState(false),
@@ -43,13 +46,25 @@ export function TeamworkDirectory({
 		[];
 	const failed = index.capabilities.isError || index.list.isError;
 	return (
-		<section className="shrink-0 py-2" aria-label={t({ message: "Teamwork" })}>
+		<section
+			className="shrink-0 pb-1.5"
+			aria-label={t({ message: "Teamwork" })}
+		>
 			<SidebarSectionHeading
 				label={<Trans>Teamwork</Trans>}
 				collapsed={collapsed}
 				controls={listId}
 				onToggle={() => setCollapsed(!collapsed)}
 			>
+				{onCreateTeam && (
+					<JedvIconButton
+						label={t({ message: "Create team" })}
+						className="size-6"
+						onClick={onCreateTeam}
+					>
+						<LuPlus className="size-3.5" />
+					</JedvIconButton>
+				)}
 				<JedvIconButton
 					label={t({ message: "Include archived teams" })}
 					aria-pressed={archived}
@@ -113,7 +128,7 @@ export function TeamworkDirectory({
 								}
 								title={`${team.name} · ${status}`}
 								onClick={() => onSelect(team.id)}
-								className={`flex h-7 min-w-0 flex-1 items-center gap-2 rounded-md px-3 text-left text-[13px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${active && selectedId === team.id ? "bg-fill-selected text-foreground" : "text-muted-foreground hover:bg-fill-hover hover:text-foreground"}`}
+								className={`flex h-[30px] min-w-0 flex-1 items-center gap-2 rounded-md px-2.5 text-left text-[13px] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring ${active && selectedId === team.id ? "bg-fill-selected font-medium text-foreground" : "text-muted-foreground hover:bg-fill-hover hover:text-foreground"}`}
 							>
 								<LuUsers className="size-3.5 shrink-0" />
 								<span className="min-w-0 flex-1 truncate">{team.name}</span>

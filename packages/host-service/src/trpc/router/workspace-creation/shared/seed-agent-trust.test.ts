@@ -6,6 +6,7 @@ import {
 	mkdtempSync,
 	readdirSync,
 	readFileSync,
+	realpathSync,
 	rmSync,
 	statSync,
 	symlinkSync,
@@ -14,10 +15,13 @@ import {
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import {
+	encodeKimiWorkDirKey,
 	resolveTrustFamily,
+	seedAgentFolderTrust,
 	seedAgyFolderTrust,
 	seedClaudeFolderTrust,
 	seedCodexFolderTrust,
+	seedKimiFolderTrust,
 } from "./seed-agent-trust";
 
 let dir: string;
@@ -41,9 +45,15 @@ describe("resolveTrustFamily", () => {
 		expect(
 			resolveTrustFamily({
 				presetId: "agy",
-				command: "agy --mode accept-edits",
+				command: "agy --dangerously-skip-permissions",
 			}),
 		).toBe("agy");
+		expect(
+			resolveTrustFamily({
+				presetId: "kimi",
+				command: "kimi --yolo",
+			}),
+		).toBe("kimi");
 	});
 
 	test("matches custom presets by launch executable", () => {
@@ -59,6 +69,12 @@ describe("resolveTrustFamily", () => {
 				command: "C:\\tools\\codex.exe",
 			}),
 		).toBe("codex");
+		expect(
+			resolveTrustFamily({
+				presetId: "custom-kimi",
+				command: "/opt/bin/kimi --yolo",
+			}),
+		).toBe("kimi");
 	});
 
 	test("returns null for providers without a known trust store", () => {
@@ -183,6 +199,101 @@ describe("seedAgyFolderTrust", () => {
 			"/tmp/session-b",
 		);
 		expect(readdirSync(dir)).toEqual([]);
+	});
+
+	test("adds both raw and realpathSync paths for symlinked worktrees", async () => {
+		const target = join(dir, "real-worktree");
+		const link = join(dir, "symlink-worktree");
+		mkdirSync(target);
+		symlinkSync(target, link);
+		const file = join(dir, "settings.json");
+		writeFileSync(file, "{}");
+
+		await seedAgyFolderTrust(file, link);
+		await seedAgyFolderTrust(file, link);
+
+		const saved = JSON.parse(readFileSync(file, "utf-8")) as {
+			trustedWorkspaces: string[];
+		};
+		expect(saved.trustedWorkspaces).toEqual([link, realpathSync(target)]);
+	});
+
+	test("seeds kimi workspace-trust records and agy trustedWorkspaces through seedAgentFolderTrust", async () => {
+		const prevUserHome = process.env.JEDV_USER_HOME_DIR;
+		process.env.JEDV_USER_HOME_DIR = dir;
+		try {
+			const agyDir = join(dir, ".gemini", "antigravity-cli");
+			const kimiDir = join(dir, ".kimi-code");
+			mkdirSync(agyDir, { recursive: true });
+			mkdirSync(kimiDir, { recursive: true });
+			const settingsFile = join(agyDir, "settings.json");
+			writeFileSync(settingsFile, "{}");
+
+			const realDir = join(dir, "real-wt");
+			const linkDir = join(dir, "link-wt");
+			mkdirSync(realDir);
+			symlinkSync(realDir, linkDir);
+
+			await seedAgentFolderTrust({} as never, linkDir, {
+				presetId: "agy",
+				command: "agy",
+				env: {},
+			});
+			expect(
+				JSON.parse(readFileSync(settingsFile, "utf-8")).trustedWorkspaces,
+			).toEqual([linkDir, realpathSync(realDir)]);
+
+			await seedAgentFolderTrust({} as never, linkDir, {
+				presetId: "kimi",
+				command: "kimi",
+				env: {},
+			});
+			const linkKey = encodeKimiWorkDirKey(linkDir);
+			const realKey = encodeKimiWorkDirKey(realpathSync(realDir));
+			expect(
+				JSON.parse(
+					readFileSync(join(kimiDir, "workspace-trust", linkKey), "utf-8"),
+				).root,
+			).toBe(linkDir);
+			expect(
+				JSON.parse(
+					readFileSync(join(kimiDir, "workspace-trust", realKey), "utf-8"),
+				).root,
+			).toBe(realpathSync(realDir));
+		} finally {
+			if (prevUserHome === undefined) delete process.env.JEDV_USER_HOME_DIR;
+			else process.env.JEDV_USER_HOME_DIR = prevUserHome;
+		}
+	});
+});
+
+describe("seedKimiFolderTrust", () => {
+	test("matches Kimi Code's wd_<slug>_<sha256-12> key format", () => {
+		expect(encodeKimiWorkDirKey("/private/tmp/jedv-parity-ui-project")).toBe(
+			"wd_jedv-parity-ui-project_6a88416411b6",
+		);
+	});
+
+	test("leaves a never-set-up kimi home alone", async () => {
+		await seedKimiFolderTrust(
+			join(dir, "missing", "workspace-trust"),
+			"/tmp/session-kimi",
+		);
+		expect(readdirSync(dir)).toEqual([]);
+	});
+
+	test("preserves existing trust records without overwriting trustedAt", async () => {
+		const trustDir = join(dir, ".kimi-code", "workspace-trust");
+		mkdirSync(trustDir, { recursive: true });
+		const target = join(dir, "project-a");
+		mkdirSync(target);
+		const key = encodeKimiWorkDirKey(target);
+		const recordFile = join(trustDir, key);
+		const existing = JSON.stringify({ root: target, trustedAt: 12345 });
+		writeFileSync(recordFile, existing);
+
+		await seedKimiFolderTrust(trustDir, target);
+		expect(readFileSync(recordFile, "utf-8")).toBe(existing);
 	});
 });
 

@@ -32,6 +32,7 @@ export function Workspace<TData>({
 	onTabClick,
 	renderEmptyState,
 	renderAddTabMenu,
+	addTabLabel,
 	onAddTab,
 	renderTabBarLeading,
 	renderTabBarTrailing,
@@ -190,6 +191,7 @@ export function Workspace<TData>({
 			}
 			renderTabIcon={renderTabIcon}
 			renderAddTabMenu={renderAddTabMenu}
+			addTabLabel={addTabLabel}
 			onAddTab={onAddTab}
 			renderTabBarLeading={renderTabBarLeading}
 			renderTabBarTrailing={renderTabBarTrailing}

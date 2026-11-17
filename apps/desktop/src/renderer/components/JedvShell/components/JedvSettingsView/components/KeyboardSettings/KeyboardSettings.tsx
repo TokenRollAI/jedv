@@ -173,13 +173,44 @@ export function KeyboardSettings() {
 					ids.length > 0 && (
 						<section key={category} className="space-y-2">
 							<h3 className="text-sm font-medium">{i18n._(descriptor)}</h3>
-							<div className="divide-y overflow-hidden rounded-lg border border-border">
+							<div className="divide-y divide-border/70 overflow-hidden rounded-lg border border-border">
 								{ids.map((id) => (
-									<SettingRow key={id} label={label(id)}>
-										<div className="flex flex-wrap items-center gap-2">
+									<SettingRow
+										key={id}
+										label={label(id)}
+										className="group px-4 py-2.5 transition-colors hover:bg-card/40"
+									>
+										<div className="flex flex-wrap items-center gap-1.5">
+											<Button
+												variant="ghost"
+												size="sm"
+												disabled={recording === id}
+												onClick={() => setOverride(id, null)}
+												aria-label={t({ message: "Clear shortcut" })}
+												className="h-7 px-2 text-xs text-muted-foreground opacity-0 transition-opacity hover:text-foreground focus-visible:opacity-100 group-hover:opacity-100 group-focus-within:opacity-100"
+											>
+												<Trans>Clear</Trans>
+											</Button>
+											{id in overrides && (
+												<Button
+													variant="ghost"
+													size="sm"
+													className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground"
+													onClick={() => {
+														setRecording(null);
+														const binding = HOTKEYS[id].key;
+														if (binding && conflictsFor(id, binding).length)
+															setConflict({ id, binding, reset: true });
+														else resetOverride(id);
+													}}
+												>
+													<Trans>Reset</Trans>
+												</Button>
+											)}
 											<Button
 												size="sm"
 												variant={recording === id ? "secondary" : "outline"}
+												className="h-7 min-w-16 rounded-md border-border/70 bg-card/50 px-2 text-xs shadow-none hover:bg-accent/60"
 												onClick={() => {
 													setNotice(null);
 													setRecording(recording === id ? null : id);
@@ -193,29 +224,6 @@ export function KeyboardSettings() {
 														fallbackLabel={t({ message: "Unassigned" })}
 													/>
 												)}
-											</Button>
-											<Button
-												variant="ghost"
-												size="sm"
-												disabled={recording === id}
-												onClick={() => setOverride(id, null)}
-												aria-label={t({ message: "Clear shortcut" })}
-											>
-												<Trans>Clear</Trans>
-											</Button>
-											<Button
-												variant="ghost"
-												size="sm"
-												disabled={!(id in overrides)}
-												onClick={() => {
-													setRecording(null);
-													const binding = HOTKEYS[id].key;
-													if (binding && conflictsFor(id, binding).length)
-														setConflict({ id, binding, reset: true });
-													else resetOverride(id);
-												}}
-											>
-												<Trans>Reset</Trans>
 											</Button>
 										</div>
 									</SettingRow>

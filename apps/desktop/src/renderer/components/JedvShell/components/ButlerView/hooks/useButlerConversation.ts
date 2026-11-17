@@ -198,15 +198,16 @@ export function useButlerConversation({
 		if (!ensure(next)) return;
 		select(next, true);
 	};
-	const send = async () => {
+	const send = async (textOverride?: string) => {
 		const entry = ensure(key);
-		if (!entry || entry.pending || unavailable || !entry.text.trim()) return;
+		const resolvedText = (textOverride ?? entry?.text ?? "").slice(0, 12_000);
+		if (!entry || entry.pending || unavailable || !resolvedText.trim()) return;
 		const origin = key;
 		const follows =
 			followDefault || origin.startsWith("new:") || origin === "current:empty";
 		entry.request ??= {
 			requestId: crypto.randomUUID(),
-			humanText: entry.text,
+			humanText: resolvedText,
 			...(threadId ? { threadId } : {}),
 			newTopic: origin.startsWith("new:"),
 			...(entry.context ? { context: entry.context } : {}),

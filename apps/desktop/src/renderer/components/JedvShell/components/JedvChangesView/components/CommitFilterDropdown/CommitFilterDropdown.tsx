@@ -19,7 +19,7 @@ import {
 	ListFilter,
 	Pencil,
 } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ChangesFilter } from "../../types";
 import { RenameInput } from "../RenameInput";
 import { CommitRow } from "./components/CommitRow";
@@ -59,6 +59,7 @@ interface CommitFilterDropdownProps {
 	canRenameBranch?: boolean;
 	onRenameBranch?: (newName: string) => void;
 	labelClassName?: string;
+	active?: boolean;
 }
 
 export function CommitFilterDropdown({
@@ -70,11 +71,22 @@ export function CommitFilterDropdown({
 	canRenameBranch = false,
 	onRenameBranch,
 	labelClassName,
+	active = true,
 }: CommitFilterDropdownProps) {
+	const [menuOpen, setMenuOpen] = useState(false);
 	const [rangeModalOpen, setRangeModalOpen] = useState(false);
 	const [renameOpen, setRenameOpen] = useState(false);
 	const [renameValue, setRenameValue] = useState("");
 	const pendingRenameRef = useRef(false);
+
+	useEffect(() => {
+		if (!active) {
+			pendingRenameRef.current = false;
+			setMenuOpen(false);
+			setRenameOpen(false);
+			setRangeModalOpen(false);
+		}
+	}, [active]);
 
 	const submitRename = () => {
 		const trimmed = renameValue.trim();
@@ -90,7 +102,7 @@ export function CommitFilterDropdown({
 					if (!open) setRenameOpen(false);
 				}}
 			>
-				<DropdownMenu>
+				<DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
 					<DropdownMenuTrigger asChild>
 						<PopoverAnchor asChild>
 							<button

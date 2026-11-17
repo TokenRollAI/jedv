@@ -6,11 +6,13 @@ export function SettingRow({
 	description,
 	children,
 	error,
+	className = "",
 }: {
 	label: string;
 	description?: string;
 	children: ReactNode;
 	error?: string;
+	className?: string;
 }) {
 	const query = useSettingsSearchQuery();
 	if (
@@ -21,7 +23,9 @@ export function SettingRow({
 	)
 		return null;
 	return (
-		<div className="flex flex-wrap items-center justify-between gap-4 p-4">
+		<div
+			className={`flex flex-wrap items-center justify-between gap-4 p-4 ${className}`}
+		>
 			<div className="min-w-0 flex-1">
 				<div className="text-sm font-medium">
 					<HighlightText text={label} query={query} />

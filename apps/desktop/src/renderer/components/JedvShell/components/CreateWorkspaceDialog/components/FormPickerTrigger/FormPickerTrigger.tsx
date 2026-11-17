@@ -11,7 +11,7 @@ export function FormPickerTrigger({
 		<button
 			type={type}
 			className={cn(
-				"inline-flex min-w-0 items-center gap-1 rounded border px-2 py-1 text-xs text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50",
+				"inline-flex h-7.5 min-w-0 items-center gap-1.5 rounded-lg border border-border/70 bg-secondary/55 px-3 text-xs font-medium text-muted-foreground transition-colors hover:border-border hover:bg-accent/60 hover:text-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50",
 				className,
 			)}
 			{...props}

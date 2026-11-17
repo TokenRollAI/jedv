@@ -27,7 +27,7 @@ export function CreateTeamView(props: CreateTeamViewProps) {
 			<WindowChrome primary className="border-b border-border pr-3">
 				<WindowChromeLeading />
 				<WindowChromeControls className="pl-3">
-					<h1 className="flex items-center gap-2 text-[13px] font-medium">
+					<h1 className="flex items-center gap-2 text-[13.5px] font-medium">
 						<LuUsers className="size-4 text-muted-foreground" />
 						<Trans>Create team</Trans>
 					</h1>

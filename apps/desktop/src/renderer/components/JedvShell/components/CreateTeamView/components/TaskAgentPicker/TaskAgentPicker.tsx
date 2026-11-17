@@ -38,7 +38,7 @@ export function TaskAgentPicker({
 					aria-expanded={open}
 					aria-label={t({ message: "Agent" })}
 					title={selected?.label ?? t({ message: "Agent" })}
-					className="h-8 max-w-44 gap-1.5 px-2 text-xs"
+					className="h-8 max-w-48 gap-2 rounded-lg px-3 text-xs font-medium"
 				>
 					{selected ? (
 						<AgentIcon
@@ -52,7 +52,7 @@ export function TaskAgentPicker({
 					<span className="truncate">
 						{selected?.label ?? t({ message: "Agent" })}
 					</span>
-					<LuChevronDown className="size-3 shrink-0" />
+					<LuChevronDown className="size-3 shrink-0 opacity-65" />
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent

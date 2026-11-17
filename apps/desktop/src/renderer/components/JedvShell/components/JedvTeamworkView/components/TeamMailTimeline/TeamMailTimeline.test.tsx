@@ -32,6 +32,7 @@ test("read and acknowledgement are separate explicit actions per recipient", () 
 	const consume = mock();
 	const screen = render(
 		<TeamMailTimeline
+			mode="all"
 			items={[item]}
 			members={members}
 			pending={false}
@@ -40,9 +41,6 @@ test("read and acknowledgement are separate explicit actions per recipient", () 
 		/>,
 	);
 	expect(screen.queryByRole("button", { name: /Acknowledge mail/ })).toBeNull();
-	fireEvent.click(
-		screen.getByRole("button", { name: "Internal mail and diagnostics" }),
-	);
 	fireEvent.click(screen.getByRole("button", { name: "Expand message" }));
 	expect(consume).not.toHaveBeenCalled();
 	fireEvent.click(
@@ -62,7 +60,7 @@ test("read and acknowledgement are separate explicit actions per recipient", () 
 	expect(screen.getByText("Read, awaiting acknowledgement")).toBeTruthy();
 });
 
-test("normal internal mail is diagnostic while human instructions, reports and delivery exceptions stay visible", () => {
+test("key reports filters to human instructions with recipient badge, reports and delivery exceptions while all activity shows full mail", () => {
 	const mail = (
 		id: string,
 		body: string,
@@ -89,31 +87,53 @@ test("normal internal mail is diagnostic while human instructions, reports and d
 			],
 		}) as MailItem;
 	const consume = mock();
+	const onInspect = mock();
+	const items = [
+		mail("internal", "technical prompt and paths"),
+		mail(
+			"instructions",
+			"Follow this protocol:\nJEDV_WORKER_DONE\nsummary: placeholder",
+		),
+		mail("human", "Please prioritize this", "human"),
+		mail("report", "JEDV_WORKER_BLOCKED\nreason: Need a decision"),
+		mail("failed", "Delivery failed", "member", "offline"),
+	];
+	const members = [
+		{ id: "leader", name: "leader" },
+		{ id: "worker", name: "kimi-reviewer" },
+	] as TeamMember[];
 	const screen = render(
 		<TeamMailTimeline
-			items={[
-				mail("internal", "technical prompt and paths"),
-				mail(
-					"instructions",
-					"Follow this protocol:\nJEDV_WORKER_DONE\nsummary: placeholder",
-				),
-				mail("human", "Please prioritize this", "human"),
-				mail("report", "JEDV_WORKER_BLOCKED\nreason: Need a decision"),
-				mail("failed", "Delivery failed", "member", "offline"),
-			]}
-			members={[]}
+			mode="reports"
+			items={items}
+			members={members}
 			pending={false}
 			readOnly={false}
+			onInspect={onInspect}
 			onConsume={consume}
 		/>,
 	);
 	expect(screen.queryByText("technical prompt and paths")).toBeNull();
 	expect(screen.queryByText("placeholder")).toBeNull();
+	expect(screen.getByText("You → leader")).toBeTruthy();
 	expect(screen.getByText("Please prioritize this")).toBeTruthy();
 	expect(screen.getByText("Need a decision")).toBeTruthy();
 	expect(screen.getByRole("alert")).toBeTruthy();
-	fireEvent.click(
-		screen.getByRole("button", { name: "Internal mail and diagnostics" }),
+	const [firstInspect] = screen.getAllByRole("button", {
+		name: "View original mail",
+	});
+	if (!firstInspect) throw new Error("Missing View original mail button");
+	fireEvent.click(firstInspect);
+	expect(onInspect).toHaveBeenCalledWith("human");
+	screen.rerender(
+		<TeamMailTimeline
+			mode="all"
+			items={items}
+			members={members}
+			pending={false}
+			readOnly={false}
+			onConsume={consume}
+		/>,
 	);
 	expect(screen.getByText("technical prompt and paths")).toBeTruthy();
 	expect(consume).not.toHaveBeenCalled();
@@ -137,15 +157,13 @@ test("no-ACK mail shows its real read state without offering a fake acknowledgem
 	const consume = mock();
 	const screen = render(
 		<TeamMailTimeline
+			mode="all"
 			items={[item]}
 			members={[{ id: "worker", name: "worker" }] as TeamMember[]}
 			pending={false}
 			readOnly={false}
 			onConsume={consume}
 		/>,
-	);
-	fireEvent.click(
-		screen.getByRole("button", { name: "Internal mail and diagnostics" }),
 	);
 	fireEvent.click(screen.getByRole("button", { name: "Expand message" }));
 	expect(screen.getByText("Read")).toBeTruthy();

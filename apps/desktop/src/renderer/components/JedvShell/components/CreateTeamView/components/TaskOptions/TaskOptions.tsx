@@ -3,7 +3,6 @@ import {
 	getAgentModelSupport,
 } from "@jedv/shared/agent-models";
 import { Button } from "@jedv/ui/button";
-import { Input } from "@jedv/ui/input";
 import { Label } from "@jedv/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@jedv/ui/popover";
 import { Trans, useLingui } from "@lingui/react/macro";
@@ -30,6 +29,7 @@ export function TaskOptions({
 	const id = useId();
 	const models = getAgentModelSupport(presetId)?.models ?? [];
 	const efforts = getAgentEfforts(presetId, value.model || undefined);
+	if (!models.length && !efforts.length) return null;
 	return (
 		<Popover>
 			<PopoverTrigger asChild>
@@ -37,7 +37,7 @@ export function TaskOptions({
 					type="button"
 					variant="ghost"
 					size="icon"
-					className="size-8"
+					className="size-8 rounded-lg text-muted-foreground hover:text-foreground"
 					disabled={disabled}
 					aria-label={t({ message: "More options" })}
 					title={t({ message: "More options" })}
@@ -46,20 +46,6 @@ export function TaskOptions({
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent align="start" className="w-72 space-y-3">
-				<div className="space-y-1.5">
-					<Label htmlFor={`${id}-name`} className="text-xs">
-						<Trans>Team name</Trans>
-					</Label>
-					<Input
-						id={`${id}-name`}
-						value={value.name}
-						maxLength={120}
-						disabled={disabled}
-						placeholder={t({ message: "From the task’s first sentence" })}
-						onChange={(e) => onChange({ ...value, name: e.target.value })}
-						className="h-8 text-xs"
-					/>
-				</div>
 				{!!models.length && (
 					<div className="space-y-1.5">
 						<Label htmlFor={`${id}-model`} className="text-xs">

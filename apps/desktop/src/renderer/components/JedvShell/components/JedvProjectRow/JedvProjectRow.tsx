@@ -4,6 +4,8 @@ import { useRef, useState } from "react";
 import { HiChevronRight, HiMiniPlus } from "react-icons/hi2";
 import {
 	LuCopy,
+	LuFolder,
+	LuFolderGit2,
 	LuFolderInput,
 	LuFolderOpen,
 	LuFolderPlus,
@@ -187,6 +189,15 @@ export function JedvProjectRow({
 			separator: true,
 		},
 	];
+	const iconUrl = resolveProjectIconUrl(project);
+	const hasCjkName = /[\u4e00-\u9fff\u3040-\u30ff\uac00-\ud7af]/.test(
+		project.name,
+	);
+	const CjkProjectIcon = supportsGit(project) ? LuFolderGit2 : LuFolder;
+	const validColor =
+		!!project.color && /^#[0-9a-fA-F]{6}$/.test(project.color)
+			? project.color
+			: undefined;
 	return (
 		<div>
 			<ProjectRowMenu
@@ -206,12 +217,20 @@ export function JedvProjectRow({
 					onDoubleClick={startRename}
 				>
 					<span className="relative grid size-4 shrink-0 place-items-center">
-						<ProjectThumbnail
-							projectName={project.name}
-							iconUrl={resolveProjectIconUrl(project)}
-							color={project.color}
-							className="size-4 text-[10px] group-hover:opacity-0 group-focus-within:opacity-0"
-						/>
+						{!iconUrl && hasCjkName ? (
+							<CjkProjectIcon
+								aria-hidden="true"
+								className="size-4 text-muted-foreground group-hover:opacity-0 group-focus-within:opacity-0"
+								style={validColor ? { color: validColor } : undefined}
+							/>
+						) : (
+							<ProjectThumbnail
+								projectName={project.name}
+								iconUrl={iconUrl}
+								color={project.color}
+								className="size-4 text-[10px] group-hover:opacity-0 group-focus-within:opacity-0"
+							/>
+						)}
 						<HiChevronRight
 							className={`absolute size-3 text-muted-foreground opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 ${!collapsed ? "rotate-90" : ""}`}
 						/>

@@ -15,17 +15,18 @@ import {
 } from "../WindowChrome";
 export function JedvSidebarHeader({
 	collapsed,
-	height = 44,
+	height = 40,
 	onToggle,
 	canGoBack = false,
 	canGoForward = false,
 	onBack,
 	onForward,
+	onHome,
 }: {
 	host: string;
 	connected: boolean;
 	collapsed: boolean;
-	height?: 44 | 48;
+	height?: 40 | 44 | 48;
 	onToggle(): void;
 	onLocal(): void;
 	onConnect(): void;
@@ -34,6 +35,7 @@ export function JedvSidebarHeader({
 	canGoForward?: boolean;
 	onBack?(): void;
 	onForward?(): void;
+	onHome?(): void;
 	onProjectAction(kind: ProjectActionKind): void;
 }) {
 	const { t } = useLingui();
@@ -62,8 +64,23 @@ export function JedvSidebarHeader({
 					>
 						<LuArrowRight className="size-3.5" />
 					</button>
-					<img src={logo} alt="" className="mr-1.5 size-4 shrink-0" />
-					<span className="truncate text-xs font-medium">Jedv</span>
+					{onHome ? (
+						<button
+							type="button"
+							aria-label={t({ message: "Home" })}
+							title={t({ message: "Home" })}
+							onClick={onHome}
+							className="no-drag flex min-w-0 items-center rounded px-1 py-0.5 text-foreground/90 transition-colors hover:bg-fill-hover focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+						>
+							<img src={logo} alt="" className="mr-1.5 size-4 shrink-0" />
+							<span className="truncate text-xs font-medium">Jedv</span>
+						</button>
+					) : (
+						<>
+							<img src={logo} alt="" className="mr-1.5 size-4 shrink-0" />
+							<span className="truncate text-xs font-medium">Jedv</span>
+						</>
+					)}
 				</WindowChromeControls>
 				<div className="drag min-w-2 flex-1" />
 				<WindowChromeControls className="shrink-0">

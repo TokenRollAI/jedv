@@ -42,13 +42,13 @@ export function TaskWorkspacePicker({
 					title={
 						selected ? label(selected) : t({ message: "Select workspace" })
 					}
-					className="h-8 max-w-[240px] gap-1.5 px-2 text-xs"
+					className="h-8 max-w-[240px] gap-2 rounded-lg px-3 text-xs font-medium"
 				>
-					<LuFolder className="size-3.5 shrink-0" />
+					<LuFolder className="size-3.5 shrink-0 text-muted-foreground" />
 					<span className="truncate">
 						{selected ? label(selected) : t({ message: "Select workspace" })}
 					</span>
-					<LuChevronDown className="size-3 shrink-0" />
+					<LuChevronDown className="size-3 shrink-0 opacity-65" />
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent

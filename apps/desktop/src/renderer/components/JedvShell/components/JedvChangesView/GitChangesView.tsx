@@ -11,6 +11,7 @@ import { Input } from "@jedv/ui/input";
 import { Trans, useLingui } from "@lingui/react/macro";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+	ArrowLeft,
 	ChevronDown,
 	GitBranch,
 	Loader2,
@@ -19,7 +20,8 @@ import {
 	RefreshCw,
 	Upload,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { electronTrpcClient } from "renderer/lib/trpc-client";
 import type { DiffViewMode } from "shared/changes-types";
 import { detectLanguage } from "shared/detect-language";
@@ -72,6 +74,7 @@ export function GitChangesView({
 	getHasUnsavedFiles,
 	remote = true,
 	shipOnly,
+	headerMount,
 }: {
 	client: LocalClient;
 	hostUrl: string;
@@ -81,6 +84,7 @@ export function GitChangesView({
 	getHasUnsavedFiles?: () => boolean;
 	remote?: boolean;
 	shipOnly?: "commit" | "push";
+	headerMount?: HTMLElement | null;
 }) {
 	const { t } = useLingui();
 	const cache = useQueryClient();
@@ -141,6 +145,7 @@ export function GitChangesView({
 			status.dataUpdatedAt,
 		],
 		queryFn: () => client.git.getConflicts.query({ workspaceId }),
+		placeholderData: (previousData) => previousData,
 		enabled: active,
 		retry: false,
 	});
@@ -153,6 +158,7 @@ export function GitChangesView({
 			status.dataUpdatedAt,
 		],
 		queryFn: () => client.git.getPushPreview.query({ workspaceId }),
+		placeholderData: (previousData) => previousData,
 		enabled: active,
 		retry: false,
 	});
@@ -170,12 +176,18 @@ export function GitChangesView({
 				workspaceId,
 				baseBranch: base.data?.baseBranch ?? undefined,
 			}),
+		placeholderData: (previousData) => previousData,
 		enabled: active && !!status.data,
 		retry: false,
 	});
 	const [selection, setSelection] = useState<ChangeSelection | null>(null);
 	const [diffTabs, setDiffTabs] = useState<ChangeSelection[]>([]);
 	const [view, setView] = useState<DiffViewMode>("side-by-side");
+	const [branchMenuOpen, setBranchMenuOpen] = useState(false);
+	const splitLayoutRef = useRef<HTMLDivElement>(null);
+	const diffPaneRef = useRef<HTMLDivElement>(null);
+	const [layoutWidth, setLayoutWidth] = useState(0);
+	const [diffWidth, setDiffWidth] = useState(0);
 	const [mode, setMode] = useState<ChangesViewMode>("tree");
 	const [filter, setFilter] = useState<ChangesFilter>({ kind: "all" });
 	const [searchOpen, setSearchOpen] = useState(false);
@@ -187,11 +199,42 @@ export function GitChangesView({
 	const locks = useRef(new Set<string>());
 	const [operation, setOperation] = useState<string | null>(null);
 	const operationRef = useRef<string | null>(null);
+	const [manualRefreshing, setManualRefreshing] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const [result, setResult] = useState<string | null>(null);
 	const [unknown, setUnknown] = useState(false);
 	const [checked, setChecked] = useState(false);
 	const { foldSignal, collapsed, toggleFold } = useFoldSignal();
+
+	useEffect(() => {
+		if (!active || shipOnly) setBranchMenuOpen(false);
+	}, [active, shipOnly]);
+
+	useEffect(() => {
+		if (shipOnly) return;
+		const layoutNode = splitLayoutRef.current;
+		const diffNode = diffPaneRef.current;
+		const update = () => {
+			if (layoutNode) {
+				const w = layoutNode.clientWidth;
+				setLayoutWidth((prev) => (prev === w ? prev : w));
+			}
+			if (diffNode) {
+				const w = diffNode.clientWidth;
+				setDiffWidth((prev) => (prev === w ? prev : w));
+			}
+		};
+		update();
+		if (typeof ResizeObserver === "undefined") return;
+		const observer = new ResizeObserver(update);
+		if (layoutNode) observer.observe(layoutNode);
+		if (diffNode) observer.observe(diffNode);
+		return () => observer.disconnect();
+	}, [shipOnly]);
+
+	const isNarrowDiff = diffWidth > 0 && diffWidth < 560;
+	const effectiveView: DiffViewMode = isNarrowDiff ? "inline" : view;
+	const isSingleColumn = layoutWidth > 0 && layoutWidth < 480;
 	const commitHash =
 		filter.kind === "commit"
 			? filter.hash
@@ -214,39 +257,70 @@ export function GitChangesView({
 				commitHash: commitHash ?? "",
 				fromHash,
 			}),
+		placeholderData: (previousData) => previousData,
 		enabled: active && !!commitHash,
 		retry: false,
 	});
-	const groups: { category: Category; label: string; files: ChangedFile[] }[] =
-		commitHash
-			? [
-					{
-						category: "commit",
-						label: t({ message: "Commits" }),
-						files: commitFiles.data?.files ?? [],
-					},
-				]
-			: [
-					{
-						category: "unstaged",
-						label: t({ message: "Unstaged" }),
-						files: status.data?.unstaged ?? [],
-					},
-					{
-						category: "staged",
-						label: t({ message: "Staged" }),
-						files: status.data?.staged ?? [],
-					},
-					...(filter.kind === "all"
-						? [
-								{
-									category: "against-base" as const,
-									label: t({ message: "Base branch" }),
-									files: status.data?.againstBase ?? [],
-								},
-							]
-						: []),
-				];
+	const groups = useMemo<
+		{
+			category: Category;
+			label: string;
+			files: ChangedFile[];
+		}[]
+	>(
+		() =>
+			commitHash
+				? [
+						{
+							category: "commit",
+							label: t({ message: "Commits" }),
+							files: commitFiles.data?.files ?? [],
+						},
+					]
+				: [
+						{
+							category: "unstaged",
+							label: t({ message: "Unstaged" }),
+							files: status.data?.unstaged ?? [],
+						},
+						{
+							category: "staged",
+							label: t({ message: "Staged" }),
+							files: status.data?.staged ?? [],
+						},
+						...(filter.kind === "all"
+							? [
+									{
+										category: "against-base" as const,
+										label: t({ message: "Base branch" }),
+										files: status.data?.againstBase ?? [],
+									},
+								]
+							: []),
+					],
+		[
+			commitHash,
+			t,
+			commitFiles.data?.files,
+			status.data?.unstaged,
+			status.data?.staged,
+			status.data?.againstBase,
+			filter.kind,
+		],
+	);
+	const filteredGroups = useMemo(() => {
+		const normalizedSearch = search.toLocaleLowerCase();
+		return groups.map((group) => ({
+			...group,
+			filteredFiles: normalizedSearch
+				? group.files.filter((file) =>
+						`${file.path}\n${file.oldPath ?? ""}`
+							.toLocaleLowerCase()
+							.includes(normalizedSearch),
+					)
+				: group.files,
+		}));
+	}, [groups, search]);
 	const selected = selection
 		? groups
 				.find((group) => group.category === selection.category)
@@ -275,6 +349,19 @@ export function GitChangesView({
 				commitHash,
 				fromHash,
 			}),
+		placeholderData: (previousData, previousQuery) => {
+			const prevKey = previousQuery?.queryKey;
+			if (
+				prevKey &&
+				prevKey[1] === hostUrl &&
+				prevKey[2] === workspaceId &&
+				prevKey[4] === selection?.category &&
+				prevKey[5] === selected?.path
+			) {
+				return previousData;
+			}
+			return undefined;
+		},
 		enabled: active && !!selected && !selected.isBinary,
 		retry: false,
 	});
@@ -322,21 +409,27 @@ export function GitChangesView({
 		diffTabs,
 	]);
 	const refresh = async () => {
-		const results = await Promise.all([
-			status.refetch(),
-			sync.refetch(),
-			base.refetch(),
-			branches.refetch(),
-			commits.refetch(),
-			conflicts.refetch(),
-			preview.refetch(),
-		]);
-		if (results.some((item) => item.isError))
-			setError(
-				results.find((item) => item.error)?.error?.message ??
-					t({ message: "Refresh failed" }),
-			);
-		if (unknown && !results[0].isError && !results[4].isError) setChecked(true);
+		setManualRefreshing(true);
+		try {
+			const results = await Promise.all([
+				status.refetch(),
+				sync.refetch(),
+				base.refetch(),
+				branches.refetch(),
+				commits.refetch(),
+				conflicts.refetch(),
+				preview.refetch(),
+			]);
+			if (results.some((item) => item.isError))
+				setError(
+					results.find((item) => item.error)?.error?.message ??
+						t({ message: "Refresh failed" }),
+				);
+			if (unknown && !results[0].isError && !results[4].isError)
+				setChecked(true);
+		} finally {
+			setManualRefreshing(false);
+		}
 	};
 	const run = async (name: string, action: () => Promise<void>) => {
 		if (operationRef.current || locks.current.size) return;
@@ -575,91 +668,176 @@ export function GitChangesView({
 
 	const noChanges =
 		status.data && groups.every((group) => group.files.length === 0);
-	return (
-		<section className="flex h-full min-h-0 min-w-0 flex-1 flex-col">
-			<header
-				hidden={!!shipOnly}
-				className="flex h-10 shrink-0 items-center gap-2 border-b border-border px-3"
-			>
-				<h2 className="min-w-0 flex-1 truncate text-sm font-medium">
-					<Trans>Changes</Trans>
-				</h2>
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button
-							variant="ghost"
-							size="sm"
-							className="h-7 min-w-0 max-w-56 gap-1 text-xs"
-							disabled={!status.data || busy}
-						>
-							<GitBranch className="size-3.5 shrink-0" />
-							<span className="truncate">{currentBranch}</span>
-							<ChevronDown className="size-3" />
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent align="end" className="max-h-80 overflow-auto">
-						{(branches.data?.branches ?? []).map((branch) => (
-							<DropdownMenuItem
-								key={branch.name}
-								disabled={
-									branch.isHead ||
-									busy ||
-									dirty ||
-									!getHasUnsavedFiles ||
-									getHasUnsavedFiles()
-								}
-								onSelect={() => {
-									setConfirmError(null);
-									setConfirmation({
-										kind: "checkout",
-										branch: branch.name,
-										source: currentBranch,
-									});
-								}}
-							>
-								<GitBranch />
-								<span className="truncate">{branch.name}</span>
-							</DropdownMenuItem>
-						))}
-						{dirty && (
-							<div className="max-w-64 px-2 py-1 text-xs text-muted-foreground">
-								<Trans>
-									Commit or discard changes before switching branches.
-								</Trans>
-							</div>
-						)}
-						<DropdownMenuSeparator />
+	const pushUnsupportedReason = (() => {
+		if (preview.data?.status !== "unsupported") return undefined;
+		const reason = preview.data.reason;
+		switch (reason) {
+			case "no-remote":
+				return t({ message: "No remote configured" });
+			case "detached-head":
+				return t({ message: "Detached HEAD" });
+			case "unborn-head":
+				return t({ message: "No commits to push yet" });
+			case "unresolved-conflicts":
+				return t({ message: "Resolve conflicts before pushing" });
+			case "unsupported-remote":
+				return t({ message: "Unsupported remote configuration" });
+			case "upstream-remote-mismatch":
+				return t({ message: "Upstream remote does not match push remote" });
+			case "ambiguous-upstream":
+				return t({ message: "Ambiguous upstream branch configuration" });
+			case "custom-push-refspec":
+				return t({ message: "Custom push refspec is not supported" });
+			case "custom-fetch-refspec":
+				return t({ message: "Custom fetch refspec is not supported" });
+			case "mirror":
+				return t({ message: "Mirror remotes are not supported" });
+			case "follow-tags":
+				return t({ message: "Push with follow-tags is not supported" });
+			case "recurse-submodules":
+				return t({ message: "Push with submodule recursion is not supported" });
+			case "custom-receive-pack":
+				return t({ message: "Custom receive-pack is not supported" });
+			case "remote-helper":
+				return t({ message: "Remote helper is not supported" });
+			case "invalid-target-branch":
+				return t({ message: "Invalid target branch name" });
+			case "multiple-push-urls":
+				return t({ message: "Multiple push URLs are not supported" });
+			case "unsupported-push-url":
+				return t({ message: "Unsupported push URL" });
+			case "cascading-url-rewrite":
+				return t({ message: "Cascading URL rewrite is not supported" });
+			default:
+				if (reason.startsWith("push-default-")) {
+					return t({ message: "Unsupported push.default configuration" });
+				}
+				return reason;
+		}
+	})();
+	const showListPane = !isSingleColumn || !selected || !selection;
+	const showDiffPane = !isSingleColumn || (!!selected && !!selection);
+	const headerControls = (
+		<>
+			<DropdownMenu open={branchMenuOpen} onOpenChange={setBranchMenuOpen}>
+				<DropdownMenuTrigger asChild>
+					<Button
+						variant="ghost"
+						size="sm"
+						className="h-7 min-w-0 max-w-52 gap-1.5 rounded-md px-2.5 text-xs font-medium text-foreground/90 hover:bg-fill-hover"
+						disabled={!status.data || busy}
+					>
+						<GitBranch className="size-3.5 shrink-0 text-muted-foreground" />
+						<span className="truncate">{currentBranch}</span>
+						<ChevronDown className="size-3 shrink-0 opacity-65" />
+					</Button>
+				</DropdownMenuTrigger>
+				<DropdownMenuContent align="start" className="max-h-80 overflow-auto">
+					{(branches.data?.branches ?? []).map((branch) => (
 						<DropdownMenuItem
-							disabled={busy || !currentBranch || currentBranch === "HEAD"}
-							onSelect={() =>
-								void run("fetch", async () => {
-									await client.git.fetchBranches.mutate({
-										workspaceId,
-										branches: [currentBranch],
-									});
-									setResult(t({ message: "Fetch completed" }));
-								})
+							key={branch.name}
+							disabled={
+								branch.isHead ||
+								busy ||
+								dirty ||
+								!getHasUnsavedFiles ||
+								getHasUnsavedFiles()
 							}
+							onSelect={() => {
+								setConfirmError(null);
+								setConfirmation({
+									kind: "checkout",
+									branch: branch.name,
+									source: currentBranch,
+								});
+							}}
 						>
-							<RefreshCw />
-							<Trans>Fetch current branch from origin</Trans>
+							<GitBranch />
+							<span className="truncate">{branch.name}</span>
 						</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
+					))}
+					{dirty && (
+						<div className="max-w-64 px-2 py-1 text-xs text-muted-foreground">
+							<Trans>
+								Commit or discard changes before switching branches.
+							</Trans>
+						</div>
+					)}
+					<DropdownMenuSeparator />
+					<DropdownMenuItem
+						disabled={busy || !currentBranch || currentBranch === "HEAD"}
+						onSelect={() =>
+							void run("fetch", async () => {
+								await client.git.fetchBranches.mutate({
+									workspaceId,
+									branches: [currentBranch],
+								});
+								setResult(t({ message: "Fetch completed" }));
+							})
+						}
+					>
+						<RefreshCw />
+						<Trans>Fetch current branch from origin</Trans>
+					</DropdownMenuItem>
+				</DropdownMenuContent>
+			</DropdownMenu>
+			<div className="ml-auto flex shrink-0 items-center gap-1 text-xs text-muted-foreground">
+				<span className="px-1 text-[11px] tabular-nums">
+					↑{formatNumber(sync.data?.pushCount ?? 0)} ↓
+					{formatNumber(sync.data?.pullCount ?? 0)}
+				</span>
+				<Button
+					variant="ghost"
+					size="sm"
+					className="h-7 gap-1.5 rounded-md px-2.5 text-xs hover:bg-fill-hover"
+					disabled={busy || unknown || preview.data?.status !== "ready"}
+					title={preview.error?.message ?? pushUnsupportedReason}
+					onClick={() => {
+						if (preview.data?.status === "ready") {
+							setConfirmError(null);
+							setConfirmation({ kind: "push", preview: preview.data });
+						}
+					}}
+				>
+					<Upload className="size-3" />
+					<Trans>Push</Trans>
+				</Button>
 				<Button
 					variant="ghost"
 					size="icon"
-					className="size-6"
+					className="size-7 shrink-0 rounded-md hover:bg-fill-hover"
 					aria-label={t({ message: "Refresh" })}
 					title={t({ message: "Refresh" })}
-					disabled={status.isFetching || busy}
+					disabled={manualRefreshing || busy}
 					onClick={() => void refresh()}
 				>
 					<RefreshCw
-						className={`size-3.5 ${status.isFetching ? "animate-spin" : ""}`}
+						className={`size-3.5 ${manualRefreshing ? "animate-spin" : ""}`}
 					/>
 				</Button>
-			</header>
+			</div>
+		</>
+	);
+	return (
+		<section
+			aria-label={t({ message: "Changes" })}
+			className="flex h-full min-h-0 min-w-0 flex-1 flex-col"
+		>
+			{!shipOnly &&
+				(headerMount !== undefined ? (
+					headerMount ? (
+						createPortal(
+							<div className="flex min-w-0 flex-1 items-center gap-1.5">
+								{headerControls}
+							</div>,
+							headerMount,
+						)
+					) : null
+				) : (
+					<header className="flex h-9 shrink-0 items-center gap-1.5 border-b border-border px-2.5">
+						{headerControls}
+					</header>
+				))}
 			{(error || status.error || sync.error) && (
 				<p
 					role="alert"
@@ -749,6 +927,7 @@ export function GitChangesView({
 								}
 								branch={currentBranch}
 								stagedCount={status.data?.staged.length ?? 0}
+								showBranchSummary
 							/>
 							<Button
 								size="sm"
@@ -784,18 +963,24 @@ export function GitChangesView({
 							</Button>
 							{(preview.error || preview.data?.status === "unsupported") && (
 								<p className="text-xs text-muted-foreground">
-									{preview.error?.message ??
-										(preview.data?.status === "unsupported"
-											? preview.data.reason
-											: "")}
+									{preview.error?.message ?? pushUnsupportedReason ?? ""}
 								</p>
 							)}
 						</div>
 					)}
 				</div>
 			) : (
-				<div className="flex min-h-0 min-w-0 flex-1 overflow-x-auto">
-					<aside className="flex w-72 min-w-52 max-w-[45%] shrink-0 flex-col border-r border-border bg-sidebar/30">
+				<div
+					ref={splitLayoutRef}
+					className="flex min-h-0 min-w-0 flex-1 overflow-hidden"
+				>
+					<aside
+						className={`flex flex-col bg-sidebar/30 ${
+							isSingleColumn
+								? "w-full min-w-0 flex-1"
+								: "w-72 min-w-44 max-w-[45%] shrink-0 border-r border-border"
+						} ${showListPane ? "" : "hidden"}`}
+					>
 						<CommitForm
 							message={message}
 							onMessageChange={setMessage}
@@ -810,42 +995,15 @@ export function GitChangesView({
 							branch={currentBranch}
 							stagedCount={status.data?.staged.length ?? 0}
 						/>
-						<div className="flex items-center gap-2 border-b px-2 py-1.5 text-xs text-muted-foreground">
-							<span className="min-w-0 flex-1 truncate">
-								↑{formatNumber(sync.data?.pushCount ?? 0)} ↓
-								{formatNumber(sync.data?.pullCount ?? 0)}
-							</span>
-							<Button
-								variant="ghost"
-								size="sm"
-								className="h-6 gap-1 text-xs"
-								disabled={busy || unknown || preview.data?.status !== "ready"}
-								title={
-									preview.error?.message ??
-									(preview.data?.status === "unsupported"
-										? preview.data.reason
-										: undefined)
-								}
-								onClick={() => {
-									if (preview.data?.status === "ready") {
-										setConfirmError(null);
-										setConfirmation({ kind: "push", preview: preview.data });
-									}
-								}}
-							>
-								<Upload className="size-3" />
-								<Trans>Push</Trans>
-							</Button>
-						</div>
 						{(preview.error || preview.data?.status === "unsupported") && (
-							<p className="border-b px-2 py-1 text-xs text-muted-foreground">
-								{preview.error?.message ??
-									(preview.data?.status === "unsupported"
-										? preview.data.reason
-										: "")}
-							</p>
+							<div className="px-2.5 pt-2 pb-0.5">
+								<span className="inline-flex max-w-full items-center truncate rounded-md border border-border/60 bg-muted/40 px-2 py-0.5 text-[11px] text-muted-foreground">
+									{preview.error?.message ?? pushUnsupportedReason ?? ""}
+								</span>
+							</div>
 						)}
 						<ChangesToolbar
+							active={active && !shipOnly}
 							filter={filter}
 							onFilterChange={(value) => {
 								setFilter(value);
@@ -947,12 +1105,8 @@ export function GitChangesView({
 									<Trans>No changes</Trans>
 								</p>
 							)}
-							{groups.map((group) => {
-								const files = group.files.filter((file) =>
-									`${file.path}\n${file.oldPath ?? ""}`
-										.toLocaleLowerCase()
-										.includes(search.toLocaleLowerCase()),
-								);
+							{filteredGroups.map((group) => {
+								const files = group.filteredFiles;
 								return (
 									<details key={group.category} open className="mb-1">
 										<summary className="flex cursor-pointer items-center gap-1 px-2 py-1 text-xs font-medium text-muted-foreground">
@@ -998,6 +1152,7 @@ export function GitChangesView({
 										</summary>
 										{mode === "tree" ? (
 											<ChangesTree
+												active={active && !shipOnly}
 												files={files}
 												category={group.category}
 												foldSignal={foldSignal}
@@ -1027,6 +1182,7 @@ export function GitChangesView({
 												foldSignal={foldSignal}
 												renderFile={(file) => (
 													<ChangesRow
+														active={active && !shipOnly}
 														file={file}
 														category={group.category}
 														selected={
@@ -1058,7 +1214,11 @@ export function GitChangesView({
 							})}
 						</div>
 					</aside>
-					<div className="flex min-h-0 min-w-64 flex-1 flex-col">
+					<div
+						ref={diffPaneRef}
+						data-changes-diff-pane
+						className={`flex min-h-0 min-w-0 flex-1 flex-col ${showDiffPane ? "" : "hidden"}`}
+					>
 						{!!diffTabs.length && (
 							<ChangesDiffTabs
 								tabs={diffTabs}
@@ -1069,7 +1229,19 @@ export function GitChangesView({
 						)}
 						{selected && selection ? (
 							<>
-								<div className="flex shrink-0 flex-wrap items-center gap-1 border-b px-3 py-1 text-xs">
+								<div className="flex min-w-0 shrink-0 items-center gap-1 border-b px-2.5 py-1 text-xs">
+									{isSingleColumn && (
+										<Button
+											size="icon"
+											variant="ghost"
+											className="size-6 shrink-0"
+											aria-label={t({ message: "Back to changes" })}
+											title={t({ message: "Back to changes" })}
+											onClick={() => setSelection(null)}
+										>
+											<ArrowLeft className="size-3.5" />
+										</Button>
+									)}
 									<span
 										className="min-w-0 flex-1 truncate"
 										title={
@@ -1087,16 +1259,26 @@ export function GitChangesView({
 									</span>
 									<Button
 										size="sm"
-										variant={view === "side-by-side" ? "secondary" : "ghost"}
-										className="h-6 text-xs"
+										variant={
+											effectiveView === "side-by-side" ? "secondary" : "ghost"
+										}
+										className="h-7 shrink-0 rounded-md px-2.5 text-xs"
+										disabled={isNarrowDiff}
+										title={
+											isNarrowDiff
+												? t({
+														message: "Side-by-side diff requires a wider pane",
+													})
+												: undefined
+										}
 										onClick={() => setView("side-by-side")}
 									>
 										<Trans>Side by side</Trans>
 									</Button>
 									<Button
 										size="sm"
-										variant={view === "inline" ? "secondary" : "ghost"}
-										className="h-6 text-xs"
+										variant={effectiveView === "inline" ? "secondary" : "ghost"}
+										className="h-7 shrink-0 rounded-md px-2.5 text-xs"
 										onClick={() => setView("inline")}
 									>
 										<Trans>Inline</Trans>
@@ -1104,7 +1286,7 @@ export function GitChangesView({
 									<Button
 										size="sm"
 										variant="ghost"
-										className="h-6 text-xs"
+										className="h-7 shrink-0 rounded-md px-2.5 text-xs"
 										disabled={selected.status === "deleted"}
 										onClick={() => onOpenFile(selected.path)}
 									>
@@ -1134,7 +1316,7 @@ export function GitChangesView({
 									) : diff.data ? (
 										<LightDiffViewer
 											filePath={selected.path}
-											viewMode={view}
+											viewMode={effectiveView}
 											hideUnchangedRegions
 											contents={{
 												language: detectLanguage(selected.path),
@@ -1146,7 +1328,8 @@ export function GitChangesView({
 								</div>
 							</>
 						) : (
-							<div className="flex flex-1 items-center justify-center p-4 text-center text-sm text-muted-foreground">
+							<div className="flex flex-1 flex-col items-center justify-center gap-2 p-6 text-center text-[13px] text-muted-foreground">
+								<GitBranch className="size-7 text-muted-foreground/45" />
 								<Trans>Select a file to preview or edit</Trans>
 							</div>
 						)}

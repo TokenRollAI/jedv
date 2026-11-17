@@ -80,6 +80,8 @@ export function buildAgentCommandString(
 		resumeSessionId?: string;
 		forkSessionId?: string;
 		randomId?: string;
+		envPrefix?: string;
+		firstEnvPrefix?: string;
 	} = {},
 ): string {
 	const randomId = options.randomId ?? crypto.randomUUID();
@@ -101,27 +103,42 @@ export function buildAgentCommandString(
 	const args = kimiPrompt
 		? config.args.filter((arg) => arg !== "--yolo" && arg !== "-y")
 		: config.args;
+	const envPrefix = options.envPrefix ?? "";
+	const firstEnvPrefix = options.firstEnvPrefix ?? envPrefix;
 	const withCommand = (argv: string[]) =>
 		[agentCommandText(config.command, args), buildArgvCommand(argv)]
 			.filter(Boolean)
 			.join(" ");
 
 	if (prompt === "") {
-		return withCommand(baseArgv);
+		return `${envPrefix}${withCommand(baseArgv)}`;
 	}
 
 	if (config.promptTransport === "argv") {
 		// Plain quoted positional, not the shared "$(cat <<…)" form: the command
 		// is typed into the user's configured shell, and fish has no heredocs.
-		return withCommand([...baseArgv, ...config.promptArgs, prompt]);
+		const promptCommand = withCommand([
+			...baseArgv,
+			...config.promptArgs,
+			prompt,
+		]);
+		if (kimiPrompt) {
+			const continueCommand = agentCommandText(config.command, [
+				...config.args,
+				...modelArgs,
+				"-c",
+			]);
+			return `${firstEnvPrefix}${promptCommand} ; ${envPrefix}${continueCommand}`;
+		}
+		return `${envPrefix}${promptCommand}`;
 	}
 
-	return buildPromptCommandString({
+	return `${envPrefix}${buildPromptCommandString({
 		command: withCommand([...baseArgv, ...config.promptArgs]),
 		transport: "stdin",
 		prompt,
 		randomId,
-	});
+	})}`;
 }
 
 function buildForkArgv(forkArgs: string[], rawSessionId: string): string[] {
@@ -484,6 +501,18 @@ export function buildTerminalAgentLaunch(
 		input.model,
 	);
 	const modeArgs = buildAgentModeArgs(launchPresetId, input.mode);
+	const modelEnv = buildAgentModelEnv(launchPresetId, input.model);
+	const launchEnv: Record<string, string> = {
+		...(launchPresetId === "kimi" ? { KIMI_CODE_TRUST_WORKSPACE: "1" } : {}),
+		...agentLaunchEnv(db, config),
+		...modelEnv,
+		...input.launchEnv,
+	};
+	const envPrefix = envOverlayPrefix(launchEnv);
+	const firstEnvPrefix = envOverlayPrefix({
+		...launchEnv,
+		JEDV_KIMI_CHAIN_CONTINUE: "1",
+	});
 	const command = buildAgentCommandString(
 		config,
 		prompt,
@@ -491,17 +520,13 @@ export function buildTerminalAgentLaunch(
 		{
 			resumeSessionId: input.resumeSessionId,
 			forkSessionId: input.forkSessionId,
+			envPrefix,
+			firstEnvPrefix,
 		},
 	);
-	const modelEnv = buildAgentModelEnv(launchPresetId, input.model);
-	const launchEnv = {
-		...agentLaunchEnv(db, config),
-		...modelEnv,
-		...input.launchEnv,
-	};
 	const launchId = input.launchEnv?.JEDV_AGENT_LAUNCH_ID;
 	return {
-		fullCommand: `${envOverlayPrefix(launchEnv)}${command}`,
+		fullCommand: command,
 		label: config.label,
 		...(launchPresetId === "codex" && launchId
 			? {
@@ -1014,16 +1039,12 @@ export async function runAgentInWorkspace(
 		continueChatAgent(ctx, input) ?? (await continueTerminalAgent(ctx, input));
 	if (continued) return continued;
 
-	// Session workspaces are standalone repos the host itself scaffolded, so
-	// agent CLIs can't inherit folder trust from anywhere — pre-trust the
-	// folder in the launching agent's own trust store so its first
-	// interactive boot skips the trust dialog. Worktree workspaces inherit
-	// trust from the main checkout and need nothing.
-	if (workspace.projectId === null) {
-		const config = resolveHostAgentConfig(ctx.db, input.agent);
-		if (config) {
-			await seedAgentFolderTrust(ctx.db, workspace.worktreePath, config);
-		}
+	// Pre-trust the workspace folder in the launching agent's own trust
+	// store so interactive boots (including project worktrees and session
+	// folders) skip the folder-trust prompt.
+	const config = resolveHostAgentConfig(ctx.db, input.agent);
+	if (config) {
+		await seedAgentFolderTrust(ctx.db, workspace.worktreePath, config);
 	}
 	return (
 		launchChatAgent(ctx, input, workspace.worktreePath, launch.terminalId) ??

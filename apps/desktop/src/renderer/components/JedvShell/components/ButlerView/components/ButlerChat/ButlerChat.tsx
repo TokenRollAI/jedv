@@ -42,6 +42,7 @@ export function ButlerChat({
 	onResolve,
 	onRefresh,
 	onSettings,
+	onOpenSettings,
 	onClose,
 }: {
 	context: JedvParityViewContext;
@@ -60,6 +61,7 @@ export function ButlerChat({
 	): void;
 	onRefresh(): Promise<void>;
 	onSettings(): void;
+	onOpenSettings?: () => void;
 	onClose(): void;
 }) {
 	const { t } = useLingui();
@@ -134,7 +136,7 @@ export function ButlerChat({
 							message: "Pending approvals and unread important faults",
 						})}
 						onClick={onClose}
-						className="w-auto gap-1 px-1.5"
+						className="w-auto gap-1.5 px-2.5"
 					>
 						<LuInbox className="size-4" />
 						{actionable > 0 && (
@@ -251,12 +253,14 @@ export function ButlerChat({
 				</div>
 			</div>
 			<ButlerChatComposer
+				client={context.client}
 				draft={chat.draft}
 				disabled={!!fault}
 				noKey={chat.ai.data?.configured === false}
 				onChange={chat.setDraft}
 				onSend={chat.send}
 				onSettings={onSettings}
+				onOpenSettings={onOpenSettings}
 			/>
 			{historyOpen && (
 				<ButlerChatHistory

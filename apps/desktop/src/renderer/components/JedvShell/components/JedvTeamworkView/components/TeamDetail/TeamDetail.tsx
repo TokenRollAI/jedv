@@ -9,6 +9,7 @@ import {
 } from "@jedv/ui/dropdown-menu";
 import { Input } from "@jedv/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@jedv/ui/tabs";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@jedv/ui/tooltip";
 import { Trans, useLingui } from "@lingui/react/macro";
 import {
 	useMutation,
@@ -21,6 +22,7 @@ import {
 	LuArchive,
 	LuCheck,
 	LuEllipsis,
+	LuInfo,
 	LuPause,
 	LuPencil,
 	LuPlay,
@@ -79,7 +81,8 @@ export function TeamDetail({
 		[name, setName] = useState("");
 	const [confirmation, setConfirmation] = useState<Confirmation | null>(null);
 	const [opening, setOpening] = useState(false);
-	const [tab, setTab] = useState("mail");
+	const [tab, setTab] = useState("all");
+	const [inspectId, setInspectId] = useState<string | null>(null);
 	const openingRef = useRef(false);
 	const status = useQuery({
 		queryKey: teamStatusKey(hostUrl, teamId),
@@ -298,7 +301,7 @@ export function TeamDetail({
 						</form>
 					) : (
 						<h1
-							className="min-w-0 truncate text-[13px] font-medium"
+							className="min-w-0 truncate text-[13.5px] font-medium"
 							title={team?.name ?? title}
 						>
 							{team?.name ?? title}
@@ -416,124 +419,183 @@ export function TeamDetail({
 			<Tabs
 				value={tab}
 				onValueChange={setTab}
-				className="flex min-h-0 flex-1 flex-col gap-0 px-5 pb-4"
+				className="flex min-h-0 flex-1 flex-col gap-0 px-6 pb-5"
 			>
 				<div className="min-h-0 flex-1 overflow-y-auto">
-					{team && <TeamGoal key={team.id} name={team.name} goal={team.goal} />}
-					{(!connected ||
-						error ||
-						status.isError ||
-						mail.isError ||
-						sessions.some((query) => query.isError)) && (
-						<div
-							role="alert"
-							className="my-3 flex items-center gap-2 rounded border border-destructive/30 p-2 text-xs text-destructive"
-						>
-							<span className="min-w-0 flex-1 break-words">
-								{error ??
-									t({
-										message:
-											"Some team data could not be loaded. Check the host connection and retry.",
-									})}
-							</span>
-							<Button
-								variant="ghost"
-								size="sm"
-								disabled={pending}
-								onClick={() => {
-									setError(null);
-									void refresh();
-									void Promise.all(sessions.map((query) => query.refetch()));
-								}}
+					<div className="mx-auto w-full max-w-4xl">
+						{team && (
+							<TeamGoal key={team.id} name={team.name} goal={team.goal} />
+						)}
+						{(!connected ||
+							error ||
+							status.isError ||
+							mail.isError ||
+							sessions.some((query) => query.isError)) && (
+							<div
+								role="alert"
+								className="my-3 flex items-center gap-2 rounded-lg border border-destructive/30 bg-destructive/5 p-2.5 text-xs text-destructive"
 							>
-								<Trans>Retry</Trans>
-							</Button>
-						</div>
-					)}
-					{status.isPending ? (
-						<output className="block py-8 text-xs text-muted-foreground">
-							<Trans>Loading team…</Trans>
-						</output>
-					) : (
-						<div className="py-3">
-							<TeamMemberGrid
-								members={members}
-								projects={context.projects}
-								workspaces={context.workspaces}
-								live={unavailable ? new Set() : live}
-								pending={pending}
-								canStop={
-									!unavailable &&
-									(team?.status === "active" || team?.status === "paused")
-								}
-								onOpen={(member) => void open(member)}
-								onStop={stop}
-							/>
-						</div>
-					)}
-					<div className="sticky top-0 z-10 bg-background py-1">
-						<TabsList className="h-8">
-							<TabsTrigger value="mail" className="text-xs">
-								<Trans>Progress and decisions</Trans>
-							</TabsTrigger>
-							<TabsTrigger value="memory" className="text-xs">
-								<Trans>Shared memory</Trans>
-							</TabsTrigger>
-						</TabsList>
-					</div>
-					<TabsContent
-						value="mail"
-						forceMount
-						className="data-[state=inactive]:hidden"
-					>
-						{mail.isPending ? (
-							<output className="block py-6 text-xs text-muted-foreground">
-								<Trans>Loading mail…</Trans>
+								<span className="min-w-0 flex-1 break-words">
+									{error ??
+										t({
+											message:
+												"Some team data could not be loaded. Check the host connection and retry.",
+										})}
+								</span>
+								<Button
+									variant="ghost"
+									size="sm"
+									disabled={pending}
+									onClick={() => {
+										setError(null);
+										void refresh();
+										void Promise.all(sessions.map((query) => query.refetch()));
+									}}
+								>
+									<Trans>Retry</Trans>
+								</Button>
+							</div>
+						)}
+						{status.isPending ? (
+							<output className="block py-8 text-xs text-muted-foreground">
+								<Trans>Loading team…</Trans>
 							</output>
 						) : (
-							<TeamMailTimeline
-								items={mail.data ?? []}
-								members={members}
-								pending={pending}
-								readOnly={unavailable || team?.status === "archived"}
-								onConsume={(id, ack) => consume.mutate({ id, ack })}
-							/>
+							<div className="py-3">
+								<TeamMemberGrid
+									members={members}
+									projects={context.projects}
+									workspaces={context.workspaces}
+									live={unavailable ? new Set() : live}
+									pending={pending}
+									canStop={
+										!unavailable &&
+										(team?.status === "active" || team?.status === "paused")
+									}
+									onOpen={(member) => void open(member)}
+									onStop={stop}
+								/>
+							</div>
 						)}
-					</TabsContent>
-					<TabsContent value="memory" className="min-h-[420px]">
-						<MemoryPanel
-							client={client}
-							hostUrl={hostUrl}
-							disabled={unavailable}
-							readOnly={team?.status === "archived"}
-							scopes={[
-								{
-									scopeKind: "team",
-									scopeId: teamId,
-									label: t({ message: "Team" }),
-								},
-								...context.projects
-									.filter((project) =>
-										members.some((member) => member.projectId === project.id),
-									)
-									.map((project) => ({
-										scopeKind: "project" as const,
-										scopeId: project.id,
-										label: `${t({ message: "Project" })} · ${project.name}`,
-									})),
-								{
-									scopeKind: "global",
-									scopeId: "",
-									label: t({ message: "Global" }),
-								},
-							]}
-						/>
-					</TabsContent>
+						<div className="sticky top-0 z-10 flex items-center gap-1.5 border-b border-border bg-background/95 pt-1 backdrop-blur-xs">
+							<TabsList className="h-9 gap-4 rounded-none bg-transparent p-0">
+								<TabsTrigger
+									value="all"
+									className="relative h-9 flex-none rounded-none border-0 border-b-2 border-transparent bg-transparent px-0.5 pb-2 pt-1.5 text-[12.5px] font-medium text-muted-foreground shadow-none hover:text-foreground data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:shadow-none dark:data-[state=active]:border-foreground dark:data-[state=active]:bg-transparent"
+								>
+									<Trans>All activity</Trans>
+								</TabsTrigger>
+								<TabsTrigger
+									value="reports"
+									className="relative h-9 flex-none rounded-none border-0 border-b-2 border-transparent bg-transparent px-0.5 pb-2 pt-1.5 text-[12.5px] font-medium text-muted-foreground shadow-none hover:text-foreground data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:shadow-none dark:data-[state=active]:border-foreground dark:data-[state=active]:bg-transparent"
+								>
+									<Trans>Key reports</Trans>
+								</TabsTrigger>
+								<TabsTrigger
+									value="memory"
+									className="relative h-9 flex-none rounded-none border-0 border-b-2 border-transparent bg-transparent px-0.5 pb-2 pt-1.5 text-[12.5px] font-medium text-muted-foreground shadow-none hover:text-foreground data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:shadow-none dark:data-[state=active]:border-foreground dark:data-[state=active]:bg-transparent"
+								>
+									<Trans>Shared memory</Trans>
+								</TabsTrigger>
+							</TabsList>
+							<Tooltip>
+								<TooltipTrigger asChild>
+									<button
+										type="button"
+										aria-label={t({ message: "Mail delivery info" })}
+										className="mb-1 ml-1 grid size-6 shrink-0 place-items-center rounded-md text-muted-foreground/80 transition-colors hover:bg-fill-hover hover:text-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+									>
+										<LuInfo className="size-3.5" />
+									</button>
+								</TooltipTrigger>
+								<TooltipContent side="right" className="max-w-xs">
+									<Trans>
+										Agent reports are not verified completion. Mail
+										acknowledgement is separate from task acceptance.
+									</Trans>
+								</TooltipContent>
+							</Tooltip>
+						</div>
+						<TabsContent
+							value="all"
+							forceMount
+							className="pt-2 data-[state=inactive]:hidden"
+						>
+							{mail.isPending ? (
+								<output className="block py-6 text-xs text-muted-foreground">
+									<Trans>Loading mail…</Trans>
+								</output>
+							) : (
+								<TeamMailTimeline
+									mode="all"
+									expandedId={inspectId}
+									items={mail.data ?? []}
+									members={members}
+									pending={pending}
+									readOnly={unavailable || team?.status === "archived"}
+									onConsume={(id, ack) => consume.mutate({ id, ack })}
+								/>
+							)}
+						</TabsContent>
+						<TabsContent
+							value="reports"
+							forceMount
+							className="pt-2 data-[state=inactive]:hidden"
+						>
+							{mail.isPending ? (
+								<output className="block py-6 text-xs text-muted-foreground">
+									<Trans>Loading mail…</Trans>
+								</output>
+							) : (
+								<TeamMailTimeline
+									mode="reports"
+									items={mail.data ?? []}
+									members={members}
+									pending={pending}
+									readOnly={unavailable || team?.status === "archived"}
+									onInspect={(eventId) => {
+										setInspectId(eventId);
+										setTab("all");
+									}}
+									onConsume={(id, ack) => consume.mutate({ id, ack })}
+								/>
+							)}
+						</TabsContent>
+						<TabsContent value="memory" className="min-h-[420px] pt-3">
+							<MemoryPanel
+								client={client}
+								hostUrl={hostUrl}
+								disabled={unavailable}
+								readOnly={team?.status === "archived"}
+								scopes={[
+									{
+										scopeKind: "team",
+										scopeId: teamId,
+										label: t({ message: "Team" }),
+									},
+									...context.projects
+										.filter((project) =>
+											members.some((member) => member.projectId === project.id),
+										)
+										.map((project) => ({
+											scopeKind: "project" as const,
+											scopeId: project.id,
+											label: `${t({ message: "Project" })} · ${project.name}`,
+										})),
+									{
+										scopeKind: "global",
+										scopeId: "",
+										label: t({ message: "Global" }),
+									},
+								]}
+							/>
+						</TabsContent>
+					</div>
 				</div>
 				{team?.status !== "archived" && (
 					<div
 						className={
-							tab === "mail" &&
+							tab !== "memory" &&
 							!unavailable &&
 							(team?.status === "active" || team?.status === "paused")
 								? "shrink-0"

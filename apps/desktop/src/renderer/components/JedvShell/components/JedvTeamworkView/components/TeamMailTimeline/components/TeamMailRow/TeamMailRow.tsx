@@ -1,7 +1,8 @@
 import { formatDateTime } from "@jedv/i18n/format";
+import { Badge } from "@jedv/ui/badge";
 import { Button } from "@jedv/ui/button";
 import { Trans, useLingui } from "@lingui/react/macro";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LuChevronDown, LuEye, LuMail } from "react-icons/lu";
 import type { MailItem, TeamMember } from "../../../../../../hooks/useTeamwork";
 import { TeamIconButton } from "../../../TeamIconButton";
@@ -23,6 +24,9 @@ export function TeamMailRow({
 }) {
 	const { t, i18n } = useLingui();
 	const [expanded, setExpanded] = useState(initiallyExpanded);
+	useEffect(() => {
+		if (initiallyExpanded) setExpanded(true);
+	}, [initiallyExpanded]);
 	const { event, deliveries } = item;
 	const requiresAck = event.requiresAck !== false;
 	const report = isWorkerReport(event.body)
@@ -112,11 +116,21 @@ export function TeamMailRow({
 					].join(", ")}
 				</span>
 				{total === 1 && !expanded && deliveries[0] && (
-					<span className="shrink-0">{deliveryState(deliveries[0])}</span>
+					<Badge
+						variant={
+							deliveryNeedsAttention(deliveries[0])
+								? "destructive"
+								: "secondary"
+						}
+						className="h-4 shrink-0 px-1.5 text-[10px] font-normal"
+					>
+						{deliveryState(deliveries[0])}
+					</Badge>
 				)}
 				{total > 1 && (
-					<span
-						className="shrink-0"
+					<Badge
+						variant="secondary"
+						className="h-4 shrink-0 px-1.5 text-[10px] font-normal"
 						title={
 							requiresAck
 								? t({ message: "Acknowledged" })
@@ -127,7 +141,7 @@ export function TeamMailRow({
 							? ackedCount
 							: deliveries.filter((delivery) => delivery.readAt != null).length}
 						/{total}
-					</span>
+					</Badge>
 				)}
 				<time
 					className="shrink-0 text-[10px]"
@@ -176,8 +190,7 @@ export function TeamMailRow({
 						</Trans>
 					) : (
 						<Trans>
-							Mail delivery needs attention. Open diagnostics to inspect the
-							delivery.
+							Mail delivery needs attention. Expand to inspect the delivery.
 						</Trans>
 					)}
 				</p>

@@ -17,9 +17,11 @@ import {
 	useThemeStore,
 } from "renderer/stores/theme";
 import {
-	builtInThemes,
-	darkTheme as defaultDarkTheme,
-	lightTheme as defaultLightTheme,
+	rendererBuiltInThemes as builtInThemes,
+	canonicalDarkTheme as defaultDarkTheme,
+	canonicalLightTheme as defaultLightTheme,
+} from "renderer/stores/theme/canonical-themes";
+import {
 	getTerminalColors,
 	parseThemeConfigFile,
 	type Theme,
