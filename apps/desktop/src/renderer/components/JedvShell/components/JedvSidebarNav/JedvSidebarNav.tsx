@@ -1,3 +1,4 @@
+import { Kbd } from "@jedv/ui/kbd";
 import { Trans, useLingui } from "@lingui/react/macro";
 import type { ReactNode } from "react";
 import {
@@ -7,8 +8,7 @@ import {
 	LuLayers,
 	LuPlus,
 	LuSearch,
-	LuSettings2,
-	LuUsers,
+	LuSettings,
 } from "react-icons/lu";
 import { useHotkeyDisplay } from "renderer/hotkeys";
 import type { JedvSurface } from "../../parity-types";
@@ -19,6 +19,7 @@ export function JedvSidebarNav({
 	onSearch,
 	onNewWorkspace,
 	canCreateWorkspace,
+	inbox,
 	footerHost,
 	children,
 }: {
@@ -28,6 +29,7 @@ export function JedvSidebarNav({
 	onSearch(): void;
 	onNewWorkspace(): void;
 	canCreateWorkspace: boolean;
+	inbox?: ReactNode;
 	footerHost?: ReactNode;
 	children?: ReactNode;
 }) {
@@ -44,11 +46,6 @@ export function JedvSidebarNav({
 			id: "automations" as const,
 			label: t({ message: "Automations" }),
 			icon: LuClock,
-		},
-		{
-			id: "create-team" as const,
-			label: t({ message: "Create team" }),
-			icon: LuUsers,
 		},
 		{
 			id: "pull-requests" as const,
@@ -69,47 +66,51 @@ export function JedvSidebarNav({
 		<>
 			<nav
 				aria-label={t({ message: "Workspace navigation" })}
-				className="shrink-0 space-y-0.5 border-b border-sidebar-border px-2 pb-3"
+				className="shrink-0 space-y-0.5 border-b border-sidebar-border px-2.5 pt-1 pb-2.5"
 			>
 				<button
 					type="button"
 					disabled={!canCreateWorkspace}
 					onClick={onNewWorkspace}
-					className="group flex h-7 w-full items-center gap-2 rounded-md bg-fill-hover/60 [.light_&]:bg-fill-hover px-1.5 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-fill-selected hover:text-foreground disabled:opacity-50"
+					className="group mb-1.5 flex h-[30px] w-full items-center gap-2 rounded-md border border-sidebar-border bg-sidebar-accent/65 px-2 text-[13px] font-medium text-sidebar-foreground shadow-2xs transition-colors hover:bg-sidebar-accent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-45"
 				>
-					<span className="flex size-5 shrink-0 items-center justify-center rounded bg-fill-selected">
-						<LuPlus className="size-3" strokeWidth={2} />
-					</span>
+					<LuPlus
+						className="size-3.5 shrink-0 text-muted-foreground transition-colors group-hover:text-sidebar-foreground"
+						strokeWidth={2}
+					/>
 					<span className="flex-1 truncate text-left whitespace-nowrap">
 						<Trans>New Workspace</Trans>
 					</span>
 					{newWorkspaceKey !== "Unassigned" && (
-						<span className="text-[10px] font-normal text-muted-foreground/60">
-							{newWorkspaceKey}
-						</span>
+						<Kbd className="h-[18px] px-1 text-[10px]">{newWorkspaceKey}</Kbd>
 					)}
 				</button>
 				<button
 					type="button"
 					onClick={onSearch}
-					className="flex h-7 w-full items-center gap-2 rounded-md px-2 text-left text-[13px] font-medium text-muted-foreground transition-colors hover:bg-fill-hover hover:text-foreground"
+					className="group flex h-[30px] w-full items-center gap-2 rounded-md px-2 text-left text-[13px] text-muted-foreground transition-colors hover:bg-fill-hover hover:text-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
 				>
-					<LuSearch className="size-4" />
-					<Trans>Search</Trans>
-					<span className="ml-auto text-[10px] font-normal text-muted-foreground/60">
-						{searchKey}
+					<LuSearch className="size-4 shrink-0" />
+					<span className="flex-1 truncate">
+						<Trans>Search</Trans>
 					</span>
+					{searchKey !== "Unassigned" && (
+						<Kbd className="h-[18px] px-1 text-[10px] opacity-75 group-hover:opacity-100">
+							{searchKey}
+						</Kbd>
+					)}
 				</button>
+				{inbox}
 				{items.map((item) => (
 					<button
 						key={item.id}
 						type="button"
 						aria-current={surface === item.id ? "page" : undefined}
-						className={`flex h-7 w-full items-center gap-2 rounded-md px-2 text-left text-[13px] font-medium transition-colors ${surface === item.id ? "bg-fill-selected text-foreground" : "text-muted-foreground hover:bg-fill-hover hover:text-foreground"}`}
+						className={`flex h-[30px] w-full items-center gap-2 rounded-md px-2 text-left text-[13px] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring ${surface === item.id ? "bg-fill-selected font-medium text-foreground" : "text-muted-foreground hover:bg-fill-hover hover:text-foreground"}`}
 						onClick={() => onSelect(item.id)}
 					>
-						<item.icon className="size-4" />
-						{item.label}
+						<item.icon className="size-4 shrink-0" />
+						<span className="truncate">{item.label}</span>
 					</button>
 				))}
 			</nav>
@@ -119,10 +120,10 @@ export function JedvSidebarNav({
 				<button
 					type="button"
 					aria-label={t({ message: "Settings" })}
-					className="grid size-7 place-items-center rounded-md text-muted-foreground hover:bg-fill-hover"
+					className="grid size-7 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-fill-hover hover:text-foreground"
 					onClick={() => onSelect("settings")}
 				>
-					<LuSettings2 className="size-4" />
+					<LuSettings className="size-4" />
 				</button>
 			</div>
 		</>

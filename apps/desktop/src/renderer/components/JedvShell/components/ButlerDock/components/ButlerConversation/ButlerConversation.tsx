@@ -1,7 +1,11 @@
+import { MAX_ATTACHMENTS } from "@jedv/shared/attachment-limits";
 import type { ButlerMessageShape, ButlerSendResult } from "@jedv/shared/butler";
+import { getClipboardFiles } from "@jedv/ui/lib/clipboard-files";
 import { Trans, useLingui } from "@lingui/react/macro";
-import { useRef, useState } from "react";
+import { Paperclip, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { LuArrowUp, LuSettings2 } from "react-icons/lu";
+import { createSafePreviewUrl } from "../../../../utils/upload-host-attachment";
 import { JedvIconButton } from "../../../JedvIconButton";
 export function ButlerConversation({
 	messages,
@@ -26,19 +30,47 @@ export function ButlerConversation({
 	const [draft, setDraft] = useState(""),
 		[pending, setPending] = useState(false),
 		[failed, setFailed] = useState(false),
-		[reason, setReason] = useState<ButlerSendResult["reason"]>(null);
+		[reason, setReason] = useState<ButlerSendResult["reason"]>(null),
+		[attachments, setAttachments] = useState<
+			Array<{ id: string; file: File; previewUrl: string | null }>
+		>([]);
+	const attachmentsRef = useRef(attachments);
+	attachmentsRef.current = attachments;
+	useEffect(
+		() => () => {
+			for (const item of attachmentsRef.current) {
+				if (item.previewUrl) URL.revokeObjectURL(item.previewUrl);
+			}
+		},
+		[],
+	);
 	const request = useRef<{ body: string; id: string } | null>(null),
 		busy = useRef(false);
+	const hasContent = !!draft.trim() || attachments.length > 0;
 	const send = async () => {
-		if (busy.current || disabled || !draft.trim()) return;
+		if (busy.current || disabled || !hasContent) return;
 		busy.current = true;
 		setPending(true);
 		setFailed(false);
-		if (!request.current || request.current.body !== draft)
-			request.current = { body: draft, id: crypto.randomUUID() };
+		const notes = attachments.map(
+			(item) => `[Attachment: ${item.file.name || "image"}]`,
+		);
+		const payload =
+			notes.length > 0
+				? [draft, ...notes]
+						.filter((part) => part.length > 0)
+						.join("\n")
+						.slice(0, 12_000)
+				: draft;
+		if (!request.current || request.current.body !== payload)
+			request.current = { body: payload, id: crypto.randomUUID() };
 		try {
-			const result = await onSend(draft, request.current.id);
+			const result = await onSend(payload, request.current.id);
 			setDraft("");
+			for (const item of attachmentsRef.current) {
+				if (item.previewUrl) URL.revokeObjectURL(item.previewUrl);
+			}
+			setAttachments([]);
 			onDraftChange?.(false);
 			request.current = null;
 			setReason(result.reason);
@@ -118,43 +150,106 @@ export function ButlerConversation({
 				</p>
 			)}
 			<form
-				className="mx-2 mb-2 flex shrink-0 items-end gap-1 rounded-md border border-border p-1"
+				className="mx-2 mb-2 flex shrink-0 flex-col gap-1.5 rounded-md border border-border p-1.5"
 				onSubmit={(event) => {
 					event.preventDefault();
 					void send();
 				}}
 			>
-				<textarea
-					aria-label={t({ message: "Ask Butler…" })}
-					placeholder={t({ message: "Ask Butler…" })}
-					rows={2}
-					maxLength={12000}
-					disabled={disabled || pending}
-					value={draft}
-					onChange={(event) => {
-						setDraft(event.target.value);
-						onDraftChange?.(!!event.target.value);
-					}}
-					onKeyDown={(event) => {
-						if (
-							event.key === "Enter" &&
-							(event.metaKey || event.ctrlKey) &&
-							!event.nativeEvent.isComposing
-						) {
-							event.preventDefault();
-							void send();
+				{attachments.length > 0 && (
+					<div className="flex flex-wrap items-center gap-1.5">
+						{attachments.map((item) => (
+							<div
+								key={item.id}
+								className="flex items-center gap-1 rounded border border-border/70 bg-secondary/45 p-0.5 pr-1.5 text-[11px]"
+							>
+								{item.previewUrl ? (
+									<img
+										src={item.previewUrl}
+										alt={item.file.name}
+										className="size-7 rounded object-cover"
+									/>
+								) : (
+									<Paperclip className="ml-1 size-3 text-muted-foreground" />
+								)}
+								<span className="max-w-24 truncate text-muted-foreground">
+									{item.file.name}
+								</span>
+								<button
+									type="button"
+									aria-label={t({ message: "Remove attachment" })}
+									onClick={() => {
+										setAttachments((prev) => {
+											const found = prev.find((x) => x.id === item.id);
+											if (found?.previewUrl)
+												URL.revokeObjectURL(found.previewUrl);
+											const next = prev.filter((x) => x.id !== item.id);
+											onDraftChange?.(!!draft || next.length > 0);
+											return next;
+										});
+									}}
+									className="text-muted-foreground hover:text-foreground"
+								>
+									<X className="size-3" />
+								</button>
+							</div>
+						))}
+					</div>
+				)}
+				<div className="flex items-end gap-1">
+					<textarea
+						aria-label={t({ message: "Ask Butler…" })}
+						placeholder={t({ message: "Ask Butler…" })}
+						rows={2}
+						maxLength={12000}
+						disabled={pending}
+						value={draft}
+						onChange={(event) => {
+							setDraft(event.target.value);
+							onDraftChange?.(!!event.target.value || attachments.length > 0);
+						}}
+						onPaste={(event) => {
+							if (pending) return;
+							const files = getClipboardFiles(event.clipboardData);
+							if (files.length > 0) {
+								event.preventDefault();
+								setAttachments((prev) => {
+									const remaining = MAX_ATTACHMENTS - prev.length;
+									if (remaining <= 0) return prev;
+									const added = files.slice(0, remaining).map((file) => ({
+										id: crypto.randomUUID(),
+										file,
+										previewUrl: createSafePreviewUrl(file),
+									}));
+									const next = [...prev, ...added];
+									onDraftChange?.(!!draft || next.length > 0);
+									return next;
+								});
+							}
+						}}
+						onKeyDown={(event) => {
+							if (
+								event.key === "Enter" &&
+								(event.metaKey || event.ctrlKey) &&
+								!event.nativeEvent.isComposing
+							) {
+								event.preventDefault();
+								void send();
+							}
+						}}
+						className="min-w-0 flex-1 resize-none bg-transparent p-1 text-xs outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50"
+					/>
+					<JedvIconButton
+						label={
+							pending ? t({ message: "Sending…" }) : t({ message: "Send" })
 						}
-					}}
-					className="min-w-0 flex-1 resize-none bg-transparent p-1 text-xs outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50"
-				/>
-				<JedvIconButton
-					label={pending ? t({ message: "Sending…" }) : t({ message: "Send" })}
-					type="submit"
-					className="size-6"
-					disabled={disabled || pending || !draft.trim()}
-				>
-					<LuArrowUp className="size-3.5" />
-				</JedvIconButton>
+						type="submit"
+						className="size-6"
+						disabled={disabled || pending || !hasContent}
+					>
+						<LuArrowUp className="size-3.5" />
+					</JedvIconButton>
+				</div>
 			</form>
 		</div>
 	);

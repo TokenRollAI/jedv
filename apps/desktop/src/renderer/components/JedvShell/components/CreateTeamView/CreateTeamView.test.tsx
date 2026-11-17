@@ -153,10 +153,44 @@ test("task creation defaults to a fresh leader with verbatim text and no require
 		agent: "codex-config",
 		prompt: text,
 		leaderName: "leader",
+		name: "Preserve indentation",
 	});
-	expect(start.mock.calls[0]?.[0]).not.toHaveProperty("name");
 	expect(init).not.toHaveBeenCalled();
 	await waitFor(() => expect(created).toHaveBeenCalledWith("started-team"));
+});
+
+test("inline team name derives a smart < 36 char title at word boundary and respects custom overrides", async () => {
+	const { screen, start } = setup(false);
+	const longPrompt =
+		"Investigate and fix the authentication token refresh bug across all desktop clients";
+	fireEvent.change(screen.getByRole("textbox", { name: "Task" }), {
+		target: { value: longPrompt },
+	});
+	const nameInput = screen.getByRole("textbox", {
+		name: "Team name",
+	}) as HTMLInputElement;
+	expect(nameInput.placeholder.length).toBeLessThan(36);
+	expect(nameInput.placeholder).toMatch(/…$/);
+	expect(nameInput.placeholder).toBe("Investigate and fix the…");
+	const submit = screen.getByRole("button", { name: "Start task" });
+	await waitFor(() =>
+		expect((submit as HTMLButtonElement).disabled).toBe(false),
+	);
+	fireEvent.click(submit);
+	await waitFor(() => expect(start).toHaveBeenCalledTimes(1));
+	expect(start.mock.calls[0]?.[0]).toMatchObject({
+		name: "Investigate and fix the…",
+		prompt: longPrompt,
+	});
+	fireEvent.change(screen.getByRole("textbox", { name: "Task" }), {
+		target: { value: longPrompt },
+	});
+	fireEvent.change(nameInput, { target: { value: "Auth refresh fix" } });
+	fireEvent.click(submit);
+	await waitFor(() => expect(start).toHaveBeenCalledTimes(2));
+	expect(start.mock.calls[1]?.[0]).toMatchObject({
+		name: "Auth refresh fix",
+	});
 });
 test("uncertain task retries retain the draft, full payload and operation identity", async () => {
 	const { screen, start, failNext } = setup();
@@ -220,7 +254,7 @@ test("secondary promotion revalidates ended sessions and retains the task", asyn
 	end();
 	fireEvent.click(screen.getByRole("button", { name: "Create team" }));
 	await screen.findByText(
-		"This agent is no longer available. Choose another leader.",
+		"This session is no longer available. Choose another leader.",
 	);
 	expect(init).not.toHaveBeenCalled();
 	expect(
@@ -253,4 +287,115 @@ test("protocol 1 without the start feature keeps promotion available and blocks 
 		).disabled,
 	).toBe(false);
 	expect(start).not.toHaveBeenCalled();
+});
+
+test("untitled existing candidate sessions format as <AgentLabel> · <workspaceName> (#id)", async () => {
+	const workspace = {
+		id: "workspace",
+		name: "alpha-ws",
+		projectId: "project",
+		archivedAt: null,
+	};
+	const context = {
+		hostUrl: "http://untitled-candidate.fixture",
+		remote: null,
+		projects: [{ id: "project", name: "Project" }],
+		workspaces: [workspace],
+		onOpenWorkspace: async () => {},
+		onOpenCreateWorkspace: () => {},
+		client: {
+			terminalAgents: {
+				list: {
+					query: async () => [
+						{
+							terminalId: "48b443e0-1234-5678",
+							workspaceId: "workspace",
+							agentId: "codex",
+							launchId: "launch",
+							agentSessionId: "native-session",
+							startedAt: 1,
+						},
+					],
+				},
+			},
+			terminal: {
+				list: {
+					query: async () => ({
+						sessions: [
+							{ terminalId: "48b443e0-1234-5678", exited: false, title: "" },
+						],
+					}),
+				},
+			},
+			workspace: { list: { query: async () => [workspace] } },
+			team: {
+				list: { query: async () => [] },
+				init: {
+					mutate: async () => ({
+						team: { id: "created-team" },
+						members: [],
+					}),
+				},
+				start: { mutate: async () => ({ team: { id: "t" }, members: [] }) },
+			},
+			settings: {
+				agentConfigs: {
+					list: {
+						query: async () => [
+							{
+								id: "codex-config",
+								presetId: "codex",
+								label: "Codex",
+								iconId: null,
+							},
+						],
+					},
+				},
+			},
+		},
+	} as unknown as JedvParityViewContext;
+	const index = {
+		membershipReady: true,
+		membershipError: false,
+		supported: true,
+		activeSnapshots: [],
+		list: { data: [], isSuccess: true, isError: false },
+		capabilities: {
+			data: { protocolVersion: 1, features: { start: true } },
+			isSuccess: true,
+			isError: false,
+		},
+	} as unknown as ReturnType<typeof useTeamwork>;
+	const cache = new QueryClient({
+		defaultOptions: { queries: { retry: false } },
+	});
+	caches.push(cache);
+	const ipc = electronTrpc.createClient({
+		links: [
+			() => () =>
+				observable((emit) => {
+					emit.next({ result: { data: 1 } });
+					emit.complete();
+				}),
+		],
+	});
+	const screen = render(
+		<QueryClientProvider client={cache}>
+			<electronTrpc.Provider client={ipc} queryClient={cache}>
+				<CreateTeamView
+					context={context}
+					index={index}
+					connected
+					onCreated={() => {}}
+				/>
+			</electronTrpc.Provider>
+		</QueryClientProvider>,
+	);
+	fireEvent.click(
+		screen.getByRole("button", { name: "Use an existing session" }),
+	);
+	const option = await screen.findByRole("option", {
+		name: /Codex · alpha-ws \(#48b443e0\)/,
+	});
+	expect(option).toBeTruthy();
 });

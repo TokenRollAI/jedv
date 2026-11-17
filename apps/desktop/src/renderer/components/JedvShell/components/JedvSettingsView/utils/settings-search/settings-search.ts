@@ -96,7 +96,7 @@ export const SETTINGS_SEARCH_ITEMS: SettingsSearchItem[] = [
 		id: "appearance-editor-font",
 		section: "appearance",
 		title: "Editor Typography",
-		description: "Typography used in V2 diff views and file editors",
+		description: "Typography used in diff views and file editors",
 		keywords: [
 			"appearance",
 			"font",
@@ -119,7 +119,7 @@ export const SETTINGS_SEARCH_ITEMS: SettingsSearchItem[] = [
 		id: "appearance-terminal-font",
 		section: "appearance",
 		title: "Terminal Typography",
-		description: "Typography and cursor behavior used in V2 terminal panels",
+		description: "Typography and cursor behavior used in terminal panels",
 		keywords: [
 			"appearance",
 			"font",

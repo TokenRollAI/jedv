@@ -2739,6 +2739,7 @@ describe("kimi config.toml", () => {
 			expect(out).toContain(`event = "${event}"`);
 		}
 		expect(out).toContain("JEDV_HOOK_HARNESS=kimi");
+		expect(out).toContain('[ -z "$JEDV_KIMI_CHAIN_CONTINUE" ] && ');
 	});
 
 	it("preserves user config and replaces the managed block idempotently", () => {

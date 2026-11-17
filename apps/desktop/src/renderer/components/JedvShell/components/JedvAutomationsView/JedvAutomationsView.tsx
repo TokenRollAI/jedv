@@ -172,7 +172,7 @@ export function JedvAutomationsView(context: JedvParityViewContext) {
 								<LuArrowLeft className="size-4" />
 							</Button>
 						)}
-						<h1 className="truncate text-lg font-semibold">
+						<h1 className="truncate text-[13.5px] font-medium">
 							{selected ? (
 								(current?.name ??
 								(selected === "new" ? (
@@ -188,20 +188,24 @@ export function JedvAutomationsView(context: JedvParityViewContext) {
 				</WindowChromeControls>
 				<div className="drag min-w-4 flex-1" />
 				<WindowChromeControls className="jedv-chrome-toolbar">
-					<div className="no-drag flex items-center gap-2">
+					<div className="no-drag flex items-center gap-1.5">
 						{!selected ? (
 							<>
-								<div className="relative w-56">
-									<LuSearch className="absolute left-2 top-2 size-3.5 text-muted-foreground" />
+								<div className="relative w-52">
+									<LuSearch className="absolute left-2 top-1.5 size-3.5 text-muted-foreground" />
 									<Input
-										className="h-8 border-none bg-muted/40 pl-7 text-xs"
+										className="h-7 border-border/60 bg-card/50 pl-7 text-xs shadow-none"
 										value={search}
 										onChange={(e) => setSearch(e.target.value)}
 										aria-label={t({ message: "Search automations" })}
 										placeholder={t({ message: "Search automations…" })}
 									/>
 								</div>
-								<Button size="sm" onClick={() => navigate("new")}>
+								<Button
+									size="sm"
+									className="h-7.5 gap-1.5 px-3 text-xs"
+									onClick={() => navigate("new")}
+								>
 									<LuPlus className="size-3.5" />
 									<Trans>New automation</Trans>
 								</Button>
@@ -211,6 +215,7 @@ export function JedvAutomationsView(context: JedvParityViewContext) {
 								<Button
 									size="sm"
 									variant="outline"
+									className="h-7.5 gap-1.5 px-3 text-xs"
 									disabled={action.isPending || dirty}
 									onClick={() =>
 										action.mutate({ kind: "run", automation: current })
@@ -263,29 +268,29 @@ export function JedvAutomationsView(context: JedvParityViewContext) {
 				<div className="min-h-0 flex-1 overflow-y-auto">
 					{current || selected === "new" ? (
 						<>
-							<div className="mx-auto mt-5 flex w-full max-w-3xl items-center gap-1 px-8">
-								{[
-									{ id: "settings", label: t({ message: "Settings" }) },
-									...(current
-										? [{ id: "runs", label: t({ message: "Run History" }) }]
-										: []),
-								].map((item) => (
-									<button
-										key={item.id}
-										type="button"
-										onClick={() => setTab(item.id)}
-										aria-pressed={tab === item.id}
-										className={cn(
-											"rounded-md px-3 py-1.5 text-sm transition-colors",
-											tab === item.id
-												? "bg-accent font-medium"
-												: "text-muted-foreground hover:text-foreground",
-										)}
-									>
-										{item.label}
-									</button>
-								))}
-							</div>
+							{current && (
+								<div className="mx-auto mt-5 flex w-full max-w-3xl items-center gap-1 px-8">
+									{[
+										{ id: "settings", label: t({ message: "Settings" }) },
+										{ id: "runs", label: t({ message: "Run History" }) },
+									].map((item) => (
+										<button
+											key={item.id}
+											type="button"
+											onClick={() => setTab(item.id)}
+											aria-pressed={tab === item.id}
+											className={cn(
+												"rounded-md px-3 py-1.5 text-sm transition-colors",
+												tab === item.id
+													? "bg-accent font-medium"
+													: "text-muted-foreground hover:text-foreground",
+											)}
+										>
+											{item.label}
+										</button>
+									))}
+								</div>
+							)}
 							<div className={tab === "settings" ? undefined : "hidden"}>
 								<AutomationEditor
 									key={selected}

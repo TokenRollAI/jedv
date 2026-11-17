@@ -33,6 +33,7 @@ import { PaneContextMenu } from "./components/PaneContextMenu";
 import { PaneErrorBoundary } from "./components/PaneErrorBoundary";
 import { PaneFallback } from "./components/PaneFallback";
 import { PANE_DRAG_TYPE, PaneHeader } from "./components/PaneHeader";
+import { shouldShowPaneHeader } from "./utils";
 
 type PaneDropItem =
 	| { paneId: string; store?: unknown }
@@ -303,6 +304,13 @@ export function Pane<TData>({
 	const headerExtras = definition?.renderHeaderExtras?.(context);
 	const aside = usePaneAside(pane.id);
 	const toolbar = definition?.renderToolbar?.(context);
+	const showHeader = shouldShowPaneHeader({
+		paneCount: Object.keys(tab.panes).length,
+		parentDirection,
+		hasCustomToolbar: toolbar != null,
+		definition,
+		context,
+	});
 
 	const isDropTarget = isOver && canDrop;
 
@@ -327,7 +335,7 @@ export function Pane<TData>({
 					}
 					onPointerDownCapture={context.actions.focus}
 				>
-					{!definition?.hideHeader?.(context) && (
+					{showHeader && (
 						<PaneHeader
 							title={title}
 							icon={icon}

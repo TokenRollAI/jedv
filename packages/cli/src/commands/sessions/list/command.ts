@@ -1,9 +1,10 @@
-import { number, table } from "@jedv/cli-framework";
+import { number } from "@jedv/cli-framework";
 import { command } from "../../../lib/command";
 import {
 	resolveSessionWorkspace,
 	sessionWorkspaceOptions,
 } from "../../../lib/sessions";
+import { table } from "../../../lib/table";
 
 export default command({
 	description: "List chat sessions in a workspace",

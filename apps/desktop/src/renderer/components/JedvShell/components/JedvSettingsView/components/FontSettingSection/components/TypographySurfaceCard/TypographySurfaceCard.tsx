@@ -22,7 +22,6 @@ import {
 	DEFAULT_CODE_EDITOR_FONT_SIZE,
 } from "renderer/components/JedvShell/components/JedvSettingsView/constants";
 import { useSettingsSearchQuery } from "renderer/components/JedvShell/components/JedvSettingsView/hooks/useSettingsSearch";
-import { resolveEditorLineHeight } from "renderer/lib/editor-typography";
 import type { FontSettings } from "renderer/lib/font-settings";
 import {
 	DEFAULT_TERMINAL_CURSOR_BLINK,
@@ -173,12 +172,10 @@ export function TypographySurfaceCard({
 		drafts[key] ?? String(settings[key] ?? fallback);
 
 	const previewSize = numericValue(config.sizeKey, config.defaultSize);
-	const previewLineHeight =
-		variant === "editor" &&
-		drafts.editorLineHeight == null &&
-		settings.editorLineHeight == null
-			? resolveEditorLineHeight(previewSize) / previewSize
-			: numericValue(config.lineHeightKey, config.defaultLineHeight);
+	const previewLineHeight = numericValue(
+		config.lineHeightKey,
+		config.defaultLineHeight,
+	);
 
 	return (
 		<div className="p-4">
@@ -196,10 +193,10 @@ export function TypographySurfaceCard({
 					</div>
 					<p className="mt-1 text-xs text-muted-foreground">
 						{variant === "editor" ? (
-							<Trans>Typography used in V2 editors and diff views.</Trans>
+							<Trans>Typography used in editors and diff views.</Trans>
 						) : (
 							<Trans>
-								Typography and cursor behavior used in V2 terminal panels.
+								Typography and cursor behavior used in terminal panels.
 							</Trans>
 						)}
 						{variant === "terminal" && (
@@ -303,6 +300,7 @@ export function TypographySurfaceCard({
 						min={1}
 						max={2.5}
 						step={0.1}
+						className="w-28"
 						value={inputValue(config.lineHeightKey, config.defaultLineHeight)}
 						onChange={(event) =>
 							setDrafts((current) => ({
@@ -326,6 +324,7 @@ export function TypographySurfaceCard({
 						min={-2}
 						max={4}
 						step={0.1}
+						className="w-28"
 						value={inputValue(config.letterSpacingKey, 0)}
 						onChange={(event) =>
 							setDrafts((current) => ({

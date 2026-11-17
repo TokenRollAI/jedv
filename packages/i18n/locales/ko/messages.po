@@ -346,9 +346,6 @@ msgstr "폴더에서 프로젝트 추가"
 msgid "Add Project from Folder..."
 msgstr "폴더에서 프로젝트 추가..."
 
-msgid "Add tests where coverage is missing"
-msgstr "테스트가 부족한 곳에 테스트 추가"
-
 msgid "Add to Dictionary"
 msgstr "사전에 추가"
 
@@ -464,6 +461,9 @@ msgstr "실행 중"
 msgid "All"
 msgstr "전체"
 
+msgid "All activity"
+msgstr "전체 활동"
+
 msgid "All commits"
 msgstr "모든 커밋"
 
@@ -491,11 +491,17 @@ msgstr "허용"
 msgid "Allow microphone access to use dictation"
 msgstr "받아쓰기를 사용하려면 마이크 접근을 허용하세요"
 
+msgid "Allow once"
+msgstr "한 번만 허용"
+
 msgid "Already open"
 msgstr "이미 열려 있음"
 
 msgid "Also delete local branch"
 msgstr "로컬 브랜치도 삭제"
+
+msgid "Ambiguous upstream branch configuration"
+msgstr "업스트림 브랜치 설정이 모호합니다"
 
 msgid "An automation did not complete. Inspect its run on your computer."
 msgstr "자동화가 완료되지 않았습니다. 컴퓨터에서 실행 기록을 확인하세요."
@@ -633,6 +639,9 @@ msgstr "변경을 요청하고, @로 파일을 멘션하고, /명령을 실행�
 msgid "Associated provider tokens will be revoked."
 msgstr "연결된 공급자 토큰이 해지됩니다."
 
+msgid "At most {MAX_ATTACHMENTS} attachments can be added."
+msgstr "첨부 파일은 최대 {MAX_ATTACHMENTS}개까지 추가할 수 있습니다."
+
 msgid "Attach"
 msgstr "연결"
 
@@ -652,6 +661,9 @@ msgstr "첨부 파일"
 #. placeholder {1}: cause.problem
 msgid "Attachment {0} could not be copied: {1}"
 msgstr "첨부 파일 {0}을(를) 복사하지 못했습니다: {1}"
+
+msgid "Attachment is too large (maximum 10 MB)."
+msgstr "첨부 파일이 너무 큽니다(최대 10 MB)."
 
 msgid "Attachment limits exceeded"
 msgstr "첨부 파일 제한 초과"
@@ -676,6 +688,9 @@ msgstr "자동(시스템)"
 
 msgid "Auto save"
 msgstr "자동 저장"
+
+msgid "Auto-derived from task (optional)"
+msgstr "작업에서 자동 생성(선택 사항)"
 
 msgid "Automatic delivery paused"
 msgstr "자동 전달 일시 중지됨"
@@ -739,6 +754,9 @@ msgstr "뒤로"
 
 msgid "Back to automations"
 msgstr "자동화로 돌아가기"
+
+msgid "Back to changes"
+msgstr "변경 사항으로 돌아가기"
 
 msgid "Back to current conversation"
 msgstr "현재 대화로 돌아가기"
@@ -850,6 +868,9 @@ msgstr "{action} 수 없습니다: 선택된 활성 조직이 없습니다. 조�
 msgid "Cannot {action}: the local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
 msgstr "{action} 수 없습니다: {device}의 {organization}에 대해 로컬 호스트 서비스를 사용할 수 없습니다. 상태: {status}. {recovery}"
 
+msgid "Cascading URL rewrite is not supported"
+msgstr "연쇄 URL 재작성은 지원되지 않습니다"
+
 msgid "Category"
 msgstr "분류"
 
@@ -888,6 +909,9 @@ msgstr "채팅"
 
 msgid "Chat is being reworked"
 msgstr "채팅을 개편하는 중입니다"
+
+msgid "Chat session"
+msgstr "채팅 세션"
 
 msgid "Check for updates"
 msgstr "업데이트 확인"
@@ -964,8 +988,8 @@ msgstr "프로젝트 또는 워크스페이스 선택"
 msgid "Choose a project to start working."
 msgstr "작업을 시작할 프로젝트를 선택하세요."
 
-msgid "Choose a running agent as leader to start collaborating."
-msgstr "실행 중인 에이전트를 리더로 선택해 협업을 시작하세요."
+msgid "Choose a running session as leader to start collaborating."
+msgstr "협업을 시작하려면 실행 중인 세션을 리더로 선택하세요."
 
 msgid "Choose a saved screenshot to attach. Files are copied only when you submit the prompt."
 msgstr "첨부할 저장된 스크린샷을 선택하세요. 파일은 프롬프트를 제출할 때만 복사됩니다."
@@ -999,6 +1023,9 @@ msgstr "API 키 지우기"
 
 msgid "Clear API key?"
 msgstr "API 키를 지울까요?"
+
+msgid "Clear filters"
+msgstr "필터 지우기"
 
 msgid "Clear saved screenshots?"
 msgstr "저장된 스크린샷을 지우시겠습니까?"
@@ -1236,6 +1263,12 @@ msgstr "구성"
 msgid "Configure agent commands for the connected host."
 msgstr "연결된 호스트의 에이전트 명령을 구성하세요."
 
+msgid "Configure how URLs, files, and folders open when clicked in terminals."
+msgstr "터미널에서 URL, 파일, 폴더를 클릭할 때 열리는 방식을 설정합니다."
+
+msgid "Configure in Files & editor"
+msgstr "파일 및 편집기에서 설정"
+
 msgid "Configured"
 msgstr "설정됨"
 
@@ -1453,8 +1486,8 @@ msgstr "이 세션을 확인할 수 없습니다. 다시 시도하기 전에 새
 msgid "Could not copy. Select the text below to copy it."
 msgstr "복사하지 못했습니다. 아래 텍스트를 선택해 복사하세요."
 
-msgid "Could not create team. Refresh the agents and retry."
-msgstr "팀을 만들지 못했습니다. 에이전트를 새로 고치고 다시 시도하세요."
+msgid "Could not create team. Refresh the sessions and retry."
+msgstr "팀을 만들 수 없습니다. 세션을 새로 고친 후 다시 시도하세요."
 
 msgid "Could not create workspace. Check the target host and retry."
 msgstr "워크스페이스를 만들지 못했습니다. 대상 호스트를 확인하고 다시 시도하세요."
@@ -1718,11 +1751,20 @@ msgstr "사용자 지정"
 msgid "Custom branch prefix"
 msgstr "사용자 지정 브랜치 접두사"
 
+msgid "Custom fetch refspec is not supported"
+msgstr "사용자 지정 fetch refspec은 지원되지 않습니다"
+
 msgid "Custom notification sound"
 msgstr "사용자 지정 알림 소리"
 
 msgid "Custom prefix"
 msgstr "사용자 지정 접두사"
+
+msgid "Custom push refspec is not supported"
+msgstr "사용자 지정 push refspec은 지원되지 않습니다"
+
+msgid "Custom receive-pack is not supported"
+msgstr "사용자 지정 receive-pack은 지원되지 않습니다"
 
 msgid "Custom sound"
 msgstr "사용자 지정 사운드"
@@ -1874,6 +1916,9 @@ msgstr "전달 결과가 불확실합니다. 다시 시도하기 전에 터미�
 msgid "Delivery uncertain"
 msgstr "전달 결과 불확실"
 
+msgid "Deny"
+msgstr "거부"
+
 msgid "Describe a goal to start a new task."
 msgstr "목표를 설명하고 새 작업을 시작하세요."
 
@@ -1897,6 +1942,9 @@ msgstr "대상 경로"
 
 msgid "Detached"
 msgstr "분리됨"
+
+msgid "Detached HEAD"
+msgstr "분리된 HEAD 상태입니다"
 
 msgid "Details"
 msgstr "세부 정보"
@@ -1958,10 +2006,11 @@ msgstr "이름을 변경하거나 복사한 파일은 폐기할 수 없습니다
 msgid "Disconnected"
 msgstr "연결 끊김"
 
-#. placeholder {0}: formatNumber(logins.data.claude.length)
-#. placeholder {1}: formatNumber(logins.data.codex.length)
-msgid "Discovered {0} Claude Code and {1} Codex login profiles on this host."
-msgstr "이 호스트에서 Claude Code 로그인 프로필 {0}개와 Codex 로그인 프로필 {1}개를 발견했습니다."
+#. placeholder {0}: formatNumber(claudeCount)
+#. placeholder {1}: formatNumber(codexCount)
+#. placeholder {2}: formatNumber(agyCount)
+msgid "Discovered {0} Claude Code, {1} Codex, and {2} Antigravity accounts on this host. Kimi Code does not expose local account discovery."
+msgstr "이 호스트에서 Claude Code {0}개, Codex {1}개, Antigravity 계정 {2}개를 찾았습니다. Kimi Code는 로컬 계정 검색을 지원하지 않습니다."
 
 msgid "Disk version"
 msgstr "디스크 버전"
@@ -2062,11 +2111,17 @@ msgstr "편집기 타이포그래피"
 msgid "Effort"
 msgstr "추론 강도"
 
+msgid "Effort:"
+msgstr "추론 강도:"
+
 msgid "Enable"
 msgstr "활성화"
 
 msgid "Enabled"
 msgstr "활성화됨"
+
+msgid "Ended"
+msgstr "종료됨"
 
 msgid "Endpoint"
 msgstr "엔드포인트"
@@ -2100,6 +2155,9 @@ msgstr "대상 호스트의 절대 디렉터리 경로를 입력하세요."
 
 msgid "Enter an agent name."
 msgstr "에이전트 이름을 입력하세요."
+
+msgid "Enter DeepSeek API Key"
+msgstr "DeepSeek API 키 입력"
 
 msgid "Enter the pairing code shown in Jedv on your computer."
 msgstr "컴퓨터의 Jedv에 표시된 연결 코드를 입력하세요."
@@ -2383,9 +2441,6 @@ msgstr "에이전트 필터…"
 msgid "Find"
 msgstr "찾기"
 
-msgid "Find and fix a bug"
-msgstr "버그를 찾아 수정하기"
-
 msgid "Find in Changes"
 msgstr "변경 사항에서 찾기"
 
@@ -2508,9 +2563,6 @@ msgstr "금요일"
 
 msgid "From"
 msgstr "기존 위치"
-
-msgid "From the task’s first sentence"
-msgstr "작업의 첫 문장에서 생성"
 
 msgid "Front matter hidden. Switch to the Markdown view to edit it"
 msgstr "front matter 숨김. 편집하려면 Markdown 보기로 전환하세요"
@@ -2807,12 +2859,6 @@ msgstr "선택한 워크스페이스 가져오는 중…"
 msgid "Importing..."
 msgstr "가져오는 중..."
 
-msgid "Improve agent instructions"
-msgstr "에이전트 지침 개선"
-
-msgid "In"
-msgstr "위치"
-
 msgid "In Apple's window, click Install. It takes a few minutes, and this page updates when it's done."
 msgstr "Apple 창에서 설치를 클릭하세요. 몇 분 정도 걸리며, 완료되면 이 페이지가 업데이트됩니다."
 
@@ -2833,6 +2879,9 @@ msgstr "받은편지함"
 
 msgid "Include archived teams"
 msgstr "보관된 팀 포함"
+
+msgid "Include internal mail"
+msgstr "내부 메일 포함"
 
 msgid "Include the Linear ticket id from the prompt in the branch name (e.g. bin-344-fix-login). Prefix branches with fix/ or feat/ based on the task."
 msgstr "프롬프트에 있는 Linear 티켓 id를 브랜치 이름에 포함하세요 (예: bin-344-fix-login). 작업에 따라 브랜치 이름 앞에 fix/ 또는 feat/를 붙이세요."
@@ -2885,12 +2934,6 @@ msgstr "지침"
 msgid "Instructions are available in the original mail."
 msgstr "원본 메일에서 지침을 확인할 수 있습니다."
 
-msgid "Internal mail and diagnostics"
-msgstr "내부 메일 및 진단"
-
-msgid "Internal mail diagnostics"
-msgstr "내부 메일 진단"
-
 msgid "Interrupt"
 msgstr "중단"
 
@@ -2905,6 +2948,9 @@ msgstr "중단되었습니다"
 
 msgid "Invalid memory JSON"
 msgstr "잘못된 메모리 JSON"
+
+msgid "Invalid target branch name"
+msgstr "대상 브랜치 이름이 잘못되었습니다"
 
 msgid "Italic"
 msgstr "기울임꼴"
@@ -2941,6 +2987,9 @@ msgstr "새 파일을 유지했습니다, 생성 후 내용이 바뀌었습니�
 
 msgid "Kept the new folder because it is no longer empty"
 msgstr "새 폴더를 유지했습니다, 더 이상 비어 있지 않습니다"
+
+msgid "Key reports"
+msgstr "주요 보고"
 
 msgid "Keyboard"
 msgstr "키보드"
@@ -3040,6 +3089,9 @@ msgstr "줄 높이"
 msgid "Link"
 msgstr "링크"
 
+msgid "Link behavior"
+msgstr "링크 동작"
+
 msgid "Linked agent"
 msgstr "연결된 에이전트"
 
@@ -3069,6 +3121,9 @@ msgstr "더 보기"
 
 msgid "Loading"
 msgstr "불러오는 중"
+
+msgid "Loading agent session…"
+msgstr "에이전트 세션을 불러오는 중…"
 
 msgid "Loading agents…"
 msgstr "에이전트 로드 중…"
@@ -3184,8 +3239,14 @@ msgstr "수신 확인 대기 메일: {activeCount}"
 msgid "Mail awaits acknowledgement"
 msgstr "메일 처리 확인 대기 중"
 
-msgid "Mail delivery needs attention. Open diagnostics to inspect the delivery."
-msgstr "메일 전달에 확인이 필요합니다. 진단을 열어 전달 상태를 확인하세요."
+msgid "Mail delivery info"
+msgstr "메일 전송 정보"
+
+msgid "Mail delivery needs attention. Expand to inspect the delivery."
+msgstr "메일 전송 확인이 필요합니다. 펼쳐서 전송 상태를 확인하세요."
+
+msgid "Mail delivery needs attention. View original mail to inspect the delivery."
+msgstr "메일 전송 확인이 필요합니다. 원본 메일을 열어 전송 상태를 확인하세요."
 
 msgid "Mail has not been acknowledged. Reading it does not acknowledge it."
 msgstr "메일이 아직 처리 확인되지 않았습니다. 읽기만 해서는 처리 확인되지 않습니다."
@@ -3317,6 +3378,9 @@ msgstr "팀에 보낼 메시지"
 msgid "Minimum contrast"
 msgstr "최소 대비"
 
+msgid "Mirror remotes are not supported"
+msgstr "미러 원격 저장소는 지원되지 않습니다"
+
 msgid "Mobile"
 msgstr "모바일"
 
@@ -3325,6 +3389,9 @@ msgstr "모바일 접속 주소"
 
 msgid "Model"
 msgstr "모델"
+
+msgid "Model:"
+msgstr "모델:"
 
 msgid "Models"
 msgstr "모델"
@@ -3406,6 +3473,9 @@ msgstr "이 리포지토리와 일치하는 프로젝트가 여러 개입니다.
 
 msgid "Multiple projects use this directory. Choose the project in the sidebar."
 msgstr "여러 프로젝트가 이 디렉터리를 사용합니다. 사이드바에서 프로젝트를 선택하세요."
+
+msgid "Multiple push URLs are not supported"
+msgstr "여러 푸시 URL은 지원되지 않습니다"
 
 msgid "Mute notification sounds"
 msgstr "알림 소리 음소거"
@@ -3607,6 +3677,9 @@ msgstr "검사 없음"
 msgid "No checks reported"
 msgstr "보고된 검사 없음"
 
+msgid "No commits to push yet"
+msgstr "아직 푸시할 커밋이 없습니다"
+
 msgid "No completed project was found yet. The host may still be stopping or finishing the operation. Check again before retrying at this location."
 msgstr "아직 완료된 프로젝트를 찾지 못했습니다. 호스트가 중지 중이거나 작업을 완료하는 중일 수 있습니다. 이 위치에서 다시 시도하기 전에 다시 확인하세요."
 
@@ -3648,6 +3721,9 @@ msgstr "항목 없음"
 
 msgid "No items."
 msgstr "항목이 없습니다."
+
+msgid "No key reports or instructions yet. Check All activity for full worker mail."
+msgstr "아직 주요 보고나 지시가 없습니다. 전체 워커 메일은 전체 활동에서 확인하세요."
 
 msgid "No linked pull requests"
 msgstr "연결된 PR 없음"
@@ -3697,9 +3773,6 @@ msgstr "접두사 없음"
 msgid "No prefix could be resolved from this host's identity."
 msgstr "이 호스트의 ID에서 접두사를 확인할 수 없습니다."
 
-msgid "No progress reports or decisions yet. Internal communication is available in diagnostics."
-msgstr "아직 진행 보고나 결정 사항이 없습니다. 내부 통신은 진단에서 확인할 수 있습니다."
-
 msgid "No projects match your filters"
 msgstr "필터와 일치하는 프로젝트가 없습니다"
 
@@ -3720,6 +3793,9 @@ msgstr "필터와 일치하는 풀 리퀘스트가 없습니다"
 
 msgid "No recent Agent or Git activity was observed. Inspect the terminal before acting."
 msgstr "최근 에이전트 또는 Git 활동이 관찰되지 않았습니다. 작업 전에 터미널을 확인하세요."
+
+msgid "No remote configured"
+msgstr "원격 저장소가 설정되지 않았습니다"
 
 msgid "No removed projects"
 msgstr "제거된 프로젝트가 없습니다"
@@ -3744,6 +3820,9 @@ msgstr "할당된 작업 없음"
 
 msgid "No team"
 msgstr "팀 없음"
+
+msgid "No team activity yet."
+msgstr "아직 팀 활동이 없습니다."
 
 msgid "No teams yet"
 msgstr "아직 팀이 없습니다"
@@ -4172,6 +4251,9 @@ msgstr "피어 호스트 ID"
 msgid "Pending"
 msgstr "대기 중"
 
+msgid "Pending approvals and important team updates will appear here."
+msgstr "대기 중인 승인과 중요한 팀 업데이트가 여기에 표시됩니다."
+
 msgid "Pending approvals and unread important faults"
 msgstr "대기 중인 승인 및 읽지 않은 중요 오류"
 
@@ -4241,6 +4323,9 @@ msgstr "대상 호스트에서 워크스페이스 준비 중…"
 msgid "Preset association could not be confirmed. Refresh and try again."
 msgstr "프리셋 연결을 확인하지 못했습니다. 새로 고친 후 다시 시도하세요."
 
+msgid "Presets"
+msgstr "프리셋"
+
 msgid "Presets are stored on this device. Run them explicitly from the workspace launcher."
 msgstr "프리셋은 이 기기에 저장됩니다. 워크스페이스 런처에서 명시적으로 실행하세요."
 
@@ -4285,9 +4370,6 @@ msgstr "처리한 토큰"
 
 msgid "Processing"
 msgstr "처리 중"
-
-msgid "Progress and decisions"
-msgstr "진행 상황 및 결정 사항"
 
 msgid "Project"
 msgstr "프로젝트"
@@ -4379,14 +4461,20 @@ msgstr "푸시 완료"
 msgid "Push this commit to the reviewed remote branch. A changed target requires a new confirmation."
 msgstr "이 커밋을 검토된 원격 브랜치에 푸시합니다. 대상이 변경되면 다시 확인해야 합니다."
 
+msgid "Push with follow-tags is not supported"
+msgstr "follow-tags를 사용한 푸시는 지원되지 않습니다"
+
+msgid "Push with submodule recursion is not supported"
+msgstr "서브모듈 재귀 푸시는 지원되지 않습니다"
+
 msgid "px"
 msgstr "px"
 
 msgid "Queue message"
 msgstr "메시지 대기열에 추가"
 
-msgid "Queue waits for the agent. Interrupt requires safe support from the current session. Both require recipient acknowledgement; sending is not consumption."
-msgstr "대기열은 에이전트를 기다립니다. 중단하려면 현재 세션에서 안전한 중단을 지원해야 합니다. 두 방식 모두 수신자의 확인이 필요하며, 전송이 곧 처리를 뜻하지는 않습니다."
+msgid "Queue waits for the agent. Interrupt requires safe support from the current Codex session. Both require recipient acknowledgement; sending is not consumption."
+msgstr "대기열은 에이전트를 기다립니다. 중단은 현재 Codex 세션의 안전한 지원이 필요합니다. 두 방식 모두 수신자 확인이 필요하며 전송이 곧 처리는 아닙니다."
 
 msgid "Queue; ⌘↩ to steer the running turn"
 msgstr "대기열에 추가; ⌘↩로 진행 중인 턴 방향 전환"
@@ -4491,9 +4579,6 @@ msgstr "빨강"
 msgid "Refresh"
 msgstr "새로 고침"
 
-msgid "Refresh agents"
-msgstr "에이전트 새로 고침"
-
 msgid "Refresh capabilities"
 msgstr "기능 새로 고침"
 
@@ -4565,6 +4650,9 @@ msgstr "원격"
 
 msgid "Remote"
 msgstr "원격"
+
+msgid "Remote helper is not supported"
+msgstr "원격 헬퍼는 지원되지 않습니다"
 
 msgid "Remote port"
 msgstr "원격 포트"
@@ -4745,6 +4833,9 @@ msgstr "{countdown} 후 재설정 · {absolute}"
 
 msgid "Resets now"
 msgstr "지금 재설정"
+
+msgid "Resolve conflicts before pushing"
+msgstr "푸시하기 전에 충돌을 해결하세요"
 
 msgid "Resolve conversation"
 msgstr "대화 해결"
@@ -4966,6 +5057,9 @@ msgstr "실행 중"
 msgid "Running"
 msgstr "실행 중"
 
+msgid "Safe interruption is only supported for Codex sessions. Messages to other agents or the whole team are queued."
+msgstr "안전한 중단은 Codex 세션에서만 지원됩니다. 다른 에이전트나 팀 전체로 보내는 메시지는 대기열에 추가됩니다."
+
 msgid "Safe interruption is unavailable on this host. Queued mail waits for the agent; sending does not confirm consumption."
 msgstr "이 호스트에서는 안전한 중단을 사용할 수 없습니다. 대기열의 메일은 에이전트를 기다리며, 전송 성공이 처리 완료를 뜻하지는 않습니다."
 
@@ -5135,6 +5229,9 @@ msgstr "풀 리퀘스트 검색…"
 
 msgid "Search repositories..."
 msgstr "리포지토리 검색..."
+
+msgid "Search sessions…"
+msgstr "세션 검색…"
 
 msgid "Search settings"
 msgstr "설정 검색"
@@ -5333,9 +5430,6 @@ msgstr "워크스페이스 위에 에이전트 명령과 고정된 터미널 프
 msgid "Show Apple's installer"
 msgstr "Apple 설치 프로그램 보기"
 
-msgid "Show decisions and exceptions"
-msgstr "결정 사항 및 예외 표시"
-
 msgid "Show deleted workspaces"
 msgstr "삭제된 워크스페이스 표시"
 
@@ -5369,9 +5463,6 @@ msgstr "워크스페이스에 로컬 리소스 사용량을 표시합니다."
 msgid "Show more"
 msgstr "더 보기"
 
-msgid "Show progress and decisions"
-msgstr "진행 상황 및 결정 사항 표시"
-
 msgid "Show Scripts Bar"
 msgstr "스크립트 막대 표시"
 
@@ -5398,6 +5489,9 @@ msgstr "한 번만 표시됩니다. 닫기 전에 복사하세요."
 
 msgid "Side by side"
 msgstr "나란히 비교"
+
+msgid "Side-by-side diff requires a wider pane"
+msgstr "나란히 diff 보기를 사용하려면 더 넓은 창이 필요합니다"
 
 msgid "Sidebar extensions"
 msgstr "사이드바 확장 기능"
@@ -5465,6 +5559,9 @@ msgstr "긴 쪽을 따라 분할"
 msgid "Split diff"
 msgstr "분할 diff"
 
+msgid "Split down"
+msgstr "아래로 분할"
+
 msgid "Split Down"
 msgstr "아래로 분할"
 
@@ -5479,6 +5576,9 @@ msgstr "분할 패널"
 
 msgid "Split panes"
 msgstr "패널 분할"
+
+msgid "Split right"
+msgstr "오른쪽으로 분할"
 
 msgid "Split Right"
 msgstr "오른쪽으로 분할"
@@ -5528,8 +5628,8 @@ msgstr "스타"
 msgid "Start a new agent, or choose an existing session from Sessions."
 msgstr "새 에이전트를 시작하거나 세션에서 기존 세션을 선택하세요."
 
-msgid "Start an agent in a workspace, then create a team."
-msgstr "워크스페이스에서 에이전트를 시작한 후 팀을 만드세요."
+msgid "Start a session in a workspace, then create a team."
+msgstr "워크스페이스에서 세션을 시작한 다음 팀을 만드세요."
 
 msgid "Start from a template"
 msgstr "템플릿으로 시작"
@@ -5723,6 +5823,9 @@ msgstr "대상"
 #. placeholder {0}: session.context.hostLabel
 msgid "Target host: {0}"
 msgstr "대상 호스트: {0}"
+
+msgid "Target workspace"
+msgstr "대상 워크스페이스"
 
 msgid "Task"
 msgstr "작업"
@@ -6036,9 +6139,6 @@ msgstr "이 노트는 애플리케이션에 포함되어 있습니다. 게시된
 msgid "This action is irreversible."
 msgstr "이 동작은 되돌릴 수 없습니다."
 
-msgid "This agent is no longer available. Choose another leader."
-msgstr "이 에이전트를 더 이상 사용할 수 없습니다. 다른 리더를 선택하세요."
-
 msgid "This API login does not expose subscription quota."
 msgstr "이 API 로그인은 구독 할당량을 제공하지 않습니다."
 
@@ -6200,6 +6300,9 @@ msgstr "이 실행에는 에이전트 세션이 없습니다"
 
 msgid "This session could not be resumed. No new session was started."
 msgstr "이 세션을 재개하지 못했습니다. 새 세션이 시작되지 않았습니다."
+
+msgid "This session is no longer available. Choose another leader."
+msgstr "이 세션은 더 이상 사용할 수 없습니다. 다른 리더를 선택하세요."
 
 msgid "This session is not active, or you are viewing earlier output. Refresh to check its current state."
 msgstr "세션이 활성 상태가 아니거나 이전 출력을 보고 있습니다. 새로 고쳐서 현재 상태를 확인하세요."
@@ -6363,6 +6466,9 @@ msgstr "받아쓰기 중…"
 msgid "Tree view"
 msgstr "트리 보기"
 
+msgid "Trigger"
+msgstr "트리거"
+
 msgid "Triggers"
 msgstr "트리거"
 
@@ -6396,11 +6502,11 @@ msgstr "TypeScript"
 msgid "Typography"
 msgstr "타이포그래피"
 
-msgid "Typography and cursor behavior used in V2 terminal panels."
-msgstr "V2 터미널 패널에 사용하는 타이포그래피와 커서 동작입니다."
+msgid "Typography and cursor behavior used in terminal panels."
+msgstr "터미널 패널에서 사용하는 타이포그래피 및 커서 동작입니다."
 
-msgid "Typography used in V2 editors and diff views."
-msgstr "V2 편집기와 차이 보기에 사용하는 타이포그래피입니다."
+msgid "Typography used in editors and diff views."
+msgstr "편집기와 diff 보기에서 사용하는 타이포그래피입니다."
 
 msgid "Unable to check for updates."
 msgstr "업데이트를 확인할 수 없습니다."
@@ -6513,6 +6619,15 @@ msgstr "파일 스테이징 해제"
 msgid "Unstaged"
 msgstr "스테이징 안 됨"
 
+msgid "Unsupported push URL"
+msgstr "지원되지 않는 푸시 URL입니다"
+
+msgid "Unsupported push.default configuration"
+msgstr "지원되지 않는 push.default 설정입니다"
+
+msgid "Unsupported remote configuration"
+msgstr "지원되지 않는 원격 저장소 설정입니다"
+
 msgid "Untitled automation"
 msgstr "제목 없는 자동화"
 
@@ -6565,6 +6680,9 @@ msgstr "파일 업로드"
 
 msgid "Upload image…"
 msgstr "이미지 업로드…"
+
+msgid "Upstream remote does not match push remote"
+msgstr "업스트림 원격 저장소가 푸시 원격 저장소와 일치하지 않습니다"
 
 msgid "URL copied"
 msgstr "URL을 복사했습니다"
@@ -6774,6 +6892,9 @@ msgstr "워크스페이스 탐색"
 
 msgid "Workspace not found"
 msgstr "워크스페이스를 찾을 수 없음"
+
+msgid "Workspace or branch name (optional)"
+msgstr "워크스페이스 또는 브랜치 이름(선택 사항)"
 
 msgid "Workspace or running session state changed. Review the updated checks and confirm again."
 msgstr "워크스페이스 또는 실행 중인 세션 상태가 변경되었습니다. 업데이트된 검사 결과를 검토하고 다시 확인하세요."

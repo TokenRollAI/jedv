@@ -3,13 +3,13 @@ import { useWindowChrome } from "./context";
 
 export function WindowChrome({
 	children,
-	height = 48,
+	height = 40,
 	className = "",
 	embedded = false,
 	primary = false,
 }: {
 	children: ReactNode;
-	height?: 44 | 48;
+	height?: 40 | 44 | 48;
 	className?: string;
 	embedded?: boolean;
 	primary?: boolean;

@@ -17,6 +17,7 @@ interface ChangesScopeControlProps {
 	onRenameBranch: (newName: string) => void;
 	baseClassName?: string;
 	commitLabelClassName?: string;
+	active?: boolean;
 }
 
 export function ChangesScopeControl({
@@ -32,6 +33,7 @@ export function ChangesScopeControl({
 	onRenameBranch,
 	baseClassName,
 	commitLabelClassName,
+	active = true,
 }: ChangesScopeControlProps) {
 	return (
 		<>
@@ -44,6 +46,7 @@ export function ChangesScopeControl({
 				canRenameBranch={canRenameBranch}
 				onRenameBranch={onRenameBranch}
 				labelClassName={commitLabelClassName}
+				active={active}
 			/>
 			{filter.kind === "all" && (
 				<span
@@ -58,6 +61,7 @@ export function ChangesScopeControl({
 							branches={branches}
 							currentValue={baseBranch}
 							onChange={onBaseBranchChange}
+							active={active}
 						/>
 					</Trans>
 				</span>

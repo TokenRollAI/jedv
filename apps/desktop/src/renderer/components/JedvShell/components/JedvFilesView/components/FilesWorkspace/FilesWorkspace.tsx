@@ -1,4 +1,5 @@
 import { Button } from "@jedv/ui/button";
+import { Kbd } from "@jedv/ui/kbd";
 import {
 	ResizableHandle,
 	ResizablePanel,
@@ -7,8 +8,9 @@ import {
 import { getEventBus } from "@jedv/workspace-client";
 import { Trans, useLingui } from "@lingui/react/macro";
 import { useQuery } from "@tanstack/react-query";
-import { ExternalLink, Save } from "lucide-react";
+import { ExternalLink, FileCode2, Save } from "lucide-react";
 import {
+	type ComponentRef,
 	useCallback,
 	useEffect,
 	useMemo,
@@ -17,6 +19,7 @@ import {
 	useSyncExternalStore,
 } from "react";
 import { useFileOpenMode } from "renderer/hooks/useFileOpenMode";
+import { useHotkeyDisplay } from "renderer/hotkeys";
 import { electronTrpc } from "renderer/lib/electron-trpc";
 import { electronTrpcClient } from "renderer/lib/trpc-client";
 import { isMarkdownFile } from "shared/file-types";
@@ -55,6 +58,7 @@ export function FilesWorkspace({
 	onOpenUrl,
 }: JedvFilesViewProps) {
 	const { t } = useLingui();
+	const quickOpenShortcut = useHotkeyDisplay("QUICK_OPEN").text;
 	const { client: rawClient, hostUrl, remote } = context;
 	const workspace = useQuery({
 		queryKey: ["jedv", hostUrl, "files-workspace", workspaceId],
@@ -96,6 +100,32 @@ export function FilesWorkspace({
 	const setClosing = (id: string | null) => setCloseQueue(id ? [id] : []);
 	const [error, setError] = useState<string | null>(null);
 	const [treeRevision, setTreeRevision] = useState(0);
+	const [panelGroupWidth, setPanelGroupWidth] = useState(0);
+	const panelGroupRef = useRef<HTMLDivElement>(null);
+	const treePanelRef = useRef<ComponentRef<typeof ResizablePanel>>(null);
+	useEffect(() => {
+		const node = panelGroupRef.current;
+		if (!node) return;
+		const update = () => {
+			if (node.clientWidth > 0) setPanelGroupWidth(node.clientWidth);
+		};
+		update();
+		if (typeof ResizeObserver === "undefined") return;
+		const observer = new ResizeObserver(update);
+		observer.observe(node);
+		return () => observer.disconnect();
+	}, []);
+	const treeMinSize =
+		panelGroupWidth > 0
+			? Math.min(45, Math.max(18, (180 / panelGroupWidth) * 100))
+			: 24;
+	useEffect(() => {
+		const panel = treePanelRef.current;
+		if (!panel || panelGroupWidth <= 0) return;
+		if (panel.getSize() < treeMinSize) {
+			panel.resize(treeMinSize);
+		}
+	}, [panelGroupWidth, treeMinSize]);
 	const fileOpenMode = useFileOpenMode();
 	const autoSave = electronTrpc.settings.getFileAutoSave.useQuery();
 	const externalEditor = electronTrpc.external.openFileInEditor.useMutation();
@@ -445,7 +475,7 @@ export function FilesWorkspace({
 	void version;
 	return (
 		<div
-			className="flex h-full min-h-0 flex-col bg-background"
+			className="flex h-full min-h-0 min-w-0 w-full flex-1 flex-col bg-background"
 			data-jedv-files-view
 		>
 			<UnsavedFileDialog
@@ -467,193 +497,239 @@ export function FilesWorkspace({
 					if (closingDocument) remove(closingDocument, true);
 				}}
 			/>
-			<ResizablePanelGroup direction="horizontal">
-				<ResizablePanel defaultSize={22} minSize={15} maxSize={40}>
-					<WorkspaceFileTree
-						gitEnabled={supportsGit(workspace.data)}
-						client={client}
-						hostUrl={hostUrl}
-						remote={remote !== null}
-						active={active}
-						selectedPath={selected?.absolutePath}
-						revealTarget={revealTarget}
-						onOpenExternal={openExternal}
-						onFileEvent={(event) => {
-							store.dispatchFsEvent(workspaceId, event);
-							setTreeRevision((value) => value + 1);
+			<div ref={panelGroupRef} className="min-h-0 flex-1">
+				<ResizablePanelGroup direction="horizontal">
+					<ResizablePanel
+						id="jedv-files-tree"
+						order={1}
+						ref={treePanelRef}
+						defaultSize={24}
+						minSize={treeMinSize}
+						maxSize={45}
+						style={{
+							minWidth:
+								panelGroupWidth > 0
+									? `${Math.min(180, Math.round(panelGroupWidth * 0.45))}px`
+									: "180px",
 						}}
-						workspaceId={workspaceId}
-						rootPath={rootPath}
-						onSelectFile={open}
-						refreshRevision={treeRevision}
-					/>
-				</ResizablePanel>
-				<ResizableHandle />
-				<ResizablePanel minSize={30}>
-					<div className="flex h-full min-h-0 flex-col">
-						<FileDocumentTabs
-							documents={documents}
-							selectedId={selected?.id}
-							previewId={previewId}
-							onSelect={(id) => {
-								setActiveId(id);
-								setPreviewId(null);
+					>
+						<WorkspaceFileTree
+							gitEnabled={supportsGit(workspace.data)}
+							client={client}
+							hostUrl={hostUrl}
+							remote={remote !== null}
+							active={active}
+							selectedPath={selected?.absolutePath}
+							revealTarget={revealTarget}
+							onOpenExternal={openExternal}
+							onFileEvent={(event) => {
+								store.dispatchFsEvent(workspaceId, event);
+								setTreeRevision((value) => value + 1);
 							}}
-							onClose={(ids) => setCloseQueue(ids)}
-							onSaveAll={() => void saveAll()}
-							onError={setError}
+							workspaceId={workspaceId}
+							rootPath={rootPath}
+							onSelectFile={open}
+							refreshRevision={treeRevision}
 						/>
-						{watchStale && (
-							<div
-								role="alert"
-								className="flex items-center gap-2 border-b px-3 py-1.5 text-xs text-muted-foreground"
-							>
-								<span className="min-w-0 flex-1">
-									<Trans>
-										File updates may be out of date. Reload open files to check
-										the disk.
-									</Trans>
-								</span>
-								<Button
-									size="sm"
-									variant="ghost"
-									className="h-6 text-xs"
-									onClick={() => {
-										for (const document of store.getDocuments())
-											store.dispatchFsEvent(workspaceId, {
-												kind: "overflow",
-												absolutePath: document.absolutePath,
-											});
-										setTreeRevision((value) => value + 1);
-										setWatchStale(bus.getConnectionStatus().state !== "open");
-									}}
+					</ResizablePanel>
+					<ResizableHandle className="bg-border transition-colors hover:bg-primary/40 data-[resize-handle-state=drag]:bg-primary/60" />
+					<ResizablePanel
+						id="jedv-files-editor"
+						order={2}
+						defaultSize={76}
+						minSize={30}
+					>
+						<div className="flex h-full min-h-0 flex-col">
+							<FileDocumentTabs
+								documents={documents}
+								selectedId={selected?.id}
+								previewId={previewId}
+								onSelect={(id) => {
+									setActiveId(id);
+									setPreviewId(null);
+								}}
+								onClose={(ids) => setCloseQueue(ids)}
+								onSaveAll={() => void saveAll()}
+								onError={setError}
+							/>
+							{watchStale && (
+								<div
+									role="alert"
+									className="flex items-center gap-2 border-b px-3 py-1.5 text-xs text-muted-foreground"
 								>
-									<Trans>Refresh</Trans>
-								</Button>
-							</div>
-						)}
-
-						{selected && (
-							<div className="flex h-9 shrink-0 items-center gap-2 border-b px-3 text-xs">
-								<span
-									className="min-w-0 flex-1 truncate text-muted-foreground"
-									title={selected.absolutePath}
-								>
-									{selected.absolutePath.slice(rootPath.length + 1)}
-								</span>
-								<span className="text-muted-foreground">
-									{selected.pendingSave ? (
-										<Trans>Saving…</Trans>
-									) : selected.dirty ? (
-										<Trans>Unsaved changes</Trans>
-									) : (
-										<Trans>Saved</Trans>
-									)}
-								</span>
-
-								{isMarkdownFile(selected.absolutePath) && (
-									<>
-										<Button
-											variant={!markdownPreview ? "secondary" : "ghost"}
-											size="sm"
-											className="h-6 text-xs"
-											onClick={() => setMarkdownPreview(false)}
-										>
-											<Trans>Edit</Trans>
-										</Button>
-										<Button
-											variant={markdownPreview ? "secondary" : "ghost"}
-											size="sm"
-											className="h-6 text-xs"
-											onClick={() => setMarkdownPreview(true)}
-										>
-											<Trans>Preview</Trans>
-										</Button>
-									</>
-								)}
-								<Button
-									variant="ghost"
-									size="icon"
-									className="size-6"
-									aria-label={t({ message: "Save file" })}
-									disabled={
-										!selected.dirty || selected.pendingSave || selected.orphaned
-									}
-									onClick={() => void selected.save()}
-								>
-									<Save className="size-3.5" />
-								</Button>
-								<Button
-									variant="ghost"
-									size="icon"
-									className="size-6"
-									aria-label={t({ message: "Open in external editor" })}
-									disabled={remote !== null || externalEditor.isPending}
-									title={
-										remote
-											? t({
-													message:
-														"External editors open files on this machine only",
-												})
-											: undefined
-									}
-									onClick={() => {
-										void openExternal(selected.absolutePath).catch((cause) =>
-											setError(
-												cause instanceof Error ? cause.message : String(cause),
-											),
-										);
-									}}
-								>
-									<ExternalLink className="size-3.5" />
-								</Button>
-							</div>
-						)}
-						{failedSaves.length > 0 && (
-							<div
-								role="alert"
-								className="flex items-center gap-2 border-b px-3 py-1.5 text-xs text-destructive"
-							>
-								<span className="min-w-0 flex-1">
-									<Trans>{failedSaves.length} files could not be saved.</Trans>
-								</span>
-								<Button
-									variant="ghost"
-									size="sm"
-									className="h-6 text-xs"
-									onClick={() => setActiveId(failedSaves[0].id)}
-								>
-									<Trans>Review</Trans>
-								</Button>
-							</div>
-						)}
-						{error && (
-							<div role="alert" className="px-3 py-2 text-xs text-destructive">
-								{error}
-							</div>
-						)}
-						<div className="min-h-0 flex-1">
-							{rightPreview && primary ? (
-								<ResizablePanelGroup direction="horizontal">
-									<ResizablePanel minSize={20}>
-										{renderDocument(primary)}
-									</ResizablePanel>
-									<ResizableHandle />
-									<ResizablePanel minSize={20}>
-										{renderDocument(rightPreview)}
-									</ResizablePanel>
-								</ResizablePanelGroup>
-							) : selected ? (
-								renderDocument(selected)
-							) : (
-								<div className="flex h-full items-center justify-center text-sm text-muted-foreground">
-									<Trans>Select a file to preview or edit</Trans>
+									<span className="min-w-0 flex-1">
+										<Trans>
+											File updates may be out of date. Reload open files to
+											check the disk.
+										</Trans>
+									</span>
+									<Button
+										size="sm"
+										variant="ghost"
+										className="h-6 text-xs"
+										onClick={() => {
+											for (const document of store.getDocuments())
+												store.dispatchFsEvent(workspaceId, {
+													kind: "overflow",
+													absolutePath: document.absolutePath,
+												});
+											setTreeRevision((value) => value + 1);
+											setWatchStale(bus.getConnectionStatus().state !== "open");
+										}}
+									>
+										<Trans>Refresh</Trans>
+									</Button>
 								</div>
 							)}
+
+							{selected && (
+								<div className="flex h-9 min-w-0 shrink-0 items-center gap-2 border-b px-3 text-xs">
+									<span
+										className="min-w-0 flex-1 truncate text-muted-foreground"
+										title={selected.absolutePath}
+									>
+										{selected.absolutePath.slice(rootPath.length + 1)}
+									</span>
+									<span className="shrink-0 whitespace-nowrap text-muted-foreground">
+										{selected.pendingSave ? (
+											<Trans>Saving…</Trans>
+										) : selected.dirty ? (
+											<Trans>Unsaved changes</Trans>
+										) : (
+											<Trans>Saved</Trans>
+										)}
+									</span>
+
+									{isMarkdownFile(selected.absolutePath) && (
+										<>
+											<Button
+												variant={!markdownPreview ? "secondary" : "ghost"}
+												size="sm"
+												className="h-6 shrink-0 text-xs"
+												onClick={() => setMarkdownPreview(false)}
+											>
+												<Trans>Edit</Trans>
+											</Button>
+											<Button
+												variant={markdownPreview ? "secondary" : "ghost"}
+												size="sm"
+												className="h-6 shrink-0 text-xs"
+												onClick={() => setMarkdownPreview(true)}
+											>
+												<Trans>Preview</Trans>
+											</Button>
+										</>
+									)}
+									<Button
+										variant="ghost"
+										size="icon"
+										className="size-6 shrink-0"
+										aria-label={t({ message: "Save file" })}
+										disabled={
+											!selected.dirty ||
+											selected.pendingSave ||
+											selected.orphaned
+										}
+										onClick={() => void selected.save()}
+									>
+										<Save className="size-3.5" />
+									</Button>
+									<Button
+										variant="ghost"
+										size="icon"
+										className="size-6 shrink-0"
+										aria-label={t({ message: "Open in external editor" })}
+										disabled={remote !== null || externalEditor.isPending}
+										title={
+											remote
+												? t({
+														message:
+															"External editors open files on this machine only",
+													})
+												: undefined
+										}
+										onClick={() => {
+											void openExternal(selected.absolutePath).catch((cause) =>
+												setError(
+													cause instanceof Error
+														? cause.message
+														: String(cause),
+												),
+											);
+										}}
+									>
+										<ExternalLink className="size-3.5" />
+									</Button>
+								</div>
+							)}
+							{failedSaves.length > 0 && (
+								<div
+									role="alert"
+									className="flex items-center gap-2 border-b px-3 py-1.5 text-xs text-destructive"
+								>
+									<span className="min-w-0 flex-1">
+										<Trans>
+											{failedSaves.length} files could not be saved.
+										</Trans>
+									</span>
+									<Button
+										variant="ghost"
+										size="sm"
+										className="h-6 text-xs"
+										onClick={() => setActiveId(failedSaves[0].id)}
+									>
+										<Trans>Review</Trans>
+									</Button>
+								</div>
+							)}
+							{error && (
+								<div
+									role="alert"
+									className="px-3 py-2 text-xs text-destructive"
+								>
+									{error}
+								</div>
+							)}
+							<div className="flex min-h-0 flex-1 flex-col">
+								{rightPreview && primary ? (
+									<ResizablePanelGroup direction="horizontal">
+										<ResizablePanel
+											id="jedv-files-primary"
+											order={1}
+											minSize={20}
+										>
+											{renderDocument(primary)}
+										</ResizablePanel>
+										<ResizableHandle />
+										<ResizablePanel
+											id="jedv-files-preview"
+											order={2}
+											minSize={20}
+										>
+											{renderDocument(rightPreview)}
+										</ResizablePanel>
+									</ResizablePanelGroup>
+								) : selected ? (
+									renderDocument(selected)
+								) : (
+									<div className="flex h-full w-full flex-1 flex-col items-center justify-center gap-2.5 p-6 text-center">
+										<FileCode2 className="size-8 text-muted-foreground/45" />
+										<p className="text-[13px] text-muted-foreground">
+											<Trans>Select a file to preview or edit</Trans>
+										</p>
+										{quickOpenShortcut !== "Unassigned" && (
+											<div className="inline-flex items-center gap-1.5 text-xs text-muted-foreground/75">
+												<Trans>Search Files</Trans>
+												<Kbd>{quickOpenShortcut}</Kbd>
+											</div>
+										)}
+									</div>
+								)}
+							</div>
 						</div>
-					</div>
-				</ResizablePanel>
-			</ResizablePanelGroup>
+					</ResizablePanel>
+				</ResizablePanelGroup>
+			</div>
 		</div>
 	);
 }

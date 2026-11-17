@@ -34,6 +34,7 @@ export function ChangesTree({
 	remote,
 	rootPath,
 	isPending,
+	active = true,
 }: {
 	files: ChangedFile[];
 	category: Category;
@@ -48,6 +49,7 @@ export function ChangesTree({
 	remote: boolean;
 	rootPath?: string;
 	isPending(file: ChangedFile): boolean;
+	active?: boolean;
 }) {
 	const { t } = useLingui();
 	const dragRow = useRef<HTMLElement | null>(null);
@@ -131,6 +133,7 @@ export function ChangesTree({
 				findRow={findFileRow}
 			>
 				<ShadowRowHoverActions
+					active={active}
 					findFileRow={findFileRow}
 					renderMenuContent={(path) => {
 						const file = fileByTreePath.get(path);

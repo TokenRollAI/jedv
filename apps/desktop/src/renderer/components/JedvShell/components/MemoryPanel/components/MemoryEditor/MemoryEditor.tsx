@@ -112,7 +112,7 @@ export function MemoryEditor({
 							value={content}
 							disabled={pending || disabled}
 							onChange={(event) => setContent(event.target.value)}
-							className="block w-full resize-y rounded-md border border-input bg-background p-2 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+							className="block w-full resize-none rounded-md border border-input bg-background p-2 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
 						/>
 					</label>
 					<div className="flex flex-wrap gap-3">

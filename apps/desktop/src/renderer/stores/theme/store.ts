@@ -1,8 +1,6 @@
 import type { ITheme } from "@xterm/xterm";
 import {
-	builtInThemes,
 	DEFAULT_THEME_ID,
-	darkTheme,
 	getTerminalColors,
 	type Theme,
 	type ThemeMetadata,
@@ -12,6 +10,10 @@ import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import { electronTrpcClient } from "../../lib/trpc-client";
 import { trpcThemeStorage } from "../../lib/trpc-storage";
+import {
+	rendererBuiltInThemes as builtInThemes,
+	canonicalDarkTheme as darkTheme,
+} from "./canonical-themes";
 import { applyUIColors, toXtermTheme, updateThemeClass } from "./utils";
 
 /** Special theme ID for system preference (follows OS dark/light mode) */

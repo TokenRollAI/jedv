@@ -1,5 +1,5 @@
-import { table } from "@jedv/cli-framework";
 import { command } from "../../../lib/command";
+import { table } from "../../../lib/table";
 import {
 	listTerminalScripts,
 	type PublicTerminalScript,

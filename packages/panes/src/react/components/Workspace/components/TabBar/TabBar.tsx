@@ -10,7 +10,8 @@ import {
 } from "@jedv/ui/lib/header-controls";
 import { OverflowFadeContainer } from "@jedv/ui/overflow-fade-container";
 import { cn } from "@jedv/ui/utils";
-import { PlusIcon } from "lucide-react";
+import { useLingui } from "@lingui/react/macro";
+import { ChevronDown, PlusIcon } from "lucide-react";
 import {
 	type ComponentProps,
 	type ReactNode,
@@ -29,6 +30,7 @@ import {
 import type { Tab } from "../../../../../types";
 import { usePaneAppearance } from "../../../../hooks/usePaneAppearance";
 import type { AddTabMenuActions, PaneRegistry } from "../../../../types";
+import { pickTabTitlePane } from "../../utils/resolveTabTitle";
 import { PANE_DRAG_TYPE } from "../Tab/components/Pane/components/PaneHeader";
 import { TAB_DRAG_TYPE, TabItem } from "./components/TabItem";
 import {
@@ -56,6 +58,7 @@ interface TabBarProps<TData> {
 	onMovePaneToNewTab: (paneId: string, toIndex: number) => void;
 	renderTabIcon?: (tab: Tab<TData>) => ReactNode;
 	renderAddTabMenu?: (actions: AddTabMenuActions) => ReactNode;
+	addTabLabel?: string;
 	onAddTab?: () => void;
 	renderTabBarLeading?: () => ReactNode;
 	renderTabBarTrailing?: () => ReactNode;
@@ -67,30 +70,52 @@ type PaneDragItem = { paneId: string; store?: unknown };
 
 function AddTabButton<_TData>({
 	renderAddTabMenu,
+	addTabLabel,
 	onAddTab,
 }: {
 	renderAddTabMenu?: (actions: AddTabMenuActions) => ReactNode;
+	addTabLabel?: string;
 	onAddTab?: () => void;
 }) {
+	const { t } = useLingui();
 	const pendingActionRef = useRef<(() => void) | null>(null);
 	const isCards = usePaneAppearance() === "cards";
+	const hasMenu = Boolean(renderAddTabMenu);
+	const resolvedLabel = addTabLabel ?? t({ message: "New tab" });
 	const button = isCards ? (
 		<button
-			className={HEADER_ICON_BUTTON_CLASS}
+			aria-label={resolvedLabel}
+			className={cn(
+				HEADER_ICON_BUTTON_CLASS,
+				hasMenu && "w-auto gap-0.5 px-1.5",
+			)}
+			title={resolvedLabel}
 			type="button"
-			onClick={onAddTab}
+			onClick={hasMenu ? undefined : onAddTab}
 		>
-			<PlusIcon className="size-4" strokeWidth={HEADER_ICON_STROKE_WIDTH} />
+			<PlusIcon className="size-3.5" strokeWidth={HEADER_ICON_STROKE_WIDTH} />
+			{hasMenu && (
+				<ChevronDown
+					className="size-3 opacity-65"
+					strokeWidth={HEADER_ICON_STROKE_WIDTH}
+				/>
+			)}
 		</button>
 	) : (
 		<Button
-			className="ml-1.5 size-7 rounded-md border border-border/60 bg-muted/30 px-1 text-muted-foreground shadow-none hover:bg-accent/60 hover:text-foreground"
+			aria-label={resolvedLabel}
+			className={cn(
+				"ml-0.5 h-7 rounded-md text-muted-foreground shadow-none hover:bg-fill-hover hover:text-foreground",
+				hasMenu ? "w-auto gap-0.5 px-1.5" : "size-7 px-1",
+			)}
 			size="icon"
+			title={resolvedLabel}
 			type="button"
 			variant="ghost"
-			onClick={onAddTab}
+			onClick={hasMenu ? undefined : onAddTab}
 		>
 			<PlusIcon className="size-3.5" />
+			{hasMenu && <ChevronDown className="size-3 opacity-65" />}
 		</Button>
 	);
 
@@ -139,6 +164,7 @@ export function TabBar<TData>({
 	onMovePaneToNewTab,
 	renderTabIcon,
 	renderAddTabMenu,
+	addTabLabel,
 	onAddTab,
 	renderTabBarLeading,
 	renderTabBarTrailing,
@@ -277,115 +303,125 @@ export function TabBar<TData>({
 			// swallow clicks.
 			className={cn(
 				isCards
-					? "group/root-tabs flex h-12 min-w-0 shrink-0 items-stretch shadow-[inset_0_-1px_0_var(--border)]"
-					: "group/root-tabs flex h-12 min-w-0 shrink-0 items-stretch bg-muted/45 shadow-[inset_0_-1px_0_var(--border)] dark:bg-muted/35",
+					? "group/root-tabs flex h-10 min-w-0 shrink-0 items-stretch shadow-[inset_0_-1px_0_var(--border)]"
+					: "group/root-tabs flex h-10 min-w-0 shrink-0 items-stretch bg-sidebar/60 shadow-[inset_0_-1px_0_var(--border)]",
 				className,
 			)}
 		>
 			{renderTabBarLeading && (
-				<div
-					className={cn(
-						"flex h-full shrink-0 items-stretch",
-						!isCards && "border-b border-border",
-					)}
-				>
+				<div className="flex h-full shrink-0 items-stretch">
 					{renderTabBarLeading()}
 				</div>
 			)}
 			<OverflowFadeContainer
 				observeChildren
 				onOverflowChange={handleOverflowChange}
-				className={cn(
-					"hide-scrollbar flex min-w-0 flex-1 items-stretch overflow-x-auto overflow-y-hidden",
-					isCards && "pl-1.5",
-				)}
+				className="hide-scrollbar flex min-w-0 flex-1 items-stretch overflow-x-auto overflow-y-hidden pl-1.5"
 			>
 				<div
 					ref={tabsTrackRef}
 					className="no-drag relative flex h-full flex-1 items-stretch"
 				>
-					{tabs.map((tab, i) => (
-						<div
-							className={
-								isCards
-									? "flex h-full shrink-0 items-center px-0.5"
-									: "h-full shrink-0 pt-1"
-							}
-							key={tab.id}
-							style={{ width: TAB_WIDTH }}
-						>
-							<TabItem
-								tab={tab}
-								tabs={tabs}
-								store={store}
-								registry={registry}
-								index={i}
-								isActive={tab.id === activeTabId}
-								onSelect={() => onSelectTab(tab.id)}
-								onClose={() => onCloseTab(tab.id)}
-								onCloseOthers={() => onCloseOtherTabs(tab.id)}
-								onCloseAll={onCloseAllTabs}
-								onRename={
-									onRenameTab
-										? (title) => onRenameTab(tab.id, title)
-										: undefined
-								}
-								onClick={onTabClick ? () => onTabClick(tab) : undefined}
-								isPreview={isPreviewTab?.(tab) ?? false}
-								icon={renderTabIcon?.(tab)}
-								accessory={renderTabAccessory?.(tab)}
-							/>
-						</div>
-					))}
+					{tabs.map((tab, i) => {
+						const titlePane = pickTabTitlePane(tab);
+						const resolvedIcon =
+							renderTabIcon?.(tab) ??
+							(titlePane
+								? registry[titlePane.kind]?.getIcon?.({
+										pane: { ...titlePane, parentDirection: null },
+										tab: { ...tab, position: i },
+										isActive: tab.id === activeTabId,
+										store,
+										actions: {
+											close: () => onCloseTab(tab.id),
+											focus: () => onSelectTab(tab.id),
+											setTitle: (title) =>
+												store.getState().setPaneTitleOverride({
+													tabId: tab.id,
+													paneId: titlePane.id,
+													titleOverride: title,
+												}),
+											pin: () =>
+												store.getState().setPanePinned({
+													paneId: titlePane.id,
+													pinned: true,
+												}),
+											updateData: (data) =>
+												store
+													.getState()
+													.setPaneData({ paneId: titlePane.id, data }),
+											split: (position, newPane) =>
+												store.getState().splitPane({
+													tabId: tab.id,
+													paneId: titlePane.id,
+													position: position === "down" ? "bottom" : "right",
+													newPane,
+												}),
+										},
+										headerActions: null,
+									})
+								: undefined);
+						return (
+							<div
+								className="flex h-full shrink-0 items-center px-0.5"
+								key={tab.id}
+								style={{ width: TAB_WIDTH }}
+							>
+								<TabItem
+									tab={tab}
+									tabs={tabs}
+									store={store}
+									registry={registry}
+									index={i}
+									isActive={tab.id === activeTabId}
+									onSelect={() => onSelectTab(tab.id)}
+									onClose={() => onCloseTab(tab.id)}
+									onCloseOthers={() => onCloseOtherTabs(tab.id)}
+									onCloseAll={onCloseAllTabs}
+									onRename={
+										onRenameTab
+											? (title) => onRenameTab(tab.id, title)
+											: undefined
+									}
+									onClick={onTabClick ? () => onTabClick(tab) : undefined}
+									isPreview={isPreviewTab?.(tab) ?? false}
+									icon={resolvedIcon}
+									accessory={renderTabAccessory?.(tab)}
+								/>
+							</div>
+						);
+					})}
 					{insertLineLeft !== null && (
 						<div
-							className="pointer-events-none absolute top-0 z-10 h-full w-0.5 bg-primary opacity-85"
+							className="pointer-events-none absolute top-1 bottom-1 z-10 w-0.5 rounded-full bg-primary opacity-85"
 							style={{ left: insertLineLeft }}
 						/>
 					)}
 					{!hasHorizontalOverflow && (
-						<div
-							className={cn(
-								"flex h-full w-10 shrink-0 items-center justify-center",
-								!isCards && "pt-1",
-							)}
-						>
+						<div className="flex h-full min-w-8 shrink-0 items-center justify-center px-0.5">
 							<AddTabButton
 								renderAddTabMenu={renderAddTabMenu}
+								addTabLabel={addTabLabel}
 								onAddTab={onAddTab}
 							/>
 						</div>
 					)}
 					{/* Empty space to the right of the tabs (collapses to 0 when the
 					    tabs overflow); the bar's only window-drag region. */}
-					<div
-						className={cn(
-							"drag h-full flex-1",
-							!isCards && "border-b border-border",
-						)}
-					/>
+					<div className="drag h-full flex-1" />
 				</div>
 			</OverflowFadeContainer>
 			{hasHorizontalOverflow && (
-				<div
-					className={cn(
-						"no-drag flex h-full w-10 shrink-0 items-center justify-center",
-						!isCards && "pt-1",
-					)}
-				>
+				<div className="no-drag flex h-full min-w-8 shrink-0 items-center justify-center px-0.5">
 					<AddTabButton
 						renderAddTabMenu={renderAddTabMenu}
+						addTabLabel={addTabLabel}
 						onAddTab={onAddTab}
 					/>
 				</div>
 			)}
 			{renderTabBarTrailing && (
-				<div
-					className={cn(
-						"no-drag flex h-full shrink-0 items-center px-1",
-						!isCards && "border-b border-border",
-					)}
-				>
+				<div className="no-drag flex h-full shrink-0 items-center px-1">
 					{renderTabBarTrailing()}
 				</div>
 			)}

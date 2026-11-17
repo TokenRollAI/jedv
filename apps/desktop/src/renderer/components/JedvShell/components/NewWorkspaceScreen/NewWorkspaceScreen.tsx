@@ -2,21 +2,41 @@ import {
 	getAgentEfforts,
 	getAgentModelSupport,
 } from "@jedv/shared/agent-models";
+import {
+	MAX_ATTACHMENTS,
+	MAX_INLINE_ATTACHMENT_BYTES,
+} from "@jedv/shared/attachment-limits";
 import { Button } from "@jedv/ui/button";
+import { getClipboardFiles } from "@jedv/ui/lib/clipboard-files";
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue,
+} from "@jedv/ui/select";
+import { cn } from "@jedv/ui/utils";
 import { Trans, useLingui } from "@lingui/react/macro";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import {
 	ArrowUp,
-	Lightbulb,
 	Loader2,
 	Monitor,
+	Paperclip,
 	Settings2,
 	X,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AgentIcon } from "renderer/components/AgentIcon";
 import { useAgentLaunchPreferences } from "renderer/hooks/useAgentLaunchPreferences";
 import type { LocalClient } from "../../local-client";
+import {
+	AttachmentReadError,
+	createSafePreviewUrl,
+	uploadHostAttachment,
+} from "../../utils/upload-host-attachment";
 import { supportsWorktrees } from "../../vcs-capabilities";
 import {
 	CreateWorkspaceDialog,
@@ -66,11 +86,100 @@ export function NewWorkspaceScreen(props: NewWorkspaceScreenProps) {
 	const [error, setError] = useState<string | null>(null);
 	const [saved, setSaved] = useState<CreateResult | null>(null);
 	const [attempt, setAttempt] = useState<CreateInput | null>(null);
+	const [isDragOver, setIsDragOver] = useState(false);
+	const [attachments, setAttachments] = useState<
+		Array<{
+			id: string;
+			file: File;
+			previewUrl: string | null;
+			uploadedId?: string;
+		}>
+	>([]);
+	const attachmentsRef = useRef(attachments);
+	attachmentsRef.current = attachments;
+	const fileInputRef = useRef<HTMLInputElement>(null);
 	const busy = useRef(false);
 	const editor = useRef<HTMLTextAreaElement>(null);
+	const { onClose } = props;
 	useEffect(() => {
 		editor.current?.focus();
 	}, []);
+	useEffect(
+		() => () => {
+			for (const item of attachmentsRef.current) {
+				if (item.previewUrl) URL.revokeObjectURL(item.previewUrl);
+			}
+		},
+		[],
+	);
+	const addAttachmentFiles = useCallback(
+		(incoming: File[]) => {
+			if (incoming.length === 0) return;
+			setError(null);
+			setAttachments((prev) => {
+				const remaining = MAX_ATTACHMENTS - prev.length;
+				if (remaining <= 0) {
+					setError(
+						t({
+							message: `At most ${MAX_ATTACHMENTS} attachments can be added.`,
+						}),
+					);
+					return prev;
+				}
+				const next = [...prev];
+				for (const file of incoming.slice(0, remaining)) {
+					if (file.size > MAX_INLINE_ATTACHMENT_BYTES) {
+						setError(
+							t({
+								message: "Attachment is too large (maximum 10 MB).",
+							}),
+						);
+						continue;
+					}
+					if (file.size === 0) continue;
+					next.push({
+						id: crypto.randomUUID(),
+						file,
+						previewUrl: createSafePreviewUrl(file),
+					});
+				}
+				return next;
+			});
+		},
+		[t],
+	);
+	const removeAttachment = useCallback((id: string) => {
+		setAttachments((prev) => {
+			const target = prev.find((item) => item.id === id);
+			if (target?.previewUrl) URL.revokeObjectURL(target.previewUrl);
+			return prev.filter((item) => item.id !== id);
+		});
+	}, []);
+	useEffect(() => {
+		const onKeyDown = (event: KeyboardEvent) => {
+			if (
+				event.key !== "Escape" ||
+				event.defaultPrevented ||
+				event.altKey ||
+				event.metaKey ||
+				event.ctrlKey ||
+				event.shiftKey ||
+				pending ||
+				manual
+			)
+				return;
+			if (
+				document.querySelector(
+					'[role="listbox"], [role="dialog"], [role="menu"]',
+				)
+			)
+				return;
+			event.preventDefault();
+			onClose();
+		};
+		window.addEventListener("keydown", onKeyDown);
+		return () => window.removeEventListener("keydown", onKeyDown);
+	}, [pending, manual, onClose]);
 	const project = props.projects.find((item) => item.id === projectId);
 	const effectiveCheckout = supportsWorktrees(project) ? checkout : "local";
 	const agents = useQuery({
@@ -137,6 +246,26 @@ export function NewWorkspaceScreen(props: NewWorkspaceScreenProps) {
 				await openCreated(saved);
 				return;
 			}
+			const uploadedIds: string[] = [];
+			if (attachmentsRef.current.length > 0) {
+				const updated = [...attachmentsRef.current];
+				for (let index = 0; index < updated.length; index++) {
+					const item = updated[index];
+					if (!item) continue;
+					if (item.uploadedId) {
+						uploadedIds.push(item.uploadedId);
+						continue;
+					}
+					const uploaded = await uploadHostAttachment(
+						context.client,
+						item.file,
+					);
+					updated[index] = { ...item, uploadedId: uploaded.attachmentId };
+					uploadedIds.push(uploaded.attachmentId);
+				}
+				attachmentsRef.current = updated;
+				setAttachments(updated);
+			}
 			let input = attempt;
 			if (!input) {
 				if (
@@ -145,7 +274,8 @@ export function NewWorkspaceScreen(props: NewWorkspaceScreenProps) {
 					(selectedAgentId !== "none" && !agent)
 				)
 					throw new Error(t({ message: "Agent configuration unavailable" }));
-				const wantAgent = !!agent && !!prompt.trim();
+				const wantAgent =
+					!!agent && (!!prompt.trim() || uploadedIds.length > 0);
 				const waitForSetupBeforeAgents = wantAgent
 					? await props.readWaitForSetup()
 					: false;
@@ -167,6 +297,9 @@ export function NewWorkspaceScreen(props: NewWorkspaceScreenProps) {
 									{
 										agent: agent.id,
 										prompt: prompt.trim(),
+										...(uploadedIds.length > 0
+											? { attachmentIds: uploadedIds }
+											: {}),
 										surface: "terminal",
 										model: model || undefined,
 										effort: effort || undefined,
@@ -181,6 +314,12 @@ export function NewWorkspaceScreen(props: NewWorkspaceScreenProps) {
 				setAttempt(input);
 			}
 			const result = await context.client.workspaces.create.mutate(input);
+			if (!input.agents?.length && uploadedIds.length > 0) {
+				await context.client.attachments.materializeIntoWorkspace.mutate({
+					workspaceId: result.workspace.id,
+					attachmentIds: uploadedIds,
+				});
+			}
 			setSaved(result);
 			const failures = result.agents.filter((item) => !item.ok);
 			if (
@@ -203,6 +342,14 @@ export function NewWorkspaceScreen(props: NewWorkspaceScreenProps) {
 			}
 			await openCreated(result);
 		} catch (failure) {
+			if (failure instanceof AttachmentReadError) {
+				setError(
+					failure.reason === "too-large"
+						? t({ message: "Attachment is too large (maximum 10 MB)." })
+						: t({ message: "The attachment could not be read." }),
+				);
+				return;
+			}
 			// Schema rejection is known to precede all creation effects.
 			if (
 				typeof failure === "object" &&
@@ -229,22 +376,22 @@ export function NewWorkspaceScreen(props: NewWorkspaceScreenProps) {
 			setPending(false);
 		}
 	};
-	const suggestions = [
-		t({ message: "Improve agent instructions" }),
-		t({ message: "Add tests where coverage is missing" }),
-		t({ message: "Find and fix a bug" }),
-	];
+	const noAgentSelected = agents.isSuccess && selectedAgentId === "none";
+	const promptLabel = noAgentSelected
+		? t({ message: "Workspace or branch name (optional)" })
+		: t({ message: "What do you want to do?" });
 	const pill =
-		"border-0 bg-transparent shadow-none text-muted-foreground hover:text-foreground w-auto max-w-44";
+		"h-7.5 w-auto max-w-48 gap-1.5 rounded-lg border border-border/70 bg-secondary/55 px-3 text-xs font-medium text-muted-foreground shadow-none hover:border-border hover:bg-accent/60 hover:text-foreground";
 	return (
 		<section
 			aria-label={t({ message: "New workspace" })}
 			className="absolute inset-0 z-40 flex flex-col items-center overflow-y-auto bg-background"
 		>
-			<div className="flex h-12 w-full shrink-0 items-center justify-end gap-1 px-3">
+			<div className="flex h-10 w-full shrink-0 items-center justify-end gap-1 px-3">
 				<Button
 					variant="ghost"
 					size="icon"
+					className="size-7 rounded-md text-muted-foreground hover:text-foreground"
 					disabled={locked}
 					onClick={() => {
 						setManualTarget(null);
@@ -258,6 +405,7 @@ export function NewWorkspaceScreen(props: NewWorkspaceScreenProps) {
 				<Button
 					variant="ghost"
 					size="icon"
+					className="size-7 rounded-md text-muted-foreground hover:text-foreground"
 					disabled={pending}
 					onClick={props.onClose}
 					aria-label={t({ message: "Close" })}
@@ -265,55 +413,116 @@ export function NewWorkspaceScreen(props: NewWorkspaceScreenProps) {
 					<X className="size-4" />
 				</Button>
 			</div>
-			<div className="pointer-events-none absolute inset-x-0 top-1/2 flex -translate-y-1/2 flex-col items-center gap-8 [@media(max-height:640px)]:hidden">
-				<WorkspaceMark className="h-10 w-auto text-muted-foreground/70" />
-				<h1 className="text-center text-3xl font-medium text-foreground/90">
-					<Trans>What should we build next?</Trans>
-				</h1>
-			</div>
-			<div className="flex w-full flex-1 flex-col items-center justify-end px-6 pb-8 pt-8">
-				<div className="relative flex w-full max-w-[592px] flex-col">
-					{!prompt && !saved && (
-						<div className="mb-3 space-y-1">
-							{suggestions.map((text) => (
-								<button
-									key={text}
-									type="button"
-									disabled={locked}
-									onClick={() => {
-										setPrompt(text);
-										editor.current?.focus();
-									}}
-									className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-left text-sm text-muted-foreground hover:bg-accent hover:text-foreground"
-								>
-									<Lightbulb className="size-4 shrink-0" />
-									{text}
-								</button>
-							))}
-						</div>
-					)}
+			<div className="flex w-full flex-1 flex-col items-center justify-center px-6 py-8">
+				<div className="relative flex w-full max-w-[600px] flex-col items-center">
+					<div className="mb-6 flex flex-col items-center gap-4">
+						<WorkspaceMark className="h-9 w-auto text-muted-foreground/80" />
+						<h1 className="text-center text-2xl font-medium tracking-tight text-foreground/95">
+							<Trans>What should we build next?</Trans>
+						</h1>
+					</div>
 					{error && (
 						<p
 							role="alert"
-							className="mb-3 rounded-md border border-destructive/30 bg-background p-3 text-sm text-destructive"
+							className="mb-3 w-full rounded-lg border border-destructive/30 bg-destructive/5 p-3 text-xs text-destructive"
 						>
 							{error}
 						</p>
 					)}
 					<form
-						className="rounded-2xl bg-muted p-3"
+						className={cn(
+							"w-full rounded-xl border border-border/80 bg-card/90 p-3.5 shadow-sm transition-shadow focus-within:border-ring focus-within:ring-1 focus-within:ring-ring",
+							isDragOver && "border-ring ring-1 ring-ring",
+						)}
+						onDragOver={(event) => {
+							if (locked) return;
+							if (event.dataTransfer?.types?.includes("Files")) {
+								event.preventDefault();
+								setIsDragOver(true);
+							}
+						}}
+						onDragLeave={(event) => {
+							if (!event.currentTarget.contains(event.relatedTarget as Node)) {
+								setIsDragOver(false);
+							}
+						}}
+						onDrop={(event) => {
+							setIsDragOver(false);
+							if (locked) return;
+							const files = getClipboardFiles(event.dataTransfer);
+							if (files.length > 0) {
+								event.preventDefault();
+								addAttachmentFiles(files);
+							}
+						}}
 						onSubmit={(event) => {
 							event.preventDefault();
 							void submit();
 						}}
 					>
+						<input
+							ref={fileInputRef}
+							type="file"
+							multiple
+							hidden
+							disabled={locked}
+							onChange={(event) => {
+								const files = Array.from(event.currentTarget.files ?? []);
+								if (files.length > 0) addAttachmentFiles(files);
+								event.currentTarget.value = "";
+							}}
+						/>
+						{attachments.length > 0 && (
+							<div className="mb-2.5 flex flex-wrap items-center gap-2">
+								{attachments.map((item) => (
+									<div
+										key={item.id}
+										className="group relative flex items-center gap-1.5 rounded-lg border border-border/70 bg-secondary/45 p-1 pr-2 text-xs text-foreground"
+										title={item.file.name}
+									>
+										{item.previewUrl ? (
+											<img
+												src={item.previewUrl}
+												alt={item.file.name}
+												className="size-10 shrink-0 rounded-md object-cover"
+											/>
+										) : (
+											<span className="grid size-8 shrink-0 place-items-center rounded-md bg-muted/70 text-muted-foreground">
+												<Paperclip className="size-3.5" />
+											</span>
+										)}
+										<span className="max-w-32 truncate text-[11px] text-muted-foreground">
+											{item.file.name}
+										</span>
+										{!locked && (
+											<button
+												type="button"
+												aria-label={t({ message: "Remove attachment" })}
+												onClick={() => removeAttachment(item.id)}
+												className="ml-0.5 grid size-4 shrink-0 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+											>
+												<X className="size-3" />
+											</button>
+										)}
+									</div>
+								))}
+							</div>
+						)}
 						<textarea
 							ref={editor}
-							aria-label={t({ message: "What do you want to do?" })}
-							placeholder={t({ message: "What do you want to do?" })}
+							aria-label={promptLabel}
+							placeholder={promptLabel}
 							value={prompt}
 							disabled={locked}
 							onChange={(event) => setPrompt(event.target.value)}
+							onPaste={(event) => {
+								if (locked) return;
+								const files = getClipboardFiles(event.clipboardData);
+								if (files.length > 0) {
+									event.preventDefault();
+									addAttachmentFiles(files);
+								}
+							}}
 							onKeyDown={(event) => {
 								if (
 									event.key === "Enter" &&
@@ -325,14 +534,26 @@ export function NewWorkspaceScreen(props: NewWorkspaceScreenProps) {
 									void submit();
 								}
 							}}
-							className="min-h-20 max-h-[max(5rem,calc(50vh-16rem))] w-full resize-y bg-transparent p-1 text-sm outline-none placeholder:text-muted-foreground disabled:opacity-70"
+							className="min-h-20 max-h-[max(5rem,calc(50vh-16rem))] w-full resize-none bg-transparent px-1 py-0.5 text-[13.5px] leading-relaxed outline-none placeholder:text-muted-foreground disabled:opacity-70"
 						/>
-						<div className="mt-2 flex flex-wrap items-center justify-end gap-1">
+						<div className="mt-2.5 flex flex-wrap items-center justify-end gap-1.5">
+							<Button
+								type="button"
+								variant="ghost"
+								size="icon"
+								disabled={locked || attachments.length >= MAX_ATTACHMENTS}
+								aria-label={t({ message: "Attach files" })}
+								title={t({ message: "Attach files" })}
+								onClick={() => fileInputRef.current?.click()}
+								className="mr-auto size-7 shrink-0 rounded-md text-muted-foreground hover:bg-fill-hover hover:text-foreground"
+							>
+								<Paperclip className="size-3.5" />
+							</Button>
 							{agent && (
 								<AgentIcon
 									presetId={agent.presetId}
 									iconId={agent.iconId}
-									className="size-4"
+									className="size-4 shrink-0"
 								/>
 							)}
 							<JedvSelect
@@ -354,8 +575,9 @@ export function NewWorkspaceScreen(props: NewWorkspaceScreenProps) {
 								className={pill}
 							/>
 							{!!models.length && (
-								<JedvSelect
+								<GroupedPrefixedSelect
 									label={t({ message: "Model" })}
+									prefix={t({ message: "Model:" })}
 									value={model}
 									disabled={locked}
 									onValueChange={(value) => {
@@ -367,14 +589,16 @@ export function NewWorkspaceScreen(props: NewWorkspaceScreenProps) {
 										...models.map((item) => ({
 											value: item.id,
 											label: item.label,
+											group: item.group,
 										})),
 									]}
 									className={pill}
 								/>
 							)}
 							{!!efforts.length && (
-								<JedvSelect
+								<GroupedPrefixedSelect
 									label={t({ message: "Effort" })}
+									prefix={t({ message: "Effort:" })}
 									value={effort}
 									disabled={locked}
 									onValueChange={setEffort}
@@ -383,6 +607,7 @@ export function NewWorkspaceScreen(props: NewWorkspaceScreenProps) {
 										...efforts.map((item) => ({
 											value: item.id,
 											label: item.label,
+											group: item.group,
 										})),
 									]}
 									className={pill}
@@ -392,7 +617,11 @@ export function NewWorkspaceScreen(props: NewWorkspaceScreenProps) {
 								type="submit"
 								size={saved ? "sm" : "icon"}
 								disabled={pending || !projectId || agents.isPending}
-								className="ml-2 shrink-0 rounded-xl"
+								className={
+									saved
+										? "ml-1.5 h-8 shrink-0 rounded-lg px-3.5 text-xs font-medium"
+										: "ml-1.5 size-8 shrink-0 rounded-full"
+								}
 								aria-label={
 									saved
 										? t({ message: "Open workspace" })
@@ -400,23 +629,23 @@ export function NewWorkspaceScreen(props: NewWorkspaceScreenProps) {
 								}
 							>
 								{pending ? (
-									<Loader2 className="size-5 animate-spin" />
+									<Loader2 className="size-4 animate-spin" />
 								) : saved ? (
 									<Trans>Open workspace</Trans>
 								) : (
-									<ArrowUp className="size-5" />
+									<ArrowUp className="size-4" />
 								)}
 							</Button>
 						</div>
 					</form>
 					{pending && (
-						<output className="mt-2 text-sm text-muted-foreground">
+						<output className="mt-2.5 text-xs text-muted-foreground">
 							<Trans>Creating workspace…</Trans>
 						</output>
 					)}
-					<div className="mt-2 flex flex-wrap items-center gap-1 text-xs text-muted-foreground">
+					<div className="mt-3 flex w-full flex-wrap items-center justify-center gap-2 text-xs text-muted-foreground">
 						<span
-							className="flex max-w-44 items-center gap-1.5 px-1"
+							className="inline-flex h-7.5 max-w-48 items-center gap-1.5 rounded-lg border border-border/60 bg-card/45 px-3 font-medium"
 							title={context.hostLabel}
 						>
 							<Monitor className="size-3.5 shrink-0" />
@@ -502,5 +731,95 @@ export function NewWorkspaceScreen(props: NewWorkspaceScreenProps) {
 				/>
 			)}
 		</section>
+	);
+}
+
+interface GroupedSelectOption {
+	value: string;
+	label: string;
+	group?: string;
+}
+
+function GroupedPrefixedSelect({
+	value,
+	options,
+	onValueChange,
+	label,
+	prefix,
+	disabled,
+	className,
+}: {
+	value: string;
+	options: GroupedSelectOption[];
+	onValueChange(value: string): void;
+	label: string;
+	prefix: string;
+	disabled?: boolean;
+	className?: string;
+}) {
+	const selected = options.find((option) => option.value === value);
+	const ungrouped = options.filter((option) => !option.group);
+	const groups: { name: string; items: GroupedSelectOption[] }[] = [];
+	for (const option of options) {
+		if (!option.group) continue;
+		let bucket = groups.find((entry) => entry.name === option.group);
+		if (!bucket) {
+			bucket = { name: option.group, items: [] };
+			groups.push(bucket);
+		}
+		bucket.items.push(option);
+	}
+	return (
+		<Select
+			value={selected ? `value:${selected.value}` : ""}
+			onValueChange={(encoded) => onValueChange(encoded.slice(6))}
+			disabled={disabled}
+		>
+			<SelectTrigger
+				aria-label={label}
+				title={selected ? `${prefix} ${selected.label}` : label}
+				className={cn(
+					"data-[size=default]:h-auto min-h-7 min-w-0 max-w-full py-1 text-xs [&>span]:min-w-0 [&>span]:truncate",
+					className,
+				)}
+			>
+				<span className="flex min-w-0 items-center gap-1">
+					<span className="shrink-0 text-muted-foreground/75">{prefix}</span>
+					<SelectValue />
+				</span>
+			</SelectTrigger>
+			<SelectContent
+				position="popper"
+				className="max-h-[min(20rem,var(--radix-select-content-available-height))] max-w-[min(28rem,calc(100vw-2rem))] overflow-y-auto"
+			>
+				{ungrouped.map((option) => (
+					<SelectItem
+						key={option.value}
+						value={`value:${option.value}`}
+						title={option.label}
+						className="min-w-0 text-xs [&>span:last-child]:min-w-0 [&>span:last-child]:truncate"
+					>
+						<span className="block truncate">{option.label}</span>
+					</SelectItem>
+				))}
+				{groups.map((group) => (
+					<SelectGroup key={group.name}>
+						<SelectLabel className="px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+							{group.name}
+						</SelectLabel>
+						{group.items.map((option) => (
+							<SelectItem
+								key={option.value}
+								value={`value:${option.value}`}
+								title={option.label}
+								className="min-w-0 text-xs [&>span:last-child]:min-w-0 [&>span:last-child]:truncate"
+							>
+								<span className="block truncate">{option.label}</span>
+							</SelectItem>
+						))}
+					</SelectGroup>
+				))}
+			</SelectContent>
+		</Select>
 	);
 }

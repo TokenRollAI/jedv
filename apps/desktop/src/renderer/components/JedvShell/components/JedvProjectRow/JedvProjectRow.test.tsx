@@ -66,3 +66,23 @@ test("IME Enter does not submit a project rename", () => {
 	});
 	expect(f.onRename).not.toHaveBeenCalled();
 });
+
+test("CJK project without stored icon renders a vector folder icon instead of a CJK character blob", () => {
+	const screen = render(
+		<JedvProjectRow
+			project={{ ...project, icon: "none" }}
+			collapsed={false}
+			onToggle={() => {}}
+			onNew={() => {}}
+			onCheckout={() => {}}
+			onRename={() => {}}
+			onCopy={() => {}}
+			onRemove={() => {}}
+		/>,
+	);
+	expect(screen.queryByRole("img")).toBeNull();
+	expect(screen.queryByText("中")).toBeNull();
+	expect(
+		screen.getByText("中文项目").previousElementSibling?.querySelector("svg"),
+	).toBeTruthy();
+});

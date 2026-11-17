@@ -11,6 +11,7 @@ import {
 	LuLoader,
 	LuPin,
 } from "react-icons/lu";
+import { AgentIcon } from "renderer/components/AgentIcon";
 import type { Project, Workspace } from "../../../../types";
 import {
 	ProjectThumbnail,
@@ -26,6 +27,7 @@ export function WorkspaceBoardCard({
 	workspace,
 	project,
 	pr,
+	agentId,
 	column,
 	pinned,
 	onOpen,
@@ -34,6 +36,7 @@ export function WorkspaceBoardCard({
 	workspace: Workspace;
 	project?: Project;
 	pr?: WorkspacePR;
+	agentId?: string | null;
 	column: Column;
 	pinned?: boolean;
 	onOpen(): void;
@@ -140,14 +143,30 @@ export function WorkspaceBoardCard({
 							: null}
 					</span>
 				)}
-				<Icon
-					aria-label={i18n._(columnLabels[column])}
-					className={cn(
-						"ml-auto size-3",
-						columnColors[column],
-						column === "working" && "animate-spin motion-reduce:animate-none",
-					)}
-				/>
+				{agentId ? (
+					<span
+						role="img"
+						className="ml-auto inline-flex items-center gap-1"
+						title={i18n._(columnLabels[column])}
+						aria-label={i18n._(columnLabels[column])}
+					>
+						{column === "working" ? (
+							<span className="size-1.5 rounded-full bg-amber-500 animate-pulse motion-reduce:animate-none" />
+						) : (
+							<Icon className={cn("size-3", columnColors[column])} />
+						)}
+						<AgentIcon presetId={agentId} className="size-3.5" />
+					</span>
+				) : (
+					<Icon
+						aria-label={i18n._(columnLabels[column])}
+						className={cn(
+							"ml-auto size-3",
+							columnColors[column],
+							column === "working" && "animate-spin motion-reduce:animate-none",
+						)}
+					/>
+				)}
 			</div>
 			{pr?.error && (
 				<p className="mt-1 text-[11px] text-destructive">{pr.error}</p>

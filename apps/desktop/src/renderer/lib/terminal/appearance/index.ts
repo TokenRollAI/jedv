@@ -1,10 +1,10 @@
 import type { FontWeight, ITheme } from "@xterm/xterm";
-import { toXtermTheme } from "renderer/stores/theme/utils";
+import { rendererBuiltInThemes } from "renderer/stores/theme/canonical-themes";
 import {
-	builtInThemes,
-	DEFAULT_THEME_ID,
-	getTerminalColors,
-} from "shared/themes";
+	resolveTerminalThemeType,
+	toXtermTheme,
+} from "renderer/stores/theme/utils";
+import { DEFAULT_THEME_ID, getTerminalColors } from "shared/themes";
 
 export interface TerminalAppearance {
 	theme: ITheme;
@@ -107,6 +107,7 @@ export const DEFAULT_TERMINAL_LETTER_SPACING = 0;
 export const DEFAULT_TERMINAL_FONT_WEIGHT: FontWeight = "normal";
 export const DEFAULT_TERMINAL_LIGATURES = true;
 export const DEFAULT_TERMINAL_MINIMUM_CONTRAST = 1;
+export const DEFAULT_LIGHT_TERMINAL_MINIMUM_CONTRAST = 4.5;
 export const DEFAULT_TERMINAL_CURSOR_STYLE = "block" as const;
 export const DEFAULT_TERMINAL_CURSOR_BLINK = true;
 
@@ -268,6 +269,46 @@ function buildIconCapableStack(
 	return serializeFontFamilyList(merged);
 }
 
+function parseHexRgb(color: string): [number, number, number] | null {
+	const trimmed = color.trim();
+	const short = /^#([0-9a-f]{3})$/i.exec(trimmed);
+	if (short) {
+		const [r, g, b] = short[1]
+			.split("")
+			.map((ch) => Number.parseInt(ch + ch, 16));
+		return [r, g, b];
+	}
+	const full = /^#([0-9a-f]{6})([0-9a-f]{2})?$/i.exec(trimmed);
+	if (full) {
+		const hex = full[1];
+		return [
+			Number.parseInt(hex.slice(0, 2), 16),
+			Number.parseInt(hex.slice(2, 4), 16),
+			Number.parseInt(hex.slice(4, 6), 16),
+		];
+	}
+	return null;
+}
+
+function srgbToLinear(channel: number): number {
+	const srgb = channel / 255;
+	return srgb <= 0.03928 ? srgb / 12.92 : ((srgb + 0.055) / 1.055) ** 2.4;
+}
+
+export function isLightTerminalBackground(background?: string): boolean {
+	if (background) {
+		const rgb = parseHexRgb(background);
+		if (rgb) {
+			const luminance =
+				0.2126 * srgbToLinear(rgb[0]) +
+				0.7152 * srgbToLinear(rgb[1]) +
+				0.0722 * srgbToLinear(rgb[2]);
+			return luminance > 0.5;
+		}
+	}
+	return resolveTerminalThemeType() === "light";
+}
+
 /** Reads localStorage theme cache for flash-free first paint. */
 export function getDefaultTerminalAppearance(): TerminalAppearance {
 	const theme = readCachedTerminalTheme();
@@ -279,9 +320,12 @@ export function resolveTerminalAppearance(
 	fontSettings: TerminalFontSettings = {},
 	installedIconFonts: readonly string[] = [],
 ): TerminalAppearance {
+	const defaultMinimumContrast = isLightTerminalBackground(theme.background)
+		? DEFAULT_LIGHT_TERMINAL_MINIMUM_CONTRAST
+		: DEFAULT_TERMINAL_MINIMUM_CONTRAST;
 	return {
 		theme,
-		background: theme.background ?? "#151110",
+		background: theme.background ?? "#0f1012",
 		fontFamily: sanitizeTerminalFontFamily(
 			fontSettings.terminalFontFamily,
 			installedIconFonts,
@@ -293,7 +337,7 @@ export function resolveTerminalAppearance(
 		fontWeight: fontSettings.terminalFontWeight ?? DEFAULT_TERMINAL_FONT_WEIGHT,
 		ligatures: fontSettings.terminalLigatures ?? DEFAULT_TERMINAL_LIGATURES,
 		minimumContrastRatio:
-			fontSettings.terminalMinimumContrast ?? DEFAULT_TERMINAL_MINIMUM_CONTRAST,
+			fontSettings.terminalMinimumContrast ?? defaultMinimumContrast,
 		cursorStyle:
 			fontSettings.terminalCursorStyle ?? DEFAULT_TERMINAL_CURSOR_STYLE,
 		cursorBlink:
@@ -308,13 +352,15 @@ function readCachedTerminalTheme(): ITheme {
 			return toXtermTheme(JSON.parse(cachedTerminal));
 		}
 		const themeId = localStorage.getItem("theme-id") ?? DEFAULT_THEME_ID;
-		const theme = builtInThemes.find((t) => t.id === themeId);
+		const theme = rendererBuiltInThemes.find((t) => t.id === themeId);
 		if (theme) {
 			return toXtermTheme(getTerminalColors(theme));
 		}
 	} catch {}
-	const defaultTheme = builtInThemes.find((t) => t.id === DEFAULT_THEME_ID);
+	const defaultTheme = rendererBuiltInThemes.find(
+		(t) => t.id === DEFAULT_THEME_ID,
+	);
 	return defaultTheme
 		? toXtermTheme(getTerminalColors(defaultTheme))
-		: { background: "#151110", foreground: "#eae8e6" };
+		: { background: "#0f1012", foreground: "#eceef2" };
 }

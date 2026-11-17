@@ -14,6 +14,44 @@ export interface PortInfo {
 	processName: string;
 }
 
+const EPHEMERAL_PORT_MIN = 49152;
+const AGENT_CLI_PROCESS_NAMES = new Set(["agy", "claude", "codex", "kimi"]);
+
+function isLoopbackAddress(address: string): boolean {
+	const normalized = address
+		.trim()
+		.replace(/^\[|\]$/g, "")
+		.toLowerCase();
+	return (
+		normalized === "127.0.0.1" ||
+		normalized === "localhost" ||
+		normalized === "::1" ||
+		normalized === "0:0:0:0:0:0:0:1" ||
+		normalized === "::ffff:127.0.0.1"
+	);
+}
+
+/**
+ * Agent CLIs (such as `agy`) and subprocesses open internal loopback IPC
+ * sockets on 127.0.0.1 / ::1. Filtering loopback ephemeral ports and known
+ * agent CLI loopback listeners keeps user dev servers separate so "Kill all"
+ * cannot terminate the running agent itself.
+ */
+export function isInternalAgentLoopbackPort(info: PortInfo): boolean {
+	if (!isLoopbackAddress(info.address)) return false;
+	const processName = info.processName
+		.trim()
+		.toLowerCase()
+		.replace(/\.exe$/, "");
+	return (
+		info.port >= EPHEMERAL_PORT_MIN || AGENT_CLI_PROCESS_NAMES.has(processName)
+	);
+}
+
+export function filterListeningPorts(ports: PortInfo[]): PortInfo[] {
+	return ports.filter((info) => !isInternalAgentLoopbackPort(info));
+}
+
 export interface ProcessTableEntry {
 	pid: number;
 	ppid: number;
@@ -95,16 +133,78 @@ export async function getListeningPortsForPids(
 	const platform = os.platform();
 
 	if (platform === "linux") {
-		return getListeningPortsLinuxProcfs(pids, signal);
+		return filterListeningPorts(
+			await getListeningPortsLinuxProcfs(pids, signal),
+		);
 	}
 	if (platform === "darwin") {
-		return getListeningPortsLsof(pids, signal);
+		return filterListeningPorts(await getListeningPortsLsof(pids, signal));
 	}
 	if (platform === "win32") {
-		return getListeningPortsWindows(pids, signal);
+		return filterListeningPorts(await getListeningPortsWindows(pids, signal));
 	}
 
 	return [];
+}
+
+/**
+ * Parse raw `lsof -iTCP -sTCP:LISTEN -P -n` output into PortInfo entries.
+ */
+export function parseLsofOutput(
+	output: string,
+	allowedPids?: Set<number>,
+): PortInfo[] {
+	if (!output.trim()) return [];
+
+	const ports: PortInfo[] = [];
+	const lines = output.trim().split("\n").slice(1);
+
+	for (const line of lines) {
+		if (!line.trim()) continue;
+
+		// Format: COMMAND PID USER FD TYPE DEVICE SIZE/OFF NODE NAME
+		// Example: node 12345 user 23u IPv4 0x1234 0t0 TCP *:3000 (LISTEN)
+		const columns = line.split(/\s+/);
+		const processName = columns[0];
+		const pidStr = columns[1];
+		const name = columns[columns.length - 2]; // before (LISTEN)
+		if (
+			columns.length < 10 ||
+			processName === undefined ||
+			pidStr === undefined ||
+			name === undefined
+		) {
+			continue;
+		}
+
+		const pid = Number.parseInt(pidStr, 10);
+
+		// Defense in depth: -a should guarantee only requested PIDs appear,
+		// but a stray line must never attribute another process's port to a session
+		if (allowedPids && !allowedPids.has(pid)) continue;
+
+		// Parse address:port from NAME column
+		// Formats: *:3000, 127.0.0.1:3000, [::1]:3000, [::]:3000
+		const match = name.match(/^(?:\[([^\]]+)\]|([^:]+)):(\d+)$/);
+		if (!match) continue;
+
+		// match[3] is the mandatory port group; one of match[1]/[2] is the host.
+		const portStr = match[3];
+		if (portStr === undefined) continue;
+		const address = match[1] || match[2] || "*";
+		const port = Number.parseInt(portStr, 10);
+
+		if (port < 1 || port > 65535) continue;
+
+		ports.push({
+			port,
+			pid,
+			address: address === "*" ? "0.0.0.0" : address,
+			processName,
+		});
+	}
+
+	return ports;
 }
 
 /**
@@ -130,57 +230,7 @@ async function getListeningPortsLsof(
 			{ maxBuffer: 10 * 1024 * 1024, timeout: EXEC_TIMEOUT_MS, signal },
 		);
 
-		if (!output.trim()) return [];
-
-		const ports: PortInfo[] = [];
-		const lines = output.trim().split("\n").slice(1);
-
-		for (const line of lines) {
-			if (!line.trim()) continue;
-
-			// Format: COMMAND PID USER FD TYPE DEVICE SIZE/OFF NODE NAME
-			// Example: node 12345 user 23u IPv4 0x1234 0t0 TCP *:3000 (LISTEN)
-			const columns = line.split(/\s+/);
-			const processName = columns[0];
-			const pidStr = columns[1];
-			const name = columns[columns.length - 2]; // before (LISTEN)
-			if (
-				columns.length < 10 ||
-				processName === undefined ||
-				pidStr === undefined ||
-				name === undefined
-			) {
-				continue;
-			}
-
-			const pid = Number.parseInt(pidStr, 10);
-
-			// Defense in depth: -a should guarantee only requested PIDs appear,
-			// but a stray line must never attribute another process's port to a session
-			if (!pidSet.has(pid)) continue;
-
-			// Parse address:port from NAME column
-			// Formats: *:3000, 127.0.0.1:3000, [::1]:3000, [::]:3000
-			const match = name.match(/^(?:\[([^\]]+)\]|([^:]+)):(\d+)$/);
-			if (!match) continue;
-
-			// match[3] is the mandatory port group; one of match[1]/[2] is the host.
-			const portStr = match[3];
-			if (portStr === undefined) continue;
-			const address = match[1] || match[2] || "*";
-			const port = Number.parseInt(portStr, 10);
-
-			if (port < 1 || port > 65535) continue;
-
-			ports.push({
-				port,
-				pid,
-				address: address === "*" ? "0.0.0.0" : address,
-				processName,
-			});
-		}
-
-		return ports;
+		return parseLsofOutput(output, pidSet);
 	} catch {
 		return [];
 	}

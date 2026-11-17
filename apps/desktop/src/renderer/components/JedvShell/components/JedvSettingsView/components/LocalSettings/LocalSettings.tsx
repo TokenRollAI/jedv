@@ -1,7 +1,8 @@
-import { EXTERNAL_APPS, NON_EDITOR_APPS } from "@jedv/local-db";
+import * as localDb from "@jedv/local-db";
 import { TERMINAL_PARKED_RUNTIME_CAP_LIMITS } from "@jedv/shared/settings-constraints";
+import { Button } from "@jedv/ui/button";
 import { Switch } from "@jedv/ui/switch";
-import { useLingui } from "@lingui/react/macro";
+import { Trans, useLingui } from "@lingui/react/macro";
 import { electronTrpc } from "renderer/lib/electron-trpc";
 import { electronTrpcClient } from "renderer/lib/trpc-client";
 import { useTerminalCloseConfirmStore } from "renderer/stores/terminal-close-confirm/store";
@@ -19,9 +20,11 @@ import { TerminalPresets } from "../TerminalPresets/TerminalPresets";
 export function LocalSettings({
 	section,
 	context,
+	onNavigateSection,
 }: {
 	context: JedvParityViewContext;
 	section: Extract<JedvSettingsSection, "general" | "terminal" | "files">;
+	onNavigateSection?: (section: JedvSettingsSection) => void;
 }) {
 	const { t } = useLingui();
 	const settings = electronTrpcClient.settings;
@@ -156,10 +159,21 @@ export function LocalSettings({
 								)
 							}
 						/>
-						<LinkBehaviorSettings
-							surfaces={["url", "file", "folder"]}
-							rightPaneAvailable
-						/>
+						<SettingRow
+							label={t({ message: "Link behavior" })}
+							description={t({
+								message:
+									"Configure how URLs, files, and folders open when clicked in terminals.",
+							})}
+						>
+							<Button
+								variant="outline"
+								size="sm"
+								onClick={() => onNavigateSection?.("files")}
+							>
+								<Trans>Configure in Files &amp; editor</Trans>
+							</Button>
+						</SettingRow>
 					</>
 				)}
 				{section === "files" && (
@@ -212,15 +226,18 @@ export function LocalSettings({
 										editor:
 											editor === "auto"
 												? null
-												: (editor as (typeof EXTERNAL_APPS)[number]),
+												: (editor as (typeof localDb.EXTERNAL_APPS)[number]),
 									}),
 								)
 							}
 							options={[
 								{ value: "auto", label: t({ message: "Auto" }) },
-								...EXTERNAL_APPS.filter(
-									(editor) => !NON_EDITOR_APPS.includes(editor),
-								).map((editor) => ({ value: editor, label: editor })),
+								...(localDb.EXTERNAL_APPS ?? [])
+									.filter(
+										(editor) =>
+											!(localDb.NON_EDITOR_APPS ?? []).includes(editor),
+									)
+									.map((editor) => ({ value: editor, label: editor })),
 							]}
 						/>
 					</>

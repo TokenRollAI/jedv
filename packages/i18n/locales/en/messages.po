@@ -346,9 +346,6 @@ msgstr "Add Project from Folder"
 msgid "Add Project from Folder..."
 msgstr "Add Project from Folder..."
 
-msgid "Add tests where coverage is missing"
-msgstr "Add tests where coverage is missing"
-
 msgid "Add to Dictionary"
 msgstr "Add to Dictionary"
 
@@ -464,6 +461,9 @@ msgstr "Alive"
 msgid "All"
 msgstr "All"
 
+msgid "All activity"
+msgstr "All activity"
+
 msgid "All commits"
 msgstr "All commits"
 
@@ -491,11 +491,17 @@ msgstr "Allow"
 msgid "Allow microphone access to use dictation"
 msgstr "Allow microphone access to use dictation"
 
+msgid "Allow once"
+msgstr "Allow once"
+
 msgid "Already open"
 msgstr "Already open"
 
 msgid "Also delete local branch"
 msgstr "Also delete local branch"
+
+msgid "Ambiguous upstream branch configuration"
+msgstr "Ambiguous upstream branch configuration"
 
 msgid "An automation did not complete. Inspect its run on your computer."
 msgstr "An automation did not complete. Inspect its run on your computer."
@@ -633,6 +639,9 @@ msgstr "Ask to make changes, @mention files, run /commands"
 msgid "Associated provider tokens will be revoked."
 msgstr "Associated provider tokens will be revoked."
 
+msgid "At most {MAX_ATTACHMENTS} attachments can be added."
+msgstr "At most {MAX_ATTACHMENTS} attachments can be added."
+
 msgid "Attach"
 msgstr "Attach"
 
@@ -652,6 +661,9 @@ msgstr "Attachment"
 #. placeholder {1}: cause.problem
 msgid "Attachment {0} could not be copied: {1}"
 msgstr "Attachment {0} could not be copied: {1}"
+
+msgid "Attachment is too large (maximum 10 MB)."
+msgstr "Attachment is too large (maximum 10 MB)."
 
 msgid "Attachment limits exceeded"
 msgstr "Attachment limits exceeded"
@@ -676,6 +688,9 @@ msgstr "Auto (system)"
 
 msgid "Auto save"
 msgstr "Auto save"
+
+msgid "Auto-derived from task (optional)"
+msgstr "Auto-derived from task (optional)"
 
 msgid "Automatic delivery paused"
 msgstr "Automatic delivery paused"
@@ -739,6 +754,9 @@ msgstr "Back"
 
 msgid "Back to automations"
 msgstr "Back to automations"
+
+msgid "Back to changes"
+msgstr "Back to changes"
 
 msgid "Back to current conversation"
 msgstr "Back to current conversation"
@@ -850,6 +868,9 @@ msgstr "Cannot {action}: no active organization is selected. Select an organizat
 msgid "Cannot {action}: the local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
 msgstr "Cannot {action}: the local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
 
+msgid "Cascading URL rewrite is not supported"
+msgstr "Cascading URL rewrite is not supported"
+
 msgid "Category"
 msgstr "Category"
 
@@ -888,6 +909,9 @@ msgstr "Chat"
 
 msgid "Chat is being reworked"
 msgstr "Chat is being reworked"
+
+msgid "Chat session"
+msgstr "Chat session"
 
 msgid "Check for updates"
 msgstr "Check for updates"
@@ -964,8 +988,8 @@ msgstr "Choose a project or workspace"
 msgid "Choose a project to start working."
 msgstr "Choose a project to start working."
 
-msgid "Choose a running agent as leader to start collaborating."
-msgstr "Choose a running agent as leader to start collaborating."
+msgid "Choose a running session as leader to start collaborating."
+msgstr "Choose a running session as leader to start collaborating."
 
 msgid "Choose a saved screenshot to attach. Files are copied only when you submit the prompt."
 msgstr "Choose a saved screenshot to attach. Files are copied only when you submit the prompt."
@@ -999,6 +1023,9 @@ msgstr "Clear API key"
 
 msgid "Clear API key?"
 msgstr "Clear API key?"
+
+msgid "Clear filters"
+msgstr "Clear filters"
 
 msgid "Clear saved screenshots?"
 msgstr "Clear saved screenshots?"
@@ -1236,6 +1263,12 @@ msgstr "Configure"
 msgid "Configure agent commands for the connected host."
 msgstr "Configure agent commands for the connected host."
 
+msgid "Configure how URLs, files, and folders open when clicked in terminals."
+msgstr "Configure how URLs, files, and folders open when clicked in terminals."
+
+msgid "Configure in Files & editor"
+msgstr "Configure in Files & editor"
+
 msgid "Configured"
 msgstr "Configured"
 
@@ -1453,8 +1486,8 @@ msgstr "Could not confirm this session. Refresh before retrying."
 msgid "Could not copy. Select the text below to copy it."
 msgstr "Could not copy. Select the text below to copy it."
 
-msgid "Could not create team. Refresh the agents and retry."
-msgstr "Could not create team. Refresh the agents and retry."
+msgid "Could not create team. Refresh the sessions and retry."
+msgstr "Could not create team. Refresh the sessions and retry."
 
 msgid "Could not create workspace. Check the target host and retry."
 msgstr "Could not create workspace. Check the target host and retry."
@@ -1718,11 +1751,20 @@ msgstr "Custom"
 msgid "Custom branch prefix"
 msgstr "Custom branch prefix"
 
+msgid "Custom fetch refspec is not supported"
+msgstr "Custom fetch refspec is not supported"
+
 msgid "Custom notification sound"
 msgstr "Custom notification sound"
 
 msgid "Custom prefix"
 msgstr "Custom prefix"
+
+msgid "Custom push refspec is not supported"
+msgstr "Custom push refspec is not supported"
+
+msgid "Custom receive-pack is not supported"
+msgstr "Custom receive-pack is not supported"
 
 msgid "Custom sound"
 msgstr "Custom sound"
@@ -1874,6 +1916,9 @@ msgstr "Delivery outcome is uncertain. Inspect the terminal before retrying."
 msgid "Delivery uncertain"
 msgstr "Delivery uncertain"
 
+msgid "Deny"
+msgstr "Deny"
+
 msgid "Describe a goal to start a new task."
 msgstr "Describe a goal to start a new task."
 
@@ -1897,6 +1942,9 @@ msgstr "Destination path"
 
 msgid "Detached"
 msgstr "Detached"
+
+msgid "Detached HEAD"
+msgstr "Detached HEAD"
 
 msgid "Details"
 msgstr "Details"
@@ -1958,10 +2006,11 @@ msgstr "Discarding renamed or copied files is unavailable. Restore both paths wi
 msgid "Disconnected"
 msgstr "Disconnected"
 
-#. placeholder {0}: formatNumber(logins.data.claude.length)
-#. placeholder {1}: formatNumber(logins.data.codex.length)
-msgid "Discovered {0} Claude Code and {1} Codex login profiles on this host."
-msgstr "Discovered {0} Claude Code and {1} Codex login profiles on this host."
+#. placeholder {0}: formatNumber(claudeCount)
+#. placeholder {1}: formatNumber(codexCount)
+#. placeholder {2}: formatNumber(agyCount)
+msgid "Discovered {0} Claude Code, {1} Codex, and {2} Antigravity accounts on this host. Kimi Code does not expose local account discovery."
+msgstr "Discovered {0} Claude Code, {1} Codex, and {2} Antigravity accounts on this host. Kimi Code does not expose local account discovery."
 
 msgid "Disk version"
 msgstr "Disk version"
@@ -2062,11 +2111,17 @@ msgstr "Editor typography"
 msgid "Effort"
 msgstr "Effort"
 
+msgid "Effort:"
+msgstr "Effort:"
+
 msgid "Enable"
 msgstr "Enable"
 
 msgid "Enabled"
 msgstr "Enabled"
+
+msgid "Ended"
+msgstr "Ended"
 
 msgid "Endpoint"
 msgstr "Endpoint"
@@ -2100,6 +2155,9 @@ msgstr "Enter an absolute directory path on the target host."
 
 msgid "Enter an agent name."
 msgstr "Enter an agent name."
+
+msgid "Enter DeepSeek API Key"
+msgstr "Enter DeepSeek API Key"
 
 msgid "Enter the pairing code shown in Jedv on your computer."
 msgstr "Enter the pairing code shown in Jedv on your computer."
@@ -2383,9 +2441,6 @@ msgstr "Filter agents…"
 msgid "Find"
 msgstr "Find"
 
-msgid "Find and fix a bug"
-msgstr "Find and fix a bug"
-
 msgid "Find in Changes"
 msgstr "Find in Changes"
 
@@ -2508,9 +2563,6 @@ msgstr "Friday"
 
 msgid "From"
 msgstr "From"
-
-msgid "From the task’s first sentence"
-msgstr "From the task’s first sentence"
 
 msgid "Front matter hidden. Switch to the Markdown view to edit it"
 msgstr "Front matter hidden. Switch to the Markdown view to edit it"
@@ -2807,12 +2859,6 @@ msgstr "Importing selected workspaces…"
 msgid "Importing..."
 msgstr "Importing..."
 
-msgid "Improve agent instructions"
-msgstr "Improve agent instructions"
-
-msgid "In"
-msgstr "In"
-
 msgid "In Apple's window, click Install. It takes a few minutes, and this page updates when it's done."
 msgstr "In Apple's window, click Install. It takes a few minutes, and this page updates when it's done."
 
@@ -2833,6 +2879,9 @@ msgstr "Inbox"
 
 msgid "Include archived teams"
 msgstr "Include archived teams"
+
+msgid "Include internal mail"
+msgstr "Include internal mail"
 
 msgid "Include the Linear ticket id from the prompt in the branch name (e.g. bin-344-fix-login). Prefix branches with fix/ or feat/ based on the task."
 msgstr "Include the Linear ticket id from the prompt in the branch name (e.g. bin-344-fix-login). Prefix branches with fix/ or feat/ based on the task."
@@ -2885,12 +2934,6 @@ msgstr "Instructions"
 msgid "Instructions are available in the original mail."
 msgstr "Instructions are available in the original mail."
 
-msgid "Internal mail and diagnostics"
-msgstr "Internal mail and diagnostics"
-
-msgid "Internal mail diagnostics"
-msgstr "Internal mail diagnostics"
-
 msgid "Interrupt"
 msgstr "Interrupt"
 
@@ -2905,6 +2948,9 @@ msgstr "Interrupted"
 
 msgid "Invalid memory JSON"
 msgstr "Invalid memory JSON"
+
+msgid "Invalid target branch name"
+msgstr "Invalid target branch name"
 
 msgid "Italic"
 msgstr "Italic"
@@ -2941,6 +2987,9 @@ msgstr "Kept the new file because it changed after it was created"
 
 msgid "Kept the new folder because it is no longer empty"
 msgstr "Kept the new folder because it is no longer empty"
+
+msgid "Key reports"
+msgstr "Key reports"
 
 msgid "Keyboard"
 msgstr "Keyboard"
@@ -3040,6 +3089,9 @@ msgstr "Line height"
 msgid "Link"
 msgstr "Link"
 
+msgid "Link behavior"
+msgstr "Link behavior"
+
 msgid "Linked agent"
 msgstr "Linked agent"
 
@@ -3069,6 +3121,9 @@ msgstr "Load more"
 
 msgid "Loading"
 msgstr "Loading"
+
+msgid "Loading agent session…"
+msgstr "Loading agent session…"
 
 msgid "Loading agents…"
 msgstr "Loading agents…"
@@ -3184,8 +3239,14 @@ msgstr "Mail awaiting acknowledgement: {activeCount}"
 msgid "Mail awaits acknowledgement"
 msgstr "Mail awaits acknowledgement"
 
-msgid "Mail delivery needs attention. Open diagnostics to inspect the delivery."
-msgstr "Mail delivery needs attention. Open diagnostics to inspect the delivery."
+msgid "Mail delivery info"
+msgstr "Mail delivery info"
+
+msgid "Mail delivery needs attention. Expand to inspect the delivery."
+msgstr "Mail delivery needs attention. Expand to inspect the delivery."
+
+msgid "Mail delivery needs attention. View original mail to inspect the delivery."
+msgstr "Mail delivery needs attention. View original mail to inspect the delivery."
 
 msgid "Mail has not been acknowledged. Reading it does not acknowledge it."
 msgstr "Mail has not been acknowledged. Reading it does not acknowledge it."
@@ -3317,6 +3378,9 @@ msgstr "Message to team"
 msgid "Minimum contrast"
 msgstr "Minimum contrast"
 
+msgid "Mirror remotes are not supported"
+msgstr "Mirror remotes are not supported"
+
 msgid "Mobile"
 msgstr "Mobile"
 
@@ -3325,6 +3389,9 @@ msgstr "Mobile access address"
 
 msgid "Model"
 msgstr "Model"
+
+msgid "Model:"
+msgstr "Model:"
 
 msgid "Models"
 msgstr "Models"
@@ -3406,6 +3473,9 @@ msgstr "Multiple projects match this repository. Open the project first and impo
 
 msgid "Multiple projects use this directory. Choose the project in the sidebar."
 msgstr "Multiple projects use this directory. Choose the project in the sidebar."
+
+msgid "Multiple push URLs are not supported"
+msgstr "Multiple push URLs are not supported"
 
 msgid "Mute notification sounds"
 msgstr "Mute notification sounds"
@@ -3607,6 +3677,9 @@ msgstr "No checks"
 msgid "No checks reported"
 msgstr "No checks reported"
 
+msgid "No commits to push yet"
+msgstr "No commits to push yet"
+
 msgid "No completed project was found yet. The host may still be stopping or finishing the operation. Check again before retrying at this location."
 msgstr "No completed project was found yet. The host may still be stopping or finishing the operation. Check again before retrying at this location."
 
@@ -3648,6 +3721,9 @@ msgstr "No items"
 
 msgid "No items."
 msgstr "No items."
+
+msgid "No key reports or instructions yet. Check All activity for full worker mail."
+msgstr "No key reports or instructions yet. Check All activity for full worker mail."
 
 msgid "No linked pull requests"
 msgstr "No linked pull requests"
@@ -3697,9 +3773,6 @@ msgstr "No prefix"
 msgid "No prefix could be resolved from this host's identity."
 msgstr "No prefix could be resolved from this host's identity."
 
-msgid "No progress reports or decisions yet. Internal communication is available in diagnostics."
-msgstr "No progress reports or decisions yet. Internal communication is available in diagnostics."
-
 msgid "No projects match your filters"
 msgstr "No projects match your filters"
 
@@ -3720,6 +3793,9 @@ msgstr "No pull requests match your filters"
 
 msgid "No recent Agent or Git activity was observed. Inspect the terminal before acting."
 msgstr "No recent Agent or Git activity was observed. Inspect the terminal before acting."
+
+msgid "No remote configured"
+msgstr "No remote configured"
 
 msgid "No removed projects"
 msgstr "No removed projects"
@@ -3744,6 +3820,9 @@ msgstr "No task assigned"
 
 msgid "No team"
 msgstr "No team"
+
+msgid "No team activity yet."
+msgstr "No team activity yet."
 
 msgid "No teams yet"
 msgstr "No teams yet"
@@ -4172,6 +4251,9 @@ msgstr "Peer host ID"
 msgid "Pending"
 msgstr "Pending"
 
+msgid "Pending approvals and important team updates will appear here."
+msgstr "Pending approvals and important team updates will appear here."
+
 msgid "Pending approvals and unread important faults"
 msgstr "Pending approvals and unread important faults"
 
@@ -4241,6 +4323,9 @@ msgstr "Preparing workspace on the target host…"
 msgid "Preset association could not be confirmed. Refresh and try again."
 msgstr "Preset association could not be confirmed. Refresh and try again."
 
+msgid "Presets"
+msgstr "Presets"
+
 msgid "Presets are stored on this device. Run them explicitly from the workspace launcher."
 msgstr "Presets are stored on this device. Run them explicitly from the workspace launcher."
 
@@ -4285,9 +4370,6 @@ msgstr "Processed tokens"
 
 msgid "Processing"
 msgstr "Processing"
-
-msgid "Progress and decisions"
-msgstr "Progress and decisions"
 
 msgid "Project"
 msgstr "Project"
@@ -4379,14 +4461,20 @@ msgstr "Push completed"
 msgid "Push this commit to the reviewed remote branch. A changed target requires a new confirmation."
 msgstr "Push this commit to the reviewed remote branch. A changed target requires a new confirmation."
 
+msgid "Push with follow-tags is not supported"
+msgstr "Push with follow-tags is not supported"
+
+msgid "Push with submodule recursion is not supported"
+msgstr "Push with submodule recursion is not supported"
+
 msgid "px"
 msgstr "px"
 
 msgid "Queue message"
 msgstr "Queue message"
 
-msgid "Queue waits for the agent. Interrupt requires safe support from the current session. Both require recipient acknowledgement; sending is not consumption."
-msgstr "Queue waits for the agent. Interrupt requires safe support from the current session. Both require recipient acknowledgement; sending is not consumption."
+msgid "Queue waits for the agent. Interrupt requires safe support from the current Codex session. Both require recipient acknowledgement; sending is not consumption."
+msgstr "Queue waits for the agent. Interrupt requires safe support from the current Codex session. Both require recipient acknowledgement; sending is not consumption."
 
 msgid "Queue; ⌘↩ to steer the running turn"
 msgstr "Queue; ⌘↩ to steer the running turn"
@@ -4491,9 +4579,6 @@ msgstr "Red"
 msgid "Refresh"
 msgstr "Refresh"
 
-msgid "Refresh agents"
-msgstr "Refresh agents"
-
 msgid "Refresh capabilities"
 msgstr "Refresh capabilities"
 
@@ -4565,6 +4650,9 @@ msgstr "remote"
 
 msgid "Remote"
 msgstr "Remote"
+
+msgid "Remote helper is not supported"
+msgstr "Remote helper is not supported"
 
 msgid "Remote port"
 msgstr "Remote port"
@@ -4745,6 +4833,9 @@ msgstr "Resets in {countdown} · {absolute}"
 
 msgid "Resets now"
 msgstr "Resets now"
+
+msgid "Resolve conflicts before pushing"
+msgstr "Resolve conflicts before pushing"
 
 msgid "Resolve conversation"
 msgstr "Resolve conversation"
@@ -4966,6 +5057,9 @@ msgstr "running"
 msgid "Running"
 msgstr "Running"
 
+msgid "Safe interruption is only supported for Codex sessions. Messages to other agents or the whole team are queued."
+msgstr "Safe interruption is only supported for Codex sessions. Messages to other agents or the whole team are queued."
+
 msgid "Safe interruption is unavailable on this host. Queued mail waits for the agent; sending does not confirm consumption."
 msgstr "Safe interruption is unavailable on this host. Queued mail waits for the agent; sending does not confirm consumption."
 
@@ -5135,6 +5229,9 @@ msgstr "Search pull requests…"
 
 msgid "Search repositories..."
 msgstr "Search repositories..."
+
+msgid "Search sessions…"
+msgstr "Search sessions…"
 
 msgid "Search settings"
 msgstr "Search settings"
@@ -5333,9 +5430,6 @@ msgstr "Show agent commands and pinned terminal presets above the workspace."
 msgid "Show Apple's installer"
 msgstr "Show Apple's installer"
 
-msgid "Show decisions and exceptions"
-msgstr "Show decisions and exceptions"
-
 msgid "Show deleted workspaces"
 msgstr "Show deleted workspaces"
 
@@ -5369,9 +5463,6 @@ msgstr "Show local resource usage in the workspace."
 msgid "Show more"
 msgstr "Show more"
 
-msgid "Show progress and decisions"
-msgstr "Show progress and decisions"
-
 msgid "Show Scripts Bar"
 msgstr "Show Scripts Bar"
 
@@ -5398,6 +5489,9 @@ msgstr "Shown once. Copy before closing."
 
 msgid "Side by side"
 msgstr "Side by side"
+
+msgid "Side-by-side diff requires a wider pane"
+msgstr "Side-by-side diff requires a wider pane"
 
 msgid "Sidebar extensions"
 msgstr "Sidebar extensions"
@@ -5465,6 +5559,9 @@ msgstr "Split Along Longer Side"
 msgid "Split diff"
 msgstr "Split diff"
 
+msgid "Split down"
+msgstr "Split down"
+
 msgid "Split Down"
 msgstr "Split Down"
 
@@ -5479,6 +5576,9 @@ msgstr "Split pane"
 
 msgid "Split panes"
 msgstr "Split panes"
+
+msgid "Split right"
+msgstr "Split right"
 
 msgid "Split Right"
 msgstr "Split Right"
@@ -5528,8 +5628,8 @@ msgstr "Star"
 msgid "Start a new agent, or choose an existing session from Sessions."
 msgstr "Start a new agent, or choose an existing session from Sessions."
 
-msgid "Start an agent in a workspace, then create a team."
-msgstr "Start an agent in a workspace, then create a team."
+msgid "Start a session in a workspace, then create a team."
+msgstr "Start a session in a workspace, then create a team."
 
 msgid "Start from a template"
 msgstr "Start from a template"
@@ -5723,6 +5823,9 @@ msgstr "Target"
 #. placeholder {0}: session.context.hostLabel
 msgid "Target host: {0}"
 msgstr "Target host: {0}"
+
+msgid "Target workspace"
+msgstr "Target workspace"
 
 msgid "Task"
 msgstr "Task"
@@ -6036,9 +6139,6 @@ msgstr "These notes ship with the application. Published release details are ava
 msgid "This action is irreversible."
 msgstr "This action is irreversible."
 
-msgid "This agent is no longer available. Choose another leader."
-msgstr "This agent is no longer available. Choose another leader."
-
 msgid "This API login does not expose subscription quota."
 msgstr "This API login does not expose subscription quota."
 
@@ -6200,6 +6300,9 @@ msgstr "This run has no agent session"
 
 msgid "This session could not be resumed. No new session was started."
 msgstr "This session could not be resumed. No new session was started."
+
+msgid "This session is no longer available. Choose another leader."
+msgstr "This session is no longer available. Choose another leader."
 
 msgid "This session is not active, or you are viewing earlier output. Refresh to check its current state."
 msgstr "This session is not active, or you are viewing earlier output. Refresh to check its current state."
@@ -6363,6 +6466,9 @@ msgstr "Transcribing…"
 msgid "Tree view"
 msgstr "Tree view"
 
+msgid "Trigger"
+msgstr "Trigger"
+
 msgid "Triggers"
 msgstr "Triggers"
 
@@ -6396,11 +6502,11 @@ msgstr "TypeScript"
 msgid "Typography"
 msgstr "Typography"
 
-msgid "Typography and cursor behavior used in V2 terminal panels."
-msgstr "Typography and cursor behavior used in V2 terminal panels."
+msgid "Typography and cursor behavior used in terminal panels."
+msgstr "Typography and cursor behavior used in terminal panels."
 
-msgid "Typography used in V2 editors and diff views."
-msgstr "Typography used in V2 editors and diff views."
+msgid "Typography used in editors and diff views."
+msgstr "Typography used in editors and diff views."
 
 msgid "Unable to check for updates."
 msgstr "Unable to check for updates."
@@ -6513,6 +6619,15 @@ msgstr "Unstage file"
 msgid "Unstaged"
 msgstr "Unstaged"
 
+msgid "Unsupported push URL"
+msgstr "Unsupported push URL"
+
+msgid "Unsupported push.default configuration"
+msgstr "Unsupported push.default configuration"
+
+msgid "Unsupported remote configuration"
+msgstr "Unsupported remote configuration"
+
 msgid "Untitled automation"
 msgstr "Untitled automation"
 
@@ -6565,6 +6680,9 @@ msgstr "Upload files"
 
 msgid "Upload image…"
 msgstr "Upload image…"
+
+msgid "Upstream remote does not match push remote"
+msgstr "Upstream remote does not match push remote"
 
 msgid "URL copied"
 msgstr "URL copied"
@@ -6774,6 +6892,9 @@ msgstr "Workspace navigation"
 
 msgid "Workspace not found"
 msgstr "Workspace not found"
+
+msgid "Workspace or branch name (optional)"
+msgstr "Workspace or branch name (optional)"
 
 msgid "Workspace or running session state changed. Review the updated checks and confirm again."
 msgstr "Workspace or running session state changed. Review the updated checks and confirm again."

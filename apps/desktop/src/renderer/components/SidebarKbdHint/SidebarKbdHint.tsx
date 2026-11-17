@@ -9,7 +9,7 @@ interface SidebarKbdHintProps {
  */
 export function SidebarKbdHint({ label }: SidebarKbdHintProps) {
 	return (
-		<kbd className="invisible inline-flex h-5 min-w-5 shrink-0 items-center justify-center rounded border border-foreground/10 bg-fill-selected px-1 font-sans text-[10px] font-medium text-muted-foreground group-hover:visible group-focus-visible:visible">
+		<kbd className="invisible inline-flex h-5 min-w-5 shrink-0 items-center justify-center rounded border border-border/70 bg-muted/40 px-1.5 font-mono text-[10.5px] font-medium text-muted-foreground group-hover:visible group-focus-visible:visible">
 			{label}
 		</kbd>
 	);

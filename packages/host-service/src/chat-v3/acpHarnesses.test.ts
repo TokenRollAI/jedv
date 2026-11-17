@@ -41,10 +41,10 @@ test("selected ACP config supplies the real executable/env and never drops unfor
 			{
 				provider: "agy",
 				harness: "agy-acp",
-				args: ["--mode", "accept-edits"],
+				args: ["--dangerously-skip-permissions"],
 				executableEnv: null,
 				mode: undefined,
-				nativeArgs: ["--mode", "accept-edits", "acp", "--stdio"],
+				nativeArgs: ["--dangerously-skip-permissions", "acp", "--stdio"],
 			},
 			{
 				provider: "kimi",

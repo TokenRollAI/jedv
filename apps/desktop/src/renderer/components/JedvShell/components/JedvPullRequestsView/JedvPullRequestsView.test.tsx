@@ -120,3 +120,93 @@ test("PR browsing loads local content and checks without posting comments or mer
 	expect(merge).not.toHaveBeenCalled();
 	queries.clear();
 });
+
+test("PR view shows skeleton rows while loading, Draft pill, author login, and chronological sort", async () => {
+	let resolveList!: (value: unknown[]) => void;
+	const listPromise = new Promise<unknown[]>((resolve) => {
+		resolveList = resolve;
+	});
+	const context = {
+		hostUrl: "http://pr-meta.invalid",
+		remote: null,
+		projects: [
+			{
+				id: "project-fixture",
+				name: "Fixture",
+				repoOwner: "fixture",
+				repoName: "repo",
+			},
+		],
+		workspaces: [],
+		onOpenWorkspace: mock(async () => {}),
+		onOpenCreateWorkspace: mock(() => {}),
+		client: {
+			github: {
+				listPRs: { query: () => listPromise },
+			},
+		},
+	} as unknown as JedvParityViewContext;
+	const queries = new QueryClient({
+		defaultOptions: { queries: { retry: false } },
+	});
+	const ipc = electronTrpc.createClient({
+		links: [
+			() => () =>
+				observable((emit) => {
+					emit.next({ result: { data: 1 } });
+					emit.complete();
+				}),
+		],
+	});
+	const screen = render(
+		<QueryClientProvider client={queries}>
+			<electronTrpc.Provider client={ipc} queryClient={queries}>
+				<JedvPullRequestsView {...context} />
+			</electronTrpc.Provider>
+		</QueryClientProvider>,
+	);
+	expect(
+		screen.getByRole("status", { name: "Loading pull requests…" }),
+	).toBeTruthy();
+	expect(screen.queryByText("Loading pull requests…")).toBeNull();
+	const tabButtons = screen
+		.getAllByRole("button")
+		.filter((b) => ["Open", "Merged", "All"].includes(b.textContent ?? ""));
+	expect(tabButtons.map((b) => b.textContent)).toEqual([
+		"Open",
+		"Merged",
+		"All",
+	]);
+
+	resolveList([
+		{
+			number: 1,
+			title: "Older PR",
+			state: "open",
+			draft: false,
+			merged_at: null,
+			updated_at: "2026-01-01T00:00:00Z",
+			head: { ref: "old-branch" },
+			user: { login: "alice" },
+		},
+		{
+			number: 2,
+			title: "Newer Draft PR",
+			state: "open",
+			draft: true,
+			merged_at: null,
+			updated_at: "2026-02-01T00:00:00Z",
+			head: { ref: "new-branch" },
+			user: { login: "bob" },
+			requested_reviewers: [{ login: "carol" }],
+		},
+	]);
+	await waitFor(() => expect(screen.getByText("Newer Draft PR")).toBeTruthy());
+	expect(screen.getByText("Draft")).toBeTruthy();
+	expect(screen.getByText("bob")).toBeTruthy();
+	expect(screen.getByText("alice")).toBeTruthy();
+	const prButtons = screen.getAllByRole("button", { name: /PR/ });
+	expect(prButtons[0]?.textContent).toContain("Newer Draft PR");
+	expect(prButtons[1]?.textContent).toContain("Older PR");
+	queries.clear();
+});

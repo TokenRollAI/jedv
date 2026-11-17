@@ -126,56 +126,56 @@ export function JedvEmptyState({
 			];
 	return (
 		<div className="flex min-h-0 flex-1 items-center justify-center overflow-auto">
-			<div className="w-full max-w-md px-6 py-10">
-				<div className="mb-7 flex items-center justify-center gap-2 py-3">
-					<img src={logo} alt="" className="size-8 select-none opacity-85" />
-					<span className="text-2xl font-medium tracking-tight text-foreground/85">
+			<div className="w-full max-w-[300px] px-4 py-8">
+				<div className="mb-5 flex items-center justify-center gap-2.5">
+					<img src={logo} alt="" className="size-7 select-none opacity-90" />
+					<span className="text-xl font-medium tracking-tight text-foreground/90">
 						Jedv
 					</span>
 				</div>
 				{!workspace && (
-					<h1 className="mb-5 text-center text-base font-medium">
+					<h1 className="mb-3.5 text-center text-[13.5px] font-medium text-muted-foreground">
 						<Trans>Select a project</Trans>
 					</h1>
 				)}
-				<div className="space-y-1">
+				<div className="divide-y divide-border/50 overflow-hidden rounded-xl border border-border/70 bg-card/40 p-1">
 					{actions.map((action) => (
 						<Button
 							key={action.label}
 							type="button"
 							variant="ghost"
 							disabled={action.run === onConnect ? false : disabled}
-							className="group h-9 w-full justify-between rounded-[6px] px-3 text-sm text-muted-foreground/80 hover:bg-tertiary/60 hover:text-foreground"
+							className="group h-9 w-full justify-between rounded-lg px-2.5 text-[13px] font-normal text-foreground/85 hover:bg-accent/60 hover:text-foreground"
 							onClick={action.run}
 						>
-							<span className="flex items-center gap-2">
-								<span className="rounded p-1 text-muted-foreground/90">
-									<action.icon className="size-4" />
-								</span>
-								<span>{action.label}</span>
+							<span className="flex min-w-0 items-center gap-2.5">
+								<action.icon className="size-4 shrink-0 text-muted-foreground transition-colors group-hover:text-foreground" />
+								<span className="truncate">{action.label}</span>
 							</span>
 							{action.shortcut && action.shortcut !== "Unassigned" && (
-								<Kbd>{action.shortcut}</Kbd>
+								<Kbd className="shrink-0">{action.shortcut}</Kbd>
 							)}
 						</Button>
 					))}
 				</div>
 				{!workspace && projects.length > 0 && (
-					<div className="mt-7 border-t border-border pt-4">
-						<h2 className="mb-2 px-3 text-xs text-muted-foreground">
+					<div className="mt-5 border-t border-border/60 pt-3.5">
+						<h2 className="mb-1.5 px-2 text-[11px] font-medium text-muted-foreground/80">
 							<Trans>Recent projects</Trans>
 						</h2>
-						{projects.slice(0, 5).map((project) => (
-							<Button
-								key={project.id}
-								variant="ghost"
-								className="h-8 w-full justify-start text-sm text-muted-foreground hover:bg-tertiary/60"
-								disabled={disabled}
-								onClick={() => onOpenProject(project.id)}
-							>
-								{project.name}
-							</Button>
-						))}
+						<div className="space-y-0.5">
+							{projects.slice(0, 5).map((project) => (
+								<Button
+									key={project.id}
+									variant="ghost"
+									className="h-8 w-full justify-start rounded-md px-2 text-[13px] font-normal text-muted-foreground hover:bg-accent/50 hover:text-foreground"
+									disabled={disabled}
+									onClick={() => onOpenProject(project.id)}
+								>
+									<span className="truncate">{project.name}</span>
+								</Button>
+							))}
+						</div>
 					</div>
 				)}
 			</div>

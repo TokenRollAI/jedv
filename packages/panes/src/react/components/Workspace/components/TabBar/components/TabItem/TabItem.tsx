@@ -134,14 +134,8 @@ export function TabItem<TData>({
 				<div
 					ref={setRef}
 					className={cn(
-						isCards
-							? cn(headerTabClassName(isActive), "group relative w-full")
-							: cn(
-									"group relative flex h-full w-full items-center rounded-t-md transition-colors",
-									isActive
-										? "border border-border/70 border-b-transparent bg-background text-foreground"
-										: "border border-transparent border-b-border text-muted-foreground/70 hover:bg-muted/40 hover:text-muted-foreground",
-								),
+						headerTabClassName(isActive),
+						"group relative w-full",
 						isActive && !isAreaFocused && "text-muted-foreground",
 						isPaneOver && "bg-primary/5",
 						isDragging && "opacity-30",
@@ -174,10 +168,7 @@ export function TabItem<TData>({
 								<TooltipTrigger asChild>
 									{/* biome-ignore lint/a11y/noStaticElementInteractions: tab selection is handled by the wrapper's mousedown; this title element is intentionally a non-focusable div so clicking a tab never steals focus from the active pane (issue #4967) */}
 									<div
-										className={cn(
-											"flex h-full min-w-0 flex-1 items-center gap-1.5 pr-1 text-left text-xs transition-colors",
-											isCards ? "pl-2.5" : "pl-3",
-										)}
+										className="flex h-full min-w-0 flex-1 items-center gap-1.5 pl-2.5 pr-1 text-left text-[12.5px] transition-colors"
 										onAuxClick={(event) => {
 											if (event.button === 1) {
 												event.preventDefault();
@@ -186,7 +177,18 @@ export function TabItem<TData>({
 										}}
 										onDoubleClick={onRename ? startEditing : undefined}
 									>
-										{icon && <span className="shrink-0">{icon}</span>}
+										{icon && (
+											<span
+												className={cn(
+													"flex shrink-0 items-center",
+													isActive
+														? "text-foreground"
+														: "text-muted-foreground group-hover:text-current",
+												)}
+											>
+												{icon}
+											</span>
+										)}
 										<OverflowFadeText
 											className={cn("flex-1", isPreview && "italic")}
 										>
@@ -196,12 +198,7 @@ export function TabItem<TData>({
 								</TooltipTrigger>
 								<TooltipContent side="bottom">{title}</TooltipContent>
 							</Tooltip>
-							<div
-								className={cn(
-									"relative flex h-full shrink-0 items-center justify-center",
-									isCards ? "mr-1 w-4" : "w-7",
-								)}
-							>
+							<div className="relative mr-1 flex h-full w-5 shrink-0 items-center justify-center">
 								{accessory && (
 									<span className="pointer-events-none absolute inset-0 flex items-center justify-center leading-none opacity-100 transition-opacity group-hover:opacity-0 group-focus-within:opacity-0">
 										{accessory}
@@ -230,8 +227,8 @@ export function TabItem<TData>({
 									<Button
 										aria-label={t({ message: "Close tab" })}
 										className={cn(
-											"pointer-events-none size-5 cursor-pointer text-current opacity-0 transition-opacity group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100",
-											isActive ? "hover:bg-muted" : "hover:bg-foreground/10",
+											"pointer-events-none size-4 rounded cursor-pointer text-muted-foreground opacity-0 transition-opacity hover:text-foreground group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100",
+											isActive ? "hover:bg-fill-hover" : "hover:bg-fill-hover",
 										)}
 										onClick={(event) => {
 											event.stopPropagation();
@@ -245,7 +242,7 @@ export function TabItem<TData>({
 										type="button"
 										variant="ghost"
 									>
-										<XIcon className="size-3.5" />
+										<XIcon className="size-3" />
 									</Button>
 								)}
 							</div>

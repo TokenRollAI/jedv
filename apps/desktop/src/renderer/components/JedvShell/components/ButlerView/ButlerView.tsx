@@ -8,12 +8,14 @@ import type {
 } from "@jedv/shared/butler-attention";
 import { Badge } from "@jedv/ui/badge";
 import { Button } from "@jedv/ui/button";
+import { Label } from "@jedv/ui/label";
 import { toast } from "@jedv/ui/sonner";
+import { Switch } from "@jedv/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@jedv/ui/tabs";
 import { Trans, useLingui } from "@lingui/react/macro";
 import { useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useRef, useState } from "react";
-import { LuMessageCircle, LuRefreshCw } from "react-icons/lu";
+import { useId, useRef, useState } from "react";
+import { LuInbox, LuMessageCircle, LuRefreshCw } from "react-icons/lu";
 import {
 	butlerQueryKey,
 	type useButlerInbox,
@@ -42,6 +44,7 @@ export function ButlerView({
 	teams,
 	connected,
 	onSettings,
+	onOpenSettings,
 	onOpenTeam,
 	onOpenAutomations,
 }: {
@@ -50,10 +53,12 @@ export function ButlerView({
 	teams: Team[];
 	connected: boolean;
 	onSettings(): void;
+	onOpenSettings?: () => void;
 	onOpenTeam(id: string): void;
 	onOpenAutomations(): void;
 }) {
 	const { t } = useLingui();
+	const internalMailSwitchId = useId();
 	const { client, hostUrl } = context;
 	const key = butlerQueryKey(hostUrl),
 		cache = useQueryClient();
@@ -240,15 +245,15 @@ export function ButlerView({
 	return (
 		<section
 			className="flex h-full min-h-0 flex-col bg-background"
-			aria-label={t({ message: "Butler" })}
+			aria-label={t({ message: "Inbox" })}
 		>
 			<div className={chatOpen ? "hidden" : "contents"}>
 				<WindowChrome primary className="gap-2 border-b border-border pr-3">
 					<WindowChromeLeading />
 					<WindowChromeControls className="pl-3">
-						<h1 className="flex items-center gap-2 text-[13px] font-medium">
+						<h1 className="flex items-center gap-2 text-[13.5px] font-medium">
 							<ButlerIcon className="size-4 text-muted-foreground" />
-							<Trans>Butler</Trans>
+							<Trans>Inbox</Trans>
 						</h1>
 					</WindowChromeControls>
 					<div className="drag min-w-0 flex-1" />
@@ -264,7 +269,7 @@ export function ButlerView({
 							type="button"
 							size="sm"
 							variant="secondary"
-							className="h-7 gap-1.5 text-xs"
+							className="h-7.5 gap-1.5 px-3 text-xs"
 							onClick={() => ask()}
 						>
 							<LuMessageCircle className="size-3.5" />
@@ -283,25 +288,44 @@ export function ButlerView({
 						onValueChange={setTab}
 						className="flex min-h-0 flex-1 flex-col"
 					>
-						<TabsList className="h-8 shrink-0">
-							<TabsTrigger value="pending" className="text-xs">
-								<Trans>Pending</Trans>
-								{index.actionable > 0 && (
-									<Badge
-										title={t({
-											message: "Pending approvals and unread important faults",
-										})}
-										variant="secondary"
-										className="h-4 min-w-4 px-1 text-[10px]"
+						<div className="flex shrink-0 flex-wrap items-center justify-between gap-3">
+							<TabsList className="h-8 shrink-0">
+								<TabsTrigger value="pending" className="text-xs">
+									<Trans>Pending</Trans>
+									{index.actionable > 0 && (
+										<Badge
+											title={t({
+												message:
+													"Pending approvals and unread important faults",
+											})}
+											variant="secondary"
+											className="h-4 min-w-4 px-1 text-[10px]"
+										>
+											{index.actionable}
+										</Badge>
+									)}
+								</TabsTrigger>
+								<TabsTrigger value="processed" className="text-xs">
+									<Trans>Processed</Trans>
+								</TabsTrigger>
+							</TabsList>
+							{!processed && (
+								<div className="flex items-center gap-2">
+									<Switch
+										id={internalMailSwitchId}
+										checked={diagnostics}
+										onCheckedChange={setDiagnostics}
+										aria-label={t({ message: "Include internal mail" })}
+									/>
+									<Label
+										htmlFor={internalMailSwitchId}
+										className="cursor-pointer text-xs font-normal text-muted-foreground select-none"
 									>
-										{index.actionable}
-									</Badge>
-								)}
-							</TabsTrigger>
-							<TabsTrigger value="processed" className="text-xs">
-								<Trans>Processed</Trans>
-							</TabsTrigger>
-						</TabsList>
+										<Trans>Include internal mail</Trans>
+									</Label>
+								</div>
+							)}
+						</div>
 						{(failed ||
 							error ||
 							(index.capabilities.isSuccess && !index.attentionSupported)) && (
@@ -311,132 +335,133 @@ export function ButlerView({
 									: t({ message: "Unavailable" })}
 							</p>
 						)}
-						{!processed && (
-							<Button
-								type="button"
-								variant="ghost"
-								size="sm"
-								className="self-start text-xs"
-								aria-pressed={diagnostics}
-								onClick={() => setDiagnostics(!diagnostics)}
-							>
-								{diagnostics ? (
-									<Trans>Show decisions and exceptions</Trans>
-								) : (
-									<Trans>Internal mail diagnostics</Trans>
-								)}
-							</Button>
-						)}
-						<TabsContent value={tab} className="min-h-0 flex-1 overflow-y-auto">
-							<div className="mx-auto max-w-4xl space-y-3 py-3">
-								{index.attentionSupported &&
-									(index.inbox.isPending ||
-										(processed && handled.isPending)) && (
-										<output className="text-xs text-muted-foreground">
-											<Trans>Loading…</Trans>
-										</output>
-									)}
-								{feed.map((item) =>
-									item.type === "group" ? (
-										<AttentionGroupCard
-											key={`group:${item.id}`}
-											group={item.group}
-											team={teams.find(
-												(team) => team.id === item.group.source.teamId,
-											)}
-											memberName={
-												sourceTeams
-													.find(
-														(query) =>
-															query.data?.team.id === item.group.source.teamId,
-													)
-													?.data?.members.find(
-														(member) =>
-															member.id === item.group.source.memberId,
+						<TabsContent
+							value={tab}
+							className="flex min-h-0 flex-1 flex-col overflow-y-auto"
+						>
+							{index.attentionSupported &&
+							(index.inbox.isPending || (processed && handled.isPending)) ? (
+								<output className="m-auto block py-12 text-center text-xs text-muted-foreground">
+									<Trans>Loading…</Trans>
+								</output>
+							) : feed.length > 0 ? (
+								<div className="mx-auto w-full max-w-4xl space-y-3 py-3">
+									{feed.map((item) =>
+										item.type === "group" ? (
+											<AttentionGroupCard
+												key={`group:${item.id}`}
+												group={item.group}
+												team={teams.find(
+													(team) => team.id === item.group.source.teamId,
+												)}
+												memberName={
+													sourceTeams
+														.find(
+															(query) =>
+																query.data?.team.id ===
+																item.group.source.teamId,
+														)
+														?.data?.members.find(
+															(member) =>
+																member.id === item.group.source.memberId,
+														)?.name
+												}
+												workspaceName={
+													context.workspaces.find(
+														(workspace) =>
+															workspace.id === item.group.source.workspaceId,
 													)?.name
-											}
-											workspaceName={
-												context.workspaces.find(
-													(workspace) =>
-														workspace.id === item.group.source.workspaceId,
-												)?.name
-											}
-											projectName={
-												context.projects.find(
-													(project) =>
-														project.id === item.group.source.projectId,
-												)?.name
-											}
-											automationName={
-												automations.data?.find(
-													(automation) =>
-														automation.id === item.group.source.automationId,
-												)?.name
-											}
-											pending={pending || unavailable}
-											blocked={blocked.has(`group:${item.id}`)}
-											onRead={() =>
-												void run(() =>
-													client.butler.markAttentionRead.mutate({
-														groupKey: item.id,
-													}),
-												).catch(() => {})
-											}
-											onIgnore={() => setIgnoring(item.group)}
-											onLocate={
-												hasAttentionLocation(item.group.source)
-													? () => void locate(item.group.source)
-													: undefined
-											}
-											onAsk={() =>
-												ask({
-													groupKey: item.group.groupKey,
-													...(item.group.source.teamId
-														? { teamId: item.group.source.teamId }
-														: {}),
-													...(item.group.source.workspaceId
-														? { workspaceId: item.group.source.workspaceId }
-														: {}),
-												})
-											}
-										/>
-									) : (
-										<div key={`approval:${item.id}`} className="space-y-1">
-											<ButlerApprovalCard
-												approval={item.approval}
-												teams={teams}
-												workspaces={context.workspaces}
+												}
+												projectName={
+													context.projects.find(
+														(project) =>
+															project.id === item.group.source.projectId,
+													)?.name
+												}
+												automationName={
+													automations.data?.find(
+														(automation) =>
+															automation.id === item.group.source.automationId,
+													)?.name
+												}
 												pending={pending || unavailable}
-												blocked={blocked.has(`approval:${item.id}`)}
-												onResolve={(decision) =>
-													resolve(item.approval, decision)
+												blocked={blocked.has(`group:${item.id}`)}
+												onRead={() =>
+													void run(() =>
+														client.butler.markAttentionRead.mutate({
+															groupKey: item.id,
+														}),
+													).catch(() => {})
+												}
+												onIgnore={() => setIgnoring(item.group)}
+												onLocate={
+													hasAttentionLocation(item.group.source)
+														? () => void locate(item.group.source)
+														: undefined
+												}
+												onAsk={() =>
+													ask({
+														groupKey: item.group.groupKey,
+														...(item.group.source.teamId
+															? { teamId: item.group.source.teamId }
+															: {}),
+														...(item.group.source.workspaceId
+															? { workspaceId: item.group.source.workspaceId }
+															: {}),
+													})
 												}
 											/>
-											{item.approval.source &&
-												hasAttentionLocation(item.approval.source) && (
-													<Button
-														type="button"
-														variant="ghost"
-														size="sm"
-														className="h-7 text-xs"
-														disabled={pending || unavailable}
-														onClick={() => {
-															if (item.approval.source)
-																void locate(item.approval.source);
-														}}
-													>
-														<Trans>View source</Trans>
-													</Button>
-												)}
-										</div>
-									),
-								)}
-								{data && !feed.length && !failed && (
-									<p className="py-6 text-xs text-muted-foreground">
-										<Trans>No items</Trans>
-									</p>
-								)}
-							</div>
+										) : (
+											<div key={`approval:${item.id}`} className="space-y-1">
+												<ButlerApprovalCard
+													approval={item.approval}
+													teams={teams}
+													workspaces={context.workspaces}
+													pending={pending || unavailable}
+													blocked={blocked.has(`approval:${item.id}`)}
+													onResolve={(decision) =>
+														resolve(item.approval, decision)
+													}
+												/>
+												{item.approval.source &&
+													hasAttentionLocation(item.approval.source) && (
+														<Button
+															type="button"
+															variant="ghost"
+															size="sm"
+															className="h-7 text-xs"
+															disabled={pending || unavailable}
+															onClick={() => {
+																if (item.approval.source)
+																	void locate(item.approval.source);
+															}}
+														>
+															<Trans>View source</Trans>
+														</Button>
+													)}
+											</div>
+										),
+									)}
+								</div>
+							) : (
+								data &&
+								!failed && (
+									<div className="m-auto flex max-w-sm flex-col items-center gap-2 py-12 text-center">
+										<LuInbox className="size-7 text-muted-foreground/70" />
+										<p className="text-sm font-medium">
+											<Trans>No items</Trans>
+										</p>
+										{!processed && (
+											<p className="text-xs text-muted-foreground">
+												<Trans>
+													Pending approvals and important team updates will
+													appear here.
+												</Trans>
+											</p>
+										)}
+									</div>
+								)
+							)}
 						</TabsContent>
 					</Tabs>
 				</div>
@@ -470,6 +495,7 @@ export function ButlerView({
 							onResolve={resolve}
 							onRefresh={refresh}
 							onSettings={onSettings}
+							onOpenSettings={onOpenSettings}
 							onClose={() => setChatOpen(false)}
 						/>
 					</aside>

@@ -14,10 +14,12 @@ const id = z.string().min(1).max(256);
 const title = z.string().max(256).optional();
 export type PersistedPaneData =
 	| { terminalId: string }
+	| { chatSessionId: string; title?: string }
 	| { url: string }
 	| { view: "changes" | "files" };
 export interface JedvWorkspaceLayout extends WorkspaceState<PersistedPaneData> {
 	detachedTerminalIds: string[];
+	detachedChatSessionIds?: string[];
 	rightArea?: WorkspaceState<PersistedPaneData>;
 	rightAreaOpen?: boolean;
 	activityDockHidden?: boolean;
@@ -53,13 +55,14 @@ function persistedUrl(value: string): string {
 }
 const dataSchema = z.union([
 	z.object({ terminalId: id }).strict(),
+	z.object({ chatSessionId: id, title }).strict(),
 	z.object({ url: z.string().max(8192).transform(persistedUrl) }).strict(),
 	z.object({ view: z.enum(["changes", "files"]) }).strict(),
 ]);
 const paneSchema = z
 	.object({
 		id,
-		kind: z.enum(["terminal", "browser", "changes", "files"]),
+		kind: z.enum(["terminal", "browser", "changes", "files", "chat"]),
 		titleOverride: title,
 		pinned: z.boolean().optional(),
 		data: dataSchema,
@@ -115,6 +118,7 @@ const baseEnvelope = z
 	})
 	.strict();
 const envelope = baseEnvelope.extend({
+	detachedChatSessionIds: z.array(id).max(256).optional(),
 	rightArea: baseEnvelope.omit({ detachedTerminalIds: true }).optional(),
 	rightAreaOpen: z.boolean().optional(),
 	activityDockHidden: z.boolean().optional(),
@@ -126,6 +130,7 @@ export function decodeWorkspaceLayout(raw: unknown): JedvWorkspaceLayout {
 	const tabIds = new Set<string>();
 	const paneIds = new Set<string>();
 	const terminalIds = new Set<string>();
+	const chatSessionIds = new Set<string>();
 	const tabs: Tab<PersistedPaneData>[] = value.tabs.map((tab) => {
 		if (tabIds.has(tab.id)) throw new Error("Duplicate workspace tab");
 		tabIds.add(tab.id);
@@ -141,6 +146,10 @@ export function decodeWorkspaceLayout(raw: unknown): JedvWorkspaceLayout {
 				if (terminalIds.has(pane.data.terminalId))
 					throw new Error("Duplicate terminal identity");
 				terminalIds.add(pane.data.terminalId);
+			} else if (pane.kind === "chat" && "chatSessionId" in pane.data) {
+				if (chatSessionIds.has(pane.data.chatSessionId))
+					throw new Error("Duplicate chat identity");
+				chatSessionIds.add(pane.data.chatSessionId);
 			} else if (
 				!(pane.kind === "browser" && "url" in pane.data) &&
 				!(
@@ -187,6 +196,11 @@ export function decodeWorkspaceLayout(raw: unknown): JedvWorkspaceLayout {
 						throw new Error("Duplicate terminal identity across pane areas");
 					terminalIds.add(pane.data.terminalId);
 				}
+				if ("chatSessionId" in pane.data) {
+					if (chatSessionIds.has(pane.data.chatSessionId))
+						throw new Error("Duplicate chat identity across pane areas");
+					chatSessionIds.add(pane.data.chatSessionId);
+				}
 			}
 		}
 	}
@@ -200,6 +214,12 @@ export function decodeWorkspaceLayout(raw: unknown): JedvWorkspaceLayout {
 	const detachedTerminalIds = [...new Set(value.detachedTerminalIds)];
 	if (detachedTerminalIds.some((key) => terminalIds.has(key)))
 		throw new Error("Attached terminal cannot be detached");
+	const detachedChatSessionIds =
+		value.detachedChatSessionIds !== undefined
+			? [...new Set(value.detachedChatSessionIds)]
+			: undefined;
+	if (detachedChatSessionIds?.some((key) => chatSessionIds.has(key)))
+		throw new Error("Attached chat session cannot be detached");
 	const keptTabs = tabs.flatMap((tab) => {
 		let layout: LayoutNode | null = tab.layout;
 		const panes = { ...tab.panes };
@@ -228,6 +248,7 @@ export function decodeWorkspaceLayout(raw: unknown): JedvWorkspaceLayout {
 			? value.activeTabId
 			: (keptTabs[0]?.id ?? null),
 		detachedTerminalIds,
+		...(detachedChatSessionIds !== undefined ? { detachedChatSessionIds } : {}),
 		...(right
 			? {
 					rightArea: {
@@ -248,7 +269,11 @@ export function decodeWorkspaceLayout(raw: unknown): JedvWorkspaceLayout {
 export function encodeWorkspaceLayout(
 	state: WorkspaceState<PersistedPaneData>,
 	detachedTerminalIds: Iterable<string>,
+	detachedChatSessionIds?: Iterable<string>,
 ): JedvWorkspaceLayout {
+	const detachedChats = detachedChatSessionIds
+		? [...detachedChatSessionIds]
+		: undefined;
 	return decodeWorkspaceLayout({
 		version: 1,
 		tabs: state.tabs.map((tab) => {
@@ -277,14 +302,21 @@ export function encodeWorkspaceLayout(
 								data:
 									"terminalId" in pane.data
 										? { terminalId: pane.data.terminalId }
-										: "url" in pane.data
-											? { url: persistedUrl(pane.data.url) }
-											: {
-													view:
-														"view" in pane.data && pane.data.view === "files"
-															? "files"
-															: "changes",
-												},
+										: "chatSessionId" in pane.data
+											? {
+													chatSessionId: pane.data.chatSessionId,
+													...(pane.data.title !== undefined
+														? { title: pane.data.title }
+														: {}),
+												}
+											: "url" in pane.data
+												? { url: persistedUrl(pane.data.url) }
+												: {
+														view:
+															"view" in pane.data && pane.data.view === "files"
+																? "files"
+																: "changes",
+													},
 							},
 						],
 					),
@@ -293,6 +325,7 @@ export function encodeWorkspaceLayout(
 		}),
 		activeTabId: state.activeTabId,
 		detachedTerminalIds: [...detachedTerminalIds],
+		...(detachedChats?.length ? { detachedChatSessionIds: detachedChats } : {}),
 	});
 }
 export const workspaceLayoutSchema = z.unknown().transform((value, ctx) => {

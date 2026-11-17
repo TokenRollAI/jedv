@@ -5,6 +5,8 @@ import {
 	type JedvWorkspaceLayout,
 } from "shared/jedv-workspace-layout";
 import {
+	detachedChatSessions,
+	restoreDetachedChatSessions,
 	type TerminalLayoutStore,
 	workspacePaneAreas,
 } from "../../components/JedvTerminalWorkspace/layout";
@@ -89,6 +91,7 @@ export function createLayoutPersistenceAdapter(input: {
 		const left = encodeWorkspaceLayout(
 			store.getState(),
 			[...known].filter((key) => !attached.has(key)),
+			detachedChatSessions(store),
 		);
 		const right = encodeWorkspaceLayout(areas.right.getState(), []);
 		const flags = areas.state.getState();
@@ -177,6 +180,8 @@ export function createLayoutPersistenceAdapter(input: {
 			);
 			for (const key of saved.detachedTerminalIds)
 				if (liveDetached.has(key)) remember(key);
+			if (saved.detachedChatSessionIds?.length)
+				restoreDetachedChatSessions(store, saved.detachedChatSessionIds);
 			if (!edited) {
 				ownChange = true;
 				try {

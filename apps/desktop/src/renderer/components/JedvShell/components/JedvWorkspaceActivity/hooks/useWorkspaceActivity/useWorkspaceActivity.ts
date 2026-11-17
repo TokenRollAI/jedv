@@ -1,6 +1,6 @@
 import { getEventBus } from "@jedv/workspace-client";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import type { JedvWorkspaceActivityProps } from "../../types";
 export function useWorkspaceActivity(
 	{
@@ -46,18 +46,36 @@ export function useWorkspaceActivity(
 		retry: false,
 		refetchInterval: 2000,
 	});
+	const hasWsToken = Boolean(getWsToken);
+	const latestRef = useRef({
+		getWsToken,
+		refetchGit: git.refetch,
+		refetchTerminals: terminals.refetch,
+	});
+	latestRef.current = {
+		getWsToken,
+		refetchGit: git.refetch,
+		refetchTerminals: terminals.refetch,
+	};
 	useEffect(() => {
-		if (!getWsToken) return;
-		const bus = getEventBus(hostUrl, getWsToken),
+		if (!hasWsToken) return;
+		const bus = getEventBus(
+				hostUrl,
+				() => latestRef.current.getWsToken?.() ?? null,
+			),
 			release = bus.retain();
 		if (gitEnabled) bus.watchGit(workspaceId);
 		const offGit = gitEnabled
-			? bus.on("git:changed", workspaceId, () => void git.refetch())
+			? bus.on(
+					"git:changed",
+					workspaceId,
+					() => void latestRef.current.refetchGit(),
+				)
 			: () => {};
 		const offTerm = bus.on(
 			"terminal:lifecycle",
 			workspaceId,
-			() => void terminals.refetch(),
+			() => void latestRef.current.refetchTerminals(),
 		);
 		return () => {
 			offGit();
@@ -65,13 +83,6 @@ export function useWorkspaceActivity(
 			if (gitEnabled) bus.unwatchGit(workspaceId);
 			release();
 		};
-	}, [
-		hostUrl,
-		workspaceId,
-		getWsToken,
-		gitEnabled,
-		git.refetch,
-		terminals.refetch,
-	]);
+	}, [hostUrl, workspaceId, hasWsToken, gitEnabled]);
 	return { git, prs, currentPr, terminals };
 }

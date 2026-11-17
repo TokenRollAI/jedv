@@ -62,7 +62,9 @@ export function AutomationEditor({
 			? (automation.target.baseBranch ?? "")
 			: "",
 	);
-	const [enabled, setEnabled] = useState(automation?.enabled ?? false);
+	const [enabled, setEnabled] = useState(automation?.enabled ?? true);
+	const [targetTouched, setTargetTouched] = useState(false);
+	const [submitAttempted, setSubmitAttempted] = useState(false);
 	const preset = automation?.rrule ? matchPreset(automation.rrule) : null;
 	const [schedule, setSchedule] = useState(preset?.kind ?? "manual");
 	const [time, setTime] = useState(
@@ -126,6 +128,7 @@ export function AutomationEditor({
 		<form
 			onSubmit={async (event) => {
 				event.preventDefault();
+				setSubmitAttempted(true);
 				setError(null);
 				try {
 					if (scheduleError) throw new Error(scheduleError);
@@ -134,8 +137,10 @@ export function AutomationEditor({
 						throw new Error(
 							t({ message: "Choose an available project or workspace" }),
 						);
+					const resolvedName =
+						name.trim() || t({ message: "Untitled automation" });
 					await onSave({
-						name: name.trim(),
+						name: resolvedName,
 						prompt: prompt.trim(),
 						agent,
 						...(automation?.agentConfigId && automation.agent === agent
@@ -171,7 +176,6 @@ export function AutomationEditor({
 					placeholder={t({ message: "Untitled automation" })}
 					value={name}
 					maxLength={200}
-					required
 					onChange={(e) => edit(() => setName(e.target.value))}
 					className="h-11 border-transparent bg-transparent px-0 text-2xl font-semibold shadow-none focus-visible:ring-0"
 				/>
@@ -191,7 +195,7 @@ export function AutomationEditor({
 					</h2>
 					<div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
 						<span>
-							<Trans>Run</Trans>
+							<Trans>Trigger</Trans>
 						</span>
 						<Select
 							value={schedule}
@@ -293,11 +297,14 @@ export function AutomationEditor({
 					)}
 					<div className="mt-4 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
 						<span>
-							<Trans>In</Trans>
+							<Trans>Target workspace</Trans>
 						</span>
 						<Select
 							value={target}
-							onValueChange={(value) => edit(() => setTarget(value))}
+							onValueChange={(value) => {
+								setTargetTouched(true);
+								edit(() => setTarget(value));
+							}}
 						>
 							<SelectTrigger
 								className="h-7 max-w-full w-72 bg-muted/50 text-xs"
@@ -332,7 +339,7 @@ export function AutomationEditor({
 							onChange={(e) => edit(() => setBaseBranch(e.target.value))}
 						/>
 					)}
-					{missingTarget && (
+					{missingTarget && (targetTouched || submitAttempted) && (
 						<p role="alert" className="mt-2 text-xs text-destructive">
 							<Trans>Choose an available project or workspace</Trans>
 						</p>
@@ -352,7 +359,7 @@ export function AutomationEditor({
 						maxLength={100000}
 						placeholder={t({ message: "Describe what the agent should do…" })}
 						onChange={(e) => edit(() => setPrompt(e.target.value))}
-						className="min-h-[240px] resize-y border-none bg-transparent px-4 py-3 text-sm shadow-none focus-visible:ring-0"
+						className="min-h-[240px] resize-none border-none bg-transparent px-4 py-3 text-sm shadow-none focus-visible:ring-0"
 					/>
 					<div className="flex items-center p-2.5">
 						<Select
@@ -394,13 +401,7 @@ export function AutomationEditor({
 				<div className="mt-4 flex justify-end">
 					<Button
 						size="sm"
-						disabled={
-							pending ||
-							!!scheduleError ||
-							missingTarget ||
-							!name.trim() ||
-							!prompt.trim()
-						}
+						disabled={pending || !!scheduleError || !prompt.trim()}
 						type="submit"
 					>
 						{pending ? <Trans>Saving…</Trans> : <Trans>Save changes</Trans>}

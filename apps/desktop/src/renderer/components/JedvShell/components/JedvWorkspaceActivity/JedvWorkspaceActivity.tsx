@@ -1,3 +1,4 @@
+import { presetForAcpHarness } from "@jedv/chat/core";
 import { Button } from "@jedv/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@jedv/ui/popover";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@jedv/ui/tooltip";
@@ -5,6 +6,7 @@ import { cn } from "@jedv/ui/utils";
 import { Trans, useLingui } from "@lingui/react/macro";
 import {
 	ArrowLeft,
+	Bot,
 	CircleCheck,
 	CircleDot,
 	CircleX,
@@ -13,6 +15,7 @@ import {
 } from "lucide-react";
 import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { AgentIcon } from "renderer/components/AgentIcon";
 import { JedvChangesView } from "../JedvChangesView";
 import { CreatePullRequestDialog } from "../JedvPullRequestsView/components/CreatePullRequestDialog";
 import { PullRequestStateIcon } from "../JedvPullRequestsView/components/PullRequestStateIcon";
@@ -90,7 +93,37 @@ export function JedvWorkspaceActivity(props: JedvWorkspaceActivityProps) {
 					props.agentSource.entries,
 				)
 			: [];
-	const attention = agents.filter(needsAttention);
+	const matchedChatIds = new Set<string>();
+	const chatTitleByNativeId = new Map<string, string>();
+	for (const chat of props.chatSessions ?? []) {
+		if (chat.harnessSessionId && chat.title)
+			chatTitleByNativeId.set(chat.harnessSessionId, chat.title);
+	}
+	const enrichedAgents = agents.map((entry) => {
+		const matchedChat = (props.chatSessions ?? []).find(
+			(chat) =>
+				chat.harnessSessionId &&
+				entry.nativeSessionId &&
+				chat.harnessSessionId === entry.nativeSessionId,
+		);
+		if (matchedChat) matchedChatIds.add(matchedChat.sessionId);
+		if (!entry.summary && matchedChat?.title)
+			return { ...entry, summary: matchedChat.title };
+		if (
+			!entry.summary &&
+			entry.nativeSessionId &&
+			chatTitleByNativeId.has(entry.nativeSessionId)
+		)
+			return {
+				...entry,
+				summary: chatTitleByNativeId.get(entry.nativeSessionId),
+			};
+		return entry;
+	});
+	const standaloneChats = (props.chatSessions ?? []).filter(
+		(chat) => !matchedChatIds.has(chat.sessionId),
+	);
+	const attention = enrichedAgents.filter(needsAttention);
 	const currentPr =
 		props.pullRequestsEnabled === false
 			? undefined
@@ -144,7 +177,7 @@ export function JedvWorkspaceActivity(props: JedvWorkspaceActivityProps) {
 		props.gitEnabled !== false && data.git.data
 			? changesPillStats(data.git.data)
 			: null;
-	const runningCount = runningWorkCount(agents, background ?? []);
+	const runningCount = runningWorkCount(enrichedAgents, background ?? []);
 	useEffect(() => {
 		if (!open || !background?.length) return;
 		setNow(Date.now());
@@ -382,12 +415,16 @@ export function JedvWorkspaceActivity(props: JedvWorkspaceActivityProps) {
 							)}
 						</MenuGroup>
 					)}
-					{agents.some((entry) => !needsAttention(entry)) && (
+					{(enrichedAgents.some((entry) => !needsAttention(entry)) ||
+						standaloneChats.length > 0) && (
 						<MenuGroup
 							title={<Trans>Agents</Trans>}
-							count={agents.filter((entry) => !needsAttention(entry)).length}
+							count={
+								enrichedAgents.filter((entry) => !needsAttention(entry))
+									.length + standaloneChats.length
+							}
 						>
-							{agents
+							{enrichedAgents
 								.filter((entry) => !needsAttention(entry))
 								.map((entry) => (
 									<AgentActivityRow
@@ -396,6 +433,43 @@ export function JedvWorkspaceActivity(props: JedvWorkspaceActivityProps) {
 										onOpen={openAgent(entry)}
 									/>
 								))}
+							{standaloneChats.map((chat) => {
+								const preset = presetForAcpHarness(chat.harness);
+								const label = preset ?? chat.harness;
+								return (
+									<button
+										key={`chat:${chat.sessionId}`}
+										type="button"
+										disabled={!props.onOpenChat}
+										onClick={() =>
+											void navigate(() => props.onOpenChat?.(chat))
+										}
+										className="flex min-h-7 w-full items-center gap-2 rounded-sm px-2 py-1.5 text-left text-xs outline-none transition-colors hover:bg-accent focus-visible:bg-accent disabled:opacity-60"
+									>
+										{preset ? (
+											<AgentIcon
+												presetId={preset}
+												className="size-3.5 shrink-0"
+											/>
+										) : (
+											<Bot className="size-3.5 shrink-0 text-muted-foreground" />
+										)}
+										<span className="min-w-0 flex-1 truncate">
+											{label} · {chat.title || chat.harness}
+										</span>
+										<span className="shrink-0 text-[11px] text-muted-foreground">
+											{chat.status === "running" ||
+											chat.status === "starting" ? (
+												<Trans>Running</Trans>
+											) : chat.live ? (
+												<Trans>Live</Trans>
+											) : (
+												<Trans>Read only</Trans>
+											)}
+										</span>
+									</button>
+								);
+							})}
 						</MenuGroup>
 					)}
 					{(props.attachedTerminalIds === undefined ||
@@ -478,8 +552,8 @@ export function JedvWorkspaceActivity(props: JedvWorkspaceActivityProps) {
 								"no-drag relative flex h-7 shrink-0 items-center gap-1.5 rounded-md border px-2 text-xs font-medium transition-colors",
 								"focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
 								open
-									? "border-foreground/30 bg-foreground/15 text-foreground hover:bg-foreground/20"
-									: "border-border/60 bg-muted/30 text-muted-foreground/80 hover:bg-muted/60 hover:text-foreground",
+									? "border-border bg-card text-foreground shadow-2xs hover:bg-accent/60"
+									: "border-border/70 bg-card/40 text-muted-foreground hover:bg-accent/50 hover:text-foreground",
 							)}
 						>
 							<ListTree className="size-3.5 shrink-0" />
@@ -506,6 +580,7 @@ export function JedvWorkspaceActivity(props: JedvWorkspaceActivityProps) {
 									) : null}
 								</>
 							) : (
+								props.showChangesPill !== false &&
 								stats &&
 								stats.fileCount > 0 && (
 									<>
@@ -541,7 +616,7 @@ export function JedvWorkspaceActivity(props: JedvWorkspaceActivityProps) {
 				}}
 				align="end"
 				sideOffset={0}
-				collisionPadding={{ top: 48, left: 8, right: 8, bottom: 8 }}
+				collisionPadding={{ top: 40, left: 8, right: 8, bottom: 8 }}
 				className="w-80 max-w-[calc(100vw-1rem)] border-0 bg-transparent p-0 shadow-none"
 			/>
 			{createPortal(panel, panelHost)}

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { isExcludedSymbolFont } from "../../font-utils";
 
 export type FontCategory = "nerd" | "mono" | "other";
 
@@ -103,6 +104,7 @@ function classifyFont(family: string): FontCategory {
 }
 
 function isMonospaceByMeasurement(family: string): boolean {
+	if (isExcludedSymbolFont(family)) return false;
 	const ctx = getCanvasCtx();
 	if (!ctx) return false;
 	ctx.font = `16px "${family}"`;
@@ -138,7 +140,7 @@ export function useSystemFonts() {
 		let cancelled = false;
 
 		async function loadFonts() {
-			await document.fonts.ready;
+			await document.fonts?.ready;
 
 			const result: FontInfo[] = [];
 			const seen = new Set<string>();
@@ -166,7 +168,11 @@ export function useSystemFonts() {
 						seen.add(fd.family);
 
 						let category = classifyFont(fd.family);
-						if (category === "other" && isMonospaceByMeasurement(fd.family)) {
+						if (
+							category === "other" &&
+							!isExcludedSymbolFont(fd.family) &&
+							isMonospaceByMeasurement(fd.family)
+						) {
 							category = "mono";
 						}
 						result.push({ family: fd.family, category });

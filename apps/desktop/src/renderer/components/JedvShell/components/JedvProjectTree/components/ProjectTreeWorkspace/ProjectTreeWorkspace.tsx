@@ -97,6 +97,13 @@ export function ProjectTreeWorkspace({
 	const pr = data.prs.data?.workspaces.find(
 		(row) => row.workspaceId === workspace.id,
 	)?.pullRequest;
+	const hasInlineIndicators =
+		!!pr ||
+		ports.length > 0 ||
+		bindings.length > 1 ||
+		bindings.some((binding) => binding.subagents?.length) ||
+		(!!props.onOpenTeam &&
+			(props.workspaceTeams?.get(workspace.id)?.length ?? 0) > 0);
 	return (
 		<JedvWorkspaceRow
 			workspace={workspace}
@@ -110,56 +117,8 @@ export function ProjectTreeWorkspace({
 			hasPullRequest={!!pr}
 			shortcutIndex={props.shortcutOrder?.indexOf(workspace.id) ?? -1}
 			statusActions={
-				<>
-					{pr && (
-						<button
-							type="button"
-							aria-label={t({ message: `Open pull request #${pr.number}` })}
-							title={`#${pr.number} ${pr.title}`}
-							className="grid size-[18px] place-items-center rounded hover:bg-accent focus-visible:ring-1 focus-visible:ring-ring"
-							disabled={
-								!project?.repoOwner || !project.repoName || props.disabled
-							}
-							onClick={() => {
-								if (project?.repoOwner && project.repoName)
-									props.onOpenPullRequest?.(context, {
-										projectId: project.id,
-										owner: project.repoOwner,
-										repo: project.repoName,
-										number: pr.number,
-										title: pr.title,
-									});
-							}}
-						>
-							<PullRequestStateIcon
-								state={pr.state}
-								draft={pr.state === "draft"}
-							/>
-						</button>
-					)}
-					{ports.length > 0 && (
-						<WorkspaceForwards
-							inline
-							client={context.client}
-							hostUrl={context.hostUrl}
-							workspaceId={workspace.id}
-							remote={context.isRemote}
-							portsSnapshot={data.ports.data?.filter(
-								(port) => port.workspaceId === workspace.id,
-							)}
-							onOpenUrl={(url) =>
-								props.onOpenPort?.(context, workspace.id, url) ??
-								Promise.resolve()
-							}
-						/>
-					)}
-				</>
-			}
-			agentChips={
-				bindings.length > 1 ||
-				bindings.some((binding) => binding.subagents?.length) ||
-				props.workspaceTeams?.has(workspace.id) ? (
-					<div className="ml-[50px] mr-3 flex h-7 items-center gap-1">
+				hasInlineIndicators ? (
+					<>
 						<WorkspaceAgentsChip
 							bindings={bindings}
 							sessions={props.agentSessions}
@@ -173,7 +132,49 @@ export function ProjectTreeWorkspace({
 								onSelect={props.onOpenTeam}
 							/>
 						)}
-					</div>
+						{pr && (
+							<button
+								type="button"
+								aria-label={t({ message: `Open pull request #${pr.number}` })}
+								title={`#${pr.number} ${pr.title}`}
+								className="grid size-[18px] place-items-center rounded hover:bg-accent focus-visible:ring-1 focus-visible:ring-ring"
+								disabled={
+									!project?.repoOwner || !project.repoName || props.disabled
+								}
+								onClick={() => {
+									if (project?.repoOwner && project.repoName)
+										props.onOpenPullRequest?.(context, {
+											projectId: project.id,
+											owner: project.repoOwner,
+											repo: project.repoName,
+											number: pr.number,
+											title: pr.title,
+										});
+								}}
+							>
+								<PullRequestStateIcon
+									state={pr.state}
+									draft={pr.state === "draft"}
+								/>
+							</button>
+						)}
+						{ports.length > 0 && (
+							<WorkspaceForwards
+								inline
+								client={context.client}
+								hostUrl={context.hostUrl}
+								workspaceId={workspace.id}
+								remote={context.isRemote}
+								portsSnapshot={data.ports.data?.filter(
+									(port) => port.workspaceId === workspace.id,
+								)}
+								onOpenUrl={(url) =>
+									props.onOpenPort?.(context, workspace.id, url) ??
+									Promise.resolve()
+								}
+							/>
+						)}
+					</>
 				) : undefined
 			}
 			disabled={props.disabled}

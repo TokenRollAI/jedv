@@ -9,26 +9,27 @@ const buttonVariants = cva(
 	{
 		variants: {
 			variant: {
-				default: "bg-primary text-primary-foreground hover:bg-primary/90",
+				default:
+					"bg-primary text-primary-foreground shadow-2xs hover:bg-primary/90",
 				destructive:
-					"bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+					"bg-destructive text-white shadow-2xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/75",
 				outline:
-					"border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
+					"border border-border/80 bg-card/50 shadow-2xs hover:border-border hover:bg-accent/70 hover:text-accent-foreground",
 				secondary:
-					"bg-secondary text-secondary-foreground hover:bg-secondary/80",
+					"border border-border/60 bg-secondary/80 text-secondary-foreground shadow-2xs hover:border-border/90 hover:bg-secondary",
 				ghost:
-					"hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
+					"hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/60",
 				link: "text-primary underline-offset-4 hover:underline",
 			},
 			size: {
-				default: "h-9 px-4 py-2 has-[>svg]:px-3",
-				xs: "h-7 rounded-md gap-1.5 px-2.5 text-xs has-[>svg]:px-2 [&_svg:not([class*='size-'])]:size-3.5",
-				sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
-				lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
-				icon: "size-9",
-				"icon-sm": "size-8",
-				"icon-xs": "size-7",
-				"icon-lg": "size-10",
+				default: "h-9 rounded-lg px-4 py-2 gap-2",
+				xs: "h-7 rounded-md gap-1.5 px-3 text-xs [&_svg:not([class*='size-'])]:size-3.5",
+				sm: "h-8 rounded-lg gap-2 px-3.5 text-xs",
+				lg: "h-10 rounded-lg gap-2 px-5",
+				icon: "size-9 p-0",
+				"icon-sm": "size-8 p-0",
+				"icon-xs": "size-7 p-0",
+				"icon-lg": "size-10 p-0",
 			},
 		},
 		defaultVariants: {

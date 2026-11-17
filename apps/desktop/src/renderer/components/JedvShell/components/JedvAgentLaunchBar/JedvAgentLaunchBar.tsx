@@ -71,14 +71,14 @@ export function JedvAgentLaunchBar({
 	};
 	return (
 		<>
-			<div className="flex h-9 min-w-0 shrink-0 items-center gap-1 overflow-x-auto overflow-y-hidden border-b border-border/60 bg-muted/20 px-2 py-1 [scrollbar-width:none]">
+			<div className="flex h-8 min-w-0 shrink-0 items-center gap-1 overflow-x-auto overflow-y-hidden border-b border-border/80 bg-sidebar/35 px-2.5 [scrollbar-width:none]">
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
 						<Button
 							variant="ghost"
 							size="icon"
 							aria-label={t({ message: "Manage Terminal Scripts" })}
-							className="size-6 shrink-0 text-muted-foreground hover:text-foreground"
+							className="size-6 shrink-0 rounded-md text-muted-foreground hover:bg-fill-hover hover:text-foreground"
 						>
 							<Settings className="size-3.5" />
 						</Button>
@@ -88,14 +88,12 @@ export function JedvAgentLaunchBar({
 						className="w-64"
 						onCloseAutoFocus={onCloseAutoFocus}
 					>
-						{presets.map((preset) => (
+						{presets.map((preset, index) => (
 							<PresetVisibilityItem
 								key={preset.id}
 								preset={preset}
 								icon={resolveV2PresetIcon(preset, configs, isDark)}
-								index={presets
-									.filter((item) => item.pinnedToBar !== false)
-									.findIndex((item) => item.id === preset.id)}
+								index={index}
 								disabled={pending !== null}
 								onToggle={() => void changeVisibility(preset)}
 							/>
@@ -122,8 +120,9 @@ export function JedvAgentLaunchBar({
 				</DropdownMenu>
 				{onRunPreset &&
 					presets
-						.filter((preset) => preset.pinnedToBar !== false)
-						.map((preset, index) => (
+						.map((preset, index) => ({ preset, index }))
+						.filter(({ preset }) => preset.pinnedToBar !== false)
+						.map(({ preset, index }) => (
 							<PresetBarItem
 								key={preset.id}
 								preset={preset}

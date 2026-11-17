@@ -17,9 +17,11 @@
  * just means the dialog shows once.
  */
 
+import { createHash } from "node:crypto";
 import { existsSync, realpathSync } from "node:fs";
 import {
 	chmod,
+	mkdir,
 	mkdtemp,
 	readFile,
 	rename,
@@ -32,7 +34,7 @@ import { resolveUserHomeDir, resolveWriteTarget } from "@jedv/agent-setup";
 import type { HostDb } from "../../../../db";
 import { resolveDefaultAccountEnv } from "../../usage/default-account";
 
-type TrustFamily = "claude" | "codex" | "agy";
+type TrustFamily = "claude" | "codex" | "agy" | "kimi";
 
 interface TrustTarget {
 	family: TrustFamily;
@@ -53,7 +55,7 @@ export function resolveTrustFamily(config: {
 	const executable = (token.split(/[\\/]/).pop() ?? "")
 		.toLowerCase()
 		.replace(/\.exe$/, "");
-	for (const family of ["claude", "codex", "agy"] as const) {
+	for (const family of ["claude", "codex", "agy", "kimi"] as const) {
 		if (config.presetId === family || executable === family) return family;
 	}
 	return null;
@@ -84,6 +86,13 @@ function resolveTrustTarget(
 				"settings.json",
 			),
 		};
+	}
+	if (family === "kimi") {
+		const kimiHome =
+			config.env.KIMI_CODE_HOME?.trim() ||
+			process.env.KIMI_CODE_HOME?.trim() ||
+			join(resolveUserHomeDir(), ".kimi-code");
+		return { family, file: join(kimiHome, "workspace-trust") };
 	}
 	const env = { ...resolveDefaultAccountEnv(db, family), ...config.env };
 	if (family === "claude") {
@@ -202,10 +211,81 @@ export async function seedCodexFolderTrust(
 	await atomicWrite(configFile, next);
 }
 
+function normalizeFolderPathCandidates(folderPath: string): string[] {
+	const raw = resolve(folderPath);
+	const paths = new Set<string>([raw]);
+	let real = raw;
+	try {
+		real = realpathSync(raw);
+		paths.add(real);
+	} catch {
+		// Folder may not exist on disk yet; keep the resolved raw path.
+	}
+	// On macOS, /tmp is a symlink to /private/tmp; seed both aliases when they
+	// resolve to the same directory so symlinked worktrees never miss trust.
+	if (process.platform === "darwin" && real.startsWith("/private/tmp/")) {
+		const tmpAlias = real.slice("/private".length);
+		try {
+			if (realpathSync(tmpAlias) === real) {
+				paths.add(tmpAlias);
+			}
+		} catch {
+			// Ignore if alias cannot be resolved.
+		}
+	}
+	return [...paths];
+}
+
+const KIMI_MAX_WORKDIR_SLUG_LENGTH = 40;
+
+function slugifyKimiWorkDirName(name: string): string {
+	const slug = name
+		.toLowerCase()
+		.replaceAll(/[^a-z0-9._-]+/g, "-")
+		.replaceAll(/^-+|-+$/g, "")
+		.slice(0, KIMI_MAX_WORKDIR_SLUG_LENGTH)
+		.replaceAll(/^-+|-+$/g, "");
+	return slug === "" || slug === "." || slug === ".." ? "workspace" : slug;
+}
+
+export function encodeKimiWorkDirKey(workDir: string): string {
+	const normalized = workDir.replaceAll("\\", "/").replace(/\/+$/, "");
+	const slug = slugifyKimiWorkDirName(
+		normalized.split("/").pop() ?? normalized,
+	);
+	const hash = createHash("sha256")
+		.update(normalized)
+		.digest("hex")
+		.slice(0, 12);
+	return `wd_${slug}_${hash}`;
+}
+
 /**
- * Append `folderPath` to `trustedWorkspaces` in Antigravity's settings.json,
- * preserving every other key. A corrupt file throws instead of being
- * clobbered. No-op when the folder is already listed.
+ * Write Kimi Code's per-folder trust record (`<trustDir>/wd_<slug>_<hash12>`)
+ * for both raw and canonical realpath forms. Skips when Kimi's home directory
+ * itself has not been created yet, and leaves existing records untouched.
+ */
+export async function seedKimiFolderTrust(
+	trustDir: string,
+	folderPath: string,
+): Promise<void> {
+	if (!existsSync(dirname(trustDir))) return;
+	await mkdir(trustDir, { recursive: true, mode: 0o700 });
+	for (const candidate of normalizeFolderPathCandidates(folderPath)) {
+		const recordFile = join(trustDir, encodeKimiWorkDirKey(candidate));
+		if (existsSync(recordFile)) continue;
+		await atomicWrite(
+			recordFile,
+			JSON.stringify({ root: candidate, trustedAt: Date.now() }),
+		);
+	}
+}
+
+/**
+ * Append `folderPath` (both raw and canonical realpath forms) to
+ * `trustedWorkspaces` in Antigravity's settings.json, preserving every other
+ * key. A corrupt file throws instead of being clobbered. No-op when all
+ * normalized forms are already listed.
  */
 export async function seedAgyFolderTrust(
 	settingsFile: string,
@@ -220,8 +300,12 @@ export async function seedAgyFolderTrust(
 	const trusted = Array.isArray(settings.trustedWorkspaces)
 		? settings.trustedWorkspaces
 		: [];
-	if (trusted.includes(folderPath)) return;
-	settings.trustedWorkspaces = [...trusted, folderPath];
+	const candidates = normalizeFolderPathCandidates(folderPath);
+	const missing = candidates.filter(
+		(candidate) => !trusted.includes(candidate),
+	);
+	if (missing.length === 0) return;
+	settings.trustedWorkspaces = [...trusted, ...missing];
 	await atomicWrite(settingsFile, JSON.stringify(settings, null, 2));
 }
 
@@ -251,7 +335,9 @@ export async function seedAgentFolderTrust(
 		if (target.family === "claude") {
 			await seedClaudeFolderTrust(target.file, normalized);
 		} else if (target.family === "agy") {
-			await seedAgyFolderTrust(target.file, normalized);
+			await seedAgyFolderTrust(target.file, folderPath);
+		} else if (target.family === "kimi") {
+			await seedKimiFolderTrust(target.file, folderPath);
 		} else {
 			await seedCodexFolderTrust(target.file, normalized);
 		}

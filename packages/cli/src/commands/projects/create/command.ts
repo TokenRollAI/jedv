@@ -1,3 +1,4 @@
+import path from "node:path";
 import { boolean, CLIError, string } from "@jedv/cli-framework";
 import { TRPCClientError } from "@trpc/client";
 import { command } from "../../../lib/command";
@@ -11,7 +12,9 @@ export default command({
 		),
 		host: string().desc("Target host machineId (required unless --local)"),
 		local: boolean().desc("Target this machine (required unless --host)"),
-		name: string().required().desc("Project name"),
+		name: string().desc(
+			"Project name (defaults to folder basename for --import or --folder)",
+		),
 		clone: string().desc(
 			"Git remote URL to clone (requires --parent-dir). Mutually exclusive with --import",
 		),
@@ -44,6 +47,18 @@ export default command({
 			throw new CLIError(
 				"--parent-dir cannot be used with --import or --folder",
 				"--import takes the full repo path",
+			);
+		}
+
+		const sourcePath = options.import ?? options.folder;
+		const derivedName = sourcePath
+			? path.basename(path.resolve(sourcePath))
+			: undefined;
+		const projectName = options.name?.trim() || derivedName;
+		if (!projectName) {
+			throw new CLIError(
+				"Missing required option: --name",
+				"Pass --name <name> (or omit --name with --import or --folder to derive it from the directory name)",
 			);
 		}
 
@@ -93,13 +108,13 @@ export default command({
 					};
 
 		const result = await target.client.project.create.mutate({
-			name: options.name,
+			name: projectName,
 			mode,
 		});
 
 		return {
 			data: result,
-			message: `Created project "${options.name}" on host ${target.hostId}`,
+			message: `Created project "${projectName}" on host ${target.hostId}`,
 		};
 	},
 });

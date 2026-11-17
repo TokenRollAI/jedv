@@ -6,6 +6,7 @@ import type { Pane, Tab } from "../types";
 export interface PaneActionConfig<TData> {
 	key: string;
 	icon: ReactNode | ((context: RendererContext<TData>) => ReactNode);
+	label?: string | ((context: RendererContext<TData>) => string);
 	tooltip?: ReactNode | ((context: RendererContext<TData>) => ReactNode);
 	onClick: (context: RendererContext<TData>) => void;
 }
@@ -149,6 +150,8 @@ export interface WorkspaceProps<TData> {
 	onTabClick?: (tab: Tab<TData>) => void;
 	renderEmptyState?: () => ReactNode;
 	renderAddTabMenu?: (actions: AddTabMenuActions) => ReactNode;
+	/** Accessible label and title for the add-tab button. */
+	addTabLabel?: string;
 	/** Runs when the add-tab button is clicked. Ignored when `renderAddTabMenu` is set. */
 	onAddTab?: () => void;
 	/** Rendered at the leading (left) edge of the tab bar row, before the tabs. */

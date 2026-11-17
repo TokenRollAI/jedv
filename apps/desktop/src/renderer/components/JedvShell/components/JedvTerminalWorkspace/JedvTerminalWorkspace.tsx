@@ -1,3 +1,5 @@
+import { presetForAcpHarness } from "@jedv/chat/core";
+import type { TerminalPreset } from "@jedv/local-db/schema/zod";
 import {
 	type ContextMenuActionConfig,
 	type FocusDirection,
@@ -8,8 +10,8 @@ import {
 	Workspace,
 } from "@jedv/panes";
 import {
-	DropdownMenuCheckboxItem,
 	DropdownMenuItem,
+	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuShortcut,
 } from "@jedv/ui/dropdown-menu";
@@ -33,26 +35,31 @@ import {
 	LuFolderOpen,
 	LuGitCompareArrows,
 	LuLink,
+	LuMessageSquare,
 	LuMoveRight,
 	LuPlus,
 	LuPower,
 	LuRows2,
 	LuSearch,
+	LuSettings,
 	LuTerminal,
 	LuX,
 } from "react-icons/lu";
+import { useIsDarkTheme } from "renderer/assets/app-icons/preset-icons";
 import { AgentIcon } from "renderer/components/AgentIcon";
 import { useHotkeyDisplay } from "renderer/hotkeys";
-import { electronTrpc } from "renderer/lib/electron-trpc";
+import type { HotkeyId } from "renderer/hotkeys/registry";
+import { resolveV2PresetIcon } from "renderer/lib/preset-icon";
 import { writeTerminalClipboard } from "renderer/lib/terminal/terminal-clipboard";
 import { terminalRuntimeRegistry as registry } from "renderer/lib/terminal/terminal-runtime-registry";
-import { electronTrpcClient } from "renderer/lib/trpc-client";
 import type { LocalClient, LocalConnection } from "../../local-client";
 import type { HostAgentConfig, TerminalSession } from "../../types";
 
 import { JedvChangesView } from "../JedvChangesView";
 import type { TerminalSessionsMenuProps } from "../JedvTerminalTabStrip/types";
 import { terminalContextMenuLinkStore } from "../LocalTerminal/links";
+import { ChatSessionControl } from "../NativeAgentControls/components/ChatSessionControl";
+import { createLocalPromptDraft } from "../NativeAgentControls/components/LocalPromptComposer";
 import { FilesPaneSlot } from "./components/FilesPaneSlot";
 
 import { JedvTerminalPane } from "./components/JedvTerminalPane";
@@ -64,9 +71,11 @@ import {
 import {
 	detachTerminalPane,
 	detachTerminalTab,
+	isChatPane,
 	isTerminalPane,
 	moveWorkspacePane,
 	openChangesTab,
+	paneChatSessionId,
 	paneTerminalId,
 	reopenTerminalTab,
 	type TerminalLayoutStore,
@@ -109,6 +118,7 @@ export function JedvTerminalWorkspace(props: {
 	onConnectionChange(connected: boolean): void;
 	actionsRef: { current: TerminalWorkspaceActions | null };
 	tabBarMount: HTMLDivElement | null;
+	changesHeaderMount?: HTMLElement | null;
 	emptyState: ReactNode;
 	onNew(): void;
 	filesHost?: HTMLElement | null;
@@ -127,10 +137,14 @@ export function JedvTerminalWorkspace(props: {
 	agentSessionNames?: Map<string, string>;
 	agentProjectionReady?: boolean;
 	agentBindings?: readonly TerminalActivityEvent[];
+	presets?: TerminalPreset[];
+	onRunPreset?(preset: TerminalPreset): void;
+	onSettings?(): void;
+	chatSessionTitles?: ReadonlyMap<string, string>;
+	chatSessionHarnesses?: ReadonlyMap<string, string>;
 }) {
 	const { t } = useLingui();
-	const showScripts = electronTrpc.settings.getShowPresetsBar.useQuery();
-	const settingsUtils = electronTrpc.useUtils();
+	const isDark = useIsDarkTheme();
 	const latest = useRef(props);
 	latest.current = props;
 	const store = props.store;
@@ -317,7 +331,7 @@ export function JedvTerminalWorkspace(props: {
 					) : undefined,
 				getIcon: (context) => {
 					const id = paneTerminalId(context.pane);
-					const agent = id ? latest.current.agentByTerminal.get(id) : undefined;
+					const agent = id ? props.agentByTerminal.get(id) : undefined;
 					return agent ? (
 						<AgentIcon presetId={agent} className="size-3.5" />
 					) : (
@@ -412,6 +426,7 @@ export function JedvTerminalWorkspace(props: {
 			},
 			changes: {
 				getTitle: () => t({ message: "Changes" }),
+				getIcon: () => <LuGitCompareArrows className="size-3.5" />,
 				renderPane: (context) => (
 					<JedvChangesView
 						client={latest.current.client}
@@ -419,6 +434,7 @@ export function JedvTerminalWorkspace(props: {
 						workspaceId={latest.current.workspaceId}
 						active={latest.current.active && context.isActive}
 						remote={latest.current.remote}
+						headerMount={props.changesHeaderMount}
 						onOpenFile={(path, pinned) =>
 							latest.current.onOpenFile(path, pinned)
 						}
@@ -427,6 +443,50 @@ export function JedvTerminalWorkspace(props: {
 						}
 					/>
 				),
+				onBeforeClose: (pane) => {
+					report(() => detachTerminalPane(store, pane.id));
+					return false;
+				},
+			},
+			chat: {
+				keepAlive: true,
+				getTitle: (pane) => {
+					const chatId = paneChatSessionId(pane);
+					return (
+						pane.titleOverride ??
+						(chatId ? props.chatSessionTitles?.get(chatId) : undefined) ??
+						(isChatPane(pane) ? pane.data.title : undefined) ??
+						t({ message: "Chat" })
+					);
+				},
+				getIcon: (context) => {
+					const chatId = paneChatSessionId(context.pane);
+					const harness = chatId
+						? props.chatSessionHarnesses?.get(chatId)
+						: undefined;
+					const preset = harness ? presetForAcpHarness(harness) : undefined;
+					return preset ? (
+						<AgentIcon presetId={preset} className="size-3.5" />
+					) : (
+						<LuMessageSquare className="size-3.5" />
+					);
+				},
+				renderPane: (context) => {
+					const chatId = paneChatSessionId(context.pane);
+					if (!chatId) return null;
+					return (
+						<ChatSessionPane
+							client={latest.current.client}
+							hostUrl={latest.current.hostUrl}
+							workspaceId={latest.current.workspaceId}
+							sessionId={chatId}
+							title={
+								isChatPane(context.pane) ? context.pane.data.title : undefined
+							}
+							remote={latest.current.remote}
+						/>
+					);
+				},
 				onBeforeClose: (pane) => {
 					report(() => detachTerminalPane(store, pane.id));
 					return false;
@@ -441,6 +501,9 @@ export function JedvTerminalWorkspace(props: {
 			props.agentByTerminal,
 			props.agentProjectionReady,
 			props.agentSessionNames,
+			props.chatSessionTitles,
+			props.chatSessionHarnesses,
+			props.changesHeaderMount,
 		],
 	);
 
@@ -663,6 +726,7 @@ export function JedvTerminalWorkspace(props: {
 					registry={registryDefinition}
 					isFocused={props.active && props.focused !== false}
 					keepAliveTabs={3}
+					addTabLabel={t({ message: "New tab" })}
 					className="min-h-0 flex-1"
 					renderEmptyState={() => props.emptyState}
 					renderTabBar={(bar) =>
@@ -687,68 +751,107 @@ export function JedvTerminalWorkspace(props: {
 							paneCount={Object.keys(tab.panes).length}
 						/>
 					)}
-					renderAddTabMenu={({ runAfterClose }) => (
-						<>
-							<DropdownMenuItem
-								onSelect={() => runAfterClose(() => latest.current.onNew())}
-							>
-								<LuPlus />
-								<Trans>New Terminal</Trans>
-								{newTerminalShortcut !== "Unassigned" && (
-									<DropdownMenuShortcut>
-										{newTerminalShortcut}
-									</DropdownMenuShortcut>
-								)}
-							</DropdownMenuItem>
-
-							<DropdownMenuItem
-								onSelect={() => runAfterClose(() => openChangesTab(store))}
-							>
-								<LuGitCompareArrows />
-								<Trans>Changes</Trans>
-							</DropdownMenuItem>
-							<DropdownMenuItem
-								onSelect={() =>
-									runAfterClose(() => {
-										latest.current.onOpenFile("");
-									})
-								}
-							>
-								<LuFolderOpen />
-								<Trans>Files</Trans>
-							</DropdownMenuItem>
-							{props.sessionsMenu}
-							{props.agentConfigs.map((config) => (
+					renderAddTabMenu={({ runAfterClose }) => {
+						const visiblePresets = (props.presets ?? [])
+							.map((preset, index) => ({ preset, index }))
+							.filter(({ preset }) => preset.pinnedToBar !== false);
+						return (
+							<>
 								<DropdownMenuItem
-									key={config.id}
+									onSelect={() => runAfterClose(() => latest.current.onNew())}
+								>
+									<LuPlus />
+									<Trans>New Terminal</Trans>
+									{newTerminalShortcut !== "Unassigned" && (
+										<DropdownMenuShortcut>
+											{newTerminalShortcut}
+										</DropdownMenuShortcut>
+									)}
+								</DropdownMenuItem>
+								<DropdownMenuItem
+									onSelect={() => runAfterClose(() => openChangesTab(store))}
+								>
+									<LuGitCompareArrows />
+									<Trans>Changes</Trans>
+								</DropdownMenuItem>
+								<DropdownMenuItem
 									onSelect={() =>
-										runAfterClose(() => latest.current.onLaunch(config))
+										runAfterClose(() => {
+											latest.current.onOpenFile("");
+										})
 									}
 								>
-									<AgentIcon
-										presetId={config.presetId}
-										iconId={config.iconId}
-										className="size-4"
-									/>
-									{config.label}
+									<LuFolderOpen />
+									<Trans>Files</Trans>
 								</DropdownMenuItem>
-							))}
-							<DropdownMenuSeparator />
-							<DropdownMenuCheckboxItem
-								checked={showScripts.data ?? true}
-								onCheckedChange={(checked) => {
-									void electronTrpcClient.settings.setShowPresetsBar
-										.mutate({ enabled: checked === true })
-										.then(() =>
-											settingsUtils.settings.getShowPresetsBar.invalidate(),
-										)
-										.catch((error) => toast.error(String(error)));
-								}}
-							>
-								<Trans>Show Scripts Bar</Trans>
-							</DropdownMenuCheckboxItem>
-						</>
-					)}
+								{props.sessionsMenu}
+								{props.agentConfigs.length > 0 && (
+									<>
+										<DropdownMenuSeparator />
+										<DropdownMenuLabel className="text-[11px] font-medium text-muted-foreground">
+											<Trans>Agents</Trans>
+										</DropdownMenuLabel>
+										{props.agentConfigs.map((config) => (
+											<DropdownMenuItem
+												key={config.id}
+												onSelect={() =>
+													runAfterClose(() => latest.current.onLaunch(config))
+												}
+											>
+												<AgentIcon
+													presetId={config.presetId}
+													iconId={config.iconId}
+													className="size-4"
+												/>
+												{config.label}
+											</DropdownMenuItem>
+										))}
+									</>
+								)}
+								{visiblePresets.length > 0 && props.onRunPreset && (
+									<>
+										<DropdownMenuSeparator />
+										<DropdownMenuLabel className="text-[11px] font-medium text-muted-foreground">
+											<Trans>Presets</Trans>
+										</DropdownMenuLabel>
+										{visiblePresets.map(({ preset, index }) => (
+											<PresetMenuItem
+												key={preset.id}
+												preset={preset}
+												index={index}
+												icon={resolveV2PresetIcon(
+													preset,
+													props.agentConfigs,
+													isDark,
+												)}
+												disabled={
+													!preset.commands.some((command) => command.trim())
+												}
+												onSelect={() =>
+													runAfterClose(() =>
+														latest.current.onRunPreset?.(preset),
+													)
+												}
+											/>
+										))}
+									</>
+								)}
+								{props.onSettings && (
+									<>
+										<DropdownMenuSeparator />
+										<DropdownMenuItem
+											onSelect={() =>
+												runAfterClose(() => latest.current.onSettings?.())
+											}
+										>
+											<LuSettings className="size-4" />
+											<Trans>Manage Terminal Scripts</Trans>
+										</DropdownMenuItem>
+									</>
+								)}
+							</>
+						);
+					}}
 					paneActions={(context) => [
 						{
 							key: "split-right",
@@ -782,6 +885,76 @@ export function JedvTerminalWorkspace(props: {
 		</div>
 	);
 }
+function PresetMenuItem({
+	preset,
+	index,
+	icon,
+	disabled,
+	onSelect,
+}: {
+	preset: TerminalPreset;
+	index: number;
+	icon?: string;
+	disabled: boolean;
+	onSelect(): void;
+}) {
+	const shortcut = useHotkeyDisplay(
+		`OPEN_PRESET_${Math.min(index + 1, 9)}` as HotkeyId,
+	).text;
+	return (
+		<DropdownMenuItem disabled={disabled} onSelect={onSelect}>
+			{icon ? (
+				<img
+					src={icon}
+					alt=""
+					className="size-4 shrink-0 object-contain opacity-90"
+				/>
+			) : (
+				<LuTerminal className="size-4" />
+			)}
+			<span className="min-w-0 flex-1 truncate">{preset.name}</span>
+			{index < 9 && shortcut !== "Unassigned" && (
+				<DropdownMenuShortcut>{shortcut}</DropdownMenuShortcut>
+			)}
+		</DropdownMenuItem>
+	);
+}
+
+function ChatSessionPane({
+	client,
+	hostUrl,
+	workspaceId,
+	sessionId,
+	title,
+	remote,
+}: {
+	client: LocalClient;
+	hostUrl: string;
+	workspaceId: string;
+	sessionId: string;
+	title?: string;
+	remote: boolean;
+}) {
+	const [draft] = useState(() => createLocalPromptDraft());
+	useEffect(() => () => draft.attachments.clear(), [draft]);
+	return (
+		<ChatSessionControl
+			key={`${hostUrl}:${sessionId}`}
+			client={client}
+			hostUrl={hostUrl}
+			workspaceId={workspaceId}
+			sessionId={sessionId}
+			title={title}
+			turnId={null}
+			working={false}
+			remote={remote}
+			fullHeight
+			draft={draft}
+			onRefresh={async () => {}}
+		/>
+	);
+}
+
 function chromeKey() {
 	return navigator.platform.toLowerCase().includes("mac") ? "⌘" : "Ctrl+";
 }

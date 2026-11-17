@@ -86,7 +86,11 @@ export function SystemAgentSettings({
 						autoComplete="new-password"
 						spellCheck={false}
 						maxLength={512}
-						placeholder={t({ message: "Enter a new API key to replace it" })}
+						placeholder={
+							settings.data?.configured
+								? t({ message: "Enter a new API key to replace it" })
+								: t({ message: "Enter DeepSeek API Key" })
+						}
 						value={key}
 						disabled={pending || !settings.isSuccess || settings.isError}
 						onChange={(event) => setKey(event.target.value)}

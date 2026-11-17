@@ -340,9 +340,6 @@ msgstr "Додати проєкт із папки"
 msgid "Add Project from Folder..."
 msgstr "Додати проєкт із папки..."
 
-msgid "Add tests where coverage is missing"
-msgstr "Додати тести там, де бракує покриття"
-
 msgid "Add to Dictionary"
 msgstr "Додати до словника"
 
@@ -458,6 +455,9 @@ msgstr "Активний"
 msgid "All"
 msgstr "Усі"
 
+msgid "All activity"
+msgstr "Уся активність"
+
 msgid "All commits"
 msgstr "Усі коміти"
 
@@ -485,11 +485,17 @@ msgstr "Дозволити"
 msgid "Allow microphone access to use dictation"
 msgstr "Дозвольте доступ до мікрофона, щоб використовувати диктування"
 
+msgid "Allow once"
+msgstr "Дозволити один раз"
+
 msgid "Already open"
 msgstr "Уже відкрито"
 
 msgid "Also delete local branch"
 msgstr "Також видалити локальну гілку"
+
+msgid "Ambiguous upstream branch configuration"
+msgstr "Неоднозначна конфігурація upstream-гілки"
 
 msgid "An automation did not complete. Inspect its run on your computer."
 msgstr "Автоматизація не завершена. Перевірте її запуск на комп’ютері."
@@ -627,6 +633,9 @@ msgstr "Попросіть внести зміни, @згадайте файли
 msgid "Associated provider tokens will be revoked."
 msgstr "Пов’язані токени постачальників буде відкликано."
 
+msgid "At most {MAX_ATTACHMENTS} attachments can be added."
+msgstr "Можна додати щонайбільше {MAX_ATTACHMENTS} вкладень."
+
 msgid "Attach"
 msgstr "Прикріпити"
 
@@ -646,6 +655,9 @@ msgstr "Вкладення"
 #. placeholder {1}: cause.problem
 msgid "Attachment {0} could not be copied: {1}"
 msgstr "Не вдалося скопіювати вкладення {0}: {1}"
+
+msgid "Attachment is too large (maximum 10 MB)."
+msgstr "Вкладення занадто велике (максимум 10 МБ)."
 
 msgid "Attachment limits exceeded"
 msgstr "Перевищено обмеження вкладень"
@@ -670,6 +682,9 @@ msgstr "Авто (як у системі)"
 
 msgid "Auto save"
 msgstr "Автоматичне збереження"
+
+msgid "Auto-derived from task (optional)"
+msgstr "Автоматично із завдання (необов’язково)"
 
 msgid "Automatic delivery paused"
 msgstr "Автоматичну доставку призупинено"
@@ -733,6 +748,9 @@ msgstr "Назад"
 
 msgid "Back to automations"
 msgstr "Назад до автоматизацій"
+
+msgid "Back to changes"
+msgstr "Назад до змін"
 
 msgid "Back to current conversation"
 msgstr "Повернутися до поточної розмови"
@@ -844,6 +862,9 @@ msgstr "Не вдається {action}: не вибрано активну ор�
 msgid "Cannot {action}: the local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
 msgstr "Не вдається {action}: локальна служба хоста недоступна для {organization} на {device}. Стан: {status}. {recovery}"
 
+msgid "Cascading URL rewrite is not supported"
+msgstr "Каскадне переписування URL не підтримується"
+
 msgid "Category"
 msgstr "Категорія"
 
@@ -882,6 +903,9 @@ msgstr "Чат"
 
 msgid "Chat is being reworked"
 msgstr "Чат зараз переробляють"
+
+msgid "Chat session"
+msgstr "Сеанс чату"
 
 msgid "Check for updates"
 msgstr "Перевірити оновлення"
@@ -958,8 +982,8 @@ msgstr "Виберіть проєкт або робочий простір"
 msgid "Choose a project to start working."
 msgstr "Виберіть проєкт, щоб почати роботу."
 
-msgid "Choose a running agent as leader to start collaborating."
-msgstr "Виберіть активного агента лідером, щоб почати співпрацю."
+msgid "Choose a running session as leader to start collaborating."
+msgstr "Виберіть запущений сеанс як лідера, щоб почати співпрацю."
 
 msgid "Choose a saved screenshot to attach. Files are copied only when you submit the prompt."
 msgstr "Виберіть збережений знімок екрана для вкладення. Файли копіюються лише під час надсилання промпта."
@@ -993,6 +1017,9 @@ msgstr "Видалити API-ключ"
 
 msgid "Clear API key?"
 msgstr "Видалити API-ключ?"
+
+msgid "Clear filters"
+msgstr "Очистити фільтри"
 
 msgid "Clear saved screenshots?"
 msgstr "Очистити збережені знімки екрана?"
@@ -1230,6 +1257,12 @@ msgstr "Налаштувати"
 msgid "Configure agent commands for the connected host."
 msgstr "Налаштуйте команди агента для підключеного хоста."
 
+msgid "Configure how URLs, files, and folders open when clicked in terminals."
+msgstr "Налаштуйте, як відкриваються URL, файли й теки після натискання в терміналах."
+
+msgid "Configure in Files & editor"
+msgstr "Налаштувати у Файли й редактор"
+
 msgid "Configured"
 msgstr "Налаштовано"
 
@@ -1447,8 +1480,8 @@ msgstr "Не вдалося підтвердити цей сеанс. Онові
 msgid "Could not copy. Select the text below to copy it."
 msgstr "Не вдалося скопіювати. Виділіть текст нижче, щоб скопіювати його."
 
-msgid "Could not create team. Refresh the agents and retry."
-msgstr "Не вдалося створити команду. Оновіть агентів і повторіть спробу."
+msgid "Could not create team. Refresh the sessions and retry."
+msgstr "Не вдалося створити команду. Оновіть сеанси та повторіть спробу."
 
 msgid "Could not create workspace. Check the target host and retry."
 msgstr "Не вдалося створити робочий простір. Перевірте цільовий хост і повторіть спробу."
@@ -1712,11 +1745,20 @@ msgstr "Власний"
 msgid "Custom branch prefix"
 msgstr "Власний префікс гілки"
 
+msgid "Custom fetch refspec is not supported"
+msgstr "Користувацький fetch refspec не підтримується"
+
 msgid "Custom notification sound"
 msgstr "Власний звук сповіщення"
 
 msgid "Custom prefix"
 msgstr "Власний префікс"
+
+msgid "Custom push refspec is not supported"
+msgstr "Користувацький push refspec не підтримується"
+
+msgid "Custom receive-pack is not supported"
+msgstr "Користувацький receive-pack не підтримується"
 
 msgid "Custom sound"
 msgstr "Власний звук"
@@ -1868,6 +1910,9 @@ msgstr "Результат доставки невідомий. Перевірт
 msgid "Delivery uncertain"
 msgstr "Результат доставки невідомий"
 
+msgid "Deny"
+msgstr "Заборонити"
+
 msgid "Describe a goal to start a new task."
 msgstr "Опишіть мету, щоб почати нове завдання."
 
@@ -1891,6 +1936,9 @@ msgstr "Цільовий шлях"
 
 msgid "Detached"
 msgstr "Від'єднано"
+
+msgid "Detached HEAD"
+msgstr "Відокремлений HEAD (Detached HEAD)"
 
 msgid "Details"
 msgstr "Подробиці"
@@ -1952,10 +2000,11 @@ msgstr "Скасування змін для перейменованих або
 msgid "Disconnected"
 msgstr "Від'єднано"
 
-#. placeholder {0}: formatNumber(logins.data.claude.length)
-#. placeholder {1}: formatNumber(logins.data.codex.length)
-msgid "Discovered {0} Claude Code and {1} Codex login profiles on this host."
-msgstr "Знайдено профілів входу на цьому хості: Claude Code — {0}, Codex — {1}."
+#. placeholder {0}: formatNumber(claudeCount)
+#. placeholder {1}: formatNumber(codexCount)
+#. placeholder {2}: formatNumber(agyCount)
+msgid "Discovered {0} Claude Code, {1} Codex, and {2} Antigravity accounts on this host. Kimi Code does not expose local account discovery."
+msgstr "На цьому хості виявлено облікових записів: Claude Code — {0}, Codex — {1}, Antigravity — {2}. Kimi Code не підтримує локальне виявлення облікових записів."
 
 msgid "Disk version"
 msgstr "Версія на диску"
@@ -2056,11 +2105,17 @@ msgstr "Типографіка редактора"
 msgid "Effort"
 msgstr "Глибина міркування"
 
+msgid "Effort:"
+msgstr "Глибина міркування:"
+
 msgid "Enable"
 msgstr "Увімкнути"
 
 msgid "Enabled"
 msgstr "Увімкнено"
+
+msgid "Ended"
+msgstr "Завершено"
 
 msgid "Endpoint"
 msgstr "Кінцева точка"
@@ -2094,6 +2149,9 @@ msgstr "Введіть абсолютний шлях до теки на ціль
 
 msgid "Enter an agent name."
 msgstr "Введіть ім'я агента."
+
+msgid "Enter DeepSeek API Key"
+msgstr "Введіть API-ключ DeepSeek"
 
 msgid "Enter the pairing code shown in Jedv on your computer."
 msgstr "Введіть код сполучення, показаний у Jedv на вашому комп’ютері."
@@ -2377,9 +2435,6 @@ msgstr "Фільтрувати агентів…"
 msgid "Find"
 msgstr "Знайти"
 
-msgid "Find and fix a bug"
-msgstr "Знайти й виправити помилку"
-
 msgid "Find in Changes"
 msgstr "Знайти в змінах"
 
@@ -2502,9 +2557,6 @@ msgstr "П'ятниця"
 
 msgid "From"
 msgstr "Звідки"
-
-msgid "From the task’s first sentence"
-msgstr "З першого речення завдання"
 
 msgid "Front matter hidden. Switch to the Markdown view to edit it"
 msgstr "Front matter приховано. Перейдіть у режим Markdown, щоб його редагувати"
@@ -2801,12 +2853,6 @@ msgstr "Імпортування вибраних робочих простор�
 msgid "Importing..."
 msgstr "Імпорт..."
 
-msgid "Improve agent instructions"
-msgstr "Покращити інструкції агента"
-
-msgid "In"
-msgstr "У"
-
 msgid "In Apple's window, click Install. It takes a few minutes, and this page updates when it's done."
 msgstr "У вікні Apple натисніть «Встановити». Це займе кілька хвилин, а сторінка оновиться, коли все буде готово."
 
@@ -2827,6 +2873,9 @@ msgstr "Вхідні"
 
 msgid "Include archived teams"
 msgstr "Включити архівні команди"
+
+msgid "Include internal mail"
+msgstr "Включити внутрішню пошту"
 
 msgid "Include the Linear ticket id from the prompt in the branch name (e.g. bin-344-fix-login). Prefix branches with fix/ or feat/ based on the task."
 msgstr "Додавайте ID тікета Linear із промпту до назви гілки (наприклад, bin-344-fix-login). Додавайте до назви гілки префікс fix/ або feat/ залежно від завдання."
@@ -2879,12 +2928,6 @@ msgstr "Інструкції"
 msgid "Instructions are available in the original mail."
 msgstr "Інструкції доступні в початковому повідомленні."
 
-msgid "Internal mail and diagnostics"
-msgstr "Внутрішні повідомлення та діагностика"
-
-msgid "Internal mail diagnostics"
-msgstr "Діагностика внутрішніх повідомлень"
-
 msgid "Interrupt"
 msgstr "Перервати"
 
@@ -2899,6 +2942,9 @@ msgstr "Перервано"
 
 msgid "Invalid memory JSON"
 msgstr "Некоректний JSON пам’яті"
+
+msgid "Invalid target branch name"
+msgstr "Неприпустима назва цільової гілки"
 
 msgid "Italic"
 msgstr "Курсив"
@@ -2935,6 +2981,9 @@ msgstr "Новий файл збережено, він змінився післ
 
 msgid "Kept the new folder because it is no longer empty"
 msgstr "Нову папку збережено, вона вже не порожня"
+
+msgid "Key reports"
+msgstr "Ключові звіти"
 
 msgid "Keyboard"
 msgstr "Клавіатура"
@@ -3034,6 +3083,9 @@ msgstr "Висота рядка"
 msgid "Link"
 msgstr "Посилання"
 
+msgid "Link behavior"
+msgstr "Поведінка посилань"
+
 msgid "Linked agent"
 msgstr "Пов'язаний агент"
 
@@ -3063,6 +3115,9 @@ msgstr "Завантажити ще"
 
 msgid "Loading"
 msgstr "Завантаження"
+
+msgid "Loading agent session…"
+msgstr "Завантаження сеансу агента…"
 
 msgid "Loading agents…"
 msgstr "Завантаження агентів…"
@@ -3178,8 +3233,14 @@ msgstr "Листів без підтвердження отримання: {acti
 msgid "Mail awaits acknowledgement"
 msgstr "Лист очікує підтвердження"
 
-msgid "Mail delivery needs attention. Open diagnostics to inspect the delivery."
-msgstr "Доставка повідомлення потребує уваги. Відкрийте діагностику, щоб перевірити її."
+msgid "Mail delivery info"
+msgstr "Інформація про доставку"
+
+msgid "Mail delivery needs attention. Expand to inspect the delivery."
+msgstr "Доставка листа потребує уваги. Розгорніть, щоб перевірити."
+
+msgid "Mail delivery needs attention. View original mail to inspect the delivery."
+msgstr "Доставка листа потребує уваги. Перегляньте вихідний лист, щоб перевірити."
 
 msgid "Mail has not been acknowledged. Reading it does not acknowledge it."
 msgstr "Лист не підтверджено. Читання не підтверджує його обробку."
@@ -3311,6 +3372,9 @@ msgstr "Повідомлення команді"
 msgid "Minimum contrast"
 msgstr "Мінімальний контраст"
 
+msgid "Mirror remotes are not supported"
+msgstr "Дзеркальні віддалені репозиторії не підтримуються"
+
 msgid "Mobile"
 msgstr "Мобільний доступ"
 
@@ -3319,6 +3383,9 @@ msgstr "Адреса мобільного доступу"
 
 msgid "Model"
 msgstr "Модель"
+
+msgid "Model:"
+msgstr "Модель:"
 
 msgid "Models"
 msgstr "Моделі"
@@ -3400,6 +3467,9 @@ msgstr "Цьому репозиторію відповідає кілька пр
 
 msgid "Multiple projects use this directory. Choose the project in the sidebar."
 msgstr "Цю теку використовує кілька проєктів. Виберіть проєкт на бічній панелі."
+
+msgid "Multiple push URLs are not supported"
+msgstr "Кілька URL для push не підтримуються"
 
 msgid "Mute notification sounds"
 msgstr "Вимкнути звук сповіщень"
@@ -3601,6 +3671,9 @@ msgstr "Немає перевірок"
 msgid "No checks reported"
 msgstr "Немає звітів про перевірки"
 
+msgid "No commits to push yet"
+msgstr "Ще немає комітів для надсилання"
+
 msgid "No completed project was found yet. The host may still be stopping or finishing the operation. Check again before retrying at this location."
 msgstr "Завершеного проєкту ще не знайдено. Хост може досі зупинятися або завершувати операцію. Перевірте ще раз перед повторною спробою в цьому розташуванні."
 
@@ -3642,6 +3715,9 @@ msgstr "Записів немає"
 
 msgid "No items."
 msgstr "Немає елементів."
+
+msgid "No key reports or instructions yet. Check All activity for full worker mail."
+msgstr "Ключових звітів або інструкцій ще немає. Усю пошту виконавців дивіться в розділі «Уся активність»."
 
 msgid "No linked pull requests"
 msgstr "Немає пов'язаних пул-реквестів"
@@ -3691,9 +3767,6 @@ msgstr "Без префікса"
 msgid "No prefix could be resolved from this host's identity."
 msgstr "Не вдалося визначити префікс з ідентичності цього хоста."
 
-msgid "No progress reports or decisions yet. Internal communication is available in diagnostics."
-msgstr "Звітів про перебіг роботи чи рішень поки немає. Внутрішнє листування доступне в діагностиці."
-
 msgid "No projects match your filters"
 msgstr "Жоден проєкт не відповідає вашим фільтрам"
 
@@ -3714,6 +3787,9 @@ msgstr "Немає пул-реквестів, що відповідають ва
 
 msgid "No recent Agent or Git activity was observed. Inspect the terminal before acting."
 msgstr "Нещодавню активність агента або Git не виявлено. Перевірте термінал перед дією."
+
+msgid "No remote configured"
+msgstr "Віддалений репозиторій не налаштовано"
 
 msgid "No removed projects"
 msgstr "Немає видалених проєктів"
@@ -3738,6 +3814,9 @@ msgstr "Завдання не призначено"
 
 msgid "No team"
 msgstr "Без команди"
+
+msgid "No team activity yet."
+msgstr "Командної активності ще немає."
 
 msgid "No teams yet"
 msgstr "Команд поки немає"
@@ -4166,6 +4245,9 @@ msgstr "ID віддаленого хоста"
 msgid "Pending"
 msgstr "Очікує"
 
+msgid "Pending approvals and important team updates will appear here."
+msgstr "Очікувані схвалення й важливі оновлення команди з’являться тут."
+
 msgid "Pending approvals and unread important faults"
 msgstr "Очікувані схвалення та непрочитані важливі збої"
 
@@ -4235,6 +4317,9 @@ msgstr "Підготування робочого простору на ціль
 msgid "Preset association could not be confirmed. Refresh and try again."
 msgstr "Не вдалося підтвердити зв'язок пресета. Оновіть дані й повторіть спробу."
 
+msgid "Presets"
+msgstr "Пресети"
+
 msgid "Presets are stored on this device. Run them explicitly from the workspace launcher."
 msgstr "Пресети зберігаються на цьому пристрої. Запускайте їх явно з панелі запуску робочого простору."
 
@@ -4279,9 +4364,6 @@ msgstr "Оброблені токени"
 
 msgid "Processing"
 msgstr "Обробка"
-
-msgid "Progress and decisions"
-msgstr "Перебіг роботи та рішення"
 
 msgid "Project"
 msgstr "Проєкт"
@@ -4373,14 +4455,20 @@ msgstr "Push завершено"
 msgid "Push this commit to the reviewed remote branch. A changed target requires a new confirmation."
 msgstr "Запуште цей коміт у перевірену віддалену гілку. Зміна цілі вимагає нового підтвердження."
 
+msgid "Push with follow-tags is not supported"
+msgstr "Надсилання з follow-tags не підтримується"
+
+msgid "Push with submodule recursion is not supported"
+msgstr "Надсилання з рекурсією підмодулів не підтримується"
+
 msgid "px"
 msgstr "px"
 
 msgid "Queue message"
 msgstr "Додати повідомлення в чергу"
 
-msgid "Queue waits for the agent. Interrupt requires safe support from the current session. Both require recipient acknowledgement; sending is not consumption."
-msgstr "Черга чекає на агента. Переривання потребує безпечної підтримки поточного сеансу. Обидва режими вимагають підтвердження одержувача; надсилання не означає опрацювання."
+msgid "Queue waits for the agent. Interrupt requires safe support from the current Codex session. Both require recipient acknowledgement; sending is not consumption."
+msgstr "Черга чекає на агента. Переривання потребує безпечної підтримки з боку поточного сеансу Codex. Обидва варіанти потребують підтвердження отримувача; надсилання не означає опрацювання."
 
 msgid "Queue; ⌘↩ to steer the running turn"
 msgstr "У чергу; ⌘↩, щоб скерувати поточний хід"
@@ -4485,9 +4573,6 @@ msgstr "Червоний"
 msgid "Refresh"
 msgstr "Оновити"
 
-msgid "Refresh agents"
-msgstr "Оновити агентів"
-
 msgid "Refresh capabilities"
 msgstr "Оновити можливості"
 
@@ -4559,6 +4644,9 @@ msgstr "віддалений"
 
 msgid "Remote"
 msgstr "Віддалений"
+
+msgid "Remote helper is not supported"
+msgstr "Віддалений помічник (remote helper) не підтримується"
 
 msgid "Remote port"
 msgstr "Віддалений порт"
@@ -4739,6 +4827,9 @@ msgstr "Скидання через {countdown} · {absolute}"
 
 msgid "Resets now"
 msgstr "Скидання зараз"
+
+msgid "Resolve conflicts before pushing"
+msgstr "Розв’яжіть конфлікти перед надсиланням"
 
 msgid "Resolve conversation"
 msgstr "Вирішити обговорення"
@@ -4960,6 +5051,9 @@ msgstr "працює"
 msgid "Running"
 msgstr "Виконується"
 
+msgid "Safe interruption is only supported for Codex sessions. Messages to other agents or the whole team are queued."
+msgstr "Безпечне переривання підтримується лише для сеансів Codex. Повідомлення іншим агентам або всій команді ставляться в чергу."
+
 msgid "Safe interruption is unavailable on this host. Queued mail waits for the agent; sending does not confirm consumption."
 msgstr "Безпечне переривання недоступне на цьому хості. Повідомлення в черзі чекають на агента; надсилання не підтверджує їх опрацювання."
 
@@ -5129,6 +5223,9 @@ msgstr "Пошук пул-реквестів…"
 
 msgid "Search repositories..."
 msgstr "Пошук репозиторіїв..."
+
+msgid "Search sessions…"
+msgstr "Пошук сеансів…"
 
 msgid "Search settings"
 msgstr "Пошук у налаштуваннях"
@@ -5327,9 +5424,6 @@ msgstr "Показувати команди агентів і закріплен
 msgid "Show Apple's installer"
 msgstr "Показати інсталятор Apple"
 
-msgid "Show decisions and exceptions"
-msgstr "Показати рішення та винятки"
-
 msgid "Show deleted workspaces"
 msgstr "Показати видалені робочі простори"
 
@@ -5363,9 +5457,6 @@ msgstr "Показувати використання локальних рес�
 msgid "Show more"
 msgstr "Показати більше"
 
-msgid "Show progress and decisions"
-msgstr "Показати перебіг роботи та рішення"
-
 msgid "Show Scripts Bar"
 msgstr "Показати панель скриптів"
 
@@ -5392,6 +5483,9 @@ msgstr "Показується один раз. Скопіюйте перед з
 
 msgid "Side by side"
 msgstr "Порівняння"
+
+msgid "Side-by-side diff requires a wider pane"
+msgstr "Порівняння поруч потребує ширшої панелі"
 
 msgid "Sidebar extensions"
 msgstr "Розширення бічної панелі"
@@ -5459,6 +5553,9 @@ msgstr "Розділити вздовж довшої сторони"
 msgid "Split diff"
 msgstr "Розділений diff"
 
+msgid "Split down"
+msgstr "Розділити вниз"
+
 msgid "Split Down"
 msgstr "Розділити вниз"
 
@@ -5473,6 +5570,9 @@ msgstr "Розділена панель"
 
 msgid "Split panes"
 msgstr "Розділити панелі"
+
+msgid "Split right"
+msgstr "Розділити праворуч"
 
 msgid "Split Right"
 msgstr "Розділити праворуч"
@@ -5522,8 +5622,8 @@ msgstr "Поставити зірку"
 msgid "Start a new agent, or choose an existing session from Sessions."
 msgstr "Запустіть нового агента або виберіть наявний сеанс у розділі «Сеанси»."
 
-msgid "Start an agent in a workspace, then create a team."
-msgstr "Запустіть агента в робочому просторі, а потім створіть команду."
+msgid "Start a session in a workspace, then create a team."
+msgstr "Запустіть сеанс у робочому просторі, а потім створіть команду."
 
 msgid "Start from a template"
 msgstr "Почати із шаблону"
@@ -5717,6 +5817,9 @@ msgstr "Ціль"
 #. placeholder {0}: session.context.hostLabel
 msgid "Target host: {0}"
 msgstr "Цільовий хост: {0}"
+
+msgid "Target workspace"
+msgstr "Цільовий робочий простір"
 
 msgid "Task"
 msgstr "Завдання"
@@ -6030,9 +6133,6 @@ msgstr "Ці нотатки постачаються із застосунком
 msgid "This action is irreversible."
 msgstr "Цю дію неможливо скасувати."
 
-msgid "This agent is no longer available. Choose another leader."
-msgstr "Цей агент більше недоступний. Виберіть іншого лідера."
-
 msgid "This API login does not expose subscription quota."
 msgstr "Цей вхід через API не надає даних про квоту підписки."
 
@@ -6194,6 +6294,9 @@ msgstr "Цей запуск не має сеансу агента"
 
 msgid "This session could not be resumed. No new session was started."
 msgstr "Не вдалося відновити цей сеанс. Новий сеанс не запущено."
+
+msgid "This session is no longer available. Choose another leader."
+msgstr "Цей сеанс більше недоступний. Виберіть іншого лідера."
 
 msgid "This session is not active, or you are viewing earlier output. Refresh to check its current state."
 msgstr "Цей сеанс неактивний або ви переглядаєте попередній вивід. Оновіть, щоб перевірити його поточний стан."
@@ -6357,6 +6460,9 @@ msgstr "Розшифрування…"
 msgid "Tree view"
 msgstr "Дерево"
 
+msgid "Trigger"
+msgstr "Тригер"
+
 msgid "Triggers"
 msgstr "Тригери"
 
@@ -6390,11 +6496,11 @@ msgstr "TypeScript"
 msgid "Typography"
 msgstr "Типографіка"
 
-msgid "Typography and cursor behavior used in V2 terminal panels."
-msgstr "Типографіка й поведінка курсора в панелях термінала V2."
+msgid "Typography and cursor behavior used in terminal panels."
+msgstr "Типографіка та поведінка курсора в панелях термінала."
 
-msgid "Typography used in V2 editors and diff views."
-msgstr "Типографіка в редакторах і переглядах diff V2."
+msgid "Typography used in editors and diff views."
+msgstr "Типографіка в редакторах і перегляді diff."
 
 msgid "Unable to check for updates."
 msgstr "Не вдалося перевірити оновлення."
@@ -6507,6 +6613,15 @@ msgstr "Зняти файл з індексу"
 msgid "Unstaged"
 msgstr "Не проіндексовано"
 
+msgid "Unsupported push URL"
+msgstr "Непідтримуваний URL для push"
+
+msgid "Unsupported push.default configuration"
+msgstr "Непідтримувана конфігурація push.default"
+
+msgid "Unsupported remote configuration"
+msgstr "Непідтримувана конфігурація віддаленого репозиторію"
+
 msgid "Untitled automation"
 msgstr "Автоматизація без назви"
 
@@ -6559,6 +6674,9 @@ msgstr "Завантажити файли"
 
 msgid "Upload image…"
 msgstr "Завантажити зображення…"
+
+msgid "Upstream remote does not match push remote"
+msgstr "Віддалений upstream не збігається з віддаленим push"
 
 msgid "URL copied"
 msgstr "URL-адресу скопійовано"
@@ -6768,6 +6886,9 @@ msgstr "Навігація робочим простором"
 
 msgid "Workspace not found"
 msgstr "Робочий простір не знайдено"
+
+msgid "Workspace or branch name (optional)"
+msgstr "Назва робочого простору або гілки (необов’язково)"
 
 msgid "Workspace or running session state changed. Review the updated checks and confirm again."
 msgstr "Стан робочого простору або запущеного сеансу змінився. Перегляньте оновлені перевірки й підтвердьте ще раз."

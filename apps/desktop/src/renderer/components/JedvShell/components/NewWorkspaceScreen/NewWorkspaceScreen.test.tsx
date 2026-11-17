@@ -21,11 +21,24 @@ function fixture(create: (input: unknown) => Promise<unknown>) {
 	const closed = mock(() => {});
 	const refresh = mock(async () => {});
 	const wait = mock(async () => true);
+	const upload = mock(async () => ({
+		attachmentId: "11111111-1111-4111-8111-111111111111",
+		originalFilename: "pasted.png",
+		mediaType: "image/png",
+		sizeBytes: 4,
+	}));
+	const materializeIntoWorkspace = mock(async () => ({
+		paths: [".jedv/attachments/pasted.png"],
+	}));
 	const context = {
 		hostUrl: "http://fixture.invalid",
 		hostLabel: "Local fixture",
 		isRemote: false,
 		client: {
+			attachments: {
+				upload: { mutate: upload },
+				materializeIntoWorkspace: { mutate: materializeIntoWorkspace },
+			},
 			settings: {
 				agentConfigs: {
 					list: {
@@ -71,7 +84,17 @@ function fixture(create: (input: unknown) => Promise<unknown>) {
 	const editor = screen.getByRole("textbox", {
 		name: "What do you want to do?",
 	});
-	return { screen, editor, mutate, opened, closed, wait, refresh };
+	return {
+		screen,
+		editor,
+		mutate,
+		opened,
+		closed,
+		wait,
+		refresh,
+		upload,
+		materializeIntoWorkspace,
+	};
 }
 const successful = {
 	workspace: { id: "created" },
@@ -219,4 +242,136 @@ test("schema rejection unlocks the draft for correction without losing its promp
 	);
 	expect((f.editor as HTMLTextAreaElement).disabled).toBe(false);
 	expect((f.editor as HTMLTextAreaElement).value).toBe("Fix this request");
+});
+
+test("Escape closes NewWorkspaceScreen when not pending, textarea uses resize-none, and suggestion chips are omitted", async () => {
+	const f = fixture(async () => successful);
+	await waitFor(() =>
+		expect(
+			f.screen
+				.getByRole("button", { name: "Create workspace" })
+				.hasAttribute("disabled"),
+		).toBe(false),
+	);
+	expect(f.editor.className).toContain("resize-none");
+	expect(f.screen.queryByText("Find and fix a bug")).toBeNull();
+	expect(f.screen.queryByText("Improve agent instructions")).toBeNull();
+
+	// Select "None" agent via Agent combobox
+	fireEvent.click(f.screen.getByRole("combobox", { name: "Agent" }));
+	fireEvent.click(await f.screen.findByRole("option", { name: "None" }));
+
+	expect(
+		f.screen.getByRole("textbox", {
+			name: "Workspace or branch name (optional)",
+		}),
+	).toBeTruthy();
+
+	fireEvent.keyDown(window, { key: "Escape" });
+	expect(f.closed).toHaveBeenCalledTimes(1);
+});
+
+test("pasting an image into NewWorkspaceScreen previews it, uploads it, and passes attachmentIds to workspaces.create", async () => {
+	const f = fixture(async () => successful);
+	await waitFor(() =>
+		expect(
+			f.screen
+				.getByRole("button", { name: "Create workspace" })
+				.hasAttribute("disabled"),
+		).toBe(false),
+	);
+	const pngFile = new File([new Uint8Array([137, 80, 78, 71])], "pasted.png", {
+		type: "image/png",
+	});
+	fireEvent.paste(f.editor, {
+		clipboardData: {
+			files: [pngFile],
+			items: [{ kind: "file", getAsFile: () => pngFile }],
+		},
+	});
+	expect(await f.screen.findByText("pasted.png")).toBeTruthy();
+	fireEvent.click(f.screen.getByRole("button", { name: "Create workspace" }));
+	await waitFor(() => expect(f.mutate).toHaveBeenCalledTimes(1));
+	expect(f.upload).toHaveBeenCalledTimes(1);
+	expect(f.mutate.mock.calls[0]?.[0]).toMatchObject({
+		agents: [
+			{
+				agent: "codex-config",
+				prompt: "",
+				attachmentIds: ["11111111-1111-4111-8111-111111111111"],
+			},
+		],
+	});
+});
+
+test("Model and Effort selects render prefixed labels and model group headers", async () => {
+	const mutate = mock(async () => successful);
+	const upload = mock(async () => ({
+		attachmentId: "11111111-1111-4111-8111-111111111111",
+		originalFilename: "pasted.png",
+		mediaType: "image/png",
+		sizeBytes: 4,
+	}));
+	const materializeIntoWorkspace = mock(async () => ({
+		paths: [".jedv/attachments/pasted.png"],
+	}));
+	const context = {
+		hostUrl: "http://fixture.invalid",
+		hostLabel: "Local fixture",
+		isRemote: false,
+		client: {
+			attachments: {
+				upload: { mutate: upload },
+				materializeIntoWorkspace: { mutate: materializeIntoWorkspace },
+			},
+			settings: {
+				agentConfigs: {
+					list: {
+						query: async () => [
+							{
+								id: "claude-config",
+								presetId: "claude",
+								label: "Claude Code",
+								iconId: null,
+							},
+						],
+					},
+				},
+			},
+			workspaceCreation: {
+				searchBranches: {
+					query: async () => ({
+						items: [],
+						defaultBranch: "main",
+						nextCursor: null,
+					}),
+				},
+			},
+			workspaces: { create: { mutate } },
+		},
+	} as unknown as ProjectActionContext;
+	const screen = render(
+		<QueryClientProvider
+			client={
+				new QueryClient({ defaultOptions: { queries: { retry: false } } })
+			}
+		>
+			<NewWorkspaceScreen
+				context={context}
+				projects={[{ id: "project", name: "Fixture" }]}
+				readWaitForSetup={async () => true}
+				onCreated={async () => {}}
+				onRefresh={async () => {}}
+				onClose={() => {}}
+			/>
+		</QueryClientProvider>,
+	);
+	const modelTrigger = await screen.findByRole("combobox", { name: "Model" });
+	const effortTrigger = screen.getByRole("combobox", { name: "Effort" });
+	expect(modelTrigger.textContent).toContain("Model:");
+	expect(effortTrigger.textContent).toContain("Effort:");
+
+	fireEvent.click(modelTrigger);
+	expect(await screen.findByText("Latest")).toBeTruthy();
+	expect(screen.getByText("Pinned releases")).toBeTruthy();
 });

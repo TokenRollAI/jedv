@@ -11,7 +11,11 @@ import { Popover, PopoverContent, PopoverTrigger } from "@jedv/ui/popover";
 import { Trans, useLingui } from "@lingui/react/macro";
 import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
 import { useMemo, useState } from "react";
-import { parsePrimaryFamily } from "../../font-utils";
+import {
+	isExcludedSymbolFont,
+	parsePrimaryFamily,
+	withMonospaceFallback,
+} from "../../font-utils";
 import type { FontInfo } from "../../hooks/useSystemFonts";
 
 interface FontFamilyComboboxProps {
@@ -51,12 +55,15 @@ export function FontFamilyCombobox({
 		const mono: FontInfo[] = [];
 		const other: FontInfo[] = [];
 		for (const font of fonts) {
+			if (variant === "terminal" && isExcludedSymbolFont(font.family)) {
+				continue;
+			}
 			if (font.category === "nerd") nerd.push(font);
 			else if (font.category === "mono") mono.push(font);
 			else other.push(font);
 		}
 		return { nerdFonts: nerd, monoFonts: mono, otherFonts: other };
-	}, [fonts]);
+	}, [fonts, variant]);
 
 	// Terminal fonts must be monospace — arbitrary free-form names would let
 	// users pick proportional fonts (see issue #3513), so the custom-entry
@@ -88,7 +95,7 @@ export function FontFamilyCombobox({
 					>
 						<span
 							className="truncate flex-1"
-							style={{ fontFamily: `"${font.family}"` }}
+							style={{ fontFamily: withMonospaceFallback(font.family) }}
 						>
 							{font.family}
 						</span>
@@ -111,7 +118,7 @@ export function FontFamilyCombobox({
 				>
 					<span
 						className="truncate"
-						style={{ fontFamily: `"${displayLabel}"` }}
+						style={{ fontFamily: withMonospaceFallback(displayLabel) }}
 					>
 						{fontsLoading ? <Trans>Loading fonts...</Trans> : displayLabel}
 					</span>

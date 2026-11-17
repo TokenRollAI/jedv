@@ -346,9 +346,6 @@ msgstr "Añadir proyecto desde carpeta"
 msgid "Add Project from Folder..."
 msgstr "Añadir proyecto desde carpeta..."
 
-msgid "Add tests where coverage is missing"
-msgstr "Añadir pruebas donde falte cobertura"
-
 msgid "Add to Dictionary"
 msgstr "Añadir al diccionario"
 
@@ -464,6 +461,9 @@ msgstr "Activo"
 msgid "All"
 msgstr "Todas"
 
+msgid "All activity"
+msgstr "Toda la actividad"
+
 msgid "All commits"
 msgstr "Todos los commits"
 
@@ -491,11 +491,17 @@ msgstr "Permitir"
 msgid "Allow microphone access to use dictation"
 msgstr "Permitir el acceso al micrófono para usar el dictado"
 
+msgid "Allow once"
+msgstr "Permitir una vez"
+
 msgid "Already open"
 msgstr "Ya está abierto"
 
 msgid "Also delete local branch"
 msgstr "Eliminar también la rama local"
+
+msgid "Ambiguous upstream branch configuration"
+msgstr "Configuración ambigua de la rama upstream"
 
 msgid "An automation did not complete. Inspect its run on your computer."
 msgstr "Una automatización no se completó. Revisa su ejecución en el ordenador."
@@ -633,6 +639,9 @@ msgstr "Pedir cambios, mencionar archivos con @, ejecutar /comandos"
 msgid "Associated provider tokens will be revoked."
 msgstr "Se revocarán los tokens de proveedor asociados."
 
+msgid "At most {MAX_ATTACHMENTS} attachments can be added."
+msgstr "Se pueden añadir como máximo {MAX_ATTACHMENTS} archivos adjuntos."
+
 msgid "Attach"
 msgstr "Adjuntar"
 
@@ -652,6 +661,9 @@ msgstr "Adjunto"
 #. placeholder {1}: cause.problem
 msgid "Attachment {0} could not be copied: {1}"
 msgstr "No se pudo copiar el archivo adjunto {0}: {1}"
+
+msgid "Attachment is too large (maximum 10 MB)."
+msgstr "El archivo adjunto es demasiado grande (máximo 10 MB)."
 
 msgid "Attachment limits exceeded"
 msgstr "Se superaron los límites de los archivos adjuntos"
@@ -676,6 +688,9 @@ msgstr "Automático (sistema)"
 
 msgid "Auto save"
 msgstr "Guardado automático"
+
+msgid "Auto-derived from task (optional)"
+msgstr "Derivado automáticamente de la tarea (opcional)"
 
 msgid "Automatic delivery paused"
 msgstr "Entrega automática pausada"
@@ -739,6 +754,9 @@ msgstr "Atrás"
 
 msgid "Back to automations"
 msgstr "Volver a automatizaciones"
+
+msgid "Back to changes"
+msgstr "Volver a los cambios"
 
 msgid "Back to current conversation"
 msgstr "Volver a la conversación actual"
@@ -850,6 +868,9 @@ msgstr "No se puede {action}: no hay ninguna organización activa seleccionada. 
 msgid "Cannot {action}: the local host service is unavailable for {organization} on {device}. Status: {status}. {recovery}"
 msgstr "No se puede {action}: el servicio de host local no está disponible para {organization} en {device}. Estado: {status}. {recovery}"
 
+msgid "Cascading URL rewrite is not supported"
+msgstr "No se admite la reescritura de URL en cascada"
+
 msgid "Category"
 msgstr "Categoría"
 
@@ -888,6 +909,9 @@ msgstr "Chat"
 
 msgid "Chat is being reworked"
 msgstr "El chat se está rehaciendo"
+
+msgid "Chat session"
+msgstr "Sesión de chat"
 
 msgid "Check for updates"
 msgstr "Buscar actualizaciones"
@@ -964,8 +988,8 @@ msgstr "Elige un proyecto o espacio de trabajo"
 msgid "Choose a project to start working."
 msgstr "Elige un proyecto para empezar a trabajar."
 
-msgid "Choose a running agent as leader to start collaborating."
-msgstr "Elige un agente en ejecución como líder para empezar a colaborar."
+msgid "Choose a running session as leader to start collaborating."
+msgstr "Elige una sesión en ejecución como líder para empezar a colaborar."
 
 msgid "Choose a saved screenshot to attach. Files are copied only when you submit the prompt."
 msgstr "Elige una captura de pantalla guardada para adjuntar. Los archivos solo se copian cuando envías el prompt."
@@ -999,6 +1023,9 @@ msgstr "Borrar clave API"
 
 msgid "Clear API key?"
 msgstr "¿Borrar la clave API?"
+
+msgid "Clear filters"
+msgstr "Limpiar filtros"
 
 msgid "Clear saved screenshots?"
 msgstr "¿Borrar las capturas de pantalla guardadas?"
@@ -1236,6 +1263,12 @@ msgstr "Configurar"
 msgid "Configure agent commands for the connected host."
 msgstr "Configura los comandos del agente para el host conectado."
 
+msgid "Configure how URLs, files, and folders open when clicked in terminals."
+msgstr "Configura cómo se abren las URL, los archivos y las carpetas al hacer clic en los terminales."
+
+msgid "Configure in Files & editor"
+msgstr "Configurar en Archivos y editor"
+
 msgid "Configured"
 msgstr "Configurado"
 
@@ -1453,8 +1486,8 @@ msgstr "No se pudo confirmar esta sesión. Actualiza antes de volver a intentarl
 msgid "Could not copy. Select the text below to copy it."
 msgstr "No se pudo copiar. Selecciona el texto de abajo para copiarlo."
 
-msgid "Could not create team. Refresh the agents and retry."
-msgstr "No se pudo crear el equipo. Actualiza los agentes y vuelve a intentarlo."
+msgid "Could not create team. Refresh the sessions and retry."
+msgstr "No se pudo crear el equipo. Actualiza las sesiones e inténtalo de nuevo."
 
 msgid "Could not create workspace. Check the target host and retry."
 msgstr "No se pudo crear el espacio de trabajo. Comprueba el host de destino y vuelve a intentarlo."
@@ -1718,11 +1751,20 @@ msgstr "Personalizado"
 msgid "Custom branch prefix"
 msgstr "Prefijo de rama personalizado"
 
+msgid "Custom fetch refspec is not supported"
+msgstr "No se admite el refspec de fetch personalizado"
+
 msgid "Custom notification sound"
 msgstr "Sonido de notificación personalizado"
 
 msgid "Custom prefix"
 msgstr "Prefijo personalizado"
+
+msgid "Custom push refspec is not supported"
+msgstr "No se admite el refspec de push personalizado"
+
+msgid "Custom receive-pack is not supported"
+msgstr "No se admite receive-pack personalizado"
 
 msgid "Custom sound"
 msgstr "Sonido personalizado"
@@ -1874,6 +1916,9 @@ msgstr "El resultado de la entrega es incierto. Revisa el terminal antes de volv
 msgid "Delivery uncertain"
 msgstr "Entrega incierta"
 
+msgid "Deny"
+msgstr "Denegar"
+
 msgid "Describe a goal to start a new task."
 msgstr "Describe un objetivo para iniciar una nueva tarea."
 
@@ -1897,6 +1942,9 @@ msgstr "Ruta de destino"
 
 msgid "Detached"
 msgstr "Desconectada"
+
+msgid "Detached HEAD"
+msgstr "HEAD desacoplado"
 
 msgid "Details"
 msgstr "Detalles"
@@ -1958,10 +2006,11 @@ msgstr "No se pueden descartar los cambios de archivos renombrados o copiados. R
 msgid "Disconnected"
 msgstr "Desconectado"
 
-#. placeholder {0}: formatNumber(logins.data.claude.length)
-#. placeholder {1}: formatNumber(logins.data.codex.length)
-msgid "Discovered {0} Claude Code and {1} Codex login profiles on this host."
-msgstr "Se encontraron perfiles de inicio de sesión en este host: Claude Code {0}, Codex {1}."
+#. placeholder {0}: formatNumber(claudeCount)
+#. placeholder {1}: formatNumber(codexCount)
+#. placeholder {2}: formatNumber(agyCount)
+msgid "Discovered {0} Claude Code, {1} Codex, and {2} Antigravity accounts on this host. Kimi Code does not expose local account discovery."
+msgstr "Se detectaron {0} cuentas de Claude Code, {1} de Codex y {2} de Antigravity en este host. Kimi Code no expone detección local de cuentas."
 
 msgid "Disk version"
 msgstr "Versión en disco"
@@ -2062,11 +2111,17 @@ msgstr "Tipografía del editor"
 msgid "Effort"
 msgstr "Esfuerzo de razonamiento"
 
+msgid "Effort:"
+msgstr "Esfuerzo de razonamiento:"
+
 msgid "Enable"
 msgstr "Activar"
 
 msgid "Enabled"
 msgstr "Habilitado"
+
+msgid "Ended"
+msgstr "Finalizada"
 
 msgid "Endpoint"
 msgstr "Punto de conexión"
@@ -2100,6 +2155,9 @@ msgstr "Introduce una ruta de directorio absoluta en el host de destino."
 
 msgid "Enter an agent name."
 msgstr "Introduce un nombre para el agente."
+
+msgid "Enter DeepSeek API Key"
+msgstr "Introduce la clave API de DeepSeek"
 
 msgid "Enter the pairing code shown in Jedv on your computer."
 msgstr "Introduce el código de vinculación que aparece en Jedv en tu ordenador."
@@ -2383,9 +2441,6 @@ msgstr "Filtrar agentes…"
 msgid "Find"
 msgstr "Buscar"
 
-msgid "Find and fix a bug"
-msgstr "Encontrar y corregir un error"
-
 msgid "Find in Changes"
 msgstr "Buscar en los cambios"
 
@@ -2508,9 +2563,6 @@ msgstr "Viernes"
 
 msgid "From"
 msgstr "De"
-
-msgid "From the task’s first sentence"
-msgstr "A partir de la primera frase de la tarea"
 
 msgid "Front matter hidden. Switch to the Markdown view to edit it"
 msgstr "Front matter oculto: cambia a la vista Markdown para editarlo"
@@ -2807,12 +2859,6 @@ msgstr "Importando espacios de trabajo seleccionados…"
 msgid "Importing..."
 msgstr "Importando..."
 
-msgid "Improve agent instructions"
-msgstr "Mejorar las instrucciones del agente"
-
-msgid "In"
-msgstr "En"
-
 msgid "In Apple's window, click Install. It takes a few minutes, and this page updates when it's done."
 msgstr "En la ventana de Apple, haz clic en Instalar. Tarda unos minutos y esta página se actualiza cuando termina."
 
@@ -2833,6 +2879,9 @@ msgstr "Bandeja de entrada"
 
 msgid "Include archived teams"
 msgstr "Incluir equipos archivados"
+
+msgid "Include internal mail"
+msgstr "Incluir correo interno"
 
 msgid "Include the Linear ticket id from the prompt in the branch name (e.g. bin-344-fix-login). Prefix branches with fix/ or feat/ based on the task."
 msgstr "Incluye en el nombre de la rama el id del ticket de Linear que aparece en el prompt (p. ej. bin-344-fix-login). Añade el prefijo fix/ o feat/ según la tarea."
@@ -2885,12 +2934,6 @@ msgstr "Instrucciones"
 msgid "Instructions are available in the original mail."
 msgstr "Las instrucciones están disponibles en el correo original."
 
-msgid "Internal mail and diagnostics"
-msgstr "Correo interno y diagnóstico"
-
-msgid "Internal mail diagnostics"
-msgstr "Diagnóstico del correo interno"
-
 msgid "Interrupt"
 msgstr "Interrumpir"
 
@@ -2905,6 +2948,9 @@ msgstr "Interrumpido"
 
 msgid "Invalid memory JSON"
 msgstr "JSON de memoria no válido"
+
+msgid "Invalid target branch name"
+msgstr "Nombre de rama de destino no válido"
 
 msgid "Italic"
 msgstr "Cursiva"
@@ -2941,6 +2987,9 @@ msgstr "Se conservó el archivo nuevo: cambió después de crearse"
 
 msgid "Kept the new folder because it is no longer empty"
 msgstr "Se conservó la carpeta nueva: ya no está vacía"
+
+msgid "Key reports"
+msgstr "Informes clave"
 
 msgid "Keyboard"
 msgstr "Teclado"
@@ -3040,6 +3089,9 @@ msgstr "Interlineado"
 msgid "Link"
 msgstr "Enlace"
 
+msgid "Link behavior"
+msgstr "Comportamiento de enlaces"
+
 msgid "Linked agent"
 msgstr "Agente vinculado"
 
@@ -3069,6 +3121,9 @@ msgstr "Cargar más"
 
 msgid "Loading"
 msgstr "Cargando"
+
+msgid "Loading agent session…"
+msgstr "Cargando sesión del agente…"
 
 msgid "Loading agents…"
 msgstr "Cargando agentes…"
@@ -3184,8 +3239,14 @@ msgstr "Correos pendientes de confirmación: {activeCount}"
 msgid "Mail awaits acknowledgement"
 msgstr "Correo pendiente de confirmación"
 
-msgid "Mail delivery needs attention. Open diagnostics to inspect the delivery."
-msgstr "La entrega del correo requiere atención. Abre el diagnóstico para revisar la entrega."
+msgid "Mail delivery info"
+msgstr "Información de entrega"
+
+msgid "Mail delivery needs attention. Expand to inspect the delivery."
+msgstr "La entrega del correo requiere atención. Expande para inspeccionarla."
+
+msgid "Mail delivery needs attention. View original mail to inspect the delivery."
+msgstr "La entrega del correo requiere atención. Consulta el correo original para inspeccionarla."
 
 msgid "Mail has not been acknowledged. Reading it does not acknowledge it."
 msgstr "El correo no se ha confirmado. Leerlo no confirma su gestión."
@@ -3317,6 +3378,9 @@ msgstr "Mensaje al equipo"
 msgid "Minimum contrast"
 msgstr "Contraste mínimo"
 
+msgid "Mirror remotes are not supported"
+msgstr "No se admiten remotos espejo"
+
 msgid "Mobile"
 msgstr "Móvil"
 
@@ -3325,6 +3389,9 @@ msgstr "Dirección de acceso móvil"
 
 msgid "Model"
 msgstr "Modelo"
+
+msgid "Model:"
+msgstr "Modelo:"
 
 msgid "Models"
 msgstr "Modelos"
@@ -3406,6 +3473,9 @@ msgstr "Varios proyectos coinciden con este repositorio. Abre primero el proyect
 
 msgid "Multiple projects use this directory. Choose the project in the sidebar."
 msgstr "Varios proyectos usan este directorio. Elige el proyecto en la barra lateral."
+
+msgid "Multiple push URLs are not supported"
+msgstr "No se admiten múltiples URL de push"
 
 msgid "Mute notification sounds"
 msgstr "Silenciar sonidos de notificación"
@@ -3607,6 +3677,9 @@ msgstr "Sin comprobaciones"
 msgid "No checks reported"
 msgstr "Sin comprobaciones"
 
+msgid "No commits to push yet"
+msgstr "Aún no hay commits para hacer push"
+
 msgid "No completed project was found yet. The host may still be stopping or finishing the operation. Check again before retrying at this location."
 msgstr "Todavía no se ha encontrado ningún proyecto completado. Es posible que el host siga deteniendo o finalizando la operación. Vuelve a comprobarlo antes de reintentarlo en esta ubicación."
 
@@ -3648,6 +3721,9 @@ msgstr "No hay elementos"
 
 msgid "No items."
 msgstr "No hay elementos."
+
+msgid "No key reports or instructions yet. Check All activity for full worker mail."
+msgstr "Aún no hay informes clave ni instrucciones. Revisa Toda la actividad para ver todos los mensajes."
 
 msgid "No linked pull requests"
 msgstr "No hay PR vinculadas"
@@ -3697,9 +3773,6 @@ msgstr "Sin prefijo"
 msgid "No prefix could be resolved from this host's identity."
 msgstr "No se pudo resolver ningún prefijo a partir de la identidad de este host."
 
-msgid "No progress reports or decisions yet. Internal communication is available in diagnostics."
-msgstr "Todavía no hay informes de progreso ni decisiones. La comunicación interna está disponible en el diagnóstico."
-
 msgid "No projects match your filters"
 msgstr "Ningún proyecto coincide con tus filtros"
 
@@ -3720,6 +3793,9 @@ msgstr "Ninguna pull request coincide con tus filtros"
 
 msgid "No recent Agent or Git activity was observed. Inspect the terminal before acting."
 msgstr "No se observó actividad reciente del agente ni de Git. Revisa el terminal antes de actuar."
+
+msgid "No remote configured"
+msgstr "No hay ningún remoto configurado"
 
 msgid "No removed projects"
 msgstr "No hay proyectos eliminados"
@@ -3744,6 +3820,9 @@ msgstr "Sin tarea asignada"
 
 msgid "No team"
 msgstr "Sin equipo"
+
+msgid "No team activity yet."
+msgstr "Aún no hay actividad del equipo."
 
 msgid "No teams yet"
 msgstr "Aún no hay equipos"
@@ -4172,6 +4251,9 @@ msgstr "ID del host par"
 msgid "Pending"
 msgstr "Pendiente"
 
+msgid "Pending approvals and important team updates will appear here."
+msgstr "Las aprobaciones pendientes y actualizaciones importantes del equipo aparecerán aquí."
+
 msgid "Pending approvals and unread important faults"
 msgstr "Aprobaciones pendientes y fallos importantes sin leer"
 
@@ -4241,6 +4323,9 @@ msgstr "Preparando espacio de trabajo en el host de destino…"
 msgid "Preset association could not be confirmed. Refresh and try again."
 msgstr "No se pudo confirmar la asociación del preajuste. Actualiza y vuelve a intentarlo."
 
+msgid "Presets"
+msgstr "Preajustes"
+
 msgid "Presets are stored on this device. Run them explicitly from the workspace launcher."
 msgstr "Los preajustes se almacenan en este dispositivo. Ejecutálos explícitamente desde el lanzador del espacio de trabajo."
 
@@ -4285,9 +4370,6 @@ msgstr "Tokens procesados"
 
 msgid "Processing"
 msgstr "Procesando"
-
-msgid "Progress and decisions"
-msgstr "Progreso y decisiones"
 
 msgid "Project"
 msgstr "Proyecto"
@@ -4379,14 +4461,20 @@ msgstr "Envío completado"
 msgid "Push this commit to the reviewed remote branch. A changed target requires a new confirmation."
 msgstr "Envía este commit a la rama remota revisada. Un destino modificado requiere una nueva confirmación."
 
+msgid "Push with follow-tags is not supported"
+msgstr "No se admite push con follow-tags"
+
+msgid "Push with submodule recursion is not supported"
+msgstr "No se admite push con recursión de submódulos"
+
 msgid "px"
 msgstr "px"
 
 msgid "Queue message"
 msgstr "Poner mensaje en cola"
 
-msgid "Queue waits for the agent. Interrupt requires safe support from the current session. Both require recipient acknowledgement; sending is not consumption."
-msgstr "La cola espera al agente. La interrupción requiere que la sesión actual la admita de forma segura. Ambos modos requieren confirmación del destinatario; enviar no significa procesar."
+msgid "Queue waits for the agent. Interrupt requires safe support from the current Codex session. Both require recipient acknowledgement; sending is not consumption."
+msgstr "La cola espera al agente. Interrumpir requiere soporte seguro de la sesión actual de Codex. Ambos requieren confirmación del destinatario; enviar no implica procesamiento."
 
 msgid "Queue; ⌘↩ to steer the running turn"
 msgstr "En cola; ⌘↩ para redirigir el turno en curso"
@@ -4491,9 +4579,6 @@ msgstr "Rojo"
 msgid "Refresh"
 msgstr "Actualizar"
 
-msgid "Refresh agents"
-msgstr "Actualizar agentes"
-
 msgid "Refresh capabilities"
 msgstr "Actualizar capacidades"
 
@@ -4565,6 +4650,9 @@ msgstr "remoto"
 
 msgid "Remote"
 msgstr "Remoto"
+
+msgid "Remote helper is not supported"
+msgstr "No se admite el asistente remoto"
 
 msgid "Remote port"
 msgstr "Puerto remoto"
@@ -4745,6 +4833,9 @@ msgstr "Se reinicia en {countdown} · {absolute}"
 
 msgid "Resets now"
 msgstr "Se reinicia ahora"
+
+msgid "Resolve conflicts before pushing"
+msgstr "Resuelve los conflictos antes de hacer push"
 
 msgid "Resolve conversation"
 msgstr "Resolver la conversación"
@@ -4966,6 +5057,9 @@ msgstr "en ejecución"
 msgid "Running"
 msgstr "En ejecución"
 
+msgid "Safe interruption is only supported for Codex sessions. Messages to other agents or the whole team are queued."
+msgstr "La interrupción segura solo es compatible con sesiones de Codex. Los mensajes a otros agentes o a todo el equipo se ponen en cola."
+
 msgid "Safe interruption is unavailable on this host. Queued mail waits for the agent; sending does not confirm consumption."
 msgstr "La interrupción segura no está disponible en este host. El correo en cola espera al agente; enviarlo no confirma que se haya procesado."
 
@@ -5135,6 +5229,9 @@ msgstr "Buscar pull requests…"
 
 msgid "Search repositories..."
 msgstr "Buscar repositorios..."
+
+msgid "Search sessions…"
+msgstr "Buscar sesiones…"
 
 msgid "Search settings"
 msgstr "Buscar en la configuración"
@@ -5333,9 +5430,6 @@ msgstr "Muestra los comandos de agente y los preajustes de terminal fijados enci
 msgid "Show Apple's installer"
 msgstr "Mostrar el instalador de Apple"
 
-msgid "Show decisions and exceptions"
-msgstr "Mostrar decisiones y excepciones"
-
 msgid "Show deleted workspaces"
 msgstr "Mostrar espacios de trabajo eliminados"
 
@@ -5369,9 +5463,6 @@ msgstr "Muestra el uso de recursos locales en el espacio de trabajo."
 msgid "Show more"
 msgstr "Mostrar más"
 
-msgid "Show progress and decisions"
-msgstr "Mostrar progreso y decisiones"
-
 msgid "Show Scripts Bar"
 msgstr "Mostrar barra de scripts"
 
@@ -5398,6 +5489,9 @@ msgstr "Se muestra una sola vez. Cópialo antes de cerrar."
 
 msgid "Side by side"
 msgstr "Lado a lado"
+
+msgid "Side-by-side diff requires a wider pane"
+msgstr "La vista diff en paralelo requiere un panel más ancho"
 
 msgid "Sidebar extensions"
 msgstr "Extensiones de la barra lateral"
@@ -5465,6 +5559,9 @@ msgstr "Dividir por el lado más largo"
 msgid "Split diff"
 msgstr "Diff dividido"
 
+msgid "Split down"
+msgstr "Dividir hacia abajo"
+
 msgid "Split Down"
 msgstr "Dividir hacia abajo"
 
@@ -5479,6 +5576,9 @@ msgstr "Dividir panel"
 
 msgid "Split panes"
 msgstr "Dividir paneles"
+
+msgid "Split right"
+msgstr "Dividir hacia la derecha"
 
 msgid "Split Right"
 msgstr "Dividir hacia la derecha"
@@ -5528,8 +5628,8 @@ msgstr "Destacar"
 msgid "Start a new agent, or choose an existing session from Sessions."
 msgstr "Inicia un agente nuevo o elige una sesión existente en Sesiones."
 
-msgid "Start an agent in a workspace, then create a team."
-msgstr "Inicia un agente en un espacio de trabajo y después crea un equipo."
+msgid "Start a session in a workspace, then create a team."
+msgstr "Inicia una sesión en un espacio de trabajo y luego crea un equipo."
 
 msgid "Start from a template"
 msgstr "Empezar desde una plantilla"
@@ -5723,6 +5823,9 @@ msgstr "Destino"
 #. placeholder {0}: session.context.hostLabel
 msgid "Target host: {0}"
 msgstr "Host de destino: {0}"
+
+msgid "Target workspace"
+msgstr "Espacio de trabajo de destino"
 
 msgid "Task"
 msgstr "Tarea"
@@ -6036,9 +6139,6 @@ msgstr "Estas notas se incluyen con la aplicación. Los detalles de las versione
 msgid "This action is irreversible."
 msgstr "Esta acción es irreversible."
 
-msgid "This agent is no longer available. Choose another leader."
-msgstr "Este agente ya no está disponible. Elige otro líder."
-
 msgid "This API login does not expose subscription quota."
 msgstr "Este inicio de sesión de API no expone la cuota de la suscripción."
 
@@ -6200,6 +6300,9 @@ msgstr "Esta ejecución no tiene sesión de agente"
 
 msgid "This session could not be resumed. No new session was started."
 msgstr "No se pudo reanudar esta sesión. No se inició ninguna nueva sesión."
+
+msgid "This session is no longer available. Choose another leader."
+msgstr "Esta sesión ya no está disponible. Elige otro líder."
 
 msgid "This session is not active, or you are viewing earlier output. Refresh to check its current state."
 msgstr "Esta sesión no está activa o estás viendo una salida anterior. Actualiza para comprobar su estado actual."
@@ -6363,6 +6466,9 @@ msgstr "Transcribiendo…"
 msgid "Tree view"
 msgstr "Vista de árbol"
 
+msgid "Trigger"
+msgstr "Disparador"
+
 msgid "Triggers"
 msgstr "Disparadores"
 
@@ -6396,11 +6502,11 @@ msgstr "TypeScript"
 msgid "Typography"
 msgstr "Tipografía"
 
-msgid "Typography and cursor behavior used in V2 terminal panels."
-msgstr "Tipografía y comportamiento del cursor usados en los paneles de terminal de V2."
+msgid "Typography and cursor behavior used in terminal panels."
+msgstr "Tipografía y comportamiento del cursor en los paneles de terminal."
 
-msgid "Typography used in V2 editors and diff views."
-msgstr "Tipografía usada en los editores y las vistas de diff de V2."
+msgid "Typography used in editors and diff views."
+msgstr "Tipografía utilizada en editores y vistas diff."
 
 msgid "Unable to check for updates."
 msgstr "No se pueden buscar actualizaciones."
@@ -6513,6 +6619,15 @@ msgstr "Quitar archivo de preparados"
 msgid "Unstaged"
 msgstr "Sin preparar"
 
+msgid "Unsupported push URL"
+msgstr "URL de push no compatible"
+
+msgid "Unsupported push.default configuration"
+msgstr "Configuración push.default no compatible"
+
+msgid "Unsupported remote configuration"
+msgstr "Configuración de remoto no compatible"
+
 msgid "Untitled automation"
 msgstr "Automatización sin título"
 
@@ -6565,6 +6680,9 @@ msgstr "Subir archivos"
 
 msgid "Upload image…"
 msgstr "Subir imagen…"
+
+msgid "Upstream remote does not match push remote"
+msgstr "El remoto upstream no coincide con el remoto de push"
 
 msgid "URL copied"
 msgstr "URL copiada"
@@ -6774,6 +6892,9 @@ msgstr "Navegación del espacio de trabajo"
 
 msgid "Workspace not found"
 msgstr "Espacio de trabajo no encontrado"
+
+msgid "Workspace or branch name (optional)"
+msgstr "Nombre del espacio de trabajo o rama (opcional)"
 
 msgid "Workspace or running session state changed. Review the updated checks and confirm again."
 msgstr "El estado del espacio de trabajo o de la sesión en ejecución ha cambiado. Revisa las comprobaciones actualizadas y confirma de nuevo."

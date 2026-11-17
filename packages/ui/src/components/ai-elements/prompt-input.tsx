@@ -1307,12 +1307,19 @@ export type PromptInputSubmitProps = ComponentProps<typeof InputGroupButton> & {
 export const PromptInputSubmit = ({
 	className,
 	variant = "default",
-	size = "icon-sm",
+	size,
 	status,
 	children,
 	...props
 }: PromptInputSubmitProps) => {
 	const { t } = useLingui();
+	const hasTextOrMultipleChildren =
+		children !== undefined &&
+		children !== null &&
+		(typeof children === "string" ||
+			typeof children === "number" ||
+			Children.count(children) > 1);
+	const resolvedSize = size ?? (hasTextOrMultipleChildren ? "sm" : "icon-sm");
 	let Icon = <CornerDownLeftIcon className="size-4" />;
 
 	if (status === "submitted") {
@@ -1327,7 +1334,7 @@ export const PromptInputSubmit = ({
 		<InputGroupButton
 			aria-label={t({ message: "Submit" })}
 			className={cn(className)}
-			size={size}
+			size={resolvedSize}
 			type="submit"
 			variant={variant}
 			{...props}

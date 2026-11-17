@@ -399,7 +399,7 @@ describe("atomic Team start", () => {
 	test.each([
 		"existing project",
 		"Host session",
-	])("automatic trust is restricted to Host session scaffolds for Leader and Worker: %s", async (kind) => {
+	])("pre-seeds folder trust for Leader and Worker across %s workspaces", async (kind) => {
 		const f = fixture(),
 			trusted: string[] = [];
 		const project = f.db
@@ -431,7 +431,7 @@ describe("atomic Team start", () => {
 		};
 		const result = await f.team.start(newTask);
 		await f.spawn(result.team.id);
-		expect(trusted).toEqual(kind === "Host session" ? [folder, folder] : []);
+		expect(trusted).toEqual([folder, folder]);
 		expect(f.launches).toHaveLength(2);
 		expect(readFileSync(join(folder, "keep.txt"), "utf8")).toBe(
 			"pre-existing user content",

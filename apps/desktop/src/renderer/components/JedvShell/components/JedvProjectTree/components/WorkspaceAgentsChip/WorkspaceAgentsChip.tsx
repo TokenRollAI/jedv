@@ -61,7 +61,7 @@ export function WorkspaceAgentsChip({
 					aria-label={`${label}: ${bindings.length}${subagentCount ? ` +${subagentCount}` : ""}`}
 					aria-expanded={open}
 					aria-controls={open ? contentId : undefined}
-					className="flex h-[18px] shrink-0 items-center gap-1 rounded bg-muted/60 px-1.5 text-[9px] font-medium tabular-nums text-muted-foreground hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+					className="inline-flex h-[18px] shrink-0 items-center gap-1 rounded border border-sidebar-border/80 bg-sidebar-accent/70 px-1 font-mono text-[10.5px] font-medium tabular-nums text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
 					onPointerLeave={() => {
 						suppressHover.current = false;
 					}}

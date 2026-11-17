@@ -1,4 +1,4 @@
-export const TAB_WIDTH = 160;
+export const TAB_WIDTH = 148;
 // OverflowFadeContainer's default fade-edge size (1.5rem).
 export const TAB_BAR_FADE_WIDTH = 24;
 

@@ -29,7 +29,7 @@ export function SortableWorkspaceRow({
 					ref={sortable.setActivatorNodeRef}
 					type="button"
 					aria-label={t({ message: "Reorder workspace" })}
-					className="absolute left-2 top-1.5 z-10 grid size-4 touch-none place-items-center rounded text-muted-foreground opacity-0 hover:bg-fill-hover focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring group-hover/workspace-sort:opacity-100"
+					className="absolute left-2.5 top-[7px] z-10 grid size-4 touch-none place-items-center rounded text-muted-foreground opacity-0 hover:bg-fill-hover focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring group-hover/workspace-sort:opacity-100"
 					{...sortable.attributes}
 					{...sortable.listeners}
 				>

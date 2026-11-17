@@ -1,4 +1,3 @@
-import { table } from "@jedv/cli-framework";
 import { command } from "../../../lib/command";
 import {
 	allowedValues,
@@ -6,6 +5,7 @@ import {
 	readAllSettings,
 	SETTINGS,
 } from "../../../lib/settings";
+import { table } from "../../../lib/table";
 
 export default command({
 	description: "List desktop app settings and their current values",

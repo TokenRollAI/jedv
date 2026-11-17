@@ -45,9 +45,11 @@ export function useChangedFilesTree<T extends ChangedFileEntry>({
 	flattenEmptyDirectories,
 	unsafeCSS = "",
 }: UseChangedFilesTreeParams<T>) {
+	const pathKey = files.map((f) => f.path).join("\0");
+	// biome-ignore lint/correctness/useExhaustiveDependencies: pathKey serializes all file paths so new array instances with identical paths keep stable tree structures
 	const { treePaths, toTreePath, toRealPath } = useMemo(
 		() => buildCollisionSafeTreePaths(files.map((f) => f.path)),
-		[files],
+		[pathKey],
 	);
 	const fileByTreePath = useMemo(() => {
 		const map = new Map<string, T>();
@@ -157,9 +159,11 @@ export function useChangedFilesTree<T extends ChangedFileEntry>({
 		}
 	}, [model, selectedTreePath, fileByTreePath]);
 
+	const gitStatusKey = files.map((f) => `${f.path}\0${f.status}`).join("\n");
+	// biome-ignore lint/correctness/useExhaustiveDependencies: gitStatusKey serializes path+status so identical poll results do not reset Pierre tree git decorations
 	useEffect(() => {
 		model.setGitStatus(buildGitStatus(files, toTreePath));
-	}, [model, files, toTreePath]);
+	}, [model, gitStatusKey, toTreePath]);
 
 	useFallthroughIcons(model);
 

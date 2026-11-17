@@ -133,11 +133,11 @@ export function ButlerApprovalCard({
 				</p>
 			)}
 			{approval.status === "pending" && (
-				<div className="flex gap-2">
+				<div className="flex gap-2 pt-0.5">
 					<Button
 						size="sm"
 						variant="secondary"
-						className="h-6 min-w-0 flex-1 px-2 text-[11px]"
+						className="h-7 min-w-0 flex-1 px-3 text-xs"
 						disabled={!enabled}
 						onClick={() => onResolve("reject")}
 					>
@@ -145,7 +145,7 @@ export function ButlerApprovalCard({
 					</Button>
 					<Button
 						size="sm"
-						className="h-6 min-w-0 flex-1 px-2 text-[11px]"
+						className="h-7 min-w-0 flex-1 px-3 text-xs"
 						disabled={!enabled}
 						onClick={() => onResolve("approve")}
 					>

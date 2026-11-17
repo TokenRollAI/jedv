@@ -1,11 +1,11 @@
 import { cn } from "./utils";
 
-/** A tab in a header row: the open tab is a card with a thin ring, the others are muted text with a hover fill. */
+/** A tab in a header row: the open tab is a subtle elevated pill, the others are muted text with a hover fill. */
 export function headerTabClassName(isActive: boolean): string {
 	return cn(
-		"flex h-7 items-center rounded-md text-xs transition-colors",
+		"flex h-7 items-center rounded-md text-[12.5px] transition-colors",
 		isActive
-			? "bg-card text-foreground ring-1 ring-input"
+			? "bg-background font-medium text-foreground shadow-xs ring-1 ring-border/70"
 			: "text-muted-foreground hover:bg-fill-hover hover:text-foreground",
 	);
 }

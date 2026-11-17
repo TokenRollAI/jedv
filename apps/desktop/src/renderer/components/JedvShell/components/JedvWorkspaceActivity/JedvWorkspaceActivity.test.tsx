@@ -184,3 +184,61 @@ test("docked navigation keeps one activity panel while floating navigation can c
 	query.clear();
 	dock.remove();
 });
+
+test("chat sessions display real titles alongside agent name and open via onOpenChat", async () => {
+	const onOpenChat = mock(() => {});
+	const client = {
+		git: {
+			getStatus: {
+				query: async () => ({ againstBase: [], staged: [], unstaged: [] }),
+			},
+		},
+		pullRequests: {
+			getByWorkspaces: { query: async () => ({ workspaces: [] }) },
+			historyByWorkspaces: { query: async () => ({ workspaces: [] }) },
+		},
+		terminal: { list: { query: async () => ({ sessions: [] }) } },
+	} as unknown as LocalClient;
+	const query = new QueryClient({
+		defaultOptions: { queries: { retry: false } },
+	});
+	const view = render(
+		<QueryClientProvider client={query}>
+			<JedvWorkspaceActivity
+				client={client}
+				hostUrl="http://chat-activity"
+				workspaceId="w"
+				workspaceName="Workspace"
+				attachedTerminalIds={[]}
+				agentSource={{ status: "ready", entries: [] }}
+				chatSessions={[
+					{
+						sessionId: "chat-1",
+						harness: "claude-code",
+						title: "Audit sidebar density",
+						live: true,
+						status: "idle",
+					},
+				]}
+				onOpenChat={onOpenChat}
+				onOpenChanges={() => {}}
+				onOpenPullRequests={() => {}}
+				onOpenTerminal={() => {}}
+			/>
+		</QueryClientProvider>,
+	);
+	fireEvent.click(view.getByRole("button", { name: "Workspace activity" }));
+	const row = await view.findByRole("button", {
+		name: /claude.*Audit sidebar density/,
+	});
+	fireEvent.click(row);
+	await waitFor(() =>
+		expect(onOpenChat).toHaveBeenCalledWith(
+			expect.objectContaining({
+				sessionId: "chat-1",
+				title: "Audit sidebar density",
+			}),
+		),
+	);
+	query.clear();
+});

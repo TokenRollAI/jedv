@@ -252,4 +252,28 @@ describe("resolveTerminalAppearance", () => {
 			cursorBlink: false,
 		});
 	});
+
+	test("defaults minimumContrastRatio to 4.5 for Solarized Light and other light themes", () => {
+		const solarizedLight = resolveTerminalAppearance({
+			background: "#fdf6e3",
+			foreground: "#657b83",
+			white: "#eee8d5",
+			brightWhite: "#fdf6e3",
+		});
+		expect(solarizedLight.minimumContrastRatio).toBe(4.5);
+
+		const light = resolveTerminalAppearance({
+			background: "#fafaf8",
+			foreground: "#000000",
+		});
+		expect(light.minimumContrastRatio).toBe(4.5);
+	});
+
+	test("respects explicit minimumContrastRatio override on light themes", () => {
+		const custom = resolveTerminalAppearance(
+			{ background: "#fdf6e3", foreground: "#657b83" },
+			{ terminalMinimumContrast: 7 },
+		);
+		expect(custom.minimumContrastRatio).toBe(7);
+	});
 });

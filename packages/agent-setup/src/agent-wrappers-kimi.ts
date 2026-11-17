@@ -42,12 +42,18 @@ export function getKimiConfigTomlPath(): string {
 function buildKimiManagedHooksBlock(): string {
 	return [
 		KIMI_HOOKS_MARKER_START,
-		...KIMI_MANAGED_HOOK_EVENTS.flatMap((event, index) => [
-			...(index === 0 ? [] : [""]),
-			"[[hooks]]",
-			`event = "${event}"`,
-			`command = '${KIMI_MANAGED_HOOK_COMMAND}'`,
-		]),
+		...KIMI_MANAGED_HOOK_EVENTS.flatMap((event, index) => {
+			const command =
+				event === "SessionEnd"
+					? `[ -z "$JEDV_KIMI_CHAIN_CONTINUE" ] && ${KIMI_MANAGED_HOOK_COMMAND}`
+					: KIMI_MANAGED_HOOK_COMMAND;
+			return [
+				...(index === 0 ? [] : [""]),
+				"[[hooks]]",
+				`event = "${event}"`,
+				`command = '${command}'`,
+			];
+		}),
 		KIMI_HOOKS_MARKER_END,
 	].join("\n");
 }

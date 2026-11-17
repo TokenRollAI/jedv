@@ -1,6 +1,6 @@
-import { table } from "@jedv/cli-framework";
 import { command } from "../../../../lib/command";
 import { listThemeChoices, readThemeState } from "../../../../lib/settings";
+import { table } from "../../../../lib/table";
 
 export default command({
 	description: "List available themes (built-in, custom, and system)",

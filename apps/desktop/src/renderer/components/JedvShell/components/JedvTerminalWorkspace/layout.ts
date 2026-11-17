@@ -11,8 +11,10 @@ import { createStore, type StoreApi } from "zustand/vanilla";
 import type { TerminalSession } from "../../types";
 
 export type TerminalPaneData = { terminalId: string };
+export type ChatPaneData = { chatSessionId: string; title?: string };
 export type WorkspacePaneData =
 	| TerminalPaneData
+	| ChatPaneData
 	| { url: string }
 	| { view: "changes" | "files" };
 export type TerminalLayoutStore = StoreApi<WorkspaceStore<WorkspacePaneData>>;
@@ -27,17 +29,36 @@ export function isTerminalPane(
 	);
 }
 
+export function isChatPane(
+	pane: Pane<WorkspacePaneData> | null | undefined,
+): pane is Pane<ChatPaneData> {
+	return (
+		pane?.kind === "chat" &&
+		"chatSessionId" in pane.data &&
+		typeof pane.data.chatSessionId === "string"
+	);
+}
+
 export function paneTerminalId(
 	pane: Pane<WorkspacePaneData> | null | undefined,
 ): string | null {
 	return isTerminalPane(pane) ? pane.data.terminalId : null;
 }
+
+export function paneChatSessionId(
+	pane: Pane<WorkspacePaneData> | null | undefined,
+): string | null {
+	return isChatPane(pane) ? pane.data.chatSessionId : null;
+}
+
 export function terminalPaneKey(
 	pane: Pick<Pane<WorkspacePaneData>, "kind" | "data">,
 ): string | undefined {
-	return pane.kind === "terminal" && "terminalId" in pane.data
-		? pane.data.terminalId
-		: undefined;
+	if (pane.kind === "terminal" && "terminalId" in pane.data)
+		return pane.data.terminalId;
+	if (pane.kind === "chat" && "chatSessionId" in pane.data)
+		return `chat:${pane.data.chatSessionId}`;
+	return undefined;
 }
 
 interface ClosedTab {
@@ -45,9 +66,10 @@ interface ClosedTab {
 }
 interface LayoutMetadata {
 	detached: Set<string>;
+	seen: Set<string>;
+	detachedChats: Set<string>;
+	seenChats: Set<string>;
 	closed: ClosedTab[];
-	initialized: boolean;
-
 	disposed: boolean;
 	retainers: number;
 }
@@ -58,14 +80,47 @@ function terminalLayoutMetadata(store: TerminalLayoutStore): LayoutMetadata {
 	if (!value) {
 		value = {
 			detached: new Set(),
+			seen: new Set(),
+			detachedChats: new Set(),
+			seenChats: new Set(),
 			closed: [],
-			initialized: false,
 			disposed: false,
 			retainers: 0,
 		};
 		metadata.set(store, value);
 	}
 	return value;
+}
+
+function rememberBounded(set: Set<string>, id: string, limit = 512) {
+	if (set.has(id)) return;
+	set.add(id);
+	while (set.size > limit) {
+		const oldest = set.values().next().value;
+		if (!oldest) break;
+		set.delete(oldest);
+	}
+}
+
+function appendBackgroundTab(
+	store: TerminalLayoutStore,
+	tabId: string,
+	panes: [
+		Parameters<WorkspaceStore<WorkspacePaneData>["addTab"]>[0]["panes"][number],
+	],
+) {
+	const temporary = createTerminalWorkspaceStore();
+	temporary.getState().addTab({
+		id: tabId,
+		panes,
+		focus: false,
+		reuse: false,
+	});
+	const tab = temporary.getState().tabs[0];
+	store.setState((state) => ({
+		tabs: [...state.tabs, tab],
+		activeTabId: state.activeTabId ?? tab.id,
+	}));
 }
 
 function assertTabCapacity(store: TerminalLayoutStore, extra = 1) {
@@ -94,13 +149,16 @@ export function reconcileTerminalPanes(
 	const live = new Set(sessions.map((session) => session.terminalId));
 	for (const id of info.detached) if (!live.has(id)) info.detached.delete(id);
 	for (const session of sessions) {
-		const state = store.getState();
 		const existing = findTerminalPane(store, session.terminalId);
+		if (existing) {
+			rememberBounded(info.seen, session.terminalId);
+			continue;
+		}
 		if (
-			!existing &&
-			!info.initialized &&
+			!info.seen.has(session.terminalId) &&
 			!info.detached.has(session.terminalId)
 		) {
+			rememberBounded(info.seen, session.terminalId);
 			if (
 				workspaceAreaStores(store).reduce(
 					(count, area) => count + area.getState().tabs.length,
@@ -110,22 +168,16 @@ export function reconcileTerminalPanes(
 				info.detached.add(session.terminalId);
 				continue;
 			}
-			state.addTab({
-				id: session.terminalId,
-				panes: [
-					{
-						id: session.terminalId,
-						kind: "terminal",
-						data: { terminalId: session.terminalId },
-						pinned: true,
-					},
-				],
-				focus: false,
-				reuse: false,
-			});
+			appendBackgroundTab(store, session.terminalId, [
+				{
+					id: session.terminalId,
+					kind: "terminal",
+					data: { terminalId: session.terminalId },
+					pinned: true,
+				},
+			]);
 		}
 	}
-	info.initialized = true;
 }
 
 export function openNewAgentTab(
@@ -144,25 +196,15 @@ export function openNewAgentTab(
 	} catch {
 		return false;
 	}
-	const temporary = createTerminalWorkspaceStore();
-	temporary.getState().addTab({
-		id: session.terminalId,
-		panes: [
-			{
-				id: session.terminalId,
-				kind: "terminal",
-				data: { terminalId: session.terminalId },
-				pinned: true,
-			},
-		],
-		focus: false,
-		reuse: false,
-	});
-	const tab = temporary.getState().tabs[0];
-	store.setState((state) => ({
-		tabs: [...state.tabs, tab],
-		activeTabId: state.activeTabId ?? tab.id,
-	}));
+	rememberBounded(terminalLayoutMetadata(store).seen, session.terminalId);
+	appendBackgroundTab(store, session.terminalId, [
+		{
+			id: session.terminalId,
+			kind: "terminal",
+			data: { terminalId: session.terminalId },
+			pinned: true,
+		},
+	]);
 	return true;
 }
 
@@ -223,6 +265,8 @@ export function detachTerminalPane(store: TerminalLayoutStore, paneId: string) {
 		assertBackgroundCapacity(store, [id]);
 		info.detached.add(id);
 	}
+	const chatId = paneChatSessionId(found.pane);
+	if (chatId) rememberBounded(info.detachedChats, chatId, 256);
 	store.getState().closePane({ tabId: found.tabId, paneId, intent: "remove" });
 }
 export function detachTerminalTab(store: TerminalLayoutStore, tabId: string) {
@@ -235,6 +279,10 @@ export function detachTerminalTab(store: TerminalLayoutStore, tabId: string) {
 	});
 	assertBackgroundCapacity(store, ids);
 	for (const id of ids) info.detached.add(id);
+	for (const pane of Object.values(tab.panes)) {
+		const chatId = paneChatSessionId(pane);
+		if (chatId) rememberBounded(info.detachedChats, chatId, 256);
+	}
 	rememberClosedTab(store, tab);
 	store.getState().removeTab(tabId, { intent: "remove" });
 }
@@ -243,6 +291,7 @@ export function attachTerminalSession(
 	session: TerminalSession,
 ) {
 	const state = store.getState();
+	rememberBounded(terminalLayoutMetadata(store).seen, session.terminalId);
 	const existing = findTerminalPane(store, session.terminalId);
 	if (existing && isTerminalPane(existing.pane)) {
 		focusWorkspacePane(existing.store, existing.pane.id);
@@ -271,6 +320,7 @@ export function switchTerminalSession(
 	paneId?: string,
 ) {
 	const state = store.getState();
+	rememberBounded(terminalLayoutMetadata(store).seen, session.terminalId);
 	const active = paneId ? state.getPane(paneId) : state.getActivePane();
 	if (paneId && (!active || !isTerminalPane(active.pane))) return false;
 	const existing = findTerminalPane(store, session.terminalId);
@@ -320,11 +370,14 @@ export function reopenTerminalTab(
 		temporary.getState().insertTab({ tab });
 		for (const pane of Object.values(tab.panes)) {
 			const id = paneTerminalId(pane);
+			const chatId = paneChatSessionId(pane);
 			if (
 				id
 					? !live.has(id) || !!store.getState().findPaneByKey(id)
-					: (pane.kind !== "changes" && pane.kind !== "files") ||
-						!!store.getState().getPane(pane.id)
+					: chatId
+						? !!findChatPane(store, chatId)
+						: (pane.kind !== "changes" && pane.kind !== "files") ||
+							!!store.getState().getPane(pane.id)
 			)
 				temporary
 					.getState()
@@ -335,6 +388,11 @@ export function reopenTerminalTab(
 		for (const pane of Object.values(restored.panes)) {
 			const id = paneTerminalId(pane);
 			if (id) info.detached.delete(id);
+			const chatId = paneChatSessionId(pane);
+			if (chatId) {
+				for (const area of workspaceAreaStores(store))
+					terminalLayoutMetadata(area).detachedChats.delete(chatId);
+			}
 		}
 		try {
 			assertTabCapacity(store);
@@ -390,7 +448,29 @@ export function findTerminalPane(
 ) {
 	for (const area of workspaceAreaStores(store)) {
 		const found = area.getState().findPaneByKey(terminalId);
-		if (found) return { store: area, ...found };
+		if (found && isTerminalPane(found.pane)) return { store: area, ...found };
+	}
+	return null;
+}
+
+export function findChatPane(
+	store: TerminalLayoutStore,
+	chatSessionId: string,
+): {
+	store: TerminalLayoutStore;
+	tabId: string;
+	pane: Pane<ChatPaneData>;
+} | null {
+	for (const area of workspaceAreaStores(store)) {
+		const found = area.getState().findPaneByKey(`chat:${chatSessionId}`);
+		if (found && isChatPane(found.pane))
+			return { store: area, tabId: found.tabId, pane: found.pane };
+		for (const tab of area.getState().tabs) {
+			for (const pane of Object.values(tab.panes)) {
+				if (isChatPane(pane) && pane.data.chatSessionId === chatSessionId)
+					return { store: area, tabId: tab.id, pane };
+			}
+		}
 	}
 	return null;
 }
@@ -423,7 +503,9 @@ export function moveWorkspacePane(
 		terminalLayoutMetadata(target).disposed ||
 		target.getState().getPane(paneId) ||
 		(isTerminalPane(found.pane) &&
-			target.getState().findPaneByKey(found.pane.data.terminalId))
+			target.getState().findPaneByKey(found.pane.data.terminalId)) ||
+		(isChatPane(found.pane) &&
+			target.getState().findPaneByKey(`chat:${found.pane.data.chatSessionId}`))
 	)
 		throw new Error(
 			i18n._(msg({ message: "The target pane area cannot receive this pane" })),
@@ -557,6 +639,125 @@ export function openFilesTab(store: TerminalLayoutStore): string {
 	});
 	return id;
 }
+export function openChatTab(
+	store: TerminalLayoutStore,
+	input: { chatSessionId: string; title?: string; focus?: boolean },
+): string {
+	const existing = findChatPane(store, input.chatSessionId);
+	if (existing) {
+		rememberBounded(
+			terminalLayoutMetadata(store).seenChats,
+			input.chatSessionId,
+			256,
+		);
+		if (input.title && existing.pane.data.title !== input.title) {
+			existing.store.getState().setPaneData({
+				paneId: existing.pane.id,
+				data: { chatSessionId: input.chatSessionId, title: input.title },
+			});
+		}
+		if (input.focus !== false)
+			focusWorkspacePane(existing.store, existing.pane.id);
+		return existing.pane.id;
+	}
+	for (const area of workspaceAreaStores(store))
+		terminalLayoutMetadata(area).detachedChats.delete(input.chatSessionId);
+	assertTabCapacity(store);
+	rememberBounded(
+		terminalLayoutMetadata(store).seenChats,
+		input.chatSessionId,
+		256,
+	);
+	const id = `chat-${input.chatSessionId}`;
+	const data: ChatPaneData = input.title
+		? { chatSessionId: input.chatSessionId, title: input.title }
+		: { chatSessionId: input.chatSessionId };
+	if (input.focus === false) {
+		appendBackgroundTab(store, id, [{ id, kind: "chat", data, pinned: true }]);
+	} else {
+		store.getState().addTab({
+			id,
+			panes: [{ id, kind: "chat", data, pinned: true }],
+			focus: true,
+			reuse: false,
+		});
+	}
+	return id;
+}
+
+export function reconcileChatPanes(
+	store: TerminalLayoutStore,
+	chats: readonly {
+		sessionId: string;
+		title?: string | null;
+		live?: boolean;
+	}[],
+) {
+	const info = terminalLayoutMetadata(store);
+	const knownIds = new Set(chats.map((chat) => chat.sessionId));
+	for (const id of info.detachedChats)
+		if (!knownIds.has(id)) info.detachedChats.delete(id);
+	for (const chat of chats) {
+		const existing = findChatPane(store, chat.sessionId);
+		if (existing) {
+			rememberBounded(info.seenChats, chat.sessionId, 256);
+			if (
+				chat.title &&
+				!existing.pane.titleOverride &&
+				existing.pane.data.title !== chat.title
+			) {
+				existing.store.getState().setPaneData({
+					paneId: existing.pane.id,
+					data: { chatSessionId: chat.sessionId, title: chat.title },
+				});
+			}
+			continue;
+		}
+		if (!chat.live) continue;
+		const isDetached = workspaceAreaStores(store).some((area) =>
+			terminalLayoutMetadata(area).detachedChats.has(chat.sessionId),
+		);
+		if (!info.seenChats.has(chat.sessionId) && !isDetached) {
+			rememberBounded(info.seenChats, chat.sessionId, 256);
+			if (
+				workspaceAreaStores(store).reduce(
+					(count, area) => count + area.getState().tabs.length,
+					0,
+				) >= 32
+			) {
+				rememberBounded(info.detachedChats, chat.sessionId, 256);
+				continue;
+			}
+			openChatTab(store, {
+				chatSessionId: chat.sessionId,
+				title: chat.title ?? undefined,
+				focus: false,
+			});
+		}
+	}
+}
+
+export function detachedChatSessions(store: TerminalLayoutStore): string[] {
+	return [
+		...new Set(
+			workspaceAreaStores(store).flatMap((area) => [
+				...terminalLayoutMetadata(area).detachedChats,
+			]),
+		),
+	];
+}
+
+export function restoreDetachedChatSessions(
+	store: TerminalLayoutStore,
+	chatSessionIds: readonly string[],
+) {
+	const info = terminalLayoutMetadata(store);
+	for (const id of chatSessionIds) {
+		rememberBounded(info.detachedChats, id, 256);
+		rememberBounded(info.seenChats, id, 256);
+	}
+}
+
 export function retainTerminalWorkspaceStore(store: TerminalLayoutStore) {
 	const info = terminalLayoutMetadata(store);
 	info.retainers++;

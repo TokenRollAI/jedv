@@ -53,7 +53,17 @@ export interface JedvSettingsViewProps extends JedvParityViewContext {
 }
 const sections = [
 	{
+		id: "general",
+		group: 0,
+		label: msg({ message: "General" }),
+		description: msg({ message: "Choose how Jedv behaves on this device." }),
+		icon: Settings2,
+		words:
+			"quit resource monitor sidebar version update release permission disk accessibility microphone automation network projects recently deleted restore experimental",
+	},
+	{
 		id: "appearance",
+		group: 0,
 		label: msg({ message: "Appearance" }),
 		description: msg({ message: "Customize how Jedv looks on your device" }),
 		icon: Palette,
@@ -62,6 +72,7 @@ const sections = [
 	},
 	{
 		id: "notifications",
+		group: 0,
 		label: msg({ message: "Notifications" }),
 		description: msg({ message: "Choose notification sounds and volume." }),
 		icon: Bell,
@@ -69,6 +80,7 @@ const sections = [
 	},
 	{
 		id: "usage",
+		group: 0,
 		label: msg({ message: "Usage" }),
 		description: msg({ message: "Local CLI history and provider quota." }),
 		icon: ChartNoAxesColumn,
@@ -76,21 +88,15 @@ const sections = [
 	},
 	{
 		id: "connection",
+		group: 0,
 		label: msg({ message: "Private connection" }),
 		description: msg({ message: "Manage the host used by your workspaces." }),
 		icon: Network,
 		words: "tailscale host remote connection",
 	},
 	{
-		id: "general",
-		label: msg({ message: "General" }),
-		description: msg({ message: "Choose how Jedv behaves on this device." }),
-		icon: Settings2,
-		words:
-			"quit resource monitor sidebar version update release permission disk accessibility microphone automation network projects recently deleted restore experimental",
-	},
-	{
 		id: "keyboard",
+		group: 1,
 		label: msg({ message: "Keyboard" }),
 		description: msg({
 			message: "Customize shortcuts for your local workflow.",
@@ -100,6 +106,7 @@ const sections = [
 	},
 	{
 		id: "git",
+		group: 1,
 		label: msg({ message: "Git & worktree" }),
 		description: msg({
 			message: "Defaults for new workspaces on the connected host.",
@@ -109,6 +116,7 @@ const sections = [
 	},
 	{
 		id: "agents",
+		group: 1,
 		label: msg({ message: "Agent commands" }),
 		description: msg({
 			message: "Configure agent commands for the connected host.",
@@ -119,6 +127,7 @@ const sections = [
 	},
 	{
 		id: "system-agents",
+		group: 1,
 		label: msg({ message: "System agents" }),
 		description: msg({ message: "DeepSeek for Butler and memory extraction." }),
 		icon: Sparkles,
@@ -126,6 +135,7 @@ const sections = [
 	},
 	{
 		id: "terminal",
+		group: 1,
 		label: msg({ message: "Terminal" }),
 		description: msg({
 			message: "Customize terminal behavior and typography.",
@@ -136,6 +146,7 @@ const sections = [
 	},
 	{
 		id: "files",
+		group: 1,
 		label: msg({ message: "Files & editor" }),
 		description: msg({
 			message: "Choose file and editor behavior on this device.",
@@ -146,6 +157,7 @@ const sections = [
 
 	{
 		id: "projects",
+		group: 1,
 		label: msg({ message: "Projects" }),
 		description: msg({
 			message: "Manage local projects and recently deleted projects.",
@@ -155,6 +167,7 @@ const sections = [
 	},
 	{
 		id: "permissions",
+		group: 1,
 		label: msg({ message: "Permissions" }),
 		description: msg({ message: "Review system permissions on this device." }),
 		icon: Shield,
@@ -162,7 +175,7 @@ const sections = [
 	},
 ] as const;
 export function JedvSettingsView({
-	initialSection = "agents",
+	initialSection = "general",
 	onBack,
 	...context
 }: JedvSettingsViewProps) {
@@ -198,7 +211,7 @@ export function JedvSettingsView({
 
 	const current =
 		sections.find((item) => item.id === section) ??
-		sections.find((item) => item.id === "agents") ??
+		sections.find((item) => item.id === "general") ??
 		sections[0];
 	const search = i18n
 		._(current.label)
@@ -265,27 +278,19 @@ export function JedvSettingsView({
 						</div>
 						<nav aria-label={t({ message: "Settings sections" })}>
 							{[0, 1]
-								.filter((group) =>
-									visible.some((item) =>
-										sections.indexOf(item) < 4 ? group === 0 : group === 1,
-									),
-								)
+								.filter((group) => visible.some((item) => item.group === group))
 								.map((group) => (
 									<div className="mb-5" key={group}>
 										<h2 className="px-2.5 mb-2 text-[11px] text-muted-foreground">
 											{group === 0 ? (
 												<Trans>Personal</Trans>
 											) : (
-												<Trans>Editor & workflow</Trans>
+												<Trans>Editor &amp; workflow</Trans>
 											)}
 										</h2>
 										<div className="space-y-1">
 											{visible
-												.filter((item) =>
-													sections.indexOf(item) < 4
-														? group === 0
-														: group === 1,
-												)
+												.filter((item) => item.group === group)
 												.map((item) => {
 													const Icon = item.icon;
 													return (
@@ -312,11 +317,6 @@ export function JedvSettingsView({
 									</div>
 								))}
 						</nav>
-						{visible.length === 0 && (
-							<output className="px-2 text-xs text-muted-foreground">
-								<Trans>No matching settings.</Trans>
-							</output>
-						)}
 					</div>
 				</aside>
 				<div className="flex min-w-0 flex-1 flex-col overflow-hidden">
@@ -330,13 +330,23 @@ export function JedvSettingsView({
 						key={section}
 					>
 						{query.trim() && visible.length === 0 ? (
-							<output className="block p-6 text-sm text-muted-foreground">
-								<Trans>No matching settings.</Trans>
-							</output>
+							<div className="mx-auto flex w-full max-w-5xl flex-col items-start gap-3 p-6">
+								<output className="text-sm text-muted-foreground">
+									<Trans>No matching settings.</Trans>
+								</output>
+								<Button
+									variant="outline"
+									size="sm"
+									onClick={() => {
+										setQuery("");
+										searchInput.current?.focus();
+									}}
+								>
+									<Trans>Clear search</Trans>
+								</Button>
+							</div>
 						) : section === "agents" ? (
 							<AgentSettings {...context} />
-						) : section === "usage" ? (
-							<JedvUsageView {...context} />
 						) : (
 							<div className="mx-auto w-full max-w-5xl p-6">
 								<header className="mb-8">
@@ -347,7 +357,9 @@ export function JedvSettingsView({
 										{i18n._(current.description)}
 									</p>
 								</header>
-								{section === "system-agents" ? (
+								{section === "usage" ? (
+									<JedvUsageView {...context} />
+								) : section === "system-agents" ? (
 									<SystemAgentSettings key={context.hostUrl} {...context} />
 								) : section === "projects" ? (
 									<ProjectSettingsSection {...context} />
@@ -364,7 +376,11 @@ export function JedvSettingsView({
 								) : section === "git" ? (
 									<GitSettings key={context.hostUrl} {...context} />
 								) : (
-									<LocalSettings section={section} context={context} />
+									<LocalSettings
+										section={section}
+										context={context}
+										onNavigateSection={setSection}
+									/>
 								)}
 							</div>
 						)}
