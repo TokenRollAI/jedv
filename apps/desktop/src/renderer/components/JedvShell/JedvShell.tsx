@@ -2286,7 +2286,13 @@ export function JedvShell() {
 				<ResizablePanelGroup direction="horizontal">
 					{!navigation.sidebarCollapsed && surface !== "settings" && (
 						<>
-							<ResizablePanel defaultSize={21} minSize={15} maxSize={35}>
+							<ResizablePanel
+								id="jedv-shell-sidebar"
+								order={1}
+								defaultSize={21}
+								minSize={15}
+								maxSize={35}
+							>
 								<aside className="flex h-full min-h-0 overflow-hidden select-none flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground">
 									<JedvSidebarHeader
 										host={
@@ -2584,10 +2590,18 @@ export function JedvShell() {
 									</JedvSidebarNav>
 								</aside>
 							</ResizablePanel>
-							<ResizableHandle />
+							<ResizableHandle
+								hitAreaSize="large"
+								className="w-0 bg-transparent after:w-2 hover:after:bg-primary/40 data-[resize-handle-state=drag]:after:bg-primary/60"
+							/>
 						</>
 					)}
-					<ResizablePanel defaultSize={79} minSize={40}>
+					<ResizablePanel
+						id="jedv-shell-main"
+						order={2}
+						defaultSize={79}
+						minSize={40}
+					>
 						<section
 							ref={setWorkspaceElement}
 							className="relative flex h-full min-w-0 flex-col bg-background"
@@ -2849,6 +2863,8 @@ export function JedvShell() {
 								>
 									<ResizablePanelGroup direction="horizontal">
 										<ResizablePanel
+											id="jedv-workspace-left"
+											order={1}
 											ref={leftPanelRef}
 											defaultSize={areaState.rightAreaOpen ? 60 : 100}
 											minSize={25}
@@ -3233,6 +3249,8 @@ export function JedvShell() {
 											className={areaState.rightAreaOpen ? "" : "hidden"}
 										/>
 										<ResizablePanel
+											id="jedv-workspace-right"
+											order={2}
 											ref={setRightPanel}
 											defaultSize={areaState.rightAreaOpen ? 40 : 0}
 											minSize={Math.min(

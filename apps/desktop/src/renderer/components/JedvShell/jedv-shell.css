@@ -37,6 +37,12 @@
 	min-width: 36rem;
 }
 
+@container window-chrome (max-width: 225px) {
+	.jedv-sidebar-brand-text {
+		display: none;
+	}
+}
+
 @container window-chrome (max-width: 600px) {
 	.jedv-terminal-tabs {
 		max-width: 30%;

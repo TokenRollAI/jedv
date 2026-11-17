@@ -375,7 +375,7 @@ export function JedvWorkspaceRow({
 					type="button"
 					disabled={unavailable}
 					aria-current={active ? "page" : undefined}
-					className="flex h-full min-w-0 flex-1 items-center gap-2 rounded-md pl-6 pr-1 text-left focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50"
+					className="flex h-full min-w-0 flex-1 items-center gap-2 overflow-hidden rounded-md pl-6 pr-1 text-left focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50"
 					onClick={onSelect}
 					onDoubleClick={startRename}
 				>
@@ -386,7 +386,7 @@ export function JedvWorkspaceRow({
 					/>
 					<WorkspaceNameMarquee
 						name={workspace.name || workspace.branch}
-						className="min-w-0 text-[13px] leading-tight"
+						className="min-w-0 flex-1 text-[13px] leading-tight"
 					/>
 					{unread && (
 						<span
@@ -400,7 +400,7 @@ export function JedvWorkspaceRow({
 					)}
 				</button>
 				{!editing && (
-					<div className="flex shrink-0 items-center gap-1 pr-2 transition-[padding] duration-150 group-hover:pr-[52px] group-focus-within:pr-[52px] group-has-[[data-state=open]]:pr-[52px]">
+					<div className="flex shrink-0 items-center gap-1 pr-2 transition-[padding] duration-150 group-hover:pr-[52px] group-has-[:focus-visible]:pr-[52px] group-has-[[data-state=open]]:pr-[52px]">
 						{hasPullRequest && !statusActions && (
 							<LuGitPullRequest className="size-3 shrink-0 text-muted-foreground" />
 						)}
@@ -415,7 +415,7 @@ export function JedvWorkspaceRow({
 						{badges}
 						{statusActions}
 						{hasShortcut && (
-							<Kbd className="hidden h-[18px] px-1 text-[10px] group-hover:inline-flex group-focus-within:inline-flex group-has-[[data-state=open]]:inline-flex">
+							<Kbd className="hidden h-[18px] px-1 text-[10px] group-hover:inline-flex group-has-[:focus-visible]:inline-flex group-has-[[data-state=open]]:inline-flex">
 								{shortcut}
 							</Kbd>
 						)}
@@ -464,7 +464,7 @@ export function JedvWorkspaceRow({
 						aria-label={t({ message: "Delete Workspace…" })}
 						title={closeShortcut === "Unassigned" ? undefined : closeShortcut}
 						onClick={onDelete}
-						className="pointer-events-none absolute right-7 grid size-5 place-items-center rounded text-muted-foreground opacity-0 hover:bg-foreground/10 focus-visible:pointer-events-auto focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100 group-has-[[data-state=open]]:pointer-events-auto group-has-[[data-state=open]]:opacity-100 disabled:opacity-50"
+						className="pointer-events-none absolute right-7 grid size-5 place-items-center rounded text-muted-foreground opacity-0 hover:bg-foreground/10 focus-visible:pointer-events-auto focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring group-hover:pointer-events-auto group-hover:opacity-100 group-has-[:focus-visible]:pointer-events-auto group-has-[:focus-visible]:opacity-100 group-has-[[data-state=open]]:pointer-events-auto group-has-[[data-state=open]]:opacity-100 disabled:opacity-50"
 					>
 						<LuX className="size-3.5" />
 					</button>

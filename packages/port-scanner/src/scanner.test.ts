@@ -58,11 +58,20 @@ describe("getListeningPortsForPids (real sockets)", () => {
 	});
 
 	it("filters out ephemeral loopback listeners opened on 127.0.0.1", async () => {
-		const server = Bun.serve({
-			hostname: "127.0.0.1",
-			port: 0,
-			fetch: () => new Response("ok"),
-		});
+		let server: ReturnType<typeof Bun.serve> | undefined;
+		for (let candidate = 55_100; candidate < 55_200; candidate++) {
+			try {
+				server = Bun.serve({
+					hostname: "127.0.0.1",
+					port: candidate,
+					fetch: () => new Response("ok"),
+				});
+				break;
+			} catch {
+				// Try next port if occupied on runner.
+			}
+		}
+		if (!server) throw new Error("could not bind an ephemeral loopback port");
 		try {
 			const listeningPort = server.port;
 			if (listeningPort === undefined) throw new Error("server has no port");

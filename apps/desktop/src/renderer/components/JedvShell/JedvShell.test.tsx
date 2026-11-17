@@ -6,8 +6,10 @@ import { electronTrpc } from "renderer/lib/electron-trpc";
 import { JedvChangesSummary } from "./components/JedvChangesSummary";
 import { JedvTerminalTabStrip } from "./components/JedvTerminalTabStrip";
 import { createTerminalWorkspaceStore } from "./components/JedvTerminalWorkspace/layout";
+import { JedvWorkspaceRow } from "./components/JedvWorkspaceRow";
 import { RightSidebarToggle } from "./components/RightSidebarToggle";
 import type { LocalClient } from "./local-client";
+import type { Workspace } from "./types";
 
 afterEach(cleanup);
 
@@ -116,4 +118,51 @@ test("JedvChangesSummary toggles changes directly in 1 click and RightSidebarTog
 	fireEvent.click(toggle);
 	expect(onToggle).not.toHaveBeenCalled();
 	query.clear();
+});
+
+test("JedvWorkspaceRow isolates statusActions from long workspace names and JedvShell pins ResizablePanel order", async () => {
+	const workspace = {
+		id: "ws-overlap",
+		projectId: "proj-1",
+		type: "worktree",
+		name: "深度体验 jedv 并排查交互与 UI 问题",
+		branch: "feat/dogfood",
+		worktreePath: "/tmp/ws-overlap",
+		tabOrder: 0,
+		createdAt: 1,
+		updatedAt: 1,
+		archivedAt: null,
+	} as unknown as Workspace;
+	const view = render(
+		<JedvWorkspaceRow
+			workspace={workspace}
+			active
+			ports={[3000, 5173]}
+			hasPullRequest
+			statusActions={<span data-testid="row-status-actions">PR+Ports</span>}
+			onSelect={() => {}}
+			onNewTerminal={() => {}}
+			onLaunch={() => {}}
+			onRename={() => {}}
+			onCopy={() => {}}
+			onDelete={() => {}}
+		/>,
+	);
+	const rowButton = view.getByRole("button", {
+		name: /深度体验 jedv 并排查交互与 UI 问题/,
+	});
+	expect(rowButton.className).toContain("overflow-hidden");
+	const actionsSlot = view.getByTestId("row-status-actions").parentElement;
+	expect(actionsSlot?.className).toContain("shrink-0");
+	expect(actionsSlot?.className).not.toContain("absolute");
+	expect(rowButton.contains(actionsSlot)).toBe(false);
+	view.unmount();
+
+	const shellSource = await Bun.file(
+		new URL("./JedvShell.tsx", import.meta.url),
+	).text();
+	expect(shellSource).toContain('id="jedv-shell-sidebar"');
+	expect(shellSource).toContain('id="jedv-shell-main"');
+	expect(shellSource).toContain("order={1}");
+	expect(shellSource).toContain("order={2}");
 });

@@ -70,16 +70,20 @@ export function JedvSidebarHeader({
 							aria-label={t({ message: "Home" })}
 							title={t({ message: "Home" })}
 							onClick={onHome}
-							className="no-drag flex min-w-0 items-center rounded px-1 py-0.5 text-foreground/90 transition-colors hover:bg-fill-hover focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+							className="no-drag flex min-w-0 shrink-0 items-center gap-1.5 rounded px-1 py-0.5 text-foreground/90 transition-colors hover:bg-fill-hover focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
 						>
-							<img src={logo} alt="" className="mr-1.5 size-4 shrink-0" />
-							<span className="truncate text-xs font-medium">Jedv</span>
+							<img src={logo} alt="" className="size-4 shrink-0" />
+							<span className="jedv-sidebar-brand-text text-xs font-medium">
+								Jedv
+							</span>
 						</button>
 					) : (
-						<>
-							<img src={logo} alt="" className="mr-1.5 size-4 shrink-0" />
-							<span className="truncate text-xs font-medium">Jedv</span>
-						</>
+						<span className="flex shrink-0 items-center gap-1.5">
+							<img src={logo} alt="" className="size-4 shrink-0" />
+							<span className="jedv-sidebar-brand-text text-xs font-medium">
+								Jedv
+							</span>
+						</span>
 					)}
 				</WindowChromeControls>
 				<div className="drag min-w-2 flex-1" />

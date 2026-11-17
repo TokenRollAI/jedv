@@ -500,6 +500,8 @@ export function FilesWorkspace({
 			<div ref={panelGroupRef} className="min-h-0 flex-1">
 				<ResizablePanelGroup direction="horizontal">
 					<ResizablePanel
+						id="jedv-files-tree"
+						order={1}
 						ref={treePanelRef}
 						defaultSize={24}
 						minSize={treeMinSize}
@@ -531,7 +533,12 @@ export function FilesWorkspace({
 						/>
 					</ResizablePanel>
 					<ResizableHandle className="bg-border transition-colors hover:bg-primary/40 data-[resize-handle-state=drag]:bg-primary/60" />
-					<ResizablePanel defaultSize={76} minSize={30}>
+					<ResizablePanel
+						id="jedv-files-editor"
+						order={2}
+						defaultSize={76}
+						minSize={30}
+					>
 						<div className="flex h-full min-h-0 flex-col">
 							<FileDocumentTabs
 								documents={documents}
@@ -686,11 +693,19 @@ export function FilesWorkspace({
 							<div className="flex min-h-0 flex-1 flex-col">
 								{rightPreview && primary ? (
 									<ResizablePanelGroup direction="horizontal">
-										<ResizablePanel minSize={20}>
+										<ResizablePanel
+											id="jedv-files-primary"
+											order={1}
+											minSize={20}
+										>
 											{renderDocument(primary)}
 										</ResizablePanel>
 										<ResizableHandle />
-										<ResizablePanel minSize={20}>
+										<ResizablePanel
+											id="jedv-files-preview"
+											order={2}
+											minSize={20}
+										>
 											{renderDocument(rightPreview)}
 										</ResizablePanel>
 									</ResizablePanelGroup>

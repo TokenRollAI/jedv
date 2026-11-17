@@ -92,7 +92,7 @@ export function JedvRowMenu({
 							<button
 								type="button"
 								aria-label={t({ message: "More options" })}
-								className="absolute right-1 grid size-5 place-items-center rounded text-muted-foreground opacity-0 hover:bg-foreground/10 focus-visible:ring-1 focus-visible:ring-ring group-hover:opacity-100 group-focus-within:opacity-100 data-[state=open]:opacity-100"
+								className="absolute right-1 grid size-5 place-items-center rounded text-muted-foreground opacity-0 hover:bg-foreground/10 focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring group-hover:opacity-100 group-has-[:focus-visible]:opacity-100 data-[state=open]:opacity-100"
 							>
 								<HiEllipsisHorizontal className="size-4" />
 							</button>
